@@ -1,6 +1,6 @@
 # Ollama Warmup Report
 
-Generated at: 2026-04-03T19:45:44+00:00
+Generated at: 2026-04-03T20:12:24+00:00
 Minimum useful context target: `32768`
 Maximum practical context tested: `262144`
 Per-attempt timeout: `180` seconds
@@ -15,6 +15,8 @@ Per-attempt timeout: `180` seconds
 | qwen3_32b | `qwen3:32b` | 40960 | 40960 | keep in benchmark at 40960 |
 | qwen3_5_122b | `qwen3.5:122b` | 262144 | 262144 | keep in benchmark at 262144 |
 | qwen3_5_35b | `qwen3.5:35b` | 262144 | 262144 | keep in benchmark at 262144 |
+| qwen3_5_coder_122b | `mdq100/qwen3.5-coder:122b` | 262144 | 262144 | keep in benchmark at 262144 |
+| qwen3_5_coder_35b | `mdq100/qwen3.5-coder:35b` | 262144 | 262144 | keep in benchmark at 262144 |
 | qwen3_coder_next | `qwen3-coder-next:latest` | 262144 | 262144 | keep in benchmark at 262144 |
 
 ## Attempt Log
@@ -52,6 +54,14 @@ Per-attempt timeout: `180` seconds
 ### qwen3_5_35b
 
 - `num_ctx=262144`: ok in 7.84s
+
+### qwen3_5_coder_122b
+
+- `num_ctx=262144`: ok in 23.37s
+
+### qwen3_5_coder_35b
+
+- `num_ctx=262144`: ok in 9.64s
 
 ### qwen3_coder_next
 
