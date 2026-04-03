@@ -980,6 +980,23 @@ def fallback_ollama_config_entry(model: dict[str, Any]) -> tuple[str, dict[str, 
     return model_key, entry
 
 
+def apply_ollama_model_overrides(local_entry: dict[str, Any], model: dict[str, Any]) -> dict[str, Any]:
+    model_name = model.get("ollama_model_name")
+    if isinstance(model_name, str) and model_name:
+        local_entry["id"] = model_name
+
+    display_name = model.get("ollama_display_name")
+    if isinstance(display_name, str) and display_name:
+        local_entry["name"] = display_name
+
+    if model.get("ollama_tool_call") is True:
+        local_entry["tool_call"] = True
+    if model.get("ollama_reasoning") is True:
+        local_entry["reasoning"] = True
+
+    return local_entry
+
+
 def prepare_local_opencode_config(
     models: list[dict[str, Any]],
     warmup_payload: dict[str, Any] | None,
@@ -1042,6 +1059,7 @@ def prepare_local_opencode_config(
             continue
 
         local_entry = clone_json(config_entry)
+        local_entry = apply_ollama_model_overrides(local_entry, model)
         chosen_context = None
         if isinstance(override_context, int) and override_context > 0:
             chosen_context = override_context
