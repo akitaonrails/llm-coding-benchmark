@@ -1,0 +1,15 @@
+Once finished coding and testing, you must make sure it runs, both locally, and that docker build also finishes successfully, and docker compose is able to run.
+
+Do not ask for confirmation. Do not stop with a plan. Fulfill the request and finish.
+
+This is phase 2 of 2 and a continuation of the existing project in the current working directory. Do not regenerate the app. Do not create a second app. Validate and fix the current codebase in place.
+
+Use environment variables so RubyLLM actually works. Source ~/.config/zsh/secrets only to load the required environment, especially OPENROUTER_API_KEY. Do not print secret values, do not copy secret file contents into the repo, and do not commit secrets into files, logs, Dockerfiles, compose files, or README examples.
+
+Validate the project end-to-end in this order:
+- run the local app in a way that proves it boots
+- make any fixes needed so it boots cleanly
+- make sure `docker build` finishes successfully
+- make sure `docker compose up --build` is able to run
+
+If one step passes, move to the next without asking for confirmation. If something fails, fix it and continue. Only stop when you have actually completed the validation work or you hit a hard blocker you cannot resolve from inside the workspace.

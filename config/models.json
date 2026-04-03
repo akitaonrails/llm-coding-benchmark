@@ -62,7 +62,8 @@
       "id": "ollama/qwen/qwen3.5-35b",
       "label": "Qwen 3.5 35B",
       "provider": "ollama",
-      "selection_reason": "Requested local model family; exact hosted variant available through opencode."
+      "skip_by_default": true,
+      "selection_reason": "Requested local model family; exact hosted variant available through opencode. Skipped by default because the current benchmark pass is restricted to OpenRouter models that previously completed successfully."
     },
     {
       "slug": "qwen3_5_122b",
@@ -106,7 +107,8 @@
       "id": "openrouter/openai/gpt-5.4-pro",
       "label": "GPT 5.4 Pro",
       "provider": "openrouter",
-      "selection_reason": "Chosen from the OpenRouter GPT 5.4 family as the largest and most coding-oriented variant."
+      "skip_by_default": true,
+      "selection_reason": "Chosen from the OpenRouter GPT 5.4 family as the largest and most coding-oriented variant. Skipped by default because it failed in the previous benchmark pass."
     },
     {
       "slug": "kimi_k2_5",
@@ -120,14 +122,16 @@
       "id": "openrouter/z-ai/glm-5",
       "label": "GLM 5",
       "provider": "openrouter",
-      "selection_reason": "Chosen as the latest/highest GLM variant listed by OpenRouter locally; this replaces the local GLM test."
+      "skip_by_default": true,
+      "selection_reason": "Chosen as the latest/highest GLM variant listed by OpenRouter locally; this replaces the local GLM test. Skipped by default because it completed with errors in the previous benchmark pass."
     },
     {
       "slug": "qwen3_6_plus",
       "id": "openrouter/qwen/qwen3.6-plus:free",
       "label": "Qwen 3.6 Plus",
       "provider": "openrouter",
-      "selection_reason": "Added from OpenRouter cloud availability; chose the non-preview Qwen 3.6 Plus variant exposed locally."
+      "skip_by_default": true,
+      "selection_reason": "Added from OpenRouter cloud availability; chose the non-preview Qwen 3.6 Plus variant exposed locally. Skipped by default because it completed with errors in the previous benchmark pass."
     },
     {
       "slug": "qwen3_5_397b_cloud",
@@ -150,14 +154,16 @@
       "id": "openrouter/meta-llama/llama-4-scout",
       "label": "Llama 4 Scout Cloud",
       "provider": "openrouter",
-      "selection_reason": "Added as the OpenRouter cloud Llama 4 Scout benchmark counterpart to the unusable local Scout path."
+      "skip_by_default": true,
+      "selection_reason": "Added as the OpenRouter cloud Llama 4 Scout benchmark counterpart to the unusable local Scout path. Skipped by default because it does not currently resolve cleanly in this opencode build."
     },
     {
       "slug": "nemotron_3_super_cloud",
       "id": "openrouter/nvidia/nemotron-3-super-120b-a12b",
       "label": "Nemotron 3 Super Cloud",
       "provider": "openrouter",
-      "selection_reason": "Added as the closest OpenRouter cloud Nemotron line available after local Nemotron Cascade 2 proved unusable in this harness."
+      "skip_by_default": true,
+      "selection_reason": "Added as the closest OpenRouter cloud Nemotron line available after local Nemotron Cascade 2 proved unusable in this harness. Skipped by default because it still needs a clean first benchmark run."
     },
     {
       "slug": "minimax_m2_7",

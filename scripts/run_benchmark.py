@@ -411,6 +411,183 @@ def kill_process_group(process: subprocess.Popen[str]) -> None:
         process.kill()
 
 
+def build_opencode_command(
+    runner: dict[str, Any],
+    model_id: str,
+    prompt: str,
+    continue_session_id: str | None = None,
+) -> list[str]:
+    command = [runner["command"], *runner["args"]]
+    if continue_session_id:
+        command.extend(["--session", continue_session_id])
+    else:
+        command.extend(["-m", model_id])
+    command.append(prompt)
+    return command
+
+
+def export_opencode_session(
+    session_id: str,
+    export_path: Path,
+    process_env: dict[str, str],
+    model_slug: str,
+) -> Path | None:
+    export_path.parent.mkdir(parents=True, exist_ok=True)
+    error_path = export_path.with_suffix(".stderr.log")
+    command = ["opencode", "export", session_id]
+    completed = subprocess.run(
+        command,
+        capture_output=True,
+        text=True,
+        env=process_env,
+        check=False,
+    )
+    if completed.returncode == 0:
+        export_path.write_text(completed.stdout)
+        if completed.stderr:
+            error_path.write_text(completed.stderr)
+        return export_path
+    error_path.write_text(completed.stderr or completed.stdout or "opencode export failed")
+    print_line(f"[{model_slug}] opencode export failed for session {session_id}")
+    return None
+
+
+def build_followup_prompt(prompt: str, continue_session_id: str | None) -> str:
+    if continue_session_id:
+        return prompt
+    fallback = (
+        "\n\nIf this is running in a fresh session rather than a continued one, first inspect the existing project "
+        "in the current working directory, understand the current implementation state, and then perform the same "
+        "runtime validation work before making any additional fixes."
+    )
+    return prompt + fallback
+
+
+def run_opencode_phase(
+    *,
+    runner: dict[str, Any],
+    model: dict[str, Any],
+    model_slug: str,
+    prompt: str,
+    started_at: str,
+    timeout_seconds: int,
+    no_progress_timeout_seconds: int,
+    min_preview_output_tps: float | None,
+    min_preview_samples: int,
+    opencode_config_path: Path | None,
+    project_dir: Path,
+    prompt_path: Path,
+    stdout_path: Path,
+    stderr_path: Path,
+    result_path: Path | None,
+    continue_session_id: str | None = None,
+    phase_name: str = "phase1",
+) -> dict[str, Any]:
+    prompt_path.write_text(prompt)
+    command = build_opencode_command(runner, model["id"], prompt, continue_session_id=continue_session_id)
+    wall_start = time.monotonic()
+    process_env = os.environ.copy()
+    if opencode_config_path is not None:
+        process_env["OPENCODE_CONFIG"] = str(opencode_config_path)
+    process_env["OPENCODE_PERMISSION"] = json.dumps(OPENCODE_YOLO_PERMISSION, separators=(",", ":"))
+    process = subprocess.Popen(
+        command,
+        cwd=project_dir,
+        env=process_env,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        start_new_session=True,
+        bufsize=1,
+    )
+
+    (
+        stdout,
+        stderr,
+        timed_out,
+        stalled,
+        stall_reason,
+        latest_preview_output_tps,
+        preview_average_output_tps,
+    ) = stream_process_output(
+        process=process,
+        stdout_path=stdout_path,
+        stderr_path=stderr_path,
+        project_dir=project_dir,
+        model_slug=f"{model_slug}/{phase_name}",
+        model_provider=model["provider"],
+        timeout_seconds=timeout_seconds,
+        no_progress_timeout_seconds=no_progress_timeout_seconds,
+        min_preview_output_tps=min_preview_output_tps,
+        min_preview_samples=min_preview_samples,
+    )
+
+    wall_end = time.monotonic()
+    events = parse_event_stream(stdout)
+    metrics = extract_metrics(events)
+    project_summary = summarize_project(project_dir)
+    elapsed_seconds = round(wall_end - wall_start, 2)
+    total_tokens = metrics["tokens"].get("total")
+    terminal_stop_completed = metrics["finish_reason"] == "stop"
+
+    if timed_out:
+        status = "timeout"
+    elif stalled:
+        status = "failed"
+    elif terminal_stop_completed and project_summary["works_as_intended"] == "yes":
+        status = "completed"
+    elif terminal_stop_completed:
+        status = "completed_with_errors"
+    elif process.returncode == 0 and project_summary["works_as_intended"] == "yes":
+        status = "completed"
+    elif process.returncode == 0:
+        status = "completed_with_errors"
+    else:
+        status = "failed"
+
+    payload = {
+        "phase": phase_name,
+        "assistant_output_excerpt": metrics["assistant_output"][:4000],
+        "command": command,
+        "continued_from_session": continue_session_id,
+        "elapsed_seconds": elapsed_seconds,
+        "ended_at": utc_now(),
+        "exit_code": process.returncode,
+        "finish_reason": metrics["finish_reason"],
+        "model": model,
+        "opencode_session_id": metrics["session_id"],
+        "paths": {
+            "opencode_config": str(opencode_config_path) if opencode_config_path is not None else None,
+            "project_dir": str(project_dir),
+            "prompt": str(prompt_path),
+            "stderr": str(stderr_path),
+            "stdout": str(stdout_path),
+        },
+        "project_summary": project_summary,
+        "prompt_sha256": prompt_sha256(prompt),
+        "started_at": started_at,
+        "status": status,
+        "stderr_excerpt": stderr[:4000],
+        "stalled": stalled,
+        "stall_reason": stall_reason,
+        "timed_out": timed_out,
+        "timeout_seconds": timeout_seconds,
+        "no_progress_timeout_seconds": no_progress_timeout_seconds,
+        "tokens": metrics["tokens"],
+        "preview_output_tokens_per_second": latest_preview_output_tps,
+        "preview_output_tokens_per_second_average": preview_average_output_tps,
+        "tokens_per_second": round(total_tokens / elapsed_seconds, 2) if total_tokens and elapsed_seconds else None,
+        "output_tokens_per_second": (
+            round(metrics["tokens"].get("output", 0) / elapsed_seconds, 2)
+            if metrics["tokens"].get("output") and elapsed_seconds
+            else None
+        ),
+    }
+    if result_path is not None:
+        save_json(result_path, payload)
+    return payload
+
+
 def summarize_project(project_dir: Path) -> dict[str, Any]:
     checks = {
         "gemfile": project_dir / "Gemfile",
@@ -716,6 +893,7 @@ def stream_process_output(
 def run_model(
     model: dict[str, Any],
     prompt: str,
+    followup_prompt: str | None,
     runner: dict[str, Any],
     config_path: Path,
     results_dir: Path,
@@ -734,10 +912,15 @@ def run_model(
     prompt_path = result_dir / "prompt.txt"
     stdout_path = result_dir / "opencode-output.ndjson"
     stderr_path = result_dir / "opencode-stderr.log"
+    phase1_result_path = result_dir / "phase1-result.json"
+    followup_prompt_path = result_dir / "followup-prompt.txt"
+    followup_stdout_path = result_dir / "followup-opencode-output.ndjson"
+    followup_stderr_path = result_dir / "followup-opencode-stderr.log"
+    phase2_result_path = result_dir / "phase2-result.json"
+    session_export_path = result_dir / "session-export.json"
     result_path = result_dir / "result.json"
     result_dir.mkdir(parents=True, exist_ok=True)
     project_dir.mkdir(parents=True, exist_ok=True)
-    prompt_path.write_text(prompt)
 
     if not force:
         cached = existing_terminal_result(result_path)
@@ -748,7 +931,6 @@ def run_model(
             return cached
 
     started_at = utc_now()
-    command = [runner["command"], *runner["args"], "-m", model["id"], prompt]
     print_line("")
     print_line(f"[{index}/{total}] starting {model['slug']} -> {model['id']}")
     print_line(f"[{model['slug']}] results_dir={result_dir}")
@@ -791,123 +973,109 @@ def run_model(
                 "preview_output_tokens_per_second": None,
                 "preview_output_tokens_per_second_average": None,
                 "preflight_error": preflight_error,
+                "phases": [],
             }
             save_json(result_path, payload)
             print_line(f"[{index}/{total}] finished {model['slug']} status=failed preflight_error={preflight_error}")
             return payload
-    wall_start = time.monotonic()
-    process_env = os.environ.copy()
-    if opencode_config_path is not None:
-        process_env["OPENCODE_CONFIG"] = str(opencode_config_path)
-    process_env["OPENCODE_PERMISSION"] = json.dumps(OPENCODE_YOLO_PERMISSION, separators=(",", ":"))
-    process = subprocess.Popen(
-        command,
-        cwd=project_dir,
-        env=process_env,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        start_new_session=True,
-        bufsize=1,
-    )
-
-    (
-        stdout,
-        stderr,
-        timed_out,
-        stalled,
-        stall_reason,
-        latest_preview_output_tps,
-        preview_average_output_tps,
-    ) = stream_process_output(
-        process=process,
-        stdout_path=stdout_path,
-        stderr_path=stderr_path,
-        project_dir=project_dir,
+    phase1 = run_opencode_phase(
+        runner=runner,
+        model=model,
         model_slug=model["slug"],
-        model_provider=model["provider"],
+        prompt=prompt,
+        started_at=started_at,
         timeout_seconds=timeout_seconds,
         no_progress_timeout_seconds=no_progress_timeout_seconds,
         min_preview_output_tps=min_preview_output_tps,
         min_preview_samples=min_preview_samples,
+        opencode_config_path=opencode_config_path,
+        project_dir=project_dir,
+        prompt_path=prompt_path,
+        stdout_path=stdout_path,
+        stderr_path=stderr_path,
+        result_path=phase1_result_path,
+        continue_session_id=None,
+        phase_name="phase1",
     )
 
-    wall_end = time.monotonic()
+    phases = [phase1]
+    final_phase = phase1
+    if followup_prompt and model["provider"] == "openrouter" and not phase1.get("timed_out") and not phase1.get("stalled"):
+        continued_session_id = phase1.get("opencode_session_id")
+        print_line(f"[{model['slug']}] primary phase complete; continuing with follow-up prompt")
+        phase2 = run_opencode_phase(
+            runner=runner,
+            model=model,
+            model_slug=model["slug"],
+            prompt=build_followup_prompt(followup_prompt, continued_session_id),
+            started_at=utc_now(),
+            timeout_seconds=timeout_seconds,
+            no_progress_timeout_seconds=no_progress_timeout_seconds,
+            min_preview_output_tps=None,
+            min_preview_samples=min_preview_samples,
+            opencode_config_path=opencode_config_path,
+            project_dir=project_dir,
+            prompt_path=followup_prompt_path,
+            stdout_path=followup_stdout_path,
+            stderr_path=followup_stderr_path,
+            result_path=phase2_result_path,
+            continue_session_id=continued_session_id,
+            phase_name="phase2",
+        )
+        phases.append(phase2)
+        final_phase = phase2
 
-    events = parse_event_stream(stdout)
-    metrics = extract_metrics(events)
-    project_summary = summarize_project(project_dir)
-    elapsed_seconds = round(wall_end - wall_start, 2)
-    total_tokens = metrics["tokens"].get("total")
-    output_tokens = metrics["tokens"].get("output")
+    if (
+        auto_skip_slow_preview
+        and isinstance(min_preview_output_tps, float)
+        and isinstance(final_phase.get("preview_output_tokens_per_second_average"), float)
+        and float(final_phase["preview_output_tokens_per_second_average"]) < min_preview_output_tps
+    ):
+        note = (
+            f" Skipped by default after benchmark preview averaged "
+            f"{float(final_phase['preview_output_tokens_per_second_average']):.2f} output tok/s over the first "
+            f"{min_preview_samples} steps (< {min_preview_output_tps:.2f})."
+        )
+        if mark_model_skip_by_default(config_path, model["slug"], note):
+            print_line(f"[{model['slug']}] marked skip_by_default in {config_path}")
 
-    terminal_stop_completed = metrics["finish_reason"] == "stop"
+    process_env = os.environ.copy()
+    if opencode_config_path is not None:
+        process_env["OPENCODE_CONFIG"] = str(opencode_config_path)
+    process_env["OPENCODE_PERMISSION"] = json.dumps(OPENCODE_YOLO_PERMISSION, separators=(",", ":"))
+    session_id = final_phase.get("opencode_session_id") or phase1.get("opencode_session_id")
+    exported_session = (
+        export_opencode_session(session_id, session_export_path, process_env, model["slug"])
+        if isinstance(session_id, str) and session_id
+        else None
+    )
 
-    if timed_out:
-        status = "timeout"
-    elif stalled:
-        status = "failed"
-    elif terminal_stop_completed and project_summary["works_as_intended"] == "yes":
-        status = "completed"
-    elif terminal_stop_completed:
-        status = "completed_with_errors"
-    elif process.returncode == 0 and project_summary["works_as_intended"] == "yes":
-        status = "completed"
-    elif process.returncode == 0:
-        status = "completed_with_errors"
-    else:
-        status = "failed"
-
+    total_elapsed = round(sum(float(phase.get("elapsed_seconds") or 0.0) for phase in phases), 2)
     payload = {
-        "assistant_output_excerpt": metrics["assistant_output"][:4000],
-        "command": command,
-        "elapsed_seconds": elapsed_seconds,
+        **final_phase,
+        "elapsed_seconds": total_elapsed,
         "ended_at": utc_now(),
-        "exit_code": process.returncode,
-        "finish_reason": metrics["finish_reason"],
         "model": model,
-        "opencode_session_id": metrics["session_id"],
+        "opencode_session_id": session_id,
         "paths": {
             "opencode_config": str(opencode_config_path) if opencode_config_path is not None else None,
             "project_dir": str(project_dir),
             "prompt": str(prompt_path),
             "stderr": str(stderr_path),
             "stdout": str(stdout_path),
+            "followup_prompt": str(followup_prompt_path) if followup_prompt_path.exists() else None,
+            "followup_stderr": str(followup_stderr_path) if followup_stderr_path.exists() else None,
+            "followup_stdout": str(followup_stdout_path) if followup_stdout_path.exists() else None,
+            "session_export": str(exported_session) if exported_session is not None else None,
         },
-        "project_summary": project_summary,
-        "prompt_sha256": prompt_sha256(prompt),
-        "started_at": started_at,
-        "status": status,
-        "stderr_excerpt": stderr[:4000],
-        "stalled": stalled,
-        "stall_reason": stall_reason,
-        "timed_out": timed_out,
-        "timeout_seconds": timeout_seconds,
-        "no_progress_timeout_seconds": no_progress_timeout_seconds,
-        "tokens": metrics["tokens"],
-        "preview_output_tokens_per_second": latest_preview_output_tps,
-        "preview_output_tokens_per_second_average": preview_average_output_tps,
-        "tokens_per_second": round(total_tokens / elapsed_seconds, 2) if total_tokens and elapsed_seconds else None,
-        "output_tokens_per_second": round(output_tokens / elapsed_seconds, 2)
-        if output_tokens and elapsed_seconds
-        else None,
+        "primary_prompt_sha256": prompt_sha256(prompt),
+        "followup_prompt_sha256": prompt_sha256(followup_prompt) if followup_prompt else None,
+        "session_exported": exported_session is not None,
+        "phases": phases,
     }
     save_json(result_path, payload)
-    if (
-        auto_skip_slow_preview
-        and isinstance(min_preview_output_tps, float)
-        and isinstance(preview_average_output_tps, float)
-        and preview_average_output_tps < min_preview_output_tps
-    ):
-        note = (
-            f" Skipped by default after benchmark preview averaged "
-            f"{preview_average_output_tps:.2f} output tok/s over the first "
-            f"{min_preview_samples} steps (< {min_preview_output_tps:.2f})."
-        )
-        if mark_model_skip_by_default(config_path, model["slug"], note):
-            print_line(f"[{model['slug']}] marked skip_by_default in {config_path}")
     print_line(
-        f"[{index}/{total}] finished {model['slug']} status={status} elapsed={elapsed_seconds:.2f}s files={project_summary['file_count']} total_tokens={format_value(metrics['tokens'].get('total'))}"
+        f"[{index}/{total}] finished {model['slug']} status={payload['status']} elapsed={total_elapsed:.2f}s files={payload['project_summary']['file_count']} total_tokens={format_value(payload['tokens'].get('total'))}"
     )
     return payload
 
@@ -1282,6 +1450,10 @@ def build_report(
     lines.append("- `prompt.txt`: exact prompt used for the run")
     lines.append("- `opencode-output.ndjson`: raw JSON event stream from opencode")
     lines.append("- `opencode-stderr.log`: stderr from the opencode process")
+    lines.append("- `followup-prompt.txt`: second-phase validation prompt for OpenRouter continuations when enabled")
+    lines.append("- `followup-opencode-output.ndjson`: raw JSON event stream from the follow-up continuation")
+    lines.append("- `followup-opencode-stderr.log`: stderr from the follow-up continuation")
+    lines.append("- `session-export.json`: exported opencode session snapshot when available")
     lines.append("- `result.json`: normalized metadata used for this report")
     lines.append("")
     return "\n".join(lines) + "\n"
@@ -1292,6 +1464,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--config", default="config/models.json")
     parser.add_argument("--opencode-config", default="config/opencode.benchmark.json")
     parser.add_argument("--prompt", default="prompts/benchmark_prompt.txt")
+    parser.add_argument(
+        "--followup-prompt",
+        default="prompts/benchmark_followup_prompt.txt",
+        help="Optional second-phase prompt that continues the same OpenRouter session after the primary prompt completes.",
+    )
     parser.add_argument("--results-dir", default="results")
     parser.add_argument("--report", default="docs/report.md")
     parser.add_argument("--ollama-warmup-results", default="results/ollama_warmup.json")
@@ -1314,6 +1491,11 @@ def parse_args() -> argparse.Namespace:
         "--sync-ollama-contexts-only",
         action="store_true",
         help="Write the local benchmark opencode config from warmup results and exit.",
+    )
+    parser.add_argument(
+        "--no-followup",
+        action="store_true",
+        help="Disable the second-phase OpenRouter follow-up prompt.",
     )
     parser.add_argument(
         "--min-preview-output-tps",
@@ -1340,6 +1522,7 @@ def main() -> int:
     config_path = Path(args.config)
     opencode_config_path = Path(args.opencode_config)
     prompt_path = Path(args.prompt)
+    followup_prompt_path = Path(args.followup_prompt)
     results_dir = Path(args.results_dir)
     report_path = Path(args.report)
     warmup_path = Path(args.ollama_warmup_results)
@@ -1350,6 +1533,9 @@ def main() -> int:
 
     config = load_json(config_path)
     prompt = prompt_path.read_text().strip()
+    followup_prompt = None
+    if not args.no_followup and followup_prompt_path.exists():
+        followup_prompt = followup_prompt_path.read_text().strip()
     results_dir.mkdir(parents=True, exist_ok=True)
     report_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -1388,6 +1574,7 @@ def main() -> int:
             run_model(
                 model,
                 prompt,
+                followup_prompt,
                 runner,
                 config_path,
                 results_dir,
