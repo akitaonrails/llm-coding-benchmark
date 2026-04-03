@@ -226,3 +226,31 @@ The benchmark uses your installed provider credentials indirectly through that s
 - Warmup success does not guarantee full benchmark success. It only proves the model can load and answer a small prompt at a given context size.
 - A model can still fail later during benchmark preflight, tool use, package installation, or long-context generation.
 - If a local model is unstable near its verified maximum, prefer a conservative `benchmark_context_override`.
+
+## Known Local Model Limits
+
+Several local Ollama models were rechecked after adding cleaner unload/preflight behavior. The current status is:
+
+- `qwen3_5_35b`
+  Usable enough to benchmark. It completed a full autonomous run, but the generated project was still off-spec.
+- `gemma4_31b`
+  Effectively unusable in the current `opencode + Ollama` path. Preload succeeds at a conservative context, but the first real streamed request fails with Ollama HTTP `500` and `model failed to load`.
+- `glm_4_7_flash_bf16`
+  Effectively unusable in the current harness. Preload succeeds, but `opencode` never receives a first output chunk and the run sits waiting with no stdout/stderr progress.
+- `llama4_scout`
+  Effectively unusable in the current harness. Preload succeeds, but the model unloads or disappears from `/api/ps` before the benchmark emits any output.
+- `qwen3_5_122b`
+  Not practical in the current harness. Preload succeeds at reduced context, but during the actual run Ollama drifts back to `262144` context and `opencode` stalls before first output.
+- `qwen3_32b`
+  Technically runnable, but too slow to keep in the default set for this benchmark.
+- `qwen3_coder_next`
+  Technically runnable, but too slow to keep in the default set for this benchmark.
+- `nemotron_cascade_2`
+  Not usable in the current harness. Ollama preload works, but `opencode` fails immediately with `ProviderModelNotFoundError` because this custom local model entry is not resolved cleanly through the generated benchmark config.
+
+There is also a separate integration limitation for some custom Ollama model entries:
+
+- community or custom-tagged models that are not already present in the home `opencode` model registry can fail with `ProviderModelNotFoundError`
+- this affected the Qwen 3.5 coder wrapper variants and the Nemotron benchmark entry when driven only through the generated local benchmark config
+
+In practice, the current reliable local path is to favor the built-in Ollama model IDs that already exist in `~/.config/opencode/opencode.json`, then use the benchmark-local config only to narrow context and permissions.

@@ -957,11 +957,18 @@ def clone_json(value: Any) -> Any:
     return json.loads(json.dumps(value))
 
 
+def provider_model_key(model: dict[str, Any]) -> str:
+    provider_prefix = f"{model['provider']}/"
+    if model["id"].startswith(provider_prefix):
+        return model["id"][len(provider_prefix) :]
+    return model["id"]
+
+
 def fallback_ollama_config_entry(model: dict[str, Any]) -> tuple[str, dict[str, Any]] | None:
     model_name = model.get("ollama_model_name")
     if not isinstance(model_name, str) or not model_name:
         return None
-    model_key = model["id"].split("/", 1)[1] if model["id"].startswith("ollama/") else model["id"]
+    model_key = provider_model_key(model)
     entry: dict[str, Any] = {
         "id": model_name,
         "name": model.get("ollama_display_name") or f"{model['label']} (Ollama)",
@@ -997,6 +1004,15 @@ def apply_ollama_model_overrides(local_entry: dict[str, Any], model: dict[str, A
     return local_entry
 
 
+def fallback_provider_config_entry(model: dict[str, Any]) -> tuple[str, dict[str, Any]]:
+    model_key = provider_model_key(model)
+    entry: dict[str, Any] = {
+        "id": model_key,
+        "name": model.get("label") or model_key,
+    }
+    return model_key, entry
+
+
 def prepare_local_opencode_config(
     models: list[dict[str, Any]],
     warmup_payload: dict[str, Any] | None,
@@ -1030,6 +1046,12 @@ def prepare_local_opencode_config(
         provider_entry = source_providers.get(provider_name)
         if isinstance(provider_entry, dict):
             local_config["provider"][provider_name] = clone_json(provider_entry)
+        else:
+            local_config["provider"][provider_name] = {}
+
+        provider_models = local_config["provider"][provider_name].get("models")
+        if not isinstance(provider_models, dict):
+            local_config["provider"][provider_name]["models"] = {}
 
     ollama_provider = source_providers.get("ollama")
     if isinstance(ollama_provider, dict):
@@ -1049,7 +1071,7 @@ def prepare_local_opencode_config(
         verified_context = warmup_entry.get("highest_verified_context") if isinstance(warmup_entry, dict) else None
         override_context = model.get("benchmark_context_override")
 
-        model_key = model["id"].split("/", 1)[1] if model["id"].startswith("ollama/") else model["id"]
+        model_key = provider_model_key(model)
         config_entry = source_ollama_models.get(model_key) if isinstance(source_ollama_models, dict) else None
         fallback_entry = fallback_ollama_config_entry(model)
         if not isinstance(config_entry, dict) and fallback_entry is not None:
@@ -1078,6 +1100,18 @@ def prepare_local_opencode_config(
     if local_ollama_provider is not None:
         local_ollama_provider["models"] = local_ollama_models
         local_config["provider"]["ollama"] = local_ollama_provider
+
+    for model in models:
+        if model.get("provider") == "ollama":
+            continue
+        provider_name = model["provider"]
+        provider_entry = local_config["provider"].setdefault(provider_name, {})
+        provider_models = provider_entry.get("models")
+        if not isinstance(provider_models, dict):
+            provider_models = {}
+            provider_entry["models"] = provider_models
+        model_key, fallback_entry = fallback_provider_config_entry(model)
+        provider_models.setdefault(model_key, fallback_entry)
 
     if not local_config["provider"]:
         summary["skipped_reason"] = "no provider config available for selected models"

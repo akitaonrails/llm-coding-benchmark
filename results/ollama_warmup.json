@@ -1,0 +1,234 @@
+{
+  "generated_at": "2026-04-03T20:12:24+00:00",
+  "minimum_useful_context": 32768,
+  "results": [
+    {
+      "attempts": [
+        {
+          "elapsed_seconds": 24.47,
+          "error": "model failed to load, this may be due to resource limitations or an internal error, check ollama server logs for details",
+          "num_ctx": 262144,
+          "ok": false
+        },
+        {
+          "elapsed_seconds": 29.48,
+          "num_ctx": 131072,
+          "ok": true,
+          "response_excerpt": "pong!"
+        }
+      ],
+      "configured_context": 262144,
+      "highest_verified_context": 131072,
+      "label": "Gemma 4 31B",
+      "ollama_model": "gemma4:31b-it-bf16",
+      "recommendation": "keep in benchmark at 131072",
+      "slug": "gemma4_31b"
+    },
+    {
+      "attempts": [
+        {
+          "elapsed_seconds": 30.22,
+          "eval_count": 32,
+          "load_duration_ns": 28246527327,
+          "num_ctx": 202752,
+          "ok": true,
+          "prompt_eval_count": 6,
+          "response_excerpt": "",
+          "total_duration_ns": 30221202678
+        }
+      ],
+      "configured_context": 202752,
+      "highest_verified_context": 202752,
+      "label": "GLM 4.7 Flash BF16",
+      "ollama_model": "glm-4.7-flash:bf16",
+      "recommendation": "keep in benchmark at 202752",
+      "slug": "glm_4_7_flash_bf16"
+    },
+    {
+      "attempts": [
+        {
+          "elapsed_seconds": 6.19,
+          "eval_count": 32,
+          "load_duration_ns": 5132865566,
+          "num_ctx": 131072,
+          "ok": true,
+          "prompt_eval_count": 68,
+          "response_excerpt": "",
+          "total_duration_ns": 6182095313
+        }
+      ],
+      "configured_context": 131072,
+      "highest_verified_context": 131072,
+      "label": "GPT OSS 20B",
+      "ollama_model": "gpt-oss:20b",
+      "recommendation": "keep in benchmark at 131072",
+      "slug": "gpt_oss_20b"
+    },
+    {
+      "attempts": [
+        {
+          "elapsed_seconds": 2.94,
+          "error": "model failed to load, this may be due to resource limitations or an internal error, check ollama server logs for details",
+          "num_ctx": 262144,
+          "ok": false
+        },
+        {
+          "elapsed_seconds": 58.18,
+          "eval_count": 9,
+          "load_duration_ns": 46978280471,
+          "num_ctx": 131072,
+          "ok": true,
+          "prompt_eval_count": 344,
+          "response_excerpt": "I'm here. What's on your mind?",
+          "total_duration_ns": 58167090195
+        }
+      ],
+      "configured_context": 10485760,
+      "highest_verified_context": 131072,
+      "label": "Llama 4 Scout",
+      "ollama_model": "llama4:scout",
+      "recommendation": "keep in benchmark at 131072",
+      "slug": "llama4_scout"
+    },
+    {
+      "attempts": [
+        {
+          "elapsed_seconds": 4.2,
+          "eval_count": 32,
+          "load_duration_ns": 3438722834,
+          "num_ctx": 262144,
+          "ok": true,
+          "prompt_eval_count": 17,
+          "response_excerpt": "We need to respond to \"ping\". Possibly reply with \"pong\" or something. There's no special instruction. Should be brief.\n</think>\np",
+          "total_duration_ns": 4192609211
+        }
+      ],
+      "configured_context": 262144,
+      "highest_verified_context": 262144,
+      "label": "Nemotron Cascade 2",
+      "ollama_model": "nemotron-cascade-2:latest",
+      "recommendation": "keep in benchmark at 262144",
+      "slug": "nemotron_cascade_2"
+    },
+    {
+      "attempts": [
+        {
+          "elapsed_seconds": 7.87,
+          "eval_count": 32,
+          "load_duration_ns": 4669824545,
+          "num_ctx": 40960,
+          "ok": true,
+          "prompt_eval_count": 11,
+          "response_excerpt": "",
+          "total_duration_ns": 7871304653
+        }
+      ],
+      "configured_context": 40960,
+      "highest_verified_context": 40960,
+      "label": "Qwen 3 32B",
+      "ollama_model": "qwen3:32b",
+      "recommendation": "keep in benchmark at 40960",
+      "slug": "qwen3_32b"
+    },
+    {
+      "attempts": [
+        {
+          "elapsed_seconds": 22.46,
+          "eval_count": 32,
+          "load_duration_ns": 20665611919,
+          "num_ctx": 262144,
+          "ok": true,
+          "prompt_eval_count": 11,
+          "response_excerpt": "",
+          "total_duration_ns": 22444736864
+        }
+      ],
+      "configured_context": 262144,
+      "highest_verified_context": 262144,
+      "label": "Qwen 3.5 122B",
+      "ollama_model": "qwen3.5:122b",
+      "recommendation": "keep in benchmark at 262144",
+      "slug": "qwen3_5_122b"
+    },
+    {
+      "attempts": [
+        {
+          "elapsed_seconds": 7.84,
+          "eval_count": 32,
+          "load_duration_ns": 6994127222,
+          "num_ctx": 262144,
+          "ok": true,
+          "prompt_eval_count": 11,
+          "response_excerpt": "",
+          "total_duration_ns": 7825854499
+        }
+      ],
+      "configured_context": 262144,
+      "highest_verified_context": 262144,
+      "label": "Qwen 3.5 35B",
+      "ollama_model": "qwen3.5:35b",
+      "recommendation": "keep in benchmark at 262144",
+      "slug": "qwen3_5_35b"
+    },
+    {
+      "attempts": [
+        {
+          "elapsed_seconds": 23.37,
+          "eval_count": 32,
+          "load_duration_ns": 21595212927,
+          "num_ctx": 262144,
+          "ok": true,
+          "prompt_eval_count": 11,
+          "response_excerpt": "",
+          "total_duration_ns": 23349332947
+        }
+      ],
+      "configured_context": 262144,
+      "highest_verified_context": 262144,
+      "label": "Qwen 3.5 Coder 122B",
+      "ollama_model": "mdq100/qwen3.5-coder:122b",
+      "recommendation": "keep in benchmark at 262144",
+      "slug": "qwen3_5_coder_122b"
+    },
+    {
+      "attempts": [
+        {
+          "elapsed_seconds": 9.64,
+          "eval_count": 32,
+          "load_duration_ns": 8743528605,
+          "num_ctx": 262144,
+          "ok": true,
+          "prompt_eval_count": 11,
+          "response_excerpt": "",
+          "total_duration_ns": 9630172979
+        }
+      ],
+      "configured_context": 262144,
+      "highest_verified_context": 262144,
+      "label": "Qwen 3.5 Coder 35B",
+      "ollama_model": "mdq100/qwen3.5-coder:35b",
+      "recommendation": "keep in benchmark at 262144",
+      "slug": "qwen3_5_coder_35b"
+    },
+    {
+      "attempts": [
+        {
+          "elapsed_seconds": 11.95,
+          "eval_count": 18,
+          "load_duration_ns": 11360834658,
+          "num_ctx": 262144,
+          "ok": true,
+          "prompt_eval_count": 9,
+          "response_excerpt": "Pong! \ud83c\udfd3  \nReady to help\u2014what\u2019s on your mind?",
+          "total_duration_ns": 11943392889
+        }
+      ],
+      "configured_context": 262144,
+      "highest_verified_context": 262144,
+      "label": "Qwen 3 Coder Next",
+      "ollama_model": "qwen3-coder-next:latest",
+      "recommendation": "keep in benchmark at 262144",
+      "slug": "qwen3_coder_next"
+    }
+  ]
+}

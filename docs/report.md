@@ -1,15 +1,15 @@
 # Benchmark Report
 
-Generated at: 2026-04-03T20:34:39+00:00
+Generated at: 2026-04-03T23:17:21+00:00
 Prompt SHA256: `5bac1132984914a2055c0dc13b24e6224eb7ad92651a08a2cf00e0b1ffe8c863`
 
 ## Progress
 
-- `completed`: 0
-- `completed_with_errors`: 0
-- `failed`: 3
+- `completed`: 3
+- `completed_with_errors`: 3
+- `failed`: 4
 - `timeout`: 0
-- `not_run`: 15
+- `not_run`: 9
 
 ## Runner
 
@@ -25,11 +25,9 @@ Prompt SHA256: `5bac1132984914a2055c0dc13b24e6224eb7ad92651a08a2cf00e0b1ffe8c863
 - `glm_4_7_flash_bf16` -> `ollama/glm/glm-4.7-flash-bf16`: Added back as a local benchmark target after increasing server swap. Skipped by default because observed throughput is too low to be practical on current hardware.
 - `llama4_scout` -> `ollama/meta/llama4-scout`: Requested local model family; exact hosted variant available through opencode. Skipped by default because Ollama unloads or goes idle before the benchmark run can begin reliably.
 - `qwen3_32b` -> `ollama/qwen/qwen3-32b`: Requested local model family; exact hosted variant available through opencode. Superseded by the Qwen 3.5 line for future local benchmarking. Skipped by default after benchmark preview averaged 7.96 output tok/s over the first 3 steps (< 20.00).
-- `qwen3_coder_next` -> `ollama/qwen/qwen3-coder-next`: Best direct coding-oriented local Qwen variant matching the original benchmark brief, but now superseded by the Qwen 3.5 Coder variants for future local benchmarking. Skipped by default after benchmark preview measured 6.59 output tok/s (< 20.00).
+- `qwen3_coder_next` -> `ollama/qwen/qwen3-coder-next`: Best direct coding-oriented local Qwen variant matching the original benchmark brief. Skipped by default after benchmark preview measured 6.59 output tok/s (< 20.00).
 - `qwen3_5_35b` -> `ollama/qwen/qwen3.5-35b`: Requested local model family; exact hosted variant available through opencode.
-- `qwen3_5_122b` -> `ollama/qwen/qwen3.5-122b`: Largest requested local Qwen 3.5 variant hosted on the Ollama server.
-- `qwen3_5_coder_35b` -> `ollama/qwen/qwen3.5-35b`: Community-packaged coding-optimized Qwen 3.5 35B variant to compare against the base Qwen 3.5 local model.
-- `qwen3_5_coder_122b` -> `ollama/qwen/qwen3.5-122b`: Largest community-packaged coding-optimized Qwen 3.5 variant for comparison against the base 122B local model.
+- `qwen3_5_122b` -> `ollama/qwen/qwen3.5-122b`: Largest requested local Qwen 3.5 variant hosted on the Ollama server. Skipped by default because opencode repeatedly stalls before first output and Ollama drifts back to 262144 context during the run.
 - `gpt_oss_20b` -> `ollama/openai/gpt-oss-20b`: Added as a local Ollama GPT OSS baseline for later warmup and benchmark testing.
 - `nemotron_cascade_2` -> `ollama/nemotron_cascade_2`: Added as a local Ollama Nemotron Cascade 2 candidate for later warmup and benchmark testing. This entry uses explicit local model metadata because it is not yet mapped in the home opencode config.
 - `claude_opus_4_6` -> `openrouter/anthropic/claude-opus-4.6`: Exact requested cloud model.
@@ -37,7 +35,10 @@ Prompt SHA256: `5bac1132984914a2055c0dc13b24e6224eb7ad92651a08a2cf00e0b1ffe8c863
 - `kimi_k2_5` -> `openrouter/moonshotai/kimi-k2.5`: Chosen as the latest/highest Kimi variant listed by OpenRouter locally.
 - `glm_5` -> `openrouter/z-ai/glm-5`: Chosen as the latest/highest GLM variant listed by OpenRouter locally; this replaces the local GLM test.
 - `qwen3_6_plus` -> `openrouter/qwen/qwen3.6-plus:free`: Added from OpenRouter cloud availability; chose the non-preview Qwen 3.6 Plus variant exposed locally.
-- `qwen3_5_397b_cloud` -> `openrouter/qwen/qwen3.5-397b-a17b`: Added as the OpenRouter cloud Qwen 3.5 flagship under the requested qwen3.5:397b-cloud benchmark slot.
+- `qwen3_5_397b_cloud` -> `openrouter/qwen/qwen3.5-397b-a17b`: Added as the OpenRouter cloud Qwen 3.5 flagship under the requested qwen3.5:397b-cloud benchmark slot. Skipped by default because it stalled after completing validation steps and never emitted a terminal stop.
+- `gemma4_31b_cloud` -> `openrouter/google/gemma-4-31b-it`: Added as the OpenRouter cloud Gemma 4 benchmark counterpart to the unusable local Gemma 4 path.
+- `llama4_scout_cloud` -> `openrouter/meta-llama/llama-4-scout`: Added as the OpenRouter cloud Llama 4 Scout benchmark counterpart to the unusable local Scout path.
+- `nemotron_3_super_cloud` -> `openrouter/nvidia/nemotron-3-super-120b-a12b`: Added as the closest OpenRouter cloud Nemotron line available after local Nemotron Cascade 2 proved unusable in this harness.
 - `minimax_m2_7` -> `openrouter/minimax/minimax-m2.7`: Chosen as the largest/latest MiniMax variant listed by OpenRouter locally.
 
 ## Ollama Warmup
@@ -55,8 +56,6 @@ Minimum useful context target: `32768`
 | Qwen 3 Coder Next | 262144 | keep in benchmark at 262144 |
 | Qwen 3.5 35B | 262144 | keep in benchmark at 262144 |
 | Qwen 3.5 122B | 262144 | keep in benchmark at 262144 |
-| Qwen 3.5 Coder 35B | 262144 | keep in benchmark at 262144 |
-| Qwen 3.5 Coder 122B | 262144 | keep in benchmark at 262144 |
 | GPT OSS 20B | 131072 | keep in benchmark at 131072 |
 | Nemotron Cascade 2 | 262144 | keep in benchmark at 262144 |
 
@@ -69,19 +68,20 @@ Minimum useful context target: `32768`
 | Llama 4 Scout | ollama | 131072 | not_run | - | - | - | n/a | 0 | Run has not been executed yet. Warmup verified 131072 context. keep in benchmark at 131072. |
 | Qwen 3 32B | ollama | 40960 | failed | 304.74 | 11714 | 38.44 | no | 1 | Exit code -15. Generated files do not resemble the requested Rails project. Warmup verified 40960 context. keep in benchmark at 40960. |
 | Qwen 3 Coder Next | ollama | 262144 | failed | 98.07 | 15176 | 154.75 | partial | 1507 | Exit code -15. Some expected benchmark artifacts exist, but the scaffold looks incomplete. Warmup verified 262144 context. keep in benchmark at 262144. |
-| Qwen 3.5 35B | ollama | 262144 | not_run | - | - | - | n/a | 0 | Run has not been executed yet. Warmup verified 262144 context. keep in benchmark at 262144. |
+| Qwen 3.5 35B | ollama | 262144 | completed_with_errors | 311.79 | 22442 | 71.98 | no | 69 | Generated files do not resemble the requested Rails project. Warmup verified 262144 context. keep in benchmark at 262144. |
 | Qwen 3.5 122B | ollama | 262144 | not_run | - | - | - | n/a | 0 | Run has not been executed yet. Warmup verified 262144 context. keep in benchmark at 262144. |
-| Qwen 3.5 Coder 35B | ollama | 262144 | not_run | - | - | - | n/a | 0 | Run has not been executed yet. Warmup verified 262144 context. keep in benchmark at 262144. |
-| Qwen 3.5 Coder 122B | ollama | 262144 | not_run | - | - | - | n/a | 0 | Run has not been executed yet. Warmup verified 262144 context. keep in benchmark at 262144. |
 | GPT OSS 20B | ollama | 131072 | failed | 598.97 | 23350 | 38.98 | no | 1175 | Generated files do not resemble the requested Rails project. Warmup verified 131072 context. keep in benchmark at 131072. |
 | Nemotron Cascade 2 | ollama | 262144 | not_run | - | - | - | n/a | 0 | Run has not been executed yet. Warmup verified 262144 context. keep in benchmark at 262144. |
-| Claude Opus 4.6 | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
-| GPT 5.4 Pro | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
-| Kimi K2.5 | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
-| GLM 5 | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
-| Qwen 3.6 Plus | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
+| Claude Opus 4.6 | openrouter | - | completed | 798.31 | 97853 | 122.58 | yes | 1410 | Rails app, tests, README, and container files detected. |
+| GPT 5.4 Pro | openrouter | - | failed | 1576.83 | 16879 | 10.70 | partial | 1100 | Some expected benchmark artifacts exist, but the scaffold looks incomplete. |
+| Kimi K2.5 | openrouter | - | completed | 2810.79 | 77045 | 27.41 | yes | 167 | Rails app, tests, README, and container files detected. |
+| GLM 5 | openrouter | - | completed_with_errors | 578.31 | 67007 | 115.87 | no | 1799 | Generated files do not resemble the requested Rails project. |
+| Qwen 3.6 Plus | openrouter | - | completed_with_errors | 611.96 | 61592 | 100.65 | no | 768 | Generated files do not resemble the requested Rails project. |
 | Qwen 3.5 397B Cloud | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
-| MiniMax M2.7 | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
+| Gemma 4 31B Cloud | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
+| Llama 4 Scout Cloud | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
+| Nemotron 3 Super Cloud | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
+| MiniMax M2.7 | openrouter | - | completed | 419.38 | 45868 | 109.37 | yes | 1741 | Rails app, tests, README, and container files detected. |
 
 ## Per-Run Paths
 

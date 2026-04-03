@@ -54,7 +54,7 @@
       "id": "ollama/qwen/qwen3-coder-next",
       "label": "Qwen 3 Coder Next",
       "provider": "ollama",
-      "selection_reason": "Best direct coding-oriented local Qwen variant matching the original benchmark brief, but now superseded by the Qwen 3.5 Coder variants for future local benchmarking. Skipped by default after benchmark preview measured 6.59 output tok/s (< 20.00).",
+      "selection_reason": "Best direct coding-oriented local Qwen variant matching the original benchmark brief. Skipped by default after benchmark preview measured 6.59 output tok/s (< 20.00).",
       "skip_by_default": true
     },
     {
@@ -69,35 +69,9 @@
       "id": "ollama/qwen/qwen3.5-122b",
       "label": "Qwen 3.5 122B",
       "provider": "ollama",
-      "selection_reason": "Largest requested local Qwen 3.5 variant hosted on the Ollama server.",
-      "benchmark_context_override": 131072
-    },
-    {
-      "slug": "qwen3_5_coder_35b",
-      "id": "ollama/qwen/qwen3.5-35b",
-      "label": "Qwen 3.5 Coder 35B",
-      "provider": "ollama",
-      "selection_reason": "Community-packaged coding-optimized Qwen 3.5 35B variant to compare against the base Qwen 3.5 local model.",
-      "skip_by_default": true,
-      "ollama_model_name": "mdq100/qwen3.5-coder:35b",
-      "ollama_limit_context": 262144,
-      "ollama_limit_output": 32768,
-      "ollama_tool_call": true,
-      "ollama_reasoning": true
-    },
-    {
-      "slug": "qwen3_5_coder_122b",
-      "id": "ollama/qwen/qwen3.5-122b",
-      "label": "Qwen 3.5 Coder 122B",
-      "provider": "ollama",
-      "selection_reason": "Largest community-packaged coding-optimized Qwen 3.5 variant for comparison against the base 122B local model.",
-      "benchmark_context_override": 131072,
-      "skip_by_default": true,
-      "ollama_model_name": "mdq100/qwen3.5-coder:122b",
-      "ollama_limit_context": 262144,
-      "ollama_limit_output": 32768,
-      "ollama_tool_call": true,
-      "ollama_reasoning": true
+      "selection_reason": "Largest requested local Qwen 3.5 variant hosted on the Ollama server. Skipped by default because opencode repeatedly stalls before first output and Ollama drifts back to 262144 context during the run.",
+      "benchmark_context_override": 150000,
+      "skip_by_default": true
     },
     {
       "slug": "gpt_oss_20b",
@@ -160,7 +134,30 @@
       "id": "openrouter/qwen/qwen3.5-397b-a17b",
       "label": "Qwen 3.5 397B Cloud",
       "provider": "openrouter",
-      "selection_reason": "Added as the OpenRouter cloud Qwen 3.5 flagship under the requested qwen3.5:397b-cloud benchmark slot."
+      "skip_by_default": true,
+      "selection_reason": "Added as the OpenRouter cloud Qwen 3.5 flagship under the requested qwen3.5:397b-cloud benchmark slot. Skipped by default because it stalled after completing validation steps and never emitted a terminal stop."
+    },
+    {
+      "slug": "gemma4_31b_cloud",
+      "id": "openrouter/google/gemma-4-31b-it",
+      "label": "Gemma 4 31B Cloud",
+      "provider": "openrouter",
+      "skip_by_default": true,
+      "selection_reason": "Added as the OpenRouter cloud Gemma 4 benchmark counterpart to the unusable local Gemma 4 path. Skipped by default because the current opencode build does not ship an OpenRouter Gemma 4 registry entry and fails immediately with ProviderModelNotFoundError."
+    },
+    {
+      "slug": "llama4_scout_cloud",
+      "id": "openrouter/meta-llama/llama-4-scout",
+      "label": "Llama 4 Scout Cloud",
+      "provider": "openrouter",
+      "selection_reason": "Added as the OpenRouter cloud Llama 4 Scout benchmark counterpart to the unusable local Scout path."
+    },
+    {
+      "slug": "nemotron_3_super_cloud",
+      "id": "openrouter/nvidia/nemotron-3-super-120b-a12b",
+      "label": "Nemotron 3 Super Cloud",
+      "provider": "openrouter",
+      "selection_reason": "Added as the closest OpenRouter cloud Nemotron line available after local Nemotron Cascade 2 proved unusable in this harness."
     },
     {
       "slug": "minimax_m2_7",

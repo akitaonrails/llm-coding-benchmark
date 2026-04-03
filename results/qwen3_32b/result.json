@@ -1,0 +1,76 @@
+{
+  "assistant_output_excerpt": "",
+  "command": [
+    "opencode",
+    "run",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "-m",
+    "ollama/qwen/qwen3-32b",
+    "I want you build a Ruby on Rails application, use newest ruby and rails available in mise here, you have access to mise. You will make a very simple SPA mimicking a minimal chatgpt-like web interface. You will use tailwind for CSS, hotwire/stimulus/turbo streams, avoid duplications, avoid putting everything in a single application.css or application.js file and properly componentize, use rails partials, etc. best practices for rails. You will use the latest rubylllm and my secrets at ~/.config/zsh/secrets to connect to openrouter and load the latest claude sonnet for the chat. You will add proper minitest unit tests for each component. You will use brakeman, rubocop, simplecov and bundle-audit for CI and make sure our code is clean, well formatted, well tested, following proper ruby on rails coding best practices. This app will not have authentication. It's really a simple webpage for rubyllm. You will document the project in a readme.md on what it does, how to setup and run locally. For that, you will also create a dockerfile and docker compose to easily run this locally."
+  ],
+  "elapsed_seconds": 304.74,
+  "ended_at": "2026-04-03T19:33:07+00:00",
+  "exit_code": -15,
+  "finish_reason": "tool-calls",
+  "model": {
+    "id": "ollama/qwen/qwen3-32b",
+    "label": "Qwen 3 32B",
+    "provider": "ollama",
+    "selection_reason": "Requested local model family; exact hosted variant available through opencode.",
+    "slug": "qwen3_32b"
+  },
+  "no_progress_timeout_seconds": 360,
+  "opencode_session_id": "ses_2ab2ee3dbffeBKvR31dbNVTJOp",
+  "output_tokens_per_second": 1.52,
+  "paths": {
+    "opencode_config": "config/opencode.benchmark.json",
+    "project_dir": "results/qwen3_32b/project",
+    "prompt": "results/qwen3_32b/prompt.txt",
+    "stderr": "results/qwen3_32b/opencode-stderr.log",
+    "stdout": "results/qwen3_32b/opencode-output.ndjson"
+  },
+  "preview_output_tokens_per_second": 8.36,
+  "preview_output_tokens_per_second_average": 7.96,
+  "project_summary": {
+    "file_count": 1,
+    "present": {
+      "app_dir": false,
+      "compose_yaml": false,
+      "compose_yml": false,
+      "docker_compose_yaml": false,
+      "docker_compose_yml": false,
+      "dockerfile": false,
+      "gemfile": false,
+      "javascript_dir": false,
+      "readme_lower": false,
+      "readme_md": false,
+      "routes": false,
+      "tests_dir": false,
+      "views_dir": false
+    },
+    "works_as_intended": "no",
+    "works_note": "Generated files do not resemble the requested Rails project."
+  },
+  "prompt_sha256": "133f6e7bfd7098eec49db2e8bd9c90c018bbbd734e7dfee6f2eb1b315df3b89f",
+  "stall_reason": "preview average output_tps 7.96 over first 3 steps below threshold 20.00",
+  "stalled": true,
+  "started_at": "2026-04-03T19:27:57+00:00",
+  "status": "failed",
+  "stderr_excerpt": "",
+  "timed_out": false,
+  "timeout_seconds": 5400,
+  "tokens": {
+    "cache": {
+      "read": 0,
+      "write": 0
+    },
+    "input": 11251,
+    "output": 463,
+    "reasoning": 0,
+    "total": 11714
+  },
+  "tokens_per_second": 38.44
+}
