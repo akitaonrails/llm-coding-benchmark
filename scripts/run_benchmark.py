@@ -526,6 +526,8 @@ def stream_process_output(
     preview_average_output_tps: float | None = None
     preview_output_tps_samples: list[float] = []
     preview_gate_decided = False
+    terminal_stop_seen_at: float | None = None
+    terminal_stop_grace_seconds = 5.0
 
     with stdout_path.open("w") as stdout_file, stderr_path.open("w") as stderr_file:
         while True:
@@ -575,10 +577,14 @@ def stream_process_output(
                         else:
                             session_id = session_id or event.get("sessionID")
                             if event.get("type") == "step_start":
+                                terminal_stop_seen_at = None
                                 timestamp = event.get("timestamp")
                                 if isinstance(timestamp, int):
                                     current_step_started_at = timestamp
                             elif event.get("type") == "step_finish":
+                                reason = event.get("part", {}).get("reason")
+                                if reason == "stop":
+                                    terminal_stop_seen_at = now
                                 timestamp = event.get("timestamp")
                                 output_tokens = event.get("part", {}).get("tokens", {}).get("output")
                                 if (
@@ -636,6 +642,26 @@ def stream_process_output(
                         last_event_message = f"stderr: {shorten_text(stripped)}"
                         last_activity_detail = last_event_message
                         print_line(f"[{model_slug}] {last_event_message}")
+
+            if terminal_stop_seen_at is not None and now - terminal_stop_seen_at >= terminal_stop_grace_seconds:
+                if process.poll() is None:
+                    kill_process_group(process)
+                    try:
+                        process.wait(timeout=2)
+                    except subprocess.TimeoutExpired:
+                        pass
+                print_line(
+                    f"[{model_slug}] terminal stop observed; finalizing after {terminal_stop_grace_seconds:.0f}s grace period"
+                )
+                return (
+                    "".join(stdout_chunks),
+                    "".join(stderr_chunks),
+                    False,
+                    False,
+                    None,
+                    latest_preview_output_tps,
+                    preview_average_output_tps,
+                )
 
             if now - last_heartbeat >= heartbeat_interval:
                 file_count = count_files(project_dir)
@@ -815,10 +841,16 @@ def run_model(
     total_tokens = metrics["tokens"].get("total")
     output_tokens = metrics["tokens"].get("output")
 
+    terminal_stop_completed = metrics["finish_reason"] == "stop"
+
     if timed_out:
         status = "timeout"
     elif stalled:
         status = "failed"
+    elif terminal_stop_completed and project_summary["works_as_intended"] == "yes":
+        status = "completed"
+    elif terminal_stop_completed:
+        status = "completed_with_errors"
     elif process.returncode == 0 and project_summary["works_as_intended"] == "yes":
         status = "completed"
     elif process.returncode == 0:
@@ -1234,7 +1266,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--min-preview-output-tps",
         type=float,
-        default=None,
+        default=10.0,
         help="Abort a model early if the average output tokens/sec over the first preview steps stays below this threshold.",
     )
     parser.add_argument(

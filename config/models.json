@@ -69,7 +69,8 @@
       "id": "ollama/qwen/qwen3.5-122b",
       "label": "Qwen 3.5 122B",
       "provider": "ollama",
-      "selection_reason": "Largest requested local Qwen 3.5 variant hosted on the Ollama server."
+      "selection_reason": "Largest requested local Qwen 3.5 variant hosted on the Ollama server.",
+      "benchmark_context_override": 131072
     },
     {
       "slug": "qwen3_5_coder_35b",
@@ -90,6 +91,7 @@
       "label": "Qwen 3.5 Coder 122B",
       "provider": "ollama",
       "selection_reason": "Largest community-packaged coding-optimized Qwen 3.5 variant for comparison against the base 122B local model.",
+      "benchmark_context_override": 131072,
       "skip_by_default": true,
       "ollama_model_name": "mdq100/qwen3.5-coder:122b",
       "ollama_limit_context": 262144,
