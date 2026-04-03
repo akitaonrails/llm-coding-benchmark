@@ -1,0 +1,7 @@
+results/
+tmp/
+config/opencode.benchmark.json
+__pycache__/
+*.pyc
+.ai-jail/
+.crush/

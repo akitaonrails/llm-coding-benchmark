@@ -1,0 +1,138 @@
+{
+  "runner": {
+    "command": "opencode",
+    "args": [
+      "run",
+      "--agent",
+      "build",
+      "--format",
+      "json"
+    ],
+    "notes": [
+      "Selected after local probing because it exposes machine-readable JSON events with session IDs and token counts.",
+      "The local crush install advertised --yolo in help output but rejected the flag at runtime, which makes it a poor default for unattended benchmarking here.",
+      "The explicit build agent has permissive filesystem/tool rules, which is the closest match to the requested autonomous coding workflow."
+    ]
+  },
+  "models": [
+    {
+      "slug": "gemma4_31b",
+      "id": "ollama/google/gemma4-31b-it-bf16",
+      "label": "Gemma 4 31B",
+      "provider": "ollama",
+      "skip_by_default": true,
+      "benchmark_context_override": 98304,
+      "selection_reason": "Hosted locally and is the largest Gemma 4 variant exposed by opencode. Skipped by default until the provider load issue is resolved."
+    },
+    {
+      "slug": "glm_4_7_flash_bf16",
+      "id": "ollama/glm/glm-4.7-flash-bf16",
+      "label": "GLM 4.7 Flash BF16",
+      "provider": "ollama",
+      "skip_by_default": true,
+      "benchmark_context_override": 100000,
+      "selection_reason": "Added back as a local benchmark target after increasing server swap. Skipped by default because observed throughput is too low to be practical on current hardware."
+    },
+    {
+      "slug": "llama4_scout",
+      "id": "ollama/meta/llama4-scout",
+      "label": "Llama 4 Scout",
+      "provider": "ollama",
+      "skip_by_default": true,
+      "selection_reason": "Requested local model family; exact hosted variant available through opencode. Skipped by default because Ollama unloads or goes idle before the benchmark run can begin reliably."
+    },
+    {
+      "slug": "qwen3_32b",
+      "id": "ollama/qwen/qwen3-32b",
+      "label": "Qwen 3 32B",
+      "provider": "ollama",
+      "selection_reason": "Requested local model family; exact hosted variant available through opencode.  Skipped by default after benchmark preview averaged 7.96 output tok/s over the first 3 steps (< 20.00).",
+      "skip_by_default": true
+    },
+    {
+      "slug": "qwen3_coder_next",
+      "id": "ollama/qwen/qwen3-coder-next",
+      "label": "Qwen 3 Coder Next",
+      "provider": "ollama",
+      "selection_reason": "Best direct coding-oriented local Qwen variant matching the benchmark brief.  Skipped by default after benchmark preview measured 6.59 output tok/s (< 20.00).",
+      "skip_by_default": true
+    },
+    {
+      "slug": "qwen3_5_35b",
+      "id": "ollama/qwen/qwen3.5-35b",
+      "label": "Qwen 3.5 35B",
+      "provider": "ollama",
+      "selection_reason": "Requested local model family; exact hosted variant available through opencode."
+    },
+    {
+      "slug": "qwen3_5_122b",
+      "id": "ollama/qwen/qwen3.5-122b",
+      "label": "Qwen 3.5 122B",
+      "provider": "ollama",
+      "selection_reason": "Largest requested local Qwen 3.5 variant hosted on the Ollama server."
+    },
+    {
+      "slug": "gpt_oss_20b",
+      "id": "ollama/openai/gpt-oss-20b",
+      "label": "GPT OSS 20B",
+      "provider": "ollama",
+      "skip_by_default": true,
+      "selection_reason": "Added as a local Ollama GPT OSS baseline for later warmup and benchmark testing."
+    },
+    {
+      "slug": "nemotron_cascade_2",
+      "id": "ollama/nvidia/nemotron-cascade-2",
+      "label": "Nemotron Cascade 2",
+      "provider": "ollama",
+      "skip_by_default": true,
+      "ollama_model_name": "nemotron-cascade-2:latest",
+      "ollama_limit_context": 262144,
+      "ollama_limit_output": 32768,
+      "ollama_tool_call": true,
+      "ollama_reasoning": true,
+      "selection_reason": "Added as a local Ollama Nemotron Cascade 2 candidate for later warmup and benchmark testing. This entry uses explicit local model metadata because it is not yet mapped in the home opencode config."
+    },
+    {
+      "slug": "claude_opus_4_6",
+      "id": "openrouter/anthropic/claude-opus-4.6",
+      "label": "Claude Opus 4.6",
+      "provider": "openrouter",
+      "selection_reason": "Exact requested cloud model."
+    },
+    {
+      "slug": "gpt_5_4_pro",
+      "id": "openrouter/openai/gpt-5.4-pro",
+      "label": "GPT 5.4 Pro",
+      "provider": "openrouter",
+      "selection_reason": "Chosen from the OpenRouter GPT 5.4 family as the largest and most coding-oriented variant."
+    },
+    {
+      "slug": "kimi_k2_5",
+      "id": "openrouter/moonshotai/kimi-k2.5",
+      "label": "Kimi K2.5",
+      "provider": "openrouter",
+      "selection_reason": "Chosen as the latest/highest Kimi variant listed by OpenRouter locally."
+    },
+    {
+      "slug": "glm_5",
+      "id": "openrouter/z-ai/glm-5",
+      "label": "GLM 5",
+      "provider": "openrouter",
+      "selection_reason": "Chosen as the latest/highest GLM variant listed by OpenRouter locally; this replaces the local GLM test."
+    },
+    {
+      "slug": "qwen3_6_plus",
+      "id": "openrouter/qwen/qwen3.6-plus:free",
+      "label": "Qwen 3.6 Plus",
+      "provider": "openrouter",
+      "selection_reason": "Added from OpenRouter cloud availability; chose the non-preview Qwen 3.6 Plus variant exposed locally."
+    },
+    {
+      "slug": "minimax_m2_7",
+      "id": "openrouter/minimax/minimax-m2.7",
+      "label": "MiniMax M2.7",
+      "provider": "openrouter",
+      "selection_reason": "Chosen as the largest/latest MiniMax variant listed by OpenRouter locally."
+    }
+  ]
+}
