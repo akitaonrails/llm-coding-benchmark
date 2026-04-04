@@ -1,4 +1,5 @@
-results/
+results/*/project/
+results/ollama_warmup.json
 tmp/
 config/opencode.benchmark.json
 __pycache__/

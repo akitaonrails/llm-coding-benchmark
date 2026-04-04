@@ -1,15 +1,15 @@
 # Benchmark Report
 
-Generated at: 2026-04-04T02:45:08+00:00
+Generated at: 2026-04-04T11:23:44+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
 
-- `completed`: 3
+- `completed`: 7
 - `completed_with_errors`: 0
-- `failed`: 0
+- `failed`: 2
 - `timeout`: 0
-- `not_run`: 19
+- `not_run`: 13
 
 ## Runner
 
@@ -58,18 +58,18 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | GPT OSS 20B | ollama | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | Nemotron Cascade 2 | ollama | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | Claude Opus 4.6 | openrouter | - | completed | 970.51 | 136806 | 347.18 | yes | 1536 | Rails app, tests, README, and container files detected. |
-| GPT 5.4 Pro | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
+| GPT 5.4 Pro | openrouter | - | failed | 3390.31 | 84051 | 24.79 | partial | 1142 | Exit code -15. Some expected benchmark artifacts exist, but the scaffold looks incomplete. |
 | Kimi K2.5 | openrouter | - | completed | 1738.77 | 63638 | 160.14 | yes | 3405 | Rails app, tests, README, and container files detected. |
-| GLM 5 | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
-| Qwen 3.6 Plus | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
+| GLM 5 | openrouter | - | completed | 1033.99 | 59378 | 400.01 | yes | 1680 | Rails app, tests, README, and container files detected. |
+| Qwen 3.6 Plus | openrouter | - | completed | 1031.84 | 88940 | 182.91 | yes | 744 | Rails app, tests, README, and container files detected. |
 | Qwen 3.5 397B Cloud | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | Gemma 4 31B Cloud | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | Llama 4 Scout Cloud | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | Nemotron 3 Super Cloud | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | MiniMax M2.7 | openrouter | - | completed | 847.23 | 79743 | 574.52 | yes | 100 | Rails app, tests, README, and container files detected. |
-| DeepSeek V3.2 | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
-| Step 3.5 Flash | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
-| Claude Sonnet 4.6 | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
+| DeepSeek V3.2 | openrouter | - | completed | 3606.46 | 115278 | 53.37 | yes | 99 | Rails app, tests, README, and container files detected. |
+| Step 3.5 Flash | openrouter | - | failed | 593.65 | 61604 | 103.77 | yes | 1560 | Exit code -15. Rails app, tests, README, and container files detected. |
+| Claude Sonnet 4.6 | openrouter | - | completed | 966.85 | 127067 | 532.26 | yes | 2042 | Rails app, tests, README, and container files detected. |
 
 ## Per-Run Paths
 
