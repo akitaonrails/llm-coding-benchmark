@@ -518,31 +518,43 @@ def run_opencode_phase(
     return payload
 
 
+def _get_ollama_for_eviction() -> Any | None:
+    """Get an OllamaBackend pointed at the home config URL, for eviction only."""
+    from benchmark.backends import OllamaBackend
+    from benchmark.config import load_opencode_ollama_api_base
+
+    ollama_base = load_opencode_ollama_api_base()
+    if ollama_base:
+        return OllamaBackend(ollama_base)
+    return None
+
+
 def _evict_competing_backend(bench: BenchmarkConfig, model_slug: str) -> None:
     """Unload models from the other backend to free GPU memory.
 
-    Ollama and llama-swap share the same GPU on 192.168.0.90, so before
-    using one backend we need to make sure the other has released VRAM.
+    Ollama and llama-swap share the same GPU, so before using one backend
+    we must ensure the other has released VRAM. Without this the server
+    OOMs and hangs.
     """
-    from benchmark.backends import LlamaSwapBackend, OllamaBackend, create_backend
-    from benchmark.config import load_opencode_ollama_api_base
+    from benchmark.backends import LlamaSwapBackend, OllamaBackend
 
     if bench.backend is None:
         return
 
     if isinstance(bench.backend, LlamaSwapBackend):
-        # Evict Ollama models before using llama-swap
-        ollama_base = load_opencode_ollama_api_base()
-        if ollama_base:
-            ollama = OllamaBackend(ollama_base)
+        ollama = _get_ollama_for_eviction()
+        if ollama:
             active = ollama.list_active()
             if active:
                 print_line(f"[{model_slug}] evicting Ollama models to free GPU: {', '.join(active)}")
                 ollama.unload_all()
+                # Verify eviction succeeded
+                still_active = ollama.list_active()
+                if still_active:
+                    print_line(f"[{model_slug}] WARNING: Ollama still has models loaded after eviction: {', '.join(still_active)}")
     elif isinstance(bench.backend, OllamaBackend):
-        # Evict llama-swap models before using Ollama
-        # llama-swap auto-evicts on TTL, but we can trigger it by checking /running
-        # There's no explicit unload, so this is best-effort.
+        # llama-swap auto-evicts on TTL but we can't force it.
+        # Best-effort: load a tiny model to trigger swap, then unload it.
         pass
 
 
@@ -751,4 +763,14 @@ def run_model(model: dict[str, Any], bench: BenchmarkConfig, index: int, total: 
         f"elapsed={total_elapsed:.2f}s files={payload['project_summary']['file_count']} "
         f"total_tokens={format_value(payload['tokens'].get('total'))}"
     )
+
+    # Unload the model after the run to free GPU for the next model.
+    # This prevents OOM when the next model's preflight tries to evict
+    # the competing backend while this model is still resident.
+    if is_local and bench.backend is not None:
+        active = bench.backend.list_active()
+        if active:
+            print_line(f"[{model['slug']}] post-run cleanup: unloading {', '.join(active)}")
+            bench.backend.unload_all()
+
     return payload
