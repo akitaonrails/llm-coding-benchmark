@@ -1,178 +1,55 @@
 #!/usr/bin/env python3
+"""Probe Ollama models at candidate context sizes to find the highest working context."""
 from __future__ import annotations
 
-import json
+import argparse
 import time
-import urllib.error
-import urllib.parse
-import urllib.request
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+from benchmark.backends import OllamaBackend, _get_json, _post_json, _api_url
+from benchmark.util import load_json, load_optional_json, print_line, save_json, utc_now
 
 
 ROOT = Path(__file__).resolve().parent.parent
 CONFIG_PATH = ROOT / "config" / "models.json"
 OUTPUT_JSON = ROOT / "results" / "ollama_warmup.json"
 OUTPUT_MD = ROOT / "docs" / "ollama_warmup.md"
+KNOWN_RESULTS_PATH = ROOT / "config" / "warmup_known.json"
 OPENCODE_CONFIG_PATH = Path.home() / ".config" / "opencode" / "opencode.json"
 MIN_USEFUL_CONTEXT = 32768
 MAX_PRACTICAL_CONTEXT = 262144
 PER_ATTEMPT_TIMEOUT = 180.0
-KNOWN_RESULTS = {
-    "gemma4_31b": {
-        "slug": "gemma4_31b",
-        "label": "Gemma 4 31B",
-        "ollama_model": "gemma4:31b-it-bf16",
-        "configured_context": 262144,
-        "attempts": [
-            {
-                "num_ctx": 262144,
-                "ok": False,
-                "elapsed_seconds": 24.47,
-                "error": "model failed to load, this may be due to resource limitations or an internal error, check ollama server logs for details",
-            },
-            {
-                "num_ctx": 131072,
-                "ok": True,
-                "elapsed_seconds": 29.48,
-                "response_excerpt": "pong!",
-            },
-        ],
-        "highest_verified_context": 131072,
-        "recommendation": "keep in benchmark at 131072",
-    }
-}
-
-
-def now_utc() -> str:
-    return datetime.now(timezone.utc).replace(microsecond=0).isoformat()
-
-
-def print_line(message: str) -> None:
-    print(message, flush=True)
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    return json.loads(path.read_text())
-
-
-def save_json(path: Path, payload: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
 
 
 def load_existing_results() -> dict[str, dict[str, Any]]:
-    results: dict[str, dict[str, Any]] = {slug: dict(value) for slug, value in KNOWN_RESULTS.items()}
-    if not OUTPUT_JSON.exists():
-        return results
-    payload = load_json(OUTPUT_JSON)
-    for result in payload.get("results", []):
-        slug = result.get("slug")
-        if isinstance(slug, str) and slug:
-            results[slug] = result
+    results: dict[str, dict[str, Any]] = {}
+    # Load known results from config file if present
+    known = load_optional_json(KNOWN_RESULTS_PATH)
+    if isinstance(known, dict):
+        for slug, value in known.items():
+            if isinstance(value, dict):
+                results[slug] = dict(value)
+    # Merge with previously saved warmup output
+    if OUTPUT_JSON.exists():
+        payload = load_json(OUTPUT_JSON)
+        for result in payload.get("results", []):
+            slug = result.get("slug")
+            if isinstance(slug, str) and slug:
+                results[slug] = result
     return results
 
 
 def persist_results(results_by_slug: dict[str, dict[str, Any]]) -> None:
     ordered_results = [results_by_slug[slug] for slug in sorted(results_by_slug)]
     payload = {
-        "generated_at": now_utc(),
+        "generated_at": utc_now(),
         "minimum_useful_context": MIN_USEFUL_CONTEXT,
         "results": ordered_results,
     }
     save_json(OUTPUT_JSON, payload)
     OUTPUT_MD.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_MD.write_text(build_report(ordered_results))
-
-
-def post_json(url: str, payload: dict[str, Any], timeout: float) -> dict[str, Any] | None:
-    request = urllib.request.Request(
-        url,
-        data=json.dumps(payload).encode("utf-8"),
-        headers={"Content-Type": "application/json"},
-        method="POST",
-    )
-    try:
-        with urllib.request.urlopen(request, timeout=timeout) as response:
-            return json.loads(response.read().decode("utf-8"))
-    except urllib.error.HTTPError as error:
-        try:
-            return json.loads(error.read().decode("utf-8"))
-        except (OSError, json.JSONDecodeError):
-            return {"error": f"http_error:{error.code}"}
-    except (OSError, TimeoutError, urllib.error.URLError, json.JSONDecodeError):
-        return None
-
-
-def get_json(url: str, timeout: float) -> dict[str, Any] | None:
-    request = urllib.request.Request(url, method="GET")
-    try:
-        with urllib.request.urlopen(request, timeout=timeout) as response:
-            return json.loads(response.read().decode("utf-8"))
-    except (OSError, TimeoutError, urllib.error.URLError, json.JSONDecodeError):
-        return None
-
-
-def load_opencode_ollama() -> tuple[str, dict[str, Any]]:
-    payload = load_json(OPENCODE_CONFIG_PATH)
-    base_url = payload["provider"]["ollama"]["options"]["baseURL"]
-    api_base = base_url[:-3] if base_url.endswith("/v1") else base_url
-    models = payload["provider"]["ollama"]["models"]
-    return api_base, models
-
-
-def fallback_ollama_entry(model: dict[str, Any]) -> dict[str, Any] | None:
-    model_name = model.get("ollama_model_name")
-    if not isinstance(model_name, str) or not model_name:
-        return None
-    context = model.get("ollama_limit_context")
-    output = model.get("ollama_limit_output")
-    entry: dict[str, Any] = {
-        "id": model_name,
-        "name": f"{model['label']} (Ollama)",
-        "limit": {},
-    }
-    if isinstance(context, int) and context > 0:
-        entry["limit"]["context"] = context
-    if isinstance(output, int) and output > 0:
-        entry["limit"]["output"] = output
-    if model.get("ollama_tool_call") is True:
-        entry["tool_call"] = True
-    if model.get("ollama_reasoning") is True:
-        entry["reasoning"] = True
-    return entry
-
-
-def active_models(api_base: str) -> list[str]:
-    payload = get_json(urllib.parse.urljoin(api_base.rstrip("/") + "/", "api/ps"), timeout=2.0) or {}
-    models = payload.get("models", [])
-    names: list[str] = []
-    for item in models:
-        name = item.get("name") or item.get("model")
-        if isinstance(name, str) and name:
-            names.append(name)
-    return names
-
-
-def unload_model(api_base: str, model_name: str) -> bool:
-    payload = {
-        "model": model_name,
-        "prompt": "",
-        "keep_alive": 0,
-        "stream": False,
-    }
-    response = post_json(urllib.parse.urljoin(api_base.rstrip("/") + "/", "api/generate"), payload, timeout=60.0)
-    return bool(response and response.get("done_reason") == "unload")
-
-
-def unload_all(api_base: str) -> None:
-    current = active_models(api_base)
-    if not current:
-        return
-    print_line(f"Unloading: {', '.join(current)}")
-    for model_name in current:
-        unload_model(api_base, model_name)
 
 
 def try_context(api_base: str, model_name: str, num_ctx: int) -> dict[str, Any]:
@@ -187,8 +64,8 @@ def try_context(api_base: str, model_name: str, num_ctx: int) -> dict[str, Any]:
         },
     }
     started = time.monotonic()
-    response = post_json(
-        urllib.parse.urljoin(api_base.rstrip("/") + "/", "api/generate"),
+    response = _post_json(
+        _api_url(api_base, "/api/generate"),
         payload,
         timeout=PER_ATTEMPT_TIMEOUT,
     )
@@ -234,11 +111,43 @@ def candidate_contexts(configured_context: int) -> list[int]:
     return ordered
 
 
+def fallback_ollama_entry(model: dict[str, Any]) -> dict[str, Any] | None:
+    model_name = model.get("ollama_model_name")
+    if not isinstance(model_name, str) or not model_name:
+        return None
+    context = model.get("ollama_limit_context")
+    output = model.get("ollama_limit_output")
+    entry: dict[str, Any] = {
+        "id": model_name,
+        "name": f"{model['label']} (Ollama)",
+        "limit": {},
+    }
+    if isinstance(context, int) and context > 0:
+        entry["limit"]["context"] = context
+    if isinstance(output, int) and output > 0:
+        entry["limit"]["output"] = output
+    if model.get("ollama_tool_call") is True:
+        entry["tool_call"] = True
+    if model.get("ollama_reasoning") is True:
+        entry["reasoning"] = True
+    return entry
+
+
+def load_opencode_ollama(api_base_override: str | None) -> tuple[str, dict[str, Any]]:
+    payload = load_json(OPENCODE_CONFIG_PATH)
+    base_url = payload["provider"]["ollama"]["options"]["baseURL"]
+    api_base = base_url[:-3] if base_url.endswith("/v1") else base_url
+    if api_base_override:
+        api_base = api_base_override
+    models = payload["provider"]["ollama"]["models"]
+    return api_base, models
+
+
 def build_report(results: list[dict[str, Any]]) -> str:
     lines: list[str] = []
     lines.append("# Ollama Warmup Report")
     lines.append("")
-    lines.append(f"Generated at: {now_utc()}")
+    lines.append(f"Generated at: {utc_now()}")
     lines.append(f"Minimum useful context target: `{MIN_USEFUL_CONTEXT}`")
     lines.append(f"Maximum practical context tested: `{MAX_PRACTICAL_CONTEXT}`")
     lines.append(f"Per-attempt timeout: `{int(PER_ATTEMPT_TIMEOUT)}` seconds")
@@ -268,11 +177,28 @@ def build_report(results: list[dict[str, Any]]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Warm up Ollama models and probe context sizes.")
+    parser.add_argument(
+        "--api-base",
+        default=None,
+        help="Ollama API base URL. Defaults to the URL from the opencode config.",
+    )
+    parser.add_argument(
+        "--config",
+        default=str(CONFIG_PATH),
+        help="Path to models.json config.",
+    )
+    return parser.parse_args()
+
+
 def main() -> int:
-    benchmark_config = load_json(CONFIG_PATH)
-    api_base, opencode_models = load_opencode_ollama()
+    args = parse_args()
+    benchmark_config = load_json(Path(args.config))
+    api_base, opencode_models = load_opencode_ollama(args.api_base)
     ollama_models = [model for model in benchmark_config["models"] if model["provider"] == "ollama"]
     results_by_slug = load_existing_results()
+    backend = OllamaBackend(api_base)
 
     for index, model in enumerate(ollama_models, start=1):
         existing = results_by_slug.get(model["slug"])
@@ -294,7 +220,7 @@ def main() -> int:
 
         print_line("")
         print_line(f"[{index}/{len(ollama_models)}] warming {model['slug']} -> {ollama_model}")
-        unload_all(api_base)
+        backend.unload_all()
 
         contexts_to_try = candidate_contexts(configured_context)
 

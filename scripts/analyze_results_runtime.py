@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
-
+"""Verify benchmark-generated Rails apps by booting them locally and via Docker."""
 from __future__ import annotations
 
 import argparse
 import json
 import os
-import shutil
+import re
 import signal
 import socket
 import subprocess
-import sys
 import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+
+from benchmark.util import load_json, save_json, utc_now
 
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -46,16 +47,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--docker-run-timeout", type=int, default=300)
     parser.add_argument("--browser-timeout", type=int, default=90)
     return parser.parse_args()
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    with path.open() as handle:
-        return json.load(handle)
-
-
-def save_json(path: Path, payload: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, indent=2, sort_keys=False) + "\n")
 
 
 def summarize_file(path: Path, max_lines: int = 40) -> str:
@@ -161,7 +152,7 @@ def run_command(
             stdout=stdout_handle,
             stderr=stderr_handle,
             text=True,
-            preexec_fn=os.setsid,
+            start_new_session=True,
         )
         try:
             exit_code = process.wait(timeout=timeout_seconds)
@@ -231,6 +222,66 @@ def cleanup_compose(app_root: Path, env: dict[str, str]) -> None:
     subprocess.run(["docker", "compose", "down", "-v", "--remove-orphans"], cwd=app_root, env=env, capture_output=True, text=True, check=False)
 
 
+def detect_compose_host_port(app_root: Path) -> int:
+    """Try to detect the host port from compose file port mappings. Fallback to 3000."""
+    for name in ("docker-compose.yml", "docker-compose.yaml", "compose.yml", "compose.yaml"):
+        compose_file = app_root / name
+        if not compose_file.exists():
+            continue
+        try:
+            content = compose_file.read_text()
+        except OSError:
+            continue
+        # Match port mappings like "3000:3000", "8080:3000", '3000:3000'
+        matches = re.findall(r'["\']?(\d{2,5}):(\d{2,5})["\']?', content)
+        if matches:
+            return int(matches[0][0])
+    return 3000
+
+
+def detect_compose_published_port(app_root: Path, env: dict[str, str]) -> int | None:
+    """Parse `docker compose ps` output for published port mappings after containers are up."""
+    try:
+        result = subprocess.run(
+            ["docker", "compose", "ps", "--format", "json"],
+            cwd=app_root,
+            env=env,
+            capture_output=True,
+            text=True,
+            timeout=15,
+            check=False,
+        )
+        if result.returncode == 0 and result.stdout.strip():
+            for line in result.stdout.strip().splitlines():
+                try:
+                    entry = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                publishers = entry.get("Publishers") or []
+                for pub in publishers:
+                    published = pub.get("PublishedPort")
+                    if isinstance(published, int) and published > 0:
+                        return published
+    except Exception:
+        pass
+    return None
+
+
+def command_result_payload(result: CommandResult) -> dict[str, Any]:
+    return {
+        "ok": result.ok,
+        "command": result.command,
+        "cwd": str(result.cwd),
+        "exit_code": result.exit_code,
+        "elapsed_seconds": result.elapsed_seconds,
+        "note": result.note,
+        "stdout": result.stdout_path.name,
+        "stderr": result.stderr_path.name,
+        "stdout_excerpt": summarize_file(result.stdout_path, 20),
+        "stderr_excerpt": summarize_file(result.stderr_path, 20),
+    }
+
+
 def local_attempt(project_dir: Path, app_root: Path, runtime_dir: Path, api_key: str | None, timeouts: argparse.Namespace) -> dict[str, Any]:
     method_dir = runtime_dir / "local"
     method_dir.mkdir(parents=True, exist_ok=True)
@@ -294,7 +345,7 @@ def local_attempt(project_dir: Path, app_root: Path, runtime_dir: Path, api_key:
             stdout=stdout_handle,
             stderr=stderr_handle,
             text=True,
-            preexec_fn=os.setsid,
+            start_new_session=True,
         )
     url = f"http://127.0.0.1:{port}"
     result["url"] = url
@@ -373,15 +424,18 @@ def docker_compose_attempt(app_root: Path, runtime_dir: Path, api_key: str | Non
         cleanup_compose(app_root, env)
         return result
 
-    url = "http://127.0.0.1:3000"
+    # Detect port: try docker compose ps first, then parse compose file, fallback to 3000
+    port = detect_compose_published_port(app_root, env) or detect_compose_host_port(app_root)
+    url = f"http://127.0.0.1:{port}"
     ready = wait_for_http(url, timeout_seconds=90)
     result["url"] = url
+    result["detected_port"] = port
     result["compose_ready"] = ready
     if ready:
         result["browser_probe"] = run_browser_probe(url, method_dir / "browser", "hello world", timeouts.browser_timeout)
         result["success"] = bool(result["browser_probe"].get("ok"))
     else:
-        result["browser_probe"] = {"ok": False, "error": "docker compose app never became reachable on port 3000"}
+        result["browser_probe"] = {"ok": False, "error": f"docker compose app never became reachable on port {port}"}
 
     ps = subprocess.run(["docker", "compose", "ps"], cwd=app_root, env=env, capture_output=True, text=True, check=False)
     logs = subprocess.run(["docker", "compose", "logs", "--no-color", "--tail", "200"], cwd=app_root, env=env, capture_output=True, text=True, check=False)
@@ -389,21 +443,6 @@ def docker_compose_attempt(app_root: Path, runtime_dir: Path, api_key: str | Non
     (method_dir / "compose-logs.log").write_text(logs.stdout + logs.stderr)
     cleanup_compose(app_root, env)
     return result
-
-
-def command_result_payload(result: CommandResult) -> dict[str, Any]:
-    return {
-        "ok": result.ok,
-        "command": result.command,
-        "cwd": str(result.cwd),
-        "exit_code": result.exit_code,
-        "elapsed_seconds": result.elapsed_seconds,
-        "note": result.note,
-        "stdout": result.stdout_path.name,
-        "stderr": result.stderr_path.name,
-        "stdout_excerpt": summarize_file(result.stdout_path, 20),
-        "stderr_excerpt": summarize_file(result.stderr_path, 20),
-    }
 
 
 def write_report(report_path: Path, report: dict[str, Any]) -> None:
@@ -528,7 +567,7 @@ def main() -> int:
         print(f"[{report['slug']}] local={summaries[-1]['local_success']} docker_build={summaries[-1]['docker_build_success']} docker_compose={summaries[-1]['docker_compose_success']}")
 
     summary_path = results_dir / "runtime_verification_summary.json"
-    save_json(summary_path, {"generated_at": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "results": summaries})
+    save_json(summary_path, {"generated_at": utc_now(), "results": summaries})
     print(f"summary: {summary_path}")
     return 0
 

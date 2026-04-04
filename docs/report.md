@@ -1,6 +1,6 @@
 # Benchmark Report
 
-Generated at: 2026-04-04T00:46:43+00:00
+Generated at: 2026-04-04T01:47:53+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
@@ -73,7 +73,7 @@ Each run writes to `results/<slug>/` with these files:
 - `prompt.txt`: exact prompt used for the run
 - `opencode-output.ndjson`: raw JSON event stream from opencode
 - `opencode-stderr.log`: stderr from the opencode process
-- `followup-prompt.txt`: second-phase validation prompt for OpenRouter continuations when enabled
+- `followup-prompt.txt`: second-phase validation prompt for continuations when enabled
 - `followup-opencode-output.ndjson`: raw JSON event stream from the follow-up continuation
 - `followup-opencode-stderr.log`: stderr from the follow-up continuation
 - `session-export.json`: exported opencode session snapshot when available

@@ -1,0 +1,24 @@
+{
+  "gemma4_31b": {
+    "slug": "gemma4_31b",
+    "label": "Gemma 4 31B",
+    "ollama_model": "gemma4:31b-it-bf16",
+    "configured_context": 262144,
+    "attempts": [
+      {
+        "num_ctx": 262144,
+        "ok": false,
+        "elapsed_seconds": 24.47,
+        "error": "model failed to load, this may be due to resource limitations or an internal error, check ollama server logs for details"
+      },
+      {
+        "num_ctx": 131072,
+        "ok": true,
+        "elapsed_seconds": 29.48,
+        "response_excerpt": "pong!"
+      }
+    ],
+    "highest_verified_context": 131072,
+    "recommendation": "keep in benchmark at 131072"
+  }
+}
