@@ -355,6 +355,11 @@ python scripts/run_benchmark.py \
 
 ### Known llama-swap limits
 
+- **KV cache cold start.** llama-swap runs each model with `--ctx-size 0` (full default context). When a model is swapped in, the first request triggers KV cache allocation which can pin the GPU at 100% for 1–3 minutes before inference begins. This looks like a hang but is normal — the benchmark's 6-minute no-progress timeout accommodates it. Capping `--ctx-size` in the llama-swap server config would speed up model swaps but reduce available context.
 - `llama4:scout` required reducing context from default to 204800 to fit in GPU memory. The 64 GB HF GGUF is near the hardware limit.
 - `nemotron_cascade_2` was removed from the llama-swap server config. It can be re-added if a suitable GGUF becomes available.
 - Reasoning models (`qwen3.5:35b`, some Qwen 3 variants) emit output in `reasoning_content` instead of `content`. This works with opencode but may affect token counting in the benchmark report.
+- The opencode config must not include `permission` in the JSON file — opencode rejects it as invalid. Permissions are passed via the `OPENCODE_PERMISSION` environment variable at runtime instead.
+- The source opencode config (`~/.config/opencode/opencode.json`) may carry `reasoning: true` and `tool_call: true` flags on Ollama model entries that are incorrect for the llama-swap GGUF variant. The benchmark config generator now strips these flags for llama-swap models unless explicitly declared in `config/models.json`.
+- Ollama and llama-swap share the same GPU. The benchmark harness now evicts Ollama-resident models before starting a llama-swap run, and cleans up both backends after the benchmark finishes. Without this, large models fail to load with "upstream command exited prematurely" because the GPU is already occupied.
+- When running OpenRouter and llama-swap benchmarks in parallel, use separate opencode config files (`--opencode-config config/opencode.benchmark.local.json`) to avoid one run overwriting the other's generated config.

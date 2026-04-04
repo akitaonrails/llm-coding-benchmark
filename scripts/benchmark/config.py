@@ -316,7 +316,6 @@ def prepare_local_opencode_config(
     warmup_results = warmup_payload.get("results_by_slug", {}) if warmup_payload else {}
     local_config: dict[str, Any] = {
         "$schema": source_config.get("$schema", "https://opencode.ai/config.json"),
-        "permission": clone_json(OPENCODE_YOLO_PERMISSION),
         "provider": {},
     }
 
@@ -368,10 +367,23 @@ def prepare_local_opencode_config(
         local_entry = clone_json(config_entry)
         local_entry = apply_ollama_model_overrides(local_entry, model)
 
-        # When using llama-swap, override the model ID to the llama-swap name
+        # When using llama-swap, override the model ID, strip context limits
+        # (context is managed server-side), and only keep reasoning/tool_call
+        # flags if explicitly set in the benchmark model config.
         llama_swap_name = model.get("llama_swap_model")
         if using_llama_swap and llama_swap_name:
             local_entry["id"] = llama_swap_name
+            if "limit" in local_entry:
+                local_entry["limit"].pop("context", None)
+                local_entry["limit"].pop("output", None)
+                if not local_entry["limit"]:
+                    del local_entry["limit"]
+            # Reset capability flags — only keep them if the benchmark
+            # model config explicitly declares them for llama-swap use.
+            if "reasoning" not in model:
+                local_entry.pop("reasoning", None)
+            if "tool_call" not in model:
+                local_entry.pop("tool_call", None)
 
         chosen_context = None
         if not using_llama_swap:
