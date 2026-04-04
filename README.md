@@ -279,8 +279,24 @@ Additional notes from that rerun:
 - The follow-up prompt materially improved run quality because it forced models to validate boot, Docker build, and Compose startup instead of stopping after code generation.
 - `opencode` can continue an existing session for the second prompt, and that works well enough for the benchmark harness.
 - The `opencode export` step is still flaky in this environment. The run metadata captures the session ID, but the exported JSON snapshot was not emitted in the latest successful reruns.
-- Local Ollama runs are still useful for warmup experiments, but not reliable enough for unattended coding benchmarks on this hardware.
-- If local serving matters, a direct OpenAI-compatible server such as `llama.cpp` or LM Studio is the better next path to test than trying to push further on the current Ollama setup.
+- Local Ollama runs are still useful for warmup experiments, but not reliable enough for unattended coding benchmarks on this hardware. llama-swap resolved most of these reliability issues (see below).
+- If local serving matters, llama-swap with HuggingFace GGUFs is the recommended path. It resolved all the model loading, context drift, and lifecycle issues that made Ollama impractical for unattended runs.
+
+## GPT 5.4 Pro: Tool Calling Incompatibility
+
+GPT 5.4 Pro is the only OpenRouter cloud model that consistently fails the benchmark. Two separate runs both failed to complete:
+
+- **Run 1:** Generated 1278 files over 46 minutes, then hit an OpenRouter credit exhaustion error that looped indefinitely (the error loop bug, now fixed). `finish_reason: tool-calls`, never reached `stop`.
+- **Run 2:** Generated 1118 files over 48 minutes, ended with `finish_reason: tool-calls` and `works_as_intended: partial`. The project had code but was missing tests, Docker files, and README. Only 624 output tokens were recorded in the event stream despite 1118 files created, suggesting event capture was incomplete.
+
+**Hypothesis:** GPT 5.4 is heavily trained for OpenAI's native function calling schema (`tool_choice`, `tools` with JSON schemas). The benchmark routes through opencode → OpenRouter → GPT 5.4, with tool schemas being translated at each hop. If GPT emits tool calls in a format that OpenRouter or opencode doesn't parse correctly, the agent loop breaks before the task completes.
+
+**Supporting evidence:**
+- Every other OpenRouter model (Claude Opus, Claude Sonnet, Kimi K2.5, DeepSeek V3.2, MiniMax M2.7, GLM 5, Qwen 3.6 Plus, Step 3.5 Flash) reached `finish_reason: stop` with successful two-phase completion.
+- GPT is the only model that ends with `finish_reason: tool-calls` — it wants to keep calling tools but the loop terminates.
+- The low recorded output token count (624) relative to the actual generated files (1118) suggests the ndjson event stream is not capturing GPT's tool outputs correctly.
+
+**Fair comparison path:** To properly benchmark GPT 5.4 Pro, it would need to run in its native tool environment — either through OpenAI's Codex agent tooling or the ChatGPT Pro ($200/mo) plan which provides unlimited GPT 5.4 Pro access with native function calling. The current opencode-through-OpenRouter path is not a fair test of GPT's coding ability.
 
 ## Ollama vs llama-swap
 
