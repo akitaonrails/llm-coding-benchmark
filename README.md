@@ -282,30 +282,63 @@ Additional notes from that rerun:
 - Local Ollama runs are still useful for warmup experiments, but not reliable enough for unattended coding benchmarks on this hardware.
 - If local serving matters, a direct OpenAI-compatible server such as `llama.cpp` or LM Studio is the better next path to test than trying to push further on the current Ollama setup.
 
-## Known Local Model Limits
+## Ollama vs llama-swap
 
-Several local Ollama models were rechecked after adding cleaner unload/preflight behavior. The current status is:
+This project supports two local model backends. Ollama was the original backend; llama-swap was added after Ollama proved unreliable for unattended benchmark runs.
 
-- `qwen3_5_35b`
-  Usable enough to benchmark. It completed a full autonomous run, but the generated project was still off-spec.
-- `gemma4_31b`
-  Effectively unusable in the current `opencode + Ollama` path. Preload succeeds at a conservative context, but the first real streamed request fails with Ollama HTTP `500` and `model failed to load`.
-- `glm_4_7_flash_bf16`
-  Effectively unusable in the current harness. Preload succeeds, but `opencode` never receives a first output chunk and the run sits waiting with no stdout/stderr progress.
-- `llama4_scout`
-  Effectively unusable in the current harness. Preload succeeds, but the model unloads or disappears from `/api/ps` before the benchmark emits any output.
-- `qwen3_5_122b`
-  Not practical in the current harness. Preload succeeds at reduced context, but during the actual run Ollama drifts back to `262144` context and `opencode` stalls before first output.
-- `qwen3_32b`
-  Technically runnable, but too slow to keep in the default set for this benchmark.
-- `qwen3_coder_next`
-  Technically runnable, but too slow to keep in the default set for this benchmark.
-- `nemotron_cascade_2`
-  Not usable in the current harness. Ollama preload works, but `opencode` fails immediately with `ProviderModelNotFoundError` because this custom local model entry is not resolved cleanly through the generated benchmark config.
+### Why llama-swap
 
-There is also a separate integration limitation for some custom Ollama model entries:
+Six of the eight local models that failed under Ollama load and run correctly under llama-swap with no code changes on the benchmark side:
 
-- community or custom-tagged models that are not already present in the home `opencode` model registry can fail with `ProviderModelNotFoundError`
-- this affected the Qwen 3.5 coder wrapper variants and the Nemotron benchmark entry when driven only through the generated local benchmark config
+| Model | Ollama | llama-swap | Notes |
+| --- | --- | --- | --- |
+| Gemma 4 27B | `model failed to load` (HTTP 500) | 47.6 tok/s | HF GGUF Q8, was bf16 under Ollama |
+| GLM 4.7 Flash | opencode never received first output | 47.4 tok/s | HF GGUF Q8, was bf16 under Ollama |
+| Llama 4 Scout | model unloaded before benchmark started | 17.5 tok/s | HF GGUF, context capped at 204800 |
+| Qwen 3.5 35B | completed but off-spec output | 49.7 tok/s | HF GGUF, reasoning model |
+| Qwen 3.5 122B | context drifted to 262144, stalled | 23.1 tok/s | HF GGUF |
+| GPT OSS 20B | `ProviderModelNotFoundError` | 78.3 tok/s | HF GGUF |
+| Qwen 3 32B | ran but too slow (7.96 tok/s) | 11.7 tok/s | same Ollama GGUF |
+| Qwen 3 Coder 30B | ran but too slow (6.59 tok/s) | 72.9 tok/s | same Ollama GGUF |
 
-In practice, the current reliable local path is to favor the built-in Ollama model IDs that already exist in `~/.config/opencode/opencode.json`, then use the benchmark-local config only to narrow context and permissions.
+### Key differences
+
+**Reliability.** The core problem with Ollama was unpredictable model lifecycle behavior during long autonomous runs. Models would silently unload mid-session, ignore requested context sizes, or fail to stream the first token after a successful preload. llama-swap runs each model as a dedicated llama.cpp process with fixed configuration, so what works in preflight works in the benchmark.
+
+**Context management.** Ollama required per-request `num_ctx` negotiation, and the benchmark harness had to probe context sizes during warmup, maintain a fallback cascade, and still sometimes saw Ollama revert to default context mid-run. llama-swap configures context per model in the server config file. The benchmark harness does not need to negotiate context at all — it just sends a preload request and gets back a pass/fail.
+
+**Model lifecycle.** Ollama required explicit unload requests (`keep_alive: 0`) that were flaky — models sometimes stayed resident and interfered with the next run. llama-swap automatically unloads the current model when a different one is requested. The benchmark's unload step is a no-op.
+
+**Model format.** Several models that failed as Ollama-native entries work fine as HuggingFace GGUF downloads. The bf16 variants that Ollama struggled with (Gemma 4, GLM 4.7 Flash) load correctly as Q8 quantized GGUFs under llama-swap, and often run faster because they fit entirely in GPU memory.
+
+**Integration cost.** Ollama has tighter opencode integration — model IDs in the opencode config map directly to Ollama's registry. llama-swap requires a separate `llama_swap_model` field in `config/models.json` to map between the opencode model ID and the llama-swap model name. This is a minor config inconvenience.
+
+### Running with each backend
+
+Ollama (original, less reliable for long runs):
+
+```bash
+python scripts/run_benchmark.py --model qwen3_32b
+```
+
+llama-swap (recommended for local models):
+
+```bash
+python scripts/run_benchmark.py \
+  --local-backend llama-swap \
+  --local-api-base http://192.168.0.90:11435 \
+  --model gemma4_31b \
+  --model glm_4_7_flash_bf16 \
+  --model llama4_scout \
+  --model qwen3_32b \
+  --model qwen3_coder_next \
+  --model qwen3_5_35b \
+  --model qwen3_5_122b \
+  --model gpt_oss_20b
+```
+
+### Known llama-swap limits
+
+- `llama4:scout` required reducing context from default to 204800 to fit in GPU memory. The 64 GB HF GGUF is near the hardware limit.
+- `nemotron_cascade_2` was removed from the llama-swap server config. It can be re-added if a suitable GGUF becomes available.
+- Reasoning models (`qwen3.5:35b`, some Qwen 3 variants) emit output in `reasoning_content` instead of `content`. This works with opencode but may affect token counting in the benchmark report.
