@@ -22,6 +22,7 @@
       "provider": "ollama",
       "skip_by_default": true,
       "benchmark_context_override": 98304,
+      "llama_swap_model": "gemma4:31b",
       "selection_reason": "Hosted locally and is the largest Gemma 4 variant exposed by opencode. Skipped by default until the provider load issue is resolved."
     },
     {
@@ -31,6 +32,7 @@
       "provider": "ollama",
       "skip_by_default": true,
       "benchmark_context_override": 100000,
+      "llama_swap_model": "glm-4.7-flash:bf16",
       "selection_reason": "Added back as a local benchmark target after increasing server swap. Skipped by default because observed throughput is too low to be practical on current hardware."
     },
     {
@@ -39,6 +41,7 @@
       "label": "Llama 4 Scout",
       "provider": "ollama",
       "skip_by_default": true,
+      "llama_swap_model": "llama4:scout",
       "selection_reason": "Requested local model family; exact hosted variant available through opencode. Skipped by default because Ollama unloads or goes idle before the benchmark run can begin reliably."
     },
     {
@@ -46,6 +49,7 @@
       "id": "ollama/qwen/qwen3-32b",
       "label": "Qwen 3 32B",
       "provider": "ollama",
+      "llama_swap_model": "qwen3:32b",
       "selection_reason": "Requested local model family; exact hosted variant available through opencode. Superseded by the Qwen 3.5 line for future local benchmarking. Skipped by default after benchmark preview averaged 7.96 output tok/s over the first 3 steps (< 20.00).",
       "skip_by_default": true
     },
@@ -54,6 +58,7 @@
       "id": "ollama/qwen/qwen3-coder-next",
       "label": "Qwen 3 Coder Next",
       "provider": "ollama",
+      "llama_swap_model": "qwen3-coder-next:latest",
       "selection_reason": "Best direct coding-oriented local Qwen variant matching the original benchmark brief. Skipped by default after benchmark preview measured 6.59 output tok/s (< 20.00).",
       "skip_by_default": true
     },
@@ -63,6 +68,7 @@
       "label": "Qwen 3.5 35B",
       "provider": "ollama",
       "skip_by_default": true,
+      "llama_swap_model": "qwen3.5:35b",
       "selection_reason": "Requested local model family; exact hosted variant available through opencode. Skipped by default because the current benchmark pass is restricted to OpenRouter models that previously completed successfully."
     },
     {
@@ -72,6 +78,7 @@
       "provider": "ollama",
       "selection_reason": "Largest requested local Qwen 3.5 variant hosted on the Ollama server. Skipped by default because opencode repeatedly stalls before first output and Ollama drifts back to 262144 context during the run.",
       "benchmark_context_override": 150000,
+      "llama_swap_model": "qwen3.5:122b",
       "skip_by_default": true
     },
     {
@@ -80,6 +87,7 @@
       "label": "GPT OSS 20B",
       "provider": "ollama",
       "skip_by_default": true,
+      "llama_swap_model": "gpt-oss:20b",
       "selection_reason": "Added as a local Ollama GPT OSS baseline for later warmup and benchmark testing."
     },
     {
@@ -89,6 +97,7 @@
       "provider": "ollama",
       "skip_by_default": true,
       "ollama_model_name": "nemotron-cascade-2:latest",
+      "llama_swap_model": "nemotron-cascade-2:latest",
       "ollama_limit_context": 262144,
       "ollama_limit_output": 32768,
       "ollama_tool_call": true,
@@ -171,6 +180,27 @@
       "label": "MiniMax M2.7",
       "provider": "openrouter",
       "selection_reason": "Chosen as the largest/latest MiniMax variant listed by OpenRouter locally."
+    },
+    {
+      "slug": "deepseek_v3_2",
+      "id": "openrouter/deepseek/deepseek-v3.2",
+      "label": "DeepSeek V3.2",
+      "provider": "openrouter",
+      "selection_reason": "Latest DeepSeek model on OpenRouter. Input $0.26/M, output $0.38/M."
+    },
+    {
+      "slug": "step_3_5_flash",
+      "id": "openrouter/stepfun/step-3.5-flash",
+      "label": "Step 3.5 Flash",
+      "provider": "openrouter",
+      "selection_reason": "StepFun Step 3.5 Flash on OpenRouter. Input $0.10/M, output $0.30/M."
+    },
+    {
+      "slug": "claude_sonnet_4_6",
+      "id": "openrouter/anthropic/claude-sonnet-4.6",
+      "label": "Claude Sonnet 4.6",
+      "provider": "openrouter",
+      "selection_reason": "Anthropic Claude Sonnet 4.6 on OpenRouter. Input $3.00/M, output $15.00/M."
     }
   ]
 }

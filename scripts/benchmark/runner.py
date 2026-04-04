@@ -523,17 +523,26 @@ def _ensure_local_model_ready(
     bench: BenchmarkConfig,
 ) -> tuple[bool, str]:
     """Run preflight for a local model using the configured backend."""
+    from benchmark.backends import LlamaSwapBackend
+
     if bench.backend is None:
         print_line(f"[{model['slug']}] preflight skipped: no local backend configured")
         return True, "preflight skipped: no local backend configured"
 
+    if isinstance(bench.backend, LlamaSwapBackend):
+        # llama-swap uses its own model names (e.g. "qwen3:32b"), not Ollama IDs.
+        # Context is configured server-side, so context_limit is irrelevant.
+        target_model = model.get("llama_swap_model")
+        if not target_model:
+            print_line(f"[{model['slug']}] preflight skipped: no llama_swap_model configured")
+            return False, "no llama_swap_model configured for this model"
+        return bench.backend.ensure_model_ready(target_model, model["slug"], context_limit=None)
+
+    # Ollama path: resolve model name and context from opencode config
     target_model = resolve_ollama_model_name(model["id"], bench.opencode_config_path)
     context_limit = resolve_ollama_context_limit(model["id"], bench.opencode_config_path)
-
     if not target_model:
-        # For llama-swap, the model name in the config IS the name to request.
-        # Fall back to the model slug or the raw ID suffix.
-        target_model = model.get("llama_swap_model") or model["id"].split("/", 1)[-1]
+        target_model = model.get("ollama_model_name") or model["id"].split("/", 1)[-1]
 
     return bench.backend.ensure_model_ready(target_model, model["slug"], context_limit)
 

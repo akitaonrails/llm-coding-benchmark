@@ -30,10 +30,17 @@ def _post_json(url: str, payload: dict[str, Any], timeout: float) -> dict[str, A
         with urllib.request.urlopen(request, timeout=timeout) as response:
             return json.loads(response.read().decode("utf-8"))
     except urllib.error.HTTPError as error:
+        body = ""
         try:
-            return json.loads(error.read().decode("utf-8"))
-        except (OSError, json.JSONDecodeError):
-            return {"error": f"http_error:{error.code}"}
+            body = error.read().decode("utf-8", errors="replace")
+        except OSError:
+            pass
+        try:
+            return json.loads(body)
+        except (json.JSONDecodeError, ValueError):
+            # Plain text error (e.g. llama-swap 502)
+            message = body.strip()[:200] if body.strip() else f"http_error:{error.code}"
+            return {"error": message}
     except (OSError, TimeoutError, urllib.error.URLError, json.JSONDecodeError):
         return None
 
@@ -109,18 +116,16 @@ class LocalModelBackend(ABC):
         context_limit: int | None = None,
     ) -> tuple[bool, str]:
         """Unload other models, then try to preload the target at available context sizes."""
-        current = self.list_active()
-        if current is None:
+        if not self.health_check():
             print_line(f"[{model_slug}] preflight skipped: unable to reach {self.backend_name}")
             return True, f"preflight skipped: unable to reach {self.backend_name}"
 
+        current = self.list_active()
         if current:
-            print_line(f"[{model_slug}] unloading: {', '.join(current)}")
+            print_line(f"[{model_slug}] currently loaded: {', '.join(current)}")
             for name in current:
                 if self.unload(name):
                     print_line(f"[{model_slug}] unloaded {name}")
-                else:
-                    print_line(f"[{model_slug}] unload may have failed for {name}")
 
         last_message = "unknown preflight failure"
         for candidate_context in self.preflight_context_candidates(context_limit):
@@ -128,7 +133,7 @@ class LocalModelBackend(ABC):
             print_line(f"[{model_slug}] preloading: {model_name}{ctx_str}")
             ok, message = self.preload(model_name, candidate_context)
             if ok:
-                print_line(f"[{model_slug}] preload ok: {model_name}{ctx_str}")
+                print_line(f"[{model_slug}] preload ok: {model_name}{ctx_str} — {message}")
                 return True, message
             last_message = message
             print_line(f"[{model_slug}] preload failed: {model_name}{ctx_str}: {message}")
@@ -195,13 +200,14 @@ class OllamaBackend(LocalModelBackend):
 
 
 class LlamaSwapBackend(LocalModelBackend):
-    """llama-swap backend using OpenAI-compatible /v1/* endpoints."""
+    """llama-swap backend using OpenAI-compatible /v1/* endpoints and /running status."""
 
     @property
     def backend_name(self) -> str:
         return "llama-swap"
 
-    def list_active(self) -> list[str] | None:
+    def list_available(self) -> list[str] | None:
+        """Return all model IDs configured in llama-swap."""
         payload = _get_json(_api_url(self.api_base, "/v1/models"), timeout=3.0)
         if not payload:
             return None
@@ -210,22 +216,25 @@ class LlamaSwapBackend(LocalModelBackend):
             return []
         return [item["id"] for item in data if isinstance(item, dict) and isinstance(item.get("id"), str)]
 
+    def list_active(self) -> list[str] | None:
+        """Return currently loaded/running model names via /running endpoint."""
+        payload = _get_json(_api_url(self.api_base, "/running"), timeout=3.0)
+        if not payload:
+            return None
+        running = payload.get("running")
+        if not isinstance(running, list):
+            return []
+        return [item["model"] for item in running if isinstance(item, dict) and isinstance(item.get("model"), str)]
+
     def unload(self, model: str) -> bool:
-        # llama-swap manages model lifecycle automatically.
-        # Requesting a different model unloads the current one.
-        # An explicit unload can be done via the upstream endpoint if available,
-        # but for most setups this is a no-op.
-        response = _post_json(
-            _api_url(self.api_base, "/unload"),
-            {"model": model},
-            timeout=30.0,
-        )
-        # If the endpoint doesn't exist, that's fine — llama-swap handles it.
-        return True if response is None else bool(response)
+        # llama-swap manages model lifecycle automatically —
+        # requesting a different model unloads the current one.
+        # There is no explicit unload endpoint; this is always a no-op.
+        return True
 
     def preload(self, model: str, context: int | None = None) -> tuple[bool, str]:
-        # llama-swap context is configured server-side, not per-request.
-        # We just send a small completion to trigger model loading.
+        # llama-swap context is configured server-side per model, not per-request.
+        # A small completion request triggers the model to load.
         payload: dict[str, Any] = {
             "model": model,
             "messages": [{"role": "user", "content": "ping"}],
@@ -237,17 +246,22 @@ class LlamaSwapBackend(LocalModelBackend):
             timeout=PREFLIGHT_TIMEOUT_SECONDS,
         )
         if not response:
-            return False, "no response from llama-swap"
-        if response.get("error"):
+            return False, "no response from llama-swap (model may have failed to load)"
+        if isinstance(response.get("error"), (str, dict)):
             error = response["error"]
             message = error.get("message", str(error)) if isinstance(error, dict) else str(error)
             return False, message
         if response.get("choices"):
-            return True, "preload ok"
+            tps = None
+            timings = response.get("timings")
+            if isinstance(timings, dict):
+                tps = timings.get("predicted_per_second")
+            suffix = f" ({tps:.1f} tok/s)" if tps else ""
+            return True, f"preload ok{suffix}"
         return False, "unexpected preload response"
 
     def health_check(self) -> bool:
-        return _get_json(_api_url(self.api_base, "/v1/models"), timeout=3.0) is not None
+        return _get_json(_api_url(self.api_base, "/running"), timeout=3.0) is not None
 
 
 BACKEND_TYPES: dict[str, type[LocalModelBackend]] = {
