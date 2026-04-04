@@ -1,6 +1,6 @@
 # LLM Coding Benchmark
 
-This repository benchmarks autonomous coding runs against one fixed Rails application brief. It is built to compare a mix of local Ollama-hosted models and cloud models under the same prompt, collect normalized run metadata, and summarize the results in Markdown.
+This repository benchmarks autonomous coding runs against one fixed Rails application brief. It is built to compare a mix of local Ollama-hosted models and cloud models under the same prompt family, collect normalized run metadata, and summarize the results in Markdown.
 
 The benchmark runner currently uses:
 
@@ -10,18 +10,31 @@ opencode run --agent build --format json
 
 Each model run gets its own workspace under `results/<slug>/project`, plus raw `opencode` logs and a normalized `result.json`.
 
+The current successful path is a two-phase OpenRouter run:
+
+1. phase 1 builds the Rails app
+2. phase 2 continues the same session and validates local boot, `docker build`, and `docker compose up --build`
+
 ## What This Project Contains
 
 - `config/models.json`
   Benchmark model list, model slugs, provider IDs, and optional per-model benchmark overrides.
 - `prompts/benchmark_prompt.txt`
-  The single prompt used for every benchmark run.
+  Phase 1 implementation prompt used for every benchmark run.
+- `prompts/benchmark_followup_prompt.txt`
+  Phase 2 validation prompt used for OpenRouter continuation runs.
 - `scripts/warmup_ollama_models.py`
   Verifies that the local Ollama models can actually load at useful context windows.
 - `scripts/run_benchmark.py`
   Runs the benchmark, writes per-model outputs, and rebuilds `docs/report.md`.
+- `scripts/analyze_results_runtime.py`
+  Post-run validator that can try to boot generated projects locally, with Docker, and in a browser.
+- `scripts/browser_probe.mjs`
+  Headless Chromium helper used by the runtime validator.
 - `config/opencode.benchmark.json`
   Generated local `opencode` config used only for benchmark runs.
+- `llama.md`
+  Notes on replacing Ollama with `llama.cpp` or other OpenAI-compatible local servers.
 - `results/`
   Per-model artifacts and warmup output JSON.
 - `docs/report.md`
@@ -33,11 +46,12 @@ Each model run gets its own workspace under `results/<slug>/project`, plus raw `
 
 Recommended order:
 
-1. Run the Ollama warmup first.
+1. Run the Ollama warmup first if you intend to benchmark local models.
 2. Inspect or override any fragile local model context settings.
 3. Generate the local benchmark `opencode` config.
 4. Run the full benchmark or a subset.
-5. Rebuild the report from saved artifacts whenever needed.
+5. For OpenRouter runs, let the harness continue into the second validation prompt before treating the run as final.
+6. Rebuild the report from saved artifacts whenever needed.
 
 ## Warmup
 
@@ -112,11 +126,17 @@ That will regenerate `config/opencode.benchmark.json` from the current model con
 
 ## Run The Benchmark
 
-Run everything:
+Run everything currently enabled by default:
 
 ```bash
 python scripts/run_benchmark.py
 ```
+
+At the moment, the default set is the OpenRouter subset that finished cleanly in the last fresh rerun:
+
+- `claude_opus_4_6`
+- `kimi_k2_5`
+- `minimax_m2_7`
 
 Run one or more specific models:
 
@@ -176,6 +196,14 @@ Each model run writes to `results/<slug>/`:
   Raw JSON event stream from `opencode`.
 - `opencode-stderr.log`
   Raw stderr from the `opencode` process.
+- `followup-prompt.txt`
+  The second-phase validation prompt for OpenRouter continuation runs.
+- `followup-opencode-output.ndjson`
+  Raw JSON event stream from the second-phase continuation.
+- `followup-opencode-stderr.log`
+  Raw stderr from the second-phase continuation.
+- `session-export.json`
+  Exported `opencode` session snapshot when available.
 - `result.json`
   Normalized metadata used by the consolidated report.
 
@@ -221,11 +249,38 @@ This harness assumes:
 
 The benchmark uses your installed provider credentials indirectly through that source config, but the benchmark execution itself points `opencode` at the generated local config file.
 
+## Latest Fresh Rerun
+
+The last clean rerun after resetting `results/` executed only the currently trusted OpenRouter set, using the two-phase prompt flow. All three completed successfully:
+
+| Model | Status | Elapsed (s) | Files | Notes |
+| --- | --- | ---: | ---: | --- |
+| Claude Opus 4.6 | completed | 970.51 | 1536 | Two-phase run completed and the generated workspace matched the target app shape. |
+| Kimi K2.5 | completed | 1738.77 | 3405 | Two-phase run completed and produced the largest project tree in the rerun. |
+| MiniMax M2.7 | completed | 847.23 | 100 | Two-phase run completed cleanly and was the fastest successful rerun. |
+
+Additional notes from that rerun:
+
+- all three fresh reruns finished with `finish_reason: stop`
+- all three recorded `phases: 2`
+- the harness attempted to export the final `opencode` session, but `session_exported` remained `false` in all three saved `result.json` files
+- `docs/report.md` reflects this fresh rerun snapshot
+
 ## Notes
 
 - Warmup success does not guarantee full benchmark success. It only proves the model can load and answer a small prompt at a given context size.
 - A model can still fail later during benchmark preflight, tool use, package installation, or long-context generation.
 - If a local model is unstable near its verified maximum, prefer a conservative `benchmark_context_override`.
+- If a benchmark or debug retry gets stuck, kill any stale `run_benchmark.py` or `opencode` process before retrying. Lingering workers can keep a remote Ollama model resident and make unload behavior misleading.
+
+## What We Learned
+
+- The most reliable benchmark path in this repo today is OpenRouter plus the two-phase continuation flow.
+- The follow-up prompt materially improved run quality because it forced models to validate boot, Docker build, and Compose startup instead of stopping after code generation.
+- `opencode` can continue an existing session for the second prompt, and that works well enough for the benchmark harness.
+- The `opencode export` step is still flaky in this environment. The run metadata captures the session ID, but the exported JSON snapshot was not emitted in the latest successful reruns.
+- Local Ollama runs are still useful for warmup experiments, but not reliable enough for unattended coding benchmarks on this hardware.
+- If local serving matters, a direct OpenAI-compatible server such as `llama.cpp` or LM Studio is the better next path to test than trying to push further on the current Ollama setup.
 
 ## Known Local Model Limits
 
