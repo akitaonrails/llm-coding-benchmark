@@ -206,6 +206,8 @@ def stream_process_output(
     preview_gate_decided = False
     terminal_stop_seen_at: float | None = None
     terminal_stop_grace_seconds = 5.0
+    consecutive_error_events = 0
+    error_loop_threshold = 5
 
     def _make_result(timed_out: bool, stalled: bool, stall_reason: str | None) -> StreamResult:
         return StreamResult(
@@ -246,15 +248,54 @@ def stream_process_output(
                     stdout_chunks.append(chunk)
                     stdout_file.write(chunk)
                     stdout_file.flush()
-                    last_activity = now
                     stripped = chunk.strip()
                     if stripped:
                         try:
                             event = json.loads(stripped)
                         except json.JSONDecodeError:
+                            last_activity = now
+                            consecutive_error_events = 0
                             last_event_message = f"stdout: {shorten_text(stripped)}"
                             last_activity_detail = last_event_message
                         else:
+                            is_error_event = (
+                                event.get("part", {}).get("type") == "error"
+                                or event.get("type") == "error"
+                            )
+                            if is_error_event:
+                                consecutive_error_events += 1
+                                error_detail = (
+                                    event.get("part", {}).get("error")
+                                    or event.get("part", {}).get("message")
+                                    or event.get("error")
+                                    or "unknown"
+                                )
+                                if isinstance(error_detail, dict):
+                                    error_detail = error_detail.get("message", str(error_detail))
+                                description = f"error: {shorten_text(str(error_detail))}"
+                                last_event_message = description
+                                last_activity_detail = description
+                                if consecutive_error_events <= 2:
+                                    print_line(f"[{model_slug}] {description}")
+                                elif consecutive_error_events == error_loop_threshold:
+                                    print_line(
+                                        f"[{model_slug}] {consecutive_error_events} consecutive error events, suppressing further output"
+                                    )
+                                if consecutive_error_events >= error_loop_threshold:
+                                    kill_process_group(process)
+                                    stall_reason = (
+                                        f"error loop: {consecutive_error_events} consecutive error events; "
+                                        f"last error: {shorten_text(str(error_detail), 200)}"
+                                    )
+                                    print_line(f"[{model_slug}] {stall_reason}")
+                                    return _make_result(False, True, stall_reason)
+                                # Don't refresh last_activity for error events —
+                                # let the no-progress timeout catch lingering errors
+                                # that stay below the loop threshold.
+                            else:
+                                last_activity = now
+                                consecutive_error_events = 0
+
                             session_id = session_id or event.get("sessionID")
                             if event.get("type") == "step_start":
                                 terminal_stop_seen_at = None
@@ -299,11 +340,12 @@ def stream_process_output(
                                             )
                                             print_line(f"[{model_slug}] {slow_reason}")
                                             return _make_result(False, True, slow_reason)
-                            description = describe_event(event)
-                            if description:
-                                last_event_message = description
-                                last_activity_detail = description
-                                print_line(f"[{model_slug}] {description}")
+                            if not is_error_event:
+                                description = describe_event(event)
+                                if description:
+                                    last_event_message = description
+                                    last_activity_detail = description
+                                    print_line(f"[{model_slug}] {description}")
                 else:
                     stderr_chunks.append(chunk)
                     stderr_file.write(chunk)
