@@ -518,6 +518,34 @@ def run_opencode_phase(
     return payload
 
 
+def _evict_competing_backend(bench: BenchmarkConfig, model_slug: str) -> None:
+    """Unload models from the other backend to free GPU memory.
+
+    Ollama and llama-swap share the same GPU on 192.168.0.90, so before
+    using one backend we need to make sure the other has released VRAM.
+    """
+    from benchmark.backends import LlamaSwapBackend, OllamaBackend, create_backend
+    from benchmark.config import load_opencode_ollama_api_base
+
+    if bench.backend is None:
+        return
+
+    if isinstance(bench.backend, LlamaSwapBackend):
+        # Evict Ollama models before using llama-swap
+        ollama_base = load_opencode_ollama_api_base()
+        if ollama_base:
+            ollama = OllamaBackend(ollama_base)
+            active = ollama.list_active()
+            if active:
+                print_line(f"[{model_slug}] evicting Ollama models to free GPU: {', '.join(active)}")
+                ollama.unload_all()
+    elif isinstance(bench.backend, OllamaBackend):
+        # Evict llama-swap models before using Ollama
+        # llama-swap auto-evicts on TTL, but we can trigger it by checking /running
+        # There's no explicit unload, so this is best-effort.
+        pass
+
+
 def _ensure_local_model_ready(
     model: dict[str, Any],
     bench: BenchmarkConfig,
@@ -528,6 +556,9 @@ def _ensure_local_model_ready(
     if bench.backend is None:
         print_line(f"[{model['slug']}] preflight skipped: no local backend configured")
         return True, "preflight skipped: no local backend configured"
+
+    # Free GPU from the competing backend before loading
+    _evict_competing_backend(bench, model["slug"])
 
     if isinstance(bench.backend, LlamaSwapBackend):
         # llama-swap uses its own model names (e.g. "qwen3:32b"), not Ollama IDs.

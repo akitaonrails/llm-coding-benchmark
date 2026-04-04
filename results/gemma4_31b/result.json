@@ -1,0 +1,60 @@
+{
+  "assistant_output_excerpt": "",
+  "command": [],
+  "elapsed_seconds": 0.0,
+  "ended_at": "2026-04-04T12:46:17+00:00",
+  "exit_code": null,
+  "finish_reason": null,
+  "model": {
+    "benchmark_context_override": 98304,
+    "id": "ollama/google/gemma4-31b-it-bf16",
+    "label": "Gemma 4 31B",
+    "llama_swap_model": "gemma4:27b",
+    "provider": "ollama",
+    "selection_reason": "Hosted locally and is the largest Gemma 4 variant exposed by opencode. Skipped by default until the provider load issue is resolved.",
+    "skip_by_default": true,
+    "slug": "gemma4_31b"
+  },
+  "no_progress_timeout_seconds": 360,
+  "opencode_session_id": null,
+  "output_tokens_per_second": null,
+  "paths": {
+    "opencode_config": "config/opencode.benchmark.local.json",
+    "project_dir": "results/gemma4_31b/project",
+    "prompt": "results/gemma4_31b/prompt.txt",
+    "stderr": "results/gemma4_31b/opencode-stderr.log",
+    "stdout": "results/gemma4_31b/opencode-output.ndjson"
+  },
+  "phases": [],
+  "preflight_error": "unable to start process: upstream command exited prematurely but successfully",
+  "preview_output_tokens_per_second": null,
+  "preview_output_tokens_per_second_average": null,
+  "project_summary": {
+    "file_count": 0,
+    "present": {
+      "app_dir": false,
+      "compose_yaml": false,
+      "compose_yml": false,
+      "docker_compose_yaml": false,
+      "docker_compose_yml": false,
+      "dockerfile": false,
+      "gemfile": false,
+      "javascript_dir": false,
+      "readme_lower": false,
+      "readme_md": false,
+      "routes": false,
+      "tests_dir": false,
+      "views_dir": false
+    },
+    "works_as_intended": "no",
+    "works_note": "Project directory is empty."
+  },
+  "prompt_sha256": "d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c",
+  "started_at": "2026-04-04T12:46:11+00:00",
+  "status": "failed",
+  "stderr_excerpt": "",
+  "timed_out": false,
+  "timeout_seconds": 5400,
+  "tokens": {},
+  "tokens_per_second": null
+}

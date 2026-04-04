@@ -292,6 +292,8 @@ def model_enables_followup(model: dict[str, Any]) -> bool:
 def prepare_local_opencode_config(
     models: list[dict[str, Any]],
     warmup_payload: dict[str, Any] | None,
+    local_api_base: str | None = None,
+    local_backend_type: str | None = None,
 ) -> tuple[dict[str, Any] | None, dict[str, Any]]:
     summary: dict[str, Any] = {
         "configured": [],
@@ -310,6 +312,7 @@ def prepare_local_opencode_config(
         summary["skipped_reason"] = "opencode config has no provider map"
         return None, summary
 
+    using_llama_swap = local_backend_type == "llama-swap"
     warmup_results = warmup_payload.get("results_by_slug", {}) if warmup_payload else {}
     local_config: dict[str, Any] = {
         "$schema": source_config.get("$schema", "https://opencode.ai/config.json"),
@@ -338,6 +341,14 @@ def prepare_local_opencode_config(
         source_ollama_models = {}
         local_ollama_models = {}
 
+    # Override the ollama provider baseURL when using llama-swap
+    if using_llama_swap and local_api_base and local_ollama_provider is not None:
+        api_url = local_api_base.rstrip("/")
+        if not api_url.endswith("/v1"):
+            api_url += "/v1"
+        local_ollama_provider.setdefault("options", {})["baseURL"] = api_url
+        summary["baseURL_override"] = api_url
+
     for model in models:
         if model.get("provider") != "ollama":
             continue
@@ -356,17 +367,25 @@ def prepare_local_opencode_config(
 
         local_entry = clone_json(config_entry)
         local_entry = apply_ollama_model_overrides(local_entry, model)
+
+        # When using llama-swap, override the model ID to the llama-swap name
+        llama_swap_name = model.get("llama_swap_model")
+        if using_llama_swap and llama_swap_name:
+            local_entry["id"] = llama_swap_name
+
         chosen_context = None
-        if isinstance(override_context, int) and override_context > 0:
-            chosen_context = override_context
-        elif isinstance(verified_context, int) and verified_context > 0:
-            chosen_context = verified_context
+        if not using_llama_swap:
+            # Context negotiation only matters for Ollama; llama-swap manages it server-side
+            if isinstance(override_context, int) and override_context > 0:
+                chosen_context = override_context
+            elif isinstance(verified_context, int) and verified_context > 0:
+                chosen_context = verified_context
 
         if chosen_context is not None:
             local_entry.setdefault("limit", {})["context"] = chosen_context
             source_label = "override" if isinstance(override_context, int) and override_context > 0 else "warmup"
             summary["configured"].append(f"{model['slug']}={chosen_context} ({source_label})")
-        else:
+        elif not using_llama_swap:
             summary["missing_warmup"].append(model["slug"])
 
         local_ollama_models[model_key] = local_entry
@@ -398,8 +417,12 @@ def write_local_opencode_config(
     path: Path,
     models: list[dict[str, Any]],
     warmup_payload: dict[str, Any] | None,
+    local_api_base: str | None = None,
+    local_backend_type: str | None = None,
 ) -> dict[str, Any]:
-    local_config, summary = prepare_local_opencode_config(models, warmup_payload)
+    local_config, summary = prepare_local_opencode_config(
+        models, warmup_payload, local_api_base=local_api_base, local_backend_type=local_backend_type,
+    )
     if local_config is None:
         return summary
     save_json(path, local_config)
@@ -421,6 +444,9 @@ def print_local_opencode_config_summary(summary: dict[str, Any]) -> None:
         print_line(f"Local opencode benchmark config: {path}")
     if source:
         print_line(f"Local opencode benchmark config source: {source}")
+    base_override = summary.get("baseURL_override")
+    if base_override:
+        print_line(f"Ollama provider baseURL override: {base_override}")
     print_line("Local opencode benchmark permissions: yolo (auto-approve enabled)")
     if configured:
         print_line(f"Ollama benchmark contexts: {', '.join(configured)}")

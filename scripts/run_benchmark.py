@@ -7,7 +7,7 @@ import shutil
 import sys
 from pathlib import Path
 
-from benchmark.backends import create_backend
+from benchmark.backends import LocalModelBackend, OllamaBackend, create_backend
 from benchmark.config import (
     BenchmarkConfig,
     load_ollama_warmup_payload,
@@ -20,6 +20,26 @@ from benchmark.runner import run_model
 from benchmark.util import load_json, print_line
 
 DEFAULT_NO_PROGRESS_MINUTES = 6
+
+
+def _cleanup_backends(backend: LocalModelBackend | None, local_api_base: str | None) -> None:
+    """Unload models from both Ollama and llama-swap to free GPU after the benchmark."""
+    # Unload the active backend
+    if backend is not None:
+        active = backend.list_active()
+        if active:
+            print_line(f"Cleanup: unloading {backend.backend_name} models: {', '.join(active)}")
+            backend.unload_all()
+
+    # Also unload Ollama if we were using llama-swap (they share GPU)
+    if backend is not None and not isinstance(backend, OllamaBackend):
+        ollama_base = load_opencode_ollama_api_base()
+        if ollama_base:
+            ollama = OllamaBackend(ollama_base)
+            active = ollama.list_active()
+            if active:
+                print_line(f"Cleanup: unloading Ollama models: {', '.join(active)}")
+                ollama.unload_all()
 
 
 def parse_args() -> argparse.Namespace:
@@ -128,7 +148,10 @@ def main() -> int:
     warmup_payload = load_ollama_warmup_payload(warmup_path)
 
     if args.sync_ollama_contexts_only:
-        config_summary = write_local_opencode_config(opencode_config_path, selected_models, warmup_payload)
+        config_summary = write_local_opencode_config(
+            opencode_config_path, selected_models, warmup_payload,
+            local_api_base=args.local_api_base, local_backend_type=args.local_backend,
+        )
         print_local_opencode_config_summary(config_summary)
         return 0
 
@@ -141,7 +164,10 @@ def main() -> int:
         print_line(f"Local backend: {backend.backend_name} at {api_base}")
 
     if not args.report_only:
-        config_summary = write_local_opencode_config(opencode_config_path, selected_models, warmup_payload)
+        config_summary = write_local_opencode_config(
+            opencode_config_path, selected_models, warmup_payload,
+            local_api_base=args.local_api_base, local_backend_type=args.local_backend,
+        )
         print_local_opencode_config_summary(config_summary)
         opencode_override = opencode_config_path if config_summary.get("path") else None
 
@@ -169,6 +195,9 @@ def main() -> int:
         )
         for index, model in enumerate(selected_models, start=1):
             run_model(model, bench, index, total_models)
+
+        # Unload models from both backends to free GPU after the run
+        _cleanup_backends(backend, args.local_api_base)
 
     results = load_results(config, results_dir, warmup_payload)
     report_path.write_text(build_report(config, results, prompt, warmup_payload, warmup_path))
