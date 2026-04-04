@@ -22,7 +22,7 @@
       "provider": "ollama",
       "skip_by_default": true,
       "benchmark_context_override": 98304,
-      "llama_swap_model": "gemma4:31b",
+      "llama_swap_model": "gemma4:27b",
       "selection_reason": "Hosted locally and is the largest Gemma 4 variant exposed by opencode. Skipped by default until the provider load issue is resolved."
     },
     {
@@ -32,7 +32,7 @@
       "provider": "ollama",
       "skip_by_default": true,
       "benchmark_context_override": 100000,
-      "llama_swap_model": "glm-4.7-flash:bf16",
+      "llama_swap_model": "glm-4.7-flash:q8",
       "selection_reason": "Added back as a local benchmark target after increasing server swap. Skipped by default because observed throughput is too low to be practical on current hardware."
     },
     {
@@ -58,7 +58,7 @@
       "id": "ollama/qwen/qwen3-coder-next",
       "label": "Qwen 3 Coder Next",
       "provider": "ollama",
-      "llama_swap_model": "qwen3-coder-next:latest",
+      "llama_swap_model": "qwen3-coder:30b",
       "selection_reason": "Best direct coding-oriented local Qwen variant matching the original benchmark brief. Skipped by default after benchmark preview measured 6.59 output tok/s (< 20.00).",
       "skip_by_default": true
     },
