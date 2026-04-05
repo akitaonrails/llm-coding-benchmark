@@ -11,7 +11,7 @@ from typing import Any
 from benchmark.util import print_line
 
 
-PREFLIGHT_TIMEOUT_SECONDS = 45.0
+PREFLIGHT_TIMEOUT_SECONDS = 180.0
 PREFLIGHT_FALLBACK_CONTEXTS = [131072, 98304, 65536, 32768]
 
 

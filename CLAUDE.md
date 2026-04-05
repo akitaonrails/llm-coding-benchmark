@@ -89,5 +89,6 @@ Model slugs in `config/models.json` are used as directory names under `results/`
 - **Local backend selection:** `--local-backend ollama` (default) or `--local-backend llama-swap`. The backend handles preflight differently — Ollama uses `/api/generate` with `num_ctx`, llama-swap uses `/v1/chat/completions` (context is server-side config).
 - **Phase 2 follow-up** is controlled per-model via `enable_followup` in `config/models.json`. Defaults to enabled for cloud providers, disabled for local (ollama). Set `"enable_followup": true` on a local model to opt it in.
 - Result statuses: `completed`, `completed_with_errors`, `failed`, `timeout`, `not_run`.
-- Before retrying stuck benchmarks, kill stale `run_benchmark.py` and `opencode` processes — they can keep models resident on the server.
+- Before retrying stuck benchmarks, kill stale `run_benchmark.py` and `opencode` processes — they can keep models resident on the server and hold the opencode SQLite DB lock (`~/.local/share/opencode/opencode.db`), causing new opencode instances to hang silently. The runner now auto-kills stale opencode processes before each model run.
+- **llama.cpp tool calling:** Gemma 4 requires build b8665+ (PR #21418). Llama 4 Scout is incompatible (no pythonic parser). GLM and Qwen 3.5 need `--reasoning-format none` on the llama-server to avoid `reasoning_content` tokens.
 - All Python scripts use only stdlib (Python 3.10+ required for `X | None` union syntax).

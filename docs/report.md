@@ -1,15 +1,15 @@
 # Benchmark Report
 
-Generated at: 2026-04-04T14:35:54+00:00
+Generated at: 2026-04-05T02:42:07+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
 
 - `completed`: 9
 - `completed_with_errors`: 2
-- `failed`: 3
+- `failed`: 5
 - `timeout`: 0
-- `not_run`: 8
+- `not_run`: 6
 
 ## Runner
 
@@ -48,13 +48,13 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 
 | Model | Provider | Warmup ctx | Status | Elapsed (s) | Total tokens | Tok/s | Works? | Files | Notes |
 | --- | --- | ---: | --- | ---: | ---: | ---: | --- | ---: | --- |
-| Gemma 4 31B | ollama | - | failed | 361.43 | - | - | no | 0 | Exit code -15. Project directory is empty. |
-| GLM 4.7 Flash BF16 | ollama | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
+| Gemma 4 31B | ollama | - | failed | 361.42 | - | - | no | 0 | Exit code -15. Project directory is empty. |
+| GLM 4.7 Flash BF16 | ollama | - | failed | 361.68 | - | - | no | 0 | Exit code -15. Project directory is empty. |
 | Llama 4 Scout | ollama | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | Qwen 3 32B | ollama | - | failed | 421.58 | 14715 | 34.90 | no | 61 | Exit code -15. Generated files do not resemble the requested Rails project. |
 | Qwen 3 Coder Next | ollama | - | completed | 2193.12 | 84914 | 38.72 | yes | 1672 | Rails app, tests, README, and container files detected. |
 | Qwen 3.5 35B | ollama | - | completed_with_errors | 323.86 | 20388 | 62.95 | partial | 74 | Some expected benchmark artifacts exist, but the scaffold looks incomplete. |
-| Qwen 3.5 122B | ollama | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
+| Qwen 3.5 122B | ollama | - | failed | 361.42 | - | - | no | 0 | Exit code -15. Project directory is empty. |
 | GPT OSS 20B | ollama | - | completed_with_errors | 107.45 | 17824 | 165.88 | no | 81 | Generated files do not resemble the requested Rails project. |
 | Nemotron Cascade 2 | ollama | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | Claude Opus 4.6 | openrouter | - | completed | 970.51 | 136806 | 347.18 | yes | 1536 | Rails app, tests, README, and container files detected. |

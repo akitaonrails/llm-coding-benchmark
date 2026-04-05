@@ -23,7 +23,7 @@
       "skip_by_default": true,
       "benchmark_context_override": 98304,
       "llama_swap_model": "gemma4:27b",
-      "selection_reason": "Hosted locally and is the largest Gemma 4 variant exposed by opencode. Skipped by default until the provider load issue is resolved."
+      "selection_reason": "Hosted locally via llama-swap. Requires llama.cpp b8665+ for the dedicated Gemma 4 tool call parser (PR #21418). Skipped by default; re-enable for llama-swap benchmark runs."
     },
     {
       "slug": "glm_4_7_flash_bf16",
@@ -33,7 +33,7 @@
       "skip_by_default": true,
       "benchmark_context_override": 100000,
       "llama_swap_model": "glm-4.7-flash:q8",
-      "selection_reason": "Added back as a local benchmark target after increasing server swap. Skipped by default because observed throughput is too low to be practical on current hardware."
+      "selection_reason": "Hosted locally via llama-swap. Needs --jinja --reasoning-format none to suppress <think> tags in content. Tool calling works correctly with these flags."
     },
     {
       "slug": "llama4_scout",
@@ -42,7 +42,7 @@
       "provider": "ollama",
       "skip_by_default": true,
       "llama_swap_model": "llama4:scout",
-      "selection_reason": "Requested local model family; exact hosted variant available through opencode. Skipped by default because Ollama unloads or goes idle before the benchmark run can begin reliably."
+      "selection_reason": "Hosted locally via llama-swap. Skipped by default: llama.cpp has no parser for Llama 4's pythonic tool call format — model outputs tool calls as plain text content instead of structured tool_calls. Requires upstream llama.cpp support (similar to vLLM's llama4_pythonic parser)."
     },
     {
       "slug": "qwen3_32b",
@@ -76,7 +76,7 @@
       "id": "ollama/qwen/qwen3.5-122b",
       "label": "Qwen 3.5 122B",
       "provider": "ollama",
-      "selection_reason": "Largest requested local Qwen 3.5 variant hosted on the Ollama server. Skipped by default because opencode repeatedly stalls before first output and Ollama drifts back to 262144 context during the run.",
+      "selection_reason": "Hosted locally via llama-swap. Needs --reasoning-format none on llama-server to avoid reasoning_content tokens that some clients mishandle. Tool calling works correctly with Qwen chat template.",
       "benchmark_context_override": 150000,
       "llama_swap_model": "qwen3.5:122b",
       "skip_by_default": true

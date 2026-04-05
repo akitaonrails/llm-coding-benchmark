@@ -358,8 +358,26 @@ python scripts/run_benchmark.py \
 - **KV cache cold start.** llama-swap runs each model with `--ctx-size 0` (full default context). When a model is swapped in, the first request triggers KV cache allocation which can pin the GPU at 100% for 1–3 minutes before inference begins. This looks like a hang but is normal — the benchmark's 6-minute no-progress timeout accommodates it. Capping `--ctx-size` in the llama-swap server config would speed up model swaps but reduce available context.
 - `llama4:scout` required reducing context from default to 204800 to fit in GPU memory. The 64 GB HF GGUF is near the hardware limit.
 - `nemotron_cascade_2` was removed from the llama-swap server config. It can be re-added if a suitable GGUF becomes available.
-- Reasoning models (`qwen3.5:35b`, some Qwen 3 variants) emit output in `reasoning_content` instead of `content`. This works with opencode but may affect token counting in the benchmark report.
 - The opencode config must not include `permission` in the JSON file — opencode rejects it as invalid. Permissions are passed via the `OPENCODE_PERMISSION` environment variable at runtime instead.
 - The source opencode config (`~/.config/opencode/opencode.json`) may carry `reasoning: true` and `tool_call: true` flags on Ollama model entries that are incorrect for the llama-swap GGUF variant. The benchmark config generator now strips these flags for llama-swap models unless explicitly declared in `config/models.json`.
 - Ollama and llama-swap share the same GPU. The benchmark harness now evicts Ollama-resident models before starting a llama-swap run, and cleans up both backends after the benchmark finishes. Without this, large models fail to load with "upstream command exited prematurely" because the GPU is already occupied.
 - When running OpenRouter and llama-swap benchmarks in parallel, use separate opencode config files (`--opencode-config config/opencode.benchmark.local.json`) to avoid one run overwriting the other's generated config.
+
+### llama.cpp tool calling compatibility
+
+Tool calling through llama-server's OpenAI-compatible `/v1/chat/completions` endpoint depends on llama.cpp having a parser for each model's native tool call format. Not all models are supported:
+
+| Model | Tool calling | Required flags | Notes |
+|---|---|---|---|
+| **Gemma 4 27B** | Yes (b8665+) | `--jinja` | Requires llama.cpp b8665+ which added a dedicated `peg-gemma4` parser ([PR #21418](https://github.com/ggml-org/llama.cpp/pull/21418)). Older builds crash with "Failed to parse input at pos 13" on streaming tool calls. |
+| **GLM 4.7 Flash** | Yes | `--jinja --reasoning-format none` | Tool calling works correctly. `--reasoning-format none` prevents `reasoning_content` field; `<think>` tags appear in content but don't break the AI SDK. Without `--reasoning-format none`, the `reasoning_content` field is emitted which some clients ignore. |
+| **Qwen 3.5 (35B, 122B)** | Yes | `--jinja --reasoning-format none` | Same reasoning_content consideration as GLM. Tool calling uses the standard Qwen chat template which the autoparser handles natively. |
+| **Qwen 3 Coder (30B)** | Yes | `--jinja` | Code-focused model, tool calling works out of the box. |
+| **GPT OSS 20B** | Yes | `--jinja` | Standard tool calling format. |
+| **Llama 4 Scout** | No | — | llama.cpp has no parser for Llama 4's pythonic tool call format (`[func(param="value")]`). The model outputs tool calls as plain text in `content` with `finish_reason: "stop"`. Requires upstream llama.cpp support similar to vLLM's `llama4_pythonic` parser. |
+
+**Stale opencode processes.** When a benchmark run is killed or times out, opencode child processes can remain alive and hold a SQLite lock on `~/.local/share/opencode/opencode.db`. This causes all subsequent opencode instances to hang silently with zero output. Before re-running benchmarks, always kill stale processes:
+
+```bash
+pkill -f 'opencode.*run.*agent'
+```

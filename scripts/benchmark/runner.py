@@ -424,7 +424,7 @@ def run_opencode_phase(
     wall_start = time.monotonic()
     process_env = os.environ.copy()
     if bench.opencode_config_path is not None:
-        process_env["OPENCODE_CONFIG"] = str(bench.opencode_config_path)
+        process_env["OPENCODE_CONFIG"] = str(bench.opencode_config_path.resolve())
     process_env["OPENCODE_PERMISSION"] = json.dumps(OPENCODE_YOLO_PERMISSION, separators=(",", ":"))
     process = subprocess.Popen(
         command,
@@ -516,6 +516,54 @@ def run_opencode_phase(
     if result_path is not None:
         save_json(result_path, payload)
     return payload
+
+
+def _kill_stale_opencode_processes() -> None:
+    """Kill stale opencode run processes that may hold the SQLite DB lock.
+
+    When a benchmark run times out, the opencode child processes can survive
+    and keep a write lock on ~/.local/share/opencode/opencode.db, causing all
+    new opencode instances to hang silently with zero output.
+
+    opencode launches as npm→node→.opencode, so we need multiple patterns
+    to catch all layers of the process tree.
+    """
+    patterns = [
+        "opencode.*run.*--agent",
+        "opencode.*run.*--format",
+        r"opencode-ai/bin/\.opencode",
+    ]
+    our_pid = os.getpid()
+    our_ppid = os.getppid()
+    stale: list[int] = []
+
+    for pattern in patterns:
+        try:
+            result = subprocess.run(
+                ["pgrep", "-f", pattern],
+                capture_output=True, text=True, check=False,
+            )
+            pids = [int(p) for p in result.stdout.strip().split() if p.strip()]
+            stale.extend(p for p in pids if p not in (our_pid, our_ppid) and p not in stale)
+        except (OSError, ValueError):
+            continue
+
+    if not stale:
+        return
+
+    print_line(f"Killing {len(stale)} stale opencode process(es): {stale}")
+    for pid in stale:
+        try:
+            os.kill(pid, signal.SIGTERM)
+        except ProcessLookupError:
+            pass
+    time.sleep(2)
+    for pid in stale:
+        try:
+            os.kill(pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+    time.sleep(1)
 
 
 def _get_ollama_for_eviction() -> Any | None:
@@ -614,6 +662,8 @@ def run_model(model: dict[str, Any], bench: BenchmarkConfig, index: int, total: 
                 f"status={cached['status']} elapsed={format_value(cached.get('elapsed_seconds'))}s"
             )
             return cached
+
+    _kill_stale_opencode_processes()
 
     started_at = utc_now()
     print_line("")
@@ -725,7 +775,7 @@ def run_model(model: dict[str, Any], bench: BenchmarkConfig, index: int, total: 
 
     process_env = os.environ.copy()
     if bench.opencode_config_path is not None:
-        process_env["OPENCODE_CONFIG"] = str(bench.opencode_config_path)
+        process_env["OPENCODE_CONFIG"] = str(bench.opencode_config_path.resolve())
     process_env["OPENCODE_PERMISSION"] = json.dumps(OPENCODE_YOLO_PERMISSION, separators=(",", ":"))
     session_id = final_phase.get("opencode_session_id") or phase1.get("opencode_session_id")
     exported_session = (
