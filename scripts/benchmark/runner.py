@@ -403,6 +403,68 @@ def stream_process_output(
                 return _make_result(False, False, None)
 
 
+def _verify_opencode_config(
+    config_path: Path | None,
+    model: dict[str, Any],
+    model_slug: str,
+    project_dir: Path,
+) -> None:
+    """Verify the opencode config resolves correctly from the project cwd.
+
+    Guards against the relative-path bug where OPENCODE_CONFIG pointed at a
+    path that didn't exist from the opencode cwd, causing silent fallback to
+    the home config (wrong port / wrong model ID).
+    """
+    if config_path is None:
+        return
+    resolved = config_path.resolve()
+    if not resolved.exists():
+        raise RuntimeError(
+            f"[{model_slug}] OPENCODE_CONFIG does not exist: {resolved} "
+            f"(from project_dir={project_dir})"
+        )
+
+    if model.get("provider") != "ollama":
+        return
+
+    try:
+        config = json.loads(resolved.read_text())
+    except (OSError, json.JSONDecodeError) as exc:
+        print_line(f"[{model_slug}] WARNING: could not parse {resolved}: {exc}")
+        return
+
+    base_url = (
+        config.get("provider", {})
+        .get("ollama", {})
+        .get("options", {})
+        .get("baseURL", "")
+    )
+
+    # Check that the model entry exists in the config
+    model_key = model["id"]
+    if model_key.startswith("ollama/"):
+        model_key = model_key[len("ollama/"):]
+    models_map = config.get("provider", {}).get("ollama", {}).get("models", {})
+    entry = models_map.get(model_key)
+    if not entry:
+        print_line(
+            f"[{model_slug}] WARNING: model key '{model_key}' not found in "
+            f"opencode config {resolved} — opencode may fall back to the home config"
+        )
+
+    # If using llama-swap, verify baseURL points to the llama-swap port
+    llama_swap_model = model.get("llama_swap_model")
+    if llama_swap_model and entry:
+        config_model_id = entry.get("id", "")
+        if config_model_id != llama_swap_model:
+            print_line(
+                f"[{model_slug}] WARNING: config model id '{config_model_id}' "
+                f"doesn't match llama_swap_model '{llama_swap_model}'"
+            )
+
+    print_line(f"[{model_slug}] opencode config verified: {resolved} baseURL={base_url}")
+
+
 def run_opencode_phase(
     *,
     bench: BenchmarkConfig,
@@ -420,6 +482,7 @@ def run_opencode_phase(
     override_min_preview_tps: float | None = ...,  # sentinel
 ) -> dict[str, Any]:
     prompt_path.write_text(prompt)
+    _verify_opencode_config(bench.opencode_config_path, model, model_slug, project_dir)
     command = build_opencode_command(bench.runner, model["id"], prompt, continue_session_id=continue_session_id)
     wall_start = time.monotonic()
     process_env = os.environ.copy()
