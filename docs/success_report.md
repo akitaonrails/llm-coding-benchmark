@@ -302,10 +302,86 @@ MiniMax produced a clean-looking project that passes its own tests but would not
 - **Tests mock the broken API.** The test suite stubs `RubyLLM.chat` to match the service's (wrong) call signature, so tests pass despite the API being incorrect. This is a classic case of tests that verify internal consistency but not correctness.
 - **Where it excels:** Fastest completion (14 min), clean Tailwind dark theme, well-structured partials for messages and errors.
 
-### Verdict
+### Verdict on Sonnet vs Kimi vs MiniMax
 
 **Only Sonnet produces code that actually works.** Kimi and MiniMax both generate more test methods and more files, but the core functionality — the actual chat with the LLM — is broken in both. Kimi's streaming architecture is dead code because ActionCable is disabled. MiniMax calls a non-existent RubyLLM API.
 
-This reveals a critical limitation of benchmark metrics: **file count, test count, and artifact checklist do not measure whether the code actually works.** A model can score 9/9 on completeness, write 37 test methods, and still produce a non-functional application.
+---
 
-For practical use, Claude Sonnet 4.6 is the clear winner — not because it's the most ambitious, but because it makes correct architectural decisions (synchronous over broken streaming, session cookies over thread-unsafe in-memory storage) and produces code that runs without modification.
+## Does ANY Other Model's Code Actually Work?
+
+After finding that Kimi and MiniMax produced non-functional code despite passing all structural checks, we audited every remaining model's RubyLLM integration — the critical path that determines whether the chat actually works.
+
+The correct RubyLLM API is:
+```ruby
+chat = RubyLLM.chat(model: "anthropic/claude-sonnet-4")
+response = chat.ask("Hello")
+response.content  # => "Hi there!"
+```
+
+### Runtime Viability of All 11 Completed Models
+
+| Model | RubyLLM API Correct? | Would Run? | Tests Mock LLM? | Issue |
+|---|:---:|:---:|:---:|---|
+| **Claude Opus 4.6** | Yes | **Yes** | Yes (mocha) | Clean implementation |
+| **Claude Sonnet 4.6** | Yes | **Yes** | Yes (mocha) | Clean, minor duplicate const |
+| **GLM 5** | Yes | **Yes** | Yes (mocha) | Standard API, works |
+| **Step 3.5 Flash** | N/A | **Yes*** | No | Bypasses RubyLLM, uses raw `Net::HTTP` to OpenRouter API directly |
+| **Qwen 3.6 Plus** | Partial | **First msg only** | No | `chat.add_message()` doesn't exist — history replay crashes |
+| **Qwen 3.5 35B** | Partial | **Maybe** | No | `RubyLLM.chat` without model param — works only if default configured |
+| **Kimi K2.5** | No | **No** | No | `add_message()` and `complete()` don't exist in RubyLLM |
+| **MiniMax M2.7** | No | **No** | No | `RubyLLM.chat(model:, messages:)` signature doesn't exist |
+| **DeepSeek V3.2** | No | **No** | No | `RubyLLM::Client` class doesn't exist — immediate `NameError` |
+| **Qwen 3 Coder Next** | No | **No** | No | `RubyLLM::Client` class doesn't exist — immediate `NameError` |
+| **Qwen 3.5 122B** | No | **No** | No | `Openrouter::Client` gem doesn't exist — immediate `NameError` |
+
+*Step 3.5 Flash works by calling the OpenRouter REST API directly with `Net::HTTP`, completely bypassing the RubyLLM gem the prompt asked for.
+
+### What Went Wrong
+
+**7 out of 11 models invented non-existent APIs.** The most common failure mode was hallucinating an OpenAI-style client interface:
+
+- DeepSeek V3.2 and Qwen 3 Coder Next both invented `RubyLLM::Client.new` — a class that does not exist.
+- Qwen 3.5 122B invented an `Openrouter::Client` gem that does not exist at all.
+- Kimi K2.5 got the initial `RubyLLM.chat()` call right but invented `add_message()` and `complete()` methods.
+- MiniMax M2.7 invented a `RubyLLM.chat(messages: [...])` batch API that doesn't exist.
+- Qwen 3.6 Plus invented `chat.add_message()` for history replay.
+
+The models that got it right — both Claudes and GLM 5 — used the simple two-step pattern (`chat = RubyLLM.chat(model:)` then `chat.ask(message)`). The models that failed tried to make RubyLLM look like the OpenAI Python SDK, which it isn't.
+
+**Tests don't catch this.** Only the Anthropic models (Opus and Sonnet) and GLM 5 properly mocked the LLM calls in their tests. Every other model either hit the real API (which would fail without a key) or mocked the invented API (which passes tests but doesn't prove correctness). This is why test count alone is a misleading metric.
+
+### Revised Model Tiers
+
+Based on actual runtime viability, not just structural completeness:
+
+**Tier 1: Actually Works**
+| Model | Cost/Run | Time | Why |
+|---|---:|---:|---|
+| Claude Sonnet 4.6 | ~$0.63 | 16m | Correct API, proper mocking, clean architecture |
+| Claude Opus 4.6 | ~$1.05 | 16m | Correct API, proper mocking, streaming support |
+| GLM 5 | ~$0.11 | 17m | Correct API, proper mocking, 89% cheaper than Opus |
+
+**Tier 2: Works with Caveats**
+| Model | Cost/Run | Time | Caveat |
+|---|---:|---:|---|
+| Step 3.5 Flash | ~$0.02 | 38m | Bypasses RubyLLM entirely (raw HTTP). Functional but doesn't use the requested gem. |
+| Qwen 3.5 35B | Free | 28m | May work if RubyLLM default model is configured. No test mocking. |
+
+**Tier 3: Broken Core Functionality**
+| Model | Failure Mode |
+|---|---|
+| Kimi K2.5 | Invented `add_message()`/`complete()` methods |
+| MiniMax M2.7 | Invented `RubyLLM.chat(messages:)` batch signature |
+| Qwen 3.6 Plus | Invented `chat.add_message()` for history |
+| DeepSeek V3.2 | Invented `RubyLLM::Client` class |
+| Qwen 3 Coder Next | Invented `RubyLLM::Client` class |
+| Qwen 3.5 122B | Invented `Openrouter::Client` gem |
+
+### The Bottom Line
+
+**If you don't want to be locked to Anthropic, GLM 5 is the only viable plug-and-play alternative** — it uses the correct RubyLLM API, mocks properly in tests, completes in 17 minutes, and costs ~$0.11 per run (89% cheaper than Opus).
+
+Step 3.5 Flash works at runtime but cheats by bypassing RubyLLM. Everything else either crashes on startup or fails when you try to send a message.
+
+This reveals a critical limitation of benchmark metrics: **file count, test count, and artifact checklist do not measure whether the code actually works.** A model can score 9/9 on completeness, write 37 test methods, and still produce a non-functional application. The only reliable signal is whether the model correctly uses real APIs — and most models hallucinate API interfaces they've seen in training data rather than using the actual gem's API.
