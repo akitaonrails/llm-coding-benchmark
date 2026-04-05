@@ -31,8 +31,8 @@ The current successful path is a two-phase OpenRouter run:
   Post-run validator that can try to boot generated projects locally, with Docker, and in a browser.
 - `scripts/browser_probe.mjs`
   Headless Chromium helper used by the runtime validator.
-- `config/opencode.benchmark.json`
-  Generated local `opencode` config used only for benchmark runs.
+- `config/opencode.benchmark.json` / `config/opencode.benchmark.local.json`
+  Generated local `opencode` configs used only for benchmark runs. **Gitignored** — regenerated automatically.
 - `llama.md`
   Notes on replacing Ollama with `llama.cpp` or other OpenAI-compatible local servers.
 - `results/`
@@ -188,24 +188,14 @@ python scripts/run_benchmark.py \
 
 Each model run writes to `results/<slug>/`:
 
-- `project/`
-  The model's generated project workspace.
-- `prompt.txt`
-  The exact prompt used for that run.
-- `opencode-output.ndjson`
-  Raw JSON event stream from `opencode`.
-- `opencode-stderr.log`
-  Raw stderr from the `opencode` process.
-- `followup-prompt.txt`
-  The second-phase validation prompt for OpenRouter continuation runs.
-- `followup-opencode-output.ndjson`
-  Raw JSON event stream from the second-phase continuation.
-- `followup-opencode-stderr.log`
-  Raw stderr from the second-phase continuation.
-- `session-export.json`
-  Exported `opencode` session snapshot when available.
-- `result.json`
-  Normalized metadata used by the consolidated report.
+- `result.json` — Normalized metadata used by the consolidated report. **Committed to git.**
+- `phase1-result.json` / `phase2-result.json` — Per-phase raw result payloads. **Committed to git.**
+- `project/` — The model's generated project workspace. **Gitignored.**
+- `prompt.txt` — The exact prompt used for that run. **Gitignored.**
+- `opencode-output.ndjson` — Raw JSON event stream from `opencode`. **Gitignored** (may contain secrets from env captured in tool output).
+- `opencode-stderr.log` — Raw stderr from the `opencode` process. **Gitignored.**
+- `followup-*` — Second-phase continuation output. **Gitignored.**
+- `session-export.json` — Exported `opencode` session snapshot. **Gitignored.**
 
 Warmup writes:
 

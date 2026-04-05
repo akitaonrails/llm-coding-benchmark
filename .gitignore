@@ -1,7 +1,15 @@
 results/*/project/
+results/*/opencode-output.ndjson
+results/*/opencode-stderr.log
+results/*/followup-opencode-output.ndjson
+results/*/followup-opencode-stderr.log
+results/*/session-export.json
+results/*/session-export.stderr.log
+results/*/prompt.txt
 results/ollama_warmup.json
 tmp/
 config/opencode.benchmark.json
+config/opencode.benchmark.local.json
 __pycache__/
 *.pyc
 .ai-jail/
