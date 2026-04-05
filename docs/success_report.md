@@ -34,6 +34,7 @@ Cloud models ran a two-phase flow (phase 1: build, phase 2: validate boot/Docker
 | 9 | DeepSeek V3.2 | OpenRouter | 60m | 11 | Yes | Yes | Yes | 265L | Yes |
 | 10 | Qwen 3.5 122B | Local | 43m | 16 | No* | Yes | Yes | 167L | No |
 | 11 | Step 3.5 Flash | OpenRouter | 38m | 8 | No** | Yes | Yes | 103L | Yes |
+| 12 | Gemini 3.1 Pro | OpenRouter | 14m | 5 | Yes | Yes | Yes | ~100L | Yes |
 
 *Qwen 3.5 122B built a custom OpenRouter HTTP client instead of using the ruby_llm gem.
 **Step 3.5 Flash used `ruby-llm` (hyphenated) gem name variant.
@@ -114,6 +115,7 @@ The prompt explicitly required ruby_llm, brakeman, rubocop, simplecov, and bundl
 | GLM 5 | $0.72 | $2.30 | ~$0.11 | 89% cheaper |
 | Claude Sonnet 4.6 | $3.00 | $15.00 | ~$0.63 | 40% cheaper |
 | **Claude Opus 4.6** | $5.00 | $25.00 | ~$1.05 | Baseline |
+| Gemini 3.1 Pro | $2.00 | $12.00 | ~$0.50 | 52% cheaper |
 | GPT 5.4 Pro | $30.00 | $180.00 | ~$7.20 | 586% more |
 | Local models | $0.00 | $0.00 | Electricity only | Hardware cost |
 
@@ -123,6 +125,7 @@ The prompt explicitly required ruby_llm, brakeman, rubocop, simplecov, and bundl
 
 | Model | Phase 1 | Phase 2 | Total | vs Baseline |
 |---|---:|---:|---:|---|
+| Gemini 3.1 Pro | 10m | 3m | 14m | 13% faster |
 | MiniMax M2.7 | 12m | 2m | 14m | 13% faster |
 | Claude Opus 4.6 | 10m | 7m | 16m | Baseline |
 | Claude Sonnet 4.6 | 12m | 4m | 16m | Same |
@@ -163,7 +166,9 @@ Models with prompt caching (Anthropic, Step, MiniMax) use dramatically fewer inp
 
 | Model | Issue | Root Cause |
 |---|---|---|
-| **GPT 5.4 Pro** | Stalled after tool-calls, never reached `stop` | OpenAI's native function calling format is incompatible with opencode's tool schema. The model emits `finish_reason: tool-calls` but opencode can't process the response chain. Produced 1118 files but no docker-compose. Most expensive model at $7.20/run. |
+| **GPT 5.4 Pro** | Stalled after tool-calls, never reached `stop` | opencode's tool calling integration does not support OpenAI's native function calling format. The model emits `finish_reason: tool-calls` but opencode can't process the response chain. Produced 1118 files but no docker-compose. |
+
+**Note on GPT 5.4 Pro:** This failure is an **opencode tooling limitation**, not a model capability issue. GPT 5.4 Pro's function calling works correctly through OpenAI's native API and tooling (ChatGPT, Cursor, etc.). In the author's experience with other coding tools, GPT 5.4 Pro performs on par with Claude Opus 4.6 for autonomous coding tasks. It failed this benchmark solely because opencode's OpenRouter integration cannot handle OpenAI's tool calling response format. A fair comparison would require testing GPT 5.4 Pro through its native tooling (e.g., Codex CLI, ChatGPT Pro) rather than through an intermediary like OpenRouter. At $7.20/run through OpenRouter it is also prohibitively expensive — the ChatGPT Pro subscription ($200/month) would be far more cost-effective for heavy usage.
 
 ### Local Failures (llama-swap / llama.cpp)
 
@@ -234,15 +239,17 @@ These models completed both phases, produced all artifacts, and required zero co
 
 | Model | Why |
 |---|---|
-| GPT 5.4 Pro | $7.20/run, stalls on tool calls, no docker-compose |
+| GPT 5.4 Pro | opencode tooling incompatibility (not a model issue — see note below) |
 | Gemma 4 31B (local) | Infinite repetition loop after ~11 steps |
 | Llama 4 Scout (local) | No tool call parser in llama.cpp |
 | GPT OSS 20B (local) | Too small to follow workspace instructions |
 | Qwen 3 32B (local) | Too slow on current hardware |
 
+**Note on GPT 5.4 Pro:** In the author's experience, GPT 5.4 Pro performs on par with Claude Opus 4.6 for coding tasks when used through native OpenAI tooling (Codex CLI, ChatGPT Pro). Its failure here is purely an opencode/OpenRouter integration issue.
+
 ### Recommendation
 
-**If cost matters most:** Kimi K2.5 or MiniMax M2.7 via OpenRouter. Both are plug-and-play, 90%+ cheaper than Opus, and produce complete projects. Kimi has the best test coverage of any model tested. However, see the deep code review below — quantity of artifacts does not equal quality.
+**If cost matters most and code must actually work:** GLM 5 at $0.11/run — the only non-Anthropic model that correctly uses the RubyLLM API and properly mocks tests. However, see the deep code review below — most "cheap" models hallucinate APIs despite producing complete-looking projects.
 
 **If you want the best output regardless of cost:** Claude Sonnet 4.6. It's cheaper than Opus, faster, and actually wrote more tests. There's no reason to use Opus over Sonnet for this benchmark.
 
@@ -302,9 +309,30 @@ MiniMax produced a clean-looking project that passes its own tests but would not
 - **Tests mock the broken API.** The test suite stubs `RubyLLM.chat` to match the service's (wrong) call signature, so tests pass despite the API being incorrect. This is a classic case of tests that verify internal consistency but not correctness.
 - **Where it excels:** Fastest completion (14 min), clean Tailwind dark theme, well-structured partials for messages and errors.
 
-### Verdict on Sonnet vs Kimi vs MiniMax
+### Gemini 3.1 Pro — Close but Still Hallucinated
 
-**Only Sonnet produces code that actually works.** Kimi and MiniMax both generate more test methods and more files, but the core functionality — the actual chat with the LLM — is broken in both. Kimi's streaming architecture is dead code because ActionCable is disabled. MiniMax calls a non-existent RubyLLM API.
+Gemini 3.1 Pro produced the best-structured app among the non-Anthropic models: proper Rails 8 conventions, excellent Turbo Stream integration, session state via `Rails.cache` with expiry, multi-stage Docker build, and 5 meaningful tests. The non-LLM parts of this codebase are genuinely good.
+
+But the LLM integration is wrong:
+
+```ruby
+# What Gemini wrote:
+chat = RubyLLM::Chat.new(model: '...', provider: :openrouter, assume_model_exists: true)
+chat.add_message(role: msg[:role], content: msg[:content])
+response = chat.ask(current_message)
+
+# What the real API is:
+chat = RubyLLM.chat(model: '...')
+response = chat.ask("message")
+```
+
+`RubyLLM::Chat.new` is not the public API (should be `RubyLLM.chat`), and `add_message()` does not exist. This is a *milder* hallucination than other models — the overall shape (Chat object → ask → content) is correct, and a developer could fix it in 5 minutes. But it would still crash at runtime as-is.
+
+**Completion time: 13.5 minutes** (fastest after MiniMax). **Pricing: ~$0.50/run** (competitive with Sonnet at $0.63).
+
+### Verdict on All Deep-Reviewed Models
+
+**Only Sonnet produces code that actually works** among the models reviewed in detail. Kimi and MiniMax both generate more test methods and more files, but the core functionality — the actual chat with the LLM — is broken in both. Gemini 3.1 Pro comes closest to correct but still fails on the LLM integration. The pattern is consistent: models hallucinate OpenAI-style APIs when encountering less common gems.
 
 ---
 
@@ -334,6 +362,7 @@ response.content  # => "Hi there!"
 | **DeepSeek V3.2** | No | **No** | No | `RubyLLM::Client` class doesn't exist — immediate `NameError` |
 | **Qwen 3 Coder Next** | No | **No** | No | `RubyLLM::Client` class doesn't exist — immediate `NameError` |
 | **Qwen 3.5 122B** | No | **No** | No | `Openrouter::Client` gem doesn't exist — immediate `NameError` |
+| **Gemini 3.1 Pro** | Partial | **No** | Yes (wrong API) | `RubyLLM::Chat.new` instead of `RubyLLM.chat`, invented `add_message()` |
 
 *Step 3.5 Flash works by calling the OpenRouter REST API directly with `Net::HTTP`, completely bypassing the RubyLLM gem the prompt asked for.
 
@@ -377,6 +406,7 @@ Based on actual runtime viability, not just structural completeness:
 | DeepSeek V3.2 | Invented `RubyLLM::Client` class |
 | Qwen 3 Coder Next | Invented `RubyLLM::Client` class |
 | Qwen 3.5 122B | Invented `Openrouter::Client` gem |
+| Gemini 3.1 Pro | Invented `Chat.new` constructor + `add_message()` method |
 
 ### The Bottom Line
 

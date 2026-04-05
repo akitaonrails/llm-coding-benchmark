@@ -286,7 +286,9 @@ GPT 5.4 Pro is the only OpenRouter cloud model that consistently fails the bench
 - GPT is the only model that ends with `finish_reason: tool-calls` — it wants to keep calling tools but the loop terminates.
 - The low recorded output token count (624) relative to the actual generated files (1118) suggests the ndjson event stream is not capturing GPT's tool outputs correctly.
 
-**Fair comparison path:** To properly benchmark GPT 5.4 Pro, it would need to run in its native tool environment — either through OpenAI's Codex agent tooling or the ChatGPT Pro ($200/mo) plan which provides unlimited GPT 5.4 Pro access with native function calling. The current opencode-through-OpenRouter path is not a fair test of GPT's coding ability.
+**Important caveat:** This failure reflects an **opencode/OpenRouter tooling limitation**, not a GPT 5.4 Pro model capability issue. In the author's experience using GPT 5.4 Pro through native OpenAI tooling (Codex CLI, ChatGPT Pro), it performs on par with Claude Opus 4.6 for autonomous coding tasks. The benchmark's opencode-through-OpenRouter path cannot handle OpenAI's function calling response format, making this an unfair test of GPT's coding ability.
+
+**Fair comparison path:** To properly benchmark GPT 5.4 Pro, it would need to run in its native tool environment — either through OpenAI's Codex agent tooling or the ChatGPT Pro ($200/mo) plan which provides unlimited GPT 5.4 Pro access with native function calling.
 
 ## Ollama vs llama-swap
 
