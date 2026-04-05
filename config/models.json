@@ -201,6 +201,13 @@
       "label": "Claude Sonnet 4.6",
       "provider": "openrouter",
       "selection_reason": "Anthropic Claude Sonnet 4.6 on OpenRouter. Input $3.00/M, output $15.00/M."
+    },
+    {
+      "slug": "gemini_3_1_pro",
+      "id": "openrouter/google/gemini-3.1-pro-preview",
+      "label": "Gemini 3.1 Pro",
+      "provider": "openrouter",
+      "selection_reason": "Latest Google Gemini model with enhanced SWE performance and agentic reliability. Input $2.00/M, output $12.00/M."
     }
   ]
 }
