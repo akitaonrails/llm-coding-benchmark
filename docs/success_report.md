@@ -242,10 +242,70 @@ These models completed both phases, produced all artifacts, and required zero co
 
 ### Recommendation
 
-**If cost matters most:** Kimi K2.5 or MiniMax M2.7 via OpenRouter. Both are plug-and-play, 90%+ cheaper than Opus, and produce complete projects. Kimi has the best test coverage of any model tested.
+**If cost matters most:** Kimi K2.5 or MiniMax M2.7 via OpenRouter. Both are plug-and-play, 90%+ cheaper than Opus, and produce complete projects. Kimi has the best test coverage of any model tested. However, see the deep code review below — quantity of artifacts does not equal quality.
 
 **If you want the best output regardless of cost:** Claude Sonnet 4.6. It's cheaper than Opus, faster, and actually wrote more tests. There's no reason to use Opus over Sonnet for this benchmark.
 
 **If you want to avoid all vendor lock-in:** Qwen 3 Coder Next or Qwen 3.5 35B running locally via llama-swap. Free, but requires a GPU server and some configuration. Test coverage will be lower than cloud models.
 
 **If you want free cloud:** Qwen 3.6 Plus on OpenRouter's free tier. It works, but rate limits may slow repeated runs.
+
+---
+
+## Deep Code Review: Sonnet vs Kimi vs MiniMax
+
+The benchmark tables above measure structural completeness (are the files there?) and test counts. But do the projects actually *work*? We performed a detailed code review of the top 3 price-competitive models to find out.
+
+### Head-to-Head Scorecard
+
+| Criterion | Sonnet 4.6 | Kimi K2.5 | MiniMax M2.7 |
+|---|:---:|:---:|:---:|
+| Rails structure | Correct | Disables test railtie by mistake | Correct (minor noise) |
+| RubyLLM integration | Works (duplicate model const) | Broken (ActionCable disabled) | **Crashes** (wrong API call) |
+| Controller quality | Clean, working Turbo Streams | Broken streaming, no validation | Clean, but no message persistence |
+| View quality | 7 well-decomposed partials | More partials but dead code | Good partials, duplicate HTML document |
+| Stimulus/JS | 2 focused controllers (minor leak) | 1 broken controller + scaffold leftover | Minimal, scroll never called |
+| Test quality | 30 tests, proper LLM mocking | 37 tests, no LLM mocking | 12 tests, mocks LLM |
+| Docker | Multi-stage, minimal compose | Dual Dockerfiles, dev/prod profiles | No multi-stage, missing SECRET_KEY_BASE |
+| README | Concise, accurate | Thorough but config inaccuracy | Clear, overclaims streaming |
+| Security | Clean | Clean | master.key committed |
+| Code smells | Minor (duplicate const) | Major (broken streaming, thread-unsafe) | Major (stateless chat, wrong API) |
+| **Would it actually run?** | **Yes** | **No** (streaming depends on disabled ActionCable) | **No** (RubyLLM API call is wrong) |
+
+### Claude Sonnet 4.6 — Actually Works
+
+Sonnet produced the only project among these three that would function correctly at runtime. Key decisions:
+
+- **Synchronous Turbo Stream responses.** Instead of attempting real-time streaming (which requires ActionCable and background jobs), Sonnet sends the LLM request synchronously and responds with a 3-part Turbo Stream (messages, sidebar, form). Simple, but it works.
+- **Session-based persistence.** Chat history lives in the Rails session cookie. Limited to ~4KB but appropriate for a demo app without a database.
+- **Proper LLM mocking in tests.** Uses the `mocha` gem to stub `LlmChatService` in controller tests and `RubyLLM::Chat` in service tests. Tests actually verify behavior, not just existence.
+- **Minor issues:** Duplicate model constant between initializer and service. Event listener leak in the JS auto-resize handler. Neither is a runtime blocker.
+
+### Kimi K2.5 — Ambitious but Broken
+
+Kimi attempted the most sophisticated architecture (ActionCable streaming, configurable models, dual Docker environments) but the implementation has fundamental flaws:
+
+- **Streaming depends on ActionCable, which is disabled.** The `MessagesController#stream_assistant_response` method calls `Turbo::StreamsChannel.broadcast_*`, but `ActionCable` is commented out in `config/application.rb`. The `return unless defined?(ActionCable)` guard means the method silently does nothing. The assistant never actually responds.
+- **Stimulus controller has a scope bug.** The `autogrow` controller is attached to the textarea element, but `submitTarget` references a button *outside* the controller's element scope. Stimulus can only find targets within the controller's DOM subtree, so `this.submitTarget` throws an error.
+- **37 test methods but no LLM mocking.** The model and chat tests are thorough (11 and 10 tests respectively), but `MessagesControllerTest` hits the real LLM API (no mock/stub), and `LlmServiceTest` only checks `assert_respond_to` — it never tests the actual chat method.
+- **Thread-unsafe in-memory storage.** `Chat.storage` uses a class-level instance variable (`@storage ||= {}`). With Puma's threaded workers, concurrent requests can corrupt the hash.
+- **Where it excels:** Docker setup (dev + prod Dockerfiles, comprehensive docker-compose with profiles), defensive initializer (raises on missing API key in non-test environments), ENV-configurable model name.
+
+### MiniMax M2.7 — Looks Right, Crashes at Runtime
+
+MiniMax produced a clean-looking project that passes its own tests but would not function as a chat application:
+
+- **Wrong RubyLLM API call.** The service calls `RubyLLM.chat(model: '...', messages: [...])` — this method signature does not exist in the RubyLLM gem. The correct API is `RubyLLM.chat(model: '...')` which returns a `Chat` object, then `.ask("message")`. This would crash with `NoMethodError` at runtime.
+- **No message persistence.** `ChatService` creates a new `@messages = []` on every request. The controller's `clear` action manipulates `session[:chat_messages]` but nothing else reads or writes that key. Conversation history is lost on every request.
+- **Duplicate HTML document.** `index.html.erb` includes a full `<!DOCTYPE html>` with `<head>` and `<body>`, which renders inside the layout's existing `<body>`. This produces invalid nested HTML documents.
+- **master.key committed.** The Rails master key is in the repo despite `.gitignore` having `*.key`.
+- **Tests mock the broken API.** The test suite stubs `RubyLLM.chat` to match the service's (wrong) call signature, so tests pass despite the API being incorrect. This is a classic case of tests that verify internal consistency but not correctness.
+- **Where it excels:** Fastest completion (14 min), clean Tailwind dark theme, well-structured partials for messages and errors.
+
+### Verdict
+
+**Only Sonnet produces code that actually works.** Kimi and MiniMax both generate more test methods and more files, but the core functionality — the actual chat with the LLM — is broken in both. Kimi's streaming architecture is dead code because ActionCable is disabled. MiniMax calls a non-existent RubyLLM API.
+
+This reveals a critical limitation of benchmark metrics: **file count, test count, and artifact checklist do not measure whether the code actually works.** A model can score 9/9 on completeness, write 37 test methods, and still produce a non-functional application.
+
+For practical use, Claude Sonnet 4.6 is the clear winner — not because it's the most ambitious, but because it makes correct architectural decisions (synchronous over broken streaming, session cookies over thread-unsafe in-memory storage) and produces code that runs without modification.
