@@ -307,6 +307,33 @@ Six of the eight local models that failed under Ollama load and run correctly un
 | Qwen 3 32B | ran but too slow (7.96 tok/s) | 11.7 tok/s | same Ollama GGUF |
 | Qwen 3 Coder 30B | ran but too slow (6.59 tok/s) | 72.9 tok/s | same Ollama GGUF |
 
+### llama-swap benchmark results
+
+After fixing the `OPENCODE_CONFIG` relative path bug (which caused all earlier llama-swap runs to silently fall back to Ollama on port 11434), the following results were obtained with confirmed llama-swap connections on port 11435:
+
+| Model | Status | Time | Files | Notes |
+|---|---|---:|---:|---|
+| **Qwen 3 Coder Next** | completed | 17m | 1675 | Full Rails app, tests, Docker, README |
+| **Qwen 3.5 35B** | completed | 28m | 1478 | Full Rails app, all artifacts |
+| **Qwen 3.5 122B** | completed | 43m | 1503 | Full Rails app, all artifacts |
+| **GLM 4.7 Flash** | failed (partial) | 20m | 2029 | All artifacts present; ended mid-tool-call (`finish_reason=tool-calls`) instead of `stop` |
+| **Gemma 4 31B** | failed | 11m | 1277 | Infinite tool call repetition loop (see below) |
+| **GPT OSS 20B** | failed | 10m | 1310 | Created Rails app in wrong directory (`project/app/` instead of `project/`) |
+| **Qwen 3 32B** | failed | 10m | 62 | Auto-killed: too slow (7.32 tok/s average, below 10 tok/s threshold) |
+| **Llama 4 Scout** | skipped | — | — | No tool call parser in llama.cpp (see below) |
+
+### Local model failure analysis
+
+**Gemma 4 31B — infinite tool call repetition loop.** After 11–38 steps of productive work (depending on `--reasoning-format`), the model enters a loop emitting identical tool calls with the same output token count each step. With `--reasoning-format none`, the model gets ~11 productive steps before emitting empty `<|channel>thought<channel|>` tokens in a loop. Without the flag, it loops from step 1 with exactly 31 output tokens per step. This is the known llama.cpp repetition bug ([#21375](https://github.com/ggml-org/llama.cpp/issues/21375)). PR [#21418](https://github.com/ggml-org/llama.cpp/pull/21418) was supposed to fix it but the loop persists on build b1-c08d28d. The model works correctly for short conversations (1–5 tool calls) but degrades in long agentic sessions.
+
+**Llama 4 Scout — no tool call parser in llama.cpp.** Llama 4 uses a pythonic tool call format (`[func(param="value")]`) that llama.cpp cannot parse. The model outputs tool calls as plain text in the `content` field with `finish_reason: "stop"`, so opencode never detects a tool invocation. vLLM has a dedicated `llama4_pythonic` parser but llama.cpp has no equivalent. There is no workaround from the config side — the model needs upstream llama.cpp support.
+
+**GPT OSS 20B — wrong working directory.** The model completed 51 tool-calling steps and produced 1310 files, but created the entire Rails app under `project/app/` instead of using the project root as instructed. The benchmark checks `project/Gemfile`, `project/config/routes.rb`, etc., which don't exist at the expected paths. This is a model capability issue — a 20B model doesn't reliably follow workspace instructions for complex tasks.
+
+**GLM 4.7 Flash — partial success.** Produced a complete-looking Rails app (2029 files, all benchmark artifacts detected) but the opencode session ended with `finish_reason=tool-calls` instead of `stop`, meaning the model was mid-tool-call when the session terminated. The benchmark marks this as "failed" but the project output appears functional. Needs `--jinja --reasoning-format none` on llama-server; `<think>` tags appear in content but don't break the AI SDK or tool calling.
+
+**Qwen 3 32B — too slow for practical use.** The benchmark's speed gate auto-killed the run after averaging 7.32 tok/s over the first 3 steps (threshold: 10 tok/s). At this speed, a full benchmark would take hours. The model works correctly but the hardware can't serve it fast enough.
+
 ### Key differences
 
 **Reliability.** The core problem with Ollama was unpredictable model lifecycle behavior during long autonomous runs. Models would silently unload mid-session, ignore requested context sizes, or fail to stream the first token after a successful preload. llama-swap runs each model as a dedicated llama.cpp process with fixed configuration, so what works in preflight works in the benchmark.
@@ -357,14 +384,15 @@ python scripts/run_benchmark.py \
 
 Tool calling through llama-server's OpenAI-compatible `/v1/chat/completions` endpoint depends on llama.cpp having a parser for each model's native tool call format. Not all models are supported:
 
-| Model | Tool calling | Required flags | Notes |
+| Model | Tool calling | Required flags | Benchmark result |
 |---|---|---|---|
-| **Gemma 4 27B** | Yes (b8665+) | `--jinja` | Requires llama.cpp b8665+ which added a dedicated `peg-gemma4` parser ([PR #21418](https://github.com/ggml-org/llama.cpp/pull/21418)). Older builds crash with "Failed to parse input at pos 13" on streaming tool calls. |
-| **GLM 4.7 Flash** | Yes | `--jinja --reasoning-format none` | Tool calling works correctly. `--reasoning-format none` prevents `reasoning_content` field; `<think>` tags appear in content but don't break the AI SDK. Without `--reasoning-format none`, the `reasoning_content` field is emitted which some clients ignore. |
-| **Qwen 3.5 (35B, 122B)** | Yes | `--jinja --reasoning-format none` | Same reasoning_content consideration as GLM. Tool calling uses the standard Qwen chat template which the autoparser handles natively. |
-| **Qwen 3 Coder (30B)** | Yes | `--jinja` | Code-focused model, tool calling works out of the box. |
-| **GPT OSS 20B** | Yes | `--jinja` | Standard tool calling format. |
-| **Llama 4 Scout** | No | — | llama.cpp has no parser for Llama 4's pythonic tool call format (`[func(param="value")]`). The model outputs tool calls as plain text in `content` with `finish_reason: "stop"`. Requires upstream llama.cpp support similar to vLLM's `llama4_pythonic` parser. |
+| **Gemma 4 27B** | Partial (b8665+) | `--jinja --reasoning-format none` | Tool calls work for short sessions but model enters infinite repetition loop after ~11 steps in long agentic runs ([#21375](https://github.com/ggml-org/llama.cpp/issues/21375)). `--reasoning-format none` helps delay the loop. Without it, loops from step 1. |
+| **GLM 4.7 Flash** | Yes | `--jinja --reasoning-format none` | Completed benchmark with 2029 files. `<think>` tags in content don't break tool calling. Session ended mid-tool-call but project output is functional. |
+| **Qwen 3.5 (35B, 122B)** | Yes | `--jinja --reasoning-format none` | Both completed successfully (28m/1478 files and 43m/1503 files). |
+| **Qwen 3 Coder (30B)** | Yes | `--jinja` | Completed successfully (17m, 1675 files). Best local model result. |
+| **GPT OSS 20B** | Yes | `--jinja` | Tool calls work but model created Rails app in wrong directory. Model capability issue, not llama.cpp. |
+| **Qwen 3 32B** | Yes | `--jinja` | Tool calls work but model too slow (7.3 tok/s) for practical benchmarking. |
+| **Llama 4 Scout** | No | — | llama.cpp has no parser for Llama 4's pythonic format (`[func(param="value")]`). Tool calls appear as plain text. Needs upstream support similar to vLLM's `llama4_pythonic` parser. |
 
 **Stale opencode processes.** When a benchmark run is killed or times out, opencode child processes can remain alive and hold a SQLite lock on `~/.local/share/opencode/opencode.db`. This causes all subsequent opencode instances to hang silently with zero output. Before re-running benchmarks, always kill stale processes:
 

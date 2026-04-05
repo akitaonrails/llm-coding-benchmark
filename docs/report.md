@@ -1,6 +1,6 @@
 # Benchmark Report
 
-Generated at: 2026-04-05T18:48:14+00:00
+Generated at: 2026-04-05T19:20:58+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
@@ -48,7 +48,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 
 | Model | Provider | Warmup ctx | Status | Elapsed (s) | Total tokens | Tok/s | Works? | Files | Notes |
 | --- | --- | ---: | --- | ---: | ---: | ---: | --- | ---: | --- |
-| Gemma 4 31B | ollama | - | failed | 654.86 | 40586 | 61.98 | no | 1277 | Exit code -15. Generated files do not resemble the requested Rails project. |
+| Gemma 4 31B | ollama | - | failed | 608.74 | 18583 | 30.53 | no | 1277 | Exit code -15. Generated files do not resemble the requested Rails project. |
 | GLM 4.7 Flash BF16 | ollama | - | failed | 1208.80 | 41709 | 34.50 | yes | 2029 | Exit code -15. Rails app, tests, README, and container files detected. |
 | Llama 4 Scout | ollama | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | Qwen 3 32B | ollama | - | failed | 577.29 | 15981 | 27.68 | no | 62 | Exit code -15. Generated files do not resemble the requested Rails project. |
