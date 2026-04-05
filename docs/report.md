@@ -1,13 +1,13 @@
 # Benchmark Report
 
-Generated at: 2026-04-05T02:42:07+00:00
+Generated at: 2026-04-05T17:11:22+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
 
-- `completed`: 9
+- `completed`: 10
 - `completed_with_errors`: 2
-- `failed`: 5
+- `failed`: 4
 - `timeout`: 0
 - `not_run`: 6
 
@@ -21,13 +21,13 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 
 ## Model Selection
 
-- `gemma4_31b` -> `ollama/google/gemma4-31b-it-bf16`: Hosted locally and is the largest Gemma 4 variant exposed by opencode. Skipped by default until the provider load issue is resolved.
-- `glm_4_7_flash_bf16` -> `ollama/glm/glm-4.7-flash-bf16`: Added back as a local benchmark target after increasing server swap. Skipped by default because observed throughput is too low to be practical on current hardware.
-- `llama4_scout` -> `ollama/meta/llama4-scout`: Requested local model family; exact hosted variant available through opencode. Skipped by default because Ollama unloads or goes idle before the benchmark run can begin reliably.
+- `gemma4_31b` -> `ollama/google/gemma4-31b-it-bf16`: Hosted locally via llama-swap. Requires llama.cpp b8665+ for the dedicated Gemma 4 tool call parser (PR #21418). Skipped by default; re-enable for llama-swap benchmark runs.
+- `glm_4_7_flash_bf16` -> `ollama/glm/glm-4.7-flash-bf16`: Hosted locally via llama-swap. Needs --jinja --reasoning-format none to suppress <think> tags in content. Tool calling works correctly with these flags.
+- `llama4_scout` -> `ollama/meta/llama4-scout`: Hosted locally via llama-swap. Skipped by default: llama.cpp has no parser for Llama 4's pythonic tool call format — model outputs tool calls as plain text content instead of structured tool_calls. Requires upstream llama.cpp support (similar to vLLM's llama4_pythonic parser).
 - `qwen3_32b` -> `ollama/qwen/qwen3-32b`: Requested local model family; exact hosted variant available through opencode. Superseded by the Qwen 3.5 line for future local benchmarking. Skipped by default after benchmark preview averaged 7.96 output tok/s over the first 3 steps (< 20.00).
 - `qwen3_coder_next` -> `ollama/qwen/qwen3-coder-next`: Best direct coding-oriented local Qwen variant matching the original benchmark brief. Skipped by default after benchmark preview measured 6.59 output tok/s (< 20.00).
 - `qwen3_5_35b` -> `ollama/qwen/qwen3.5-35b`: Requested local model family; exact hosted variant available through opencode. Skipped by default because the current benchmark pass is restricted to OpenRouter models that previously completed successfully.
-- `qwen3_5_122b` -> `ollama/qwen/qwen3.5-122b`: Largest requested local Qwen 3.5 variant hosted on the Ollama server. Skipped by default because opencode repeatedly stalls before first output and Ollama drifts back to 262144 context during the run.
+- `qwen3_5_122b` -> `ollama/qwen/qwen3.5-122b`: Hosted locally via llama-swap. Needs --reasoning-format none on llama-server to avoid reasoning_content tokens that some clients mishandle. Tool calling works correctly with Qwen chat template.
 - `gpt_oss_20b` -> `ollama/openai/gpt-oss-20b`: Added as a local Ollama GPT OSS baseline for later warmup and benchmark testing.
 - `nemotron_cascade_2` -> `ollama/nemotron_cascade_2`: Added as a local Ollama Nemotron Cascade 2 candidate for later warmup and benchmark testing. This entry uses explicit local model metadata because it is not yet mapped in the home opencode config.
 - `claude_opus_4_6` -> `openrouter/anthropic/claude-opus-4.6`: Exact requested cloud model.
@@ -49,12 +49,12 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | Model | Provider | Warmup ctx | Status | Elapsed (s) | Total tokens | Tok/s | Works? | Files | Notes |
 | --- | --- | ---: | --- | ---: | ---: | ---: | --- | ---: | --- |
 | Gemma 4 31B | ollama | - | failed | 361.42 | - | - | no | 0 | Exit code -15. Project directory is empty. |
-| GLM 4.7 Flash BF16 | ollama | - | failed | 361.68 | - | - | no | 0 | Exit code -15. Project directory is empty. |
+| GLM 4.7 Flash BF16 | ollama | - | failed | 1208.80 | 41709 | 34.50 | yes | 2029 | Exit code -15. Rails app, tests, README, and container files detected. |
 | Llama 4 Scout | ollama | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | Qwen 3 32B | ollama | - | failed | 421.58 | 14715 | 34.90 | no | 61 | Exit code -15. Generated files do not resemble the requested Rails project. |
 | Qwen 3 Coder Next | ollama | - | completed | 2193.12 | 84914 | 38.72 | yes | 1672 | Rails app, tests, README, and container files detected. |
 | Qwen 3.5 35B | ollama | - | completed_with_errors | 323.86 | 20388 | 62.95 | partial | 74 | Some expected benchmark artifacts exist, but the scaffold looks incomplete. |
-| Qwen 3.5 122B | ollama | - | failed | 361.42 | - | - | no | 0 | Exit code -15. Project directory is empty. |
+| Qwen 3.5 122B | ollama | - | completed | 2564.18 | 57472 | 22.41 | yes | 1503 | Rails app, tests, README, and container files detected. |
 | GPT OSS 20B | ollama | - | completed_with_errors | 107.45 | 17824 | 165.88 | no | 81 | Generated files do not resemble the requested Rails project. |
 | Nemotron Cascade 2 | ollama | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | Claude Opus 4.6 | openrouter | - | completed | 970.51 | 136806 | 347.18 | yes | 1536 | Rails app, tests, README, and container files detected. |
