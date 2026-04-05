@@ -1,13 +1,13 @@
 # Benchmark Report
 
-Generated at: 2026-04-05T17:11:22+00:00
+Generated at: 2026-04-05T18:48:14+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
 
-- `completed`: 10
-- `completed_with_errors`: 2
-- `failed`: 4
+- `completed`: 11
+- `completed_with_errors`: 0
+- `failed`: 5
 - `timeout`: 0
 - `not_run`: 6
 
@@ -48,14 +48,14 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 
 | Model | Provider | Warmup ctx | Status | Elapsed (s) | Total tokens | Tok/s | Works? | Files | Notes |
 | --- | --- | ---: | --- | ---: | ---: | ---: | --- | ---: | --- |
-| Gemma 4 31B | ollama | - | failed | 361.42 | - | - | no | 0 | Exit code -15. Project directory is empty. |
+| Gemma 4 31B | ollama | - | failed | 654.86 | 40586 | 61.98 | no | 1277 | Exit code -15. Generated files do not resemble the requested Rails project. |
 | GLM 4.7 Flash BF16 | ollama | - | failed | 1208.80 | 41709 | 34.50 | yes | 2029 | Exit code -15. Rails app, tests, README, and container files detected. |
 | Llama 4 Scout | ollama | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
-| Qwen 3 32B | ollama | - | failed | 421.58 | 14715 | 34.90 | no | 61 | Exit code -15. Generated files do not resemble the requested Rails project. |
-| Qwen 3 Coder Next | ollama | - | completed | 2193.12 | 84914 | 38.72 | yes | 1672 | Rails app, tests, README, and container files detected. |
-| Qwen 3.5 35B | ollama | - | completed_with_errors | 323.86 | 20388 | 62.95 | partial | 74 | Some expected benchmark artifacts exist, but the scaffold looks incomplete. |
+| Qwen 3 32B | ollama | - | failed | 577.29 | 15981 | 27.68 | no | 62 | Exit code -15. Generated files do not resemble the requested Rails project. |
+| Qwen 3 Coder Next | ollama | - | completed | 1041.72 | 39054 | 37.49 | yes | 1675 | Rails app, tests, README, and container files detected. |
+| Qwen 3.5 35B | ollama | - | completed | 1671.20 | 76919 | 46.03 | yes | 1478 | Rails app, tests, README, and container files detected. |
 | Qwen 3.5 122B | ollama | - | completed | 2564.18 | 57472 | 22.41 | yes | 1503 | Rails app, tests, README, and container files detected. |
-| GPT OSS 20B | ollama | - | completed_with_errors | 107.45 | 17824 | 165.88 | no | 81 | Generated files do not resemble the requested Rails project. |
+| GPT OSS 20B | ollama | - | failed | 609.59 | 32553 | 53.40 | no | 1310 | Generated files do not resemble the requested Rails project. |
 | Nemotron Cascade 2 | ollama | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | Claude Opus 4.6 | openrouter | - | completed | 970.51 | 136806 | 347.18 | yes | 1536 | Rails app, tests, README, and container files detected. |
 | GPT 5.4 Pro | openrouter | - | failed | 2910.65 | 63491 | 21.81 | partial | 1118 | Exit code -15. Some expected benchmark artifacts exist, but the scaffold looks incomplete. |
