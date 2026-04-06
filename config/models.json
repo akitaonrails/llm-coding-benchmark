@@ -230,6 +230,33 @@
       "provider": "ollama",
       "llama_swap_model": "qwen3.5:27b-claude",
       "selection_reason": "Qwen 3.5 27B distilled from Claude 4.6 Opus reasoning traces (Jackrong/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled). Tests whether Claude reasoning distillation transfers RubyLLM API correctness — most non-Anthropic models hallucinate the gem's API, so a Claude-distilled Qwen is an interesting natural experiment."
+    },
+    {
+      "slug": "qwen2_5_coder_32b",
+      "id": "ollama/qwen/qwen2.5-coder-32b",
+      "label": "Qwen 2.5 Coder 32B",
+      "provider": "ollama",
+      "skip_by_default": true,
+      "llama_swap_model": "qwen2.5-coder:32b",
+      "selection_reason": "Most popular dedicated coder of the Qwen 2.5 generation. Sourced from Ollama (Q4_K_M ~19 GB). On NVIDIA 5090 fits with 64K context."
+    },
+    {
+      "slug": "qwen3_coder_30b",
+      "id": "ollama/qwen/qwen3-coder-30b",
+      "label": "Qwen 3 Coder 30B",
+      "provider": "ollama",
+      "skip_by_default": true,
+      "llama_swap_model": "qwen3-coder:30b",
+      "selection_reason": "Qwen 3 dedicated coder variant (the regular 30B, not the 51 GB qwen3-coder-next-ctx). Direct comparison with the general qwen3:32b. Sourced from Ollama (Q4_K_M ~18 GB)."
+    },
+    {
+      "slug": "qwen3_5_27b_sushi_coder",
+      "id": "ollama/qwen/qwen3.5-27b-sushi-coder",
+      "label": "Qwen 3.5 27B Sushi Coder RL",
+      "provider": "ollama",
+      "skip_by_default": true,
+      "llama_swap_model": "qwen3.5-sushi-coder:27b",
+      "selection_reason": "Qwen 3.5 27B fine-tuned via reinforcement learning on Codeforces problems (bigatuna/Qwen3.5-27b-Sushi-Coder-RL). Q4_K_M ~15 GB. Tests whether RL coding fine-tuning transfers correct RubyLLM API usage — direct comparison with the Claude reasoning distillation (qwen3.5:27b-claude) and the general qwen3.5:35b."
     }
   ]
 }

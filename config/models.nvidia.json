@@ -20,7 +20,7 @@
       "id": "ollama/google/gemma4-31b-it-bf16",
       "label": "Gemma 4 31B",
       "provider": "ollama",
-      "benchmark_context_override": 65536,
+      "benchmark_context_override": 131072,
       "llama_swap_model": "gemma4:27b",
       "selection_reason": "Hosted locally via llama-swap. Requires llama.cpp b8665+ for the dedicated Gemma 4 tool call parser (PR #21418). Skipped by default; re-enable for llama-swap benchmark runs. [NVIDIA RTX 5090 profile: ctx capped to fit 32 GB VRAM]"
     },
@@ -34,22 +34,13 @@
       "benchmark_context_override": 65536
     },
     {
-      "slug": "qwen3_coder_next",
-      "id": "ollama/qwen/qwen3-coder-next",
-      "label": "Qwen 3 Coder Next",
-      "provider": "ollama",
-      "llama_swap_model": "qwen3-coder:30b",
-      "selection_reason": "Best direct coding-oriented local Qwen variant matching the original benchmark brief. Skipped by default after benchmark preview measured 6.59 output tok/s (< 20.00). [NVIDIA RTX 5090 profile: ctx capped to fit 32 GB VRAM]",
-      "benchmark_context_override": 65536
-    },
-    {
       "slug": "qwen3_5_35b",
       "id": "ollama/qwen/qwen3.5-35b",
       "label": "Qwen 3.5 35B",
       "provider": "ollama",
       "llama_swap_model": "qwen3.5:35b",
       "selection_reason": "Requested local model family; exact hosted variant available through opencode. Skipped by default because the current benchmark pass is restricted to OpenRouter models that previously completed successfully. [NVIDIA RTX 5090 profile: ctx capped to fit 32 GB VRAM]",
-      "benchmark_context_override": 65536
+      "benchmark_context_override": 131072
     },
     {
       "slug": "gpt_oss_20b",
@@ -67,6 +58,33 @@
       "provider": "ollama",
       "llama_swap_model": "qwen3.5:27b-claude",
       "selection_reason": "Qwen 3.5 27B distilled from Claude 4.6 Opus reasoning traces (Jackrong/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled). Tests whether Claude reasoning distillation transfers RubyLLM API correctness — most non-Anthropic models hallucinate the gem's API, so a Claude-distilled Qwen is an interesting natural experiment. [NVIDIA RTX 5090 profile: ctx capped to fit 32 GB VRAM]",
+      "benchmark_context_override": 131072
+    },
+    {
+      "slug": "qwen2_5_coder_32b",
+      "id": "ollama/qwen/qwen2.5-coder-32b",
+      "label": "Qwen 2.5 Coder 32B",
+      "provider": "ollama",
+      "llama_swap_model": "qwen2.5-coder:32b",
+      "selection_reason": "Most popular dedicated coder of the Qwen 2.5 generation. Sourced from Ollama (Q4_K_M ~19 GB). On NVIDIA 5090 fits with 64K context. [NVIDIA RTX 5090 profile]",
+      "benchmark_context_override": 65536
+    },
+    {
+      "slug": "qwen3_coder_30b",
+      "id": "ollama/qwen/qwen3-coder-30b",
+      "label": "Qwen 3 Coder 30B",
+      "provider": "ollama",
+      "llama_swap_model": "qwen3-coder:30b",
+      "selection_reason": "Qwen 3 dedicated coder variant (the regular 30B, not the 51 GB qwen3-coder-next-ctx). Direct comparison with the general qwen3:32b. Sourced from Ollama (Q4_K_M ~18 GB). [NVIDIA RTX 5090 profile]",
+      "benchmark_context_override": 65536
+    },
+    {
+      "slug": "qwen3_5_27b_sushi_coder",
+      "id": "ollama/qwen/qwen3.5-27b-sushi-coder",
+      "label": "Qwen 3.5 27B Sushi Coder RL",
+      "provider": "ollama",
+      "llama_swap_model": "qwen3.5-sushi-coder:27b",
+      "selection_reason": "Qwen 3.5 27B fine-tuned via reinforcement learning on Codeforces problems (bigatuna/Qwen3.5-27b-Sushi-Coder-RL). Q4_K_M ~15 GB. Tests whether RL coding fine-tuning transfers correct RubyLLM API usage — direct comparison with the Claude reasoning distillation (qwen3.5:27b-claude) and the general qwen3.5:35b. [NVIDIA RTX 5090 profile]",
       "benchmark_context_override": 65536
     }
   ]
