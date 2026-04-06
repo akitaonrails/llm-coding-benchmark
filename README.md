@@ -168,6 +168,57 @@ Change the timeout from the default `90` minutes:
 python scripts/run_benchmark.py --timeout-minutes 120
 ```
 
+## Two Local Backend Profiles: AMD Server vs NVIDIA Workstation
+
+This repo supports running the local-llama-swap subset of the benchmark against **two different machines**, with separate config files and result directories so the runs don't overwrite each other:
+
+| Profile | Hardware | llama-swap host | Models config | Results dir | Report |
+|---|---|---|---|---|---|
+| **AMD server** | Strix Halo, gfx1151, 128 GB unified | `http://192.168.0.90:11435` | `config/models.json` | `results/` | `docs/report.md` |
+| **NVIDIA workstation** | RTX 5090, sm_120, 32 GB VRAM | `http://localhost:11435` | `config/models.nvidia.json` | `results-nvidia/` | `docs/report.nvidia.md` |
+
+The NVIDIA profile is a **strict subset** of the AMD profile: only the local llama-swap models that fit in 32 GB of VRAM are included, with smaller `benchmark_context_override` values to keep KV cache within budget. The OpenRouter and Z.ai cloud models are not duplicated — those go in `config/models.json` alone since they don't depend on local hardware.
+
+The Docker setup for the NVIDIA workstation lives at [`~/Projects/llama-swap-docker`](https://github.com/akitaonrails/llama-swap-docker) (separate repo). It builds llama.cpp from source against CUDA 12.8 with `CMAKE_CUDA_ARCHITECTURES=120` so the kernels target Blackwell directly.
+
+### Run the NVIDIA profile
+
+Make sure llama-swap is up locally first:
+
+```bash
+cd ~/Projects/llama-swap-docker
+docker compose up -d --build
+docker compose logs -f llama-swap   # watch until server ready
+```
+
+Then warmup and run the benchmark, redirecting outputs to the NVIDIA-specific paths:
+
+```bash
+cd ~/Projects/llm-coding-benchmark
+
+# Warmup: probe each model's preflight tok/s
+python scripts/warmup_llama_swap.py \
+  --api-base http://localhost:11435 \
+  --config config/models.nvidia.json
+
+# Full benchmark for the NVIDIA subset
+python scripts/run_benchmark.py \
+  --config config/models.nvidia.json \
+  --results-dir results-nvidia \
+  --report docs/report.nvidia.md \
+  --local-backend llama-swap \
+  --local-api-base http://localhost:11435 \
+  --opencode-config config/opencode.benchmark.local.json
+```
+
+The same `run_benchmark.py` and `warmup_llama_swap.py` scripts handle both profiles — only the file paths and api-base differ. Per-model results, comparison tables, and code review can be done independently for each profile.
+
+### When to add NVIDIA-specific overrides
+
+If a model needs a different context size, gem path, or skip flag specifically because it's running on the smaller VRAM, edit `config/models.nvidia.json` only — leave `config/models.json` untouched. The NVIDIA file is generated as a copy of the relevant entries with `benchmark_context_override` adjusted, and is meant to be hand-edited as the local set evolves.
+
+Currently the NVIDIA subset is: `gemma4_31b`, `gpt_oss_20b`, `qwen3_32b`, `qwen3_5_27b_claude`, `qwen3_5_35b`, `qwen3_coder_next`. Models excluded for VRAM reasons: `glm_4_7_flash_bf16`, `qwen3_5_122b`, `llama4_scout` (all listed in the config file's bottom comment).
+
 ## Adding A New Model
 
 To add and benchmark a new model, follow these steps in order. The flow differs depending on whether the model lives on a provider already wired (OpenRouter, Z.ai, llama-swap) or needs a brand new provider entry.

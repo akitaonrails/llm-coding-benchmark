@@ -1,4 +1,14 @@
 results/*/project/
+results-nvidia/*/project/
+results-nvidia/*/opencode-output.ndjson
+results-nvidia/*/opencode-stderr.log
+results-nvidia/*/followup-opencode-output.ndjson
+results-nvidia/*/followup-opencode-stderr.log
+results-nvidia/*/session-export.json
+results-nvidia/*/session-export.stderr.log
+results-nvidia/*/prompt.txt
+results-nvidia/*/followup-prompt.txt
+results-nvidia/llama_swap_warmup.json
 results/*/opencode-output.ndjson
 results/*/opencode-stderr.log
 results/*/followup-opencode-output.ndjson

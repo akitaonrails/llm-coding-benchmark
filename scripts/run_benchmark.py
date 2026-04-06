@@ -83,7 +83,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--min-preview-output-tps",
         type=float,
-        default=10.0,
+        default=5.0,
         help="Abort a model early if the average output tokens/sec over the first preview steps stays below this threshold.",
     )
     parser.add_argument(

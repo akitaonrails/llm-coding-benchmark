@@ -222,6 +222,14 @@
       "label": "GLM 5.1",
       "provider": "zai",
       "selection_reason": "Z.ai's latest flagship GLM model. Uses Z.ai coding plan endpoint at https://api.z.ai/api/coding/paas/v4 (NOT the general /api/paas/v4) — Lite subscription includes glm-5.1 only via the coding endpoint. Completed in 22 min with 24 tests, correct primary RubyLLM.chat/ask usage, but invented chat.user/chat.assistant for multi-turn history seeding (single-turn works, multi-turn crashes). Tier 2 — works with caveats."
+    },
+    {
+      "slug": "qwen3_5_27b_claude",
+      "id": "ollama/qwen/qwen3.5-27b-claude",
+      "label": "Qwen 3.5 27B Claude Distilled",
+      "provider": "ollama",
+      "llama_swap_model": "qwen3.5:27b-claude",
+      "selection_reason": "Qwen 3.5 27B distilled from Claude 4.6 Opus reasoning traces (Jackrong/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled). Tests whether Claude reasoning distillation transfers RubyLLM API correctness — most non-Anthropic models hallucinate the gem's API, so a Claude-distilled Qwen is an interesting natural experiment."
     }
   ]
 }

@@ -1,14 +1,14 @@
 # Benchmark Report
 
-Generated at: 2026-04-06T13:58:04+00:00
+Generated at: 2026-04-06T18:11:00+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
 
 - `completed`: 14
-- `completed_with_errors`: 0
-- `failed`: 5
-- `timeout`: 0
+- `completed_with_errors`: 1
+- `failed`: 4
+- `timeout`: 1
 - `not_run`: 6
 
 ## Runner
@@ -44,8 +44,9 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 - `step_3_5_flash` -> `openrouter/stepfun/step-3.5-flash`: StepFun Step 3.5 Flash on OpenRouter. Input $0.10/M, output $0.30/M.
 - `claude_sonnet_4_6` -> `openrouter/anthropic/claude-sonnet-4.6`: Anthropic Claude Sonnet 4.6 on OpenRouter. Input $3.00/M, output $15.00/M.
 - `gemini_3_1_pro` -> `openrouter/google/gemini-3.1-pro-preview`: Latest Google Gemini model with enhanced SWE performance and agentic reliability. Input $2.00/M, output $12.00/M.
-- `grok_4_20` -> `openrouter/x-ai/grok-4.20`: xAI's latest flagship model on OpenRouter. Input $2.00/M, output $6.00/M, 2M context, tool calling supported.
-- `glm_5_1` -> `zai/glm-5.1`: Z.ai's latest flagship GLM model. Not available on OpenRouter; uses Z.ai direct API via ZAI_API_KEY env var.
+- `grok_4_20` -> `openrouter/x-ai/grok-4.20`: xAI's latest flagship on OpenRouter. Fastest model in the benchmark (8 min) but produced architecturally broken code: bypassed RubyLLM with ruby-openai (only in dev/test group, NameError in prod), used format.turbo_stream without installing turbo-rails, RUBY_VERSION=4.0.2 Dockerfile bug. Tier 3 — broken core.
+- `glm_5_1` -> `zai/glm-5.1`: Z.ai's latest flagship GLM model. Uses Z.ai coding plan endpoint at https://api.z.ai/api/coding/paas/v4 (NOT the general /api/paas/v4) — Lite subscription includes glm-5.1 only via the coding endpoint. Completed in 22 min with 24 tests, correct primary RubyLLM.chat/ask usage, but invented chat.user/chat.assistant for multi-turn history seeding (single-turn works, multi-turn crashes). Tier 2 — works with caveats.
+- `qwen3_5_27b_claude` -> `ollama/qwen/qwen3.5-27b-claude`: Qwen 3.5 27B distilled from Claude 4.6 Opus reasoning traces (Jackrong/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled). Tests whether Claude reasoning distillation transfers RubyLLM API correctness — most non-Anthropic models hallucinate the gem's API, so a Claude-distilled Qwen is an interesting natural experiment.
 
 ## Results
 
@@ -54,7 +55,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | Gemma 4 31B | ollama | - | failed | 608.74 | 18583 | 30.53 | no | 1277 | Exit code -15. Generated files do not resemble the requested Rails project. |
 | GLM 4.7 Flash BF16 | ollama | - | failed | 1208.80 | 41709 | 34.50 | yes | 2029 | Exit code -15. Rails app, tests, README, and container files detected. |
 | Llama 4 Scout | ollama | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
-| Qwen 3 32B | ollama | - | failed | 577.29 | 15981 | 27.68 | no | 62 | Exit code -15. Generated files do not resemble the requested Rails project. |
+| Qwen 3 32B | ollama | - | completed_with_errors | 1271.45 | 22922 | 18.03 | no | 87 | Generated files do not resemble the requested Rails project. |
 | Qwen 3 Coder Next | ollama | - | completed | 1041.72 | 39054 | 37.49 | yes | 1675 | Rails app, tests, README, and container files detected. |
 | Qwen 3.5 35B | ollama | - | completed | 1671.20 | 76919 | 46.03 | yes | 1478 | Rails app, tests, README, and container files detected. |
 | Qwen 3.5 122B | ollama | - | completed | 2564.18 | 57472 | 22.41 | yes | 1503 | Rails app, tests, README, and container files detected. |
@@ -76,6 +77,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | Gemini 3.1 Pro | openrouter | - | completed | 811.00 | 104034 | 508.18 | yes | 138 | Rails app, tests, README, and container files detected. |
 | Grok 4.20 | openrouter | - | completed | 502.68 | 63457 | 412.54 | yes | 108 | Rails app, tests, README, and container files detected. |
 | GLM 5.1 | zai | - | completed | 1291.19 | 81666 | 166.62 | yes | 1571 | Rails app, tests, README, and container files detected. |
+| Qwen 3.5 27B Claude Distilled | ollama | - | timeout | 5400.95 | 75753 | 14.03 | partial | 2231 | Timed out. Some expected benchmark artifacts exist, but the scaffold looks incomplete. |
 
 ## Per-Run Paths
 
