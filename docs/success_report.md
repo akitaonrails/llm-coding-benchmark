@@ -15,6 +15,8 @@ Cloud models ran a two-phase flow (phase 1: build, phase 2: validate boot/Docker
 
 **Baseline: Claude Opus 4.6** is treated as the gold standard throughout this report.
 
+> **NVIDIA workstation profile**: this report covers the AMD Strix Halo server (full Q8 weights, 200K+ context) and OpenRouter / Z.ai cloud models. For the parallel **NVIDIA RTX 5090 workstation** results (Q3_K_M / Q4_K_M quants, 32 GB VRAM, 64-128K context), see [`success_report.nvidia.md`](success_report.nvidia.md). The headline NVIDIA finding — that Claude reasoning distillation does **not** transfer library API knowledge — is summarized below.
+
 ---
 
 ## Successful Models at a Glance
@@ -521,3 +523,33 @@ Based on actual runtime viability, not just structural completeness:
 Step 3.5 Flash works at runtime but cheats by bypassing RubyLLM. Everything else either crashes on startup or fails when you try to send a message.
 
 This reveals a critical limitation of benchmark metrics: **file count, test count, and artifact checklist do not measure whether the code actually works.** A model can score 9/9 on completeness, write 37 test methods, and still produce a non-functional application. The only reliable signal is whether the model correctly uses real APIs — and most models hallucinate API interfaces they've seen in training data rather than using the actual gem's API.
+
+---
+
+## NVIDIA RTX 5090 Cross-Reference: Distillation Doesn't Save You
+
+The full NVIDIA workstation results are in [`success_report.nvidia.md`](success_report.nvidia.md), but one finding from that profile is important enough to surface here:
+
+**Claude reasoning distillation does NOT transfer library API knowledge.** We tested [Jackrong's Qwen 3.5 27B distilled from Claude 4.6 Opus reasoning traces](https://huggingface.co/Jackrong/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled) on both the AMD server (full Q8) and the NVIDIA workstation (Q3_K_M). Both runs produced code that **looks** Claude-shaped (frozen string pragmas, separate Response value objects, layered service/controller/model split, careful framework exclusions, doc comments at file headers) — but both hallucinated the RubyLLM API in the same Tier 3 way:
+
+```ruby
+# What the distilled model wrote (NVIDIA, Q3_K_M, 12 min):
+RubyLLM::Chat.new.with_model(@model) do |chat|
+  chat.add_message(role: :user, content: msg[:content])
+  response = chat.ask(message)
+  Response.new(content: response.text, ...)
+end
+
+# What it should be:
+chat = RubyLLM.chat(model: model_id)
+response = chat.ask(message)
+response.content
+```
+
+`RubyLLM::Chat.new.with_model{}`, `chat.add_message`, and `response.text` are all fabricated. The distilled model cargo-culted Claude's *form* without inheriting Claude's grounded recall of the actual gem methods. **Distillation transferred prose style and code organization habits, not library-specific factual knowledge.**
+
+This is a meaningful negative result for anyone considering Claude-distilled open-source models as a cheap stand-in for the real Claude. **Library API knowledge is binary recall, not a reasoning skill that decomposes through distillation.** A model either has memorized that `RubyLLM.chat(...).ask(...)` returns an object with `.content` or it doesn't, and Claude's reasoning chains don't repeatedly spell out obscure Ruby gem APIs in a way that can be distilled into the student weights.
+
+The same pattern held across the NVIDIA profile: **0 of 8 local models produced runnable code**, including 5 different Qwen variants (general, coder, MoE, RL-tuned, and Claude-distilled). The 3 that actually completed cleanly (qwen3.5:35b, qwen3.5:27b-claude, plus the 5 with errors) all hallucinate the API the same way the AMD-server versions do.
+
+**Practical conclusion**: if you need a model that actually uses the RubyLLM gem (or any specific less-common library), pay for the real Claude or use GLM 5. Distilled stand-ins, RL-tuned coders, and bigger contexts won't help — the knowledge isn't in the open-source weights.

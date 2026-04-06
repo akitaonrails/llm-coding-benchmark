@@ -320,7 +320,11 @@ grep -rEc '^\s*(test\s+["\x27]|def\s+test_)' results/<slug>/project/test/ | awk 
 - **Tier 2 (works with caveats)**: Correct primary API call but partial issues (e.g. multi-turn history seeding broken, Ruby version typo, bypasses RubyLLM with raw HTTP but functional).
 - **Tier 3 (broken core)**: Hallucinated API, NameError on first call, or fundamentally non-functional.
 
-**h. Update [`docs/success_report.md`](docs/success_report.md)** with the model's row in each comparison table (completeness, tests, gems, pricing, time, runtime viability). If the model belongs in Tier 2 or 3, add a short failure analysis paragraph. The current report shows the format.
+**h. Update the right success report:**
+   - AMD server profile / cloud models → [`docs/success_report.md`](docs/success_report.md)
+   - NVIDIA workstation profile (local llama-swap) → [`docs/success_report.nvidia.md`](docs/success_report.nvidia.md)
+
+   Add the model's row to the relevant comparison tables (completeness, tests, gems, pricing, time, runtime viability). If the model belongs in Tier 2 or 3, add a short failure analysis paragraph. The current reports show the format.
 
 ### 6. Commit the result
 

@@ -48,8 +48,9 @@
       "label": "GPT OSS 20B",
       "provider": "ollama",
       "llama_swap_model": "gpt-oss:20b",
-      "selection_reason": "Added as a local Ollama GPT OSS baseline for later warmup and benchmark testing. [NVIDIA RTX 5090 profile: ctx capped to fit 32 GB VRAM]",
-      "benchmark_context_override": 131072
+      "selection_reason": "GPT OSS 20B (HF Q3_K_M) on llama-swap. **Skipped on NVIDIA profile**: current llama.cpp main has a regression in the harmony tool-call autoparser. Both with and without --reasoning-format none, the parser errors on multi-turn tool call patterns like 'commentary to=<|tool_name|>...' that gpt-oss emits. On the older llama.cpp build (b8643) used by the AMD server profile, gpt-oss completed 51 tool-calling steps successfully (model failed there for a different reason — created Rails app under project/app/ instead of project/). Re-enable when llama.cpp adds a dedicated peg-gpt-oss / harmony tool call parser (similar to the peg-gemma4 fix in PR #21418).",
+      "benchmark_context_override": 131072,
+      "skip_by_default": true
     },
     {
       "slug": "qwen3_5_27b_claude",
