@@ -214,14 +214,14 @@
       "id": "openrouter/x-ai/grok-4.20",
       "label": "Grok 4.20",
       "provider": "openrouter",
-      "selection_reason": "xAI's latest flagship model on OpenRouter. Input $2.00/M, output $6.00/M, 2M context, tool calling supported."
+      "selection_reason": "xAI's latest flagship on OpenRouter. Fastest model in the benchmark (8 min) but produced architecturally broken code: bypassed RubyLLM with ruby-openai (only in dev/test group, NameError in prod), used format.turbo_stream without installing turbo-rails, RUBY_VERSION=4.0.2 Dockerfile bug. Tier 3 — broken core."
     },
     {
       "slug": "glm_5_1",
       "id": "zai/glm-5.1",
       "label": "GLM 5.1",
       "provider": "zai",
-      "selection_reason": "Z.ai's latest flagship GLM model. Not available on OpenRouter; uses Z.ai direct API via ZAI_API_KEY env var."
+      "selection_reason": "Z.ai's latest flagship GLM model. Uses Z.ai coding plan endpoint at https://api.z.ai/api/coding/paas/v4 (NOT the general /api/paas/v4) — Lite subscription includes glm-5.1 only via the coding endpoint. Completed in 22 min with 24 tests, correct primary RubyLLM.chat/ask usage, but invented chat.user/chat.assistant for multi-turn history seeding (single-turn works, multi-turn crashes). Tier 2 — works with caveats."
     }
   ]
 }

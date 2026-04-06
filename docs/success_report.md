@@ -19,7 +19,7 @@ Cloud models ran a two-phase flow (phase 1: build, phase 2: validate boot/Docker
 
 ## Successful Models at a Glance
 
-11 of 16 models completed the benchmark. Of the 11, all produced a recognizable Rails project with the core artifacts. The table below ranks them by overall practical quality.
+14 of 18 models completed the benchmark. All produced a recognizable Rails project with the core artifacts. The table below ranks them by overall practical quality.
 
 | Rank | Model | Provider | Time | Tests | All Gems | Dockerfile | Compose | README | Phase 2 |
 |---:|---|---|---:|---:|:---:|:---:|:---:|:---:|:---:|
@@ -28,15 +28,18 @@ Cloud models ran a two-phase flow (phase 1: build, phase 2: validate boot/Docker
 | 3 | Kimi K2.5 | OpenRouter | 29m | 37 | Yes | Yes | Yes | 181L | Yes |
 | 4 | MiniMax M2.7 | OpenRouter | 14m | 12 | Yes | Yes | Yes | 121L | Yes |
 | 5 | GLM 5 | OpenRouter | 17m | 7 | Yes | Yes | Yes | 99L | Yes |
-| 6 | Qwen 3.6 Plus | OpenRouter | 17m | 7 | Yes | Yes | Yes | 107L | Yes |
-| 7 | Qwen 3.5 35B | Local | 28m | 11 | Yes | Yes | Yes | 202L | No |
-| 8 | Qwen 3 Coder Next | Local | 17m | 3 | Yes | Yes | Yes | 69L | No |
-| 9 | DeepSeek V3.2 | OpenRouter | 60m | 11 | Yes | Yes | Yes | 265L | Yes |
-| 10 | Qwen 3.5 122B | Local | 43m | 16 | No* | Yes | Yes | 167L | No |
-| 11 | Step 3.5 Flash | OpenRouter | 38m | 8 | No** | Yes | Yes | 103L | Yes |
-| 12 | Gemini 3.1 Pro | OpenRouter | 14m | 5 | Yes | Yes | Yes | ~100L | Yes |
+| 6 | GLM 5.1 | Z.ai | 22m | 24 | Yes | Yes | Yes | ~100L | Yes |
+| 7 | Qwen 3.6 Plus | OpenRouter | 17m | 7 | Yes | Yes | Yes | 107L | Yes |
+| 8 | Qwen 3.5 35B | Local | 28m | 11 | Yes | Yes | Yes | 202L | No |
+| 9 | Qwen 3 Coder Next | Local | 17m | 3 | Yes | Yes | Yes | 69L | No |
+| 10 | DeepSeek V3.2 | OpenRouter | 60m | 11 | Yes | Yes | Yes | 265L | Yes |
+| 11 | Qwen 3.5 122B | Local | 43m | 16 | No* | Yes | Yes | 167L | No |
+| 12 | Step 3.5 Flash | OpenRouter | 38m | 8 | No** | Yes | Yes | 103L | Yes |
+| 13 | Gemini 3.1 Pro | OpenRouter | 14m | 5 | Yes | Yes | Yes | ~100L | Yes |
+| 14 | Grok 4.20 | OpenRouter | 8m | 3 | No*** | Yes | Yes | ~80L | Yes |
 
 *Qwen 3.5 122B built a custom OpenRouter HTTP client instead of using the ruby_llm gem.
+***Grok 4.20 is missing ruby_llm, bundle-audit, turbo-rails, stimulus-rails, and importmap-rails entirely.
 **Step 3.5 Flash used `ruby-llm` (hyphenated) gem name variant.
 
 ---
@@ -71,6 +74,7 @@ Number of test files and test methods (assertions/test cases) written by each mo
 |---|---:|---:|---|
 | Kimi K2.5 | 5 | 37 | +131% |
 | **Claude Sonnet 4.6** | 5 | 30 | +88% |
+| GLM 5.1 | 5 | 24 | +50% |
 | **Claude Opus 4.6 (baseline)** | 4 | 16 | -- |
 | Qwen 3.5 122B | 3 | 16 | 0% |
 | MiniMax M2.7 | 3 | 12 | -25% |
@@ -79,7 +83,9 @@ Number of test files and test methods (assertions/test cases) written by each mo
 | Step 3.5 Flash | 2 | 8 | -50% |
 | GLM 5 | 5 | 7 | -56% |
 | Qwen 3.6 Plus | 4 | 7 | -56% |
+| Gemini 3.1 Pro | 2 | 5 | -69% |
 | Qwen 3 Coder Next | 2 | 3 | -81% |
+| Grok 4.20 | 2 | 3 | -81% |
 
 **Takeaway:** Kimi K2.5 wrote the most thorough tests (37 methods). Claude Sonnet 4.6 surpassed Opus. Most Chinese-origin models wrote fewer tests. Qwen 3 Coder Next wrote the bare minimum.
 
@@ -98,8 +104,11 @@ The prompt explicitly required ruby_llm, brakeman, rubocop, simplecov, and bundl
 | DeepSeek V3.2 | Y | Y | Y | Y | Y | 5/5 |
 | Qwen 3.5 35B | Y | Y | Y | Y | Y | 5/5 |
 | Qwen 3 Coder Next | Y | Y | Y | Y | Y | 5/5 |
+| GLM 5.1 | Y | Y | Y | Y | Y | 5/5 |
+| Gemini 3.1 Pro | Y | Y | Y | Y | Y | 5/5 |
 | Step 3.5 Flash | No* | Y | Y | Y | Y | 4/5 |
 | Qwen 3.5 122B | No** | Y | Y | Y | Y | 4/5 |
+| Grok 4.20 | **No** | Y | Y | Y | **No** | 3/5 |
 
 *Used `ruby-llm` (hyphenated) instead of `ruby_llm`. **Built a custom HTTP client instead.
 
@@ -107,15 +116,17 @@ The prompt explicitly required ruby_llm, brakeman, rubocop, simplecov, and bundl
 
 | Model | Input $/M | Output $/M | Est. Cost/Run | vs Baseline |
 |---|---:|---:|---:|---|
+| GLM 5.1 (Z.ai) | Subscription | Subscription | Lite plan ~$3/mo | Flat-rate, includes coding |
 | Qwen 3.6 Plus | $0.00 | $0.00 | $0.00 | Free |
 | Step 3.5 Flash | $0.10 | $0.30 | ~$0.02 | 98% cheaper |
+| Grok 4.20 | $2.00 | $6.00 | ~$0.20 | 81% cheaper |
 | DeepSeek V3.2 | $0.20 | $0.77 | ~$0.04 | 96% cheaper |
 | MiniMax M2.7 | $0.30 | $1.20 | ~$0.05 | 95% cheaper |
 | Kimi K2.5 | $0.38 | $1.72 | ~$0.07 | 93% cheaper |
 | GLM 5 | $0.72 | $2.30 | ~$0.11 | 89% cheaper |
+| Gemini 3.1 Pro | $2.00 | $12.00 | ~$0.50 | 52% cheaper |
 | Claude Sonnet 4.6 | $3.00 | $15.00 | ~$0.63 | 40% cheaper |
 | **Claude Opus 4.6** | $5.00 | $25.00 | ~$1.05 | Baseline |
-| Gemini 3.1 Pro | $2.00 | $12.00 | ~$0.50 | 52% cheaper |
 | GPT 5.4 Pro | $30.00 | $180.00 | ~$7.20 | 586% more |
 | Local models | $0.00 | $0.00 | Electricity only | Hardware cost |
 
@@ -125,6 +136,7 @@ The prompt explicitly required ruby_llm, brakeman, rubocop, simplecov, and bundl
 
 | Model | Phase 1 | Phase 2 | Total | vs Baseline |
 |---|---:|---:|---:|---|
+| Grok 4.20 | 6m | 2m | 8m | **50% faster** |
 | Gemini 3.1 Pro | 10m | 3m | 14m | 13% faster |
 | MiniMax M2.7 | 12m | 2m | 14m | 13% faster |
 | Claude Opus 4.6 | 10m | 7m | 16m | Baseline |
@@ -134,6 +146,7 @@ The prompt explicitly required ruby_llm, brakeman, rubocop, simplecov, and bundl
 | Qwen 3 Coder Next | 17m | -- | 17m | Same (phase 1 only) |
 | Qwen 3.5 35B | 28m | -- | 28m | 75% slower |
 | Kimi K2.5 | 22m | 7m | 29m | 81% slower |
+| GLM 5.1 | 13m | 8m | 22m | 38% slower |
 | Step 3.5 Flash | 27m | 11m | 38m | 138% slower |
 | Qwen 3.5 122B | 43m | -- | 43m | 169% slower |
 | DeepSeek V3.2 | 24m | 36m | 60m | 275% slower |
@@ -147,6 +160,8 @@ Models with prompt caching (Anthropic, Step, MiniMax) use dramatically fewer inp
 | Model | Total Tokens | Cache Read | Effective New Tokens | Caching |
 |---|---:|---:|---:|:---:|
 | Qwen 3 Coder Next | 39,054 | 38,636 | 418 | Yes |
+| Grok 4.20 | 63,457 | 62,400 | 1,057 | Yes |
+| GLM 5.1 | 81,666 | 81,216 | 450 | Yes |
 | Qwen 3.5 122B | 57,472 | 56,251 | 1,221 | Yes |
 | GLM 5 | 59,378 | 58,240 | 1,138 | Yes |
 | Kimi K2.5 | 63,638 | 0 | 63,638 | No |
@@ -330,9 +345,89 @@ response = chat.ask("message")
 
 **Completion time: 13.5 minutes** (fastest after MiniMax). **Pricing: ~$0.50/run** (competitive with Sonnet at $0.63).
 
+### GLM 5.1 — Closest to Working After Sonnet/GLM 5
+
+GLM 5.1 (via Z.ai's coding plan endpoint) produced one of the strongest non-Anthropic codebases we reviewed. It got the core RubyLLM API right:
+
+```ruby
+# What GLM 5.1 wrote in chat_session.rb:
+chat = RubyLLM.chat(model: model_id)
+response = chat.ask(content)
+response.content
+```
+
+That part is correct. The streaming variant in `chat_controller.rb` also uses the correct block form: `chat.ask(content) { |chunk| ... }`.
+
+But the multi-turn history seeding hallucinates a different fluent API:
+
+```ruby
+# build_chat helper, lines 48-58:
+def build_chat
+  chat = RubyLLM.chat(model: model_id)
+  messages.each do |msg|
+    if msg[:role] == "user"
+      chat.user(msg[:content])     # NoMethodError
+    else
+      chat.assistant(msg[:content]) # NoMethodError
+    end
+  end
+  chat
+end
+```
+
+`chat.user(...)` and `chat.assistant(...)` do not exist in RubyLLM. The first message in a session works fine; replaying conversation history on subsequent messages crashes. Combined with a bogus `ARG RUBY_VERSION=4.0.2` in the Dockerfile (Ruby 4 doesn't exist yet — image pull will fail), this places GLM 5.1 in **Tier 2: works with caveats**, fixable with two small edits.
+
+**Where it excels:**
+- 24 test methods across 5 files (more than Opus baseline)
+- All 5 required gems present
+- Correct framework exclusions in `application.rb`
+- Full Hotwire stack (turbo-rails, stimulus-rails, importmap-rails)
+- Multi-stage Docker, proper SECRET_KEY_BASE handling
+- Correct primary RubyLLM call pattern
+
+### Grok 4.20 — Fast but Architecturally Broken
+
+Grok 4.20 was the **fastest model in the entire benchmark at 8 minutes** (half the time of Claude Opus). It also has the most fundamental problems we've seen:
+
+```ruby
+# chats_controller.rb:11-23
+require "openai"
+client = OpenAI::Client.new(
+  access_token: ENV["OPENROUTER_API_KEY"],
+  uri_base: "https://openrouter.ai/api/v1"
+)
+```
+
+Grok bypassed RubyLLM entirely and used the `ruby-openai` gem instead. That alone would put it in the "works with caveats" tier (like Step 3.5 Flash). But there's a fatal twist:
+
+```ruby
+# Gemfile
+group :development, :test do
+  gem "ruby-openai", require: false
+end
+```
+
+The `ruby-openai` gem is **only loaded in dev/test, not production**. The controller's `require "openai"` will succeed in tests (because the gem is loaded) but `OpenAI::Client.new` will raise `NameError` in production. The tests pass; the deployment crashes.
+
+**Other architectural problems:**
+- Uses `format.turbo_stream` in the controller, but `turbo-rails`, `stimulus-rails`, and `importmap-rails` are **not in the Gemfile at all**. The format is undefined → `ActionController::UnknownFormat`.
+- The model ID `anthropic/claude-3-5-sonnet-latest` is not a valid OpenRouter slug.
+- Same `RUBY_VERSION=4.0.2` Dockerfile bug as GLM 5.1.
+- Dockerfile exposes port 80 with Thruster, but docker-compose maps `3000:3000` — port mismatch.
+- `env_file: .env` is required (no `required: false`), so compose will refuse to start without a `.env` file.
+- Only 2 test files, 3 test methods, no LLM mocking, and the test file uses `require "ruby/openai"` (wrong path; the gem is `require "openai"`).
+- Missing both `ruby_llm` and `bundle-audit` from the Gemfile — only 3 of 5 required gems.
+
+**Where it excels:**
+- Fastest completion time in the entire benchmark (8 minutes total)
+- Multi-stage Dockerfile structure (despite the Ruby version bug)
+- Reasonable Tailwind styling
+
+This is the worst non-trivial result so far. **Tier 3: broken core.** The combination of an uninstalled production gem, a missing Hotwire stack, and a non-existent Ruby version means even a single-turn message would fail in three different ways.
+
 ### Verdict on All Deep-Reviewed Models
 
-**Only Sonnet produces code that actually works** among the models reviewed in detail. Kimi and MiniMax both generate more test methods and more files, but the core functionality — the actual chat with the LLM — is broken in both. Gemini 3.1 Pro comes closest to correct but still fails on the LLM integration. The pattern is consistent: models hallucinate OpenAI-style APIs when encountering less common gems.
+**Only Sonnet, Opus, and GLM 5 produce code that actually works** among the models reviewed in detail. GLM 5.1 comes closest after them — single-turn works and the fix is trivial. Kimi, MiniMax, Gemini 3.1 Pro, and Grok 4.20 all generate more test methods or more files but the core functionality is broken. The pattern is consistent: models hallucinate fluent APIs when encountering less common gems, and Grok's "use a gem you forgot to install" failure is a new variant of the same problem.
 
 ---
 
@@ -363,18 +458,23 @@ response.content  # => "Hi there!"
 | **Qwen 3 Coder Next** | No | **No** | No | `RubyLLM::Client` class doesn't exist — immediate `NameError` |
 | **Qwen 3.5 122B** | No | **No** | No | `Openrouter::Client` gem doesn't exist — immediate `NameError` |
 | **Gemini 3.1 Pro** | Partial | **No** | Yes (wrong API) | `RubyLLM::Chat.new` instead of `RubyLLM.chat`, invented `add_message()` |
+| **GLM 5.1** | Partial | **First msg only** | No | Correct `RubyLLM.chat`/`ask`, but invented `c.user`/`c.assistant` for history seeding. Single-turn works, multi-turn crashes. Also `RUBY_VERSION=4.0.2` Dockerfile bug. |
+| **Grok 4.20** | N/A | **No** | No | Bypasses RubyLLM with `OpenAI::Client.new` from `ruby-openai` gem, but ruby-openai is only in dev/test group. NameError in production. Also `format.turbo_stream` without turbo-rails installed. |
 
 *Step 3.5 Flash works by calling the OpenRouter REST API directly with `Net::HTTP`, completely bypassing the RubyLLM gem the prompt asked for.
 
 ### What Went Wrong
 
-**7 out of 11 models invented non-existent APIs.** The most common failure mode was hallucinating an OpenAI-style client interface:
+**11 out of 14 models invented non-existent APIs or got wrong gem requirements.** The most common failure mode was hallucinating an OpenAI-style client interface:
 
 - DeepSeek V3.2 and Qwen 3 Coder Next both invented `RubyLLM::Client.new` — a class that does not exist.
 - Qwen 3.5 122B invented an `Openrouter::Client` gem that does not exist at all.
 - Kimi K2.5 got the initial `RubyLLM.chat()` call right but invented `add_message()` and `complete()` methods.
 - MiniMax M2.7 invented a `RubyLLM.chat(messages: [...])` batch API that doesn't exist.
 - Qwen 3.6 Plus invented `chat.add_message()` for history replay.
+- Gemini 3.1 Pro used `RubyLLM::Chat.new(...)` constructor and invented `add_message()`.
+- GLM 5.1 got the primary `RubyLLM.chat` / `chat.ask` calls right but invented `chat.user(...)`/`chat.assistant(...)` for history seeding.
+- Grok 4.20 bypassed RubyLLM entirely and required `ruby-openai` from a `dev/test`-only Gemfile group, plus used `format.turbo_stream` without `turbo-rails` in the Gemfile at all.
 
 The models that got it right — both Claudes and GLM 5 — used the simple two-step pattern (`chat = RubyLLM.chat(model:)` then `chat.ask(message)`). The models that failed tried to make RubyLLM look like the OpenAI Python SDK, which it isn't.
 
@@ -394,6 +494,7 @@ Based on actual runtime viability, not just structural completeness:
 **Tier 2: Works with Caveats**
 | Model | Cost/Run | Time | Caveat |
 |---|---:|---:|---|
+| GLM 5.1 (Z.ai) | Subscription | 22m | Single-turn chat works (correct `RubyLLM.chat`/`ask`); multi-turn history seeding hallucinated `c.user`/`c.assistant`. Also `RUBY_VERSION=4.0.2` Dockerfile bug needs fixing. |
 | Step 3.5 Flash | ~$0.02 | 38m | Bypasses RubyLLM entirely (raw HTTP). Functional but doesn't use the requested gem. |
 | Qwen 3.5 35B | Free | 28m | May work if RubyLLM default model is configured. No test mocking. |
 
@@ -407,10 +508,15 @@ Based on actual runtime viability, not just structural completeness:
 | Qwen 3 Coder Next | Invented `RubyLLM::Client` class |
 | Qwen 3.5 122B | Invented `Openrouter::Client` gem |
 | Gemini 3.1 Pro | Invented `Chat.new` constructor + `add_message()` method |
+| Grok 4.20 | Bypassed RubyLLM with `ruby-openai`, but gem is only in dev/test group → NameError in prod |
 
 ### The Bottom Line
 
-**If you don't want to be locked to Anthropic, GLM 5 is the only viable plug-and-play alternative** — it uses the correct RubyLLM API, mocks properly in tests, completes in 17 minutes, and costs ~$0.11 per run (89% cheaper than Opus).
+**If you don't want to be locked to Anthropic, GLM 5 remains the only fully-working plug-and-play alternative** — correct RubyLLM API, mocks properly in tests, completes in 17 minutes, costs ~$0.11 per run (89% cheaper than Opus).
+
+**GLM 5.1 (Z.ai coding plan) is the closest runner-up** — single-turn chat works correctly, only the multi-turn history seeding and a Dockerfile Ruby version need a 5-minute fix. If you have a Z.ai Lite subscription (which uses a flat-rate coding endpoint instead of pay-per-token), GLM 5.1 could be viable after one patch.
+
+**Grok 4.20 is the worst structural result** despite being the fastest model in the benchmark. It compounds three fatal bugs: bypassing RubyLLM in favor of a gem that's only in `dev/test` group, using `format.turbo_stream` without installing turbo-rails at all, and a non-existent Ruby version in the Dockerfile.
 
 Step 3.5 Flash works at runtime but cheats by bypassing RubyLLM. Everything else either crashes on startup or fails when you try to send a message.
 

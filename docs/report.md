@@ -1,11 +1,11 @@
 # Benchmark Report
 
-Generated at: 2026-04-05T23:18:07+00:00
+Generated at: 2026-04-06T13:58:04+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
 
-- `completed`: 12
+- `completed`: 14
 - `completed_with_errors`: 0
 - `failed`: 5
 - `timeout`: 0
@@ -44,6 +44,8 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 - `step_3_5_flash` -> `openrouter/stepfun/step-3.5-flash`: StepFun Step 3.5 Flash on OpenRouter. Input $0.10/M, output $0.30/M.
 - `claude_sonnet_4_6` -> `openrouter/anthropic/claude-sonnet-4.6`: Anthropic Claude Sonnet 4.6 on OpenRouter. Input $3.00/M, output $15.00/M.
 - `gemini_3_1_pro` -> `openrouter/google/gemini-3.1-pro-preview`: Latest Google Gemini model with enhanced SWE performance and agentic reliability. Input $2.00/M, output $12.00/M.
+- `grok_4_20` -> `openrouter/x-ai/grok-4.20`: xAI's latest flagship model on OpenRouter. Input $2.00/M, output $6.00/M, 2M context, tool calling supported.
+- `glm_5_1` -> `zai/glm-5.1`: Z.ai's latest flagship GLM model. Not available on OpenRouter; uses Z.ai direct API via ZAI_API_KEY env var.
 
 ## Results
 
@@ -72,6 +74,8 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | Step 3.5 Flash | openrouter | - | completed | 2273.00 | 156267 | 242.11 | yes | 1606 | Rails app, tests, README, and container files detected. |
 | Claude Sonnet 4.6 | openrouter | - | completed | 966.85 | 127067 | 532.26 | yes | 2042 | Rails app, tests, README, and container files detected. |
 | Gemini 3.1 Pro | openrouter | - | completed | 811.00 | 104034 | 508.18 | yes | 138 | Rails app, tests, README, and container files detected. |
+| Grok 4.20 | openrouter | - | completed | 502.68 | 63457 | 412.54 | yes | 108 | Rails app, tests, README, and container files detected. |
+| GLM 5.1 | zai | - | completed | 1291.19 | 81666 | 166.62 | yes | 1571 | Rails app, tests, README, and container files detected. |
 
 ## Per-Run Paths
 
