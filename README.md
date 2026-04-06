@@ -168,6 +168,118 @@ Change the timeout from the default `90` minutes:
 python scripts/run_benchmark.py --timeout-minutes 120
 ```
 
+## Adding A New Model
+
+To add and benchmark a new model, follow these steps in order. The flow differs depending on whether the model lives on a provider already wired (OpenRouter, Z.ai, llama-swap) or needs a brand new provider entry.
+
+### 1. Choose the right provider
+
+| Provider type | Use when | Example |
+|---|---|---|
+| `openrouter` | Model is exposed on openrouter.ai/models | Claude, GLM 5, Grok, Gemini, DeepSeek, Step, Kimi, MiniMax, Qwen cloud |
+| `zai` | Model is on Z.ai's coding plan endpoint | GLM 5.1 |
+| `ollama` (with `--local-backend llama-swap`) | Model is hosted on your llama-swap server | Local GGUFs (Qwen, Gemma, GLM, GPT OSS, Llama 4) |
+
+### 2. Add the model to `config/models.json`
+
+Append a new entry to the `models` array:
+
+```json
+{
+  "slug": "vendor_name_version",
+  "id": "openrouter/vendor/model-id",
+  "label": "Vendor Model Name",
+  "provider": "openrouter",
+  "selection_reason": "One-line context (pricing, why it was added, known caveats)."
+}
+```
+
+For local llama-swap models, also add `"llama_swap_model": "vendor:tag"` matching the name configured on the llama-swap server. For models you don't want to run by default, add `"skip_by_default": true`.
+
+### 3. Wire a new provider (only if it doesn't exist yet)
+
+If the model is on a brand new provider (e.g. you're adding `togetherai`, `groq`, `fireworks`):
+
+1. Add a provider entry to your home opencode config (`~/.config/opencode/opencode.json`) under `provider.<name>`. Use `"npm": "@ai-sdk/openai-compatible"` and set `options.baseURL` to the provider's OpenAI-compatible endpoint and `options.apiKey` to `"{env:VENDOR_API_KEY}"`.
+2. Make sure the API key env var is set in your shell (`source ~/.config/zsh/secrets`).
+3. Run `python scripts/run_benchmark.py --model <slug> --sync-ollama-contexts-only` to regenerate the benchmark config and verify the provider entry is cloned correctly into `config/opencode.benchmark.json`.
+
+**Z.ai gotcha:** Z.ai exposes two distinct API endpoints:
+- `/api/paas/v4` (general PaaS): pay-per-token, but the latest GLM models (5.1, 5-turbo) are not accessible to all subscription tiers here.
+- `/api/coding/paas/v4` (coding plan): the flat-rate Lite/Pro/Max subscription endpoint where GLM 5.1 *is* accessible to all tiers including Lite.
+
+For GLM 5.1, the benchmark provider entry must point at `https://api.z.ai/api/coding/paas/v4`. Same `ZAI_API_KEY` works for both endpoints, but each endpoint enforces different model permissions.
+
+### 4. Run the new model
+
+```bash
+python scripts/run_benchmark.py --model <slug>
+```
+
+For OpenRouter and Z.ai cloud models, phase 2 (Docker validation) runs automatically. For local models, phase 2 is opt-in via `"enable_followup": true` in `config/models.json`.
+
+### 5. Analyze the result
+
+After the run completes, do the analysis in this order:
+
+**a. Quick metrics** (single-model summary):
+```bash
+python3 -c "
+import json
+d = json.load(open('results/<slug>/result.json'))
+ps = d.get('project_summary', {})
+print(f\"status={d.get('status')} elapsed={d.get('elapsed_seconds',0):.0f}s files={ps.get('file_count',0)}\")
+print(f\"finish={d.get('finish_reason')} works={ps.get('works_as_intended')}\")
+phases = d.get('phases', [])
+for i, p in enumerate(phases):
+    print(f\"  phase{i+1}: status={p.get('status')} tokens={p.get('tokens',{}).get('total',0)}\")
+"
+```
+Look for `status=completed` (or `completed_with_errors`), `finish=stop`, and `works=yes`. Anything else is a structural failure.
+
+**b. Structural completeness**: check that all benchmark artifacts are present in `result.json`'s `project_summary.present` map: `gemfile`, `routes`, `app_dir`, `views_dir`, `tests_dir`, `dockerfile`, `docker_compose_yml`, `readme_md`. A score of 9/9 is the minimum bar for a "successful" run.
+
+**c. Test count**: structural test count is misleading on its own but useful as a sanity check. Count test methods in `results/<slug>/project/test/`:
+```bash
+grep -rEc '^\s*(test\s+["\x27]|def\s+test_)' results/<slug>/project/test/ | awk -F: '{s+=$2} END {print s}'
+```
+
+**d. CRITICAL — read the LLM integration code by hand.** This is the only step that catches the "looks complete but won't run" failure mode. Open `results/<slug>/project/app/services/*.rb` and `results/<slug>/project/app/controllers/*.rb` and verify the model used the **real RubyLLM API**:
+   ```ruby
+   chat = RubyLLM.chat(model: "anthropic/claude-sonnet-4")
+   response = chat.ask("Hello")
+   response.content
+   ```
+   Common hallucinations to watch for (every one of these is a runtime crash):
+   - `RubyLLM::Client.new(...)` — class doesn't exist
+   - `RubyLLM::Chat.new(...)` — constructor isn't public
+   - `chat.add_message(role:, content:)` — method doesn't exist
+   - `chat.complete(...)` — method doesn't exist
+   - `chat.user(...)` / `chat.assistant(...)` — fluent helpers don't exist
+   - `RubyLLM.chat(model:, messages: [...])` — batch signature doesn't exist
+   - `Openrouter::Client.new(...)` — gem doesn't exist
+   - Bypassing RubyLLM entirely with `OpenAI::Client` from `ruby-openai` (check if the gem is in `group :development, :test` — if so, prod will `NameError`)
+
+**e. Check test mocking**: open the test files and verify they actually mock the LLM call (look for `mocha`, `Minitest::Mock`, or `WebMock`). Tests that hit the real API will pass locally with your key set but fail in CI. Tests that mock a hallucinated API will pass *and* lie about the code's correctness.
+
+**f. Check the Dockerfile** for `RUBY_VERSION` (Ruby 4 doesn't exist as of this writing — `4.0.x` is a known model hallucination), `SECRET_KEY_BASE` handling, and port consistency between `EXPOSE` and `docker-compose.yml`.
+
+**g. Categorize into a tier**:
+- **Tier 1 (works)**: Correct RubyLLM API, proper test mocking, no Dockerfile bugs.
+- **Tier 2 (works with caveats)**: Correct primary API call but partial issues (e.g. multi-turn history seeding broken, Ruby version typo, bypasses RubyLLM with raw HTTP but functional).
+- **Tier 3 (broken core)**: Hallucinated API, NameError on first call, or fundamentally non-functional.
+
+**h. Update [`docs/success_report.md`](docs/success_report.md)** with the model's row in each comparison table (completeness, tests, gems, pricing, time, runtime viability). If the model belongs in Tier 2 or 3, add a short failure analysis paragraph. The current report shows the format.
+
+### 6. Commit the result
+
+`result.json`, `phase1-result.json`, and `phase2-result.json` are tracked. Everything else under `results/<slug>/` (project tree, prompt files, ndjson logs, session exports) is gitignored — those files often contain raw env captures including secrets, so do not force-add them.
+
+```bash
+git add results/<slug>/result.json results/<slug>/phase1-result.json results/<slug>/phase2-result.json config/models.json docs/success_report.md
+git commit
+```
+
 ## Rebuild The Report Only
 
 If the runs are already on disk and you just want to rebuild the Markdown summary:
@@ -239,22 +351,20 @@ This harness assumes:
 
 The benchmark uses your installed provider credentials indirectly through that source config, but the benchmark execution itself points `opencode` at the generated local config file.
 
-## Latest Fresh Rerun
+## Latest Benchmark Run
 
-The last clean rerun after resetting `results/` executed only the currently trusted OpenRouter set, using the two-phase prompt flow. All three completed successfully:
+The benchmark currently covers **18 models** across 3 providers (OpenRouter, Z.ai direct, llama-swap local). 14 models complete the benchmark structurally; only 3 produce code that actually runs at runtime. See [`docs/success_report.md`](docs/success_report.md) for the full analysis with code review tiers.
 
-| Model | Status | Elapsed (s) | Files | Notes |
-| --- | --- | ---: | ---: | --- |
-| Claude Opus 4.6 | completed | 970.51 | 1536 | Two-phase run completed and the generated workspace matched the target app shape. |
-| Kimi K2.5 | completed | 1738.77 | 3405 | Two-phase run completed and produced the largest project tree in the rerun. |
-| MiniMax M2.7 | completed | 847.23 | 100 | Two-phase run completed cleanly and was the fastest successful rerun. |
+**Runtime viability summary** (Tier 1 = actually works, Tier 2 = works with caveats, Tier 3 = broken core):
 
-Additional notes from that rerun:
+| Tier | Models |
+|---|---|
+| 1 (works) | Claude Opus 4.6, Claude Sonnet 4.6, GLM 5 |
+| 2 (caveats) | GLM 5.1, Step 3.5 Flash, Qwen 3.5 35B (local) |
+| 3 (broken) | Kimi K2.5, MiniMax M2.7, DeepSeek V3.2, Gemini 3.1 Pro, Grok 4.20, Qwen 3.6 Plus, Qwen 3 Coder Next, Qwen 3.5 122B |
+| failed | GPT 5.4 Pro (tooling), Gemma 4 31B, GPT OSS 20B, Qwen 3 32B, Llama 4 Scout |
 
-- all three fresh reruns finished with `finish_reason: stop`
-- all three recorded `phases: 2`
-- the harness attempted to export the final `opencode` session, but `session_exported` remained `false` in all three saved `result.json` files
-- `docs/report.md` reflects this fresh rerun snapshot
+The headline finding: **structural completeness does not predict runtime correctness**. A model can produce a 9/9 artifact checklist with 37 test methods and still call a non-existent gem API. Only the Anthropic models and GLM 5 use the real `RubyLLM.chat`/`chat.ask` API correctly. See the [success report](docs/success_report.md) for per-model breakdown.
 
 ## Notes
 
@@ -265,12 +375,14 @@ Additional notes from that rerun:
 
 ## What We Learned
 
-- The most reliable benchmark path in this repo today is OpenRouter plus the two-phase continuation flow.
-- The follow-up prompt materially improved run quality because it forced models to validate boot, Docker build, and Compose startup instead of stopping after code generation.
+- **Benchmark metrics lie about runtime correctness.** Test counts, file counts, and artifact checklists do not measure whether the generated code actually works. A model can write 37 test methods and still call a hallucinated API. The only reliable signal is reading the LLM integration code by hand and verifying it uses real gem methods. See [`docs/success_report.md`](docs/success_report.md) for the runtime viability audit.
+- **Most models hallucinate the RubyLLM API.** Out of 14 models that "completed" the benchmark structurally, only 3 use the correct `RubyLLM.chat(model:)` / `chat.ask("...")` pattern: Claude Opus, Claude Sonnet, and GLM 5. The rest invent classes (`RubyLLM::Client`), methods (`add_message`, `complete`, `chat.user`), or bypass RubyLLM with the wrong gem (Grok 4.20 used `ruby-openai` from a `dev/test`-only Gemfile group → NameError in production).
+- **The most reliable benchmark path** in this repo today is OpenRouter plus the two-phase continuation flow.
+- **The follow-up prompt** materially improved run quality because it forced models to validate boot, Docker build, and Compose startup instead of stopping after code generation.
 - `opencode` can continue an existing session for the second prompt, and that works well enough for the benchmark harness.
 - The `opencode export` step is still flaky in this environment. The run metadata captures the session ID, but the exported JSON snapshot was not emitted in the latest successful reruns.
-- Local Ollama runs are still useful for warmup experiments, but not reliable enough for unattended coding benchmarks on this hardware. llama-swap resolved most of these reliability issues (see below).
-- If local serving matters, llama-swap with HuggingFace GGUFs is the recommended path. It resolved all the model loading, context drift, and lifecycle issues that made Ollama impractical for unattended runs.
+- **Local Ollama runs** are still useful for warmup experiments, but not reliable enough for unattended coding benchmarks on this hardware. llama-swap resolved most of these reliability issues (see below).
+- If local serving matters, **llama-swap with HuggingFace GGUFs** is the recommended path. It resolved all the model loading, context drift, and lifecycle issues that made Ollama impractical for unattended runs.
 
 ## GPT 5.4 Pro: Tool Calling Incompatibility
 

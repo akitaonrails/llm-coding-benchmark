@@ -6,6 +6,7 @@ results/*/followup-opencode-stderr.log
 results/*/session-export.json
 results/*/session-export.stderr.log
 results/*/prompt.txt
+results/*/followup-prompt.txt
 results/ollama_warmup.json
 tmp/
 config/opencode.benchmark.json
