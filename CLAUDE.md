@@ -82,6 +82,16 @@ The benchmark logic lives in a Python package under `scripts/benchmark/`:
 
 Model slugs in `config/models.json` are used as directory names under `results/` and as `--model` CLI arguments. Use the slug (e.g. `claude_opus_4_6`, `qwen3_5_35b`) not the full provider ID.
 
+## Secrets Handling
+
+**NEVER print, echo, or otherwise expose API keys, tokens, passwords, or other secrets in tool output.** This conversation transcript is preserved and any leaked secret needs to be rotated.
+
+- Do not run `env`, `printenv`, `cat .env`, or `grep ENV_VAR_NAME` patterns that would dump secret values into the visible output.
+- When checking if an env var is set, redact the value: `python3 -c "import os; print('set' if os.environ.get('FOO') else 'unset')"` instead of `echo $FOO`.
+- When testing API endpoints, never echo back the request body containing the key. Pipe through `python3` to extract just the status/response field.
+- If you must reference a secret value (e.g. for debugging a bad key), show only a prefix and length: `${KEY:0:6}…(${#KEY} chars)`.
+- If a secret accidentally appears in tool output, immediately tell the user it was leaked and recommend rotating it.
+
 ## Important Patterns
 
 - The benchmark generates a **local opencode config** (`config/opencode.benchmark.json`) from the user's home config at `~/.config/opencode/opencode.json`. Benchmark subprocesses run with `OPENCODE_CONFIG=config/opencode.benchmark.json`.

@@ -208,6 +208,20 @@
       "label": "Gemini 3.1 Pro",
       "provider": "openrouter",
       "selection_reason": "Latest Google Gemini model with enhanced SWE performance and agentic reliability. Input $2.00/M, output $12.00/M."
+    },
+    {
+      "slug": "grok_4_20",
+      "id": "openrouter/x-ai/grok-4.20",
+      "label": "Grok 4.20",
+      "provider": "openrouter",
+      "selection_reason": "xAI's latest flagship model on OpenRouter. Input $2.00/M, output $6.00/M, 2M context, tool calling supported."
+    },
+    {
+      "slug": "glm_5_1",
+      "id": "zai/glm-5.1",
+      "label": "GLM 5.1",
+      "provider": "zai",
+      "selection_reason": "Z.ai's latest flagship GLM model. Not available on OpenRouter; uses Z.ai direct API via ZAI_API_KEY env var."
     }
   ]
 }
