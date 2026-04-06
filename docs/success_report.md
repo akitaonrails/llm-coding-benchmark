@@ -187,6 +187,40 @@ Models with prompt caching (Anthropic, Step, MiniMax) use dramatically fewer inp
 
 **Note on GPT 5.4 Pro:** This failure is an **opencode tooling limitation**, not a model capability issue. GPT 5.4 Pro's function calling works correctly through OpenAI's native API and tooling (ChatGPT, Cursor, etc.). In the author's experience with other coding tools, GPT 5.4 Pro performs on par with Claude Opus 4.6 for autonomous coding tasks. It failed this benchmark solely because opencode's OpenRouter integration cannot handle OpenAI's tool calling response format. A fair comparison would require testing GPT 5.4 Pro through its native tooling (e.g., Codex CLI, ChatGPT Pro) rather than through an intermediary like OpenRouter. At $7.20/run through OpenRouter it is also prohibitively expensive — the ChatGPT Pro subscription ($200/month) would be far more cost-effective for heavy usage.
 
+### Gemma 4 31B via Ollama Cloud — infrastructure ceiling at ~20K tokens
+
+After repeated failures of local Gemma 4 (infinite tool-call repetition loop on llama.cpp; see "Local Failures" below), we wired up the **Ollama Cloud** version (`gemma4:31b-cloud`) which runs the model on Ollama's hosted infrastructure rather than our own llama.cpp build. The motivating question: is Gemma 4 actually capable for agentic tool calling when not crippled by the local parser bugs?
+
+**The model itself works correctly.** Curl tests against `https://ollama.com/v1/chat/completions` confirm:
+- Plain text completion: clean response
+- Single tool call (non-streaming): proper `tool_calls` array, `finish_reason: tool_calls`
+- Single tool call (streaming): proper SSE deltas, no parser errors, ~67 tok/s
+- 8K-token prompt: 10s round-trip, no issues
+
+**But the benchmark fails consistently** at the same point. Two runs both failed at ~20-24K total tokens of conversation history with HTTP `504 Gateway Timeout` from Ollama Cloud:
+
+| Run | Steps before failure | total_tokens at failure |
+|---|---:|---:|
+| First attempt | 6 | 24,011 |
+| Second attempt (with `maxRetries: 5`) | ~25 | 21,789 |
+
+The failures are **structural, not transient.** Adding `maxRetries: 5` to the Vercel AI SDK's openai-compatible provider didn't help — either all 5 retries failed identically, or the SDK isn't honoring the option for this error class. The consistent failure point (~22K tokens across two runs) strongly suggests Ollama Cloud has a per-request compute time limit (likely Cloudflare's 100s edge timeout) and processing 20K+ tokens of conversation history on a 31B model exceeds that.
+
+**What we tried:**
+
+| Fix | Result |
+|---|---|
+| `maxRetries: 5` in provider options | No change. Same failure at same context size. |
+| Custom `User-Agent` header | No change. Cloudflare doesn't seem to discriminate on UA. |
+| Compare `/v1/chat/completions` vs `/api/chat` endpoints | Both work fine on small prompts (1-2s). `/api/chat` slightly faster. opencode is locked into `/v1/chat/completions` via `@ai-sdk/openai-compatible`, so we can't switch even if `/api/chat` had different timeout behavior. |
+| `limit.context: 16384` to force opencode history trimming | Pending — sets opencode to summarize older messages before any single request exceeds 16K tokens, well below the 20K failure ceiling. Trade-off: model loses long-term memory of earlier tool results. Untested as of this writing. |
+
+**Verdict so far:** Gemma 4 via Ollama Cloud is **not viable** for long agentic coding sessions in its current configuration. The model is genuinely capable but the cloud serving infrastructure has a hard ceiling around 20K tokens per request that opencode's natural conversation growth blows past in 5-25 steps. Even if `limit.context: 16384` works to keep requests below the wall, the benchmark will run with degraded long-term memory which biases the result downward.
+
+**Fair-comparison path:** test Gemma 4 via Google AI Studio's native Gemini API (or through OpenRouter's Google provider when one exists), which doesn't have a Cloudflare proxy in front of it. Drop Ollama Cloud as a Gemma 4 host for benchmarking purposes — it's fine for short interactive use but hits a wall on multi-turn agentic workloads.
+
+**Marked `skip_by_default: true`** in `config/models.json` until either (a) Ollama Cloud raises the per-request timeout, or (b) we find a path to the model via a different cloud provider without the proxy ceiling.
+
 ### Local Failures (llama-swap / llama.cpp)
 
 | Model | Issue | Root Cause | Fixable? |

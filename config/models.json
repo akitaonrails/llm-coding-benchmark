@@ -156,7 +156,7 @@
       "label": "Gemma 4 31B Cloud",
       "provider": "openrouter",
       "skip_by_default": true,
-      "selection_reason": "Added as the OpenRouter cloud Gemma 4 benchmark counterpart to the unusable local Gemma 4 path. Skipped by default because the current opencode build does not ship an OpenRouter Gemma 4 registry entry and fails immediately with ProviderModelNotFoundError."
+      "selection_reason": "Google Gemma 4 31B IT BF16 served via Ollama's hosted cloud (https://ollama.com). Originally added to bypass the local llama.cpp parser bugs that caused infinite repetition loops on local Q3/Q8 GGUFs. Curl tests confirm the model itself works correctly for tool calling. **However, opencode benchmark runs hit HTTP 504 Gateway Timeout consistently around 20-24K total tokens of conversation history** — Cloudflare edge appears to enforce a ~100s per-request limit which 20K+ token prefill exceeds. Tried maxRetries:5 (didn't help — failures are consistent, not transient). Set limit.context:16384 to force opencode history trimming below the wall. Skipped by default until either Ollama Cloud raises the timeout or we test via Google's native Gemini API. Requires OLLAMA_API_KEY env var with Ollama Cloud subscription."
     },
     {
       "slug": "llama4_scout_cloud",
@@ -257,6 +257,13 @@
       "skip_by_default": true,
       "llama_swap_model": "qwen3.5-sushi-coder:27b",
       "selection_reason": "Qwen 3.5 27B fine-tuned via reinforcement learning on Codeforces problems (bigatuna/Qwen3.5-27b-Sushi-Coder-RL). Q4_K_M ~15 GB. Tests whether RL coding fine-tuning transfers correct RubyLLM API usage — direct comparison with the Claude reasoning distillation (qwen3.5:27b-claude) and the general qwen3.5:35b."
+    },
+    {
+      "slug": "gemma4_31b_cloud",
+      "id": "ollama-cloud/gemma4-31b",
+      "label": "Gemma 4 31B (Ollama Cloud)",
+      "provider": "ollama-cloud",
+      "selection_reason": "Google Gemma 4 31B IT BF16 served via Ollama's hosted cloud (https://ollama.com). Bypasses the local llama.cpp parser bugs that caused infinite repetition loops on local Q3/Q8 GGUFs. Tests whether Gemma 4 is actually capable for agentic tool calling when served by Google's full-precision infrastructure rather than crippled by quantization + parser regressions. Requires OLLAMA_API_KEY env var with an Ollama Cloud subscription."
     }
   ]
 }

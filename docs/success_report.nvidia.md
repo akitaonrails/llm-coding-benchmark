@@ -18,7 +18,7 @@ So the NVIDIA results are not directly comparable to the AMD ones — same model
 |---|---|---:|---:|---|---|
 | **qwen3_5_27b_claude** | completed | 12m | 1662 | **Tier 3** | Hallucinated `RubyLLM::Chat.new.with_model{}` and `add_message()`. Distillation transferred Claude's code style but not the actual API. |
 | **qwen3_5_35b** | completed | 5m | 128 | (not deeply audited) | The general MoE finished cleanly. |
-| **gemma4_31b** | completed_with_errors | 8m | 1288 | n/a | Same Gemma 4 repetition loop pattern as on AMD server. |
+| **gemma4_31b** | completed_with_errors | 8m | 1288 | n/a | Same Gemma 4 repetition loop pattern as on AMD server. The model itself is fine — see the [Ollama Cloud Gemma 4 section in the main report](success_report.md#gemma-4-31b-via-ollama-cloud--infrastructure-ceiling-at-20k-tokens) where curl tests confirmed clean tool calling. The issue is purely the local llama.cpp parser. |
 | **qwen3_32b** | completed_with_errors | 4m | 1134 | n/a | Partial scaffold, did not terminate cleanly. |
 | **qwen3_coder_30b** | completed_with_errors | 6m | 1333 | **Tier 3** | Created project in nested `chat_app/` subdir. Returned a hardcoded mock string instead of calling RubyLLM at all. |
 | **qwen2_5_coder_32b** | timeout | 90m | **0** | — | 90 minute timeout, empty project directory. The 1.8 MB ndjson shows the model thrashed without writing a single file. |
