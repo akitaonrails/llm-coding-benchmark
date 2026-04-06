@@ -75,8 +75,18 @@ The benchmark logic lives in a Python package under `scripts/benchmark/`:
 
 ### Reports
 
-- `docs/report.md` — consolidated benchmark summary
-- `docs/ollama_warmup.md` — warmup results
+Auto-generated (rebuilt every benchmark run):
+- `docs/report.md` — AMD server / cloud profile consolidated table
+- `docs/report.nvidia.md` — NVIDIA RTX 5090 workstation profile consolidated table
+- `docs/ollama_warmup.md` — Ollama warmup preflight tok/s
+- `docs/llama_swap_warmup.nvidia.md` — NVIDIA llama-swap preflight tok/s
+
+Hand-written deep code review (the actual interpretive analysis):
+- `docs/success_report.md` — AMD/cloud profile per-model code audit, Tier 1/2/3 runtime viability, failure analysis (including Gemma 4 Ollama Cloud 504 timeout investigation), pricing/time/test comparison tables
+- `docs/success_report.nvidia.md` — NVIDIA workstation profile audit + headline finding that Claude reasoning distillation does NOT transfer library API knowledge
+
+Local infra docs:
+- `docs/llama-swap.md` — full guide to the NVIDIA llama-swap Docker setup (CUDA 12.8 + sm_120 build, model sourcing via Ollama symlinks vs HF GGUFs, VRAM budget reasoning, common pitfalls)
 
 ## Model Slug Convention
 

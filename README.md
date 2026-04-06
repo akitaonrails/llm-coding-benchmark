@@ -36,11 +36,21 @@ The current successful path is a two-phase OpenRouter run:
 - `llama.md`
   Notes on replacing Ollama with `llama.cpp` or other OpenAI-compatible local servers.
 - `results/`
-  Per-model artifacts and warmup output JSON.
+  Per-model artifacts for the AMD server / cloud profile (default).
+- `results-nvidia/`
+  Per-model artifacts for the NVIDIA RTX 5090 workstation profile.
 - `docs/report.md`
-  Consolidated benchmark report.
-- `docs/ollama_warmup.md`
-  Warmup summary report for local Ollama models.
+  Auto-generated consolidated benchmark table for the AMD/cloud profile.
+- `docs/report.nvidia.md`
+  Auto-generated consolidated benchmark table for the NVIDIA workstation profile.
+- `docs/success_report.md`
+  **Hand-written deep code review** of every model in the AMD/cloud profile. Tier 1/2/3 runtime viability classification, per-model failure analysis, pricing/time/test comparison tables, and the documented limitations of file-count and test-count as benchmark metrics. Includes the Gemma 4 Ollama Cloud failure analysis.
+- `docs/success_report.nvidia.md`
+  **Hand-written deep code review** of every model in the NVIDIA workstation profile. Includes the headline finding that Claude reasoning distillation does NOT transfer library API knowledge.
+- `docs/llama-swap.md`
+  Comprehensive guide to the local llama-swap Docker setup for the NVIDIA profile (CUDA 12.8 + sm_120 build, model sourcing, VRAM budget, common pitfalls).
+- `docs/ollama_warmup.md` / `docs/llama_swap_warmup.nvidia.md`
+  Auto-generated per-model preflight tok/s reports.
 
 ## Benchmark Workflow
 
@@ -364,14 +374,29 @@ Each model run writes to `results/<slug>/`:
 - `followup-*` — Second-phase continuation output. **Gitignored.**
 - `session-export.json` — Exported `opencode` session snapshot. **Gitignored.**
 
-Warmup writes:
+Warmup writes (AMD/Ollama profile):
 
 - `results/ollama_warmup.json`
 - `docs/ollama_warmup.md`
 
-The consolidated benchmark report is written to:
+Warmup writes (NVIDIA llama-swap profile):
 
-- `docs/report.md`
+- `results-nvidia/llama_swap_warmup.json`
+- `docs/llama_swap_warmup.nvidia.md`
+
+The consolidated auto-generated benchmark reports:
+
+- `docs/report.md` — AMD/cloud profile (the default `--results-dir results/`)
+- `docs/report.nvidia.md` — NVIDIA workstation profile (`--results-dir results-nvidia/`)
+
+The hand-written deep code review and runtime viability analysis (which is what you usually want):
+
+- `docs/success_report.md` — AMD/cloud profile
+- `docs/success_report.nvidia.md` — NVIDIA workstation profile
+
+For the local llama-swap Docker setup (only relevant if running the NVIDIA profile):
+
+- `docs/llama-swap.md` — full guide, hardware tuning, common pitfalls
 
 ## Interpreting Results
 
