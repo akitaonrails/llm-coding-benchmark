@@ -22,6 +22,7 @@ from benchmark.config import (
     resolve_ollama_model_name,
     summarize_project,
 )
+from benchmark.loop_detector import ToolCallLoopDetector
 from benchmark.util import (
     count_files,
     format_duration,
@@ -208,6 +209,7 @@ def stream_process_output(
     terminal_stop_grace_seconds = 5.0
     consecutive_error_events = 0
     error_loop_threshold = 5
+    tool_call_loop_detector = ToolCallLoopDetector(threshold=5)
 
     def _make_result(timed_out: bool, stalled: bool, stall_reason: str | None) -> StreamResult:
         return StreamResult(
@@ -340,6 +342,18 @@ def stream_process_output(
                                             )
                                             print_line(f"[{model_slug}] {slow_reason}")
                                             return _make_result(False, True, slow_reason)
+
+                            # Tool-call loop detection (Gemini CLI style)
+                            if event.get("type") == "tool_use":
+                                part = event.get("part", {})
+                                tool_name = part.get("tool", "")
+                                tool_input = part.get("state", {}).get("input", {})
+                                if tool_name and tool_call_loop_detector.record(tool_name, tool_input):
+                                    kill_process_group(process)
+                                    stall_reason = tool_call_loop_detector.loop_description(tool_name)
+                                    print_line(f"[{model_slug}] {stall_reason}")
+                                    return _make_result(False, True, stall_reason)
+
                             if not is_error_event:
                                 description = describe_event(event)
                                 if description:
