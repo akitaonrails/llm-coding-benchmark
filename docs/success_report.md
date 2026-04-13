@@ -219,7 +219,11 @@ The failures are **structural, not transient.** Adding `maxRetries: 5` to the Ve
 
 **Fair-comparison path:** test Gemma 4 via Google AI Studio's native Gemini API (or through OpenRouter's Google provider when one exists), which doesn't have a Cloudflare proxy in front of it. Drop Ollama Cloud as a Gemma 4 host for benchmarking purposes — it's fine for short interactive use but hits a wall on multi-turn agentic workloads.
 
-**Marked `skip_by_default: true`** in `config/models.json` until either (a) Ollama Cloud raises the per-request timeout, or (b) we find a path to the model via a different cloud provider without the proxy ceiling.
+**Final attempt with `limit.context: 16384`** (to force opencode history trimming below the wall): same failure. The model completed 10 steps — 3 on environment setup (installed Ruby/Rails via mise, produced only `mise.toml`), then got stuck calling `todowrite` with malformed arguments 7 times consecutively (`invalid_type: expected array, received undefined`). It burned through ~21K tokens on the todo-call loop before the 504 hit. Zero application code was generated. No signal about RubyLLM API correctness.
+
+**Post-mortem note:** The tool-call loop detector merged from [PR #1](https://github.com/akitaonrails/llm-coding-benchmark/pull/1) (SHA256 hashing of tool_name + args, kills after 5 consecutive identical calls) would have caught this todowrite loop at attempt 5 instead of letting it run until the 504 timeout. This is exactly the failure mode the PR was designed to address.
+
+**Marked `skip_by_default: true`** in `config/models.json` until either (a) Ollama Cloud raises the per-request timeout, (b) we find a path to the model via a different cloud provider without the proxy ceiling, or (c) Google adds Gemma 4 to their AI Studio / Vertex AI API with native tool calling support.
 
 ### Local Failures (llama-swap / llama.cpp)
 
