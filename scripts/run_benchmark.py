@@ -121,10 +121,6 @@ def main() -> int:
     report_path = Path(args.report)
     warmup_path = Path(args.ollama_warmup_results)
 
-    if shutil.which("opencode") is None:
-        print("opencode is not available on PATH", file=sys.stderr)
-        return 1
-
     config = load_json(config_path)
     prompt = prompt_path.read_text().strip()
     followup_prompt = None
@@ -145,6 +141,16 @@ def main() -> int:
     if args.max_runs is not None:
         selected_models = selected_models[: args.max_runs]
 
+    # Check that required runner binaries are available
+    has_opencode_models = any(m.get("runner_type", "opencode") == "opencode" for m in selected_models)
+    has_codex_models = any(m.get("runner_type") == "codex" for m in selected_models)
+    if has_opencode_models and shutil.which("opencode") is None:
+        print("opencode is not available on PATH (needed by selected models)", file=sys.stderr)
+        return 1
+    if has_codex_models and shutil.which("codex") is None:
+        print("codex is not available on PATH (needed by selected models)", file=sys.stderr)
+        return 1
+
     warmup_payload = load_ollama_warmup_payload(warmup_path)
 
     if args.sync_ollama_contexts_only:
@@ -164,8 +170,9 @@ def main() -> int:
         print_line(f"Local backend: {backend.backend_name} at {api_base}")
 
     if not args.report_only:
+        opencode_models = [m for m in selected_models if m.get("runner_type", "opencode") == "opencode"]
         config_summary = write_local_opencode_config(
-            opencode_config_path, selected_models, warmup_payload,
+            opencode_config_path, opencode_models, warmup_payload,
             local_api_base=args.local_api_base, local_backend_type=args.local_backend,
         )
         print_local_opencode_config_summary(config_summary)

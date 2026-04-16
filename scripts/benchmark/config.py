@@ -285,8 +285,9 @@ def model_enables_followup(model: dict[str, Any]) -> bool:
     explicit = model.get("enable_followup")
     if isinstance(explicit, bool):
         return explicit
-    # Default: enabled for cloud providers, disabled for local (historically unreliable)
-    return model["provider"] != "ollama"
+    # Default: enabled for cloud providers, disabled for local and codex
+    # (codex uses --ephemeral with no session continuity)
+    return model["provider"] not in ("ollama", "codex")
 
 
 def prepare_local_opencode_config(
@@ -331,6 +332,10 @@ def prepare_local_opencode_config(
             local_config["provider"][provider_name]["models"] = {}
 
     ollama_provider = source_providers.get("ollama")
+    # When using llama-swap backend, also accept a "llama-swap" provider as the
+    # source for local models (the home config may wire models there directly).
+    if not isinstance(ollama_provider, dict) and using_llama_swap:
+        ollama_provider = source_providers.get("llama-swap")
     if isinstance(ollama_provider, dict):
         local_ollama_provider = clone_json(ollama_provider)
         source_ollama_models = ollama_provider.get("models", {})

@@ -72,6 +72,15 @@
       "selection_reason": "Requested local model family; exact hosted variant available through opencode. Skipped by default because the current benchmark pass is restricted to OpenRouter models that previously completed successfully."
     },
     {
+      "slug": "qwen3_6_35b",
+      "id": "ollama/qwen/qwen3.6-35b",
+      "label": "Qwen 3.6 35B",
+      "provider": "ollama",
+      "skip_by_default": true,
+      "llama_swap_model": "qwen3.6:35b",
+      "selection_reason": "Qwen 3.6 35B-A3B (released 2026-04-15). Same qwen3_5_moe architecture as 3.5 (35B total / 3B active MoE). Q3_K_M ~16 GB — drop-in replacement for 3.5. Significant benchmark gains: SWE-bench 73.4 (was 70), Terminal-Bench 51.5 (was 40.5), MCPMark 37 (was 27). Has vision encoder. Same chat template and llama.cpp flags as 3.5."
+    },
+    {
       "slug": "qwen3_5_122b",
       "id": "ollama/qwen/qwen3.5-122b",
       "label": "Qwen 3.5 122B",
@@ -112,12 +121,28 @@
       "selection_reason": "Exact requested cloud model."
     },
     {
+      "slug": "claude_opus_4_7",
+      "id": "openrouter/anthropic/claude-opus-4.7",
+      "label": "Claude Opus 4.7",
+      "provider": "openrouter",
+      "selection_reason": "Anthropic Claude Opus 4.7 on OpenRouter. Built for long-running async agents. Same pricing as 4.6: $5/M input, $25/M output. 1M context, 128K max output. Released 2026-04-16."
+    },
+    {
       "slug": "gpt_5_4_pro",
       "id": "openrouter/openai/gpt-5.4-pro",
       "label": "GPT 5.4 Pro",
       "provider": "openrouter",
       "skip_by_default": true,
       "selection_reason": "Chosen from the OpenRouter GPT 5.4 family as the largest and most coding-oriented variant. Skipped by default because it failed in the previous benchmark pass."
+    },
+    {
+      "slug": "gpt_5_4_codex",
+      "id": "gpt-5.4",
+      "label": "GPT 5.4 xHigh (Codex)",
+      "provider": "codex",
+      "runner_type": "codex",
+      "codex_reasoning_effort": "xhigh",
+      "selection_reason": "GPT 5.4 via Codex CLI at xhigh reasoning effort. Tier 2: correct entry point (RubyLLM.chat + ask + response.content) but add_message uses keyword args instead of positional hash — crashes on multi-turn. ~$16/run (15x Claude). Polished architecture but wrong API calling convention."
     },
     {
       "slug": "kimi_k2_5",

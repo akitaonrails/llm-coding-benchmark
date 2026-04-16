@@ -43,6 +43,15 @@
       "benchmark_context_override": 131072
     },
     {
+      "slug": "qwen3_6_35b",
+      "id": "ollama/qwen/qwen3.6-35b",
+      "label": "Qwen 3.6 35B",
+      "provider": "ollama",
+      "llama_swap_model": "qwen3.6:35b",
+      "selection_reason": "Qwen 3.6 35B-A3B (released 2026-04-15). Same qwen3_5_moe architecture, Q3_K_M ~16 GB — identical VRAM footprint as 3.5. Significant benchmark gains over 3.5. [NVIDIA RTX 5090 profile: ctx 131072 to fit 32 GB VRAM]",
+      "benchmark_context_override": 131072
+    },
+    {
       "slug": "gpt_oss_20b",
       "id": "ollama/openai/gpt-oss-20b",
       "label": "GPT OSS 20B",

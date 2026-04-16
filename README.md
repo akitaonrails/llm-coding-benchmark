@@ -49,6 +49,8 @@ The current successful path is a two-phase OpenRouter run:
   **Hand-written deep code review** of every model in the NVIDIA workstation profile. Includes the headline finding that Claude reasoning distillation does NOT transfer library API knowledge.
 - `docs/llama-swap.md`
   Comprehensive guide to the local llama-swap Docker setup for the NVIDIA profile (CUDA 12.8 + sm_120 build, model sourcing, VRAM budget, common pitfalls).
+- `docs/codex-integration.md`
+  Codex CLI integration guide: how GPT 5.4 runs via `codex exec` instead of opencode, all the hurdles encountered (shell wrapper, relative paths, sandbox flags, reasoning effort, JSONL format differences).
 - `docs/ollama_warmup.md` / `docs/llama_swap_warmup.nvidia.md`
   Auto-generated per-model preflight tok/s reports.
 

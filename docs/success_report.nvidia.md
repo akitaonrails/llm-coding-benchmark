@@ -12,10 +12,11 @@ So the NVIDIA results are not directly comparable to the AMD ones — same model
 
 ---
 
-## Results Summary (8 models)
+## Results Summary (9 models)
 
 | Model | Status | Time | Files | Tier | Why |
 |---|---|---:|---:|---|---|
+| **qwen3_6_35b** | completed | 5m | 169 | **Tier 2** | Correct `RubyLLM.chat(model:, provider:)` + `chat.ask()` entry point. Missing `.content` on response (displays object instead of text). Multi-turn broken (new chat per request). 14 tests but no LLM mocking. |
 | **qwen3_5_27b_claude** | completed | 12m | 1662 | **Tier 3** | Hallucinated `RubyLLM::Chat.new.with_model{}` and `add_message()`. Distillation transferred Claude's code style but not the actual API. |
 | **qwen3_5_35b** | completed | 5m | 128 | (not deeply audited) | The general MoE finished cleanly. |
 | **gemma4_31b** | completed_with_errors | 8m | 1288 | n/a | Same Gemma 4 repetition loop pattern as on AMD server. The model itself is fine — see the [Ollama Cloud Gemma 4 section in the main report](success_report.md#gemma-4-31b-via-ollama-cloud--infrastructure-ceiling-at-20k-tokens) where curl tests confirmed clean tool calling. The issue is purely the local llama.cpp parser. |
@@ -25,9 +26,9 @@ So the NVIDIA results are not directly comparable to the AMD ones — same model
 | **qwen3_5_27b_sushi_coder** | failed | 6m | **0** | — | `ProviderModelNotFoundError` — model wasn't registered with the ollama provider config at runtime. Infrastructure failure, not the model's fault. |
 | **gpt_oss_20b** | dropped | — | — | — | llama.cpp main has a regression in the harmony tool-call autoparser. Errors with `Failed to parse input at pos N: <\|channel\|>...` on multi-turn sessions. See "GPT OSS 20B" section below. |
 
-**Bottom line: 0 of 8 NVIDIA models produced runnable code.** The two that completed cleanly (`qwen3_5_27b_claude`, `qwen3_5_35b`) hallucinated the RubyLLM API. Everything else either crashed, timed out, or produced obvious garbage.
+**Bottom line: Qwen 3.6 35B is the first NVIDIA model to reach Tier 2.** Its primary RubyLLM API calls (`RubyLLM.chat` + `chat.ask`) are correct — the first open-source local model to get the entry point right. However, two bugs prevent clean runtime: missing `.content` on the response object (displays object repr instead of text) and broken multi-turn (new chat object per request). The other 8 models either hallucinated the API entirely, crashed, timed out, or had infrastructure failures.
 
-This is consistent with the AMD profile's runtime viability findings — only Claude Opus, Claude Sonnet, and GLM 5 actually use the real RubyLLM API correctly across the entire benchmark, and none of those are available as local llama-swap models.
+This is an improvement over the previous round where 0 of 8 NVIDIA models produced any runnable code. Qwen 3.6's SWE-bench gains (73.4 vs 3.5's 70.0) translate into measurably better gem API recall — the model correctly discovered the `ruby_llm` gem name (self-corrected from `rubyllm` via rubygems lookup) and used the real entry point.
 
 ---
 
@@ -141,6 +142,63 @@ The same Claude-distilled model ran very differently on the two profiles:
 **Counterintuitive finding: the smaller quant (NVIDIA Q3_K_M) is NOT noticeably worse than the full Q8.** In some ways it's better-formed: cleaner Gemfile, finished the project, generated docker-compose. It's worse on the *one* axis that matters (its hallucinated API call is further from reality than AMD's first line), but both fail at runtime for the same reason.
 
 The 90-minute Q8 run produced **more typing, not more correctness**. This is consistent with the broader benchmark pattern: **API correctness is binary recall, not a function of compute budget or quantization within reason.** A model either knows the gem's API or it doesn't, and giving it more parameters and longer thinking time doesn't help if the knowledge isn't in there.
+
+---
+
+## Qwen 3.6 35B: First Local Model to Reach Tier 2
+
+Qwen 3.6 35B-A3B (released 2026-04-15) is the successor to Qwen 3.5 35B-A3B with the same MoE architecture (35B total / 3B active). Q3_K_M at ~16 GB, same VRAM footprint as 3.5. Benchmark gains from Qwen's published numbers: SWE-bench 73.4 (was 70.0), Terminal-Bench 51.5 (was 40.5), MCPMark 37 (was 27).
+
+### Benchmark Results
+
+| Metric | Qwen 3.6 35B | Qwen 3.5 35B |
+|---|---|---|
+| Status | completed | completed |
+| Elapsed | 282s (4m 42s) | 308s (5m 8s) |
+| Files | 169 | 128 |
+| Total tokens | 67,946 | 84,158 |
+| Preview tok/s avg | 187.77 | 190.37 |
+| Tests | 14 | not audited |
+| Tier | **Tier 2** | not audited |
+
+### RubyLLM Integration — Mostly Correct
+
+`app/services/chat_service.rb`:
+
+```ruby
+chat = RubyLLM.chat(
+  model: ENV.fetch("LLM_MODEL") { "anthropic/claude-sonnet-4-20250514" },
+  provider: :openrouter,
+  api_key: ENV.fetch("OPENROUTER_API_KEY")
+)
+response = chat.ask(user_message)
+{ role: "assistant", content: response }  # BUG: should be response.content
+```
+
+**What's correct:**
+- `RubyLLM.chat(model:, provider:)` — correct entry point with explicit OpenRouter routing
+- `chat.ask(user_message)` — correct message sending
+- Correct gem name `ruby_llm` in Gemfile (self-corrected from `rubyllm` via rubygems lookup)
+
+**What's broken:**
+1. **Missing `.content`** — returns the raw `RubyLLM::Message` object instead of `response.content`. The view would display the object's `inspect` representation rather than the assistant text.
+2. **Multi-turn broken** — creates a new `RubyLLM.chat()` object on every request. The `@messages` conversation array is built but never fed into the chat object. RubyLLM maintains history on the chat instance; the correct pattern is to persist the chat object and call `.ask()` multiple times.
+
+### Tests — No LLM Mocking
+
+14 tests across 4 files:
+- `message_test.rb` — 6 tests (model validations, good)
+- `chat_controller_test.rb` — 3 tests (index/show)
+- `messages_controller_test.rb` — 2 tests (validation only)
+- `chat_service_test.rb` — 3 tests (initialization, missing env var)
+
+No test mocks `RubyLLM.chat` or `chat.ask`. The happy path is completely untested.
+
+### What This Means
+
+Qwen 3.6 is the **first local model in the entire benchmark to get the primary RubyLLM API calls right**. No previous local model (Qwen 3, Qwen 3.5, Gemma 4, GPT OSS, or the Claude-distilled variants) correctly called `RubyLLM.chat(model:)` + `chat.ask()`. The 3.6 model found the correct gem name through self-correction (tried `rubyllm`, got a rubygems error, searched and found `ruby_llm`) — a genuine reasoning improvement over 3.5.
+
+However, the two bugs (missing `.content`, broken multi-turn) prevent clean runtime. A developer could fix both in under 5 minutes, making this the first local model that's actually *close* to usable — a meaningful step forward from the previous round's 0-of-8 result.
 
 ---
 

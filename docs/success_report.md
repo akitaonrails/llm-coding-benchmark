@@ -21,24 +21,25 @@ Cloud models ran a two-phase flow (phase 1: build, phase 2: validate boot/Docker
 
 ## Successful Models at a Glance
 
-14 of 18 models completed the benchmark. All produced a recognizable Rails project with the core artifacts. The table below ranks them by overall practical quality.
+15 of 19 models completed the benchmark. All produced a recognizable Rails project with the core artifacts. The table below ranks them by overall practical quality.
 
 | Rank | Model | Provider | Time | Tests | All Gems | Dockerfile | Compose | README | Phase 2 |
 |---:|---|---|---:|---:|:---:|:---:|:---:|:---:|:---:|
-| 1 | Claude Sonnet 4.6 | OpenRouter | 16m | 30 | Yes | Yes | Yes | 126L | Yes |
-| 2 | Claude Opus 4.6 | OpenRouter | 16m | 16 | Yes | Yes | Yes | 164L | Yes |
-| 3 | Kimi K2.5 | OpenRouter | 29m | 37 | Yes | Yes | Yes | 181L | Yes |
-| 4 | MiniMax M2.7 | OpenRouter | 14m | 12 | Yes | Yes | Yes | 121L | Yes |
-| 5 | GLM 5 | OpenRouter | 17m | 7 | Yes | Yes | Yes | 99L | Yes |
-| 6 | GLM 5.1 | Z.ai | 22m | 24 | Yes | Yes | Yes | ~100L | Yes |
-| 7 | Qwen 3.6 Plus | OpenRouter | 17m | 7 | Yes | Yes | Yes | 107L | Yes |
-| 8 | Qwen 3.5 35B | Local | 28m | 11 | Yes | Yes | Yes | 202L | No |
-| 9 | Qwen 3 Coder Next | Local | 17m | 3 | Yes | Yes | Yes | 69L | No |
-| 10 | DeepSeek V3.2 | OpenRouter | 60m | 11 | Yes | Yes | Yes | 265L | Yes |
-| 11 | Qwen 3.5 122B | Local | 43m | 16 | No* | Yes | Yes | 167L | No |
-| 12 | Step 3.5 Flash | OpenRouter | 38m | 8 | No** | Yes | Yes | 103L | Yes |
-| 13 | Gemini 3.1 Pro | OpenRouter | 14m | 5 | Yes | Yes | Yes | ~100L | Yes |
-| 14 | Grok 4.20 | OpenRouter | 8m | 3 | No*** | Yes | Yes | ~80L | Yes |
+| 1 | **Claude Opus 4.7** | OpenRouter | 18m | 28 | Yes | Yes | Yes | ~180L | Yes |
+| 2 | Claude Sonnet 4.6 | OpenRouter | 16m | 30 | Yes | Yes | Yes | 126L | Yes |
+| 3 | Claude Opus 4.6 | OpenRouter | 16m | 16 | Yes | Yes | Yes | 164L | Yes |
+| 4 | Kimi K2.5 | OpenRouter | 29m | 37 | Yes | Yes | Yes | 181L | Yes |
+| 5 | MiniMax M2.7 | OpenRouter | 14m | 12 | Yes | Yes | Yes | 121L | Yes |
+| 6 | GLM 5 | OpenRouter | 17m | 7 | Yes | Yes | Yes | 99L | Yes |
+| 7 | GLM 5.1 | Z.ai | 22m | 24 | Yes | Yes | Yes | ~100L | Yes |
+| 8 | Qwen 3.6 Plus | OpenRouter | 17m | 7 | Yes | Yes | Yes | 107L | Yes |
+| 9 | Qwen 3.5 35B | Local | 28m | 11 | Yes | Yes | Yes | 202L | No |
+| 10 | Qwen 3 Coder Next | Local | 17m | 3 | Yes | Yes | Yes | 69L | No |
+| 11 | DeepSeek V3.2 | OpenRouter | 60m | 11 | Yes | Yes | Yes | 265L | Yes |
+| 12 | Qwen 3.5 122B | Local | 43m | 16 | No* | Yes | Yes | 167L | No |
+| 13 | Step 3.5 Flash | OpenRouter | 38m | 8 | No** | Yes | Yes | 103L | Yes |
+| 14 | Gemini 3.1 Pro | OpenRouter | 14m | 5 | Yes | Yes | Yes | ~100L | Yes |
+| 15 | Grok 4.20 | OpenRouter | 8m | 3 | No*** | Yes | Yes | ~80L | Yes |
 
 *Qwen 3.5 122B built a custom OpenRouter HTTP client instead of using the ruby_llm gem.
 ***Grok 4.20 is missing ruby_llm, bundle-audit, turbo-rails, stimulus-rails, and importmap-rails entirely.
@@ -54,6 +55,7 @@ Does the generated project have all the requested artifacts?
 
 | Model | Gemfile | Routes | App | Views | JS | Tests | README | Dockerfile | Compose | Score |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|---:|
+| Claude Opus 4.7 | Y | Y | Y | Y | Y | Y | Y | Y | Y | 9/9 |
 | Claude Opus 4.6 | Y | Y | Y | Y | Y | Y | Y | Y | Y | 9/9 |
 | Claude Sonnet 4.6 | Y | Y | Y | Y | Y | Y | Y | Y | Y | 9/9 |
 | Kimi K2.5 | Y | Y | Y | Y | Y | Y | Y | Y | Y | 9/9 |
@@ -76,6 +78,7 @@ Number of test files and test methods (assertions/test cases) written by each mo
 |---|---:|---:|---|
 | Kimi K2.5 | 5 | 37 | +131% |
 | **Claude Sonnet 4.6** | 5 | 30 | +88% |
+| **Claude Opus 4.7** | 5 | 28 | +75% |
 | GLM 5.1 | 5 | 24 | +50% |
 | **Claude Opus 4.6 (baseline)** | 4 | 16 | -- |
 | Qwen 3.5 122B | 3 | 16 | 0% |
@@ -97,6 +100,7 @@ The prompt explicitly required ruby_llm, brakeman, rubocop, simplecov, and bundl
 
 | Model | ruby_llm | brakeman | rubocop | simplecov | bundle-audit | Score |
 |---|:---:|:---:|:---:|:---:|:---:|---:|
+| Claude Opus 4.7 | Y | Y | Y | Y | Y | 5/5 |
 | Claude Opus 4.6 | Y | Y | Y | Y | Y | 5/5 |
 | Claude Sonnet 4.6 | Y | Y | Y | Y | Y | 5/5 |
 | Kimi K2.5 | Y | Y | Y | Y | Y | 5/5 |
@@ -183,9 +187,10 @@ Models with prompt caching (Anthropic, Step, MiniMax) use dramatically fewer inp
 
 | Model | Issue | Root Cause |
 |---|---|---|
-| **GPT 5.4 Pro** | Stalled after tool-calls, never reached `stop` | opencode's tool calling integration does not support OpenAI's native function calling format. The model emits `finish_reason: tool-calls` but opencode can't process the response chain. Produced 1118 files but no docker-compose. |
+| **GPT 5.4 Pro** (OpenRouter) | Stalled after tool-calls, never reached `stop` | opencode's tool calling integration does not support OpenAI's native function calling format via OpenRouter. |
+| **GPT 5.4 xHigh** (Codex CLI) | **Completed** — see Tier 2 analysis below | Ran via Codex CLI directly against OpenAI API, bypassing OpenRouter. Correct entry point but `add_message` keyword args crash at runtime. |
 
-**Note on GPT 5.4 Pro:** This failure is an **opencode tooling limitation**, not a model capability issue. GPT 5.4 Pro's function calling works correctly through OpenAI's native API and tooling (ChatGPT, Cursor, etc.). In the author's experience with other coding tools, GPT 5.4 Pro performs on par with Claude Opus 4.6 for autonomous coding tasks. It failed this benchmark solely because opencode's OpenRouter integration cannot handle OpenAI's tool calling response format. A fair comparison would require testing GPT 5.4 Pro through its native tooling (e.g., Codex CLI, ChatGPT Pro) rather than through an intermediary like OpenRouter. At $7.20/run through OpenRouter it is also prohibitively expensive — the ChatGPT Pro subscription ($200/month) would be far more cost-effective for heavy usage.
+**GPT 5.4 via Codex CLI — concrete results replace the earlier author vouch:** The previous version of this report noted the author's experience that GPT 5.4 "performs on par with Claude Opus 4.6." We can now test this directly. See the [GPT 5.4 Codex section](#gpt-54-xhigh-via-codex-cli--tier-2-impressive-architecture-wrong-api-calling-convention) below for the full analysis. **Result: Tier 2, not Tier 1.** Correct primary API calls but broken multi-turn due to `add_message` keyword args. At ~$16/run (15x Claude), the cost-to-quality ratio is poor for this specific benchmark.
 
 ### Gemma 4 31B via Ollama Cloud — infrastructure ceiling at ~20K tokens
 
@@ -294,13 +299,11 @@ These models completed both phases, produced all artifacts, and required zero co
 
 | Model | Why |
 |---|---|
-| GPT 5.4 Pro | opencode tooling incompatibility (not a model issue — see note below) |
+| GPT 5.4 Pro (OpenRouter) | opencode tooling incompatibility — now tested via Codex CLI instead (Tier 2, see below) |
 | Gemma 4 31B (local) | Infinite repetition loop after ~11 steps |
 | Llama 4 Scout (local) | No tool call parser in llama.cpp |
 | GPT OSS 20B (local) | Too small to follow workspace instructions |
 | Qwen 3 32B (local) | Too slow on current hardware |
-
-**Note on GPT 5.4 Pro:** In the author's experience, GPT 5.4 Pro performs on par with Claude Opus 4.6 for coding tasks when used through native OpenAI tooling (Codex CLI, ChatGPT Pro). Its failure here is purely an opencode/OpenRouter integration issue.
 
 ### Recommendation
 
@@ -486,6 +489,7 @@ response.content  # => "Hi there!"
 
 | Model | RubyLLM API Correct? | Would Run? | Tests Mock LLM? | Issue |
 |---|:---:|:---:|:---:|---|
+| **Claude Opus 4.7** | Yes | **Yes** | Yes (FakeChat) | Clean implementation, 28 tests, end-to-end verified |
 | **Claude Opus 4.6** | Yes | **Yes** | Yes (mocha) | Clean implementation |
 | **Claude Sonnet 4.6** | Yes | **Yes** | Yes (mocha) | Clean, minor duplicate const |
 | **GLM 5** | Yes | **Yes** | Yes (mocha) | Standard API, works |
@@ -498,6 +502,7 @@ response.content  # => "Hi there!"
 | **Qwen 3 Coder Next** | No | **No** | No | `RubyLLM::Client` class doesn't exist — immediate `NameError` |
 | **Qwen 3.5 122B** | No | **No** | No | `Openrouter::Client` gem doesn't exist — immediate `NameError` |
 | **Gemini 3.1 Pro** | Partial | **No** | Yes (wrong API) | `RubyLLM::Chat.new` instead of `RubyLLM.chat`, invented `add_message()` |
+| **GPT 5.4 xHigh** (Codex) | Partial | **First msg only** | Yes (FakeChat) | Correct `RubyLLM.chat`/`ask`/`response.content`, but `add_message(role:, content:)` uses keyword args instead of positional hash — `ArgumentError` on multi-turn. 22 tests. |
 | **GLM 5.1** | Partial | **First msg only** | No | Correct `RubyLLM.chat`/`ask`, but invented `c.user`/`c.assistant` for history seeding. Single-turn works, multi-turn crashes. Also `RUBY_VERSION=4.0.2` Dockerfile bug. |
 | **Grok 4.20** | N/A | **No** | No | Bypasses RubyLLM with `OpenAI::Client.new` from `ruby-openai` gem, but ruby-openai is only in dev/test group. NameError in production. Also `format.turbo_stream` without turbo-rails installed. |
 
@@ -505,7 +510,7 @@ response.content  # => "Hi there!"
 
 ### What Went Wrong
 
-**11 out of 14 models invented non-existent APIs or got wrong gem requirements.** The most common failure mode was hallucinating an OpenAI-style client interface:
+**11 out of 15 models invented non-existent APIs or got wrong gem requirements.** The most common failure mode was hallucinating an OpenAI-style client interface:
 
 - DeepSeek V3.2 and Qwen 3 Coder Next both invented `RubyLLM::Client.new` — a class that does not exist.
 - Qwen 3.5 122B invented an `Openrouter::Client` gem that does not exist at all.
@@ -527,6 +532,7 @@ Based on actual runtime viability, not just structural completeness:
 **Tier 1: Actually Works**
 | Model | Cost/Run | Time | Why |
 |---|---:|---:|---|
+| Claude Opus 4.7 | ~$1.10 | 18m | Correct API, 28 tests with FakeChat pattern, end-to-end verified in Docker. Best test architecture of any model. |
 | Claude Sonnet 4.6 | ~$0.63 | 16m | Correct API, proper mocking, clean architecture |
 | Claude Opus 4.6 | ~$1.05 | 16m | Correct API, proper mocking, streaming support |
 | GLM 5 | ~$0.11 | 17m | Correct API, proper mocking, 89% cheaper than Opus |
@@ -534,6 +540,7 @@ Based on actual runtime viability, not just structural completeness:
 **Tier 2: Works with Caveats**
 | Model | Cost/Run | Time | Caveat |
 |---|---:|---:|---|
+| GPT 5.4 xHigh (Codex) | ~$16.00 | 22m | Correct entry point + `ask` + `response.content`. But `add_message(role:, content:)` uses keyword args instead of positional hash — `ArgumentError` on multi-turn. Single-turn works. Most polished architecture of any model (form objects, cache sessions, Stimulus) but 15x Claude's cost. |
 | GLM 5.1 (Z.ai) | Subscription | 22m | Single-turn chat works (correct `RubyLLM.chat`/`ask`); multi-turn history seeding hallucinated `c.user`/`c.assistant`. Also `RUBY_VERSION=4.0.2` Dockerfile bug needs fixing. |
 | Step 3.5 Flash | ~$0.02 | 38m | Bypasses RubyLLM entirely (raw HTTP). Functional but doesn't use the requested gem. |
 | Qwen 3.5 35B | Free | 28m | May work if RubyLLM default model is configured. No test mocking. |
@@ -561,6 +568,130 @@ Based on actual runtime viability, not just structural completeness:
 Step 3.5 Flash works at runtime but cheats by bypassing RubyLLM. Everything else either crashes on startup or fails when you try to send a message.
 
 This reveals a critical limitation of benchmark metrics: **file count, test count, and artifact checklist do not measure whether the code actually works.** A model can score 9/9 on completeness, write 37 test methods, and still produce a non-functional application. The only reliable signal is whether the model correctly uses real APIs — and most models hallucinate API interfaces they've seen in training data rather than using the actual gem's API.
+
+---
+
+## Claude Opus 4.7: New Benchmark Leader
+
+Claude Opus 4.7 (released 2026-04-16, same pricing as 4.6: $5/M input, $25/M output) ran the benchmark in 18 minutes across both phases and produced the strongest overall result in the entire benchmark.
+
+### Key Improvements Over Opus 4.6
+
+| | Opus 4.6 | Opus 4.7 |
+|---|---|---|
+| Tests | 16 (4 files) | **28** (5 files) |
+| Test architecture | Minitest::Mock stubs | Dedicated FakeChat/FakeClient pattern |
+| Phase 1 time | 576s | 732s (more up-front work) |
+| Phase 2 time | 394s | 360s (faster validation) |
+| Coverage | Not measured | 96.69% (SimpleCov) |
+| End-to-end verified | Boot test | **Boot + real API call + Docker Compose full stack** |
+
+### RubyLLM Integration
+
+The core implementation in `app/services/llm_client.rb`:
+
+```ruby
+chat = RubyLLM.chat(model: @model, provider: @provider)
+chat.with_instructions(@system_prompt)
+# History replay:
+messages.each { |msg| chat.add_message({ role: msg.role.to_sym, content: msg.content }) }
+response = chat.ask(user_message)
+response.content
+```
+
+Every method call is correct:
+- `RubyLLM.chat(model:, provider:)` -- correct entry point with explicit provider routing
+- `chat.with_instructions(...)` -- correct system prompt API
+- `chat.add_message({...})` -- correct hash-argument form (positional, not keyword)
+- `chat.ask(message)` -- correct message sending
+- `response.content` -- correct response extraction
+
+### Provider Discovery
+
+Both Opus 4.6 and 4.7 hit the same provider-routing trap: the model alias `claude-sonnet-4-6` resolves to native Anthropic rather than OpenRouter, causing a "Missing configuration for Anthropic: anthropic_api_key" error. Both models self-diagnosed and fixed this in phase 2 — Opus 4.7 by adding `provider: :openrouter` to the `RubyLLM.chat()` call.
+
+### Test Architecture
+
+Opus 4.7's test mocking is the most sophisticated in the benchmark. Instead of using Minitest::Mock or Mocha stubs, it builds dedicated `FakeChat` and `FakeClient` classes that mirror the RubyLLM API surface:
+
+- `FakeChat` responds to `add_message`, `ask`, `with_instructions` — matching the real API
+- `FakeClient` replaces `RubyLLM` at the module level during tests
+- Tests cover: history replay, string responses, `.content` extraction, error wrapping, default model, explicit model override, default provider, explicit provider override, system prompt
+
+This is better than mocking individual method calls because the fakes encode the actual API contract, making tests more resilient to refactoring.
+
+### Docker Validation
+
+Phase 2 performed unusually thorough Docker validation:
+1. Local boot test — server starts, responds on /up
+2. **Real API call** — sent a chat message through the running app to OpenRouter, Claude Sonnet replied "PONG" in 2.5s
+3. Docker build — multi-stage build with Thruster, fixed .ruby-version and Bundler version issues
+4. Docker Compose — full production stack with healthcheck, verified assets load via digested paths
+5. **Real API call inside Docker container** — confirmed end-to-end works in the containerized build
+
+No other model in the benchmark performed a real API call during validation — most just verified boot.
+
+### Verdict: Tier 1 (Benchmark Leader)
+
+Opus 4.7 is the new benchmark leader: correct RubyLLM API, best test architecture, most thorough phase 2 validation, and the only model to verify real end-to-end API calls inside Docker. The ~2 minute slower time vs 4.6 is offset by significantly more comprehensive output.
+
+---
+
+## GPT 5.4 xHigh via Codex CLI — Tier 2: Impressive Architecture, Wrong API Calling Convention
+
+GPT 5.4 ran via OpenAI's Codex CLI (`codex exec`) at xHigh reasoning effort, bypassing the OpenRouter/opencode integration that previously blocked it. This is the first concrete GPT 5.4 benchmark result, replacing the earlier author vouch.
+
+### Results
+
+| Metric | GPT 5.4 xHigh | Claude Opus 4.7 | Claude Opus 4.6 |
+|---|---|---|---|
+| Elapsed | 22m | 18m | 16m |
+| Files | 1,808 (inflated by node_modules) | 11,345 (inflated by bundle) | ~9,000 |
+| Total tokens | **7,643,800** | 118,216 | ~91,000 |
+| Output tokens | 63,249 | ~40K | ~30K |
+| Tests | 22 | 28 | 16 |
+| Est. cost | **~$16.00** | ~$1.10 | ~$1.05 |
+| Tier | **Tier 2** | Tier 1 | Tier 1 |
+
+### The Bug: `add_message` Keyword Args
+
+`app/services/chat_completion.rb`:
+
+```ruby
+chat = client.chat(model: model, provider: :openrouter, assume_model_exists: true)
+chat.with_instructions(SYSTEM_PROMPT)
+previous_messages.each do |message|
+  chat.add_message(role: message.role.to_sym, content: message.content)  # BUG
+end
+response = chat.ask(latest_user_message.content)
+response.content  # correct
+```
+
+Everything is correct **except** `chat.add_message(role:, content:)` — this passes keyword arguments, but the real method signature takes a single positional hash: `chat.add_message({role: :user, content: "..."})`. At runtime, Ruby raises `ArgumentError: wrong number of arguments (given 0, expected 1)` on the first multi-turn exchange.
+
+Single-turn works perfectly. The entry point (`RubyLLM.chat(model:, provider:, assume_model_exists:)`), system prompt (`with_instructions`), message sending (`ask`), and response extraction (`response.content`) are all correct.
+
+### What GPT 5.4 Does Well
+
+The architecture is the **most sophisticated in the entire benchmark**:
+- `ChatCompletion` service with dependency-injected RubyLLM client
+- `ChatSession` backed by `Rails.cache` with TTL and max-message trimming
+- `ChatMessage` PORO model and `PromptSubmission` form object
+- Turbo Stream responses with Stimulus controllers for keyboard submit and auto-scroll
+- `bin/ci` script running tests + rubocop + brakeman
+- 22 tests with FakeChat doubles
+
+This is more polished than Claude Opus 4.7's output in terms of design patterns. But the one thing this benchmark measures — correct gem API usage — is wrong.
+
+### The Cost Problem
+
+7.6M total tokens at xHigh reasoning effort is enormous. At approximately $2/M input + $8/M output (GPT 5.4 pricing), the run cost ~$16 — **15x more than either Claude Opus run**. The extra thinking tokens did not prevent the `add_message` keyword args bug.
+
+### What This Means
+
+The personal vouch that GPT 5.4 "performs on par with Claude Opus 4.6" is **partially confirmed**: the architecture quality, test coverage, and overall engineering sophistication are genuinely comparable. But on the specific axis this benchmark measures — correct usage of a less-common Ruby gem API — GPT 5.4 fails in the same way most non-Claude models fail: it gets close but hallucinates the calling convention for `add_message`. This is the same class of bug as Qwen 3.6 (missing `.content`), GLM 5.1 (invented `c.user`/`c.assistant`), and Gemini 3.1 Pro (invented `Chat.new` + `add_message`).
+
+**API correctness is binary recall, not a function of reasoning effort or token budget.** GPT 5.4 at xHigh spent 7.6M tokens and still got the calling convention wrong. Claude Opus 4.6 spent 91K tokens and got it right. The knowledge is either in the weights or it isn't.
 
 ---
 

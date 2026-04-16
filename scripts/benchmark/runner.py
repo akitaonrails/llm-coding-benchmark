@@ -7,9 +7,10 @@ import select
 import signal
 import subprocess
 import time
+from shlex import quote as shlex_quote
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 from benchmark.backends import LocalModelBackend
 from benchmark.config import (
@@ -83,6 +84,33 @@ def build_opencode_command(
     return command
 
 
+def build_codex_command(
+    model_id: str,
+    project_dir: Path,
+    reasoning_effort: str | None = None,
+) -> list[str]:
+    """Build a codex exec command for a fully autonomous benchmark run."""
+    # Build codex exec arguments. The codex binary may be a shell wrapper
+    # (e.g., `exec npx --yes @openai/codex "$@"`) so we launch through bash
+    # to ensure the full shell environment (mise, node) is available.
+    codex_args = [
+        "codex", "exec",
+        "--json",
+        "--ephemeral",
+        "--dangerously-bypass-approvals-and-sandbox",
+        "--skip-git-repo-check",
+        "-s", "danger-full-access",
+        "-C", str(project_dir.resolve()),
+        "-m", model_id,
+    ]
+    if reasoning_effort:
+        codex_args.extend(["-c", f"model_reasoning_effort={reasoning_effort}"])
+    codex_args.append("-")  # read prompt from stdin
+    # Wrap in bash -lc to get login shell environment (mise, PATH, etc.)
+    cmd = ["bash", "-lc", " ".join(shlex_quote(a) for a in codex_args)]
+    return cmd
+
+
 def export_opencode_session(
     session_id: str,
     export_path: Path,
@@ -152,6 +180,45 @@ def extract_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
+def extract_codex_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
+    """Extract session/token metrics from Codex CLI JSONL events."""
+    thread_id = None
+    total_input = 0
+    total_output = 0
+    text_parts: list[str] = []
+    last_turn_failed = False
+
+    for event in events:
+        etype = event.get("type")
+        if etype == "thread.started":
+            thread_id = event.get("thread_id")
+        elif etype == "turn.completed":
+            usage = event.get("usage", {})
+            total_input += usage.get("input_tokens", 0)
+            total_output += usage.get("output_tokens", 0)
+            last_turn_failed = False
+        elif etype == "turn.failed":
+            last_turn_failed = True
+        elif etype == "item.completed":
+            item = event.get("item", {})
+            if item.get("type") == "agent_message":
+                text = item.get("text", "")
+                if isinstance(text, str) and text:
+                    text_parts.append(text)
+
+    total_tokens = total_input + total_output
+    return {
+        "session_id": thread_id,
+        "finish_reason": "stop" if not last_turn_failed else "error",
+        "tokens": {
+            "input": total_input,
+            "output": total_output,
+            "total": total_tokens,
+        },
+        "assistant_output": "\n".join(text_parts).strip(),
+    }
+
+
 def describe_event(event: dict[str, Any]) -> str | None:
     event_type = event.get("type")
     part = event.get("part", {})
@@ -175,6 +242,40 @@ def describe_event(event: dict[str, Any]) -> str | None:
     return None
 
 
+def describe_codex_event(event: dict[str, Any]) -> str | None:
+    """Human-readable description of a Codex JSONL event for heartbeat logs."""
+    etype = event.get("type")
+    if etype == "thread.started":
+        return f"codex thread started: {event.get('thread_id', '-')}"
+    if etype == "turn.started":
+        return "codex turn started"
+    if etype == "turn.completed":
+        usage = event.get("usage", {})
+        out = usage.get("output_tokens", 0)
+        return f"codex turn completed (output_tokens={out})"
+    if etype == "turn.failed":
+        msg = event.get("error", {}).get("message", "unknown")
+        return f"codex turn failed: {shorten_text(str(msg))}"
+    if etype == "error":
+        return f"codex error: {shorten_text(event.get('message', 'unknown'))}"
+    if etype == "item.started":
+        item = event.get("item", {})
+        return f"codex item started: {item.get('type', 'unknown')}"
+    if etype == "item.completed":
+        item = event.get("item", {})
+        itype = item.get("type", "unknown")
+        if itype == "agent_message":
+            text = item.get("text", "")
+            return f"codex message: {shorten_text(text)}"
+        if itype == "command_execution":
+            cmd = item.get("command", "")
+            return f"codex command: {shorten_text(cmd)}"
+        if itype == "file_change":
+            return "codex file_change"
+        return f"codex item completed: {itype}"
+    return None
+
+
 def stream_process_output(
     *,
     process: subprocess.Popen[str],
@@ -187,6 +288,7 @@ def stream_process_output(
     no_progress_timeout_seconds: int,
     min_preview_output_tps: float | None,
     min_preview_samples: int,
+    event_describer: Callable[[dict[str, Any]], str | None] | None = None,
 ) -> StreamResult:
     stdout_chunks: list[str] = []
     stderr_chunks: list[str] = []
@@ -263,6 +365,7 @@ def stream_process_output(
                             is_error_event = (
                                 event.get("part", {}).get("type") == "error"
                                 or event.get("type") == "error"
+                                or event.get("type") == "turn.failed"
                             )
                             if is_error_event:
                                 consecutive_error_events += 1
@@ -343,6 +446,10 @@ def stream_process_output(
                                             print_line(f"[{model_slug}] {slow_reason}")
                                             return _make_result(False, True, slow_reason)
 
+                            # Codex: turn.completed is the terminal stop equivalent
+                            if event.get("type") == "turn.completed":
+                                terminal_stop_seen_at = now
+
                             # Tool-call loop detection (Gemini CLI style)
                             if event.get("type") == "tool_use":
                                 part = event.get("part", {})
@@ -354,8 +461,20 @@ def stream_process_output(
                                     print_line(f"[{model_slug}] {stall_reason}")
                                     return _make_result(False, True, stall_reason)
 
+                            # Codex: command_execution loop detection
+                            if event.get("type") == "item.completed":
+                                item = event.get("item", {})
+                                if item.get("type") == "command_execution":
+                                    cmd = item.get("command", "")
+                                    if cmd and tool_call_loop_detector.record("command_execution", {"command": cmd}):
+                                        kill_process_group(process)
+                                        stall_reason = tool_call_loop_detector.loop_description("command_execution")
+                                        print_line(f"[{model_slug}] {stall_reason}")
+                                        return _make_result(False, True, stall_reason)
+
                             if not is_error_event:
-                                description = describe_event(event)
+                                _describer = event_describer or describe_event
+                                description = _describer(event)
                                 if description:
                                     last_event_message = description
                                     last_activity_detail = description
@@ -595,6 +714,130 @@ def run_opencode_phase(
     return payload
 
 
+def run_codex_phase(
+    *,
+    bench: BenchmarkConfig,
+    model: dict[str, Any],
+    model_slug: str,
+    prompt: str,
+    started_at: str,
+    project_dir: Path,
+    prompt_path: Path,
+    stdout_path: Path,
+    stderr_path: Path,
+    result_path: Path | None,
+    phase_name: str = "phase1",
+    override_min_preview_tps: float | None = ...,  # sentinel
+) -> dict[str, Any]:
+    """Run a single benchmark phase using the Codex CLI."""
+    prompt_path.write_text(prompt)
+    command = build_codex_command(model["id"], project_dir, reasoning_effort=model.get("codex_reasoning_effort"))
+    wall_start = time.monotonic()
+
+    process_env = os.environ.copy()
+    # Codex uses OPENAI_API_KEY directly — no opencode config needed.
+
+    process = subprocess.Popen(
+        command,
+        cwd=project_dir.resolve(),
+        env=process_env,
+        text=True,
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        start_new_session=True,
+        bufsize=1,
+    )
+    # Write prompt to stdin then close it so codex reads it via '-'
+    if process.stdin:
+        try:
+            process.stdin.write(prompt)
+            process.stdin.close()
+        except BrokenPipeError:
+            pass
+
+    effective_min_tps = bench.min_preview_output_tps if override_min_preview_tps is ... else override_min_preview_tps
+
+    result = stream_process_output(
+        process=process,
+        stdout_path=stdout_path,
+        stderr_path=stderr_path,
+        project_dir=project_dir,
+        model_slug=f"{model_slug}/{phase_name}",
+        backend=None,  # Codex models are cloud-only
+        timeout_seconds=bench.timeout_seconds,
+        no_progress_timeout_seconds=bench.no_progress_timeout_seconds,
+        min_preview_output_tps=effective_min_tps,
+        min_preview_samples=bench.min_preview_samples,
+        event_describer=describe_codex_event,
+    )
+
+    wall_end = time.monotonic()
+    events = parse_event_stream(result.stdout)
+    metrics = extract_codex_metrics(events)
+    project_summary = summarize_project(project_dir)
+    elapsed_seconds = round(wall_end - wall_start, 2)
+    total_tokens = metrics["tokens"].get("total")
+    terminal_stop_completed = metrics["finish_reason"] == "stop"
+
+    if result.timed_out:
+        status = "timeout"
+    elif result.stalled:
+        status = "failed"
+    elif terminal_stop_completed and project_summary["works_as_intended"] == "yes":
+        status = "completed"
+    elif terminal_stop_completed:
+        status = "completed_with_errors"
+    elif process.returncode == 0 and project_summary["works_as_intended"] == "yes":
+        status = "completed"
+    elif process.returncode == 0:
+        status = "completed_with_errors"
+    else:
+        status = "failed"
+
+    payload = {
+        "phase": phase_name,
+        "assistant_output_excerpt": metrics["assistant_output"][:4000],
+        "command": command,
+        "continued_from_session": None,
+        "elapsed_seconds": elapsed_seconds,
+        "ended_at": utc_now(),
+        "exit_code": process.returncode,
+        "finish_reason": metrics["finish_reason"],
+        "model": model,
+        "opencode_session_id": metrics["session_id"],
+        "paths": {
+            "opencode_config": None,
+            "project_dir": str(project_dir),
+            "prompt": str(prompt_path),
+            "stderr": str(stderr_path),
+            "stdout": str(stdout_path),
+        },
+        "project_summary": project_summary,
+        "prompt_sha256": prompt_sha256(prompt),
+        "started_at": started_at,
+        "status": status,
+        "stderr_excerpt": result.stderr[:4000],
+        "stalled": result.stalled,
+        "stall_reason": result.stall_reason,
+        "timed_out": result.timed_out,
+        "timeout_seconds": bench.timeout_seconds,
+        "no_progress_timeout_seconds": bench.no_progress_timeout_seconds,
+        "tokens": metrics["tokens"],
+        "preview_output_tokens_per_second": result.latest_preview_output_tps,
+        "preview_output_tokens_per_second_average": result.preview_average_output_tps,
+        "tokens_per_second": round(total_tokens / elapsed_seconds, 2) if total_tokens and elapsed_seconds else None,
+        "output_tokens_per_second": (
+            round(metrics["tokens"].get("output", 0) / elapsed_seconds, 2)
+            if metrics["tokens"].get("output") and elapsed_seconds
+            else None
+        ),
+    }
+    if result_path is not None:
+        save_json(result_path, payload)
+    return payload
+
+
 def _kill_stale_opencode_processes() -> None:
     """Kill stale opencode run processes that may hold the SQLite DB lock.
 
@@ -740,14 +983,17 @@ def run_model(model: dict[str, Any], bench: BenchmarkConfig, index: int, total: 
             )
             return cached
 
-    _kill_stale_opencode_processes()
+    runner_type = model.get("runner_type", "opencode")
+
+    if runner_type != "codex":
+        _kill_stale_opencode_processes()
 
     started_at = utc_now()
     print_line("")
-    print_line(f"[{index}/{total}] starting {model['slug']} -> {model['id']}")
+    print_line(f"[{index}/{total}] starting {model['slug']} -> {model['id']} (runner={runner_type})")
     print_line(f"[{model['slug']}] results_dir={result_dir}")
     print_line(f"[{model['slug']}] timeout={bench.timeout_seconds}s")
-    if bench.opencode_config_path is not None:
+    if runner_type != "codex" and bench.opencode_config_path is not None:
         print_line(f"[{model['slug']}] opencode_config={bench.opencode_config_path}")
     print_line(f"[{model['slug']}] no_progress_timeout={bench.no_progress_timeout_seconds}s")
 
@@ -792,20 +1038,23 @@ def run_model(model: dict[str, Any], bench: BenchmarkConfig, index: int, total: 
             print_line(f"[{index}/{total}] finished {model['slug']} status=failed preflight_error={preflight_message}")
             return payload
 
-    phase1 = run_opencode_phase(
-        bench=bench,
-        model=model,
-        model_slug=model["slug"],
-        prompt=bench.prompt,
-        started_at=started_at,
-        project_dir=project_dir,
-        prompt_path=prompt_path,
-        stdout_path=stdout_path,
-        stderr_path=stderr_path,
-        result_path=phase1_result_path,
-        continue_session_id=None,
-        phase_name="phase1",
-    )
+    _run_phase = run_codex_phase if runner_type == "codex" else run_opencode_phase
+    phase1_kwargs: dict[str, Any] = {
+        "bench": bench,
+        "model": model,
+        "model_slug": model["slug"],
+        "prompt": bench.prompt,
+        "started_at": started_at,
+        "project_dir": project_dir,
+        "prompt_path": prompt_path,
+        "stdout_path": stdout_path,
+        "stderr_path": stderr_path,
+        "result_path": phase1_result_path,
+        "phase_name": "phase1",
+    }
+    if runner_type != "codex":
+        phase1_kwargs["continue_session_id"] = None
+    phase1 = _run_phase(**phase1_kwargs)
 
     phases = [phase1]
     final_phase = phase1
@@ -816,23 +1065,25 @@ def run_model(model: dict[str, Any], bench: BenchmarkConfig, index: int, total: 
         and not phase1.get("timed_out")
         and not phase1.get("stalled")
     ):
-        continued_session_id = phase1.get("opencode_session_id")
+        continued_session_id = phase1.get("opencode_session_id") if runner_type != "codex" else None
         print_line(f"[{model['slug']}] primary phase complete; continuing with follow-up prompt")
-        phase2 = run_opencode_phase(
-            bench=bench,
-            model=model,
-            model_slug=model["slug"],
-            prompt=build_followup_prompt(bench.followup_prompt, continued_session_id),
-            started_at=utc_now(),
-            project_dir=project_dir,
-            prompt_path=followup_prompt_path,
-            stdout_path=followup_stdout_path,
-            stderr_path=followup_stderr_path,
-            result_path=phase2_result_path,
-            continue_session_id=continued_session_id,
-            phase_name="phase2",
-            override_min_preview_tps=None,
-        )
+        phase2_kwargs: dict[str, Any] = {
+            "bench": bench,
+            "model": model,
+            "model_slug": model["slug"],
+            "prompt": build_followup_prompt(bench.followup_prompt, continued_session_id),
+            "started_at": utc_now(),
+            "project_dir": project_dir,
+            "prompt_path": followup_prompt_path,
+            "stdout_path": followup_stdout_path,
+            "stderr_path": followup_stderr_path,
+            "result_path": phase2_result_path,
+            "phase_name": "phase2",
+            "override_min_preview_tps": None,
+        }
+        if runner_type != "codex":
+            phase2_kwargs["continue_session_id"] = continued_session_id
+        phase2 = _run_phase(**phase2_kwargs)
         phases.append(phase2)
         final_phase = phase2
 
@@ -850,16 +1101,18 @@ def run_model(model: dict[str, Any], bench: BenchmarkConfig, index: int, total: 
         if mark_model_skip_by_default(bench.config_path, model["slug"], note):
             print_line(f"[{model['slug']}] marked skip_by_default in {bench.config_path}")
 
-    process_env = os.environ.copy()
-    if bench.opencode_config_path is not None:
-        process_env["OPENCODE_CONFIG"] = str(bench.opencode_config_path.resolve())
-    process_env["OPENCODE_PERMISSION"] = json.dumps(OPENCODE_YOLO_PERMISSION, separators=(",", ":"))
     session_id = final_phase.get("opencode_session_id") or phase1.get("opencode_session_id")
-    exported_session = (
-        export_opencode_session(session_id, session_export_path, process_env, model["slug"])
-        if isinstance(session_id, str) and session_id
-        else None
-    )
+    exported_session = None
+    if runner_type != "codex":
+        process_env = os.environ.copy()
+        if bench.opencode_config_path is not None:
+            process_env["OPENCODE_CONFIG"] = str(bench.opencode_config_path.resolve())
+        process_env["OPENCODE_PERMISSION"] = json.dumps(OPENCODE_YOLO_PERMISSION, separators=(",", ":"))
+        exported_session = (
+            export_opencode_session(session_id, session_export_path, process_env, model["slug"])
+            if isinstance(session_id, str) and session_id
+            else None
+        )
 
     total_elapsed = round(sum(float(phase.get("elapsed_seconds") or 0.0) for phase in phases), 2)
     payload = {
