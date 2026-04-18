@@ -10,7 +10,7 @@ For baseline comparisons, the reference is `results/claude_opus_4_7` (Opus 4.7 v
 
 ## Headline Findings
 
-1. **Zero delegations across all 7 multi-model runs.** Every variant had a coding subagent defined and visible to the main model. Every variant ran with the main model doing 100% of the work. The `Task` tool, opencode's task dispatcher, and Codex's `spawn_agent` all went unused.
+1. **Zero delegations across all 7 multi-model runs.** Every variant had at least one coding subagent visible to the main model (some more than intended — see Methodology Caveat below). Every variant ran with the main model doing 100% of the work. The `Task` tool, opencode's task dispatcher, and Codex's `spawn_agent` all went unused.
 
 2. **Claude Code is 4-7× more expensive than opencode** for the identical Opus 4.7 model on the identical prompt. Harness overhead (CLAUDE.md context, tool specs, TodoWrite events) produced 6-11M cache-read tokens per run vs opencode's ~210K.
 
@@ -37,9 +37,33 @@ Tiers use the same criteria as the main report: Tier 1 = correct RubyLLM API + p
 
 ---
 
+## Methodology Caveat: Claude Code Baseline Contamination
+
+A sanity check of the 7 runs revealed that the `claude_opus_alone` and `claude_opus_haiku` variants were contaminated by a user-level subagent file at `~/.claude/agents/sonnet-coder.md` that had been created earlier in the same session for an unrelated purpose. Claude Code inherits user-level agents in addition to project-local ones, so:
+
+| Variant | Intended subagents | Subagents actually registered (from init event) |
+|---|---|---|
+| `claude_opus_alone` | none | `sonnet-coder` (leaked from `~/.claude/agents/`) |
+| `claude_opus_sonnet` | sonnet-coder | `sonnet-coder` (correct by accident) |
+| `claude_opus_haiku` | haiku-coder | `haiku-coder` + `sonnet-coder` (leaked) |
+
+The opencode and Codex variants were not affected — verified by reading the generated opencode config and the written `.codex-coder.toml` files.
+
+**Implication for the finding:** The "zero delegations" conclusion is **strengthened**, not weakened. Three independent Claude Code runs all had a `sonnet-coder` subagent available, and all three ignored it. The "alone" baseline is mis-labeled — there is no true single-agent Claude Code run in this dataset. To get a clean "Opus with ZERO subagents available" control, the run would need to be repeated with `~/.claude/agents/` temporarily emptied. The closest true-baseline we have is the opencode `claude_opus_4_7` run (Tier 1, ~$1.10, no subagents configured).
+
+---
+
 ## Part 1: Claude Code — The Harness Regression
 
-All three Claude Code variants ran Opus 4.7 as the main model via `claude -p --output-format stream-json`. The variants differ only in what subagent file was placed in `.claude/agents/` inside the project directory before the run.
+All three Claude Code variants ran Opus 4.7 as the main model via `claude -p --output-format stream-json`. The variants were intended to differ in what subagent file was placed in `.claude/agents/` inside the project directory before the run. Due to the contamination described above, the actual available-subagent sets were:
+
+| Variant | Agents available to Opus (from init event) |
+|---|---|
+| `claude_opus_alone` | `Explore`, `Plan`, `general-purpose`, `statusline-setup`, **`sonnet-coder`** |
+| `claude_opus_sonnet` | same + **`sonnet-coder`** (intended) |
+| `claude_opus_haiku` | same + **`sonnet-coder`** + **`haiku-coder`** (intended) |
+
+Despite having delegation options available, **Opus invoked the `Task` tool zero times across all three runs.** The variants effectively measure the same thing: "Opus with a sonnet-coder subagent and built-in Explore/Plan/general-purpose agents, deciding whether to delegate on a greenfield Rails build." Answer: no, it doesn't.
 
 ### Token Usage vs opencode Baseline
 
