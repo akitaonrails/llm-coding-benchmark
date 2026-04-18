@@ -17,6 +17,8 @@ Cloud models ran a two-phase flow (phase 1: build, phase 2: validate boot/Docker
 
 > **NVIDIA workstation profile**: this report covers the AMD Strix Halo server (full Q8 weights, 200K+ context) and OpenRouter / Z.ai cloud models. For the parallel **NVIDIA RTX 5090 workstation** results (Q3_K_M / Q4_K_M quants, 32 GB VRAM, 64-128K context), see [`success_report.nvidia.md`](success_report.nvidia.md). The headline NVIDIA finding — that Claude reasoning distillation does **not** transfer library API knowledge — is summarized below.
 
+> **Multi-agent orchestration**: a separate [`success_report.multi_model.md`](success_report.multi_model.md) covers 7 benchmark variants where a main model plans and a coding subagent executes (Claude Code with sonnet/haiku subagents, opencode with GLM 5.1/Qwen 3.6 subagents, Codex with medium/low effort subagents). Headline finding: **zero of the 7 runs voluntarily delegated.** Also: Claude Code produced measurably worse code than opencode for the same Opus 4.7 model on the same prompt — harness context matters.
+
 ---
 
 ## Successful Models at a Glance

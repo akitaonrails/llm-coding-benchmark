@@ -15,6 +15,16 @@ The current successful path is a two-phase OpenRouter run:
 1. phase 1 builds the Rails app
 2. phase 2 continues the same session and validates local boot, `docker build`, and `docker compose up --build`
 
+## Key Findings
+
+The deep code reviews in `docs/success_report*.md` are the substance of this repo. Headlines:
+
+- **Most models hallucinate the RubyLLM gem API.** Only Claude Opus/Sonnet and GLM 5 produce working code out of the box. Most models invent fluent APIs (`chat.add_message()`, `RubyLLM::Client.new`, `chat.complete`) that crash at runtime, then write tests that mock those invented APIs — so tests pass and the code is still broken. File-count and test-count are not reliable signals. See [`docs/success_report.md`](docs/success_report.md).
+- **Claude reasoning distillation does NOT transfer library API knowledge.** A Qwen 3.5 27B distilled from Claude 4.6 Opus reasoning traces produced code that *looks* Claude-shaped but still hallucinated the RubyLLM API in the same way. API correctness is binary recall, not a reasoning skill. See [`docs/success_report.nvidia.md`](docs/success_report.nvidia.md).
+- **Multi-agent subagent patterns don't fire on cohesive tasks.** Across 7 benchmark variants with Claude Code, opencode, and Codex multi-agent configurations — every model ignored its coding subagent and did 100% of the work itself. "Use PROACTIVELY" language was not persuasive against "skip for architectural decisions" caveats on a greenfield Rails build. See [`docs/success_report.multi_model.md`](docs/success_report.multi_model.md).
+- **The harness matters for correctness, not just cost.** The same Opus 4.7 model produced Tier 1 code (correct RubyLLM API) in opencode and Tier 2/3 code (hallucinated `chat.complete`) in Claude Code. Claude Code's 6-11M cache-read tokens per run (vs opencode's ~210K) appear to nudge the model toward generic OpenAI-SDK patterns. Same model, different harness, different correctness.
+- **GPT 5.4 via Codex CLI is Tier 2, not Tier 1.** The previous version of this report carried an author's vouch that GPT 5.4 "performs on par with Claude Opus." Concrete testing via Codex CLI at xHigh reasoning shows GPT 5.4 produces the most polished *architecture* of any model but hallucinates `chat.add_message(role:, content:)` as keyword args — crashes on multi-turn. ~$16/run, 15× Claude's cost for worse API correctness.
+
 ## What This Project Contains
 
 - `config/models.json`
@@ -47,6 +57,8 @@ The current successful path is a two-phase OpenRouter run:
   **Hand-written deep code review** of every model in the AMD/cloud profile. Tier 1/2/3 runtime viability classification, per-model failure analysis, pricing/time/test comparison tables, and the documented limitations of file-count and test-count as benchmark metrics. Includes the Gemma 4 Ollama Cloud failure analysis.
 - `docs/success_report.nvidia.md`
   **Hand-written deep code review** of every model in the NVIDIA workstation profile. Includes the headline finding that Claude reasoning distillation does NOT transfer library API knowledge.
+- `docs/success_report.multi_model.md`
+  **Hand-written deep code review** of 7 multi-agent benchmark variants (Claude Code subagents, opencode multi-agent, Codex multi-agent). Headline findings: zero models voluntarily delegated on a greenfield Rails task, and Claude Code produced measurably worse code than opencode for the same Opus 4.7 model due to harness context pollution.
 - `docs/llama-swap.md`
   Comprehensive guide to the local llama-swap Docker setup for the NVIDIA profile (CUDA 12.8 + sm_120 build, model sourcing, VRAM budget, common pitfalls).
 - `docs/codex-integration.md`

@@ -84,6 +84,7 @@ Auto-generated (rebuilt every benchmark run):
 Hand-written deep code review (the actual interpretive analysis):
 - `docs/success_report.md` — AMD/cloud profile per-model code audit, Tier 1/2/3 runtime viability, failure analysis (including Gemma 4 Ollama Cloud 504 timeout investigation), pricing/time/test comparison tables
 - `docs/success_report.nvidia.md` — NVIDIA workstation profile audit + headline finding that Claude reasoning distillation does NOT transfer library API knowledge
+- `docs/success_report.multi_model.md` — 7 multi-agent variants (3 Claude Code, 2 opencode, 2 Codex). Headline findings: zero delegations happened across all 7 runs; Claude Code's harness context made Opus 4.7 hallucinate `chat.complete` (Tier 3) vs opencode's Tier 1 on identical model+prompt
 
 Local infra docs:
 - `docs/llama-swap.md` — full guide to the NVIDIA llama-swap Docker setup (CUDA 12.8 + sm_120 build, model sourcing via Ollama symlinks vs HF GGUFs, VRAM budget reasoning, common pitfalls)

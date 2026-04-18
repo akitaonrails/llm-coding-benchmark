@@ -1,6 +1,6 @@
 # NVIDIA RTX 5090 Benchmark Success Report
 
-This report covers the **local llama-swap subset** of the LLM coding benchmark running on an NVIDIA RTX 5090 (Blackwell, sm_120, 32 GB VRAM). For the AMD Strix Halo server profile (full Q8 weights, large context, OpenRouter cloud models, Z.ai), see [`success_report.md`](success_report.md).
+This report covers the **local llama-swap subset** of the LLM coding benchmark running on an NVIDIA RTX 5090 (Blackwell, sm_120, 32 GB VRAM). For the AMD Strix Halo server profile (full Q8 weights, large context, OpenRouter cloud models, Z.ai), see [`success_report.md`](success_report.md). For multi-agent orchestration experiments (including an Opus-primary + Qwen 3.6-local-subagent variant that used this exact llama-swap setup), see [`success_report.multi_model.md`](success_report.multi_model.md) — spoiler: Opus never called the local Qwen subagent.
 
 The infrastructure setup is documented in [`llama-swap.md`](llama-swap.md). The hardware constraints are:
 
