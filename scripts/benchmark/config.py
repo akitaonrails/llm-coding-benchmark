@@ -320,8 +320,16 @@ def prepare_local_opencode_config(
         "provider": {},
     }
 
-    selected_provider_names = sorted({model["provider"] for model in models if model["provider"] != "ollama"})
-    for provider_name in selected_provider_names:
+    # Collect all cloud providers we'll need (models AND their opencode_subagent entries)
+    cloud_provider_names: set[str] = set()
+    for model in models:
+        if model.get("provider") != "ollama":
+            cloud_provider_names.add(model["provider"])
+        sub = model.get("opencode_subagent")
+        if isinstance(sub, dict) and sub.get("provider") and sub["provider"] != "ollama":
+            cloud_provider_names.add(sub["provider"])
+
+    for provider_name in sorted(cloud_provider_names):
         provider_entry = source_providers.get(provider_name)
         if isinstance(provider_entry, dict):
             local_config["provider"][provider_name] = clone_json(provider_entry)
@@ -422,6 +430,42 @@ def prepare_local_opencode_config(
             provider_entry["models"] = provider_models
         model_key, fallback_entry = fallback_provider_config_entry(model)
         provider_models.setdefault(model_key, fallback_entry)
+
+    # Multi-agent: emit primary + subagent definitions for any model with opencode_subagent
+    multi_agent_models = [m for m in models if isinstance(m.get("opencode_subagent"), dict)]
+    if multi_agent_models:
+        agent_map = local_config.setdefault("agent", {})
+        for model in multi_agent_models:
+            sub = model["opencode_subagent"]
+            sub_name = sub.get("name", "coder")
+            sub_model_id = sub["model_id"]
+            # Register the subagent's model in its provider's models map so opencode knows about it
+            sub_provider = sub.get("provider")
+            if sub_provider and sub_provider != "ollama":
+                prov_entry = local_config["provider"].setdefault(sub_provider, {})
+                prov_models = prov_entry.setdefault("models", {})
+                # Strip the "<provider>/" prefix to get the bare model key
+                bare_key = sub_model_id.split("/", 1)[-1] if "/" in sub_model_id else sub_model_id
+                prov_models.setdefault(bare_key, {"name": bare_key, "tool_call": True})
+            elif sub_provider == "ollama":
+                # llama-swap-backed subagent: add to the ollama provider models map
+                ollama_prov = local_config["provider"].setdefault("ollama", {})
+                ollama_models = ollama_prov.setdefault("models", {})
+                llama_swap_name = sub.get("llama_swap_model") or sub_model_id.split("/", 1)[-1]
+                bare_key = sub_model_id.split("/", 1)[-1] if "/" in sub_model_id else sub_model_id
+                ollama_models.setdefault(bare_key, {
+                    "id": llama_swap_name,
+                    "name": llama_swap_name,
+                    "tool_call": True,
+                })
+            # Emit the subagent itself
+            agent_map[sub_name] = {
+                "mode": "subagent",
+                "model": sub_model_id,
+                "description": sub.get("description", f"Delegate coding tasks to {sub_name}"),
+                "prompt": sub.get("prompt", "You are a focused coding agent. Execute precisely."),
+            }
+        summary["multi_agent_subagents"] = sorted({m["opencode_subagent"]["name"] for m in multi_agent_models})
 
     if not local_config["provider"]:
         summary["skipped_reason"] = "no provider config available for selected models"

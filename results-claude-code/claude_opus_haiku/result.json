@@ -1,0 +1,106 @@
+{
+  "assistant_turns": 185,
+  "command": [
+    "claude",
+    "-p",
+    "--model",
+    "claude-opus-4-7",
+    "--output-format",
+    "stream-json",
+    "--dangerously-skip-permissions",
+    "--verbose",
+    "<prompt>"
+  ],
+  "elapsed_seconds": 882.25,
+  "ended_at": "2026-04-18T15:19:59+00:00",
+  "exit_code": 0,
+  "file_count": 1984,
+  "label": "Claude Opus 4.7 + Haiku 4.5 coder",
+  "main_model": "claude-opus-4-7",
+  "model_usage": {
+    "claude-haiku-4-5-20251001": {
+      "cacheCreationInputTokens": 0,
+      "cacheReadInputTokens": 0,
+      "contextWindow": 200000,
+      "costUSD": 0.00099,
+      "inputTokens": 890,
+      "maxOutputTokens": 32000,
+      "outputTokens": 20,
+      "webSearchRequests": 0
+    },
+    "claude-opus-4-7": {
+      "cacheCreationInputTokens": 178465,
+      "cacheReadInputTokens": 10884379,
+      "contextWindow": 200000,
+      "costUSD": 7.827175749999999,
+      "inputTokens": 146,
+      "maxOutputTokens": 64000,
+      "outputTokens": 50754,
+      "webSearchRequests": 0
+    }
+  },
+  "no_progress_timeout_seconds": 360,
+  "num_turns": 136,
+  "paths": {
+    "project_dir": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_opus_haiku/project",
+    "prompt": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_opus_haiku/prompt.txt",
+    "stderr_log": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_opus_haiku/stderr.log",
+    "stream_ndjson": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_opus_haiku/stream.ndjson"
+  },
+  "prompt_sha256": "d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c",
+  "slug": "claude_opus_haiku",
+  "stall_reason": null,
+  "stalled": false,
+  "started_at": "2026-04-18T15:05:17+00:00",
+  "status": "completed",
+  "stop_reason": "end_turn",
+  "subagent": {
+    "description": "Claude Haiku 4.5 for simple, high-volume coding execution. Use PROACTIVELY for any code change where the plan is already clear: file edits, simple refactors, boilerplate, test writing, single-file implementations. Opus should plan and delegate; Haiku should execute cheaply. Only skip delegation for cross-file architectural decisions or complex debugging.",
+    "model": "claude-haiku-4-5-20251001",
+    "name": "haiku-coder",
+    "prompt": "You are a focused coding agent. The parent (Opus) has already decided the approach \u2014 your job is to execute cleanly.\n\nRules:\n- Follow the provided instructions precisely. Don't re-plan or second-guess the approach.\n- Prefer editing existing files over creating new ones. Don't create docs unless explicitly asked.\n- Match the existing codebase style (indentation, naming, imports).\n- Keep changes minimal \u2014 do what was asked, nothing more.\n- Default to no comments.\n- When reporting back, be terse: what changed, what's verified, what's open."
+  },
+  "subagent_invocation_counts": {},
+  "subagent_invocations": [],
+  "timed_out": false,
+  "timeout_seconds": 5400,
+  "tool_use_counts": {
+    "Bash": 50,
+    "Edit": 11,
+    "Read": 25,
+    "TodoWrite": 9,
+    "ToolSearch": 1,
+    "Write": 39
+  },
+  "total_cost_usd": 7.828165749999999,
+  "usage_total": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 178465
+    },
+    "cache_creation_input_tokens": 178465,
+    "cache_read_input_tokens": 10884379,
+    "inference_geo": "",
+    "input_tokens": 146,
+    "iterations": [
+      {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 758
+        },
+        "cache_creation_input_tokens": 758,
+        "cache_read_input_tokens": 134302,
+        "input_tokens": 1,
+        "output_tokens": 501,
+        "type": "message"
+      }
+    ],
+    "output_tokens": 50754,
+    "server_tool_use": {
+      "web_fetch_requests": 0,
+      "web_search_requests": 0
+    },
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

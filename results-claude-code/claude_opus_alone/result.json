@@ -1,0 +1,101 @@
+{
+  "assistant_turns": 174,
+  "command": [
+    "claude",
+    "-p",
+    "--model",
+    "claude-opus-4-7",
+    "--output-format",
+    "stream-json",
+    "--dangerously-skip-permissions",
+    "--verbose",
+    "<prompt>"
+  ],
+  "elapsed_seconds": 661.77,
+  "ended_at": "2026-04-18T14:55:11+00:00",
+  "exit_code": 0,
+  "file_count": 1742,
+  "label": "Claude Opus 4.7 alone",
+  "main_model": "claude-opus-4-7",
+  "model_usage": {
+    "claude-haiku-4-5-20251001": {
+      "cacheCreationInputTokens": 0,
+      "cacheReadInputTokens": 0,
+      "contextWindow": 200000,
+      "costUSD": 0.00101,
+      "inputTokens": 890,
+      "maxOutputTokens": 32000,
+      "outputTokens": 24,
+      "webSearchRequests": 0
+    },
+    "claude-opus-4-7": {
+      "cacheCreationInputTokens": 157202,
+      "cacheReadInputTokens": 9311254,
+      "contextWindow": 200000,
+      "costUSD": 6.738384499999997,
+      "inputTokens": 139,
+      "maxOutputTokens": 64000,
+      "outputTokens": 43982,
+      "webSearchRequests": 0
+    }
+  },
+  "no_progress_timeout_seconds": 360,
+  "num_turns": 129,
+  "paths": {
+    "project_dir": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_opus_alone/project",
+    "prompt": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_opus_alone/prompt.txt",
+    "stderr_log": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_opus_alone/stderr.log",
+    "stream_ndjson": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_opus_alone/stream.ndjson"
+  },
+  "prompt_sha256": "d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c",
+  "slug": "claude_opus_alone",
+  "stall_reason": null,
+  "stalled": false,
+  "started_at": "2026-04-18T14:44:09+00:00",
+  "status": "completed",
+  "stop_reason": "end_turn",
+  "subagent": null,
+  "subagent_invocation_counts": {},
+  "subagent_invocations": [],
+  "timed_out": false,
+  "timeout_seconds": 5400,
+  "tool_use_counts": {
+    "Bash": 42,
+    "Edit": 4,
+    "Read": 28,
+    "TodoWrite": 9,
+    "ToolSearch": 1,
+    "Write": 44
+  },
+  "total_cost_usd": 6.739394499999997,
+  "usage_total": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 157202
+    },
+    "cache_creation_input_tokens": 157202,
+    "cache_read_input_tokens": 9311254,
+    "inference_geo": "",
+    "input_tokens": 139,
+    "iterations": [
+      {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 642
+        },
+        "cache_creation_input_tokens": 642,
+        "cache_read_input_tokens": 113113,
+        "input_tokens": 1,
+        "output_tokens": 676,
+        "type": "message"
+      }
+    ],
+    "output_tokens": 43982,
+    "server_tool_use": {
+      "web_fetch_requests": 0,
+      "web_search_requests": 0
+    },
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

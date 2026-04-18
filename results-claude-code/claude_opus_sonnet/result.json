@@ -1,0 +1,107 @@
+{
+  "assistant_turns": 143,
+  "command": [
+    "claude",
+    "-p",
+    "--model",
+    "claude-opus-4-7",
+    "--output-format",
+    "stream-json",
+    "--dangerously-skip-permissions",
+    "--verbose",
+    "<prompt>"
+  ],
+  "elapsed_seconds": 606.1,
+  "ended_at": "2026-04-18T15:05:17+00:00",
+  "exit_code": 0,
+  "file_count": 1829,
+  "label": "Claude Opus 4.7 + Sonnet 4.6 coder",
+  "main_model": "claude-opus-4-7",
+  "model_usage": {
+    "claude-haiku-4-5-20251001": {
+      "cacheCreationInputTokens": 0,
+      "cacheReadInputTokens": 0,
+      "contextWindow": 200000,
+      "costUSD": 0.00101,
+      "inputTokens": 890,
+      "maxOutputTokens": 32000,
+      "outputTokens": 24,
+      "webSearchRequests": 0
+    },
+    "claude-opus-4-7": {
+      "cacheCreationInputTokens": 134030,
+      "cacheReadInputTokens": 6609775,
+      "contextWindow": 200000,
+      "costUSD": 5.129930000000001,
+      "inputTokens": 116,
+      "maxOutputTokens": 64000,
+      "outputTokens": 39471,
+      "webSearchRequests": 0
+    }
+  },
+  "no_progress_timeout_seconds": 360,
+  "num_turns": 106,
+  "paths": {
+    "project_dir": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_opus_sonnet/project",
+    "prompt": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_opus_sonnet/prompt.txt",
+    "stderr_log": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_opus_sonnet/stderr.log",
+    "stream_ndjson": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_opus_sonnet/stream.ndjson"
+  },
+  "prompt_sha256": "d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c",
+  "slug": "claude_opus_sonnet",
+  "stall_reason": null,
+  "stalled": false,
+  "started_at": "2026-04-18T14:55:11+00:00",
+  "status": "completed",
+  "stop_reason": "end_turn",
+  "subagent": {
+    "description": "Claude Sonnet 4.6 for concrete coding execution. Use PROACTIVELY for any code change where the plan is already clear: file edits, refactors, bug fixes, test writing, boilerplate generation, single-file implementations. Opus should plan and delegate; Sonnet should execute. Only skip delegation for cross-file architectural decisions or debugging with unclear root cause.",
+    "model": "claude-sonnet-4-6",
+    "name": "sonnet-coder",
+    "prompt": "You are a focused coding agent. The parent (Opus) has already decided the approach \u2014 your job is to execute cleanly.\n\nRules:\n- Follow the provided instructions precisely. Don't re-plan or second-guess the approach.\n- Prefer editing existing files over creating new ones. Don't create docs unless explicitly asked.\n- Match the existing codebase style (indentation, naming, imports).\n- Keep changes minimal \u2014 do what was asked, nothing more. No unrequested refactors, no scope creep.\n- Default to no comments. Only add a comment for non-obvious WHY.\n- Run tests or typechecks after significant edits if the tooling is obvious from the project layout.\n- When reporting back, be terse: what changed, what's verified, what's open."
+  },
+  "subagent_invocation_counts": {},
+  "subagent_invocations": [],
+  "timed_out": false,
+  "timeout_seconds": 5400,
+  "tool_use_counts": {
+    "Bash": 45,
+    "Edit": 4,
+    "Grep": 1,
+    "Read": 16,
+    "TodoWrite": 8,
+    "ToolSearch": 1,
+    "Write": 30
+  },
+  "total_cost_usd": 5.130940000000002,
+  "usage_total": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 134030
+    },
+    "cache_creation_input_tokens": 134030,
+    "cache_read_input_tokens": 6609775,
+    "inference_geo": "",
+    "input_tokens": 116,
+    "iterations": [
+      {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 965
+        },
+        "cache_creation_input_tokens": 965,
+        "cache_read_input_tokens": 94222,
+        "input_tokens": 1,
+        "output_tokens": 654,
+        "type": "message"
+      }
+    ],
+    "output_tokens": 39471,
+    "server_tool_use": {
+      "web_fetch_requests": 0,
+      "web_search_requests": 0
+    },
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

@@ -18,6 +18,10 @@ results/*/session-export.stderr.log
 results/*/prompt.txt
 results/*/followup-prompt.txt
 results/ollama_warmup.json
+results-claude-code/*/project/
+results-claude-code/*/stream.ndjson
+results-claude-code/*/stderr.log
+results-claude-code/*/prompt.txt
 tmp/
 config/opencode.benchmark.json
 config/opencode.benchmark.local.json

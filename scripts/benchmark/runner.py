@@ -84,10 +84,34 @@ def build_opencode_command(
     return command
 
 
+def write_codex_subagent_toml(project_dir: Path, subagent: dict[str, Any]) -> Path:
+    """Write a Codex subagent TOML config file inside the project directory.
+
+    Returns the absolute path suitable for passing via -c agents.<name>.config_file=...
+    """
+    agent_name = subagent.get("name", "coder")
+    agent_model = subagent.get("model", "gpt-5.4")
+    agent_effort = subagent.get("reasoning_effort")
+    agent_prompt = subagent.get("prompt", "")
+    toml_path = project_dir / f".codex-{agent_name}.toml"
+    lines = [
+        f'model = "{agent_model}"',
+    ]
+    if agent_effort:
+        lines.append(f'model_reasoning_effort = "{agent_effort}"')
+    if agent_prompt:
+        # Use TOML triple-quote for multi-line strings
+        escaped = agent_prompt.replace('"""', '\\"\\"\\"')
+        lines.append(f'instructions = """{escaped}"""')
+    toml_path.write_text("\n".join(lines) + "\n")
+    return toml_path.resolve()
+
+
 def build_codex_command(
     model_id: str,
     project_dir: Path,
     reasoning_effort: str | None = None,
+    codex_subagent: dict[str, Any] | None = None,
 ) -> list[str]:
     """Build a codex exec command for a fully autonomous benchmark run."""
     # Build codex exec arguments. The codex binary may be a shell wrapper
@@ -105,6 +129,15 @@ def build_codex_command(
     ]
     if reasoning_effort:
         codex_args.extend(["-c", f"model_reasoning_effort={reasoning_effort}"])
+    # Multi-agent: register the subagent via -c agents.<name>.config_file=<path>
+    if codex_subagent:
+        sub_name = codex_subagent.get("name", "coder")
+        sub_desc = codex_subagent.get("description", f"Delegate coding tasks to {sub_name}")
+        toml_path = write_codex_subagent_toml(project_dir, codex_subagent)
+        codex_args.extend([
+            "-c", f'agents.{sub_name}.config_file="{toml_path}"',
+            "-c", f'agents.{sub_name}.description="{sub_desc}"',
+        ])
     codex_args.append("-")  # read prompt from stdin
     # Wrap in bash -lc to get login shell environment (mise, PATH, etc.)
     cmd = ["bash", "-lc", " ".join(shlex_quote(a) for a in codex_args)]
@@ -731,7 +764,12 @@ def run_codex_phase(
 ) -> dict[str, Any]:
     """Run a single benchmark phase using the Codex CLI."""
     prompt_path.write_text(prompt)
-    command = build_codex_command(model["id"], project_dir, reasoning_effort=model.get("codex_reasoning_effort"))
+    command = build_codex_command(
+        model["id"],
+        project_dir,
+        reasoning_effort=model.get("codex_reasoning_effort"),
+        codex_subagent=model.get("codex_subagent"),
+    )
     wall_start = time.monotonic()
 
     process_env = os.environ.copy()
