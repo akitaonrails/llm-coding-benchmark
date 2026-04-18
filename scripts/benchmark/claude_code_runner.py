@@ -323,10 +323,21 @@ def run_variant(
     print_line(f"[{slug}] results_dir={result_dir}")
     print_line(f"[{slug}] timeout={timeout_seconds}s no_progress_timeout={no_progress_timeout_seconds}s")
 
+    # Isolate HOME so ~/.claude/agents/ resolves to the result dir (not the user's
+    # real home). This prevents user-level agents from leaking into the benchmark
+    # run and contaminating variants (e.g. a user's sonnet-coder.md showing up in
+    # a supposedly "opus alone" run). The result_dir stands in as an ephemeral
+    # HOME — it has no .claude/agents/ of its own, so only project-local
+    # .claude/agents/ inside project_dir are loaded by Claude Code.
+    # Auth still works because ANTHROPIC_API_KEY is inherited from the env.
+    isolated_env = os.environ.copy()
+    isolated_env["HOME"] = str(result_dir.resolve())
+    print_line(f"[{slug}] HOME isolated to {result_dir} (prevents user-level agent leakage)")
+
     process = subprocess.Popen(
         command,
         cwd=project_dir.resolve(),
-        env=os.environ.copy(),
+        env=isolated_env,
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
