@@ -1,0 +1,183 @@
+{
+  "assistant_output_excerpt": "I'll orchestrate this build following the strict workflow. Let me start with the PLAN phase.\nEmpty workspace. Now let me produce the full plan.\nPlan complete. Now DELEGATE phase. I'll batch S1 first (foundational \u2014 everything depends on Rails being scaffolded), then dispatch dependent batches.\nS1 done. Ruby 4.0.2, Rails 8.1.3, ruby_llm 1.14.1. Now let me verify the state and dispatch S2-S7 in a single batch since they're largely file-additions with no interdependent shell ordering.\nGood \u2014 brakeman, bundler-audit, rubocop-rails-omakase, webmock, simplecov already in Gemfile. Let me check ruby_llm API before dispatching S2/S3 so the coder doesn't hallucinate.\nExcellent. Now I have the real API:\n- `RubyLLM.configure { |c| c.openrouter_api_key = ...; c.openrouter_api_base = ... }`\n- `RubyLLM.chat(model: 'anthropic/claude-sonnet-4.5', provider: :openrouter, assume_model_exists: true)`\n- `chat.ask(\"prompt\")` returns a Message object\n- `chat.messages` returns array\n\nLet me check what ask returns:\n`ask` returns the result of `complete` which returns a Message. The Message has `.content`. Now dispatch S2\u2013S7.\nS2-S7 done. Now S8 (Stimulus), S9 (already largely via tailwind classes in S7), S10 (tests), S11 (quality tooling). Let me dispatch S8 + S10 + S11 together (independent), then S12 + S13 + S14 for Docker/README.\nSomething concerning: the coder said it also modified `application.html.erb` to add `javascript_importmap_tags`. That should have been there already. Let me verify the critical files and also check the `index.js` registration pattern (it claimed dynamic import \u2014 that's actually NOT standard; Rails 8 uses `eagerLoadControllersFrom`).\nThis is broken. `import * as controllers from \"./controllers\"` imports from a file `./controllers.js` which doesn't exist. The coder replaced a working file. Let me check git history is unavailable, but look at application.js:\nNo importmap.rb? No app/javascript/application.js? The Rails generator must have skipped those because of some flag. Let me check:\nThe Rails scaffold was generated without `--javascript=importmap` effectively wiring everything \u2014 no importmap.rb, no application.js. This is a problem. The original scaffolding step had `--javascript=importmap` but the --skip-* flags may have been conflicting. Let me check if importmap-rails gem is actually installed and fix this properly.\nGems are there but their install generators never ran. Dispatch a fix-up:\nNow JS is correctly wired. Dispatch S10 (tests) and S11 (quality tooling) in parallel:\nAll 12 tests passing. Now let me verify the tailwind setup didn't introduce issues, then dispatch S11 (quality tooling):\nEmpty tailwind file. Need to fix that. Also the `::SessionStore` workaround is a bit clunky \u2014 let me inspect:\nOK the `::` is fine, not really a collision issue but defensive. Let me verify the app actually renders by doing a quick smoke test locally first. Dispatch the tailwind fix + S11 together:\nAll quality tools green. Now S12 (Dockerfile) + S13 (compose) + S14 (README) together:\nRuby 4.0.2 \u2014 that's brand new, we need to confirm an official Docker image exists. Let me check:\n`ruby:4.0.2-slim` exists. Now dispatch S12/S13/S14:\nDocker files + README done. Move to VALIDATE phase (S15):",
+  "command": [
+    "opencode",
+    "run",
+    "--agent",
+    "build",
+    "--format",
+    "json",
+    "-m",
+    "openrouter/anthropic/claude-opus-4.7",
+    "You are the PLANNER-ORCHESTRATOR for this build. Your job is to orchestrate, not to implement. A separate `coder` subagent is registered and available to you; it will do all the actual code writing, editing, and shell execution.\n\n## WORKFLOW (strict \u2014 you must follow this order)\n\n### 1. PLAN PHASE\nBefore writing any code or dispatching any work to the coder, produce a detailed implementation plan broken into self-contained subtasks. Use your harness's planning / todo tool (TodoWrite in Claude Code, equivalent in opencode / Codex) to track the subtask list so the delegation progress is visible.\n\nEach subtask description must be specific enough that the coder can execute it without asking clarifying questions:\n- Exact file paths it will create or modify\n- The acceptance criteria (what \"done\" looks like for that subtask)\n- Any interfaces / contracts it depends on from other subtasks (class names, method signatures, env var names, gem versions pinned elsewhere)\n- All context the coder needs \u2014 do not assume the coder has read your plan\n\nThink through the FULL scope (implementation + tests + Docker + validation) during this phase, not just the next immediate step. If the plan has 12 subtasks, write all 12 before dispatching the first one.\n\n### 2. DELEGATE PHASE\nDispatch each subtask to the `coder` subagent via your harness's delegation tool (Task in Claude Code / opencode, spawn_agent in Codex). Every file creation, every edit, every Bash command, every test run, every `rails new` / `bundle install` / `docker build` must flow through the coder.\n\n**You MUST NOT use Write, Edit, Bash, NotebookEdit, or any tool that directly modifies files or runs shell commands. Only the coder uses those.**\n\nAllowed tools for you:\n- Read \u2014 to verify what the coder produced\n- Task / spawn_agent \u2014 to delegate work to the coder\n- TodoWrite or equivalent \u2014 to track subtask progress\n- Glob / Grep \u2014 to understand the workspace state\n\nEach delegation should contain the subtask's full context inline: the coder runs in a fresh context each dispatch and does not see your overall plan. Copy the subtask description, relevant file paths, code snippets the coder should reference, and acceptance criteria into the Task call.\n\n### 3. CONVERGE PHASE\nAfter each batch of subagent results come back:\n- Use Read to verify what was produced\n- Identify integration issues, missing pieces, or cross-subtask inconsistencies (class names that don't line up, wrong API shapes, missing Gemfile entries the controller assumes, etc.)\n- Dispatch fix-up subtasks to the coder with specific corrections\n\nDo not fix issues yourself. Every correction goes through the coder.\n\n### 4. VALIDATE PHASE\nOnce the implementation is in place, delegate end-to-end validation to the coder. The validation plan should cover (dispatch each as a subtask or group related items):\n- Run the test suite and confirm all tests pass\n- Boot the Rails app locally and confirm it responds (curl /up or similar)\n- Run `docker build` and confirm it completes successfully\n- Run `docker compose up --build` and confirm the service is healthy\n- If any step fails, dispatch a fix-up subtask to the coder with the exact error message; do not try to debug by running commands yourself\n\nIterate until validation passes or you hit a hard blocker you cannot resolve from inside the workspace.\n\n## IMPLEMENTATION BRIEF (what the coder must build)\n\nBuild a Ruby on Rails application. The coder should use the newest Ruby and Rails available in mise here; mise is accessible. The coder should go through Rails generators to produce the initial project layout.\n\nStack constraints:\n- No Active Record (this is a RubyLLM chat app, no database)\n- No Action Mailer, no Active Job\n- Minimal Rails \u2014 just enough for the SPA\n- Simple SPA mimicking a minimal ChatGPT-like web interface\n- Tailwind CSS\n- Hotwire / Stimulus / Turbo Streams\n- Avoid duplications and single-file CSS/JS dumps. Componentize via Rails partials and normal Rails best practices.\n\nRubyLLM + OpenRouter integration:\n- Latest `ruby_llm` gem configured to connect to OpenRouter\n- Use the latest Claude Sonnet as the chat model\n- `OPENROUTER_API_KEY` via environment variable\n- The coder should NOT print secret values, copy secret files into the repo, or commit secrets into source files, .env files, Dockerfiles, compose files, logs, or README examples\n- Source ~/.config/zsh/secrets in the coder's shell only to load required env (especially OPENROUTER_API_KEY) \u2014 not to copy its contents anywhere\n\nQuality requirements:\n- Minitest unit tests for each component (with real LLM mocking \u2014 FakeChat or WebMock stubbing the actual OpenRouter endpoint is acceptable; tests that never exercise the `chat.ask` path are not)\n- Brakeman, RuboCop, SimpleCov, bundle-audit wired for CI\n- Clean, well-formatted, Rails-idiomatic code\n\nDeliverables:\n- Rails app in the current workspace root (do not create a nested `chat_app/` subdirectory; stay in place)\n- README.md explaining what the app does, how to set up the environment, and how to run locally\n- Dockerfile (functional, real Ruby version, multi-stage preferred)\n- docker-compose.yml (or compose.yaml) that runs the app with the correct env vars\n- No authentication \u2014 this is a simple chat webpage\n\n## FINAL DELIVERABLE\n\nA running Rails chat app that passes its own tests, builds cleanly in Docker, and starts under `docker compose up --build`. You verify success by delegating those checks to the coder in the VALIDATE phase and confirming the outputs they report back.\n\nStop only when validation passes end-to-end OR you hit a hard blocker you cannot resolve from inside the workspace (if so, report clearly what the blocker is).\n\nDo not stop at the plan. Do not ask for confirmation between phases. Execute the full workflow: plan \u2192 delegate \u2192 converge \u2192 validate."
+  ],
+  "continued_from_session": null,
+  "elapsed_seconds": 981.68,
+  "ended_at": "2026-04-24T21:07:55+00:00",
+  "exit_code": -15,
+  "finish_reason": "tool-calls",
+  "followup_prompt_sha256": "e2f60835f36832ba1242d6f23a02bd7958611c52f2db122a3df93f8727dab9b5",
+  "model": {
+    "id": "openrouter/anthropic/claude-opus-4.7",
+    "label": "opencode Opus 4.7 + Qwen 3.6 local coder (FORCED delegation)",
+    "opencode_subagent": {
+      "description": "Use for all concrete coding execution dispatched by the planner-orchestrator. Runs locally on llama-swap.",
+      "llama_swap_model": "qwen3.6:35b",
+      "model_id": "ollama/qwen/qwen3.6-35b",
+      "name": "coder",
+      "prompt": "You are a local coding agent running on llama-swap. Execute the dispatched subtask exactly as specified. Follow instructions literally. Keep changes minimal.",
+      "provider": "ollama"
+    },
+    "provider": "openrouter",
+    "selection_reason": "Forced-delegation variant of opencode_opus_qwen. Most interesting test case: expensive cloud orchestrator + free local executor. If this produces working code it's the cheapest usable multi-agent configuration. Depends on llama-swap with qwen3.6:35b loaded.",
+    "skip_by_default": true,
+    "slug": "opencode_opus_qwen_forced"
+  },
+  "no_progress_timeout_seconds": 360,
+  "opencode_session_id": "ses_23ebce4d3ffeN7Z8nav9jlG1VK",
+  "output_tokens_per_second": 0.36,
+  "paths": {
+    "followup_prompt": null,
+    "followup_stderr": null,
+    "followup_stdout": null,
+    "opencode_config": "config/opencode.benchmark.json",
+    "project_dir": "results/opencode_opus_qwen_forced/project",
+    "prompt": "results/opencode_opus_qwen_forced/prompt.txt",
+    "session_export": "results/opencode_opus_qwen_forced/session-export.json",
+    "stderr": "results/opencode_opus_qwen_forced/opencode-stderr.log",
+    "stdout": "results/opencode_opus_qwen_forced/opencode-output.ndjson"
+  },
+  "phase": "phase1",
+  "phases": [
+    {
+      "assistant_output_excerpt": "I'll orchestrate this build following the strict workflow. Let me start with the PLAN phase.\nEmpty workspace. Now let me produce the full plan.\nPlan complete. Now DELEGATE phase. I'll batch S1 first (foundational \u2014 everything depends on Rails being scaffolded), then dispatch dependent batches.\nS1 done. Ruby 4.0.2, Rails 8.1.3, ruby_llm 1.14.1. Now let me verify the state and dispatch S2-S7 in a single batch since they're largely file-additions with no interdependent shell ordering.\nGood \u2014 brakeman, bundler-audit, rubocop-rails-omakase, webmock, simplecov already in Gemfile. Let me check ruby_llm API before dispatching S2/S3 so the coder doesn't hallucinate.\nExcellent. Now I have the real API:\n- `RubyLLM.configure { |c| c.openrouter_api_key = ...; c.openrouter_api_base = ... }`\n- `RubyLLM.chat(model: 'anthropic/claude-sonnet-4.5', provider: :openrouter, assume_model_exists: true)`\n- `chat.ask(\"prompt\")` returns a Message object\n- `chat.messages` returns array\n\nLet me check what ask returns:\n`ask` returns the result of `complete` which returns a Message. The Message has `.content`. Now dispatch S2\u2013S7.\nS2-S7 done. Now S8 (Stimulus), S9 (already largely via tailwind classes in S7), S10 (tests), S11 (quality tooling). Let me dispatch S8 + S10 + S11 together (independent), then S12 + S13 + S14 for Docker/README.\nSomething concerning: the coder said it also modified `application.html.erb` to add `javascript_importmap_tags`. That should have been there already. Let me verify the critical files and also check the `index.js` registration pattern (it claimed dynamic import \u2014 that's actually NOT standard; Rails 8 uses `eagerLoadControllersFrom`).\nThis is broken. `import * as controllers from \"./controllers\"` imports from a file `./controllers.js` which doesn't exist. The coder replaced a working file. Let me check git history is unavailable, but look at application.js:\nNo importmap.rb? No app/javascript/application.js? The Rails generator must have skipped those because of some flag. Let me check:\nThe Rails scaffold was generated without `--javascript=importmap` effectively wiring everything \u2014 no importmap.rb, no application.js. This is a problem. The original scaffolding step had `--javascript=importmap` but the --skip-* flags may have been conflicting. Let me check if importmap-rails gem is actually installed and fix this properly.\nGems are there but their install generators never ran. Dispatch a fix-up:\nNow JS is correctly wired. Dispatch S10 (tests) and S11 (quality tooling) in parallel:\nAll 12 tests passing. Now let me verify the tailwind setup didn't introduce issues, then dispatch S11 (quality tooling):\nEmpty tailwind file. Need to fix that. Also the `::SessionStore` workaround is a bit clunky \u2014 let me inspect:\nOK the `::` is fine, not really a collision issue but defensive. Let me verify the app actually renders by doing a quick smoke test locally first. Dispatch the tailwind fix + S11 together:\nAll quality tools green. Now S12 (Dockerfile) + S13 (compose) + S14 (README) together:\nRuby 4.0.2 \u2014 that's brand new, we need to confirm an official Docker image exists. Let me check:\n`ruby:4.0.2-slim` exists. Now dispatch S12/S13/S14:\nDocker files + README done. Move to VALIDATE phase (S15):",
+      "command": [
+        "opencode",
+        "run",
+        "--agent",
+        "build",
+        "--format",
+        "json",
+        "-m",
+        "openrouter/anthropic/claude-opus-4.7",
+        "You are the PLANNER-ORCHESTRATOR for this build. Your job is to orchestrate, not to implement. A separate `coder` subagent is registered and available to you; it will do all the actual code writing, editing, and shell execution.\n\n## WORKFLOW (strict \u2014 you must follow this order)\n\n### 1. PLAN PHASE\nBefore writing any code or dispatching any work to the coder, produce a detailed implementation plan broken into self-contained subtasks. Use your harness's planning / todo tool (TodoWrite in Claude Code, equivalent in opencode / Codex) to track the subtask list so the delegation progress is visible.\n\nEach subtask description must be specific enough that the coder can execute it without asking clarifying questions:\n- Exact file paths it will create or modify\n- The acceptance criteria (what \"done\" looks like for that subtask)\n- Any interfaces / contracts it depends on from other subtasks (class names, method signatures, env var names, gem versions pinned elsewhere)\n- All context the coder needs \u2014 do not assume the coder has read your plan\n\nThink through the FULL scope (implementation + tests + Docker + validation) during this phase, not just the next immediate step. If the plan has 12 subtasks, write all 12 before dispatching the first one.\n\n### 2. DELEGATE PHASE\nDispatch each subtask to the `coder` subagent via your harness's delegation tool (Task in Claude Code / opencode, spawn_agent in Codex). Every file creation, every edit, every Bash command, every test run, every `rails new` / `bundle install` / `docker build` must flow through the coder.\n\n**You MUST NOT use Write, Edit, Bash, NotebookEdit, or any tool that directly modifies files or runs shell commands. Only the coder uses those.**\n\nAllowed tools for you:\n- Read \u2014 to verify what the coder produced\n- Task / spawn_agent \u2014 to delegate work to the coder\n- TodoWrite or equivalent \u2014 to track subtask progress\n- Glob / Grep \u2014 to understand the workspace state\n\nEach delegation should contain the subtask's full context inline: the coder runs in a fresh context each dispatch and does not see your overall plan. Copy the subtask description, relevant file paths, code snippets the coder should reference, and acceptance criteria into the Task call.\n\n### 3. CONVERGE PHASE\nAfter each batch of subagent results come back:\n- Use Read to verify what was produced\n- Identify integration issues, missing pieces, or cross-subtask inconsistencies (class names that don't line up, wrong API shapes, missing Gemfile entries the controller assumes, etc.)\n- Dispatch fix-up subtasks to the coder with specific corrections\n\nDo not fix issues yourself. Every correction goes through the coder.\n\n### 4. VALIDATE PHASE\nOnce the implementation is in place, delegate end-to-end validation to the coder. The validation plan should cover (dispatch each as a subtask or group related items):\n- Run the test suite and confirm all tests pass\n- Boot the Rails app locally and confirm it responds (curl /up or similar)\n- Run `docker build` and confirm it completes successfully\n- Run `docker compose up --build` and confirm the service is healthy\n- If any step fails, dispatch a fix-up subtask to the coder with the exact error message; do not try to debug by running commands yourself\n\nIterate until validation passes or you hit a hard blocker you cannot resolve from inside the workspace.\n\n## IMPLEMENTATION BRIEF (what the coder must build)\n\nBuild a Ruby on Rails application. The coder should use the newest Ruby and Rails available in mise here; mise is accessible. The coder should go through Rails generators to produce the initial project layout.\n\nStack constraints:\n- No Active Record (this is a RubyLLM chat app, no database)\n- No Action Mailer, no Active Job\n- Minimal Rails \u2014 just enough for the SPA\n- Simple SPA mimicking a minimal ChatGPT-like web interface\n- Tailwind CSS\n- Hotwire / Stimulus / Turbo Streams\n- Avoid duplications and single-file CSS/JS dumps. Componentize via Rails partials and normal Rails best practices.\n\nRubyLLM + OpenRouter integration:\n- Latest `ruby_llm` gem configured to connect to OpenRouter\n- Use the latest Claude Sonnet as the chat model\n- `OPENROUTER_API_KEY` via environment variable\n- The coder should NOT print secret values, copy secret files into the repo, or commit secrets into source files, .env files, Dockerfiles, compose files, logs, or README examples\n- Source ~/.config/zsh/secrets in the coder's shell only to load required env (especially OPENROUTER_API_KEY) \u2014 not to copy its contents anywhere\n\nQuality requirements:\n- Minitest unit tests for each component (with real LLM mocking \u2014 FakeChat or WebMock stubbing the actual OpenRouter endpoint is acceptable; tests that never exercise the `chat.ask` path are not)\n- Brakeman, RuboCop, SimpleCov, bundle-audit wired for CI\n- Clean, well-formatted, Rails-idiomatic code\n\nDeliverables:\n- Rails app in the current workspace root (do not create a nested `chat_app/` subdirectory; stay in place)\n- README.md explaining what the app does, how to set up the environment, and how to run locally\n- Dockerfile (functional, real Ruby version, multi-stage preferred)\n- docker-compose.yml (or compose.yaml) that runs the app with the correct env vars\n- No authentication \u2014 this is a simple chat webpage\n\n## FINAL DELIVERABLE\n\nA running Rails chat app that passes its own tests, builds cleanly in Docker, and starts under `docker compose up --build`. You verify success by delegating those checks to the coder in the VALIDATE phase and confirming the outputs they report back.\n\nStop only when validation passes end-to-end OR you hit a hard blocker you cannot resolve from inside the workspace (if so, report clearly what the blocker is).\n\nDo not stop at the plan. Do not ask for confirmation between phases. Execute the full workflow: plan \u2192 delegate \u2192 converge \u2192 validate."
+      ],
+      "continued_from_session": null,
+      "elapsed_seconds": 981.68,
+      "ended_at": "2026-04-24T21:07:54+00:00",
+      "exit_code": -15,
+      "finish_reason": "tool-calls",
+      "model": {
+        "id": "openrouter/anthropic/claude-opus-4.7",
+        "label": "opencode Opus 4.7 + Qwen 3.6 local coder (FORCED delegation)",
+        "opencode_subagent": {
+          "description": "Use for all concrete coding execution dispatched by the planner-orchestrator. Runs locally on llama-swap.",
+          "llama_swap_model": "qwen3.6:35b",
+          "model_id": "ollama/qwen/qwen3.6-35b",
+          "name": "coder",
+          "prompt": "You are a local coding agent running on llama-swap. Execute the dispatched subtask exactly as specified. Follow instructions literally. Keep changes minimal.",
+          "provider": "ollama"
+        },
+        "provider": "openrouter",
+        "selection_reason": "Forced-delegation variant of opencode_opus_qwen. Most interesting test case: expensive cloud orchestrator + free local executor. If this produces working code it's the cheapest usable multi-agent configuration. Depends on llama-swap with qwen3.6:35b loaded.",
+        "skip_by_default": true,
+        "slug": "opencode_opus_qwen_forced"
+      },
+      "no_progress_timeout_seconds": 360,
+      "opencode_session_id": "ses_23ebce4d3ffeN7Z8nav9jlG1VK",
+      "output_tokens_per_second": 0.36,
+      "paths": {
+        "opencode_config": "config/opencode.benchmark.json",
+        "project_dir": "results/opencode_opus_qwen_forced/project",
+        "prompt": "results/opencode_opus_qwen_forced/prompt.txt",
+        "stderr": "results/opencode_opus_qwen_forced/opencode-stderr.log",
+        "stdout": "results/opencode_opus_qwen_forced/opencode-output.ndjson"
+      },
+      "phase": "phase1",
+      "preview_output_tokens_per_second": 132.14,
+      "preview_output_tokens_per_second_average": 190.65,
+      "project_summary": {
+        "file_count": 2038,
+        "present": {
+          "app_dir": true,
+          "compose_yaml": true,
+          "compose_yml": false,
+          "docker_compose_yaml": false,
+          "docker_compose_yml": false,
+          "dockerfile": true,
+          "gemfile": true,
+          "javascript_dir": true,
+          "readme_lower": false,
+          "readme_md": true,
+          "routes": true,
+          "tests_dir": true,
+          "views_dir": true
+        },
+        "works_as_intended": "yes",
+        "works_note": "Rails app, tests, README, and container files detected."
+      },
+      "prompt_sha256": "9c405affa602bfdc212a7d05847a979c6dbff2708dd8b9cd1e038de87e85a706",
+      "stall_reason": "no progress for 06:00; last activity: project file count changed to 2038",
+      "stalled": true,
+      "started_at": "2026-04-24T20:51:32+00:00",
+      "status": "failed",
+      "stderr_excerpt": "",
+      "timed_out": false,
+      "timeout_seconds": 5400,
+      "tokens": {
+        "cache": {
+          "read": 60422,
+          "write": 5397
+        },
+        "input": 1,
+        "output": 354,
+        "reasoning": 0,
+        "total": 66174
+      },
+      "tokens_per_second": 67.41
+    }
+  ],
+  "preview_output_tokens_per_second": 132.14,
+  "preview_output_tokens_per_second_average": 190.65,
+  "primary_prompt_sha256": "9c405affa602bfdc212a7d05847a979c6dbff2708dd8b9cd1e038de87e85a706",
+  "project_summary": {
+    "file_count": 2038,
+    "present": {
+      "app_dir": true,
+      "compose_yaml": true,
+      "compose_yml": false,
+      "docker_compose_yaml": false,
+      "docker_compose_yml": false,
+      "dockerfile": true,
+      "gemfile": true,
+      "javascript_dir": true,
+      "readme_lower": false,
+      "readme_md": true,
+      "routes": true,
+      "tests_dir": true,
+      "views_dir": true
+    },
+    "works_as_intended": "yes",
+    "works_note": "Rails app, tests, README, and container files detected."
+  },
+  "prompt_sha256": "9c405affa602bfdc212a7d05847a979c6dbff2708dd8b9cd1e038de87e85a706",
+  "session_exported": true,
+  "stall_reason": "no progress for 06:00; last activity: project file count changed to 2038",
+  "stalled": true,
+  "started_at": "2026-04-24T20:51:32+00:00",
+  "status": "failed",
+  "stderr_excerpt": "",
+  "timed_out": false,
+  "timeout_seconds": 5400,
+  "tokens": {
+    "cache": {
+      "read": 60422,
+      "write": 5397
+    },
+    "input": 1,
+    "output": 354,
+    "reasoning": 0,
+    "total": 66174
+  },
+  "tokens_per_second": 67.41
+}

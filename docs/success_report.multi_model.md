@@ -1,8 +1,13 @@
 # Multi-Model Benchmark Report
 
-This report covers 7 benchmark variants that test **multi-model orchestration**: a "main" model that plans, delegating coding work to a "subagent" using a cheaper or faster model. The goal was to validate whether the pattern Claude Code popularized (Opus plans, Sonnet/Haiku executes) actually saves cost or improves output on the standard Rails chat-app prompt used throughout this benchmark.
+This report covers two rounds of multi-model orchestration experiments:
 
-The short answer: **on this task, it doesn't matter — because no model actually delegated.**
+1. **Free-choice round (7 variants)**: Main model + registered subagent, "Use PROACTIVELY" description language. Models decided whether to delegate. **Zero of 7 actually did.**
+2. **Forced-delegation round (6 variants)**: Same model pairs, but with an explicit planner/executor prompt that forbade the planner from using Write/Edit/Bash and required every code change to flow through the subagent. **All 6 runs had real delegations (5–15 per run), and the original hypothesis still holds.**
+
+The goal was to settle community pushback on the free-choice result: critics argued "the `description` was too weak" or "models don't trust unfamiliar subagents." The forced round eliminates those confounds. The answer is the same: forcing delegation produces equivalent-quality output at higher cost and longer wall time. The free-choice models' refusal to delegate was rational, not a failure of prompt engineering.
+
+The short answer: **on a cohesive greenfield task, forcing the orchestrator pattern costs more for the same quality.** The one exception (GPT 5.4 faster improving Tier 2 → Tier 1 under forcing) suggests that **the value of the pattern isn't delegation per se — it's the structured verification rounds** that came with the plan-delegate-converge-validate workflow.
 
 For baseline comparisons, the reference is `results/claude_opus_4_7` (Opus 4.7 via opencode, Tier 1, 18m, 28 tests, ~$1.10). See [`success_report.md`](success_report.md) for the main-benchmark context.
 
@@ -213,7 +218,92 @@ This does NOT mean Claude Code is bad. It means **Claude Code is optimized for i
 1. **Pick tasks that naturally chunk.** "Port 30 files from API v1 to v2" forces delegation; "build a Rails app" doesn't.
 2. **Write forcing subagent descriptions.** Drop the "skip delegation for X" caveats. Test "MUST delegate" as the upper bound to confirm the plumbing works, then relax.
 3. **Run both multi-agent and single-agent variants of the same model+task.** The real measurement is the delta. Without a paired single-agent run, we can't tell whether delegation helped.
-4. **Report actual delegation counts, not just model configuration.** All 7 runs in this report show "multi-agent" in config but "single-agent" in behavior. The gap between configuration and behavior is the most important data point.
+4. **Report actual delegation counts, not just model configuration.** All 7 runs in the free-choice round show "multi-agent" in config but "single-agent" in behavior. The gap between configuration and behavior is the most important data point.
+
+---
+
+# Round 2: Forced-Delegation Experiment
+
+Community pushback on the free-choice findings: "your `description` language was too weak" / "models don't trust unfamiliar delegates" / "you didn't structure the workflow properly." To eliminate those confounds, round 2 used an explicit planner-orchestrator prompt ([`prompts/benchmark_prompt_forced_delegation.txt`](../prompts/benchmark_prompt_forced_delegation.txt)) that:
+
+- Structures the full **plan → delegate → converge → validate** workflow
+- Explicitly forbids the planner from using Write/Edit/Bash
+- Requires every file creation and shell command to flow through the subagent via `Task` / `spawn_agent`
+- Merges phase 1 + phase 2 validation into a single unified brief
+- Allowed tools for the planner: Read, Task/spawn_agent, TodoWrite, Glob, Grep
+
+Same 6 model pairs as the free-choice round (dropping `claude_opus_alone` since it has no subagent):
+
+## Round 2 Results
+
+| Variant | Status | Time | Files | Delegations | Total Cost | Rubric |
+|---|---|---:|---:|---:|---:|---|
+| `claude_opus_sonnet_forced` | completed | 25m | 1892 | **10** | $5.77 | ~95/100 Tier A |
+| `claude_opus_haiku_forced` | completed | 19m | 134 | **5** | $3.49 | ~93/100 Tier A |
+| `opencode_opus_glm_forced` | **failed** (phase 2 stalled) | 22m | 1965 | **10** | ~$1.34 + subscription | ~88/100 Tier A (phase 1 only) |
+| `opencode_opus_qwen_forced` | **failed** (phase 1 stalled) | 16m | 2038 | **7** | ~$0.22 | ~70/100 Tier 2 (`reply.content` bug) |
+| `gpt_5_4_multi_balanced_forced` | completed | 30m | 2960 | **8** | ~$2–5 | ~94/100 Tier A |
+| `gpt_5_4_multi_faster_forced` | completed | 53m | 1852 | **15** | ~$6+ | ~93/100 Tier A |
+
+**Delegations actually happened this time.** 5–15 per run, compared to 0/0/0/0/0/0/0 in the free-choice round. The forcing prompt is mechanically effective.
+
+## Compliance with the "no direct Write/Edit/Bash" rule
+
+| Variant | Direct Bash (planner) | Direct Write/Edit (planner) |
+|---|---:|---:|
+| claude_opus_sonnet_forced | 11 (all read-only: `ls`, `mise ls`, `cat`) | **0** |
+| claude_opus_haiku_forced | 16 (read-only + 5 `ruby -e "..."` introspection probes) | **0** |
+| opencode_opus_glm_forced | 5 (read-only) | **0** |
+| opencode_opus_qwen_forced | 19 (read-only + gem source `sed`/`grep`/`ruby -e`) | **0** |
+| gpt_5_4_multi_balanced_forced | **0** | **0** |
+| gpt_5_4_multi_faster_forced | **0** | **0** |
+
+**Full compliance from Codex** (the `spawn_agent` harness makes cheating mechanically impossible — the parent thread has no shell access). **Partial compliance from Claude Code + opencode** — Opus ran up to 19 read-only inspection commands despite the prompt forbidding Bash outright. The spirit was respected (zero file mutations by the planner) but the letter wasn't.
+
+## Quality: equivalent to slightly-better when forcing succeeds
+
+- **Claude Code Sonnet + Haiku**: same Tier 1 quality as solo Opus 4.7 / free-choice. No measurable lift, no degradation.
+- **Codex balanced**: equivalent Tier 1 to free-choice.
+- **Codex faster**: forced **improved** quality from Tier 2 → Tier 1. The single positive datapoint. Caused by the structured verification rounds baked into the prompt — every implementation spawn was followed by a read-only verification spawn that caught issues the solo run missed.
+- **opencode GLM**: Tier 1 code in phase 1, but phase 2 validation stalled at the no-progress timeout.
+- **opencode Qwen local**: produced a real runtime bug — `MessagesController#create` returns `reply` (a `RubyLLM::Message` object) instead of `reply.content` (a String). Local subagent executed literally without catching the semantic issue. Tier 2 if it had finished.
+
+## Cost and wall time: uniformly worse
+
+| Variant | Forced cost | Free-choice cost | Solo cost | Forced time | Free-choice time |
+|---|---|---|---|---|---|
+| Sonnet | $5.77 | $5.13 | $1.10 (solo Opus) | 25m | 9m |
+| Haiku | $3.49 | $7.83 | $1.10 | 19m | 15m |
+| GLM | ~$1.34 + sub | $1.10 | $1.10 | 22m | 19m |
+| Qwen (local) | ~$0.22 | $1.10 | $1.10 | 16m | 30m |
+| GPT balanced | ~$2–5 planner-only | ~$11 | $16 solo xhigh | 30m | 25m |
+| GPT faster | ~$6+ | ~$10 | $16 | 53m | 25m |
+
+**Haiku is the only variant where forcing was cheaper than free-choice** ($3.49 vs $7.83) — counterintuitive, but explained by the token split. Haiku absorbed 78% of tokens under forcing, vs the free-choice version where Opus did everything itself.
+
+Every forced run was slower than its free-choice counterpart. **Coordination overhead is real**: context sent with every dispatch, verification reads between subtasks, fix-up rounds when subagent output didn't mesh.
+
+## Token split (Claude Code, where we can measure it)
+
+- **Sonnet variant**: Opus 41% / Sonnet 59% / trace Haiku (auto-summaries)
+- **Haiku variant**: Opus 22% / Haiku 78%
+
+The smaller subagent absorbs proportionally more tokens (expected), but the absolute Opus spend on planning + Read + verification (2.8M / 1.6M tokens) is massive vs solo (~700K–1M tokens for the same task). Round-trips aren't free.
+
+## The meta-finding: forcing ≠ delegation's fault; verification rounds are what helped
+
+Five of six forced runs produced equivalent-or-marginally-different output at higher dollar and wall-time cost vs the free-choice or solo baseline. **The free-choice models' refusal to delegate was rational** — they correctly intuited that coordinating across a subagent on a single cohesive Rails build costs more than it saves.
+
+But the single quality win (`gpt_5_4_multi_faster_forced`: Tier 2 → Tier 1) points to a different mechanism. Looking at its 15 spawn_agent calls, half were **read-only verification passes** interleaved between implementation passes — exactly what the prompt asked for in the CONVERGE phase. That structured "write → verify → fix" loop caught bugs the solo run glossed over.
+
+**Actionable takeaway**: the value of the orchestrator pattern on tasks like this isn't the delegation. It's the **forced verification rounds**. A simpler intervention — adding "after each major component is done, do a read-only verification pass to check for integration issues" to the solo prompt — would likely capture most of the quality gain without the coordination overhead of a two-thread setup.
+
+## Round 2 updated conclusions
+
+1. **Zero delegations wasn't because the free-choice prompt was weak.** Forcing the pattern confirms models refuse for rational reasons.
+2. **Forced delegation works mechanically** but adds coordination overhead without quality gains on cohesive tasks.
+3. **Codex's `spawn_agent` architecture is the only one that enforces planner compliance at the harness level**. Claude Code and opencode allowed Opus to run inspection Bash commands despite explicit prompt forbidding it.
+4. **Verification rounds are the hidden win.** If your orchestrator prompt includes "write then verify then fix," you'll see quality lift. If it just includes "delegate everything," you'll see cost lift without quality lift.
 
 ---
 

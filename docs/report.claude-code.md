@@ -17,6 +17,8 @@ Runner: `claude -p --output-format stream-json --dangerously-skip-permissions`
 | claude_opus_alone | completed | 662s | 1742 | 129 | 0 | $6.7394 |
 | claude_opus_sonnet | completed | 606s | 1829 | 106 | 0 | $5.1309 |
 | claude_opus_haiku | completed | 882s | 1984 | 136 | 0 | $7.8282 |
+| claude_opus_sonnet_forced | completed | 1489s | 1892 | 43 | 0 | $5.7749 |
+| claude_opus_haiku_forced | completed | 1148s | 134 | 34 | 0 | $3.4916 |
 
 ## Per-Model Token Usage
 
@@ -42,6 +44,21 @@ Extracted from Claude Code's `modelUsage` field. Cost is computed server-side by
 |---|---:|---:|---:|---:|---:|
 | claude-haiku-4-5-20251001 | 890 | 20 | 0 | 0 | $0.0010 |
 | claude-opus-4-7 | 146 | 50,754 | 10,884,379 | 178,465 | $7.8272 |
+
+### claude_opus_sonnet_forced
+
+| Model | Input | Output | Cache Read | Cache Create | Cost |
+|---|---:|---:|---:|---:|---:|
+| claude-haiku-4-5-20251001 | 1,765 | 22 | 0 | 0 | $0.0019 |
+| claude-opus-4-7 | 58 | 48,631 | 2,614,400 | 134,282 | $3.3625 |
+| claude-sonnet-4-6 | 199 | 43,179 | 3,767,664 | 168,507 | $2.4105 |
+
+### claude_opus_haiku_forced
+
+| Model | Input | Output | Cache Read | Cache Create | Cost |
+|---|---:|---:|---:|---:|---:|
+| claude-haiku-4-5-20251001 | 2,129 | 33,518 | 5,514,016 | 143,394 | $0.9004 |
+| claude-opus-4-7 | 39 | 32,266 | 1,378,651 | 175,204 | $2.5912 |
 
 ## Delegation Details
 

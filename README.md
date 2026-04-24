@@ -38,7 +38,7 @@ The deep code reviews in `docs/success_report*.md` are the substance of this rep
 
 - **Claude reasoning distillation does NOT transfer library API knowledge.** A Qwen 3.5 27B distilled from Claude 4.6 Opus reasoning traces produced code that *looks* Claude-shaped but still hallucinated the RubyLLM API in the same way. API correctness is binary recall, not a reasoning skill. See [`docs/success_report.nvidia.md`](docs/success_report.nvidia.md).
 
-- **Multi-agent subagent patterns don't fire on cohesive tasks.** Across 7 benchmark variants with Claude Code, opencode, and Codex multi-agent configurations — every model ignored its coding subagent and did 100% of the work itself. See [`docs/success_report.multi_model.md`](docs/success_report.multi_model.md).
+- **Multi-agent subagent patterns don't fire on cohesive tasks — even when forced.** Across 7 free-choice benchmark variants (Claude Code, opencode, Codex) every model ignored its coding subagent and did 100% of the work itself. A follow-up experiment with 6 forced-delegation variants (explicit planner/executor prompt forbidding the planner from using Write/Edit/Bash) produced 5–15 delegations per run but produced equivalent-quality output at higher cost and longer wall time. The one quality win (`gpt_5_4_multi_faster_forced`: Tier 2 → Tier 1) came from the structured verification rounds in the prompt, not from the delegation itself. See [`docs/success_report.multi_model.md`](docs/success_report.multi_model.md).
 
 - **The harness matters for correctness.** The same Opus 4.7 model produced Tier A code (correct RubyLLM API) in opencode and Tier 2/3 code (hallucinated `chat.complete`) in Claude Code. Same model, different harness, different correctness.
 

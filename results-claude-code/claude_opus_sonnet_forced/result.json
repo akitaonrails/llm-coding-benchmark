@@ -1,0 +1,118 @@
+{
+  "assistant_turns": 288,
+  "command": [
+    "claude",
+    "-p",
+    "--model",
+    "claude-opus-4-7",
+    "--output-format",
+    "stream-json",
+    "--dangerously-skip-permissions",
+    "--verbose",
+    "<prompt>"
+  ],
+  "elapsed_seconds": 1489.38,
+  "ended_at": "2026-04-24T20:51:39+00:00",
+  "exit_code": 0,
+  "file_count": 1892,
+  "label": "Claude Opus 4.7 + Sonnet 4.6 coder (FORCED delegation)",
+  "main_model": "claude-opus-4-7",
+  "model_usage": {
+    "claude-haiku-4-5-20251001": {
+      "cacheCreationInputTokens": 0,
+      "cacheReadInputTokens": 0,
+      "contextWindow": 200000,
+      "costUSD": 0.0018750000000000001,
+      "inputTokens": 1765,
+      "maxOutputTokens": 32000,
+      "outputTokens": 22,
+      "webSearchRequests": 0
+    },
+    "claude-opus-4-7": {
+      "cacheCreationInputTokens": 134282,
+      "cacheReadInputTokens": 2614400,
+      "contextWindow": 1000000,
+      "costUSD": 3.3625275000000006,
+      "inputTokens": 58,
+      "maxOutputTokens": 64000,
+      "outputTokens": 48631,
+      "webSearchRequests": 0
+    },
+    "claude-sonnet-4-6": {
+      "cacheCreationInputTokens": 168507,
+      "cacheReadInputTokens": 3767664,
+      "contextWindow": 200000,
+      "costUSD": 2.4104824500000017,
+      "inputTokens": 199,
+      "maxOutputTokens": 32000,
+      "outputTokens": 43179,
+      "webSearchRequests": 0
+    }
+  },
+  "no_progress_timeout_seconds": 360,
+  "num_turns": 43,
+  "paths": {
+    "project_dir": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_opus_sonnet_forced/project",
+    "prompt": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_opus_sonnet_forced/prompt.txt",
+    "stderr_log": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_opus_sonnet_forced/stderr.log",
+    "stream_ndjson": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_opus_sonnet_forced/stream.ndjson"
+  },
+  "prompt_sha256": "9c405affa602bfdc212a7d05847a979c6dbff2708dd8b9cd1e038de87e85a706",
+  "slug": "claude_opus_sonnet_forced",
+  "stall_reason": null,
+  "stalled": false,
+  "started_at": "2026-04-24T20:26:49+00:00",
+  "status": "completed",
+  "stop_reason": "end_turn",
+  "subagent": {
+    "description": "Claude Sonnet 4.6 for all concrete coding execution dispatched by the planner-orchestrator. The planner provides full context per subtask.",
+    "model": "claude-sonnet-4-6",
+    "name": "sonnet-coder",
+    "prompt": "You are a focused coding agent. Execute the dispatched subtask exactly as specified. Follow the provided instructions, file paths, and acceptance criteria literally. Keep changes minimal \u2014 only do what the subtask describes. Match existing codebase style. When reporting back, be terse: what changed, what's verified, what's open."
+  },
+  "subagent_invocation_counts": {},
+  "subagent_invocations": [],
+  "timed_out": false,
+  "timeout_seconds": 5400,
+  "tool_use_counts": {
+    "Agent": 10,
+    "Bash": 148,
+    "Edit": 8,
+    "Glob": 1,
+    "Read": 49,
+    "TodoWrite": 10,
+    "ToolSearch": 1,
+    "Write": 33
+  },
+  "total_cost_usd": 5.774884949999997,
+  "usage_total": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 134282
+    },
+    "cache_creation_input_tokens": 134282,
+    "cache_read_input_tokens": 2614400,
+    "inference_geo": "",
+    "input_tokens": 58,
+    "iterations": [
+      {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 1034
+        },
+        "cache_creation_input_tokens": 1034,
+        "cache_read_input_tokens": 98088,
+        "input_tokens": 1,
+        "output_tokens": 875,
+        "type": "message"
+      }
+    ],
+    "output_tokens": 48631,
+    "server_tool_use": {
+      "web_fetch_requests": 0,
+      "web_search_requests": 0
+    },
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

@@ -1,13 +1,13 @@
 # Benchmark Report
 
-Generated at: 2026-04-24T19:26:07+00:00
-Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
+Generated at: 2026-04-24T21:52:15+00:00
+Prompt SHA256: `9c405affa602bfdc212a7d05847a979c6dbff2708dd8b9cd1e038de87e85a706`
 
 ## Progress
 
-- `completed`: 24
+- `completed`: 26
 - `completed_with_errors`: 1
-- `failed`: 5
+- `failed`: 7
 - `timeout`: 1
 - `not_run`: 11
 
@@ -34,11 +34,15 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 - `claude_opus_4_6` -> `openrouter/anthropic/claude-opus-4.6`: Exact requested cloud model.
 - `claude_opus_4_7` -> `openrouter/anthropic/claude-opus-4.7`: Anthropic Claude Opus 4.7 on OpenRouter. Built for long-running async agents. Same pricing as 4.6: $5/M input, $25/M output. 1M context, 128K max output. Released 2026-04-16.
 - `opencode_opus_glm` -> `openrouter/anthropic/claude-opus-4.7`: opencode multi-agent: Opus 4.7 primary + GLM 5.1 (Z.ai) coding subagent. Tests whether the cost-effective Chinese model handles coding when Opus plans. GLM 5.1 via Z.ai coding plan endpoint (subscription). Comparable to Claude Code's opus+sonnet variant but with a non-Anthropic coder.
+- `opencode_opus_glm_forced` -> `openrouter/anthropic/claude-opus-4.7`: Forced-delegation variant of opencode_opus_glm. Runs with prompts/benchmark_prompt_forced_delegation.txt. Measures whether forcing the orchestrator pattern produces usable code via Opus (plan) + GLM 5.1 (execute) vs the free-choice version which didn't delegate at all.
+- `opencode_opus_qwen_forced` -> `openrouter/anthropic/claude-opus-4.7`: Forced-delegation variant of opencode_opus_qwen. Most interesting test case: expensive cloud orchestrator + free local executor. If this produces working code it's the cheapest usable multi-agent configuration. Depends on llama-swap with qwen3.6:35b loaded.
 - `opencode_opus_qwen` -> `openrouter/anthropic/claude-opus-4.7`: opencode multi-agent: Opus 4.7 primary (cloud) + Qwen 3.6 35B (local llama-swap) coding subagent. Tests the 'local hybrid' hypothesis — expensive cloud orchestrator with free local executor. Depends on llama-swap running with qwen3.6:35b loaded.
 - `gpt_5_4_pro` -> `openrouter/openai/gpt-5.4-pro`: Chosen from the OpenRouter GPT 5.4 family as the largest and most coding-oriented variant. Skipped by default because it failed in the previous benchmark pass.
 - `gpt_5_4_codex` -> `gpt-5.4`: GPT 5.4 via Codex CLI at xhigh reasoning effort. Tier 2: correct entry point (RubyLLM.chat + ask + response.content) but add_message uses keyword args instead of positional hash — crashes on multi-turn. ~$16/run (15x Claude). Polished architecture but wrong API calling convention.
 - `gpt_5_5_codex` -> `gpt-5.5`: GPT 5.5 via Codex CLI at xhigh reasoning effort. Successor to GPT 5.4 — matches gpt_5_4_codex config exactly so the comparison measures model capability delta, not harness differences. Expected to produce similar ~$16/run cost band.
 - `gpt_5_4_multi_balanced` -> `gpt-5.4`: Codex multi-agent: xhigh plans and orchestrates, medium/balanced handles coding. Tests whether GPT 5.4 at lower effort can execute well when the xhigh parent makes decisions. Comparison against gpt_5_4_codex (xhigh alone).
+- `gpt_5_4_multi_balanced_forced` -> `gpt-5.4`: Forced-delegation variant of gpt_5_4_multi_balanced. Same config as the free-choice version — the only difference is the forcing prompt at prompts/benchmark_prompt_forced_delegation.txt. Measures whether forcing the orchestrator pattern changes output quality or cost on Codex's multi_agent feature.
+- `gpt_5_4_multi_faster_forced` -> `gpt-5.4`: Forced-delegation variant of gpt_5_4_multi_faster. Compares against the free-choice version to isolate the effect of the forcing prompt.
 - `gpt_5_4_multi_faster` -> `gpt-5.4`: Codex multi-agent: xhigh plans, low handles fast coding. Tests the 'cheap executor' hypothesis — whether minimal reasoning on the subagent is enough when the parent provides the plan.
 - `kimi_k2_5` -> `openrouter/moonshotai/kimi-k2.5`: Chosen as the latest/highest Kimi variant listed by OpenRouter locally.
 - `kimi_k2_6` -> `openrouter/moonshotai/kimi-k2.6`: Direct successor to K2.5. $0.74/$4.66 per M, 256K context, tool calling supported. Tests whether K2.6 fixes K2.5's Tier 3 hallucinations of RubyLLM add_message() and complete().
@@ -81,11 +85,15 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | Claude Opus 4.6 | openrouter | - | completed | 970.51 | 136806 | 347.18 | yes | 1536 | Rails app, tests, README, and container files detected. |
 | Claude Opus 4.7 | openrouter | - | completed | 1091.67 | 118216 | 328.24 | yes | 11345 | Rails app, tests, README, and container files detected. |
 | opencode Opus 4.7 + GLM 5.1 coder | openrouter | - | completed | 618.15 | 108279 | 947.65 | yes | 1888 | Rails app, tests, README, and container files detected. |
+| opencode Opus 4.7 + GLM 5.1 coder (FORCED delegation) | openrouter | - | failed | 1340.66 | 82745 | 224.82 | yes | 1965 | Exit code -15. Rails app, tests, README, and container files detected. |
+| opencode Opus 4.7 + Qwen 3.6 local coder (FORCED delegation) | openrouter | - | failed | 981.68 | 66174 | 67.41 | yes | 2038 | Exit code -15. Rails app, tests, README, and container files detected. |
 | opencode Opus 4.7 + Qwen 3.6 local coder | openrouter | - | completed | 1165.77 | 126817 | 231.15 | yes | 1623 | Rails app, tests, README, and container files detected. |
 | GPT 5.4 Pro | openrouter | - | failed | 2910.65 | 63491 | 21.81 | partial | 1118 | Exit code -15. Some expected benchmark artifacts exist, but the scaffold looks incomplete. |
 | GPT 5.4 xHigh (Codex) | codex | - | completed | 1312.34 | 7643800 | 5824.56 | yes | 1808 | Rails app, tests, README, and container files detected. |
 | GPT 5.5 xHigh (Codex) | codex | - | completed | 1080.90 | 4904634 | 4537.55 | yes | 1553 | Rails app, tests, README, and container files detected. |
 | GPT 5.4 xHigh + medium coder (Codex multi-agent) | codex | - | completed | 1271.76 | 5438106 | 4276.05 | yes | 1671 | Rails app, tests, README, and container files detected. |
+| GPT 5.4 xHigh + medium coder (FORCED delegation) | codex | - | completed | 1828.09 | 987886 | 540.39 | yes | 2960 | Rails app, tests, README, and container files detected. |
+| GPT 5.4 xHigh + low coder (FORCED delegation) | codex | - | completed | 3153.95 | 4780483 | 1515.71 | yes | 1852 | Rails app, tests, README, and container files detected. |
 | GPT 5.4 xHigh + low coder (Codex multi-agent) | codex | - | completed | 1213.33 | 4275845 | 3524.06 | yes | 1716 | Rails app, tests, README, and container files detected. |
 | Kimi K2.5 | openrouter | - | completed | 1738.77 | 63638 | 160.14 | yes | 3405 | Rails app, tests, README, and container files detected. |
 | Kimi K2.6 | openrouter | - | completed | 1181.65 | 102250 | 258.32 | yes | 1890 | Rails app, tests, README, and container files detected. |
