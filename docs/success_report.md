@@ -30,8 +30,8 @@ Cloud models ran a two-phase flow (phase 1: build, phase 2: validate boot/Docker
 | 1 | **Claude Opus 4.7** | OpenRouter | 18m | 28 | Yes | Yes | Yes | ~180L | Yes |
 | 2 | Claude Sonnet 4.6 | OpenRouter | 16m | 30 | Yes | Yes | Yes | 126L | Yes |
 | 3 | Claude Opus 4.6 | OpenRouter | 16m | 16 | Yes | Yes | Yes | 164L | Yes |
-| 4 | **Xiaomi MiMo V2.5 Pro** | OpenRouter | 11m | 21 | Yes | Yes | Yes | ~100L | Yes |
-| 5 | **DeepSeek V4 Pro** ‡ | OpenRouter | 22m DNF | — | Yes | — | — | — | No |
+| 4 | **DeepSeek V4 Pro** ‡ | OpenRouter | 22m DNF | — | Yes | — | — | — | No |
+| 5 | **Xiaomi MiMo V2.5 Pro** † | OpenRouter | 11m | 21 | Yes | Yes | Yes | ~100L | Yes |
 | 6 | Kimi K2.5 | OpenRouter | 29m | 37 | Yes | Yes | Yes | 181L | Yes |
 | 7 | **Kimi K2.6** | OpenRouter | 20m | 16 | Yes | Yes | Yes | ~120L | Yes |
 | 8 | MiniMax M2.7 | OpenRouter | 14m | 12 | Yes | Yes | Yes | 121L | Yes |
@@ -51,6 +51,7 @@ Cloud models ran a two-phase flow (phase 1: build, phase 2: validate boot/Docker
 ***Grok 4.20 is missing ruby_llm, bundle-audit, turbo-rails, stimulus-rails, and importmap-rails entirely.
 **Step 3.5 Flash used `ruby-llm` (hyphenated) gem name variant.
 ‡ DeepSeek V4 Pro: run DNF (opencode incompatible with DeepSeek thinking-mode reasoning_content echo requirement), but the code written before the harness failed is Tier 1 quality. Ranked high for code quality; see [DeepSeek V4 section](#deepseek-v4-family-flash-is-tier-2-pro-is-tier-1-code-but-opencode-incompatible) below.
+† Xiaomi MiMo V2.5 Pro: API calls are all correct (no hallucinations) but tests don't mock the LLM call path and there's no error handling — classified Tier 2 by the strict "API + proper mocking" criterion. Best non-Anthropic code we've measured. 8× cheaper than Opus. See [Opus vs MiMo section](#opus-47-vs-mimo-v25-pro--tier-1-does-not-mean-equivalent) below.
 
 ---
 
@@ -538,21 +539,21 @@ The models that got it right — both Claudes and GLM 5 — used the simple two-
 
 Based on actual runtime viability, not just structural completeness:
 
-**Tier 1: Actually Works**
+**Tier 1: Actually Works (correct API + proper LLM mocking in tests)**
 | Model | Cost/Run | Time | Why |
 |---|---:|---:|---|
 | Claude Opus 4.7 | ~$1.10 | 18m | Correct API, 28 tests with FakeChat pattern, end-to-end verified in Docker. Best test architecture of any model. |
 | Claude Sonnet 4.6 | ~$0.63 | 16m | Correct API, proper mocking, clean architecture |
 | Claude Opus 4.6 | ~$1.05 | 16m | Correct API, proper mocking, streaming support |
-| **Xiaomi MiMo V2.5 Pro** | ~$0.14 | 11m | First Tier 1 non-Anthropic. Uses `@chat.ask()` persistent-instance pattern, no `add_message` — delegates multi-turn to RubyLLM's internal state. Cleaner than baselines. 21 tests. 8× cheaper than Opus. |
 | GLM 5 | ~$0.11 | 17m | Correct API, proper mocking, 89% cheaper than Opus |
-| **DeepSeek V4 Pro** ‡ | ~$0.50 (partial) | 22m DNF | Same clean `@chat.ask()` pattern as MiMo. Run DNF because opencode strips DeepSeek's thinking-mode `reasoning_content` which DeepSeek's API requires on subsequent turns. Code quality Tier 1 — just harness-incompatible. |
+| **DeepSeek V4 Pro** ‡ | ~$0.50 (partial) | 22m DNF | Same clean `@chat.ask()` pattern as MiMo. Run DNF because opencode strips DeepSeek's thinking-mode `reasoning_content` which DeepSeek's API requires on subsequent turns. Code quality would be Tier 1 — harness-incompatible, so tests never got written. Listed here provisionally; downgrade if re-run shows insufficient test coverage. |
 
-‡ DNF = Did Not Finish the harness run. Code written before the harness crashed is reviewed as normal; re-running through a compatible harness (e.g. direct API calls) would likely succeed.
+‡ DNF = Did Not Finish the harness run. Code written before the harness crashed is reviewed as normal.
 
 **Tier 2: Works with Caveats**
 | Model | Cost/Run | Time | Caveat |
 |---|---:|---:|---|
+| **Xiaomi MiMo V2.5 Pro** | ~$0.14 | 11m | **API calls are all correct** — uses `@chat.ask()` persistent-instance pattern with no manual `add_message`. Would run correctly for the happy path. **But**: 21 tests never exercise the LLM call (only test constants + blank guards), no error handling around `ask` calls (unhandled exception becomes 500), and `ChatStore` Singleton persistence doesn't survive restarts or work across workers. Best non-Anthropic code we've measured, but demo-quality not production-quality. 8× cheaper than Opus. Needs ~2 engineer-hours of patching to ship. |
 | GPT 5.4 xHigh (Codex) | ~$16.00 | 22m | Correct entry point + `ask` + `response.content`. But `add_message(role:, content:)` uses keyword args instead of positional hash — `ArgumentError` on multi-turn. Single-turn works. Most polished architecture of any model (form objects, cache sessions, Stimulus) but 15x Claude's cost. |
 | GLM 5.1 (Z.ai) | Subscription | 22m | Single-turn chat works (correct `RubyLLM.chat`/`ask`); multi-turn history seeding hallucinated `c.user`/`c.assistant`. Also `RUBY_VERSION=4.0.2` Dockerfile bug needs fixing. |
 | **Kimi K2.6** | ~$0.14 | 20m | Successor to K2.5. Dropped `complete()` hallucination (big K2.5 → K2.6 improvement). Correct `RubyLLM.chat` + `ask` + `response.content` + `with_instructions`. But history replay still uses `chat.add_message(role:, content:)` with kwargs — `ArgumentError` on turn 2+. Half-fix from Moonshot. |
@@ -710,9 +711,13 @@ The personal vouch that GPT 5.4 "performs on par with Claude Opus 4.6" is **part
 
 ---
 
-## Xiaomi MiMo V2.5 Pro — First Tier 1 Non-Anthropic Result
+## Xiaomi MiMo V2.5 Pro — Best Non-Anthropic Code (Tier 2 by the strict criterion)
 
-Xiaomi's MiMo V2.5 Pro (released April 2026) is the first model outside the Anthropic family to land a clean Tier 1 on this benchmark. The RubyLLM integration in `app/models/chat_session.rb`:
+Xiaomi's MiMo V2.5 Pro (released April 2026) produced the cleanest RubyLLM integration code from any non-Anthropic model in this benchmark. All the API calls are correct — no hallucinated methods, no kwargs-vs-hash bug, no invented classes. It would **run** correctly for single- and multi-turn happy paths.
+
+The reason it's classified Tier 2 rather than Tier 1 is the report's strict criterion: Tier 1 requires correct API usage AND proper LLM mocking in tests. MiMo's 21 tests never exercise the `@llm_chat.ask` path — they only assert constants and blank-input guards, then probe the controller's 422 response to empty input. If the LLM call worked or silently broke, no test would notice.
+
+The RubyLLM integration in `app/models/chat_session.rb`:
 
 ```ruby
 @llm_chat = RubyLLM::Chat.new(model: MODEL, provider: PROVIDER)
@@ -726,15 +731,106 @@ Notable choices:
 - `RubyLLM::Chat.new(model:, provider:)` — valid public constructor (less common than `RubyLLM.chat(...)` but correct)
 - `.ask(content, &)` — forwards a streaming block cleanly
 - `response.content` — correct
-- **Zero manual `add_message` calls.** Multi-turn state is delegated to RubyLLM's own internal tracking on the `Chat` instance. This is the cleanest multi-turn pattern in the entire benchmark — more robust than the baseline's explicit history replay.
-
-Other notes:
+- **Zero manual `add_message` calls.** Multi-turn state is delegated to RubyLLM's own internal tracking on the `Chat` instance. This is the cleanest multi-turn pattern in the entire benchmark.
 - Gemfile: `gem "ruby_llm"` — correct
-- 21 tests, but no LLM stubbing (tests never invoke the real `ask` path, so there's nothing to mis-mock)
+- 21 tests covering constants, blank-message guards, and controller validation paths
 - Docker + Compose both generated and functional
 - Phase 2 validated end-to-end: local boot + Docker boot + 21 passing tests
 
-At ~$0.14/run and 11 minutes, MiMo V2.5 Pro is **8× cheaper than Opus 4.7 and faster**. For cost-conscious production use of RubyLLM, this is the first credible alternative to Claude we've measured.
+At ~$0.14/run and 11 minutes, MiMo V2.5 Pro is **8× cheaper than Opus 4.7 and faster**. For cost-conscious *prototype* use of RubyLLM, this is the first credible alternative to Claude we've measured — provided you're willing to write the tests and error handling yourself.
+
+The deep side-by-side comparison below explains where the 8× price premium goes.
+
+---
+
+## Opus 4.7 vs MiMo V2.5 Pro — Where the 8× Premium Goes
+
+Both models produce correct RubyLLM API calls. The difference is everything else. Opus produces a production-quality app; MiMo produces a demo-quality app. The 8× price premium is defensible for any output meant to ship.
+
+### Headline metrics
+
+| | Opus 4.7 | MiMo V2.5 Pro |
+|---|---|---|
+| Price / run | $1.10 | $0.14 (8× cheaper) |
+| Wall clock | 18m | 11m |
+| Test methods | 28 | 21 |
+| App+test Ruby LoC | 667 | 274 (~41%) |
+| README | 176 lines, env table, security notes | 96 lines, gap on no-auth warning |
+| Docker CMD | `./bin/thrust ./bin/rails server` (Thruster, port 80) | `./bin/rails server` (port 3000) |
+| Compose healthcheck | curl `/up`, restart policy, defaults | none, minimal |
+| WebMock net-block | `WebMock.disable_net_connect!` | not in Gemfile |
+
+### The 7 differentiators (ranked by impact)
+
+**1. Error handling around LLM calls — Opus wins, material**
+
+Opus wraps LLM errors in a typed `LlmClient::Error`:
+```ruby
+rescue RubyLLM::Error => e
+  raise Error, "LLM provider error: #{e.message}"
+rescue StandardError => e
+  raise Error, "Unexpected LLM client error: #{e.class}: #{e.message}"
+```
+and the controller renders a user-visible error partial when this fires. MiMo has no rescue — a network hiccup or rate limit becomes a 500 Internal Server Error with a stack trace.
+
+**2. Conversation persistence — Opus wins, material**
+
+Opus stores conversations in the Rails session cookie (`ChatSession#to_a` / `from_session`), capped at 40 messages to fit the cookie size limit. Survives Puma restarts, works across multiple workers, stateless.
+
+MiMo uses a `ChatStore` Singleton with a process-local Mutex-protected hash:
+```ruby
+class ChatStore
+  include Singleton
+  # ...
+  def [](key); @sessions[key]; end
+end
+```
+This is **lost on every deploy or restart**, doesn't work if `WEB_CONCURRENCY > 1` (different workers have different memory), and has no TTL/eviction — leaks indefinitely. Production-grade gap, not stylistic.
+
+**3. Test mocking discipline — Opus wins, material**
+
+Opus has a hand-built `FakeChat` + `FakeClient` that stub RubyLLM at the module boundary, plus 28 tests covering history filtering, error wrapping, system prompt application, model/provider overrides, and a controller test that renders the error UI when the stub raises. Test helper installs `WebMock.disable_net_connect!` so tests physically cannot hit OpenRouter.
+
+MiMo's 21 tests never mock the LLM. The `ChatSessionTest` only asserts constant values and the blank-content guard clause. There is no happy-path test that exercises `@llm_chat.ask`. `MessagesControllerTest` only tests the 422 for empty input. If the LLM call worked or failed silently, no test would catch it.
+
+**4. System prompt — Opus wins, user-visible**
+
+Opus calls `chat.with_instructions(DEFAULT_SYSTEM_PROMPT)` on every request — the model knows its role. MiMo sends no system prompt. User-visible difference: MiMo's Claude will give you more generic responses without context framing.
+
+**5. Configuration surface — Opus wins, minor**
+
+Opus's RubyLLM initializer respects 4 env vars: `OPENROUTER_API_KEY`, `OPENROUTER_API_BASE`, `CHAT_MODEL`, `RUBY_LLM_TIMEOUT`. MiMo's initializer is 3 lines and hardcodes the model as a constant. Switching models requires a code change in MiMo.
+
+**6. Docker hardening — Opus wins, minor**
+
+Opus uses `./bin/thrust` for HTTP/2 + asset caching (the Rails 8.1 default), a curl healthcheck, `restart: unless-stopped`, and documented env var defaults. MiMo ships vanilla `rails server` on port 3000 with no healthcheck, restart policy, or defaults.
+
+**7. View polish — Opus wins, minor**
+
+Opus has avatars, ARIA labels, role labels ("You"/"Assistant"), a submit-in-flight UI (`disabled = true; value = "Sending…"`), and a dedicated Stimulus `chat` controller with a MutationObserver for auto-scroll that handles any source of DOM change (future broadcasts, reconnections). MiMo has bare bubbles, imperative scroll inside `afterSubmit` (breaks for async broadcasts), and a minor XSS risk from `simple_format(content, {}, sanitize: false)` (Opus escapes by default).
+
+### MiMo's genuine advantage
+
+One real win: MiMo's `ChatSession` wrapping `RubyLLM::Chat` directly is **simpler** and follows RubyLLM's documented pattern. For a greenfield app that will never scale past a single worker, MiMo's approach is less code and the same functionality. It's the idiomatic RubyLLM usage — Opus's explicit history replay is actually a more defensive pattern than the library itself recommends.
+
+### Verdict: MiMo is ~70% of Opus at 12.5% of the price
+
+**What's trivial to patch by hand (5-15 min each):**
+- Add Dockerfile healthcheck + Thruster
+- Fix `sanitize: false` XSS risk
+- Add README env table + no-auth security note
+- Switch constant model to env var
+
+**What requires actual rework (hours):**
+- Persistence model — `ChatStore` Singleton needs replacement with session cookie or Redis for multi-process deployment
+- Test harness — need to add WebMock + write FakeChat doubles + write happy-path and error-path tests
+- Error handling layer — wrap RubyLLM calls, type the errors, render degraded UI
+
+**The 8× premium is defensible when the output is meant to ship.** If you pay MiMo's $0.14 but then spend 2 engineer-hours patching it up to production quality, you've spent more than Opus would have cost. If you pay Opus's $1.10 and ship the output directly, you come out ahead.
+
+For prototypes, throwaway demos, or cases where you're going to rewrite the code anyway, MiMo at $0.14 is genuinely useful. For anything going into production, Opus remains the default choice — not because MiMo hallucinates the API, but because Opus writes code that *already handles the unhappy paths*.
+
+---
 
 ---
 
