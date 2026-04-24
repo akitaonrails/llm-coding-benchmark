@@ -23,29 +23,34 @@ Cloud models ran a two-phase flow (phase 1: build, phase 2: validate boot/Docker
 
 ## Successful Models at a Glance
 
-15 of 19 models completed the benchmark. All produced a recognizable Rails project with the core artifacts. The table below ranks them by overall practical quality.
+18 of 23 models completed the benchmark (including 2 DNF-with-Tier-1-code). All produced a recognizable Rails project with the core artifacts. The table below ranks them by overall practical quality.
 
 | Rank | Model | Provider | Time | Tests | All Gems | Dockerfile | Compose | README | Phase 2 |
 |---:|---|---|---:|---:|:---:|:---:|:---:|:---:|:---:|
 | 1 | **Claude Opus 4.7** | OpenRouter | 18m | 28 | Yes | Yes | Yes | ~180L | Yes |
 | 2 | Claude Sonnet 4.6 | OpenRouter | 16m | 30 | Yes | Yes | Yes | 126L | Yes |
 | 3 | Claude Opus 4.6 | OpenRouter | 16m | 16 | Yes | Yes | Yes | 164L | Yes |
-| 4 | Kimi K2.5 | OpenRouter | 29m | 37 | Yes | Yes | Yes | 181L | Yes |
-| 5 | MiniMax M2.7 | OpenRouter | 14m | 12 | Yes | Yes | Yes | 121L | Yes |
-| 6 | GLM 5 | OpenRouter | 17m | 7 | Yes | Yes | Yes | 99L | Yes |
-| 7 | GLM 5.1 | Z.ai | 22m | 24 | Yes | Yes | Yes | ~100L | Yes |
-| 8 | Qwen 3.6 Plus | OpenRouter | 17m | 7 | Yes | Yes | Yes | 107L | Yes |
-| 9 | Qwen 3.5 35B | Local | 28m | 11 | Yes | Yes | Yes | 202L | No |
-| 10 | Qwen 3 Coder Next | Local | 17m | 3 | Yes | Yes | Yes | 69L | No |
-| 11 | DeepSeek V3.2 | OpenRouter | 60m | 11 | Yes | Yes | Yes | 265L | Yes |
-| 12 | Qwen 3.5 122B | Local | 43m | 16 | No* | Yes | Yes | 167L | No |
-| 13 | Step 3.5 Flash | OpenRouter | 38m | 8 | No** | Yes | Yes | 103L | Yes |
-| 14 | Gemini 3.1 Pro | OpenRouter | 14m | 5 | Yes | Yes | Yes | ~100L | Yes |
-| 15 | Grok 4.20 | OpenRouter | 8m | 3 | No*** | Yes | Yes | ~80L | Yes |
+| 4 | **Xiaomi MiMo V2.5 Pro** | OpenRouter | 11m | 21 | Yes | Yes | Yes | ~100L | Yes |
+| 5 | **DeepSeek V4 Pro** ‡ | OpenRouter | 22m DNF | — | Yes | — | — | — | No |
+| 6 | Kimi K2.5 | OpenRouter | 29m | 37 | Yes | Yes | Yes | 181L | Yes |
+| 7 | **Kimi K2.6** | OpenRouter | 20m | 16 | Yes | Yes | Yes | ~120L | Yes |
+| 8 | MiniMax M2.7 | OpenRouter | 14m | 12 | Yes | Yes | Yes | 121L | Yes |
+| 9 | GLM 5 | OpenRouter | 17m | 7 | Yes | Yes | Yes | 99L | Yes |
+| 10 | GLM 5.1 | Z.ai | 22m | 24 | Yes | Yes | Yes | ~100L | Yes |
+| 11 | Qwen 3.6 Plus | OpenRouter | 17m | 7 | Yes | Yes | Yes | 107L | Yes |
+| 12 | Qwen 3.5 35B | Local | 28m | 11 | Yes | Yes | Yes | 202L | No |
+| 13 | **DeepSeek V4 Flash** | OpenRouter | 3m | 7 | Yes | Yes | Yes | ~80L | No |
+| 14 | Qwen 3 Coder Next | Local | 17m | 3 | Yes | Yes | Yes | 69L | No |
+| 15 | DeepSeek V3.2 | OpenRouter | 60m | 11 | Yes | Yes | Yes | 265L | Yes |
+| 16 | Qwen 3.5 122B | Local | 43m | 16 | No* | Yes | Yes | 167L | No |
+| 17 | Step 3.5 Flash | OpenRouter | 38m | 8 | No** | Yes | Yes | 103L | Yes |
+| 18 | Gemini 3.1 Pro | OpenRouter | 14m | 5 | Yes | Yes | Yes | ~100L | Yes |
+| 19 | Grok 4.20 | OpenRouter | 8m | 3 | No*** | Yes | Yes | ~80L | Yes |
 
 *Qwen 3.5 122B built a custom OpenRouter HTTP client instead of using the ruby_llm gem.
 ***Grok 4.20 is missing ruby_llm, bundle-audit, turbo-rails, stimulus-rails, and importmap-rails entirely.
 **Step 3.5 Flash used `ruby-llm` (hyphenated) gem name variant.
+‡ DeepSeek V4 Pro: run DNF (opencode incompatible with DeepSeek thinking-mode reasoning_content echo requirement), but the code written before the harness failed is Tier 1 quality. Ranked high for code quality; see [DeepSeek V4 section](#deepseek-v4-family-flash-is-tier-2-pro-is-tier-1-code-but-opencode-incompatible) below.
 
 ---
 
@@ -494,6 +499,8 @@ response.content  # => "Hi there!"
 | **Claude Opus 4.7** | Yes | **Yes** | Yes (FakeChat) | Clean implementation, 28 tests, end-to-end verified |
 | **Claude Opus 4.6** | Yes | **Yes** | Yes (mocha) | Clean implementation |
 | **Claude Sonnet 4.6** | Yes | **Yes** | Yes (mocha) | Clean, minor duplicate const |
+| **Xiaomi MiMo V2.5 Pro** | Yes | **Yes** | No (real call) | Uses `@chat.ask()` persistent-instance pattern; delegates multi-turn to RubyLLM internal state — no `add_message` calls at all. First Tier 1 non-Anthropic. |
+| **DeepSeek V4 Pro** ‡ | Yes | **Yes** | Not written (DNF) | Same clean `@chat.ask()` pattern as MiMo. Run DNF because opencode can't echo DeepSeek's thinking-mode `reasoning_content` on subsequent turns. Code quality Tier 1, harness compatibility broken. |
 | **GLM 5** | Yes | **Yes** | Yes (mocha) | Standard API, works |
 | **Step 3.5 Flash** | N/A | **Yes*** | No | Bypasses RubyLLM, uses raw `Net::HTTP` to OpenRouter API directly |
 | **Qwen 3.6 Plus** | Partial | **First msg only** | No | `chat.add_message()` doesn't exist — history replay crashes |
@@ -537,23 +544,29 @@ Based on actual runtime viability, not just structural completeness:
 | Claude Opus 4.7 | ~$1.10 | 18m | Correct API, 28 tests with FakeChat pattern, end-to-end verified in Docker. Best test architecture of any model. |
 | Claude Sonnet 4.6 | ~$0.63 | 16m | Correct API, proper mocking, clean architecture |
 | Claude Opus 4.6 | ~$1.05 | 16m | Correct API, proper mocking, streaming support |
+| **Xiaomi MiMo V2.5 Pro** | ~$0.14 | 11m | First Tier 1 non-Anthropic. Uses `@chat.ask()` persistent-instance pattern, no `add_message` — delegates multi-turn to RubyLLM's internal state. Cleaner than baselines. 21 tests. 8× cheaper than Opus. |
 | GLM 5 | ~$0.11 | 17m | Correct API, proper mocking, 89% cheaper than Opus |
+| **DeepSeek V4 Pro** ‡ | ~$0.50 (partial) | 22m DNF | Same clean `@chat.ask()` pattern as MiMo. Run DNF because opencode strips DeepSeek's thinking-mode `reasoning_content` which DeepSeek's API requires on subsequent turns. Code quality Tier 1 — just harness-incompatible. |
+
+‡ DNF = Did Not Finish the harness run. Code written before the harness crashed is reviewed as normal; re-running through a compatible harness (e.g. direct API calls) would likely succeed.
 
 **Tier 2: Works with Caveats**
 | Model | Cost/Run | Time | Caveat |
 |---|---:|---:|---|
 | GPT 5.4 xHigh (Codex) | ~$16.00 | 22m | Correct entry point + `ask` + `response.content`. But `add_message(role:, content:)` uses keyword args instead of positional hash — `ArgumentError` on multi-turn. Single-turn works. Most polished architecture of any model (form objects, cache sessions, Stimulus) but 15x Claude's cost. |
 | GLM 5.1 (Z.ai) | Subscription | 22m | Single-turn chat works (correct `RubyLLM.chat`/`ask`); multi-turn history seeding hallucinated `c.user`/`c.assistant`. Also `RUBY_VERSION=4.0.2` Dockerfile bug needs fixing. |
+| **Kimi K2.6** | ~$0.14 | 20m | Successor to K2.5. Dropped `complete()` hallucination (big K2.5 → K2.6 improvement). Correct `RubyLLM.chat` + `ask` + `response.content` + `with_instructions`. But history replay still uses `chat.add_message(role:, content:)` with kwargs — `ArgumentError` on turn 2+. Half-fix from Moonshot. |
+| **DeepSeek V4 Flash** | ~$0.01 | 3m | Successor to V3.2. Dropped the `RubyLLM::Client` hallucination (big V3.2 → V4 fix). Correct primary call chain but same `add_message` kwargs bug as Kimi K2.6. Cheapest model that reaches "code that could work with one manual patch". Model slug `claude-sonnet-4` may be invalid on OpenRouter — verify before use. |
 | Step 3.5 Flash | ~$0.02 | 38m | Bypasses RubyLLM entirely (raw HTTP). Functional but doesn't use the requested gem. |
 | Qwen 3.5 35B | Free | 28m | May work if RubyLLM default model is configured. No test mocking. |
 
 **Tier 3: Broken Core Functionality**
 | Model | Failure Mode |
 |---|---|
-| Kimi K2.5 | Invented `add_message()`/`complete()` methods |
+| Kimi K2.5 | Invented `add_message()`/`complete()` methods (K2.6 fixed `.complete`, kept `add_message` kwargs) |
 | MiniMax M2.7 | Invented `RubyLLM.chat(messages:)` batch signature |
 | Qwen 3.6 Plus | Invented `chat.add_message()` for history |
-| DeepSeek V3.2 | Invented `RubyLLM::Client` class |
+| DeepSeek V3.2 | Invented `RubyLLM::Client` class (V4 Flash/Pro fixed this) |
 | Qwen 3 Coder Next | Invented `RubyLLM::Client` class |
 | Qwen 3.5 122B | Invented `Openrouter::Client` gem |
 | Gemini 3.1 Pro | Invented `Chat.new` constructor + `add_message()` method |
@@ -694,6 +707,124 @@ This is more polished than Claude Opus 4.7's output in terms of design patterns.
 The personal vouch that GPT 5.4 "performs on par with Claude Opus 4.6" is **partially confirmed**: the architecture quality, test coverage, and overall engineering sophistication are genuinely comparable. But on the specific axis this benchmark measures — correct usage of a less-common Ruby gem API — GPT 5.4 fails in the same way most non-Claude models fail: it gets close but hallucinates the calling convention for `add_message`. This is the same class of bug as Qwen 3.6 (missing `.content`), GLM 5.1 (invented `c.user`/`c.assistant`), and Gemini 3.1 Pro (invented `Chat.new` + `add_message`).
 
 **API correctness is binary recall, not a function of reasoning effort or token budget.** GPT 5.4 at xHigh spent 7.6M tokens and still got the calling convention wrong. Claude Opus 4.6 spent 91K tokens and got it right. The knowledge is either in the weights or it isn't.
+
+---
+
+## Xiaomi MiMo V2.5 Pro — First Tier 1 Non-Anthropic Result
+
+Xiaomi's MiMo V2.5 Pro (released April 2026) is the first model outside the Anthropic family to land a clean Tier 1 on this benchmark. The RubyLLM integration in `app/models/chat_session.rb`:
+
+```ruby
+@llm_chat = RubyLLM::Chat.new(model: MODEL, provider: PROVIDER)
+# ...
+response = @llm_chat.ask(content, &)
+@messages << { role: :assistant, content: response.content }
+```
+
+Notable choices:
+
+- `RubyLLM::Chat.new(model:, provider:)` — valid public constructor (less common than `RubyLLM.chat(...)` but correct)
+- `.ask(content, &)` — forwards a streaming block cleanly
+- `response.content` — correct
+- **Zero manual `add_message` calls.** Multi-turn state is delegated to RubyLLM's own internal tracking on the `Chat` instance. This is the cleanest multi-turn pattern in the entire benchmark — more robust than the baseline's explicit history replay.
+
+Other notes:
+- Gemfile: `gem "ruby_llm"` — correct
+- 21 tests, but no LLM stubbing (tests never invoke the real `ask` path, so there's nothing to mis-mock)
+- Docker + Compose both generated and functional
+- Phase 2 validated end-to-end: local boot + Docker boot + 21 passing tests
+
+At ~$0.14/run and 11 minutes, MiMo V2.5 Pro is **8× cheaper than Opus 4.7 and faster**. For cost-conscious production use of RubyLLM, this is the first credible alternative to Claude we've measured.
+
+---
+
+## DeepSeek V4 Family: Flash is Tier 2, Pro is Tier 1 Code but Opencode-Incompatible
+
+DeepSeek V4 (April 2026) is a meaningful upgrade over V3.2 (Tier 3). Both V4 variants fix the critical `RubyLLM::Client` hallucination that broke V3.2.
+
+### V4 Flash — Tier 2, 80× cheaper than Opus
+
+`app/controllers/chats_controller.rb`:
+```ruby
+chat = RubyLLM.chat(model: MODEL, provider: :openrouter)  # correct entry
+response = chat.ask(@user_message)                         # correct
+response.content                                           # correct
+
+# Multi-turn replay (BROKEN):
+chat.add_message(role: :user, content: msg["content"])    # keyword args — ArgumentError
+```
+
+- Single-turn works; multi-turn crashes (same class of bug as Kimi K2.6 and GPT 5.4).
+- Model slug `"claude-sonnet-4"` is likely invalid on OpenRouter — needs verification before use.
+- 7 tests (5 controller + 2 Capybara system), WebMock stubs at the HTTP boundary.
+- 2m 35s run time, $0.014 estimated cost — literally the fastest and cheapest result in the benchmark.
+- Fixed V3.2's `RubyLLM::Client` hallucination. V3.2 → V4 is a real improvement: Tier 3 → Tier 2 at half the price and 23× faster.
+
+### V4 Pro — Tier 1 code, harness-incompatible (DNF)
+
+V4 Pro's `app/models/chat_service.rb`:
+```ruby
+def initialize
+  @chat = RubyLLM.chat
+  @messages = []
+end
+
+def ask(content)
+  result = @chat.ask(content)
+  @messages << Message.new(role: "user", content: content)
+  @messages << Message.new(role: "assistant", content: result.content)
+end
+```
+
+This is the **same pattern as MiMo V2.5 Pro and Claude's implementations** — persistent `@chat` instance, no manual `add_message` calls, RubyLLM handles multi-turn internally. Tier 1 code quality.
+
+**However, the benchmark run DNF'd.** DeepSeek V4 Pro uses thinking mode by default and returns `reasoning_content` on every response. DeepSeek's API then rejects subsequent turns unless the client echoes that `reasoning_content` back — which opencode doesn't do. The run crashed mid-generation at 1972 files / 61K tokens with `"The reasoning_content in the thinking mode must be passed back to the API."`
+
+**What we tried:**
+- `reasoning: {exclude: true}` in the opencode model config → rejected by opencode's schema (wants a boolean, not an object)
+- `reasoning: false` → opencode accepted it, and the run made it MUCH further (1972 files vs 1071 before the thinking-content error eventually surfaced on a later turn). Still ultimately DNF.
+
+**Implication:** DeepSeek V4 Pro is not usable via opencode. It's usable via Codex CLI or direct API with proper thinking-mode handling. For this benchmark's purposes, it's in a paradoxical state: best code quality of any model outside Claude + MiMo, but the harness can't get a clean run.
+
+### Summary: V4 Family
+
+| | V4 Flash | V4 Pro | V3.2 (previous) |
+|---|---|---|---|
+| Tier (code) | 2 | 1 | 3 |
+| Harness | completed | DNF (thinking-mode incompatibility) | completed |
+| Time | 2m 35s | 22m (DNF) | 60m |
+| Input $/M | $0.14 | $1.74 | $0.26 |
+| Output $/M | $0.28 | $3.48 | $0.38 |
+| Cost/run | ~$0.01 | ~$0.50 (partial) | ~$0.25 |
+| RubyLLM API | mostly correct | fully correct | hallucinated |
+
+V4 Flash is a meaningful option for cheap scaffolding. V4 Pro would be a strong Opus alternative if run through a compatible harness.
+
+---
+
+## Kimi K2.6 — Partial Fix from K2.5
+
+`app/services/chat_service.rb`:
+```ruby
+chat = RubyLLM.chat                        # correct (uses default_model from initializer)
+chat.with_instructions(SYSTEM_INSTRUCTION) # correct
+historical_messages.each do |msg|
+  chat.add_message(role: msg[:role], content: msg[:content])  # BROKEN kwargs
+end
+response = chat.ask(user_message)          # correct
+response.content                           # correct
+```
+
+Compared to K2.5 (Tier 3):
+- **Fixed**: removed the invented `client.complete(&block)` method call. K2.5 did `client.complete` instead of `chat.ask` — fundamentally wrong. K2.6 correctly uses `chat.ask`.
+- **Fixed**: added `chat.with_instructions` for system prompts (valid RubyLLM API).
+- **Still broken**: history replay via `chat.add_message(role:, content:)` uses keyword args. RubyLLM's real signature is a positional hash (`chat.add_message({role:, content:})`), as Opus 4.7 demonstrates. First user message works; turn 2+ crashes with `ArgumentError`.
+
+16 tests, FakeChat-style doubles that mirror the broken API (so tests pass but production crashes). Same failure mode documented throughout this report: test coverage measures nothing when the fake matches the buggy code.
+
+**K2.5 → K2.6 verdict:** Half-fix. The obvious hallucination (`complete`) is gone, the subtler one (kwargs vs positional hash) remains. Kimi K2.6 is Tier 2 at ~$0.14/run — cheaper than Sonnet 4.6 and in the same price band as MiMo V2.5 Pro, but MiMo actually works while K2.6 needs a manual patch.
+
+**Bottom line: at the $0.14/run price point, MiMo V2.5 Pro is the obvious choice over Kimi K2.6. Same cost, one is Tier 1, the other is Tier 2.**
 
 ---
 

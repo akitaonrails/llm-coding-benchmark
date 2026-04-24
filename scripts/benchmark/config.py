@@ -429,6 +429,10 @@ def prepare_local_opencode_config(
             provider_models = {}
             provider_entry["models"] = provider_models
         model_key, fallback_entry = fallback_provider_config_entry(model)
+        # Merge any opencode_model_options (e.g., reasoning config for thinking-mode models)
+        extra_options = model.get("opencode_model_options")
+        if isinstance(extra_options, dict):
+            fallback_entry = {**fallback_entry, **extra_options}
         provider_models.setdefault(model_key, fallback_entry)
 
     # Multi-agent: emit primary + subagent definitions for any model with opencode_subagent

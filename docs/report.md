@@ -1,13 +1,13 @@
 # Benchmark Report
 
-Generated at: 2026-04-18T16:38:33+00:00
+Generated at: 2026-04-24T16:39:16+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
 
-- `completed`: 20
+- `completed`: 23
 - `completed_with_errors`: 1
-- `failed`: 4
+- `failed`: 5
 - `timeout`: 1
 - `not_run`: 11
 
@@ -40,6 +40,8 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 - `gpt_5_4_multi_balanced` -> `gpt-5.4`: Codex multi-agent: xhigh plans and orchestrates, medium/balanced handles coding. Tests whether GPT 5.4 at lower effort can execute well when the xhigh parent makes decisions. Comparison against gpt_5_4_codex (xhigh alone).
 - `gpt_5_4_multi_faster` -> `gpt-5.4`: Codex multi-agent: xhigh plans, low handles fast coding. Tests the 'cheap executor' hypothesis — whether minimal reasoning on the subagent is enough when the parent provides the plan.
 - `kimi_k2_5` -> `openrouter/moonshotai/kimi-k2.5`: Chosen as the latest/highest Kimi variant listed by OpenRouter locally.
+- `kimi_k2_6` -> `openrouter/moonshotai/kimi-k2.6`: Direct successor to K2.5. $0.74/$4.66 per M, 256K context, tool calling supported. Tests whether K2.6 fixes K2.5's Tier 3 hallucinations of RubyLLM add_message() and complete().
+- `mimo_v2_5_pro` -> `openrouter/xiaomi/mimo-v2.5-pro`: Xiaomi's flagship coding model. $1/$3 per M, 1M context, tool calling supported. Brand-new family we haven't tested — competitive pricing with mid-tier Chinese models like Kimi and GLM.
 - `glm_5` -> `openrouter/z-ai/glm-5`: Chosen as the latest/highest GLM variant listed by OpenRouter locally; this replaces the local GLM test. Skipped by default because it completed with errors in the previous benchmark pass.
 - `qwen3_6_plus` -> `openrouter/qwen/qwen3.6-plus:free`: Added from OpenRouter cloud availability; chose the non-preview Qwen 3.6 Plus variant exposed locally. Skipped by default because it completed with errors in the previous benchmark pass.
 - `qwen3_5_397b_cloud` -> `openrouter/qwen/qwen3.5-397b-a17b`: Added as the OpenRouter cloud Qwen 3.5 flagship under the requested qwen3.5:397b-cloud benchmark slot. Skipped by default because it stalled after completing validation steps and never emitted a terminal stop.
@@ -48,6 +50,8 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 - `nemotron_3_super_cloud` -> `openrouter/nvidia/nemotron-3-super-120b-a12b`: Added as the closest OpenRouter cloud Nemotron line available after local Nemotron Cascade 2 proved unusable in this harness. Skipped by default because it still needs a clean first benchmark run.
 - `minimax_m2_7` -> `openrouter/minimax/minimax-m2.7`: Chosen as the largest/latest MiniMax variant listed by OpenRouter locally.
 - `deepseek_v3_2` -> `openrouter/deepseek/deepseek-v3.2`: Latest DeepSeek model on OpenRouter. Input $0.26/M, output $0.38/M.
+- `deepseek_v4_flash` -> `openrouter/deepseek/deepseek-v4-flash`: DeepSeek V4 Flash — budget-tier variant at $0.14/M input, $0.28/M output (cheaper than V3.2). 1M context. Tool calling supported via OpenRouter. Test whether V4 fixes the RubyLLM API hallucination that made V3.2 Tier 3. Phase 2 disabled: DeepSeek's thinking-mode API rejects replayed `reasoning_content` tokens from opencode's session continuation.
+- `deepseek_v4_pro` -> `openrouter/deepseek/deepseek-v4-pro`: DeepSeek V4 Pro — premium variant at $1.74/M input, $3.48/M output. 1M context. Uses thinking mode by default which requires the client to echo reasoning_content on subsequent turns (opencode doesn't). reasoning=false tells opencode to treat it as a non-reasoning model so it won't extract/pass back reasoning_content.
 - `step_3_5_flash` -> `openrouter/stepfun/step-3.5-flash`: StepFun Step 3.5 Flash on OpenRouter. Input $0.10/M, output $0.30/M.
 - `claude_sonnet_4_6` -> `openrouter/anthropic/claude-sonnet-4.6`: Anthropic Claude Sonnet 4.6 on OpenRouter. Input $3.00/M, output $15.00/M.
 - `gemini_3_1_pro` -> `openrouter/google/gemini-3.1-pro-preview`: Latest Google Gemini model with enhanced SWE performance and agentic reliability. Input $2.00/M, output $12.00/M.
@@ -82,6 +86,8 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | GPT 5.4 xHigh + medium coder (Codex multi-agent) | codex | - | completed | 1271.76 | 5438106 | 4276.05 | yes | 1671 | Rails app, tests, README, and container files detected. |
 | GPT 5.4 xHigh + low coder (Codex multi-agent) | codex | - | completed | 1213.33 | 4275845 | 3524.06 | yes | 1716 | Rails app, tests, README, and container files detected. |
 | Kimi K2.5 | openrouter | - | completed | 1738.77 | 63638 | 160.14 | yes | 3405 | Rails app, tests, README, and container files detected. |
+| Kimi K2.6 | openrouter | - | completed | 1181.65 | 102250 | 258.32 | yes | 1890 | Rails app, tests, README, and container files detected. |
+| Xiaomi MiMo V2.5 Pro | openrouter | - | completed | 644.40 | 80447 | 288.04 | yes | 1554 | Rails app, tests, README, and container files detected. |
 | GLM 5 | openrouter | - | completed | 1033.99 | 59378 | 400.01 | yes | 1680 | Rails app, tests, README, and container files detected. |
 | Qwen 3.6 Plus | openrouter | - | completed | 1031.84 | 88940 | 182.91 | yes | 744 | Rails app, tests, README, and container files detected. |
 | Qwen 3.5 397B Cloud | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
@@ -90,6 +96,8 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | Nemotron 3 Super Cloud | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | MiniMax M2.7 | openrouter | - | completed | 847.23 | 79743 | 574.52 | yes | 100 | Rails app, tests, README, and container files detected. |
 | DeepSeek V3.2 | openrouter | - | completed | 3606.46 | 115278 | 53.37 | yes | 99 | Rails app, tests, README, and container files detected. |
+| DeepSeek V4 Flash | openrouter | - | completed | 155.12 | 51929 | 334.77 | yes | 1704 | Rails app, tests, README, and container files detected. |
+| DeepSeek V4 Pro | openrouter | - | failed | 1359.25 | 61170 | 45.00 | partial | 1972 | Some expected benchmark artifacts exist, but the scaffold looks incomplete. |
 | Step 3.5 Flash | openrouter | - | completed | 2273.00 | 156267 | 242.11 | yes | 1606 | Rails app, tests, README, and container files detected. |
 | Claude Sonnet 4.6 | openrouter | - | completed | 966.85 | 127067 | 532.26 | yes | 2042 | Rails app, tests, README, and container files detected. |
 | Gemini 3.1 Pro | openrouter | - | completed | 811.00 | 104034 | 508.18 | yes | 138 | Rails app, tests, README, and container files detected. |

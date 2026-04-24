@@ -217,6 +217,20 @@
       "selection_reason": "Chosen as the latest/highest Kimi variant listed by OpenRouter locally."
     },
     {
+      "slug": "kimi_k2_6",
+      "id": "openrouter/moonshotai/kimi-k2.6",
+      "label": "Kimi K2.6",
+      "provider": "openrouter",
+      "selection_reason": "Direct successor to K2.5. $0.74/$4.66 per M, 256K context, tool calling supported. Tests whether K2.6 fixes K2.5's Tier 3 hallucinations of RubyLLM add_message() and complete()."
+    },
+    {
+      "slug": "mimo_v2_5_pro",
+      "id": "openrouter/xiaomi/mimo-v2.5-pro",
+      "label": "Xiaomi MiMo V2.5 Pro",
+      "provider": "openrouter",
+      "selection_reason": "Xiaomi's flagship coding model. $1/$3 per M, 1M context, tool calling supported. Brand-new family we haven't tested — competitive pricing with mid-tier Chinese models like Kimi and GLM."
+    },
+    {
       "slug": "glm_5",
       "id": "openrouter/z-ai/glm-5",
       "label": "GLM 5",
@@ -277,6 +291,25 @@
       "label": "DeepSeek V3.2",
       "provider": "openrouter",
       "selection_reason": "Latest DeepSeek model on OpenRouter. Input $0.26/M, output $0.38/M."
+    },
+    {
+      "slug": "deepseek_v4_flash",
+      "id": "openrouter/deepseek/deepseek-v4-flash",
+      "label": "DeepSeek V4 Flash",
+      "provider": "openrouter",
+      "enable_followup": false,
+      "selection_reason": "DeepSeek V4 Flash — budget-tier variant at $0.14/M input, $0.28/M output (cheaper than V3.2). 1M context. Tool calling supported via OpenRouter. Test whether V4 fixes the RubyLLM API hallucination that made V3.2 Tier 3. Phase 2 disabled: DeepSeek's thinking-mode API rejects replayed `reasoning_content` tokens from opencode's session continuation."
+    },
+    {
+      "slug": "deepseek_v4_pro",
+      "id": "openrouter/deepseek/deepseek-v4-pro",
+      "label": "DeepSeek V4 Pro",
+      "provider": "openrouter",
+      "enable_followup": false,
+      "opencode_model_options": {
+        "reasoning": false
+      },
+      "selection_reason": "DeepSeek V4 Pro — premium variant at $1.74/M input, $3.48/M output. 1M context. Uses thinking mode by default which requires the client to echo reasoning_content on subsequent turns (opencode doesn't). reasoning=false tells opencode to treat it as a non-reasoning model so it won't extract/pass back reasoning_content."
     },
     {
       "slug": "step_3_5_flash",
