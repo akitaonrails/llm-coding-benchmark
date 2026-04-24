@@ -17,16 +17,32 @@ The current successful path is a two-phase OpenRouter run:
 
 ## Key Findings
 
-The deep code reviews in `docs/success_report*.md` are the substance of this repo. Headlines:
+The deep code reviews in `docs/success_report*.md` are the substance of this repo. Rankings use a 0-100 holistic rubric across 8 dimensions (deliverables, RubyLLM correctness, tests, error handling, persistence, Hotwire, architecture, production-readiness) — see [`docs/audit_prompt_template.md`](docs/audit_prompt_template.md) for the exact methodology.
 
-- **Most models hallucinate the RubyLLM gem API.** Only Claude Opus/Sonnet and GLM 5 produce working code out of the box. Most models invent fluent APIs (`chat.add_message()`, `RubyLLM::Client.new`, `chat.complete`) that crash at runtime, then write tests that mock those invented APIs — so tests pass and the code is still broken. File-count and test-count are not reliable signals. See [`docs/success_report.md`](docs/success_report.md).
+**Top Tier A models (80-100, ship as-is)**:
+- Claude Opus 4.7 (94) — benchmark leader on test discipline, ~$1.10/run
+- GPT 5.4 xHigh via Codex (94) — ties Opus on quality but ~15× the cost at ~$16/run
+- Kimi K2.6 (84) — best value; only Chinese model with correct API + real LLM-path tests + restart-safe persistence, ~$0.30/run
+- Gemini 3.1 Pro (82) — only model with Ruby 3.4.1 Dockerfile (not the fake 4.0.2 placeholder), real Turbo Streams, cache-backed persistence
+- Claude Opus 4.6 (80) — thinner than 4.7, missing rescue around LLM calls
+
+**Key findings**:
+
+- **File count and test count are misleading metrics.** Kimi K2.5 wrote 37 tests; none mock RubyLLM. Gemini 3.1 Pro wrote 11 tests with a correctly-signatured `FakeChat` — Gemini scored higher on test quality with fewer tests. Deliverable completeness + test quality + error handling matter more than raw counts.
+
+- **Every model ships `RUBY_VERSION=4.0.2` in the Dockerfile.** Ruby 4.0.2 doesn't exist (current is 3.4.x). It's the Rails 8.1 generator placeholder — no model corrects it. Only Gemini 3.1 Pro shipped a valid Ruby 3.4.1 build.
+
+- **Hallucinated APIs + tests that mock the hallucination is a benchmark-killing pattern.** DeepSeek V3.2 mocks `RubyLLM::Client.any_instance` (class doesn't exist). MiniMax M2.7 stubs `RubyLLM.chat(messages:)` batch signature (doesn't exist). Tests pass green, runtime crashes. Confirmed hallucinations across the benchmark: `RubyLLM::Client.new`, `Openrouter::Client` (wrong casing), `c.user`/`c.assistant` fluent DSL (GLM 5.1), `response.text` / `response.output_text` / `response.choices`, `RubyLLM.chat(messages:)` batch form.
+
+- **Previously-miscategorized kwargs pattern.** Earlier audits flagged `chat.add_message(role:, content:)` as a hallucinated kwargs bug. Direct inspection of the RubyLLM 1.14.1 gem source shows this is **valid** — Ruby parses `foo(key: val)` as `foo({key: val})` positional hash, and `add_message(message_or_attributes)` accepts hash input. Models previously penalized for this (Kimi K2.6, DeepSeek V4 Flash, GPT 5.4 xHigh, Qwen 3.6 Plus, Kimi K2.5, Gemini 3.1 Pro) have been re-scored. `chat.complete(&block)` is also real, not hallucinated.
+
 - **Claude reasoning distillation does NOT transfer library API knowledge.** A Qwen 3.5 27B distilled from Claude 4.6 Opus reasoning traces produced code that *looks* Claude-shaped but still hallucinated the RubyLLM API in the same way. API correctness is binary recall, not a reasoning skill. See [`docs/success_report.nvidia.md`](docs/success_report.nvidia.md).
-- **Multi-agent subagent patterns don't fire on cohesive tasks.** Across 7 benchmark variants with Claude Code, opencode, and Codex multi-agent configurations — every model ignored its coding subagent and did 100% of the work itself. "Use PROACTIVELY" language was not persuasive against "skip for architectural decisions" caveats on a greenfield Rails build. See [`docs/success_report.multi_model.md`](docs/success_report.multi_model.md).
-- **The harness matters for correctness, not just cost.** The same Opus 4.7 model produced Tier 1 code (correct RubyLLM API) in opencode and Tier 2/3 code (hallucinated `chat.complete`) in Claude Code. Claude Code's 6-11M cache-read tokens per run (vs opencode's ~210K) appear to nudge the model toward generic OpenAI-SDK patterns. Same model, different harness, different correctness.
-- **GPT 5.4 via Codex CLI is Tier 2, not Tier 1.** The previous version of this report carried an author's vouch that GPT 5.4 "performs on par with Claude Opus." Concrete testing via Codex CLI at xHigh reasoning shows GPT 5.4 produces the most polished *architecture* of any model but hallucinates `chat.add_message(role:, content:)` as keyword args — crashes on multi-turn. ~$16/run, 15× Claude's cost for worse API correctness.
-- **Xiaomi MiMo V2.5 Pro is the best non-Anthropic code we've seen — but still Tier 2.** At ~$0.14/run and 11 minutes, 8× cheaper than Opus. All API calls are genuinely correct (no hallucinations, no kwargs bugs) — the cleanest non-Anthropic output in the benchmark. But Tier 1 requires correct API AND proper LLM test mocking, and MiMo's tests never exercise the `ask` path. Add process-local `ChatStore` Singleton (doesn't survive restarts or work across workers), no error handling, and no system prompt — demo-quality, not production-quality. The 8× premium to Opus buys test harness, error boundary, persistence model, Docker hardening, and view polish — about 2 engineer-hours of patching if you try to ship MiMo's output as-is. For prototypes, MiMo wins on cost; for production, Opus. See [`docs/success_report.md`](docs/success_report.md#opus-47-vs-mimo-v25-pro--where-the-8-premium-goes).
-- **DeepSeek V4 Pro writes Tier 1 code but opencode can't run it.** Same clean `@chat.ask()` pattern as MiMo, but DeepSeek's thinking mode requires the client to echo `reasoning_content` on every turn and opencode strips it — so the harness DNFs. V4 Flash at $0.01/run fixes V3.2's `RubyLLM::Client` hallucination but still uses `add_message(role:, content:)` kwargs (Tier 2). V3.2 → V4 is a real generational improvement.
-- **Kimi K2.6 partially fixes K2.5's hallucinations.** Dropped the invented `chat.complete()` method (big win) but kept the `add_message(role:, content:)` kwargs bug. Moved K2.5 from Tier 3 to K2.6 Tier 2 — cheaper than Sonnet at $0.14/run, but at the same price point as MiMo which actually works. Pick MiMo over K2.6.
+
+- **Multi-agent subagent patterns don't fire on cohesive tasks.** Across 7 benchmark variants with Claude Code, opencode, and Codex multi-agent configurations — every model ignored its coding subagent and did 100% of the work itself. See [`docs/success_report.multi_model.md`](docs/success_report.multi_model.md).
+
+- **The harness matters for correctness.** The same Opus 4.7 model produced Tier A code (correct RubyLLM API) in opencode and Tier 2/3 code (hallucinated `chat.complete`) in Claude Code. Same model, different harness, different correctness.
+
+- **Cheapest viable options**: DeepSeek V4 Flash at ~$0.01/run (Tier B, one-char fix needed for model slug), Step 3.5 Flash at ~$0.02/run (Tier C, bypasses RubyLLM), Kimi K2.6 at ~$0.30/run (Tier A, production-quality).
 
 ## What This Project Contains
 
