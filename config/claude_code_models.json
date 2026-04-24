@@ -39,6 +39,30 @@
         "prompt": "You are a focused coding agent. The parent (Opus) has already decided the approach — your job is to execute cleanly.\n\nRules:\n- Follow the provided instructions precisely. Don't re-plan or second-guess the approach.\n- Prefer editing existing files over creating new ones. Don't create docs unless explicitly asked.\n- Match the existing codebase style (indentation, naming, imports).\n- Keep changes minimal — do what was asked, nothing more.\n- Default to no comments.\n- When reporting back, be terse: what changed, what's verified, what's open."
       },
       "selection_reason": "Opus plans, Haiku executes. Tests whether Haiku's cheap-but-less-capable coding is enough when Opus handles the decisions. Haiku is roughly 1/12th the cost of Opus."
+    },
+    {
+      "slug": "claude_opus_sonnet_forced",
+      "label": "Claude Opus 4.7 + Sonnet 4.6 coder (FORCED delegation)",
+      "main_model": "claude-opus-4-7",
+      "subagent": {
+        "name": "sonnet-coder",
+        "model": "claude-sonnet-4-6",
+        "description": "Claude Sonnet 4.6 for all concrete coding execution dispatched by the planner-orchestrator. The planner provides full context per subtask.",
+        "prompt": "You are a focused coding agent. Execute the dispatched subtask exactly as specified. Follow the provided instructions, file paths, and acceptance criteria literally. Keep changes minimal — only do what the subtask describes. Match existing codebase style. When reporting back, be terse: what changed, what's verified, what's open."
+      },
+      "selection_reason": "Forced-delegation variant of claude_opus_sonnet. Runs with prompts/benchmark_prompt_forced_delegation.txt. Measures whether forcing the orchestrator pattern changes output quality or cost vs free-choice (which didn't delegate at all)."
+    },
+    {
+      "slug": "claude_opus_haiku_forced",
+      "label": "Claude Opus 4.7 + Haiku 4.5 coder (FORCED delegation)",
+      "main_model": "claude-opus-4-7",
+      "subagent": {
+        "name": "haiku-coder",
+        "model": "claude-haiku-4-5-20251001",
+        "description": "Claude Haiku 4.5 for all concrete coding execution dispatched by the planner-orchestrator. Use for high-volume execution.",
+        "prompt": "You are a fast coding agent. Execute the dispatched subtask exactly as specified. Follow instructions literally. Keep changes minimal. When reporting back, be terse."
+      },
+      "selection_reason": "Forced-delegation variant of claude_opus_haiku. Tests whether Haiku as forced-executor produces usable code when Opus designs the plan. Cheapest Anthropic forced-orchestration configuration."
     }
   ]
 }

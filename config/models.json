@@ -143,6 +143,37 @@
       "selection_reason": "opencode multi-agent: Opus 4.7 primary + GLM 5.1 (Z.ai) coding subagent. Tests whether the cost-effective Chinese model handles coding when Opus plans. GLM 5.1 via Z.ai coding plan endpoint (subscription). Comparable to Claude Code's opus+sonnet variant but with a non-Anthropic coder."
     },
     {
+      "slug": "opencode_opus_glm_forced",
+      "id": "openrouter/anthropic/claude-opus-4.7",
+      "label": "opencode Opus 4.7 + GLM 5.1 coder (FORCED delegation)",
+      "provider": "openrouter",
+      "skip_by_default": true,
+      "opencode_subagent": {
+        "name": "coder",
+        "model_id": "zai/glm-5.1",
+        "provider": "zai",
+        "description": "Use for all concrete coding execution dispatched by the planner-orchestrator. The planner will give you full context per subtask.",
+        "prompt": "You are a focused coding agent. Execute the dispatched subtask exactly as specified. Follow the provided instructions, file paths, and acceptance criteria literally. Keep changes minimal — only do what the subtask describes. Match existing codebase style."
+      },
+      "selection_reason": "Forced-delegation variant of opencode_opus_glm. Runs with prompts/benchmark_prompt_forced_delegation.txt. Measures whether forcing the orchestrator pattern produces usable code via Opus (plan) + GLM 5.1 (execute) vs the free-choice version which didn't delegate at all."
+    },
+    {
+      "slug": "opencode_opus_qwen_forced",
+      "id": "openrouter/anthropic/claude-opus-4.7",
+      "label": "opencode Opus 4.7 + Qwen 3.6 local coder (FORCED delegation)",
+      "provider": "openrouter",
+      "skip_by_default": true,
+      "opencode_subagent": {
+        "name": "coder",
+        "model_id": "ollama/qwen/qwen3.6-35b",
+        "provider": "ollama",
+        "llama_swap_model": "qwen3.6:35b",
+        "description": "Use for all concrete coding execution dispatched by the planner-orchestrator. Runs locally on llama-swap.",
+        "prompt": "You are a local coding agent running on llama-swap. Execute the dispatched subtask exactly as specified. Follow instructions literally. Keep changes minimal."
+      },
+      "selection_reason": "Forced-delegation variant of opencode_opus_qwen. Most interesting test case: expensive cloud orchestrator + free local executor. If this produces working code it's the cheapest usable multi-agent configuration. Depends on llama-swap with qwen3.6:35b loaded."
+    },
+    {
       "slug": "opencode_opus_qwen",
       "id": "openrouter/anthropic/claude-opus-4.7",
       "label": "opencode Opus 4.7 + Qwen 3.6 local coder",
@@ -200,6 +231,40 @@
         "prompt": "You are a focused coding agent. The parent (xhigh) has already decided the approach — your job is to execute cleanly. Follow instructions precisely. Don't re-plan or second-guess. Match existing codebase style. Keep changes minimal — do what was asked, nothing more. Default to no comments. Run tests after significant edits if the tooling is obvious."
       },
       "selection_reason": "Codex multi-agent: xhigh plans and orchestrates, medium/balanced handles coding. Tests whether GPT 5.4 at lower effort can execute well when the xhigh parent makes decisions. Comparison against gpt_5_4_codex (xhigh alone)."
+    },
+    {
+      "slug": "gpt_5_4_multi_balanced_forced",
+      "id": "gpt-5.4",
+      "label": "GPT 5.4 xHigh + medium coder (FORCED delegation)",
+      "provider": "codex",
+      "runner_type": "codex",
+      "codex_reasoning_effort": "xhigh",
+      "skip_by_default": true,
+      "codex_subagent": {
+        "name": "coder",
+        "model": "gpt-5.4",
+        "reasoning_effort": "medium",
+        "description": "Use for all concrete coding execution dispatched by the planner-orchestrator.",
+        "prompt": "You are a focused coding agent. Execute the dispatched subtask exactly as specified. Follow the provided instructions, file paths, and acceptance criteria literally. If the subtask is ambiguous, pick the most reasonable interpretation and note it in your reply. Keep changes minimal — only do what the subtask describes. Match existing codebase style."
+      },
+      "selection_reason": "Forced-delegation variant of gpt_5_4_multi_balanced. Same config as the free-choice version — the only difference is the forcing prompt at prompts/benchmark_prompt_forced_delegation.txt. Measures whether forcing the orchestrator pattern changes output quality or cost on Codex's multi_agent feature."
+    },
+    {
+      "slug": "gpt_5_4_multi_faster_forced",
+      "id": "gpt-5.4",
+      "label": "GPT 5.4 xHigh + low coder (FORCED delegation)",
+      "provider": "codex",
+      "runner_type": "codex",
+      "codex_reasoning_effort": "xhigh",
+      "skip_by_default": true,
+      "codex_subagent": {
+        "name": "coder",
+        "model": "gpt-5.4",
+        "reasoning_effort": "low",
+        "description": "Use for all concrete coding execution dispatched by the planner-orchestrator.",
+        "prompt": "You are a fast coding agent. Execute the dispatched subtask exactly as specified. Follow instructions literally. Keep changes minimal."
+      },
+      "selection_reason": "Forced-delegation variant of gpt_5_4_multi_faster. Compares against the free-choice version to isolate the effect of the forcing prompt."
     },
     {
       "slug": "gpt_5_4_multi_faster",
