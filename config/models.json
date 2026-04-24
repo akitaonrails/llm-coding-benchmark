@@ -176,6 +176,15 @@
       "selection_reason": "GPT 5.4 via Codex CLI at xhigh reasoning effort. Tier 2: correct entry point (RubyLLM.chat + ask + response.content) but add_message uses keyword args instead of positional hash — crashes on multi-turn. ~$16/run (15x Claude). Polished architecture but wrong API calling convention."
     },
     {
+      "slug": "gpt_5_5_codex",
+      "id": "gpt-5.5",
+      "label": "GPT 5.5 xHigh (Codex)",
+      "provider": "codex",
+      "runner_type": "codex",
+      "codex_reasoning_effort": "xhigh",
+      "selection_reason": "GPT 5.5 via Codex CLI at xhigh reasoning effort. Successor to GPT 5.4 — matches gpt_5_4_codex config exactly so the comparison measures model capability delta, not harness differences. Expected to produce similar ~$16/run cost band."
+    },
+    {
       "slug": "gpt_5_4_multi_balanced",
       "id": "gpt-5.4",
       "label": "GPT 5.4 xHigh + medium coder (Codex multi-agent)",

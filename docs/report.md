@@ -1,11 +1,11 @@
 # Benchmark Report
 
-Generated at: 2026-04-24T16:39:16+00:00
+Generated at: 2026-04-24T19:26:07+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
 
-- `completed`: 23
+- `completed`: 24
 - `completed_with_errors`: 1
 - `failed`: 5
 - `timeout`: 1
@@ -37,6 +37,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 - `opencode_opus_qwen` -> `openrouter/anthropic/claude-opus-4.7`: opencode multi-agent: Opus 4.7 primary (cloud) + Qwen 3.6 35B (local llama-swap) coding subagent. Tests the 'local hybrid' hypothesis — expensive cloud orchestrator with free local executor. Depends on llama-swap running with qwen3.6:35b loaded.
 - `gpt_5_4_pro` -> `openrouter/openai/gpt-5.4-pro`: Chosen from the OpenRouter GPT 5.4 family as the largest and most coding-oriented variant. Skipped by default because it failed in the previous benchmark pass.
 - `gpt_5_4_codex` -> `gpt-5.4`: GPT 5.4 via Codex CLI at xhigh reasoning effort. Tier 2: correct entry point (RubyLLM.chat + ask + response.content) but add_message uses keyword args instead of positional hash — crashes on multi-turn. ~$16/run (15x Claude). Polished architecture but wrong API calling convention.
+- `gpt_5_5_codex` -> `gpt-5.5`: GPT 5.5 via Codex CLI at xhigh reasoning effort. Successor to GPT 5.4 — matches gpt_5_4_codex config exactly so the comparison measures model capability delta, not harness differences. Expected to produce similar ~$16/run cost band.
 - `gpt_5_4_multi_balanced` -> `gpt-5.4`: Codex multi-agent: xhigh plans and orchestrates, medium/balanced handles coding. Tests whether GPT 5.4 at lower effort can execute well when the xhigh parent makes decisions. Comparison against gpt_5_4_codex (xhigh alone).
 - `gpt_5_4_multi_faster` -> `gpt-5.4`: Codex multi-agent: xhigh plans, low handles fast coding. Tests the 'cheap executor' hypothesis — whether minimal reasoning on the subagent is enough when the parent provides the plan.
 - `kimi_k2_5` -> `openrouter/moonshotai/kimi-k2.5`: Chosen as the latest/highest Kimi variant listed by OpenRouter locally.
@@ -83,6 +84,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | opencode Opus 4.7 + Qwen 3.6 local coder | openrouter | - | completed | 1165.77 | 126817 | 231.15 | yes | 1623 | Rails app, tests, README, and container files detected. |
 | GPT 5.4 Pro | openrouter | - | failed | 2910.65 | 63491 | 21.81 | partial | 1118 | Exit code -15. Some expected benchmark artifacts exist, but the scaffold looks incomplete. |
 | GPT 5.4 xHigh (Codex) | codex | - | completed | 1312.34 | 7643800 | 5824.56 | yes | 1808 | Rails app, tests, README, and container files detected. |
+| GPT 5.5 xHigh (Codex) | codex | - | completed | 1080.90 | 4904634 | 4537.55 | yes | 1553 | Rails app, tests, README, and container files detected. |
 | GPT 5.4 xHigh + medium coder (Codex multi-agent) | codex | - | completed | 1271.76 | 5438106 | 4276.05 | yes | 1671 | Rails app, tests, README, and container files detected. |
 | GPT 5.4 xHigh + low coder (Codex multi-agent) | codex | - | completed | 1213.33 | 4275845 | 3524.06 | yes | 1716 | Rails app, tests, README, and container files detected. |
 | Kimi K2.5 | openrouter | - | completed | 1738.77 | 63638 | 160.14 | yes | 3405 | Rails app, tests, README, and container files detected. |

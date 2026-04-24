@@ -22,15 +22,15 @@ The deep code reviews in `docs/success_report*.md` are the substance of this rep
 **Top Tier A models (80-100, ship as-is)**:
 - Claude Opus 4.7 (94) — benchmark leader on test discipline, ~$1.10/run
 - GPT 5.4 xHigh via Codex (94) — ties Opus on quality but ~15× the cost at ~$16/run
+- GPT 5.5 xHigh via Codex (93) — ties 5.4 on quality, 40% cheaper and 20% faster (~$10/run, 18m)
 - Kimi K2.6 (84) — best value; only Chinese model with correct API + real LLM-path tests + restart-safe persistence, ~$0.30/run
-- Gemini 3.1 Pro (82) — only model with Ruby 3.4.1 Dockerfile (not the fake 4.0.2 placeholder), real Turbo Streams, cache-backed persistence
+- Gemini 3.1 Pro (82) — real Turbo Streams, cache-backed persistence, correct Chat.new + add_message API
 - Claude Opus 4.6 (80) — thinner than 4.7, missing rescue around LLM calls
 
 **Key findings**:
 
 - **File count and test count are misleading metrics.** Kimi K2.5 wrote 37 tests; none mock RubyLLM. Gemini 3.1 Pro wrote 11 tests with a correctly-signatured `FakeChat` — Gemini scored higher on test quality with fewer tests. Deliverable completeness + test quality + error handling matter more than raw counts.
 
-- **Every model ships `RUBY_VERSION=4.0.2` in the Dockerfile.** Ruby 4.0.2 doesn't exist (current is 3.4.x). It's the Rails 8.1 generator placeholder — no model corrects it. Only Gemini 3.1 Pro shipped a valid Ruby 3.4.1 build.
 
 - **Hallucinated APIs + tests that mock the hallucination is a benchmark-killing pattern.** DeepSeek V3.2 mocks `RubyLLM::Client.any_instance` (class doesn't exist). MiniMax M2.7 stubs `RubyLLM.chat(messages:)` batch signature (doesn't exist). Tests pass green, runtime crashes. Confirmed hallucinations across the benchmark: `RubyLLM::Client.new`, `Openrouter::Client` (wrong casing), `c.user`/`c.assistant` fluent DSL (GLM 5.1), `response.text` / `response.output_text` / `response.choices`, `RubyLLM.chat(messages:)` batch form.
 

@@ -70,8 +70,9 @@ what you think a good Rails app should look like.)
 
 1. **Deliverable completeness** (0-25) — The prompt listed specific artifacts.
    Check each:
-   - Dockerfile present AND has a valid Ruby version (Ruby 4.0.2 is fake — Rails 8.1
-     generator injects it as a placeholder; real is 3.4.x). Invalid = -3.
+   - Dockerfile present AND has a valid Ruby version. Both Ruby 4.0.x (current
+     stable) and Ruby 3.4.x (older LTS) are acceptable. Penalize only genuinely
+     broken versions (e.g. Ruby 5, Ruby 2.x) or non-numeric placeholders.
    - docker-compose.yml present. Missing = -5.
    - README has actual content (NOT the stock "This README would normally document"
      template). Stock template = -5.
