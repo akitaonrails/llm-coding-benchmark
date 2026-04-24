@@ -1,5 +1,13 @@
 # LLM Coding Benchmark: Comprehensive Success Report
 
+> **⚠️ Re-audit in progress (2026-04-25).** A methodology review surfaced two sources of error in the current tier assignments below:
+>
+> 1. **API verification was inconsistent.** Multiple earlier audits flagged `chat.add_message(role:, content:)` and `chat.complete(&block)` as hallucinations. Direct inspection of the RubyLLM 1.14.1 gem source (`~/.local/share/mise/installs/ruby/4.0.2/lib/ruby/gems/4.0.0/gems/ruby_llm-1.14.1/lib/ruby_llm/chat.rb`) proves both are real public methods. Ruby parses `foo(key: val)` as `foo({key: val})`, so the kwargs-vs-positional-hash "bug" does not exist. Models penalized for this (Kimi K2.6, DeepSeek V4 Flash, GPT 5.4 xHigh, Qwen 3.6 Plus, possibly Kimi K2.5) will be re-scored. Confirmed hallucinations that remain: `RubyLLM::Client.new`, `Openrouter::Client`, `c.user/c.assistant` fluent DSL, `RubyLLM.chat(messages: [...])` batch form, `response.text`, `RubyLLM::Chat.new.with_model { }` block form.
+>
+> 2. **Tier rubric was too narrow.** The current Tier 1/2/3 labels weight RubyLLM API correctness as dominant. The benchmark prompt actually demands 15+ specific deliverables (Tailwind, Hotwire/Turbo/Stimulus, Dockerfile AND docker-compose, README with setup, Gemfile containing ruby_llm + brakeman + rubocop + simplecov + bundle-audit, tests, etc.). A model that gets RubyLLM perfect but ships a stock Rails README + missing docker-compose has delivered LESS than a model with an imperfect RubyLLM integration and all other artifacts. The re-audit will score each model 0-100 on a holistic rubric where deliverable completeness is 25/100 and RubyLLM correctness is 20/100.
+>
+> See [`audit_prompt_template.md`](audit_prompt_template.md) for the standardized audit prompt that will be applied consistently to every model (current and future) to produce comparable scores. Current tier assignments below are preserved as-is until the re-audit lands, but may shift significantly — read with this caveat in mind.
+
 ## What Was Tested
 
 Each model was given an identical prompt to autonomously build a Ruby on Rails SPA chat application (a ChatGPT-like interface using RubyLLM). The task requires:
