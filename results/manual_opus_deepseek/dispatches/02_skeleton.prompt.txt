@@ -1,0 +1,48 @@
+You are an autonomous coding agent. Execute this subtask end-to-end and report back concisely.
+
+## Working directory
+You are in `/mnt/data/Projects/llm-coding-benchmark/results/manual_opus_deepseek/project/`. This is the Rails app root. Do NOT create a nested `chat_app/` subdirectory — generate the Rails app directly here.
+
+## Subtask 1 of ~5: Workspace check + Rails skeleton + gems + RubyLLM initializer (combined)
+
+### What to do (in order)
+
+1. Confirm you're in the right empty directory: `pwd && ls -la`
+2. Source secrets (do NOT echo the key): `source ~/.config/zsh/secrets || true`
+3. Confirm Ruby: `mise exec ruby -- ruby --version` (expect 3.4.x or 4.0.x)
+4. Run the Rails generator IN-PLACE:
+   ```
+   mise exec ruby -- rails new . \
+     --skip-active-record --skip-action-mailer --skip-action-cable \
+     --skip-active-storage --skip-active-job --skip-jbuilder --skip-test \
+     --css=tailwind --javascript=importmap --skip-bundle --force
+   ```
+5. Edit the generated `Gemfile` to add (do NOT duplicate if already present):
+   - Main group: `gem "ruby_llm"`
+   - `:test` group: `gem "webmock"`, `gem "mocha"`, `gem "simplecov", require: false`, `gem "minitest-reporters"`
+   - Verify other required gems (turbo-rails, stimulus-rails, tailwindcss-rails, brakeman, rubocop-rails-omakase, bundler-audit) are already in the generated Gemfile.
+6. Run `mise exec ruby -- bundle install`. Confirm success.
+7. Verify Rails 8.1 javascript wiring: if `app/javascript/` is missing, run `mise exec ruby -- bundle binstubs importmap-rails && mise exec ruby -- bin/rails javascript:install:importmap` (or `rake importmap:install` if the rails command isn't recognized) to wire it. Then ensure `bin/importmap` exists.
+8. Create `config/initializers/ruby_llm.rb` with EXACTLY:
+   ```ruby
+   RubyLLM.configure do |config|
+     config.openrouter_api_key = ENV.fetch("OPENROUTER_API_KEY", nil)
+   end
+   ```
+9. Verify everything boots: `mise exec ruby -- bin/rails runner 'puts "Rails: #{Rails.version}, RubyLLM: #{RubyLLM::VERSION}"'`. Expected: Rails 8.1.x and RubyLLM 1.14.x.
+
+### Constraints
+
+- Do NOT create application code (controllers, services, views) — that's the next dispatch.
+- Do NOT print env var values.
+- Do NOT use `RubyLLM::Client.new`, `chat.user/.assistant`, `chat.send_message`, batch `RubyLLM.chat(messages:)`, or `response.text`. Those don't exist in ruby_llm 1.14. Real entry: `RubyLLM.chat(model:, provider:)` returning a Chat with `with_instructions`, `add_message`, `ask`, `complete`.
+- If a step fails, report EXACT error and stop.
+
+### Reporting (UNDER 200 WORDS)
+
+1. Ruby + Rails versions
+2. Gems added vs already present
+3. `bundle install` outcome
+4. Output of the runner check
+5. Any deviations
+6. Literal "DISPATCH_COMPLETE" on its own line at the end.

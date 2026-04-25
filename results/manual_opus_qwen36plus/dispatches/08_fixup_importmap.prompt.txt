@@ -1,0 +1,64 @@
+You are an autonomous coding agent. Execute this fix-up subtask end-to-end.
+
+## Working directory
+`/mnt/data/Projects/llm-coding-benchmark/results/manual_opus_qwen36plus/project/`
+
+## Subtask 8 (fix-up): Create the missing `bin/importmap` binstub, then run full validation
+
+### What to do
+
+1. The `bin/importmap` binstub is missing (Rails 8.1 `--javascript=importmap` behavior). Create it:
+   ```
+   mise exec ruby -- bundle binstubs importmap-rails
+   ```
+   That should produce `bin/importmap`. Verify with `ls -la bin/importmap`.
+
+2. If bundle binstubs fails, fall back to creating the binstub manually:
+   ```
+   mise exec ruby -- bin/rails app:update:bin
+   ```
+   Or as last resort, create `bin/importmap` with this content:
+   ```
+   #!/usr/bin/env ruby
+   require_relative "../config/boot"
+   require "rubygems"
+   load Gem.activate_bin_path("importmap-rails", "importmap")
+   ```
+   And `chmod +x bin/importmap`.
+
+3. Verify it works: `mise exec ruby -- bin/importmap audit` — should run (returns success or "no vulnerabilities").
+
+4. Now re-run the full validation flow that was cut short:
+
+   **Step A — Local boot:**
+   - `mise exec ruby -- bin/rails server -d -p 3001 -e development`
+   - Wait 5s
+   - `curl -fsS http://localhost:3001/up` — expect 200
+   - Kill: `kill $(cat tmp/pids/server.pid) 2>/dev/null || true`
+
+   **Step B — Run bin/ci:**
+   - `mise exec ruby -- bin/ci 2>&1 | tail -20`
+   - Report exit code and last 20 lines
+
+   **Step C — Docker compose smoke test:**
+   - `SKB=$(mise exec ruby -- bin/rails secret 2>/dev/null || openssl rand -hex 64)`
+   - `OPENROUTER_API_KEY="$OPENROUTER_API_KEY" SECRET_KEY_BASE="$SKB" docker compose up -d --build 2>&1 | tail -5`
+   - Wait 30s
+   - `curl -fsS --max-time 5 http://localhost:3000/up` — expect 200
+   - `docker compose ps`
+   - `docker compose down -v 2>&1 | tail -3`
+
+### Constraints
+
+- Do NOT echo any env var values.
+- If bin/ci's rubocop step fails on style only, report the offense count but DO NOT auto-fix — flag for follow-up.
+- Time-bound: bin/ci should complete in under 5 min; if it hangs, kill and report.
+
+### Reporting (UNDER 250 WORDS)
+
+For each step (importmap binstub, A, B, C):
+- PASS/FAIL with key output
+
+Final verdict: "VALIDATION_RESULT: PASS" / "PARTIAL (specifics)" / "FAIL (specifics)"
+
+Then literal "DISPATCH_COMPLETE" on its own line.

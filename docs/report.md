@@ -1,12 +1,12 @@
 # Benchmark Report
 
-Generated at: 2026-04-24T21:52:15+00:00
+Generated at: 2026-04-25T17:34:36+00:00
 Prompt SHA256: `9c405affa602bfdc212a7d05847a979c6dbff2708dd8b9cd1e038de87e85a706`
 
 ## Progress
 
-- `completed`: 26
-- `completed_with_errors`: 1
+- `completed`: 30
+- `completed_with_errors`: 2
 - `failed`: 7
 - `timeout`: 1
 - `not_run`: 11
@@ -35,6 +35,11 @@ Prompt SHA256: `9c405affa602bfdc212a7d05847a979c6dbff2708dd8b9cd1e038de87e85a706
 - `claude_opus_4_7` -> `openrouter/anthropic/claude-opus-4.7`: Anthropic Claude Opus 4.7 on OpenRouter. Built for long-running async agents. Same pricing as 4.6: $5/M input, $25/M output. 1M context, 128K max output. Released 2026-04-16.
 - `opencode_opus_glm` -> `openrouter/anthropic/claude-opus-4.7`: opencode multi-agent: Opus 4.7 primary + GLM 5.1 (Z.ai) coding subagent. Tests whether the cost-effective Chinese model handles coding when Opus plans. GLM 5.1 via Z.ai coding plan endpoint (subscription). Comparable to Claude Code's opus+sonnet variant but with a non-Anthropic coder.
 - `opencode_opus_glm_forced` -> `openrouter/anthropic/claude-opus-4.7`: Forced-delegation variant of opencode_opus_glm. Runs with prompts/benchmark_prompt_forced_delegation.txt. Measures whether forcing the orchestrator pattern produces usable code via Opus (plan) + GLM 5.1 (execute) vs the free-choice version which didn't delegate at all.
+- `opencode_opus_kimi_forced` -> `openrouter/anthropic/claude-opus-4.7`: Replacement for opencode_opus_glm_forced after Z.ai GLM 5.1 subagent stalled twice in the forced-delegation experiment. Kimi K2.6 was Tier A (87/100) in the solo benchmark vs GLM 5.1's Tier C (46/100), and both planner+subagent run through OpenRouter (no provider mixing latency). Runs with prompts/benchmark_prompt_forced_delegation.txt.
+- `opencode_opus_qwen36plus_forced` -> `openrouter/anthropic/claude-opus-4.7`: Test the cheap-cloud-executor pairing: Opus plans, Qwen 3.6 Plus (Tier B 71/100 solo via OpenRouter free tier) executes. Same provider lane as planner so should not exhibit the cross-provider task-dispatch stall seen with GLM 5.1 (Z.ai) and local Qwen (llama-swap). Runs with prompts/benchmark_prompt_forced_delegation.txt.
+- `opencode_opus_deepseek_forced` -> `openrouter/anthropic/claude-opus-4.7`: Test whether DeepSeek V4 Pro (solo Tier C 69/100 — Tier 1 code with Tier 3 deliverables) executes cleanly when Opus handles the planning/integration. Same OpenRouter provider lane to avoid the cross-provider task-dispatch stall. Runs with prompts/benchmark_prompt_forced_delegation.txt.
+- `opencode_gpt55_qwen36plus_forced` -> `openrouter/openai/gpt-5.5`: Stress test: GPT 5.5 (typically Codex-only because OpenAI restricts tool calling on OpenRouter for GPT 5.x) as opencode planner with cheap Qwen executor. KNOWN RISK: GPT 5.5 may not tool-call on OpenRouter; if it can't, the run will fail with no Task dispatches and that itself is a useful finding. Runs with prompts/benchmark_prompt_forced_delegation.txt.
+- `opencode_gpt55_deepseek_forced` -> `openrouter/openai/gpt-5.5`: Stress test: GPT 5.5 + DeepSeek V4 Pro both via OpenRouter. KNOWN RISK: GPT 5.5 may lack tool calling on OpenRouter, in which case no delegation will occur. Runs with prompts/benchmark_prompt_forced_delegation.txt.
 - `opencode_opus_qwen_forced` -> `openrouter/anthropic/claude-opus-4.7`: Forced-delegation variant of opencode_opus_qwen. Most interesting test case: expensive cloud orchestrator + free local executor. If this produces working code it's the cheapest usable multi-agent configuration. Depends on llama-swap with qwen3.6:35b loaded.
 - `opencode_opus_qwen` -> `openrouter/anthropic/claude-opus-4.7`: opencode multi-agent: Opus 4.7 primary (cloud) + Qwen 3.6 35B (local llama-swap) coding subagent. Tests the 'local hybrid' hypothesis — expensive cloud orchestrator with free local executor. Depends on llama-swap running with qwen3.6:35b loaded.
 - `gpt_5_4_pro` -> `openrouter/openai/gpt-5.4-pro`: Chosen from the OpenRouter GPT 5.4 family as the largest and most coding-oriented variant. Skipped by default because it failed in the previous benchmark pass.
@@ -85,8 +90,13 @@ Prompt SHA256: `9c405affa602bfdc212a7d05847a979c6dbff2708dd8b9cd1e038de87e85a706
 | Claude Opus 4.6 | openrouter | - | completed | 970.51 | 136806 | 347.18 | yes | 1536 | Rails app, tests, README, and container files detected. |
 | Claude Opus 4.7 | openrouter | - | completed | 1091.67 | 118216 | 328.24 | yes | 11345 | Rails app, tests, README, and container files detected. |
 | opencode Opus 4.7 + GLM 5.1 coder | openrouter | - | completed | 618.15 | 108279 | 947.65 | yes | 1888 | Rails app, tests, README, and container files detected. |
-| opencode Opus 4.7 + GLM 5.1 coder (FORCED delegation) | openrouter | - | failed | 1340.66 | 82745 | 224.82 | yes | 1965 | Exit code -15. Rails app, tests, README, and container files detected. |
-| opencode Opus 4.7 + Qwen 3.6 local coder (FORCED delegation) | openrouter | - | failed | 981.68 | 66174 | 67.41 | yes | 2038 | Exit code -15. Rails app, tests, README, and container files detected. |
+| opencode Opus 4.7 + GLM 5.1 coder (FORCED delegation) | openrouter | - | completed | 765.82 | 111912 | 633.13 | yes | 1703 | Rails app, tests, README, and container files detected. |
+| opencode Opus 4.7 + Kimi K2.6 coder (FORCED delegation) | openrouter | - | failed | 1509.82 | 57073 | 37.80 | yes | 1642 | Exit code -15. Rails app, tests, README, and container files detected. |
+| opencode Opus 4.7 + Qwen 3.6 Plus coder (FORCED delegation) | openrouter | - | completed | 668.45 | 103920 | 188.13 | yes | 138 | Rails app, tests, README, and container files detected. |
+| opencode Opus 4.7 + DeepSeek V4 Pro coder (FORCED delegation) | openrouter | - | completed | 1931.30 | 124949 | 691.17 | yes | 1902 | Rails app, tests, README, and container files detected. |
+| opencode GPT 5.5 + Qwen 3.6 Plus coder (FORCED delegation) | openrouter | - | failed | 1113.17 | 20457 | 18.38 | no | 0 | Exit code -15. Project directory is empty. |
+| opencode GPT 5.5 + DeepSeek V4 Pro coder (FORCED delegation) | openrouter | - | completed_with_errors | 226.74 | 23770 | 848.32 | no | 0 | Project directory is empty. |
+| opencode Opus 4.7 + Qwen 3.6 local coder (FORCED delegation) | openrouter | - | completed | 768.05 | 93868 | 1603.48 | yes | 1537 | Rails app, tests, README, and container files detected. |
 | opencode Opus 4.7 + Qwen 3.6 local coder | openrouter | - | completed | 1165.77 | 126817 | 231.15 | yes | 1623 | Rails app, tests, README, and container files detected. |
 | GPT 5.4 Pro | openrouter | - | failed | 2910.65 | 63491 | 21.81 | partial | 1118 | Exit code -15. Some expected benchmark artifacts exist, but the scaffold looks incomplete. |
 | GPT 5.4 xHigh (Codex) | codex | - | completed | 1312.34 | 7643800 | 5824.56 | yes | 1808 | Rails app, tests, README, and container files detected. |

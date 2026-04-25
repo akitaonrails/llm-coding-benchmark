@@ -1,0 +1,63 @@
+You are an autonomous coding agent. Execute this subtask end-to-end and report back concisely.
+
+## Working directory
+You are in `/mnt/data/Projects/llm-coding-benchmark/results/manual_opus_qwen36plus/project/`. The Rails 8.1.3 / Ruby 3.4.9 skeleton is already in place from subtask 1: bundle install succeeded, all key directories exist.
+
+## Subtask 2 of ~10: Gemfile augmentation + RubyLLM OpenRouter initializer
+
+### What to do (in order)
+
+1. Read the current `Gemfile`. Confirm which of these gems are already present (do not remove or duplicate any):
+   - `ruby_llm`
+   - `turbo-rails`
+   - `stimulus-rails`
+   - `tailwindcss-rails`
+   - `brakeman`
+   - `rubocop-rails-omakase`
+   - `simplecov`
+   - `bundler-audit`
+   - `webmock`
+   - `mocha`
+   - `minitest` (or `minitest-reporters` if present)
+
+2. Edit the Gemfile to add any of those that are missing:
+   - `ruby_llm` goes in the main group, no version pin (let bundler resolve to latest 1.x)
+   - `webmock`, `mocha`, `simplecov` go in `:test` group
+   - The rest: `:development, :test` group as appropriate
+
+3. Run `mise exec ruby -- bundle install`. Confirm `ruby_llm 1.14.x` resolves. If not, report exact error.
+
+4. Verify `mise exec ruby -- ruby -r ruby_llm -e 'puts RubyLLM::VERSION'` prints a version (1.14.x expected).
+
+5. Create `config/initializers/ruby_llm.rb` with EXACTLY this content (no extra config):
+   ```ruby
+   RubyLLM.configure do |config|
+     config.openrouter_api_key = ENV.fetch("OPENROUTER_API_KEY", nil)
+   end
+   ```
+
+6. Verify the initializer loads: `mise exec ruby -- bin/rails runner 'puts "init ok: #{RubyLLM.config.openrouter_api_key.nil? ? \"key not set\" : \"key set\"}"'`. Expected output: either "key not set" or "key set" — both are acceptable; the test is that the initializer parses and `RubyLLM.config.openrouter_api_key` is callable.
+
+### Constraints
+
+- Do NOT modify any other config files.
+- Do NOT create any application code (controllers, views, services). That is for later subtasks.
+- Do NOT use `RubyLLM::Client.new`, `chat.user/.assistant`, `chat.send_message`, or `RubyLLM.chat(messages: [...])`. Those don't exist in the gem. The real entry point is `RubyLLM.chat(model:, provider:)` returning a Chat instance with `with_instructions`, `add_message`, `ask`, `complete` methods.
+- Do NOT echo any environment variable values.
+- If a step fails, report the EXACT error message and stop.
+
+### Acceptance criteria
+
+- All listed gems present in Gemfile.
+- `bundle install` succeeds.
+- `config/initializers/ruby_llm.rb` exists and Rails loads it without error.
+- `RubyLLM::VERSION` prints (proves the gem resolves).
+
+### Reporting
+
+When done (or blocked), reply with:
+1. Exact list of gems you added (vs already-present)
+2. `RubyLLM::VERSION` output
+3. Whether the initializer-load check passed
+4. Any deviations
+5. Literal token "DISPATCH_COMPLETE" on its own line at the end.

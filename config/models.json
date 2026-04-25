@@ -42,7 +42,7 @@
       "provider": "ollama",
       "skip_by_default": true,
       "llama_swap_model": "llama4:scout",
-      "selection_reason": "Hosted locally via llama-swap. Skipped by default: llama.cpp has no parser for Llama 4's pythonic tool call format — model outputs tool calls as plain text content instead of structured tool_calls. Requires upstream llama.cpp support (similar to vLLM's llama4_pythonic parser)."
+      "selection_reason": "Hosted locally via llama-swap. Skipped by default: llama.cpp has no parser for Llama 4's pythonic tool call format \u2014 model outputs tool calls as plain text content instead of structured tool_calls. Requires upstream llama.cpp support (similar to vLLM's llama4_pythonic parser)."
     },
     {
       "slug": "qwen3_32b",
@@ -78,7 +78,7 @@
       "provider": "ollama",
       "skip_by_default": true,
       "llama_swap_model": "qwen3.6:35b",
-      "selection_reason": "Qwen 3.6 35B-A3B (released 2026-04-15). Same qwen3_5_moe architecture as 3.5 (35B total / 3B active MoE). Q3_K_M ~16 GB — drop-in replacement for 3.5. Significant benchmark gains: SWE-bench 73.4 (was 70), Terminal-Bench 51.5 (was 40.5), MCPMark 37 (was 27). Has vision encoder. Same chat template and llama.cpp flags as 3.5."
+      "selection_reason": "Qwen 3.6 35B-A3B (released 2026-04-15). Same qwen3_5_moe architecture as 3.5 (35B total / 3B active MoE). Q3_K_M ~16 GB \u2014 drop-in replacement for 3.5. Significant benchmark gains: SWE-bench 73.4 (was 70), Terminal-Bench 51.5 (was 40.5), MCPMark 37 (was 27). Has vision encoder. Same chat template and llama.cpp flags as 3.5."
     },
     {
       "slug": "qwen3_5_122b",
@@ -138,7 +138,7 @@
         "model_id": "zai/glm-5.1",
         "provider": "zai",
         "description": "Use proactively for concrete coding execution: file edits, refactors, bug fixes, test writing, boilerplate generation, single-file implementations. The primary (Opus) plans and delegates; this agent (GLM 5.1) executes cheaply. Skip delegation for cross-file architectural decisions or debugging with unclear root cause.",
-        "prompt": "You are a focused coding agent. The parent (Opus) has already decided the approach — your job is to execute cleanly. Follow instructions precisely. Don't re-plan or second-guess. Match existing codebase style. Keep changes minimal — do what was asked, nothing more. Default to no comments."
+        "prompt": "You are a focused coding agent. The parent (Opus) has already decided the approach \u2014 your job is to execute cleanly. Follow instructions precisely. Don't re-plan or second-guess. Match existing codebase style. Keep changes minimal \u2014 do what was asked, nothing more. Default to no comments."
       },
       "selection_reason": "opencode multi-agent: Opus 4.7 primary + GLM 5.1 (Z.ai) coding subagent. Tests whether the cost-effective Chinese model handles coding when Opus plans. GLM 5.1 via Z.ai coding plan endpoint (subscription). Comparable to Claude Code's opus+sonnet variant but with a non-Anthropic coder."
     },
@@ -153,9 +153,84 @@
         "model_id": "zai/glm-5.1",
         "provider": "zai",
         "description": "Use for all concrete coding execution dispatched by the planner-orchestrator. The planner will give you full context per subtask.",
-        "prompt": "You are a focused coding agent. Execute the dispatched subtask exactly as specified. Follow the provided instructions, file paths, and acceptance criteria literally. Keep changes minimal — only do what the subtask describes. Match existing codebase style."
+        "prompt": "You are a focused coding agent. Execute the dispatched subtask exactly as specified. Follow the provided instructions, file paths, and acceptance criteria literally. Keep changes minimal \u2014 only do what the subtask describes. Match existing codebase style."
       },
       "selection_reason": "Forced-delegation variant of opencode_opus_glm. Runs with prompts/benchmark_prompt_forced_delegation.txt. Measures whether forcing the orchestrator pattern produces usable code via Opus (plan) + GLM 5.1 (execute) vs the free-choice version which didn't delegate at all."
+    },
+    {
+      "slug": "opencode_opus_kimi_forced",
+      "id": "openrouter/anthropic/claude-opus-4.7",
+      "label": "opencode Opus 4.7 + Kimi K2.6 coder (FORCED delegation)",
+      "provider": "openrouter",
+      "skip_by_default": true,
+      "opencode_subagent": {
+        "name": "coder",
+        "model_id": "openrouter/moonshotai/kimi-k2.6",
+        "provider": "openrouter",
+        "description": "Use for all concrete coding execution dispatched by the planner-orchestrator. The planner will give you full context per subtask.",
+        "prompt": "You are a focused coding agent. Execute the dispatched subtask exactly as specified. Follow the provided instructions, file paths, and acceptance criteria literally. Keep changes minimal \u2014 only do what the subtask describes. Match existing codebase style."
+      },
+      "selection_reason": "Replacement for opencode_opus_glm_forced after Z.ai GLM 5.1 subagent stalled twice in the forced-delegation experiment. Kimi K2.6 was Tier A (87/100) in the solo benchmark vs GLM 5.1's Tier C (46/100), and both planner+subagent run through OpenRouter (no provider mixing latency). Runs with prompts/benchmark_prompt_forced_delegation.txt."
+    },
+    {
+      "slug": "opencode_opus_qwen36plus_forced",
+      "id": "openrouter/anthropic/claude-opus-4.7",
+      "label": "opencode Opus 4.7 + Qwen 3.6 Plus coder (FORCED delegation)",
+      "provider": "openrouter",
+      "skip_by_default": true,
+      "opencode_subagent": {
+        "name": "coder",
+        "model_id": "openrouter/qwen/qwen3.6-plus",
+        "provider": "openrouter",
+        "description": "Use for all concrete coding execution dispatched by the planner-orchestrator. The planner will give you full context per subtask.",
+        "prompt": "You are a focused coding agent. Execute the dispatched subtask exactly as specified. Follow the provided instructions, file paths, and acceptance criteria literally. Keep changes minimal \u2014 only do what the subtask describes. Match existing codebase style."
+      },
+      "selection_reason": "Test the cheap-cloud-executor pairing: Opus plans, Qwen 3.6 Plus (Tier B 71/100 solo via OpenRouter free tier) executes. Same provider lane as planner so should not exhibit the cross-provider task-dispatch stall seen with GLM 5.1 (Z.ai) and local Qwen (llama-swap). Runs with prompts/benchmark_prompt_forced_delegation.txt."
+    },
+    {
+      "slug": "opencode_opus_deepseek_forced",
+      "id": "openrouter/anthropic/claude-opus-4.7",
+      "label": "opencode Opus 4.7 + DeepSeek V4 Pro coder (FORCED delegation)",
+      "provider": "openrouter",
+      "skip_by_default": true,
+      "opencode_subagent": {
+        "name": "coder",
+        "model_id": "openrouter/deepseek/deepseek-v4-pro",
+        "provider": "openrouter",
+        "description": "Use for all concrete coding execution dispatched by the planner-orchestrator. The planner will give you full context per subtask.",
+        "prompt": "You are a focused coding agent. Execute the dispatched subtask exactly as specified. Follow the provided instructions, file paths, and acceptance criteria literally. Keep changes minimal \u2014 only do what the subtask describes. Match existing codebase style."
+      },
+      "selection_reason": "Test whether DeepSeek V4 Pro (solo Tier C 69/100 \u2014 Tier 1 code with Tier 3 deliverables) executes cleanly when Opus handles the planning/integration. Same OpenRouter provider lane to avoid the cross-provider task-dispatch stall. Runs with prompts/benchmark_prompt_forced_delegation.txt."
+    },
+    {
+      "slug": "opencode_gpt55_qwen36plus_forced",
+      "id": "openrouter/openai/gpt-5.5",
+      "label": "opencode GPT 5.5 + Qwen 3.6 Plus coder (FORCED delegation)",
+      "provider": "openrouter",
+      "skip_by_default": true,
+      "opencode_subagent": {
+        "name": "coder",
+        "model_id": "openrouter/qwen/qwen3.6-plus",
+        "provider": "openrouter",
+        "description": "Use for all concrete coding execution dispatched by the planner-orchestrator. The planner will give you full context per subtask.",
+        "prompt": "You are a focused coding agent. Execute the dispatched subtask exactly as specified. Follow the provided instructions, file paths, and acceptance criteria literally. Keep changes minimal \u2014 only do what the subtask describes. Match existing codebase style."
+      },
+      "selection_reason": "Stress test: GPT 5.5 (typically Codex-only because OpenAI restricts tool calling on OpenRouter for GPT 5.x) as opencode planner with cheap Qwen executor. KNOWN RISK: GPT 5.5 may not tool-call on OpenRouter; if it can't, the run will fail with no Task dispatches and that itself is a useful finding. Runs with prompts/benchmark_prompt_forced_delegation.txt."
+    },
+    {
+      "slug": "opencode_gpt55_deepseek_forced",
+      "id": "openrouter/openai/gpt-5.5",
+      "label": "opencode GPT 5.5 + DeepSeek V4 Pro coder (FORCED delegation)",
+      "provider": "openrouter",
+      "skip_by_default": true,
+      "opencode_subagent": {
+        "name": "coder",
+        "model_id": "openrouter/deepseek/deepseek-v4-pro",
+        "provider": "openrouter",
+        "description": "Use for all concrete coding execution dispatched by the planner-orchestrator. The planner will give you full context per subtask.",
+        "prompt": "You are a focused coding agent. Execute the dispatched subtask exactly as specified. Follow the provided instructions, file paths, and acceptance criteria literally. Keep changes minimal \u2014 only do what the subtask describes. Match existing codebase style."
+      },
+      "selection_reason": "Stress test: GPT 5.5 + DeepSeek V4 Pro both via OpenRouter. KNOWN RISK: GPT 5.5 may lack tool calling on OpenRouter, in which case no delegation will occur. Runs with prompts/benchmark_prompt_forced_delegation.txt."
     },
     {
       "slug": "opencode_opus_qwen_forced",
@@ -185,9 +260,9 @@
         "provider": "ollama",
         "llama_swap_model": "qwen3.6:35b",
         "description": "Use proactively for concrete coding execution: file edits, refactors, simple implementations. The primary (Opus) plans and delegates; this agent (local Qwen 3.6 via llama-swap) executes locally to save API cost. Skip delegation for complex reasoning or gem-specific API work where cloud models are more reliable.",
-        "prompt": "You are a local coding agent running on llama-swap. The parent (Opus) has decided the approach — just execute. Follow instructions precisely. Match existing codebase style. Keep changes minimal."
+        "prompt": "You are a local coding agent running on llama-swap. The parent (Opus) has decided the approach \u2014 just execute. Follow instructions precisely. Match existing codebase style. Keep changes minimal."
       },
-      "selection_reason": "opencode multi-agent: Opus 4.7 primary (cloud) + Qwen 3.6 35B (local llama-swap) coding subagent. Tests the 'local hybrid' hypothesis — expensive cloud orchestrator with free local executor. Depends on llama-swap running with qwen3.6:35b loaded."
+      "selection_reason": "opencode multi-agent: Opus 4.7 primary (cloud) + Qwen 3.6 35B (local llama-swap) coding subagent. Tests the 'local hybrid' hypothesis \u2014 expensive cloud orchestrator with free local executor. Depends on llama-swap running with qwen3.6:35b loaded."
     },
     {
       "slug": "gpt_5_4_pro",
@@ -204,7 +279,7 @@
       "provider": "codex",
       "runner_type": "codex",
       "codex_reasoning_effort": "xhigh",
-      "selection_reason": "GPT 5.4 via Codex CLI at xhigh reasoning effort. Tier 2: correct entry point (RubyLLM.chat + ask + response.content) but add_message uses keyword args instead of positional hash — crashes on multi-turn. ~$16/run (15x Claude). Polished architecture but wrong API calling convention."
+      "selection_reason": "GPT 5.4 via Codex CLI at xhigh reasoning effort. Tier 2: correct entry point (RubyLLM.chat + ask + response.content) but add_message uses keyword args instead of positional hash \u2014 crashes on multi-turn. ~$16/run (15x Claude). Polished architecture but wrong API calling convention."
     },
     {
       "slug": "gpt_5_5_codex",
@@ -213,7 +288,7 @@
       "provider": "codex",
       "runner_type": "codex",
       "codex_reasoning_effort": "xhigh",
-      "selection_reason": "GPT 5.5 via Codex CLI at xhigh reasoning effort. Successor to GPT 5.4 — matches gpt_5_4_codex config exactly so the comparison measures model capability delta, not harness differences. Expected to produce similar ~$16/run cost band."
+      "selection_reason": "GPT 5.5 via Codex CLI at xhigh reasoning effort. Successor to GPT 5.4 \u2014 matches gpt_5_4_codex config exactly so the comparison measures model capability delta, not harness differences. Expected to produce similar ~$16/run cost band."
     },
     {
       "slug": "gpt_5_4_multi_balanced",
@@ -228,7 +303,7 @@
         "model": "gpt-5.4",
         "reasoning_effort": "medium",
         "description": "Use proactively for concrete coding execution: file edits, refactors, bug fixes, test writing, boilerplate generation. The main session (xhigh) plans and delegates; this agent (medium) executes. Skip delegation for cross-file architectural decisions or complex root-cause debugging.",
-        "prompt": "You are a focused coding agent. The parent (xhigh) has already decided the approach — your job is to execute cleanly. Follow instructions precisely. Don't re-plan or second-guess. Match existing codebase style. Keep changes minimal — do what was asked, nothing more. Default to no comments. Run tests after significant edits if the tooling is obvious."
+        "prompt": "You are a focused coding agent. The parent (xhigh) has already decided the approach \u2014 your job is to execute cleanly. Follow instructions precisely. Don't re-plan or second-guess. Match existing codebase style. Keep changes minimal \u2014 do what was asked, nothing more. Default to no comments. Run tests after significant edits if the tooling is obvious."
       },
       "selection_reason": "Codex multi-agent: xhigh plans and orchestrates, medium/balanced handles coding. Tests whether GPT 5.4 at lower effort can execute well when the xhigh parent makes decisions. Comparison against gpt_5_4_codex (xhigh alone)."
     },
@@ -245,9 +320,9 @@
         "model": "gpt-5.4",
         "reasoning_effort": "medium",
         "description": "Use for all concrete coding execution dispatched by the planner-orchestrator.",
-        "prompt": "You are a focused coding agent. Execute the dispatched subtask exactly as specified. Follow the provided instructions, file paths, and acceptance criteria literally. If the subtask is ambiguous, pick the most reasonable interpretation and note it in your reply. Keep changes minimal — only do what the subtask describes. Match existing codebase style."
+        "prompt": "You are a focused coding agent. Execute the dispatched subtask exactly as specified. Follow the provided instructions, file paths, and acceptance criteria literally. If the subtask is ambiguous, pick the most reasonable interpretation and note it in your reply. Keep changes minimal \u2014 only do what the subtask describes. Match existing codebase style."
       },
-      "selection_reason": "Forced-delegation variant of gpt_5_4_multi_balanced. Same config as the free-choice version — the only difference is the forcing prompt at prompts/benchmark_prompt_forced_delegation.txt. Measures whether forcing the orchestrator pattern changes output quality or cost on Codex's multi_agent feature."
+      "selection_reason": "Forced-delegation variant of gpt_5_4_multi_balanced. Same config as the free-choice version \u2014 the only difference is the forcing prompt at prompts/benchmark_prompt_forced_delegation.txt. Measures whether forcing the orchestrator pattern changes output quality or cost on Codex's multi_agent feature."
     },
     {
       "slug": "gpt_5_4_multi_faster_forced",
@@ -279,9 +354,9 @@
         "model": "gpt-5.4",
         "reasoning_effort": "low",
         "description": "Use proactively for simple, high-volume coding execution: file edits, boilerplate generation, test scaffolding, single-file implementations. The main session (xhigh) plans; this agent (low) executes as cheaply as possible. Skip delegation for anything requiring judgment.",
-        "prompt": "You are a fast coding agent. The parent has already decided what to do — just execute. Follow instructions literally. Keep changes minimal. No comments unless asked."
+        "prompt": "You are a fast coding agent. The parent has already decided what to do \u2014 just execute. Follow instructions literally. Keep changes minimal. No comments unless asked."
       },
-      "selection_reason": "Codex multi-agent: xhigh plans, low handles fast coding. Tests the 'cheap executor' hypothesis — whether minimal reasoning on the subagent is enough when the parent provides the plan."
+      "selection_reason": "Codex multi-agent: xhigh plans, low handles fast coding. Tests the 'cheap executor' hypothesis \u2014 whether minimal reasoning on the subagent is enough when the parent provides the plan."
     },
     {
       "slug": "kimi_k2_5",
@@ -302,7 +377,7 @@
       "id": "openrouter/xiaomi/mimo-v2.5-pro",
       "label": "Xiaomi MiMo V2.5 Pro",
       "provider": "openrouter",
-      "selection_reason": "Xiaomi's flagship coding model. $1/$3 per M, 1M context, tool calling supported. Brand-new family we haven't tested — competitive pricing with mid-tier Chinese models like Kimi and GLM."
+      "selection_reason": "Xiaomi's flagship coding model. $1/$3 per M, 1M context, tool calling supported. Brand-new family we haven't tested \u2014 competitive pricing with mid-tier Chinese models like Kimi and GLM."
     },
     {
       "slug": "glm_5",
@@ -314,7 +389,7 @@
     },
     {
       "slug": "qwen3_6_plus",
-      "id": "openrouter/qwen/qwen3.6-plus:free",
+      "id": "openrouter/qwen/qwen3.6-plus",
       "label": "Qwen 3.6 Plus",
       "provider": "openrouter",
       "skip_by_default": true,
@@ -334,7 +409,7 @@
       "label": "Gemma 4 31B Cloud",
       "provider": "openrouter",
       "skip_by_default": true,
-      "selection_reason": "Google Gemma 4 31B IT BF16 served via Ollama's hosted cloud (https://ollama.com). Originally added to bypass the local llama.cpp parser bugs that caused infinite repetition loops on local Q3/Q8 GGUFs. Curl tests confirm the model itself works correctly for tool calling. **However, opencode benchmark runs hit HTTP 504 Gateway Timeout consistently around 20-24K total tokens of conversation history** — Cloudflare edge appears to enforce a ~100s per-request limit which 20K+ token prefill exceeds. Tried maxRetries:5 (didn't help — failures are consistent, not transient). Set limit.context:16384 to force opencode history trimming below the wall. Skipped by default until either Ollama Cloud raises the timeout or we test via Google's native Gemini API. Requires OLLAMA_API_KEY env var with Ollama Cloud subscription."
+      "selection_reason": "Google Gemma 4 31B IT BF16 served via Ollama's hosted cloud (https://ollama.com). Originally added to bypass the local llama.cpp parser bugs that caused infinite repetition loops on local Q3/Q8 GGUFs. Curl tests confirm the model itself works correctly for tool calling. **However, opencode benchmark runs hit HTTP 504 Gateway Timeout consistently around 20-24K total tokens of conversation history** \u2014 Cloudflare edge appears to enforce a ~100s per-request limit which 20K+ token prefill exceeds. Tried maxRetries:5 (didn't help \u2014 failures are consistent, not transient). Set limit.context:16384 to force opencode history trimming below the wall. Skipped by default until either Ollama Cloud raises the timeout or we test via Google's native Gemini API. Requires OLLAMA_API_KEY env var with Ollama Cloud subscription."
     },
     {
       "slug": "llama4_scout_cloud",
@@ -372,7 +447,7 @@
       "label": "DeepSeek V4 Flash",
       "provider": "openrouter",
       "enable_followup": false,
-      "selection_reason": "DeepSeek V4 Flash — budget-tier variant at $0.14/M input, $0.28/M output (cheaper than V3.2). 1M context. Tool calling supported via OpenRouter. Test whether V4 fixes the RubyLLM API hallucination that made V3.2 Tier 3. Phase 2 disabled: DeepSeek's thinking-mode API rejects replayed `reasoning_content` tokens from opencode's session continuation."
+      "selection_reason": "DeepSeek V4 Flash \u2014 budget-tier variant at $0.14/M input, $0.28/M output (cheaper than V3.2). 1M context. Tool calling supported via OpenRouter. Test whether V4 fixes the RubyLLM API hallucination that made V3.2 Tier 3. Phase 2 disabled: DeepSeek's thinking-mode API rejects replayed `reasoning_content` tokens from opencode's session continuation."
     },
     {
       "slug": "deepseek_v4_pro",
@@ -383,7 +458,7 @@
       "opencode_model_options": {
         "reasoning": false
       },
-      "selection_reason": "DeepSeek V4 Pro — premium variant at $1.74/M input, $3.48/M output. 1M context. Uses thinking mode by default which requires the client to echo reasoning_content on subsequent turns (opencode doesn't). reasoning=false tells opencode to treat it as a non-reasoning model so it won't extract/pass back reasoning_content."
+      "selection_reason": "DeepSeek V4 Pro \u2014 premium variant at $1.74/M input, $3.48/M output. 1M context. Uses thinking mode by default which requires the client to echo reasoning_content on subsequent turns (opencode doesn't). reasoning=false tells opencode to treat it as a non-reasoning model so it won't extract/pass back reasoning_content."
     },
     {
       "slug": "step_3_5_flash",
@@ -411,14 +486,14 @@
       "id": "openrouter/x-ai/grok-4.20",
       "label": "Grok 4.20",
       "provider": "openrouter",
-      "selection_reason": "xAI's latest flagship on OpenRouter. Fastest model in the benchmark (8 min) but produced architecturally broken code: bypassed RubyLLM with ruby-openai (only in dev/test group, NameError in prod), used format.turbo_stream without installing turbo-rails, RUBY_VERSION=4.0.2 Dockerfile bug. Tier 3 — broken core."
+      "selection_reason": "xAI's latest flagship on OpenRouter. Fastest model in the benchmark (8 min) but produced architecturally broken code: bypassed RubyLLM with ruby-openai (only in dev/test group, NameError in prod), used format.turbo_stream without installing turbo-rails, RUBY_VERSION=4.0.2 Dockerfile bug. Tier 3 \u2014 broken core."
     },
     {
       "slug": "glm_5_1",
       "id": "zai/glm-5.1",
       "label": "GLM 5.1",
       "provider": "zai",
-      "selection_reason": "Z.ai's latest flagship GLM model. Uses Z.ai coding plan endpoint at https://api.z.ai/api/coding/paas/v4 (NOT the general /api/paas/v4) — Lite subscription includes glm-5.1 only via the coding endpoint. Completed in 22 min with 24 tests, correct primary RubyLLM.chat/ask usage, but invented chat.user/chat.assistant for multi-turn history seeding (single-turn works, multi-turn crashes). Tier 2 — works with caveats."
+      "selection_reason": "Z.ai's latest flagship GLM model. Uses Z.ai coding plan endpoint at https://api.z.ai/api/coding/paas/v4 (NOT the general /api/paas/v4) \u2014 Lite subscription includes glm-5.1 only via the coding endpoint. Completed in 22 min with 24 tests, correct primary RubyLLM.chat/ask usage, but invented chat.user/chat.assistant for multi-turn history seeding (single-turn works, multi-turn crashes). Tier 2 \u2014 works with caveats."
     },
     {
       "slug": "qwen3_5_27b_claude",
@@ -426,7 +501,7 @@
       "label": "Qwen 3.5 27B Claude Distilled",
       "provider": "ollama",
       "llama_swap_model": "qwen3.5:27b-claude",
-      "selection_reason": "Qwen 3.5 27B distilled from Claude 4.6 Opus reasoning traces (Jackrong/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled). Tests whether Claude reasoning distillation transfers RubyLLM API correctness — most non-Anthropic models hallucinate the gem's API, so a Claude-distilled Qwen is an interesting natural experiment."
+      "selection_reason": "Qwen 3.5 27B distilled from Claude 4.6 Opus reasoning traces (Jackrong/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled). Tests whether Claude reasoning distillation transfers RubyLLM API correctness \u2014 most non-Anthropic models hallucinate the gem's API, so a Claude-distilled Qwen is an interesting natural experiment."
     },
     {
       "slug": "qwen2_5_coder_32b",
@@ -453,7 +528,7 @@
       "provider": "ollama",
       "skip_by_default": true,
       "llama_swap_model": "qwen3.5-sushi-coder:27b",
-      "selection_reason": "Qwen 3.5 27B fine-tuned via reinforcement learning on Codeforces problems (bigatuna/Qwen3.5-27b-Sushi-Coder-RL). Q4_K_M ~15 GB. Tests whether RL coding fine-tuning transfers correct RubyLLM API usage — direct comparison with the Claude reasoning distillation (qwen3.5:27b-claude) and the general qwen3.5:35b."
+      "selection_reason": "Qwen 3.5 27B fine-tuned via reinforcement learning on Codeforces problems (bigatuna/Qwen3.5-27b-Sushi-Coder-RL). Q4_K_M ~15 GB. Tests whether RL coding fine-tuning transfers correct RubyLLM API usage \u2014 direct comparison with the Claude reasoning distillation (qwen3.5:27b-claude) and the general qwen3.5:35b."
     },
     {
       "slug": "gemma4_31b_cloud",

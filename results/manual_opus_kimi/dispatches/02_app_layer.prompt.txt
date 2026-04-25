@@ -1,0 +1,260 @@
+You are an autonomous coding agent. Execute this multi-step subtask end-to-end.
+
+## Working directory
+`/mnt/data/Projects/llm-coding-benchmark/results/manual_opus_kimi/project/`
+
+The Rails 8.1.3 / Ruby 3.4.9 skeleton is in place with all gems installed. Initializer `config/initializers/ruby_llm.rb` is set. bin/importmap is wired.
+
+## Subtask 2 of ~5: Application layer (service + chat domain + controllers + routes + views + Stimulus)
+
+Build the entire application layer in one coherent pass. The app is a minimal ChatGPT-like SPA that streams chat turns via Turbo Streams; transcript persists in the session cookie.
+
+### Files to create
+
+**1. `app/services/chat_service.rb`**
+
+```ruby
+class ChatService
+  class Error < StandardError; end
+
+  DEFAULT_MODEL = "anthropic/claude-sonnet-4.6"
+  SYSTEM_PROMPT = "You are a helpful assistant. Be concise."
+
+  def initialize(history: [], model: DEFAULT_MODEL)
+    @history = history
+    @model = model
+  end
+
+  def reply(user_message)
+    chat = RubyLLM.chat(model: @model, provider: :openrouter)
+    chat.with_instructions(SYSTEM_PROMPT)
+    @history.each do |msg|
+      chat.add_message(role: msg[:role].to_sym, content: msg[:content])
+    end
+    response = chat.ask(user_message)
+    response.content
+  rescue RubyLLM::Error => e
+    raise Error, "LLM call failed: #{e.message}"
+  end
+end
+```
+
+CRITICAL: use ONLY these real RubyLLM 1.14 methods:
+- `RubyLLM.chat(model:, provider:)` returns Chat
+- `chat.with_instructions(text)` sets system prompt
+- `chat.add_message(role:, content:)` appends a turn (Ruby parses kwargs as positional hash, this is correct)
+- `chat.ask(message)` sends turn, returns response
+- `response.content` extracts assistant text
+
+DO NOT use `RubyLLM::Client.new`, `chat.user(...)`, `chat.assistant(...)`, `chat.send_message(...)`, `RubyLLM.chat(messages: [...])` batch form, or `response.text`.
+
+**2. `app/models/message.rb`** (PORO Struct, NOT ActiveRecord — there is no DB)
+
+```ruby
+class Message
+  ROLES = %w[user assistant].freeze
+  attr_reader :role, :content
+
+  def initialize(role:, content:)
+    raise ArgumentError, "invalid role" unless ROLES.include?(role.to_s)
+    @role = role.to_s
+    @content = content.to_s
+  end
+
+  def to_h = { role: role, content: content }
+  def user? = role == "user"
+  def assistant? = role == "assistant"
+end
+```
+
+**3. `config/routes.rb`** — replace existing with:
+
+```ruby
+Rails.application.routes.draw do
+  get "up" => "rails/health#show", as: :rails_health_check
+  get "/" => "chats#show"
+  resources :messages, only: [:create]
+end
+```
+
+**4. `app/controllers/chats_controller.rb`**
+
+```ruby
+class ChatsController < ApplicationController
+  def show
+    @messages = session_messages
+  end
+
+  private
+
+  def session_messages
+    raw = session[:chat_history] || []
+    raw.map { |m| Message.new(role: m["role"] || m[:role], content: m["content"] || m[:content]) }
+  end
+end
+```
+
+**5. `app/controllers/messages_controller.rb`**
+
+```ruby
+class MessagesController < ApplicationController
+  MAX_MESSAGES = 25
+
+  def create
+    user_text = params.fetch(:content, "").to_s.strip
+    if user_text.empty?
+      head :no_content and return
+    end
+    history = (session[:chat_history] || []).map { |m| { role: (m["role"] || m[:role]).to_sym, content: m["content"] || m[:content] } }
+    user_message = Message.new(role: "user", content: user_text)
+    begin
+      assistant_text = ChatService.new(history: history).reply(user_text)
+      assistant_message = Message.new(role: "assistant", content: assistant_text)
+      append_to_session(user_message, assistant_message)
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.append("messages", partial: "messages/message", locals: { message: user_message }),
+            turbo_stream.append("messages", partial: "messages/message", locals: { message: assistant_message }),
+            turbo_stream.replace("composer", partial: "messages/form"),
+          ]
+        end
+      end
+    rescue ChatService::Error => e
+      Rails.logger.warn("ChatService error: #{e.message}")
+      render turbo_stream: turbo_stream.replace("composer", partial: "messages/form", locals: { error: e.message }), status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def append_to_session(*new_messages)
+    history = session[:chat_history] || []
+    new_messages.each { |m| history << m.to_h.transform_keys(&:to_s) }
+    session[:chat_history] = history.last(MAX_MESSAGES)
+  end
+end
+```
+
+**6. `app/views/layouts/application.html.erb`** — keep what's there but ensure `<%= javascript_importmap_tags %>` and `<%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>` (or equivalent for the asset name the generator chose) are present in `<head>`. Body class should be Tailwind-friendly: `class="bg-slate-50 text-slate-900 antialiased"`.
+
+**7. `app/views/chats/show.html.erb`**
+
+```erb
+<div class="flex h-screen flex-col bg-slate-50">
+  <header class="border-b border-slate-200 bg-white px-6 py-4 shadow-sm">
+    <h1 class="text-xl font-semibold text-slate-900">Mini ChatGPT</h1>
+    <p class="text-sm text-slate-500">Powered by RubyLLM + OpenRouter</p>
+  </header>
+
+  <main class="flex-1 overflow-y-auto px-6 py-4" data-controller="scroll">
+    <div id="messages" class="mx-auto flex max-w-3xl flex-col gap-3">
+      <% if @messages.empty? %>
+        <%= render "messages/empty_state" %>
+      <% else %>
+        <% @messages.each do |msg| %>
+          <%= render "messages/message", message: msg %>
+        <% end %>
+      <% end %>
+    </div>
+  </main>
+
+  <footer class="border-t border-slate-200 bg-white px-6 py-3">
+    <div class="mx-auto max-w-3xl">
+      <%= render "messages/form" %>
+    </div>
+  </footer>
+</div>
+```
+
+**8. `app/views/messages/_message.html.erb`**
+
+```erb
+<div class="rounded-lg px-4 py-3 <%= message.user? ? "self-end bg-indigo-600 text-white" : "self-start bg-white border border-slate-200 text-slate-900" %> max-w-2xl whitespace-pre-wrap">
+  <%= message.content %>
+</div>
+```
+
+**9. `app/views/messages/_form.html.erb`**
+
+```erb
+<%= form_with url: messages_path, method: :post, html: { id: "composer", class: "flex gap-2" }, data: { controller: "composer", action: "submit->composer#disable" } do |f| %>
+  <%= f.text_area :content, rows: 1, placeholder: "Send a message...",
+      class: "flex-1 resize-none rounded-md border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500",
+      data: { composer_target: "input", action: "keydown->composer#submitOnEnter input->composer#autoresize" } %>
+  <%= f.submit "Send", class: "rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-50",
+      data: { composer_target: "submit" } %>
+<% end %>
+<% if local_assigns[:error] %>
+  <p class="mt-2 text-sm text-red-600">An error occurred: <%= error %></p>
+<% end %>
+```
+
+**10. `app/views/messages/_empty_state.html.erb`**
+
+```erb
+<div class="text-center text-slate-500">Start the conversation by typing below.</div>
+```
+
+**11. `app/javascript/controllers/composer_controller.js`**
+
+```js
+import { Controller } from "@hotwired/stimulus"
+
+export default class extends Controller {
+  static targets = ["input", "submit"]
+
+  submitOnEnter(event) {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault()
+      this.element.requestSubmit()
+    }
+  }
+
+  autoresize() {
+    this.inputTarget.style.height = "auto"
+    this.inputTarget.style.height = `${this.inputTarget.scrollHeight}px`
+  }
+
+  disable() {
+    if (this.hasSubmitTarget) this.submitTarget.disabled = true
+  }
+}
+```
+
+**12. `app/javascript/controllers/scroll_controller.js`**
+
+```js
+import { Controller } from "@hotwired/stimulus"
+
+export default class extends Controller {
+  connect() {
+    this.observer = new MutationObserver(() => this.scrollToBottom())
+    this.observer.observe(this.element, { childList: true, subtree: true })
+    this.scrollToBottom()
+  }
+
+  disconnect() { this.observer?.disconnect() }
+
+  scrollToBottom() {
+    requestAnimationFrame(() => {
+      this.element.scrollTop = this.element.scrollHeight
+    })
+  }
+}
+```
+
+**13. `app/javascript/controllers/index.js`** — register both controllers, e.g. via `eagerLoadControllersFrom("controllers", application)` or explicit registration.
+
+### Verification before reporting
+
+1. `mise exec ruby -- bin/rails routes | grep -E '(messages|chats)'` — should show `POST /messages` and `GET /` routes.
+2. `mise exec ruby -- bin/rails runner 'p ChatService.new'` — should not raise.
+3. `mise exec ruby -- bin/rails runner 'p Message.new(role: "user", content: "hi")'` — should print a Message instance.
+
+### Reporting (UNDER 250 WORDS)
+
+1. List of files created (just paths)
+2. Any deviations
+3. Output of the 3 verification commands
+4. Literal "DISPATCH_COMPLETE" on its own line at the end.

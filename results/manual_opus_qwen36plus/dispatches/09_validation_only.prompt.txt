@@ -1,0 +1,48 @@
+You are an autonomous coding agent. Execute these validation commands ONLY — do not modify any files.
+
+## Working directory
+`/mnt/data/Projects/llm-coding-benchmark/results/manual_opus_qwen36plus/project/`
+
+`bin/importmap` was created in the previous fix-up dispatch. Now run the actual validation steps.
+
+## Subtask 9: Run validation (no edits)
+
+### Steps
+
+1. **Local boot**:
+   ```
+   source ~/.config/zsh/secrets || true
+   mise exec ruby -- bin/rails server -d -p 3001 -e development 2>&1 | tail -3
+   sleep 6
+   curl -fsS -o /dev/null -w "HTTP %{http_code}\n" http://localhost:3001/up
+   curl -fsS http://localhost:3001/ 2>&1 | head -5
+   kill $(cat tmp/pids/server.pid) 2>/dev/null || true
+   ```
+
+2. **Run bin/ci end-to-end** (give it a 5-min budget; if it hangs, kill it):
+   ```
+   timeout 300 mise exec ruby -- bin/ci 2>&1 | tail -25
+   echo "exit code: $?"
+   ```
+
+3. **Docker compose smoke**:
+   ```
+   SKB=$(mise exec ruby -- bin/rails secret 2>/dev/null)
+   OPENROUTER_API_KEY="$OPENROUTER_API_KEY" SECRET_KEY_BASE="$SKB" docker compose up -d 2>&1 | tail -5
+   sleep 30
+   curl -fsS --max-time 5 -o /dev/null -w "HTTP %{http_code}\n" http://localhost:3000/up
+   docker compose ps
+   docker compose down -v 2>&1 | tail -3
+   ```
+
+### Constraints
+
+- DO NOT echo any env var values.
+- DO NOT modify any files. If something is broken, just report the error.
+- Be terse — under 250 words total.
+
+### Reporting
+
+For each step (1, 2, 3): PASS / FAIL with key output.
+Final verdict: "VALIDATION_RESULT: PASS / PARTIAL / FAIL"
+Then "DISPATCH_COMPLETE" on its own line.

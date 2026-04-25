@@ -29,3 +29,15 @@ __pycache__/
 *.pyc
 .ai-jail/
 .crush/
+.lobster/
+# Leaked HOME contents from per-variant Claude Code subprocess runs
+# (HOME isolation creates these inside results-claude-code/<variant>/)
+results-claude-code/*/.bundle/
+results-claude-code/*/.claude/
+results-claude-code/*/.claude.json
+results-claude-code/*/.docker/
+results-claude-code/*/.local/
+results-claude-code/*/.npm/
+# Manual cross-process orchestration: per-dispatch raw opencode JSON outputs are large
+results/manual_*/dispatches/*.json
+results/manual_*/project/

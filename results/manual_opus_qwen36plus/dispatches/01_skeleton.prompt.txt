@@ -1,0 +1,47 @@
+You are an autonomous coding agent. Execute this subtask end-to-end and report back concisely.
+
+## Working directory
+You are in `/mnt/data/Projects/llm-coding-benchmark/results/manual_opus_qwen36plus/project/`. This is the Rails app root. Do NOT create a nested `chat_app/` subdirectory — generate the Rails app directly here.
+
+## Subtask 1 of ~10: Workspace check + Rails skeleton
+
+### What to do (in order)
+
+1. Run `pwd && ls -la` to confirm you are in the right empty directory.
+2. Source the user's secrets file so OPENROUTER_API_KEY is set: `source ~/.config/zsh/secrets || true`. Do NOT echo the key value.
+3. Run `mise exec ruby -- ruby --version` to confirm Ruby is callable. Use the newest Ruby available via mise — Ruby 4.0.x or 3.4.x.
+4. Run the Rails generator IN-PLACE in the current directory:
+   ```
+   mise exec ruby -- rails new . \
+     --skip-active-record --skip-action-mailer --skip-action-cable \
+     --skip-active-storage --skip-active-job --skip-jbuilder --skip-test \
+     --css=tailwind --javascript=importmap --skip-bundle \
+     --force
+   ```
+5. Run `mise exec ruby -- bundle install` to resolve dependencies. If it fails, report the exact error.
+6. Run `mise exec ruby -- bin/rails routes | head -10` and confirm it executes without error.
+7. Verify these directories exist: `app/controllers/`, `app/views/`, `app/javascript/`, `config/`, `bin/`.
+
+### Constraints
+
+- Do NOT create a nested subdirectory. The Rails app must live at the current workspace root.
+- Do NOT add any application code yet — just the Rails skeleton from the generator.
+- Do NOT modify the Gemfile beyond what `rails new` produces.
+- Do NOT print the value of any secret env var.
+- If a step fails, report the EXACT error message and stop. Do NOT improvise alternative solutions.
+
+### Acceptance criteria
+
+- `bin/rails routes` runs without error.
+- `app/javascript/`, `config/initializers/`, `app/controllers/application_controller.rb` all exist.
+- The Rails app is at the workspace root (not in a subdirectory).
+- No code changes beyond the generator output.
+
+### Reporting
+
+When done (or blocked), reply with:
+1. Ruby + Rails versions used
+2. Whether `bundle install` succeeded (and if not, the error)
+3. Output of `bin/rails routes | head -5`
+4. Any deviations from the plan, with reasoning
+5. The literal token "DISPATCH_COMPLETE" on its own line at the very end of your reply, so the orchestrator can detect completion.

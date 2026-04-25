@@ -1,0 +1,54 @@
+You are an autonomous coding agent. Execute this final validation subtask.
+
+## Working directory
+`/mnt/data/Projects/llm-coding-benchmark/results/manual_opus_qwen36plus/project/`
+
+The Rails app is fully built. Tests pass. Docker image was built successfully in the previous dispatch (`manual_qwen36plus_test`).
+
+## Subtask 7 of 7: End-to-end validation
+
+Run all four validations and report pass/fail per step. Do NOT modify any files except to fix obvious validation-blocking issues. If something fails, report the exact error — do not improvise alternative test strategies.
+
+### Steps
+
+1. **Local boot test**
+   - Source secrets: `source ~/.config/zsh/secrets || true` (do not echo the key)
+   - Run `mise exec ruby -- bin/rails server -d -p 3001 -e development` (port 3001 to avoid clashing with anything)
+   - Wait 5 seconds for boot
+   - `curl -fsS http://localhost:3001/up` — expect HTTP 200
+   - `curl -fsS http://localhost:3001/` | head -3 — expect HTML containing "Mini ChatGPT" or the chat shell
+   - Kill server: `kill $(cat tmp/pids/server.pid) 2>/dev/null || true`
+
+2. **Run bin/ci** (the full CI script)
+   - `mise exec ruby -- bin/ci 2>&1 | tail -30`
+   - Report whether it exited 0 or non-zero. If non-zero, paste the failing tool's error output.
+   - If `rubocop` complains about style, report the count of offenses but DO NOT fix them in this dispatch (that would be scope creep — flag for follow-up).
+
+3. **Docker build verification** (re-confirm — should be cached from dispatch 6)
+   - `docker images | grep manual_qwen36plus_test` — confirm image exists
+
+4. **Docker compose up + curl**
+   - Generate a one-off SECRET_KEY_BASE just for this validation: `SKB=$(mise exec ruby -- bin/rails secret 2>/dev/null || openssl rand -hex 64)`
+   - `OPENROUTER_API_KEY="$OPENROUTER_API_KEY" SECRET_KEY_BASE="$SKB" docker compose up -d --build 2>&1 | tail -10`
+   - Wait 30 seconds for boot
+   - `curl -fsS --max-time 5 http://localhost:3000/up` — expect HTTP 200
+   - `docker compose ps` — confirm web service is healthy
+   - `docker compose down -v 2>&1 | tail -3`
+
+### Constraints
+
+- Do NOT print any environment variable values.
+- Do NOT modify application code or tests in this dispatch — only fix validation-blocking issues (e.g. a missing tmp dir).
+- If `docker compose up` fails because of a port conflict on 3000, switch to 3030:3000 in compose.yaml temporarily, but flag the deviation.
+- Time-bound: if any single step (especially `bin/ci`) hangs for over 5 minutes, kill it and report.
+
+### Reporting (UNDER 300 WORDS)
+
+For each of the 4 steps, report:
+- Step N: PASS / FAIL / SKIPPED
+- If FAIL: exact error message (last few lines of output)
+- Notable observations (rubocop offense count, docker compose ps output, etc.)
+
+End with a final verdict line: "VALIDATION_RESULT: PASS" or "VALIDATION_RESULT: PARTIAL (specifics)" or "VALIDATION_RESULT: FAIL (specifics)"
+
+Then literal token "DISPATCH_COMPLETE" on its own line.

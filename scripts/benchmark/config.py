@@ -443,6 +443,23 @@ def prepare_local_opencode_config(
             sub = model["opencode_subagent"]
             sub_name = sub.get("name", "coder")
             sub_model_id = sub["model_id"]
+            # opencode_subagent_options lets the model config inject extra fields into the
+            # subagent's provider model entry (e.g. {"reasoning": true} for models that put
+            # substantive content in reasoning blocks — DeepSeek V4 Pro, Qwen 3.6 Plus —
+            # which opencode otherwise drops, producing empty <task_result> bodies).
+            extra_provider_opts = sub.get("provider_model_options") or {}
+            base_entry = {"name": "PLACEHOLDER", "tool_call": True}
+            # Auto-enable reasoning for known reasoning-class subagent models so the
+            # cheap-cloud-executor pairings stop producing empty results.
+            REASONING_PREFIXES = (
+                "deepseek/deepseek-v4-pro",
+                "deepseek/deepseek-v4-flash",
+                "qwen/qwen3.6",
+                "qwen/qwen3.5",
+                "moonshotai/kimi-k2.6",
+            )
+            sub_id_lower = sub_model_id.lower()
+            auto_reasoning = any(p in sub_id_lower for p in REASONING_PREFIXES)
             # Register the subagent's model in its provider's models map so opencode knows about it
             sub_provider = sub.get("provider")
             if sub_provider and sub_provider != "ollama":
@@ -450,18 +467,26 @@ def prepare_local_opencode_config(
                 prov_models = prov_entry.setdefault("models", {})
                 # Strip the "<provider>/" prefix to get the bare model key
                 bare_key = sub_model_id.split("/", 1)[-1] if "/" in sub_model_id else sub_model_id
-                prov_models.setdefault(bare_key, {"name": bare_key, "tool_call": True})
+                entry = {"name": bare_key, "tool_call": True}
+                if auto_reasoning:
+                    entry["reasoning"] = True
+                entry.update(extra_provider_opts)
+                prov_models.setdefault(bare_key, entry)
             elif sub_provider == "ollama":
                 # llama-swap-backed subagent: add to the ollama provider models map
                 ollama_prov = local_config["provider"].setdefault("ollama", {})
                 ollama_models = ollama_prov.setdefault("models", {})
                 llama_swap_name = sub.get("llama_swap_model") or sub_model_id.split("/", 1)[-1]
                 bare_key = sub_model_id.split("/", 1)[-1] if "/" in sub_model_id else sub_model_id
-                ollama_models.setdefault(bare_key, {
+                entry = {
                     "id": llama_swap_name,
                     "name": llama_swap_name,
                     "tool_call": True,
-                })
+                }
+                if auto_reasoning:
+                    entry["reasoning"] = True
+                entry.update(extra_provider_opts)
+                ollama_models.setdefault(bare_key, entry)
             # Emit the subagent itself
             agent_map[sub_name] = {
                 "mode": "subagent",

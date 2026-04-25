@@ -1,0 +1,28 @@
+You are an autonomous coding agent. Execute this small subtask end-to-end.
+
+## Working directory
+`/mnt/data/Projects/llm-coding-benchmark/results/manual_opus_qwen36plus/project/`
+
+## Subtask 3 (fix-up): Add missing test gems
+
+The previous dispatch added `ruby_llm` but did not add the test-group gems. Edit the Gemfile to add the following gems INTO the existing `group :test do ... end` block (do NOT create a new group, do NOT duplicate):
+
+- `webmock`
+- `mocha`
+- `simplecov`
+- `minitest-reporters`
+
+Then run `mise exec ruby -- bundle install` to resolve them.
+
+After bundle install completes, verify with:
+```
+mise exec ruby -- ruby -e "require 'webmock'; require 'mocha/api'; require 'simplecov'; puts 'all 3 require ok'"
+```
+
+### Reporting
+
+Reply with:
+1. The diff of changes you made to Gemfile (just the lines added)
+2. Whether bundle install succeeded
+3. Whether the require check printed "all 3 require ok"
+4. Literal token "DISPATCH_COMPLETE" on its own line at the end (KEEP YOUR SUMMARY SHORT — under 200 words — so this token isn't truncated).

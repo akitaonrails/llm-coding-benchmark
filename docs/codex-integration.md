@@ -6,6 +6,8 @@ This document covers the integration of OpenAI's **Codex CLI** (`codex exec`) as
 
 GPT 5.4 through OpenRouter fails in opencode because OpenRouter doesn't expose tool calling for the model. The opencode agent stalls after the first assistant turn with no tool calls being issued. Codex CLI is OpenAI's own agentic coding tool (their equivalent of Claude Code) and talks directly to the OpenAI API, bypassing OpenRouter entirely.
 
+> **Update (2026-04-25)**: Verified via the OpenRouter `/api/v1/models` endpoint that **GPT 5.5** (`openai/gpt-5.5`, `openai/gpt-5.5-pro`) and the GPT 5.x family **above 5.4** now expose `tools` + `tool_choice` in `supported_parameters`. The "no tool calling" constraint that motivated this Codex integration applies specifically to GPT 5.4 (and image/chat variants of other versions). GPT 5.5+ can run as an opencode planner via OpenRouter without needing the Codex harness — used for the cross-harness multi-agent variants in `success_report.multi_model_forced.md`.
+
 ## Installation
 
 ```bash

@@ -1,0 +1,178 @@
+You are an autonomous coding agent. Execute this subtask end-to-end.
+
+## Working directory
+`/mnt/data/Projects/llm-coding-benchmark/results/manual_opus_qwen36plus/project/`
+
+The Rails app is in place: `ChatService`, `Message`, `ChatsController`, `MessagesController`, views, Stimulus controllers all written. Gemfile has webmock, mocha, simplecov, minitest-reporters.
+
+## Subtask 5 of ~6: Test suite
+
+Build a Minitest suite that exercises the real `chat.ask` code path via WebMock stubbing the OpenRouter HTTPS endpoint, plus controller tests for the chat flow. Note: the Rails app was generated with `--skip-test`, so you may need to create `test/test_helper.rb` from scratch.
+
+### Files to create
+
+**1. `test/test_helper.rb`**
+
+```ruby
+ENV["RAILS_ENV"] ||= "test"
+require_relative "../config/environment"
+require "rails/test_help"
+require "webmock/minitest"
+require "mocha/minitest"
+require "minitest/reporters"
+require "simplecov"
+
+SimpleCov.start "rails" do
+  add_filter "/test/"
+end
+
+Minitest::Reporters.use!(Minitest::Reporters::DefaultReporter.new(color: true))
+
+WebMock.disable_net_connect!(allow_localhost: true)
+
+class ActiveSupport::TestCase
+  parallelize(workers: 1)
+
+  def stub_openrouter_chat(assistant_text:, status: 200)
+    body = {
+      id: "gen-test", object: "chat.completion", model: "anthropic/claude-sonnet-4.6",
+      choices: [
+        { index: 0, finish_reason: "stop", message: { role: "assistant", content: assistant_text } }
+      ],
+      usage: { prompt_tokens: 10, completion_tokens: 8, total_tokens: 18 }
+    }
+    stub_request(:post, "https://openrouter.ai/api/v1/chat/completions")
+      .to_return(status: status, body: body.to_json, headers: { "Content-Type" => "application/json" })
+  end
+end
+```
+
+**2. `test/services/chat_service_test.rb`** — exercises the real `chat.ask` round-trip via WebMock
+
+```ruby
+require "test_helper"
+
+class ChatServiceTest < ActiveSupport::TestCase
+  setup do
+    ENV["OPENROUTER_API_KEY"] = "test-key"
+  end
+
+  test "reply returns assistant content from OpenRouter" do
+    stub_openrouter_chat(assistant_text: "Hello there!")
+    service = ChatService.new
+    assert_equal "Hello there!", service.reply("hi")
+    assert_requested :post, "https://openrouter.ai/api/v1/chat/completions"
+  end
+
+  test "reply replays history into the request body" do
+    stub_openrouter_chat(assistant_text: "Sure.")
+    history = [
+      { role: :user, content: "First message" },
+      { role: :assistant, content: "First reply" }
+    ]
+    service = ChatService.new(history: history)
+    service.reply("Second message")
+    assert_requested :post, "https://openrouter.ai/api/v1/chat/completions" do |req|
+      payload = JSON.parse(req.body)
+      messages = payload["messages"]
+      contents = messages.map { |m| m["content"] }
+      contents.include?("First message") &&
+        contents.include?("First reply") &&
+        contents.include?("Second message")
+    end
+  end
+
+  test "raises ChatService::Error on RubyLLM::Error" do
+    stub_request(:post, "https://openrouter.ai/api/v1/chat/completions")
+      .to_return(status: 503, body: "{\"error\":{\"message\":\"upstream busy\"}}")
+    service = ChatService.new
+    assert_raises(ChatService::Error) { service.reply("hi") }
+  end
+end
+```
+
+**3. `test/models/message_test.rb`**
+
+```ruby
+require "test_helper"
+
+class MessageTest < ActiveSupport::TestCase
+  test "valid roles" do
+    assert Message.new(role: "user", content: "x").user?
+    assert Message.new(role: "assistant", content: "x").assistant?
+  end
+
+  test "rejects invalid role" do
+    assert_raises(ArgumentError) { Message.new(role: "system", content: "x") }
+  end
+
+  test "to_h roundtrip" do
+    m = Message.new(role: "user", content: "hello")
+    assert_equal({ role: "user", content: "hello" }, m.to_h)
+  end
+end
+```
+
+**4. `test/controllers/chats_controller_test.rb`**
+
+```ruby
+require "test_helper"
+
+class ChatsControllerTest < ActionDispatch::IntegrationTest
+  test "GET / renders the chat shell" do
+    get root_url
+    assert_response :success
+    assert_select "#messages"
+    assert_select "form#composer"
+  end
+end
+```
+
+**5. `test/controllers/messages_controller_test.rb`**
+
+```ruby
+require "test_helper"
+
+class MessagesControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    ENV["OPENROUTER_API_KEY"] = "test-key"
+  end
+
+  test "POST /messages with text returns turbo stream containing both user and assistant bubbles" do
+    stub_openrouter_chat(assistant_text: "Pong.")
+    post messages_url, params: { content: "Ping?" }, as: :turbo_stream
+    assert_response :success
+    assert_match "Ping?", @response.body
+    assert_match "Pong.", @response.body
+  end
+
+  test "POST /messages with blank content returns no_content" do
+    post messages_url, params: { content: "  " }, as: :turbo_stream
+    assert_response :no_content
+  end
+
+  test "POST /messages handles ChatService::Error gracefully" do
+    stub_request(:post, "https://openrouter.ai/api/v1/chat/completions").to_return(status: 500, body: "{}")
+    post messages_url, params: { content: "Hi?" }, as: :turbo_stream
+    assert_response :unprocessable_entity
+  end
+end
+```
+
+### Verification
+
+After writing all files, run:
+```
+mise exec ruby -- bin/rails test 2>&1 | tail -20
+```
+
+Expected: all tests pass (8 tests total, 0 failures, 0 errors).
+
+If a test fails, report the EXACT failure output (don't try to fix the test by inventing alternate API calls). If the failure is because of something I (the orchestrator) got wrong in the spec — like a wrong Turbo Stream assertion — report it precisely so I can issue a fix-up dispatch.
+
+### Reporting (UNDER 200 WORDS)
+
+1. List of test files created
+2. Final `bin/rails test` summary line (e.g. "8 runs, X assertions, Y failures, Z errors, 0 skips")
+3. Any test failures with exact error message
+4. Literal token "DISPATCH_COMPLETE" on its own line at the end.
