@@ -1,0 +1,83 @@
+{
+  "assistant_turns": 272,
+  "command": [
+    "claude",
+    "-p",
+    "--model",
+    "deepseek/deepseek-v4-pro",
+    "--output-format",
+    "stream-json",
+    "--dangerously-skip-permissions",
+    "--verbose",
+    "<prompt>"
+  ],
+  "elapsed_seconds": 1074.61,
+  "ended_at": "2026-05-04T15:42:27+00:00",
+  "exit_code": 0,
+  "file_count": 1348,
+  "label": "Claude Code (deepclaude shim) - DeepSeek V4 Pro main + Sonnet 4.6 subagent",
+  "main_model": "deepseek/deepseek-v4-pro",
+  "model_usage": {
+    "deepseek/deepseek-v4-pro": {
+      "cacheCreationInputTokens": 0,
+      "cacheReadInputTokens": 4173824,
+      "contextWindow": 200000,
+      "costUSD": 3.140137,
+      "inputTokens": 65965,
+      "maxOutputTokens": 32000,
+      "outputTokens": 28936,
+      "webSearchRequests": 0
+    }
+  },
+  "no_progress_timeout_seconds": 900,
+  "num_turns": 109,
+  "paths": {
+    "project_dir": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_code_deepseek_v4_pro_or_sonnet/project",
+    "prompt": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_code_deepseek_v4_pro_or_sonnet/prompt.txt",
+    "stderr_log": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_code_deepseek_v4_pro_or_sonnet/stderr.log",
+    "stream_ndjson": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_code_deepseek_v4_pro_or_sonnet/stream.ndjson"
+  },
+  "prompt_sha256": "d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c",
+  "slug": "claude_code_deepseek_v4_pro_or_sonnet",
+  "stall_reason": null,
+  "stalled": false,
+  "started_at": "2026-05-04T15:24:33+00:00",
+  "status": "completed",
+  "stop_reason": "end_turn",
+  "subagent": {
+    "description": "Claude Sonnet 4.6 for concrete coding execution. Use PROACTIVELY for any code change where the plan is already clear: file edits, refactors, bug fixes, test writing, boilerplate generation, single-file implementations. The DeepSeek planner should dispatch implementation work; Sonnet should execute. Only skip delegation for cross-file architectural decisions or debugging with unclear root cause.",
+    "model": "claude-sonnet-4-6",
+    "name": "sonnet-coder",
+    "prompt": "You are a focused coding agent. The parent (DeepSeek planner) has already decided the approach \u2014 your job is to execute cleanly. Follow the provided instructions precisely. Match the existing codebase style. Keep changes minimal \u2014 do what was asked, nothing more. Default to no comments. Run tests or typechecks after significant edits. When reporting back, be terse."
+  },
+  "subagent_invocation_counts": {},
+  "subagent_invocations": [],
+  "timed_out": false,
+  "timeout_seconds": 5400,
+  "tool_use_counts": {
+    "Bash": 47,
+    "Edit": 12,
+    "Read": 24,
+    "TodoWrite": 6,
+    "Write": 19
+  },
+  "total_cost_usd": 3.140137,
+  "usage_total": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 4173824,
+    "inference_geo": "",
+    "input_tokens": 65236,
+    "iterations": [],
+    "output_tokens": 28726,
+    "server_tool_use": {
+      "web_fetch_requests": 0,
+      "web_search_requests": 0
+    },
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

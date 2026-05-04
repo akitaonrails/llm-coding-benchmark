@@ -19,6 +19,8 @@ Runner: `claude -p --output-format stream-json --dangerously-skip-permissions`
 | claude_opus_haiku | completed | 882s | 1984 | 136 | 0 | $7.8282 |
 | claude_opus_sonnet_forced | completed | 1489s | 1892 | 43 | 0 | $5.7749 |
 | claude_opus_haiku_forced | completed | 1148s | 134 | 34 | 0 | $3.4916 |
+| claude_code_deepseek_v4_pro_or | completed | 1255s | 1544 | 106 | 0 | $3.3811 |
+| claude_code_deepseek_v4_pro_or_sonnet | completed | 1075s | 1348 | 109 | 0 | $3.1401 |
 
 ## Per-Model Token Usage
 
@@ -59,6 +61,18 @@ Extracted from Claude Code's `modelUsage` field. Cost is computed server-side by
 |---|---:|---:|---:|---:|---:|
 | claude-haiku-4-5-20251001 | 2,129 | 33,518 | 5,514,016 | 143,394 | $0.9004 |
 | claude-opus-4-7 | 39 | 32,266 | 1,378,651 | 175,204 | $2.5912 |
+
+### claude_code_deepseek_v4_pro_or
+
+| Model | Input | Output | Cache Read | Cache Create | Cost |
+|---|---:|---:|---:|---:|---:|
+| deepseek/deepseek-v4-pro | 69,967 | 36,380 | 4,243,584 | 0 | $3.3811 |
+
+### claude_code_deepseek_v4_pro_or_sonnet
+
+| Model | Input | Output | Cache Read | Cache Create | Cost |
+|---|---:|---:|---:|---:|---:|
+| deepseek/deepseek-v4-pro | 65,965 | 28,936 | 4,173,824 | 0 | $3.1401 |
 
 ## Delegation Details
 
