@@ -88,6 +88,8 @@ The deep code reviews in `docs/success_report*.md` are the substance of this rep
   Comprehensive guide to the local llama-swap Docker setup for the NVIDIA profile (CUDA 12.8 + sm_120 build, model sourcing, VRAM budget, common pitfalls).
 - `docs/codex-integration.md`
   Codex CLI integration guide: how GPT 5.4 runs via `codex exec` instead of opencode, all the hurdles encountered (shell wrapper, relative paths, sandbox flags, reasoning effort, JSONL format differences).
+- `docs/deepclaude-integration.md`
+  Integration of the **deepclaude** shim (https://github.com/aattaran/deepclaude) for running Claude Code's autonomous agent loop against DeepSeek V4 Pro through OpenRouter's Anthropic-compatible endpoint. Bypasses the opencode/DeepSeek `reasoning_content` interop bug that made V4 Pro unmeasurable in Round 3. Smoke-tested working through the existing `OPENROUTER_API_KEY`. Two new variants in `config/claude_code_models.json` (`claude_code_deepseek_v4_pro_or` and `claude_code_deepseek_v4_pro_or_sonnet`) — neither has been benchmarked end-to-end yet; ready for the next round.
 - `docs/ollama_warmup.md` / `docs/llama_swap_warmup.nvidia.md`
   Auto-generated per-model preflight tok/s reports.
 

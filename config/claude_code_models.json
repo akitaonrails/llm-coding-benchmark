@@ -63,6 +63,42 @@
         "prompt": "You are a fast coding agent. Execute the dispatched subtask exactly as specified. Follow instructions literally. Keep changes minimal. When reporting back, be terse."
       },
       "selection_reason": "Forced-delegation variant of claude_opus_haiku. Tests whether Haiku as forced-executor produces usable code when Opus designs the plan. Cheapest Anthropic forced-orchestration configuration."
+    },
+    {
+      "slug": "claude_code_deepseek_v4_pro_or",
+      "label": "Claude Code (deepclaude shim) - DeepSeek V4 Pro via OpenRouter",
+      "main_model": "deepseek/deepseek-v4-pro",
+      "subagent": null,
+      "env_overrides": {
+        "ANTHROPIC_BASE_URL": "https://openrouter.ai/api",
+        "ANTHROPIC_AUTH_TOKEN": "$OPENROUTER_API_KEY",
+        "ANTHROPIC_DEFAULT_OPUS_MODEL": "deepseek/deepseek-v4-pro",
+        "ANTHROPIC_DEFAULT_SONNET_MODEL": "deepseek/deepseek-v4-pro",
+        "ANTHROPIC_DEFAULT_HAIKU_MODEL": "deepseek/deepseek-v4-pro",
+        "CLAUDE_CODE_SUBAGENT_MODEL": "deepseek/deepseek-v4-pro",
+        "UNSET:ANTHROPIC_API_KEY": ""
+      },
+      "selection_reason": "Tests the deepclaude shim approach: Claude Code's autonomous agent loop (file editing, bash, subagent spawning, multi-turn tool use) running entirely on DeepSeek V4 Pro through OpenRouter's Anthropic-compatible endpoint. Key insight from Round 3: opencode's reasoning_content interop bug made DeepSeek V4 Pro unmeasurable in our benchmark; deepclaude bypasses that by using a different Anthropic-shaped endpoint. Reuses existing OPENROUTER_API_KEY (no new account needed). Direct comparison vs claude_opus_alone (97 if opencode, Tier 3 if Claude Code due to harness regression) and against opencode_opus solo (97/100 Tier A). See https://github.com/aattaran/deepclaude."
+    },
+    {
+      "slug": "claude_code_deepseek_v4_pro_or_sonnet",
+      "label": "Claude Code (deepclaude shim) - DeepSeek V4 Pro main + Sonnet 4.6 subagent",
+      "main_model": "deepseek/deepseek-v4-pro",
+      "subagent": {
+        "name": "sonnet-coder",
+        "model": "claude-sonnet-4-6",
+        "description": "Claude Sonnet 4.6 for concrete coding execution. Use PROACTIVELY for any code change where the plan is already clear: file edits, refactors, bug fixes, test writing, boilerplate generation, single-file implementations. The DeepSeek planner should dispatch implementation work; Sonnet should execute. Only skip delegation for cross-file architectural decisions or debugging with unclear root cause.",
+        "prompt": "You are a focused coding agent. The parent (DeepSeek planner) has already decided the approach — your job is to execute cleanly. Follow the provided instructions precisely. Match the existing codebase style. Keep changes minimal — do what was asked, nothing more. Default to no comments. Run tests or typechecks after significant edits. When reporting back, be terse."
+      },
+      "env_overrides": {
+        "ANTHROPIC_BASE_URL": "https://openrouter.ai/api",
+        "ANTHROPIC_AUTH_TOKEN": "$OPENROUTER_API_KEY",
+        "ANTHROPIC_DEFAULT_OPUS_MODEL": "deepseek/deepseek-v4-pro",
+        "ANTHROPIC_DEFAULT_SONNET_MODEL": "deepseek/deepseek-v4-pro",
+        "ANTHROPIC_DEFAULT_HAIKU_MODEL": "deepseek/deepseek-v4-pro",
+        "UNSET:ANTHROPIC_API_KEY": ""
+      },
+      "selection_reason": "Asymmetric pairing test: DeepSeek V4 Pro as the planner-orchestrator (via deepclaude shim) and Claude Sonnet 4.6 as the implementation subagent. Because the project-local sonnet-coder subagent definition pins its own model name (claude-sonnet-4-6), Claude Code spawns it with that model regardless of the env var defaults — so Sonnet is reached through the normal Anthropic API while the main loop runs DeepSeek. Note: ANTHROPIC_API_KEY must be present in the parent env for Sonnet to authenticate (deepclaude only unsets it for the deepclaude-routed turns). KNOWN RISK: Claude Code may use ANTHROPIC_AUTH_TOKEN for the subagent spawn too, which would route Sonnet through OpenRouter and likely fail — measure outcome and document. Compare against the opus+sonnet pairings: same subagent quality, different planner cost/quality."
     }
   ]
 }

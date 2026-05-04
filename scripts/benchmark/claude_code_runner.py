@@ -334,6 +334,35 @@ def run_variant(
     isolated_env["HOME"] = str(result_dir.resolve())
     print_line(f"[{slug}] HOME isolated to {result_dir} (prevents user-level agent leakage)")
 
+    # Optional per-variant env overrides — used by deepclaude-style variants that swap
+    # ANTHROPIC_BASE_URL + ANTHROPIC_AUTH_TOKEN + ANTHROPIC_DEFAULT_*_MODEL to point
+    # Claude Code's tool loop at a different (Anthropic-compatible) backend like
+    # DeepSeek V4 Pro via OpenRouter. Values may reference $ENVVAR for indirection
+    # (e.g. "$OPENROUTER_API_KEY") which gets resolved against the parent env at run
+    # time so secrets aren't committed to config files. UNSET= prefix removes the
+    # variable from the subprocess env (used to drop ANTHROPIC_API_KEY when swapping).
+    overrides = variant.get("env_overrides") or {}
+    if overrides:
+        applied = []
+        for raw_key, raw_val in overrides.items():
+            if raw_key.startswith("UNSET:"):
+                target = raw_key.split(":", 1)[1]
+                isolated_env.pop(target, None)
+                applied.append(f"unset {target}")
+                continue
+            val = str(raw_val)
+            if val.startswith("$"):
+                # Indirect lookup so we don't commit secrets to JSON
+                resolved = os.environ.get(val[1:], "")
+                if not resolved:
+                    print_line(f"[{slug}] WARNING: env override {raw_key} references {val} but it is empty in parent env")
+                isolated_env[raw_key] = resolved
+                applied.append(f"{raw_key}=<{val}>")
+            else:
+                isolated_env[raw_key] = val
+                applied.append(f"{raw_key}={val}")
+        print_line(f"[{slug}] env_overrides applied: {', '.join(applied)}")
+
     process = subprocess.Popen(
         command,
         cwd=project_dir.resolve(),
