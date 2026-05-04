@@ -1,6 +1,8 @@
 # Orchestration trace: manual_opus_deepseek
 
-## Outcome: FAILED (harness incompatibility)
+## Outcome: FAILED (harness incompatibility) — UNBLOCKED IN ROUND 4 VIA deepclaude
+
+> **Update (Round 4)**: DeepSeek V4 Pro was successfully benchmarked through a different harness (Claude Code via the deepclaude env-swap shim, routing through OpenRouter's Anthropic-compatible endpoint). Both `claude_code_deepseek_v4_pro_or` and `claude_code_deepseek_v4_pro_or_sonnet` completed end-to-end at 84/100 and 89/100 (both Tier A). See [`docs/success_report.deepclaude.md`](../../docs/success_report.deepclaude.md). The reasoning_content failure documented below is specific to the opencode/ai-sdk request payload construction; Claude Code with deepclaude does not trigger it.
 
 This variant attempted to test Opus 4.7 (Claude Code planner) + DeepSeek V4 Pro (opencode executor) under the same manual-orchestration protocol used for `manual_opus_qwen36plus` and `manual_opus_kimi`.
 

@@ -146,7 +146,7 @@ Per the standardized rubric:
 
 ---
 
-## Variant 3: `manual_opus_deepseek` — FAILED (harness incompatibility)
+## Variant 3: `manual_opus_deepseek` — FAILED through opencode, RESOLVED via deepclaude in Round 4
 
 DeepSeek V4 Pro returned the documented reasoning_content error on every dispatch attempt:
 
@@ -155,6 +155,8 @@ DeepSeek V4 Pro returned the documented reasoning_content error on every dispatc
 Three opencode `reasoning` configurations tested (`true`, `false`, absent) — all failed identically at turn 2 of dispatch 1. opencode's ai-sdk strips reasoning_content from the model's response when constructing subsequent requests; DeepSeek's API rejects requests where prior assistant turns had reasoning_content but it's missing from the conversation history.
 
 **No model-level config flag in opencode resolves this.** Workarounds (custom OpenRouter provider params, single-bash-per-dispatch protocol, switching to DeepSeek V4 Flash) were not pursued.
+
+> **Resolved in Round 4 via a different harness.** `docs/success_report.deepclaude.md` documents how routing Claude Code's tool loop through OpenRouter's Anthropic-compatible endpoint (using the deepclaude env-var swap) bypasses the reasoning_content protocol issue entirely. Both DeepSeek V4 Pro variants (`claude_code_deepseek_v4_pro_or` and `claude_code_deepseek_v4_pro_or_sonnet`) ran end-to-end with 100+ multi-turn cycles, no harness errors, producing Tier-A artifacts at 84/100 and 89/100. **DeepSeek V4 Pro is no longer unmeasurable** — the constraint was specifically opencode's ai-sdk request payload construction, not the model.
 
 See the variant-local trace: [`results/manual_opus_deepseek/orchestration_trace.md`](../results/manual_opus_deepseek/orchestration_trace.md).
 
@@ -214,7 +216,7 @@ This makes the methodology valuable for benchmarking and capability-isolation te
 
 4. **The "constraint-via-prescriptive-prompts" mechanism is robust across executor capability tiers.** Three distinct executor capability levels (GLM Tier C, Qwen 3.6 Plus Tier B, Kimi Tier A) all show meaningful quality lifts from the same orchestration pattern, with lift size proportional to the gap between solo capability and Tier A. The pattern works.
 
-5. **DeepSeek V4 Pro remains unmeasured** through any opencode-based protocol in this benchmark. Solo DeepSeek (single-turn opencode with `--continue` for multi-step) at 69 is the only data we have. Manual orchestration would need a different execution harness to test DeepSeek meaningfully.
+5. **DeepSeek V4 Pro remained unmeasured through any opencode-based protocol** in Round 3 — but Round 4 resolved this via a different harness entirely. By routing Claude Code's tool loop through OpenRouter's Anthropic-compatible endpoint (the deepclaude shim), DeepSeek V4 Pro completed end-to-end with full multi-turn at 84/100 and 89/100 (Tier A). See [`success_report.deepclaude.md`](success_report.deepclaude.md). The "different execution harness" alluded to here turned out to be Claude Code itself with an env-var swap.
 
 ---
 
@@ -311,6 +313,8 @@ This is roughly 3× the directly-logged executor cost ($1.11 combined). **Manual
 
 **For a single greenfield Rails build, solo Opus 4.7 in opencode is the best option on every metric: it ships Tier-A 97/100 in 18 minutes for ~$4, beating every orchestration variant on at least one of (quality, time, cost) and tying or beating most on all three.** The cleanest case for orchestration is Codex GPT 5.4 xHigh + medium executor for cost-sensitive Tier-A (~$2 instead of ~$16, at 94 instead of 97 and 30m instead of 22m). Every other orchestration configuration trades quality, time, or cost for the privilege of using a cheaper executor — and once you account for the planner's hidden token cost, even the "cheaper executor" advantage often disappears. **Orchestration is a tool for amortizing planner cost across many similar subtasks, not for one-off cohesive builds.**
 
+> **Round 4 amendment**: For users **without an Anthropic subscription**, the deepclaude shim (Claude Code with env-vars swapping API target to OpenRouter → DeepSeek V4 Pro) is now the recommended Tier-A default: **89/100, 18m, $3.14**, runs entirely through the existing `OPENROUTER_API_KEY`. -8 quality vs solo Opus, ~$0.66 cheaper, same wall time. See [`success_report.deepclaude.md`](success_report.deepclaude.md). For users WITH Opus access, solo Opus opencode still wins.
+
 ---
 
 ## Cross-reference
@@ -318,6 +322,8 @@ This is roughly 3× the directly-logged executor cost ($1.11 combined). **Manual
 - [`success_report.md`](success_report.md) — main benchmark, full 23-model rankings, methodology
 - [`success_report.multi_model.md`](success_report.multi_model.md) — Round 1 free-choice multi-agent, Round 2 first-run findings
 - [`success_report.multi_model_forced.md`](success_report.multi_model_forced.md) — Round 2 + Round 2.5 forced-delegation rubric audits, planner-capability findings
+- [`success_report.deepclaude.md`](success_report.deepclaude.md) — Round 4: DeepSeek V4 Pro through Claude Code via the deepclaude shim. The unblock for the Round 3 DeepSeek failure documented above.
+- [`deepclaude-integration.md`](deepclaude-integration.md) — install + runner-patch documentation for Round 4
 - [`orchestration_traces.md`](orchestration_traces.md) — per-variant forensic walkthroughs of every variant in Rounds 1, 2, and 2.5
 - Manual run trace: [`results/manual_opus_qwen36plus/orchestration_trace.md`](../results/manual_opus_qwen36plus/orchestration_trace.md)
 - Manual run trace: [`results/manual_opus_kimi/orchestration_trace.md`](../results/manual_opus_kimi/orchestration_trace.md)
