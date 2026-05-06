@@ -70,7 +70,7 @@ Earlier rounds of this benchmark made contradictory calls about the RubyLLM API.
 
 ---
 
-## Final Rankings (23 models)
+## Final Rankings (24 models)
 
 All models scored against the same rubric. Note the "RubyLLM OK" column is binary (API correct vs hallucinated) and is separate from the overall score — a model can have correct RubyLLM code and still score low if deliverables or tests are missing.
 
@@ -104,7 +104,9 @@ All models scored against the same rubric. Note the "RubyLLM OK" column is binar
 
 ### What changed from the previous ranking
 
-Several models moved significantly after re-audit with the corrected rubric and verified API criteria:
+- **Grok 4.3** (added 2026-05-04): new entry at 72/100 Tier B. Real RubyLLM API throughout (`RubyLLM::Chat.new` + `add_message` + `ask` + `response.content` + `RubyLLM::Error` rescue, all verified against gem source). Server-side Turbo Streams work, real README and `compose.yaml` ship. **Killer weakness**: Stimulus is dead at runtime — `app/javascript/application.js` is a one-line comment, no `import "./controllers"`, no `Application.start()`, so every `data-controller="chat"` action is silently broken. Tests stub `RubyLLM.stub :chat` but the controller calls `RubyLLM::Chat.new` — the stub is bypassed. Stale model pin to `claude-3.7-sonnet` despite README claiming "latest Claude Sonnet". Cost $1.74 / 15m — ~5× Kimi K2.6 for a worse result. Big jump from Grok 4.20 (25/100, Tier D) but doesn't reach Tier A.
+
+Several earlier models also moved significantly after re-audit with the corrected rubric and verified API criteria:
 
 - **Kimi K2.5** (was Tier 3 → now Tier B): `chat.complete(&block)` and `chat.add_message(role:, content:)` are both real RubyLLM API, not hallucinations as previously claimed. Drops to B solely because tests don't exercise the LLM path and class-var storage is fragile.
 - **Kimi K2.6** (was Tier 2 → now Tier A): with the kwargs "bug" revealed as non-existent, K2.6 is the only Chinese model whose tests actually mock RubyLLM with a correctly-signatured FakeChat AND rescues `RubyLLM::Error` AND uses a session-cookie store that survives restarts.
@@ -215,7 +217,7 @@ Correct RubyLLM usage (`RubyLLM.chat` + `chat.ask` + `response.content`). Histor
 
 ---
 
-## Tier B — 1-2 hours to ship (7 models)
+## Tier B — 1-2 hours to ship (8 models)
 
 ### 7. Claude Sonnet 4.6 (78/100) — ambitious scope, subtle bug
 
@@ -229,7 +231,17 @@ Most feature-rich UI of the benchmark (multi-conversation sidebar with per-chat 
 
 **Killer weakness**: model slug `"claude-sonnet-4"` missing `anthropic/` prefix — will 404 against OpenRouter at runtime. One-character fix, but fatal as-is. Also: no rescue around `chat.ask`, 4KB cookie limit on long chats.
 
-### 9. Qwen 3.6 Plus (71/100) — cleanest open-model RubyLLM integration
+### 9. Grok 4.3 (72/100) — clean controller, dead Stimulus
+
+`RubyLLM::Chat.new(model:)` + `add_message(role:, content:)` + `chat.ask` + `response.content` + `RubyLLM::Error` rescue — real API throughout, all verified against gem source. Cleanest hand-written chat controller in the cohort (48 lines, no service-object over-engineering, no fluent-DSL flourishes). Real Turbo Streams in the controller. Real README, real `compose.yaml`, multi-stage Dockerfile. Cookie-based session persistence. ~$1.74/run, 15m wall time.
+
+**Killer weakness**: **Stimulus is dead code at runtime.** `app/javascript/application.js` is a one-line comment with no `import "./controllers"` and no `Application.start()`. Built `app/assets/builds/application.js` is 48 bytes (just a sourcemap pointer). So `data-controller="chat"` is inert — Enter-to-send, autoresize, autoscroll, clear-input all silently broken. Phase 2 self-reported "local boot OK" without exercising the JS layer (a confidence-vs-verification gap distinct from Claude/Kimi which over-test).
+
+**Other issues**: tests stub `RubyLLM.stub :chat` but the controller calls `RubyLLM::Chat.new` — the stub is bypassed (the test would actually hit the network or fail on missing key). Stale model pin `anthropic/claude-3.7-sonnet` (current is 4.7) despite README claiming "latest Claude Sonnet". No `with_instructions` system prompt.
+
+Cost ($1.74) is ~5× Kimi K2.6 for a worse output, putting Grok 4.3 in an awkward price/quality slot. Big jump from Grok 4.20 (25/100, Tier D below) but doesn't reach Tier A.
+
+### 10. Qwen 3.6 Plus (71/100) — cleanest open-model RubyLLM integration
 
 Real RubyLLM usage with service-layer separation. Stimulus controller is well-built (escapeHtml, loading state, auto-scroll). Partials decomposed cleanly.
 
