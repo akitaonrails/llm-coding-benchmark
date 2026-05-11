@@ -11,8 +11,9 @@ Usage:
 Output: JSON with structural metrics (artifacts, tests, gems, RubyLLM patterns).
 """
 
+from typing import Any
+
 import json
-import os
 import re
 import sys
 from pathlib import Path
@@ -43,14 +44,33 @@ def count_test_methods(test_dir: Path) -> dict:
 
 
 def scan_gemfile(gemfile_path: Path) -> dict:
-    """Extract relevant gems from the Gemfile."""
+    """Extract relevant gems from the Gemfile.
+
+    Detects both the classic `tailwindcss-rails` gem and the Rails 8 default
+    `cssbundling-rails` (which wires Tailwind via `@tailwindcss/cli` in
+    package.json) — both count toward "Tailwind is wired" for benchmark purposes.
+
+    Ruby version extraction falls back to the project's `.ruby-version` file
+    when the Gemfile itself doesn't pin a version (the Rails 8 default).
+    """
     text = read_file(gemfile_path) or ""
+    has_tailwind_gem = bool(re.search(r'gem\s+["\']tailwindcss-rails["\']', text))
+    has_cssbundling = bool(re.search(r'gem\s+["\']cssbundling-rails["\']', text))
+    # In Rails 8 with --css=tailwind, cssbundling-rails + @tailwindcss/cli in
+    # package.json is the standard wiring. Either path counts.
+    package_json = gemfile_path.parent / "package.json"
+    has_tailwind_npm = False
+    if package_json.exists():
+        pj_text = read_file(package_json) or ""
+        has_tailwind_npm = "@tailwindcss" in pj_text or '"tailwindcss"' in pj_text
     gems = {
         "ruby_llm": bool(re.search(r'gem\s+["\']ruby_llm["\']', text)),
         "ruby_openai": bool(re.search(r'gem\s+["\']ruby-openai["\']', text)),
         "turbo_rails": bool(re.search(r'gem\s+["\']turbo-rails["\']', text)),
         "stimulus_rails": bool(re.search(r'gem\s+["\']stimulus-rails["\']', text)),
-        "tailwindcss_rails": bool(re.search(r'gem\s+["\']tailwindcss-rails["\']', text)),
+        "tailwindcss_rails": has_tailwind_gem,
+        "tailwind_wired": has_tailwind_gem or (has_cssbundling and has_tailwind_npm),
+        "cssbundling_rails": has_cssbundling,
         "brakeman": bool(re.search(r'gem\s+["\']brakeman["\']', text)),
         "rubocop": bool(re.search(r'gem\s+["\']rubocop', text)),
         "simplecov": bool(re.search(r'gem\s+["\']simplecov["\']', text)),
@@ -58,18 +78,38 @@ def scan_gemfile(gemfile_path: Path) -> dict:
         "mocha": bool(re.search(r'gem\s+["\']mocha["\']', text)),
         "webmock": bool(re.search(r'gem\s+["\']webmock["\']', text)),
     }
-    # attempt to extract ruby version
+    # Ruby version: Gemfile `ruby "X"` directive first, then `.ruby-version` file
     ruby_version_match = re.search(r'^\s*ruby\s+["\']([^"\']+)["\']', text, re.MULTILINE)
     ruby_version = ruby_version_match.group(1) if ruby_version_match else None
+    if not ruby_version:
+        rv_file = gemfile_path.parent / ".ruby-version"
+        if rv_file.exists():
+            rv_text = (read_file(rv_file) or "").strip()
+            # File format is typically `ruby-3.4.9` or just `3.4.9`
+            ruby_version = re.sub(r'^ruby-', '', rv_text) or None
     return {"gems": gems, "ruby_version": ruby_version}
 
 
 def scan_dockerfile(dockerfile_path: Path) -> dict:
-    """Check Dockerfile for common issues."""
+    """Check Dockerfile for common issues.
+
+    Ruby version extraction handles three common patterns:
+      * `FROM ruby:3.4.9` (simple)
+      * `FROM ruby:3.4.9-slim` (suffix variant)
+      * `ARG RUBY_VERSION=3.4.9` + `FROM docker.io/library/ruby:$RUBY_VERSION-slim`
+        (Rails 8 generator default, with an optional registry/path prefix)
+    """
     text = read_file(dockerfile_path) or ""
-    # extract FROM ruby:X
-    from_match = re.search(r'FROM\s+ruby:([\d.]+)', text, re.IGNORECASE)
-    ruby_version = from_match.group(1) if from_match else None
+    ruby_version = None
+    # Pattern 1: ARG RUBY_VERSION=X (Rails 8 default, declared before FROM)
+    arg_match = re.search(r'^\s*ARG\s+RUBY_VERSION\s*=\s*["\']?([\d.]+)["\']?', text, re.MULTILINE)
+    if arg_match:
+        ruby_version = arg_match.group(1)
+    if not ruby_version:
+        # Pattern 2: FROM [registry/path/]ruby:X[-variant]
+        from_match = re.search(r'FROM\s+\S*?ruby:([\d.]+)', text, re.IGNORECASE)
+        if from_match:
+            ruby_version = from_match.group(1)
     has_secretkey = "SECRET_KEY_BASE" in text or "secret_key_base" in text
     return {"ruby_version": ruby_version, "has_secret_key_base": has_secretkey}
 
@@ -99,13 +139,19 @@ def scan_rubyllm_patterns(project_dir: Path) -> dict:
         "valid_with_instructions": re.compile(r'\.with_instructions\('),
         "hallucinated_client": re.compile(r'RubyLLM::Client\.new'),
         "hallucinated_text_accessor": re.compile(r'response\.text\b|\.output_text\b'),
-        "hallucinated_user_dsl": re.compile(r'chat\.user\(|\.user\("|\suser\('),
-        "hallucinated_assistant_dsl": re.compile(r'chat\.assistant\(|\.assistant\("'),
+        # Catch both paren-call (.user("x")) and paren-less Ruby style
+        # (.user "x" or .user msg) which is how GLM 5.1 actually hallucinated.
+        # \b prevents matching .user_id, .username, etc. The character class after
+        # the boundary ensures an argument is actually being passed (avoids
+        # matching record.user accessor patterns).
+        "hallucinated_user_dsl": re.compile(r'\.user\b\s+["\'\w@:\[]|\.user\(\s*["\'\w@:\[]'),
+        "hallucinated_assistant_dsl": re.compile(r'\.assistant\b\s+["\'\w@:\[]|\.assistant\(\s*["\'\w@:\[]'),
+        "hallucinated_system_dsl": re.compile(r'\.system\b\s+["\'\w@:\[]|\.system\(\s*["\'\w@:\[]'),
         "hallucinated_batch": re.compile(r'RubyLLM\.chat\s*\(\s*messages:'),
         "hallucinated_openrouter_client": re.compile(r'Openrouter::Client'),
         "bypass_ruby_openai": re.compile(r'OpenAI::Client\.new'),
     }
-    results = {key: [] for key in patterns}
+    results: dict[str, list[str]] = {key: [] for key in patterns}
     ruby_files = list(project_dir.rglob("*.rb"))
     for f in ruby_files:
         text = read_file(f, max_bytes=200_000)
@@ -116,7 +162,7 @@ def scan_rubyllm_patterns(project_dir: Path) -> dict:
                 line = text[:m.start()].count("\n") + 1
                 results[key].append(f"{f.relative_to(project_dir)}:{line}")
     # summary
-    summary = {k: len(v) for k, v in results.items()}
+    summary: dict[str, Any] = {k: len(v) for k, v in results.items()}
     summary["locations"] = {k: v for k, v in results.items() if v}
     return summary
 
@@ -247,15 +293,39 @@ def scan_turbo_fetch_antipattern(project_dir: Path) -> dict:
 
 
 def scan_model_slug(project_dir: Path) -> dict:
-    """Check whether the configured model slug is the latest Claude Sonnet."""
+    """Check whether the configured model slug is the latest Claude Sonnet.
+
+    Restricts the regex to a SINGLE line so it doesn't greedily match across
+    comments + multiple string literals (the previous version produced
+    truncated noise like `"]\\n  # Default model for chat..."`). The slug must
+    appear inside a `config.default_model = "..."` assignment OR be a single
+    quoted string on a line that mentions `claude`.
+    """
     init = project_dir / "config/initializers/ruby_llm.rb"
     if not init.exists():
         return {"model_slug": None, "is_latest_claude": False}
     text = read_file(init) or ""
-    match = re.search(r'["\']([^"\']*claude[^"\']*)["\']', text, re.IGNORECASE)
-    slug = match.group(1) if match else None
-    # latest expected: anthropic/claude-sonnet-4 or similar 4.x variant
-    is_latest = bool(slug and re.search(r'sonnet-4', slug, re.IGNORECASE))
+    slug = None
+    # Preferred: explicit `config.default_model = "..."` (or `default_model:`)
+    explicit = re.search(
+        r'default_model\s*[=:]\s*["\']([^"\'\n]+)["\']',
+        text,
+        re.IGNORECASE,
+    )
+    if explicit:
+        slug = explicit.group(1)
+    if not slug:
+        # Fallback: a string literal on a single line that mentions 'claude'
+        for line in text.splitlines():
+            if "claude" not in line.lower() or line.lstrip().startswith("#"):
+                continue
+            m = re.search(r'["\']([^"\'\n]*claude[^"\'\n]*)["\']', line, re.IGNORECASE)
+            if m:
+                slug = m.group(1)
+                break
+    # Latest acceptable patterns: `sonnet-4.x` family (e.g. claude-sonnet-4.6,
+    # claude-sonnet-4-6, etc.). Pre-4 sonnets (3.x, 3.5, 3.7) are stale.
+    is_latest = bool(slug and re.search(r'sonnet-4(?:[._-]\d|$|/)', slug, re.IGNORECASE))
     return {"model_slug": slug, "is_latest_claude": is_latest}
 
 
@@ -298,7 +368,17 @@ def main() -> None:
         "elapsed_seconds": result.get("elapsed_seconds"),
         "gemfile": present.get("gemfile", False),
         "dockerfile": present.get("dockerfile", False),
-        "docker_compose": present.get("docker_compose_yml", False) or present.get("docker_compose_yaml", False),
+        # The benchmark runner emits four possible compose-related keys depending
+        # on which filename the model used:
+        #   compose_yaml         — Rails 8 default (compose.yaml)
+        #   compose_yml          — older convention (compose.yml)
+        #   docker_compose_yaml  — legacy long form (docker-compose.yaml)
+        #   docker_compose_yml   — legacy long form (docker-compose.yml)
+        # Any one of them means the artifact ships.
+        "docker_compose": any(
+            present.get(k, False)
+            for k in ("compose_yaml", "compose_yml", "docker_compose_yaml", "docker_compose_yml")
+        ),
         "readme": present.get("readme_md", False),
         "routes": present.get("routes", False),
         "app_dir": present.get("app_dir", False),

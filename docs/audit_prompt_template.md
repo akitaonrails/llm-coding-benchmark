@@ -8,6 +8,14 @@ Use this for every new model added to the benchmark, so results are comparable. 
 
 Paste the template below as the prompt to a general-purpose agent with file-read access. Replace `<MODEL_SLUG>` with the model's slug. Verify the output has all 8 scored dimensions plus the verification section before accepting the tier.
 
+> **Tip — pre-flight structural scan.** Before asking the LLM to score, run the structural scanner that ships with this repo to collect file-presence facts, gem detection, RubyLLM API patterns, and known-hallucination matches:
+>
+> ```bash
+> python .agents/skills/benchmark-audit/scripts/benchmark_audit_scan.py results/<MODEL_SLUG>
+> ```
+>
+> The JSON output (artifacts, Gemfile gems, Dockerfile/Gemfile/.ruby-version triangulated Ruby version, RubyLLM valid/hallucinated patterns with file:line locations, test mock detection, error-handling rescue counts, model_slug extraction) saves 5-10 minutes of manual grep work per audit and frees the LLM to focus on qualitative judgment. The scoring rubric copy at `.agents/skills/benchmark-audit/references/rubric.md` mirrors this template — **if they ever drift, this document wins.**
+
 ---
 
 ## The prompt
