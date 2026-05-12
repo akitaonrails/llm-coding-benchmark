@@ -1,5 +1,13 @@
 # LLM Coding Benchmark
 
+> 📝 **This repository is the data source for a series of blog posts on [akitaonrails.com](https://akitaonrails.com/)** that walk through the experiments and findings narratively:
+>
+> - 2026-05-04 — [LLM Benchmarks: DeepSeek Unlocked via deepclaude](https://akitaonrails.com/2026/05/04/llm-benchmarks-deepseek-unlocked-deepclaude/) — Round 4: using the deepclaude env-swap shim to finally benchmark DeepSeek V4 Pro through Claude Code's autonomous loop after opencode's reasoning_content interop bug kept it unmeasurable.
+> - 2026-04-25 — [LLM Benchmarks: Vale a Pena Misturar 2 Modelos?](https://akitaonrails.com/2026/04/25/llm-benchmarks-vale-a-pena-misturar-2-modelos/) (PT-BR) — the multi-agent / forced-delegation rounds, cost-quality-time analysis, and the bottom-line verdict on whether pairing a planner with a cheaper executor is actually worth it vs solo Opus.
+> - 2026-04-24 — [LLM Benchmarks Parte 3: DeepSeek, Kimi, MiMo](https://akitaonrails.com/2026/04/24/llm-benchmarks-parte-3-deepseek-kimi-mimo/) (PT-BR) — the original cross-model audit including the rubric-driven re-ranking and the RubyLLM API hallucination patterns documented in the project's `docs/success_report.md`.
+>
+> Source code and raw results in this repo are the artifacts referenced by those posts; the docs in `docs/success_report*.md` are the long-form analyses.
+
 This repository benchmarks autonomous coding runs against one fixed Rails application brief. It is built to compare a mix of local Ollama-hosted models and cloud models under the same prompt family, collect normalized run metadata, and summarize the results in Markdown.
 
 The benchmark runner currently uses:
