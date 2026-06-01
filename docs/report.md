@@ -1,13 +1,13 @@
 # Benchmark Report
 
-Generated at: 2026-05-05T20:24:18+00:00
+Generated at: 2026-06-01T15:48:25+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
 
-- `completed`: 31
+- `completed`: 32
 - `completed_with_errors`: 2
-- `failed`: 7
+- `failed`: 8
 - `timeout`: 1
 - `not_run`: 11
 
@@ -33,6 +33,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 - `nemotron_cascade_2` -> `ollama/nemotron_cascade_2`: Added as a local Ollama Nemotron Cascade 2 candidate for later warmup and benchmark testing. This entry uses explicit local model metadata because it is not yet mapped in the home opencode config.
 - `claude_opus_4_6` -> `openrouter/anthropic/claude-opus-4.6`: Exact requested cloud model.
 - `claude_opus_4_7` -> `openrouter/anthropic/claude-opus-4.7`: Anthropic Claude Opus 4.7 on OpenRouter. Built for long-running async agents. Same pricing as 4.6: $5/M input, $25/M output. 1M context, 128K max output. Released 2026-04-16.
+- `claude_opus_4_8` -> `openrouter/anthropic/claude-opus-4.8`: Anthropic Claude Opus 4.8 on OpenRouter. Direct successor to Opus 4.7 using the regular (non-fast) endpoint. 1M context, tool calling supported, $5/M input and $25/M output. Tests whether the 4.8 release keeps Opus 4.7's benchmark-leading RubyLLM correctness while improving speed or implementation discipline.
 - `opencode_opus_glm` -> `openrouter/anthropic/claude-opus-4.7`: opencode multi-agent: Opus 4.7 primary + GLM 5.1 (Z.ai) coding subagent. Tests whether the cost-effective Chinese model handles coding when Opus plans. GLM 5.1 via Z.ai coding plan endpoint (subscription). Comparable to Claude Code's opus+sonnet variant but with a non-Anthropic coder.
 - `opencode_opus_glm_forced` -> `openrouter/anthropic/claude-opus-4.7`: Forced-delegation variant of opencode_opus_glm. Runs with prompts/benchmark_prompt_forced_delegation.txt. Measures whether forcing the orchestrator pattern produces usable code via Opus (plan) + GLM 5.1 (execute) vs the free-choice version which didn't delegate at all.
 - `opencode_opus_kimi_forced` -> `openrouter/anthropic/claude-opus-4.7`: Replacement for opencode_opus_glm_forced after Z.ai GLM 5.1 subagent stalled twice in the forced-delegation experiment. Kimi K2.6 was Tier A (87/100) in the solo benchmark vs GLM 5.1's Tier C (46/100), and both planner+subagent run through OpenRouter (no provider mixing latency). Runs with prompts/benchmark_prompt_forced_delegation.txt.
@@ -60,6 +61,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 - `llama4_scout_cloud` -> `openrouter/meta-llama/llama-4-scout`: Added as the OpenRouter cloud Llama 4 Scout benchmark counterpart to the unusable local Scout path. Skipped by default because it does not currently resolve cleanly in this opencode build.
 - `nemotron_3_super_cloud` -> `openrouter/nvidia/nemotron-3-super-120b-a12b`: Added as the closest OpenRouter cloud Nemotron line available after local Nemotron Cascade 2 proved unusable in this harness. Skipped by default because it still needs a clean first benchmark run.
 - `minimax_m2_7` -> `openrouter/minimax/minimax-m2.7`: Chosen as the largest/latest MiniMax variant listed by OpenRouter locally.
+- `minimax_m3` -> `openrouter/minimax/minimax-m3`: MiniMax M3 on OpenRouter. Direct successor to MiniMax M2.7. 1M context, tool calling supported, $0.30/M input and $1.20/M output. Tests whether the new MiniMax release fixes M2.7's RubyLLM batch-form hallucination and becomes a viable low-cost Rails/RubyLLM builder.
 - `deepseek_v3_2` -> `openrouter/deepseek/deepseek-v3.2`: Latest DeepSeek model on OpenRouter. Input $0.26/M, output $0.38/M.
 - `deepseek_v4_flash` -> `openrouter/deepseek/deepseek-v4-flash`: DeepSeek V4 Flash — budget-tier variant at $0.14/M input, $0.28/M output (cheaper than V3.2). 1M context. Tool calling supported via OpenRouter. Test whether V4 fixes the RubyLLM API hallucination that made V3.2 Tier 3. Phase 2 disabled: DeepSeek's thinking-mode API rejects replayed `reasoning_content` tokens from opencode's session continuation.
 - `deepseek_v4_pro` -> `openrouter/deepseek/deepseek-v4-pro`: DeepSeek V4 Pro — premium variant at $1.74/M input, $3.48/M output. 1M context. Uses thinking mode by default which requires the client to echo reasoning_content on subsequent turns (opencode doesn't). reasoning=false tells opencode to treat it as a non-reasoning model so it won't extract/pass back reasoning_content.
@@ -90,6 +92,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | Nemotron Cascade 2 | ollama | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | Claude Opus 4.6 | openrouter | - | completed | 970.51 | 136806 | 347.18 | yes | 1536 | Rails app, tests, README, and container files detected. |
 | Claude Opus 4.7 | openrouter | - | completed | 1091.67 | 118216 | 328.24 | yes | 11345 | Rails app, tests, README, and container files detected. |
+| Claude Opus 4.8 | openrouter | - | completed | 1008.12 | 104470 | 478.63 | yes | 2838 | Rails app, tests, README, and container files detected. |
 | opencode Opus 4.7 + GLM 5.1 coder | openrouter | - | completed | 618.15 | 108279 | 947.65 | yes | 1888 | Rails app, tests, README, and container files detected. |
 | opencode Opus 4.7 + GLM 5.1 coder (FORCED delegation) | openrouter | - | completed | 765.82 | 111912 | 633.13 | yes | 1703 | Rails app, tests, README, and container files detected. |
 | opencode Opus 4.7 + Kimi K2.6 coder (FORCED delegation) | openrouter | - | failed | 1509.82 | 57073 | 37.80 | yes | 1642 | Exit code -15. Rails app, tests, README, and container files detected. |
@@ -117,6 +120,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | Llama 4 Scout Cloud | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | Nemotron 3 Super Cloud | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | MiniMax M2.7 | openrouter | - | completed | 847.23 | 79743 | 574.52 | yes | 100 | Rails app, tests, README, and container files detected. |
+| MiniMax M3 | openrouter | - | failed | 3172.78 | - | - | yes | 1899 | Rails app, tests, README, and container files detected. |
 | DeepSeek V3.2 | openrouter | - | completed | 3606.46 | 115278 | 53.37 | yes | 99 | Rails app, tests, README, and container files detected. |
 | DeepSeek V4 Flash | openrouter | - | completed | 155.12 | 51929 | 334.77 | yes | 1704 | Rails app, tests, README, and container files detected. |
 | DeepSeek V4 Pro | openrouter | - | failed | 1359.25 | 61170 | 45.00 | partial | 1972 | Some expected benchmark artifacts exist, but the scaffold looks incomplete. |
