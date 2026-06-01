@@ -128,6 +128,13 @@
       "selection_reason": "Anthropic Claude Opus 4.7 on OpenRouter. Built for long-running async agents. Same pricing as 4.6: $5/M input, $25/M output. 1M context, 128K max output. Released 2026-04-16."
     },
     {
+      "slug": "claude_opus_4_8",
+      "id": "openrouter/anthropic/claude-opus-4.8",
+      "label": "Claude Opus 4.8",
+      "provider": "openrouter",
+      "selection_reason": "Anthropic Claude Opus 4.8 on OpenRouter. Direct successor to Opus 4.7 using the regular (non-fast) endpoint. 1M context, tool calling supported, $5/M input and $25/M output. Tests whether the 4.8 release keeps Opus 4.7's benchmark-leading RubyLLM correctness while improving speed or implementation discipline."
+    },
+    {
       "slug": "opencode_opus_glm",
       "id": "openrouter/anthropic/claude-opus-4.7",
       "label": "opencode Opus 4.7 + GLM 5.1 coder",
@@ -440,6 +447,13 @@
       "label": "MiniMax M2.7",
       "provider": "openrouter",
       "selection_reason": "Chosen as the largest/latest MiniMax variant listed by OpenRouter locally."
+    },
+    {
+      "slug": "minimax_m3",
+      "id": "openrouter/minimax/minimax-m3",
+      "label": "MiniMax M3",
+      "provider": "openrouter",
+      "selection_reason": "MiniMax M3 on OpenRouter. Direct successor to MiniMax M2.7. 1M context, tool calling supported, $0.30/M input and $1.20/M output. Tests whether the new MiniMax release fixes M2.7's RubyLLM batch-form hallucination and becomes a viable low-cost Rails/RubyLLM builder."
     },
     {
       "slug": "deepseek_v3_2",

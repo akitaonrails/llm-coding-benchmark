@@ -28,12 +28,13 @@ The current successful path is a two-phase OpenRouter run:
 The deep code reviews in `docs/success_report*.md` are the substance of this repo. Rankings use a 0-100 holistic rubric across 8 dimensions (deliverables, RubyLLM correctness, tests, error handling, persistence, Hotwire, architecture, production-readiness) — see [`docs/audit_prompt_template.md`](docs/audit_prompt_template.md) for the exact methodology.
 
 **Top Tier A models (80-100, ship as-is)**:
-- Claude Opus 4.7 (94) — benchmark leader on test discipline, ~$1.10/run
-- GPT 5.4 xHigh via Codex (94) — ties Opus on quality but ~15× the cost at ~$16/run
-- GPT 5.5 xHigh via Codex (93) — ties 5.4 on quality, 40% cheaper and 20% faster (~$10/run, 18m)
-- Kimi K2.6 (84) — best value; only Chinese model with correct API + real LLM-path tests + restart-safe persistence, ~$0.30/run
+- Claude Opus 4.7 (97) — benchmark leader on test discipline, ~$1.10/run
+- GPT 5.4 xHigh via Codex (97) — ties Opus on quality but ~15× the cost at ~$16/run
+- GPT 5.5 xHigh via Codex (96) — ties 5.4 on quality, 40% cheaper and 20% faster (~$10/run, 18m)
+- Claude Opus 4.8 (95) — newest Opus run; full live local/Docker/Compose validation, correct RubyLLM, 34 tests, 16m48s
+- Kimi K2.6 (87) — best value; only Chinese model with correct API + real LLM-path tests + restart-safe persistence, ~$0.30/run
+- Claude Opus 4.6 (83) — thinner than 4.7, missing rescue around LLM calls
 - Gemini 3.1 Pro (82) — real Turbo Streams, cache-backed persistence, correct Chat.new + add_message API
-- Claude Opus 4.6 (80) — thinner than 4.7, missing rescue around LLM calls
 
 **Key findings**:
 
@@ -41,6 +42,8 @@ The deep code reviews in `docs/success_report*.md` are the substance of this rep
 
 
 - **Hallucinated APIs + tests that mock the hallucination is a benchmark-killing pattern.** DeepSeek V3.2 mocks `RubyLLM::Client.any_instance` (class doesn't exist). MiniMax M2.7 stubs `RubyLLM.chat(messages:)` batch signature (doesn't exist). Tests pass green, runtime crashes. Confirmed hallucinations across the benchmark: `RubyLLM::Client.new`, `Openrouter::Client` (wrong casing), `c.user`/`c.assistant` fluent DSL (GLM 5.1), `response.text` / `response.output_text` / `response.choices`, `RubyLLM.chat(messages:)` batch form.
+
+- **Latest model update (2026-06-01):** Opus 4.8 lands Tier A at 95/100 and is slightly faster than Opus 4.7 while keeping the same real RubyLLM API chain. MiniMax M3 fixes M2.7's hallucinated batch call and reaches Tier B (78/100), but phase 2 stalled during compose validation and the run originally wrote a real `.env`; the artifact was redacted/deleted and the model is penalized for secret hygiene. Grok 4.3 remains Tier B (72/100): correct RubyLLM, but dead Stimulus wiring and stale Sonnet slug.
 
 - **Previously-miscategorized kwargs pattern.** Earlier audits flagged `chat.add_message(role:, content:)` as a hallucinated kwargs bug. Direct inspection of the RubyLLM 1.14.1 gem source shows this is **valid** — Ruby parses `foo(key: val)` as `foo({key: val})` positional hash, and `add_message(message_or_attributes)` accepts hash input. Models previously penalized for this (Kimi K2.6, DeepSeek V4 Flash, GPT 5.4 xHigh, Qwen 3.6 Plus, Kimi K2.5, Gemini 3.1 Pro) have been re-scored. `chat.complete(&block)` is also real, not hallucinated.
 
@@ -195,16 +198,12 @@ Run everything currently enabled by default:
 python scripts/run_benchmark.py
 ```
 
-At the moment, the default set is the OpenRouter subset that finished cleanly in the last fresh rerun:
-
-- `claude_opus_4_6`
-- `kimi_k2_5`
-- `minimax_m2_7`
+The default set is every model in `config/models.json` that is not marked `skip_by_default`. For careful one-at-a-time comparisons, pass explicit `--model` flags and let the report rebuild after each run.
 
 Run one or more specific models:
 
 ```bash
-python scripts/run_benchmark.py --model qwen3_coder_next --model gpt_5_4_pro
+python scripts/run_benchmark.py --model claude_opus_4_8 --model minimax_m3
 ```
 
 Run only Gemma:
