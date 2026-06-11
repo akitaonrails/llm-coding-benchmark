@@ -135,6 +135,13 @@
       "selection_reason": "Anthropic Claude Opus 4.8 on OpenRouter. Direct successor to Opus 4.7 using the regular (non-fast) endpoint. 1M context, tool calling supported, $5/M input and $25/M output. Tests whether the 4.8 release keeps Opus 4.7's benchmark-leading RubyLLM correctness while improving speed or implementation discipline."
     },
     {
+      "slug": "claude_fable_5",
+      "id": "openrouter/anthropic/claude-fable-5",
+      "label": "Claude Fable 5",
+      "provider": "openrouter",
+      "selection_reason": "Anthropic Claude Fable 5 on OpenRouter (snapshot claude-5-fable-20260609, released 2026-06). New Claude 5-generation model. 1M context, tool calling supported, $10/M input and $50/M output — 2x Opus 4.x pricing. Tests whether the new generation improves on Opus 4.7/4.8's benchmark-leading RubyLLM correctness."
+    },
+    {
       "slug": "opencode_opus_glm",
       "id": "openrouter/anthropic/claude-opus-4.7",
       "label": "opencode Opus 4.7 + GLM 5.1 coder",

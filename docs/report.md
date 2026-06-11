@@ -1,11 +1,11 @@
 # Benchmark Report
 
-Generated at: 2026-06-01T15:48:25+00:00
+Generated at: 2026-06-11T17:12:00+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
 
-- `completed`: 32
+- `completed`: 33
 - `completed_with_errors`: 2
 - `failed`: 8
 - `timeout`: 1
@@ -34,6 +34,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 - `claude_opus_4_6` -> `openrouter/anthropic/claude-opus-4.6`: Exact requested cloud model.
 - `claude_opus_4_7` -> `openrouter/anthropic/claude-opus-4.7`: Anthropic Claude Opus 4.7 on OpenRouter. Built for long-running async agents. Same pricing as 4.6: $5/M input, $25/M output. 1M context, 128K max output. Released 2026-04-16.
 - `claude_opus_4_8` -> `openrouter/anthropic/claude-opus-4.8`: Anthropic Claude Opus 4.8 on OpenRouter. Direct successor to Opus 4.7 using the regular (non-fast) endpoint. 1M context, tool calling supported, $5/M input and $25/M output. Tests whether the 4.8 release keeps Opus 4.7's benchmark-leading RubyLLM correctness while improving speed or implementation discipline.
+- `claude_fable_5` -> `openrouter/anthropic/claude-fable-5`: Anthropic Claude Fable 5 on OpenRouter (snapshot claude-5-fable-20260609, released 2026-06). New Claude 5-generation model. 1M context, tool calling supported, $10/M input and $50/M output — 2x Opus 4.x pricing. Tests whether the new generation improves on Opus 4.7/4.8's benchmark-leading RubyLLM correctness.
 - `opencode_opus_glm` -> `openrouter/anthropic/claude-opus-4.7`: opencode multi-agent: Opus 4.7 primary + GLM 5.1 (Z.ai) coding subagent. Tests whether the cost-effective Chinese model handles coding when Opus plans. GLM 5.1 via Z.ai coding plan endpoint (subscription). Comparable to Claude Code's opus+sonnet variant but with a non-Anthropic coder.
 - `opencode_opus_glm_forced` -> `openrouter/anthropic/claude-opus-4.7`: Forced-delegation variant of opencode_opus_glm. Runs with prompts/benchmark_prompt_forced_delegation.txt. Measures whether forcing the orchestrator pattern produces usable code via Opus (plan) + GLM 5.1 (execute) vs the free-choice version which didn't delegate at all.
 - `opencode_opus_kimi_forced` -> `openrouter/anthropic/claude-opus-4.7`: Replacement for opencode_opus_glm_forced after Z.ai GLM 5.1 subagent stalled twice in the forced-delegation experiment. Kimi K2.6 was Tier A (87/100) in the solo benchmark vs GLM 5.1's Tier C (46/100), and both planner+subagent run through OpenRouter (no provider mixing latency). Runs with prompts/benchmark_prompt_forced_delegation.txt.
@@ -93,6 +94,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | Claude Opus 4.6 | openrouter | - | completed | 970.51 | 136806 | 347.18 | yes | 1536 | Rails app, tests, README, and container files detected. |
 | Claude Opus 4.7 | openrouter | - | completed | 1091.67 | 118216 | 328.24 | yes | 11345 | Rails app, tests, README, and container files detected. |
 | Claude Opus 4.8 | openrouter | - | completed | 1008.12 | 104470 | 478.63 | yes | 2838 | Rails app, tests, README, and container files detected. |
+| Claude Fable 5 | openrouter | - | completed | 1458.86 | 103119 | 436.22 | yes | 2710 | Rails app, tests, README, and container files detected. |
 | opencode Opus 4.7 + GLM 5.1 coder | openrouter | - | completed | 618.15 | 108279 | 947.65 | yes | 1888 | Rails app, tests, README, and container files detected. |
 | opencode Opus 4.7 + GLM 5.1 coder (FORCED delegation) | openrouter | - | completed | 765.82 | 111912 | 633.13 | yes | 1703 | Rails app, tests, README, and container files detected. |
 | opencode Opus 4.7 + Kimi K2.6 coder (FORCED delegation) | openrouter | - | failed | 1509.82 | 57073 | 37.80 | yes | 1642 | Exit code -15. Rails app, tests, README, and container files detected. |
