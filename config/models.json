@@ -387,6 +387,13 @@
       "selection_reason": "Direct successor to K2.5. $0.74/$4.66 per M, 256K context, tool calling supported. Tests whether K2.6 fixes K2.5's Tier 3 hallucinations of RubyLLM add_message() and complete()."
     },
     {
+      "slug": "kimi_k2_7_code",
+      "id": "openrouter/moonshotai/kimi-k2.7-code",
+      "label": "Kimi K2.7 Code",
+      "provider": "openrouter",
+      "selection_reason": "MoonshotAI Kimi K2.7 Code on OpenRouter. Direct successor to K2.6 for coding. OpenRouter lists 262K context, tool calling, structured outputs, and reasoning controls; pricing $0.95/M input and $4/M output. Tests whether the Kimi line keeps K2.6's Tier A trajectory while improving RubyLLM API accuracy and Rails app execution quality."
+    },
+    {
       "slug": "grok_4_3",
       "id": "openrouter/x-ai/grok-4.3",
       "label": "Grok 4.3",

@@ -70,7 +70,7 @@ Earlier rounds of this benchmark made contradictory calls about the RubyLLM API.
 
 ---
 
-## Final Rankings (27 models)
+## Final Rankings (27 scored models)
 
 All models scored against the same rubric. Note the "RubyLLM OK" column is binary (API correct vs hallucinated) and is separate from the overall score — a model can have correct RubyLLM code and still score low if deliverables or tests are missing.
 
@@ -108,6 +108,7 @@ All models scored against the same rubric. Note the "RubyLLM OK" column is binar
 
 ### What changed from the previous ranking
 
+- **Kimi K2.7 Code** (run 2026-06-13; not yet rubric-scored): OpenRouter exposes the new model as `moonshotai/kimi-k2.7-code`, so it was added as `kimi_k2_7_code` and run through both benchmark phases. It completed structurally in 21.6m with 86,967 tokens and 1,687 files. Phase 2 reports real local boot, live OpenRouter chat, Docker build, Docker Compose boot, Docker Compose live chat, and `bin/ci` all passing. Compared to K2.6, K2.7 uses fewer tokens (86,967 vs 102,250) and is much faster in phase 2 (3.0m vs 6.6m), but it is not obviously better on first read: it uses real RubyLLM methods (`RubyLLM.chat`, `add_message`, `complete`, `response.content`) and validates live, but defaults to `anthropic/claude-sonnet-4.5` rather than the newer Sonnet used by recent top runs and relies on default provider inference instead of `provider: :openrouter`. Treat as promising but unranked until a full hand audit assigns a score.
 - **Claude Fable 5** (added 2026-06-11): first Claude 5-generation entry, debuting at 94/100 Tier A (#5). Verified-correct RubyLLM path (`RubyLLM.chat(model:, provider: :openrouter, assume_model_exists: true)` + `with_instructions` + `add_message` + `ask` + `response.content`, all checked against ruby_llm 1.16.0 gem source). Uniquely, it grepped the installed gem source mid-run to verify the API before writing the integration — the only model observed doing the audit’s own verification step unprompted. 36 tests / 99.3% line coverage with a signature-faithful `FakeChat`, capped LRU history, missing-key preflight, and a zero-fix phase 2 (boot + Docker + compose + live chat). Held back by process-local singleton persistence (lost on restart, not multi-worker safe) and price: ~$11 est. per run at $10/$50 per M — roughly 10× an Opus 4.8 run for one point less.
 - **Claude Opus 4.8** (added 2026-06-01): new Tier A entry at 95/100. It keeps Opus 4.7's correct RubyLLM path (`RubyLLM.chat(model:, provider: :openrouter, assume_model_exists: true)` + `with_instructions` + `add_message` + `ask` + `response.content`), upgrades to Ruby 4.0.3, writes 34 tests with a correctly-shaped `FakeChat`, and phase 2 validates local boot, live OpenRouter POST, Docker build, and compose health. Main deductions: unbounded session-cookie history and no explicit missing-key preflight before RubyLLM initialization.
 - **MiniMax M3** (added 2026-06-01): jumps MiniMax from C to B at 78/100. M3 fixes M2.7's fatal `RubyLLM.chat(messages:)` hallucination and uses the real API (`RubyLLM.chat` + `with_instructions` + `add_message` + `ask` + `response.content`). It has a respectable 19-test suite, session cap, Turbo Streams, and service-layer separation. Two blockers keep it out of Tier A: phase 2 stalled during compose validation, and the model originally wrote a real `.env` with `OPENROUTER_API_KEY` into its result project. That file was deleted and the exact key was redacted from all discovered historical artifacts, but the output is penalized for the secret hygiene failure.
@@ -433,6 +434,10 @@ Models use three different legitimate multi-turn patterns:
 DeepSeek V4 Pro has Tier 1 code but can't complete the run because opencode doesn't handle DeepSeek's thinking-mode `reasoning_content` echo requirement. GPT 5.4 couldn't run via OpenRouter (tool calling not exposed) — Codex CLI was required. Gemma 4 can't run via local llama.cpp due to parser bugs, but works via Ollama Cloud up to ~20K tokens.
 
 A model that runs correctly is more valuable than a model with nominally better code that can't be exercised.
+
+Kimi K2.7 Code exposed a concrete opencode workspace-routing issue: setting `cwd=project_dir` in Python was not enough to make opencode use the result project as its workspace. The first K2.7 attempt wrote into the repository-level placeholder `llm-chat/` directory and the benchmark result directory stayed empty. The runner now passes opencode's explicit `--dir <absolute project_dir>` flag, matching Codex's existing `-C` behavior; the re-run wrote to `results/kimi_k2_7_code/project` and completed.
+
+Local provider probing on `192.168.0.90` is documented in `docs/local-provider-status.md`. Short version: Ollama on `:11434` is reachable but only lists `qwen3:32b` and embeddings; llama-swap on `:11435/v1` has the known Qwen/Gemma/GLM/etc. models but no MiniMax/Kimi; a protected vLLM-like service on `:8080` returns 401 and the required API key is not available in this workspace. Local MiniMax V3 is therefore blocked on vLLM auth/model visibility, not benchmark code.
 
 ### 5. Most cost-efficient picks
 

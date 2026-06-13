@@ -1,11 +1,11 @@
 # Benchmark Report
 
-Generated at: 2026-06-11T17:12:00+00:00
+Generated at: 2026-06-13T14:18:31+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
 
-- `completed`: 33
+- `completed`: 34
 - `completed_with_errors`: 2
 - `failed`: 8
 - `timeout`: 1
@@ -53,6 +53,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 - `gpt_5_4_multi_faster` -> `gpt-5.4`: Codex multi-agent: xhigh plans, low handles fast coding. Tests the 'cheap executor' hypothesis — whether minimal reasoning on the subagent is enough when the parent provides the plan.
 - `kimi_k2_5` -> `openrouter/moonshotai/kimi-k2.5`: Chosen as the latest/highest Kimi variant listed by OpenRouter locally.
 - `kimi_k2_6` -> `openrouter/moonshotai/kimi-k2.6`: Direct successor to K2.5. $0.74/$4.66 per M, 256K context, tool calling supported. Tests whether K2.6 fixes K2.5's Tier 3 hallucinations of RubyLLM add_message() and complete().
+- `kimi_k2_7_code` -> `openrouter/moonshotai/kimi-k2.7-code`: MoonshotAI Kimi K2.7 Code on OpenRouter. Direct successor to K2.6 for coding. OpenRouter lists 262K context, tool calling, structured outputs, and reasoning controls; pricing $0.95/M input and $4/M output. Tests whether the Kimi line keeps K2.6's Tier A trajectory while improving RubyLLM API accuracy and Rails app execution quality.
 - `grok_4_3` -> `openrouter/x-ai/grok-4.3`: x.AI Grok 4.3 via OpenRouter. $1.25/$2.50 per M (mid-tier), 1M context, tool calling supported. First Grok variant in the benchmark — tests whether Grok's RubyLLM API recall is correct (real chat.ask path) or hits the same fluent-DSL/chat.complete hallucinations seen in some Tier B/C cloud models. Pricing positions it between Kimi K2.6 ($0.50/$2.50) and DeepSeek V4 Pro ($0.44/$0.87), well below Opus ($5/$25).
 - `mimo_v2_5_pro` -> `openrouter/xiaomi/mimo-v2.5-pro`: Xiaomi's flagship coding model. $1/$3 per M, 1M context, tool calling supported. Brand-new family we haven't tested — competitive pricing with mid-tier Chinese models like Kimi and GLM.
 - `glm_5` -> `openrouter/z-ai/glm-5`: Chosen as the latest/highest GLM variant listed by OpenRouter locally; this replaces the local GLM test. Skipped by default because it completed with errors in the previous benchmark pass.
@@ -113,6 +114,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | GPT 5.4 xHigh + low coder (Codex multi-agent) | codex | - | completed | 1213.33 | 4275845 | 3524.06 | yes | 1716 | Rails app, tests, README, and container files detected. |
 | Kimi K2.5 | openrouter | - | completed | 1738.77 | 63638 | 160.14 | yes | 3405 | Rails app, tests, README, and container files detected. |
 | Kimi K2.6 | openrouter | - | completed | 1181.65 | 102250 | 258.32 | yes | 1890 | Rails app, tests, README, and container files detected. |
+| Kimi K2.7 Code | openrouter | - | completed | 1295.74 | 86967 | 486.83 | yes | 1687 | Rails app, tests, README, and container files detected. |
 | Grok 4.3 | openrouter | - | completed | 900.07 | 46929 | 175.07 | yes | 2355 | Rails app, tests, README, and container files detected. |
 | Xiaomi MiMo V2.5 Pro | openrouter | - | completed | 644.40 | 80447 | 288.04 | yes | 1554 | Rails app, tests, README, and container files detected. |
 | GLM 5 | openrouter | - | completed | 1033.99 | 59378 | 400.01 | yes | 1680 | Rails app, tests, README, and container files detected. |

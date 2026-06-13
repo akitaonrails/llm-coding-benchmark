@@ -10,7 +10,7 @@ import time
 from shlex import quote as shlex_quote
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any, Callable, cast
 
 from benchmark.backends import LocalModelBackend
 from benchmark.config import (
@@ -49,6 +49,9 @@ class StreamResult:
     preview_average_output_tps: float | None
 
 
+MIN_PREVIEW_TPS_DEFAULT = object()
+
+
 def kill_process_group(process: subprocess.Popen[str]) -> None:
     try:
         os.killpg(process.pid, signal.SIGTERM)
@@ -73,9 +76,11 @@ def build_opencode_command(
     runner: dict[str, Any],
     model_id: str,
     prompt: str,
+    project_dir: Path,
     continue_session_id: str | None = None,
 ) -> list[str]:
     command = [runner["command"], *runner["args"]]
+    command.extend(["--dir", str(project_dir.resolve())])
     if continue_session_id:
         command.extend(["--session", continue_session_id])
     else:
@@ -645,11 +650,17 @@ def run_opencode_phase(
     result_path: Path | None,
     continue_session_id: str | None = None,
     phase_name: str = "phase1",
-    override_min_preview_tps: float | None = ...,  # sentinel
+    override_min_preview_tps: float | None | object = MIN_PREVIEW_TPS_DEFAULT,
 ) -> dict[str, Any]:
     prompt_path.write_text(prompt)
     _verify_opencode_config(bench.opencode_config_path, model, model_slug, project_dir)
-    command = build_opencode_command(bench.runner, model["id"], prompt, continue_session_id=continue_session_id)
+    command = build_opencode_command(
+        bench.runner,
+        model["id"],
+        prompt,
+        project_dir,
+        continue_session_id=continue_session_id,
+    )
     wall_start = time.monotonic()
     process_env = os.environ.copy()
     if bench.opencode_config_path is not None:
@@ -657,7 +668,7 @@ def run_opencode_phase(
     process_env["OPENCODE_PERMISSION"] = json.dumps(OPENCODE_YOLO_PERMISSION, separators=(",", ":"))
     process = subprocess.Popen(
         command,
-        cwd=project_dir,
+        cwd=project_dir.resolve(),
         env=process_env,
         text=True,
         stdout=subprocess.PIPE,
@@ -666,7 +677,11 @@ def run_opencode_phase(
         bufsize=1,
     )
 
-    effective_min_tps = bench.min_preview_output_tps if override_min_preview_tps is ... else override_min_preview_tps
+    effective_min_tps: float | None = (
+        bench.min_preview_output_tps
+        if override_min_preview_tps is MIN_PREVIEW_TPS_DEFAULT
+        else cast(float | None, override_min_preview_tps)
+    )
 
     result = stream_process_output(
         process=process,
@@ -760,7 +775,7 @@ def run_codex_phase(
     stderr_path: Path,
     result_path: Path | None,
     phase_name: str = "phase1",
-    override_min_preview_tps: float | None = ...,  # sentinel
+    override_min_preview_tps: float | None | object = MIN_PREVIEW_TPS_DEFAULT,
 ) -> dict[str, Any]:
     """Run a single benchmark phase using the Codex CLI."""
     prompt_path.write_text(prompt)
@@ -794,7 +809,11 @@ def run_codex_phase(
         except BrokenPipeError:
             pass
 
-    effective_min_tps = bench.min_preview_output_tps if override_min_preview_tps is ... else override_min_preview_tps
+    effective_min_tps: float | None = (
+        bench.min_preview_output_tps
+        if override_min_preview_tps is MIN_PREVIEW_TPS_DEFAULT
+        else cast(float | None, override_min_preview_tps)
+    )
 
     result = stream_process_output(
         process=process,
