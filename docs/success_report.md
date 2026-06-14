@@ -305,13 +305,13 @@ assistant_response = response.content
 
 **Killer weaknesses**: no `with_instructions`; no explicit `provider: :openrouter` on the chat call; unbounded session cookie; ~$3.30/run and 36m wall time (phase 2 Docker retries dominate cost/time vs code quality).
 
-### 10. Claude Opus 4.6 (83/100) — thinner than 4.7 but clean
+### 9. Claude Opus 4.6 (83/100) — thinner than 4.7 but clean
 
 Correct RubyLLM usage (`RubyLLM.chat` + `chat.ask` + `response.content`). History replay via `service.chat.messages << RubyLLM::Message.new(...)` — works because `Chat#messages` is `attr_reader` on an Array, but reaches into internal state (Demeter violation).
 
 **Biggest weakness**: no rescue around `chat_service.ask` in the controller. A transient OpenRouter 5xx produces a 500 page with stack trace. This is the difference between 4.6 (Tier A low) and 4.7 (Tier A high).
 
-### 11. Gemini 3.1 Pro (82/100) — cache-backed persistence, real Turbo Streams
+### 10. Gemini 3.1 Pro (82/100) — cache-backed persistence, real Turbo Streams
 
 Previously misclassified as Tier 3 for "invented `Chat.new` + `add_message`" — both are real API.
 
@@ -329,19 +329,19 @@ Previously misclassified as Tier 3 for "invented `Chat.new` + `add_message`" —
 
 ## Tier B — 1-2 hours to ship (11 models)
 
-### 12. Claude Sonnet 4.6 (78/100) — ambitious scope, subtle bug
+### 11. Claude Sonnet 4.6 (78/100) — ambitious scope, subtle bug
 
 Most feature-rich UI of the benchmark (multi-conversation sidebar with per-chat titles). Best controller separation (ChatsController + MessagesController). Mocha-based tests.
 
 **Killer weakness**: `LlmChatService#call` has a silent control-flow bug — only calls `ask` if the last history message is a user message, returns `""` otherwise. The test at `llm_chat_service_test.rb:32-50` rubber-stamps this bug (passes against the broken path). Also: entire conversation graph stored in 4KB session cookie → overflows after ~10 turns.
 
-### 12. DeepSeek V4 Flash (78/100) — cheapest viable option
+### 11. DeepSeek V4 Flash (78/100) — cheapest viable option
 
 ~$0.01/run (!). `RubyLLM.chat(model:, provider:)` + `add_message(role:, content:)` + `ask` + `.content` — real API throughout. Session-replay multi-turn via `session[:messages]`. WebMock tests on the actual OpenRouter HTTP endpoint — genuine exercise of the LLM path.
 
 **Killer weakness**: model slug `"claude-sonnet-4"` missing `anthropic/` prefix — will 404 against OpenRouter at runtime. One-character fix, but fatal as-is. Also: no rescue around `chat.ask`, 4KB cookie limit on long chats.
 
-### 12. MiniMax M3 (78/100) — fixed API recall, failed secret hygiene
+### 11. MiniMax M3 (78/100) — fixed API recall, failed secret hygiene
 
 M3 is the first MiniMax result with correct RubyLLM usage. `app/services/chat_service.rb` uses `RubyLLM.chat(model: @model)`, `with_instructions`, `add_message(role:, content:)`, `ask`, and `response.content`, all real API per the verified table. It also caps session history (`MAX_HISTORY_TURNS = 20`), separates `ChatService` from `ChatController`, ships Turbo Stream append/update responses, and has 19 tests across service, controller, and integration paths.
 
@@ -349,7 +349,7 @@ The test suite is better than M2.7's hallucination-mocking setup, but still reli
 
 **Killer strength**: MiniMax M3 completely fixes M2.7's fatal `RubyLLM.chat(messages:)` batch-form hallucination. **Killer weakness**: the model originally wrote a real `.env` containing `OPENROUTER_API_KEY` into the result project. The file was deleted and exact key occurrences were redacted from historical artifacts, but this is a severe prompt violation and keeps the result out of Tier A.
 
-### 15. Grok 4.3 (72/100) — clean controller, dead Stimulus
+### 14. Grok 4.3 (72/100) — clean controller, dead Stimulus
 
 `RubyLLM::Chat.new(model:)` + `add_message(role:, content:)` + `chat.ask` + `response.content` + `RubyLLM::Error` rescue — real API throughout, all verified against gem source. Cleanest hand-written chat controller in the cohort (48 lines, no service-object over-engineering, no fluent-DSL flourishes). Real Turbo Streams in the controller. Real README, real `compose.yaml`, multi-stage Dockerfile. Cookie-based session persistence. ~$1.74/run, 15m wall time.
 
@@ -359,13 +359,13 @@ The test suite is better than M2.7's hallucination-mocking setup, but still reli
 
 Cost ($1.74) is ~5× Kimi K2.6 for a worse output, putting Grok 4.3 in an awkward price/quality slot. Big jump from Grok 4.20 (25/100, Tier D below) but doesn't reach Tier A.
 
-### 16. Qwen 3.6 Plus (71/100) — cleanest open-model RubyLLM integration
+### 15. Qwen 3.6 Plus (71/100) — cleanest open-model RubyLLM integration
 
 Real RubyLLM usage with service-layer separation. Stimulus controller is well-built (escapeHtml, loading state, auto-scroll). Partials decomposed cleanly.
 
 **Biggest weaknesses**: tests make *real* network calls (no WebMock), history is client-side JS only (lost on refresh), uses `fetch` + `innerHTML` instead of Turbo Streams (no `turbo-rails` gem).
 
-### 17. DeepSeek V4 Pro (69/100) — Tier 1 code, Tier 3 deliverables
+### 16. DeepSeek V4 Pro (69/100) — Tier 1 code, Tier 3 deliverables
 
 Previously ranked higher based on code quality alone. Re-audited:
 
@@ -377,7 +377,7 @@ Previously ranked higher based on code quality alone. Re-audited:
 
 Run DNF'd because DeepSeek's thinking mode requires the client to echo `reasoning_content` back and opencode strips it. `reasoning: false` in opencode config didn't prevent DeepSeek from emitting thinking tokens server-side. The code written before the harness crashed is Tier 1 quality, but the deliverables are demo-level.
 
-### 17. Kimi K2.5 (69/100) — reclassified up from Tier 3
+### 16. Kimi K2.5 (69/100) — reclassified up from Tier 3
 
 Previously ranked as Tier 3 for "inventing `chat.add_message()` + `complete()`". **Both are real public methods** in RubyLLM 1.14.1 — the previous audit was wrong.
 
@@ -385,7 +385,7 @@ Uses `RubyLLM.chat(model:)` + `client.add_message(role:, content:)` + `client.co
 
 **Killer weakness**: none of the 37 tests actually mock RubyLLM — they test PORO CRUD and `respond_to?`, not the gem interaction. Also uses class-var storage (`Chat.storage = @storage ||= {}`) — worse than Singleton because it's not mutex-protected.
 
-### 19. Xiaomi MiMo V2.5 Pro (67/100) — cleanest multi-turn idiom
+### 18. Xiaomi MiMo V2.5 Pro (67/100) — cleanest multi-turn idiom
 
 Uses `RubyLLM::Chat.new(model:, provider:)` + `@llm_chat.ask(content, &)` + `response.content`. Persistent `@llm_chat` instance means RubyLLM tracks history internally — the cleanest multi-turn pattern in the entire benchmark, cleaner than explicit history replay.
 
@@ -397,7 +397,7 @@ Uses `RubyLLM::Chat.new(model:, provider:)` + `@llm_chat.ask(content, &)` + `res
 
 ~$0.14/run and 11 minutes makes this the fastest viable non-Anthropic option, but it needs ~2 engineer-hours of patching (add `rescue RubyLLM::Error`, swap Singleton for `Rails.cache`, add FakeChat mocks, add system prompt) to reach production quality.
 
-### 20. GLM 5 (64/100) — correct API, stateless design
+### 19. GLM 5 (64/100) — correct API, stateless design
 
 `RubyLLM.chat(model: "anthropic/claude-sonnet-4")` + `chat.ask` + `response.content` — correct. Mocha stubs match real API shape. Only one happy-path test, no error-path coverage.
 
@@ -407,25 +407,25 @@ Uses `RubyLLM::Chat.new(model:, provider:)` + `@llm_chat.ask(content, &)` + `res
 
 ## Tier C — major rework needed (6 models)
 
-### 21. Step 3.5 Flash (56/100)
+### 20. Step 3.5 Flash (56/100)
 
 Bypasses `ruby_llm` entirely using raw `Net::HTTP` to OpenRouter. The HTTP implementation itself is competent (timeouts, JSON parse errors, missing-key preflight all rescued with user-visible fallbacks). Session-backed multi-turn works. Best error handling of any model.
 
 **But**: non-compliant with the prompt requirement (missing `ruby_llm` gem). Also: the Stimulus `afterSubmit` flow never renders the user's message into `#messages` — only the assistant reply appears, so the UI is silently broken.
 
-### 22. Qwen 3.5 35B (55/100) — local model
+### 21. Qwen 3.5 35B (55/100) — local model
 
 Real `RubyLLM.chat` + `chat.ask` + `chat.messages.last.content` — correct API. No service layer (logic in controller). No multi-turn (fresh `RubyLLM.chat` per request).
 
 **Killer weakness**: `test/models/ruby_llm_service_test.rb:14-22` wraps the real call in `rescue => e; assert true` — tests pass even if RubyLLM is completely broken.
 
-### 23. GLM 4.7 Flash bf16 (52/100) — local model, near-miss
+### 22. GLM 4.7 Flash bf16 (52/100) — local model, near-miss
 
 **Most RubyLLM-literate local model** of the benchmark — correctly uses the fluent chain `.with_model().with_temperature().with_params().with_instructions().complete(&block)`, all real API per gem source.
 
 **Fatal bug**: `gem "ruby_llm"` is placed in `group :development, :test` with `require: false` — won't load in production. App would crash on boot with `NameError`. Also uses class-var `Message.all` storage (process-local).
 
-### 24. GLM 5.1 / Z.ai (46/100) — hallucinated fluent DSL
+### 23. GLM 5.1 / Z.ai (46/100) — hallucinated fluent DSL
 
 `RubyLLM.chat(model:, provider:)` is correct, but history is replayed via hallucinated `c.user(msg)` / `c.assistant(msg)` fluent DSL — these methods do not exist in RubyLLM. Confirmed via grep of the gem source.
 
@@ -433,7 +433,7 @@ Compounded bug: every HTTP request constructs a brand-new `ChatSession.new` that
 
 Stimulus controller uses `fetch` + manual `innerHTML` for streaming — SSE-based but not Turbo Streams.
 
-### 25. DeepSeek V3.2 (43/100)
+### 24. DeepSeek V3.2 (43/100)
 
 Uses `RubyLLM::Client.new` + `client.chat(messages: [...])` — **both hallucinated**. Treats response as raw OpenAI JSON via `result.dig("choices", 0, "message", "content")`. Tests mock `RubyLLM::Client.any_instance` — mocking a class that doesn't exist. The entire LLM integration is fictional.
 
@@ -441,7 +441,7 @@ Uses `RubyLLM::Client.new` + `client.chat(messages: [...])` — **both hallucina
 
 ---
 
-### 26. MiniMax M2.7 (41/100) — moved from Tier D after Ruby 4.0.2 correction
+### 25. MiniMax M2.7 (41/100) — moved from Tier D after Ruby 4.0.2 correction
 
 Hallucinated `RubyLLM.chat(model:, messages: [...])` batch signature — crashes on first call (`ArgumentError: unknown keyword: messages`). Best architectural decomposition of any Tier C/D model (service + form object + POROs + partials), wrapped around a corpse.
 
@@ -449,15 +449,15 @@ Tests mock the hallucinated API so they pass green against a bug.
 
 ## Tier D — throw away (4 models)
 
-### 27. Qwen 3.5 122B (37/100) — local model
+### 26. Qwen 3.5 122B (37/100) — local model
 
 Doesn't use `ruby_llm` at all. Uses `Openrouter::Client.new(api_key: @api_key)` — wrong casing for the real `OpenRouter::Client` (exists in `openrouter` gem but requires a configuration object, not a bare `api_key:` kwarg). Plus calls `client.chat(model:, messages:)` — real gem method is `completion`, not `chat`.
 
-### 28. Qwen 3 Coder Next (32/100) — local model
+### 27. Qwen 3 Coder Next (32/100) — local model
 
 Invented `RubyLLM::Client.new(api_key:, model:)` + `client.chat(messages: [...])` + OpenAI-shaped `response.choices.first.message.content` — pure hallucination. Also commits a placeholder `.env` file to the repo.
 
-### 29. Grok 4.20 (25/100)
+### 28. Grok 4.20 (25/100)
 
 Bypasses RubyLLM with `ruby-openai`, but the gem is in `:development, :test` group with `require: false` — production `NameError` on first request. Gemfile missing turbo-rails, stimulus-rails, bundle-audit.
 
@@ -465,7 +465,7 @@ Stimulus controller JavaScript is **uncompilable** (`class ChatFormController < 
 
 At ~$0.60/run, Grok is the most expensive Tier D model.
 
-### 30. GPT OSS 20B (11/100) — local model
+### 29. GPT OSS 20B (11/100) — local model
 
 Benchmark low. Stock Rails README template (no customization), nested `app/app/` directory (violates "stay in workspace root" rule), **no tests folder at all**, no docker-compose, Gemfile has `gem "tailwindcss"` (CLI gem, not the Rails binding) with brakeman commented out.
 

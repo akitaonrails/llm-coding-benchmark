@@ -424,13 +424,6 @@
       "selection_reason": "Added from OpenRouter cloud availability; chose the non-preview Qwen 3.6 Plus variant exposed locally. Skipped by default because it completed with errors in the previous benchmark pass."
     },
     {
-      "slug": "qwen3_7_max",
-      "id": "openrouter/qwen/qwen3.7-max",
-      "label": "Qwen3.7 Max",
-      "provider": "openrouter",
-      "selection_reason": "Alibaba Qwen3.7 flagship on OpenRouter (May 2026). Reasoning model with 1M context, agentic/coding focus, prompt caching. Input $2.50/M, output $7.50/M. Tests whether Qwen's latest generation fixes the RubyLLM API issues seen in Qwen 3.6 Plus (71/100 Tier B)."
-    },
-    {
       "slug": "qwen3_5_397b_cloud",
       "id": "openrouter/qwen/qwen3.5-397b-a17b",
       "label": "Qwen 3.5 397B Cloud",
