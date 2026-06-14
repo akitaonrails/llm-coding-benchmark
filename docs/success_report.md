@@ -86,7 +86,7 @@ All models scored against the same rubric. Note the "RubyLLM OK" column is binar
 | 8 | Kimi K2.7 Code | 86 | A | ✅ | OpenRouter | 22m | ~$0.30 |
 | 9 | Claude Opus 4.6 | 83 | A | ✅ | OpenRouter | 16m | ~$1.10 |
 | 10 | Gemini 3.1 Pro | 82 | A | ✅ | OpenRouter | 14m | ~$0.40 |
-| 10 | Qwen3.7 Max | 82 | A | ✅ | OpenRouter | 13m (phase 2 DNF) | ~$0.12 |
+| 10 | Qwen3.7 Max | 82 | A | ✅ | OpenRouter | 13m (phase 2 DNF) | ~$0.61 |
 | 12 | Claude Sonnet 4.6 | 78 | B | ✅ | OpenRouter | 16m | ~$0.63 |
 | 12 | DeepSeek V4 Flash | 78 | B | ✅ | OpenRouter | 3m | ~$0.01 |
 | 12 | MiniMax M3 | 78 | B | ✅ | OpenRouter | 53m (phase 2 DNF) | ~$0.10 |
@@ -131,7 +131,7 @@ Several earlier models also moved significantly after re-audit with the correcte
 
 ---
 
-## Tier A — Ship as-is (10 models)
+## Tier A — Ship as-is (11 models)
 
 ### 1. Claude Opus 4.7 (97/100) — most test-disciplined
 
