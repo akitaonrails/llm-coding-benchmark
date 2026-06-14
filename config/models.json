@@ -528,7 +528,7 @@
       "id": "openrouter/google/gemini-3.5-flash",
       "label": "Gemini 3.5 Flash",
       "provider": "openrouter",
-      "selection_reason": "Google Gemini 3.5 Flash on OpenRouter (May 2026). Near-Pro coding at Flash-tier cost and speed; reasoning model with 1M context and multimodal inputs. Input $1.50/M, output $9.00/M. Companion to gemini_3_1_pro (82/100 Tier A) — tests whether the Flash line keeps correct RubyLLM API usage on the same Rails brief."
+      "selection_reason": "Google Gemini 3.5 Flash on OpenRouter (May 2026). Reasoning model with 1M context, multimodal inputs, tool calling supported. Near-Pro coding at Flash-tier cost and speed. Input $1.50/M, output $9.00/M. Benchmarks autonomous Rails/RubyLLM app generation on the standard coding brief."
     },
     {
       "slug": "grok_4_20",
