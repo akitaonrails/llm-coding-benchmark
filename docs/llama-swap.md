@@ -97,6 +97,24 @@ Models that **don't fit at all** on a 32 GB card and are explicitly excluded:
 
 The probed context limits per model are set in [`~/Projects/llama-swap-docker/config.yaml`](../../llama-swap-docker/config.yaml). The matching `benchmark_context_override` values in [`config/models.nvidia.json`](../config/models.nvidia.json) keep the benchmark harness honest about what context the model is actually serving.
 
+### Why MiniMax M3 can't be benchmarked locally (cloud-only)
+
+MiniMax M3 scored 78/B on the cloud benchmark (via OpenRouter), so it's a natural candidate for a local re-run — but it does not fit on **either** hardware profile, not just the 32 GB NVIDIA box. It stays OpenRouter-only (`minimax_m3` → `openrouter/minimax/minimax-m3`, no `llama_swap_model`).
+
+A public local build exists — [`unsloth/MiniMax-M3-GGUF`](https://huggingface.co/unsloth/MiniMax-M3-GGUF) and an [`ollama.com/library/minimax-m3`](https://ollama.com/library/minimax-m3) entry — so the blocker is purely memory, not availability.
+
+M3 is a **230B-total / 9.8B-active MoE** (some sources count it ~426B) across 256 fine-grained experts. The catch with MoE: even though only ~10B activates per token, the **entire** weight set must be resident in memory — you cannot page idle experts to CPU without introducing latency that breaks interactive inference. So the relevant number is total size, not active size:
+
+| Quant | GGUF size | RTX 5090 (32 GB VRAM) | Strix Halo (≤128 GB unified) |
+|---|---|---|---|
+| Q4_K_M | ~264 GB | ✗ | ✗ |
+| Q3_K_M | ~195 GB | ✗ | ✗ |
+| 1-bit | ~128 GB | ✗ | ✗ (no room left for KV cache / OS) |
+
+Even the lobotomized 1-bit quant (~128 GB) would consume the Strix Halo's entire unified memory with nothing left for the KV cache or the OS — and a 1-bit model is useless for a coding benchmark regardless. The NVIDIA card isn't remotely close at any quant.
+
+**Bottom line:** there is no quant of M3 that runs at usable quality on either machine. Running a MiniMax locally would mean a much smaller, weaker variant (e.g. the `minimax-m2-tiny` distill) — a different model, not M3. Treat M3 as permanently cloud-only for this benchmark.
+
 ---
 
 ## llama-server flags for Blackwell
