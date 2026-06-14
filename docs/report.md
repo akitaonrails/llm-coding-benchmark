@@ -1,6 +1,6 @@
 # Benchmark Report
 
-Generated at: 2026-06-14T20:32:30+00:00
+Generated at: 2026-06-14T21:02:14+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
@@ -58,7 +58,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 - `mimo_v2_5_pro` -> `openrouter/xiaomi/mimo-v2.5-pro`: Xiaomi's flagship coding model. $1/$3 per M, 1M context, tool calling supported. Brand-new family we haven't tested — competitive pricing with mid-tier Chinese models like Kimi and GLM.
 - `glm_5` -> `openrouter/z-ai/glm-5`: Chosen as the latest/highest GLM variant listed by OpenRouter locally; this replaces the local GLM test. Skipped by default because it completed with errors in the previous benchmark pass.
 - `qwen3_6_plus` -> `openrouter/qwen/qwen3.6-plus`: Added from OpenRouter cloud availability; chose the non-preview Qwen 3.6 Plus variant exposed locally. Skipped by default because it completed with errors in the previous benchmark pass.
-- `qwen3_7_max` -> `openrouter/qwen/qwen3.7-max`: Alibaba Qwen3.7 flagship on OpenRouter (May 2026). Reasoning model with 1M context, agentic/coding focus, prompt caching. Input $2.50/M, output $7.50/M. Tests whether Qwen's latest generation fixes the RubyLLM API issues seen in Qwen 3.6 Plus (71/100 Tier B).
+- `qwen3_7_max` -> `openrouter/qwen/qwen3.7-max`: Alibaba Qwen3.7 Max on OpenRouter (May 2026). Reasoning model with 1M context, agentic/coding focus, prompt caching, tool calling supported. Input $2.50/M, output $7.50/M. Benchmarks autonomous Rails/RubyLLM app generation on the standard coding brief.
 - `qwen3_5_397b_cloud` -> `openrouter/qwen/qwen3.5-397b-a17b`: Added as the OpenRouter cloud Qwen 3.5 flagship under the requested qwen3.5:397b-cloud benchmark slot. Skipped by default because it stalled after completing validation steps and never emitted a terminal stop.
 - `gemma4_31b_cloud` -> `openrouter/google/gemma-4-31b-it`: Google Gemma 4 31B IT BF16 served via Ollama's hosted cloud (https://ollama.com). Originally added to bypass the local llama.cpp parser bugs that caused infinite repetition loops on local Q3/Q8 GGUFs. Curl tests confirm the model itself works correctly for tool calling. **However, opencode benchmark runs hit HTTP 504 Gateway Timeout consistently around 20-24K total tokens of conversation history** — Cloudflare edge appears to enforce a ~100s per-request limit which 20K+ token prefill exceeds. Tried maxRetries:5 (didn't help — failures are consistent, not transient). Set limit.context:16384 to force opencode history trimming below the wall. Skipped by default until either Ollama Cloud raises the timeout or we test via Google's native Gemini API. Requires OLLAMA_API_KEY env var with Ollama Cloud subscription.
 - `llama4_scout_cloud` -> `openrouter/meta-llama/llama-4-scout`: Added as the OpenRouter cloud Llama 4 Scout benchmark counterpart to the unusable local Scout path. Skipped by default because it does not currently resolve cleanly in this opencode build.

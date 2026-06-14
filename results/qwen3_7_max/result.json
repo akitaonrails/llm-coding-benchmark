@@ -23,7 +23,7 @@
     "id": "openrouter/qwen/qwen3.7-max",
     "label": "Qwen3.7 Max",
     "provider": "openrouter",
-    "selection_reason": "Alibaba Qwen3.7 flagship on OpenRouter (May 2026). Reasoning model with 1M context, agentic/coding focus, prompt caching. Input $2.50/M, output $7.50/M. Tests whether Qwen's latest generation fixes the RubyLLM API issues seen in Qwen 3.6 Plus (71/100 Tier B).",
+    "selection_reason": "Alibaba Qwen3.7 Max on OpenRouter (May 2026). Reasoning model with 1M context, agentic/coding focus, prompt caching, tool calling supported. Input $2.50/M, output $7.50/M. Benchmarks autonomous Rails/RubyLLM app generation on the standard coding brief.",
     "slug": "qwen3_7_max"
   },
   "no_progress_timeout_seconds": 360,
@@ -66,7 +66,7 @@
         "id": "openrouter/qwen/qwen3.7-max",
         "label": "Qwen3.7 Max",
         "provider": "openrouter",
-        "selection_reason": "Alibaba Qwen3.7 flagship on OpenRouter (May 2026). Reasoning model with 1M context, agentic/coding focus, prompt caching. Input $2.50/M, output $7.50/M. Tests whether Qwen's latest generation fixes the RubyLLM API issues seen in Qwen 3.6 Plus (71/100 Tier B).",
+        "selection_reason": "Alibaba Qwen3.7 Max on OpenRouter (May 2026). Reasoning model with 1M context, agentic/coding focus, prompt caching, tool calling supported. Input $2.50/M, output $7.50/M. Benchmarks autonomous Rails/RubyLLM app generation on the standard coding brief.",
         "slug": "qwen3_7_max"
       },
       "no_progress_timeout_seconds": 360,
@@ -146,7 +146,7 @@
         "id": "openrouter/qwen/qwen3.7-max",
         "label": "Qwen3.7 Max",
         "provider": "openrouter",
-        "selection_reason": "Alibaba Qwen3.7 flagship on OpenRouter (May 2026). Reasoning model with 1M context, agentic/coding focus, prompt caching. Input $2.50/M, output $7.50/M. Tests whether Qwen's latest generation fixes the RubyLLM API issues seen in Qwen 3.6 Plus (71/100 Tier B).",
+        "selection_reason": "Alibaba Qwen3.7 Max on OpenRouter (May 2026). Reasoning model with 1M context, agentic/coding focus, prompt caching, tool calling supported. Input $2.50/M, output $7.50/M. Benchmarks autonomous Rails/RubyLLM app generation on the standard coding brief.",
         "slug": "qwen3_7_max"
       },
       "no_progress_timeout_seconds": 360,
