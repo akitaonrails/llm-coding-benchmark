@@ -424,6 +424,13 @@
       "selection_reason": "Added from OpenRouter cloud availability; chose the non-preview Qwen 3.6 Plus variant exposed locally. Skipped by default because it completed with errors in the previous benchmark pass."
     },
     {
+      "slug": "qwen3_7_max",
+      "id": "openrouter/qwen/qwen3.7-max",
+      "label": "Qwen3.7 Max",
+      "provider": "openrouter",
+      "selection_reason": "Alibaba Qwen3.7 flagship on OpenRouter (May 2026). Reasoning model with 1M context, agentic/coding focus, prompt caching. Input $2.50/M, output $7.50/M. Tests whether Qwen's latest generation fixes the RubyLLM API issues seen in Qwen 3.6 Plus (71/100 Tier B)."
+    },
+    {
       "slug": "qwen3_5_397b_cloud",
       "id": "openrouter/qwen/qwen3.5-397b-a17b",
       "label": "Qwen 3.5 397B Cloud",
@@ -515,6 +522,13 @@
       "label": "Gemini 3.1 Pro",
       "provider": "openrouter",
       "selection_reason": "Latest Google Gemini model with enhanced SWE performance and agentic reliability. Input $2.00/M, output $12.00/M."
+    },
+    {
+      "slug": "gemini_3_5_flash",
+      "id": "openrouter/google/gemini-3.5-flash",
+      "label": "Gemini 3.5 Flash",
+      "provider": "openrouter",
+      "selection_reason": "Google Gemini 3.5 Flash on OpenRouter (May 2026). Near-Pro coding at Flash-tier cost and speed; reasoning model with 1M context and multimodal inputs. Input $1.50/M, output $9.00/M. Companion to gemini_3_1_pro (82/100 Tier A) — tests whether the Flash line keeps correct RubyLLM API usage on the same Rails brief."
     },
     {
       "slug": "grok_4_20",
