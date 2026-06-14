@@ -531,6 +531,13 @@
       "selection_reason": "Z.ai's latest flagship GLM model. Uses Z.ai coding plan endpoint at https://api.z.ai/api/coding/paas/v4 (NOT the general /api/paas/v4) \u2014 Lite subscription includes glm-5.1 only via the coding endpoint. Completed in 22 min with 24 tests, correct primary RubyLLM.chat/ask usage, but invented chat.user/chat.assistant for multi-turn history seeding (single-turn works, multi-turn crashes). Tier 2 \u2014 works with caveats."
     },
     {
+      "slug": "glm_5_2",
+      "id": "zai/glm-5.2",
+      "label": "GLM 5.2",
+      "provider": "zai",
+      "selection_reason": "Z.ai's newest flagship GLM (released 2026-06). Served on the coding plan endpoint at https://api.z.ai/api/coding/paas/v4 (live and key-verified 2026-06-14, though not yet in that endpoint's /models listing; not on OpenRouter yet). Like all GLM models it returns reasoning in reasoning_content with empty content by default \u2014 the zai provider wiring already handles this for GLM 5.1. Tests whether 5.2 fixes 5.1's hallucinated chat.user/chat.assistant multi-turn DSL (the bug that put 5.1 in Tier C)."
+    },
+    {
       "slug": "qwen3_5_27b_claude",
       "id": "ollama/qwen/qwen3.5-27b-claude",
       "label": "Qwen 3.5 27B Claude Distilled",

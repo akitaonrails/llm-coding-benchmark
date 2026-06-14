@@ -1,11 +1,11 @@
 # Benchmark Report
 
-Generated at: 2026-06-13T14:18:31+00:00
+Generated at: 2026-06-14T15:19:15+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
 
-- `completed`: 34
+- `completed`: 35
 - `completed_with_errors`: 2
 - `failed`: 8
 - `timeout`: 1
@@ -72,6 +72,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 - `gemini_3_1_pro` -> `openrouter/google/gemini-3.1-pro-preview`: Latest Google Gemini model with enhanced SWE performance and agentic reliability. Input $2.00/M, output $12.00/M.
 - `grok_4_20` -> `openrouter/x-ai/grok-4.20`: xAI's latest flagship on OpenRouter. Fastest model in the benchmark (8 min) but produced architecturally broken code: bypassed RubyLLM with ruby-openai (only in dev/test group, NameError in prod), used format.turbo_stream without installing turbo-rails, RUBY_VERSION=4.0.2 Dockerfile bug. Tier 3 — broken core.
 - `glm_5_1` -> `zai/glm-5.1`: Z.ai's latest flagship GLM model. Uses Z.ai coding plan endpoint at https://api.z.ai/api/coding/paas/v4 (NOT the general /api/paas/v4) — Lite subscription includes glm-5.1 only via the coding endpoint. Completed in 22 min with 24 tests, correct primary RubyLLM.chat/ask usage, but invented chat.user/chat.assistant for multi-turn history seeding (single-turn works, multi-turn crashes). Tier 2 — works with caveats.
+- `glm_5_2` -> `zai/glm-5.2`: Z.ai's newest flagship GLM (released 2026-06). Served on the coding plan endpoint at https://api.z.ai/api/coding/paas/v4 (live and key-verified 2026-06-14, though not yet in that endpoint's /models listing; not on OpenRouter yet). Like all GLM models it returns reasoning in reasoning_content with empty content by default — the zai provider wiring already handles this for GLM 5.1. Tests whether 5.2 fixes 5.1's hallucinated chat.user/chat.assistant multi-turn DSL (the bug that put 5.1 in Tier C).
 - `qwen3_5_27b_claude` -> `ollama/qwen/qwen3.5-27b-claude`: Qwen 3.5 27B distilled from Claude 4.6 Opus reasoning traces (Jackrong/Qwen3.5-27B-Claude-4.6-Opus-Reasoning-Distilled). Tests whether Claude reasoning distillation transfers RubyLLM API correctness — most non-Anthropic models hallucinate the gem's API, so a Claude-distilled Qwen is an interesting natural experiment.
 - `qwen2_5_coder_32b` -> `ollama/qwen/qwen2.5-coder-32b`: Most popular dedicated coder of the Qwen 2.5 generation. Sourced from Ollama (Q4_K_M ~19 GB). On NVIDIA 5090 fits with 64K context.
 - `qwen3_coder_30b` -> `ollama/qwen/qwen3-coder-30b`: Qwen 3 dedicated coder variant (the regular 30B, not the 51 GB qwen3-coder-next-ctx). Direct comparison with the general qwen3:32b. Sourced from Ollama (Q4_K_M ~18 GB).
@@ -133,6 +134,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | Gemini 3.1 Pro | openrouter | - | completed | 811.00 | 104034 | 508.18 | yes | 138 | Rails app, tests, README, and container files detected. |
 | Grok 4.20 | openrouter | - | completed | 502.68 | 63457 | 412.54 | yes | 108 | Rails app, tests, README, and container files detected. |
 | GLM 5.1 | zai | - | completed | 1291.19 | 81666 | 166.62 | yes | 1571 | Rails app, tests, README, and container files detected. |
+| GLM 5.2 | zai | - | completed | 2602.50 | 92430 | 151.63 | yes | 811 | Rails app, tests, README, and container files detected. |
 | Qwen 3.5 27B Claude Distilled | ollama | - | timeout | 5400.95 | 75753 | 14.03 | partial | 2231 | Timed out. Some expected benchmark artifacts exist, but the scaffold looks incomplete. |
 | Qwen 2.5 Coder 32B | ollama | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | Qwen 3 Coder 30B | ollama | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
