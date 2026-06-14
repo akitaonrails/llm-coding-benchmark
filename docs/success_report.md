@@ -70,7 +70,7 @@ Earlier rounds of this benchmark made contradictory calls about the RubyLLM API.
 
 ---
 
-## Final Rankings (29 scored models)
+## Final Rankings (30 scored models)
 
 All models scored against the same rubric. Note the "RubyLLM OK" column is binary (API correct vs hallucinated) and is separate from the overall score — a model can have correct RubyLLM code and still score low if deliverables or tests are missing.
 
@@ -86,30 +86,32 @@ All models scored against the same rubric. Note the "RubyLLM OK" column is binar
 | 8 | Kimi K2.7 Code | 86 | A | ✅ | OpenRouter | 22m | ~$0.30 |
 | 9 | Claude Opus 4.6 | 83 | A | ✅ | OpenRouter | 16m | ~$1.10 |
 | 10 | Gemini 3.1 Pro | 82 | A | ✅ | OpenRouter | 14m | ~$0.40 |
-| 11 | Claude Sonnet 4.6 | 78 | B | ✅ | OpenRouter | 16m | ~$0.63 |
-| 11 | DeepSeek V4 Flash | 78 | B | ✅ | OpenRouter | 3m | ~$0.01 |
-| 11 | MiniMax M3 | 78 | B | ✅ | OpenRouter | 53m (phase 2 DNF) | ~$0.10 |
-| 14 | Grok 4.3 | 72 | B | ✅ | OpenRouter | 15m | ~$1.74 |
-| 15 | Qwen 3.6 Plus | 71 | B | ✅ | OpenRouter | 17m | ~$0.15 |
-| 16 | DeepSeek V4 Pro | 69 | B | ✅ | OpenRouter | 22m (DNF) | ~$0.50 |
-| 16 | Kimi K2.5 | 69 | B | ✅ | OpenRouter | 29m | ~$0.10 |
-| 18 | Xiaomi MiMo V2.5 Pro | 67 | B | ✅ | OpenRouter | 11m | ~$0.14 |
-| 19 | GLM 5 | 64 | B | ✅ | OpenRouter | 17m | ~$0.11 |
-| 20 | Step 3.5 Flash | 56 | C | ⚠️ bypass | OpenRouter | 38m | ~$0.02 |
-| 21 | Qwen 3.5 35B | 55 | C | ✅ | Local (AMD) | 28m | free |
-| 22 | GLM 4.7 Flash bf16 | 52 | C | ✅ | Local (AMD) | failed | free |
-| 23 | GLM 5.1 (Z.ai) | 46 | C | ❌ | Z.ai | 22m | subscription |
-| 24 | DeepSeek V3.2 | 43 | C | ❌ | OpenRouter | 60m | ~$0.07 |
-| 25 | MiniMax M2.7 | 41 | C | ❌ | OpenRouter | 14m | ~$0.30 |
-| 26 | Qwen 3.5 122B | 37 | D | ❌ | Local (AMD) | 43m | free |
-| 27 | Qwen 3 Coder Next | 32 | D | ❌ | Local (AMD) | 17m | free |
-| 28 | Grok 4.20 | 25 | D | ❌ | OpenRouter | 8m | ~$0.60 |
-| 29 | GPT OSS 20B | 11 | D | ❌ | Local (AMD) | failed | free |
+| 10 | Qwen3.7 Max | 82 | A | ✅ | OpenRouter | 13m (phase 2 DNF) | ~$0.12 |
+| 12 | Claude Sonnet 4.6 | 78 | B | ✅ | OpenRouter | 16m | ~$0.63 |
+| 12 | DeepSeek V4 Flash | 78 | B | ✅ | OpenRouter | 3m | ~$0.01 |
+| 12 | MiniMax M3 | 78 | B | ✅ | OpenRouter | 53m (phase 2 DNF) | ~$0.10 |
+| 15 | Grok 4.3 | 72 | B | ✅ | OpenRouter | 15m | ~$1.74 |
+| 16 | Qwen 3.6 Plus | 71 | B | ✅ | OpenRouter | 17m | ~$0.15 |
+| 17 | DeepSeek V4 Pro | 69 | B | ✅ | OpenRouter | 22m (DNF) | ~$0.50 |
+| 17 | Kimi K2.5 | 69 | B | ✅ | OpenRouter | 29m | ~$0.10 |
+| 19 | Xiaomi MiMo V2.5 Pro | 67 | B | ✅ | OpenRouter | 11m | ~$0.14 |
+| 20 | GLM 5 | 64 | B | ✅ | OpenRouter | 17m | ~$0.11 |
+| 21 | Step 3.5 Flash | 56 | C | ⚠️ bypass | OpenRouter | 38m | ~$0.02 |
+| 22 | Qwen 3.5 35B | 55 | C | ✅ | Local (AMD) | 28m | free |
+| 23 | GLM 4.7 Flash bf16 | 52 | C | ✅ | Local (AMD) | failed | free |
+| 24 | GLM 5.1 (Z.ai) | 46 | C | ❌ | Z.ai | 22m | subscription |
+| 25 | DeepSeek V3.2 | 43 | C | ❌ | OpenRouter | 60m | ~$0.07 |
+| 26 | MiniMax M2.7 | 41 | C | ❌ | OpenRouter | 14m | ~$0.30 |
+| 27 | Qwen 3.5 122B | 37 | D | ❌ | Local (AMD) | 43m | free |
+| 28 | Qwen 3 Coder Next | 32 | D | ❌ | Local (AMD) | 17m | free |
+| 29 | Grok 4.20 | 25 | D | ❌ | OpenRouter | 8m | ~$0.60 |
+| 30 | GPT OSS 20B | 11 | D | ❌ | Local (AMD) | failed | free |
 
 **Note on score adjustment**: The original audit rubric wrongly penalized `RUBY_VERSION=4.0.2` as a fake placeholder. It's actually the current stable Ruby (released 2026-03-17). Scores for every model except Gemini 3.1 Pro have been adjusted +3 to remove that deduction. Gemini used Ruby 3.4.1 (older LTS, valid) so its score is unchanged. Relative ordering is preserved; only **MiniMax M2.7 crossed a tier boundary (D → C)** due to this correction.
 
 ### What changed from the previous ranking
 
+- **Qwen3.7 Max** (added 2026-06-14, scored 82/100, Tier A, #10 tie): Alibaba flagship on OpenRouter as `openrouter/qwen/qwen3.7-max`. Jumps the Qwen lineage from 3.6 Plus (71/100 Tier B) by fixing every major 3.6 weakness: real Turbo Streams instead of fetch+innerHTML, `ChatService` with session-history replay via `add_message`, and 26 Mocha tests stubbing `RubyLLM.chat` at the correct signature (including `provider: :openrouter`). Phase 1 rerun self-fixed a multi-turn bug (controller now passes full history before `ask`). Harness marked the run `failed` (exit -15): phase 2 booted Puma on :3001 and ran `docker version`, then stalled 6 minutes with no progress before `docker build` — model-side stall, not environment. Code scores Tier A; runtime validation incomplete.
 - **Kimi K2.7 Code** (added 2026-06-13, scored 86/100, Tier A, #8): exposed on OpenRouter as `moonshotai/kimi-k2.7-code`. Real RubyLLM throughout (`RubyLLM.chat` + `add_message` full-history-replay + `complete` + `response.content`), verified against gem source 1.16.0; session-cookie persistence, error-path-tested, real Turbo Streams + 3 Stimulus controllers. **Methodology note**: the structural scanner flagged six `chat.user`/`chat.assistant` "hallucinations" that were all false positives — they resolve to the app's own `Chat`/`Message` domain methods, not RubyLLM's DSL. Hand-reading confirmed genuine Tier 1 API; trusting the scanner would have wrongly tanked it like GLM 5.1. Lands just below the K2.6/GLM 5.2 pair (87) because it ships no `with_instructions` system prompt (its main regression from K2.6), no message cap on the cookie, and embeds LLM I/O in the session value-object model rather than a service.
 - **GLM 5.2** (added 2026-06-14): the benchmark's biggest single-version jump — 46→87, Tier C→A, #21→#6. GLM 5.1's fatal hallucination (invented `chat.user`/`chat.assistant`, multi-turn crash) is gone; 5.2 replays history with the real `add_message` and verifies clean against gem source 1.16.0. Cleanest dependency-injection design in the cohort. Held to a tie with Kimi K2.6 (and ranked just behind it) only by an uncapped process-local singleton store — the persistence axis again. Slowest Tier A run at 43m on the throttled Z.ai coding endpoint.
 - **Claude Fable 5** (added 2026-06-11): first Claude 5-generation entry, debuting at 94/100 Tier A (#5). Verified-correct RubyLLM path (`RubyLLM.chat(model:, provider: :openrouter, assume_model_exists: true)` + `with_instructions` + `add_message` + `ask` + `response.content`, all checked against ruby_llm 1.16.0 gem source). Uniquely, it grepped the installed gem source mid-run to verify the API before writing the integration — the only model observed doing the audit’s own verification step unprompted. 36 tests / 99.3% line coverage with a signature-faithful `FakeChat`, capped LRU history, missing-key preflight, and a zero-fix phase 2 (boot + Docker + compose + live chat). Held back by process-local singleton persistence (lost on restart, not multi-worker safe) and price: ~$11 est. per run at $10/$50 per M — roughly 10× an Opus 4.8 run for one point less.
@@ -304,6 +306,25 @@ Previously misclassified as Tier 3 for "invented `Chat.new` + `add_message`" —
 
 **Killer weakness**: uses stale model string `claude-3.7-sonnet` instead of current Sonnet 4.x. One-character fix.
 
+### 10. Qwen3.7 Max (82/100) — Qwen lineage fixed, phase 2 stalled early
+
+The biggest Qwen jump in the benchmark: **71 → 82**, Tier B → A. Where Qwen 3.6 Plus used fetch+innerHTML with no Turbo Streams and tests that hit the real network, 3.7 Max ships the textbook service-layer pattern verified against ruby_llm 1.16.0:
+
+```ruby
+@chat = RubyLLM.chat(model: MODEL, provider: :openrouter)
+history.each { |entry| @chat.add_message(role: role.to_sym, content: content) }
+response = @chat.ask(message)
+assistant_content = response.content
+```
+
+**Strengths**: `ChatService` cleanly separated from `ChatsController`; session-cookie multi-turn with full history replay before each `ask` (fixed mid-run on the `--force` re-run); real Turbo Stream append/replace; Stimulus `chat_controller.js` wired via `import "controllers"`; 26 tests / 60 assertions with Mocha stubs on `RubyLLM.chat`/`ask`/`add_message` including streaming and error paths; multi-stage Dockerfile + compose with env-var injection (no `.env` leak); Ruby 4.0.5; SimpleCov 100% on phase 1.
+
+**Scoring (82/100)**: Deliverable 21/25 (9/9 artifacts, −5 phase 2 DNF), RubyLLM 16/20 (correct API, no `with_instructions`), Tests 14/15, Error 7/10 (controller rescue + integration test, no key preflight), Persistence 8/10 (session replay works, uncapped cookie), Hotwire 9/10, Architecture 5/5, Production 2/5 (Docker never built in phase 2).
+
+**Phase 2 outcome**: `status: failed`, `stall_reason: "no progress for 06:00; last activity: assistant started"`. NDJSON logs confirm local boot (`Puma ... Listening on http://127.0.0.1:3001`) and a todo update marking docker build in progress, but no `docker build` command completed before the harness killed the session. Same stall pattern as MiniMax M3, but earlier in the checklist (boot only, not build).
+
+**Killer weaknesses**: no `with_instructions` system prompt (same gap as Kimi K2.7); unbounded session cookie (4KB overflow risk on long chats); phase 2 never validated Docker/compose despite shipping plausible configs.
+
 ---
 
 ## Tier B — 1-2 hours to ship (11 models)
@@ -470,7 +491,7 @@ Gemini 3.1 Pro's test suite is smaller (11 tests) but uses a correctly-signature
 
 Models use three different legitimate multi-turn patterns:
 - **Persistent instance** (MiMo, DeepSeek V4 Pro): create `Chat` once, call `.ask()` repeatedly. RubyLLM tracks history internally. Cleanest, but persistence is fragile (process-local objects).
-- **Explicit history replay** (Kimi K2.7, GLM 5.2, Claude Fable 5, Opus 4.8/4.7/4.6, Sonnet 4.6, Kimi K2.6, Gemini, DeepSeek V4 Flash, MiniMax M3): rebuild `Chat`, call `.add_message()` per historic message, then `.ask()`. More code but persistence-friendly (store messages in cookie/cache, reconstruct Chat per request).
+- **Explicit history replay** (Qwen3.7 Max, Kimi K2.7, GLM 5.2, Claude Fable 5, Opus 4.8/4.7/4.6, Sonnet 4.6, Kimi K2.6, Gemini, DeepSeek V4 Flash, MiniMax M3): rebuild `Chat`, call `.add_message()` per historic message, then `.ask()`. More code but persistence-friendly (store messages in cookie/cache, reconstruct Chat per request).
 - **Batch single-shot** (GLM 5 — intentional one-shot, not multi-turn): just `RubyLLM.chat` + `ask` with no history. Fine for stateless echo services, not a chat app.
 
 ### 4. Harness compatibility matters as much as model capability

@@ -1,13 +1,13 @@
 # Benchmark Report
 
-Generated at: 2026-06-14T15:19:15+00:00
+Generated at: 2026-06-14T20:32:30+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
 
 - `completed`: 35
 - `completed_with_errors`: 2
-- `failed`: 8
+- `failed`: 9
 - `timeout`: 1
 - `not_run`: 11
 
@@ -58,12 +58,13 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 - `mimo_v2_5_pro` -> `openrouter/xiaomi/mimo-v2.5-pro`: Xiaomi's flagship coding model. $1/$3 per M, 1M context, tool calling supported. Brand-new family we haven't tested — competitive pricing with mid-tier Chinese models like Kimi and GLM.
 - `glm_5` -> `openrouter/z-ai/glm-5`: Chosen as the latest/highest GLM variant listed by OpenRouter locally; this replaces the local GLM test. Skipped by default because it completed with errors in the previous benchmark pass.
 - `qwen3_6_plus` -> `openrouter/qwen/qwen3.6-plus`: Added from OpenRouter cloud availability; chose the non-preview Qwen 3.6 Plus variant exposed locally. Skipped by default because it completed with errors in the previous benchmark pass.
+- `qwen3_7_max` -> `openrouter/qwen/qwen3.7-max`: Alibaba Qwen3.7 flagship on OpenRouter (May 2026). Reasoning model with 1M context, agentic/coding focus, prompt caching. Input $2.50/M, output $7.50/M. Tests whether Qwen's latest generation fixes the RubyLLM API issues seen in Qwen 3.6 Plus (71/100 Tier B).
 - `qwen3_5_397b_cloud` -> `openrouter/qwen/qwen3.5-397b-a17b`: Added as the OpenRouter cloud Qwen 3.5 flagship under the requested qwen3.5:397b-cloud benchmark slot. Skipped by default because it stalled after completing validation steps and never emitted a terminal stop.
 - `gemma4_31b_cloud` -> `openrouter/google/gemma-4-31b-it`: Google Gemma 4 31B IT BF16 served via Ollama's hosted cloud (https://ollama.com). Originally added to bypass the local llama.cpp parser bugs that caused infinite repetition loops on local Q3/Q8 GGUFs. Curl tests confirm the model itself works correctly for tool calling. **However, opencode benchmark runs hit HTTP 504 Gateway Timeout consistently around 20-24K total tokens of conversation history** — Cloudflare edge appears to enforce a ~100s per-request limit which 20K+ token prefill exceeds. Tried maxRetries:5 (didn't help — failures are consistent, not transient). Set limit.context:16384 to force opencode history trimming below the wall. Skipped by default until either Ollama Cloud raises the timeout or we test via Google's native Gemini API. Requires OLLAMA_API_KEY env var with Ollama Cloud subscription.
 - `llama4_scout_cloud` -> `openrouter/meta-llama/llama-4-scout`: Added as the OpenRouter cloud Llama 4 Scout benchmark counterpart to the unusable local Scout path. Skipped by default because it does not currently resolve cleanly in this opencode build.
 - `nemotron_3_super_cloud` -> `openrouter/nvidia/nemotron-3-super-120b-a12b`: Added as the closest OpenRouter cloud Nemotron line available after local Nemotron Cascade 2 proved unusable in this harness. Skipped by default because it still needs a clean first benchmark run.
 - `minimax_m2_7` -> `openrouter/minimax/minimax-m2.7`: Chosen as the largest/latest MiniMax variant listed by OpenRouter locally.
-- `minimax_m3` -> `openrouter/minimax/minimax-m3`: MiniMax M3 on OpenRouter. Direct successor to MiniMax M2.7. 1M context, tool calling supported, $0.30/M input and $1.20/M output. Tests whether the new MiniMax release fixes M2.7's RubyLLM batch-form hallucination and becomes a viable low-cost Rails/RubyLLM builder.
+- `minimax_m3` -> `openrouter/minimax/minimax-m3`: MiniMax M3 on OpenRouter. Direct successor to MiniMax M2.7. 1M context, tool calling supported, $0.30/M input and $1.20/M output. Tests whether the new MiniMax release fixes M2.7's RubyLLM batch-form hallucination and becomes a viable low-cost Rails/RubyLLM builder. Cloud-only: a GGUF exists (unsloth/MiniMax-M3-GGUF, ollama.com/library/minimax-m3) but as a 230B-total MoE it needs ~195 GB (Q3) / ~264 GB (Q4) resident, which exceeds both local profiles (RTX 5090 32 GB; Strix Halo ≤128 GB) — see docs/llama-swap.md.
 - `deepseek_v3_2` -> `openrouter/deepseek/deepseek-v3.2`: Latest DeepSeek model on OpenRouter. Input $0.26/M, output $0.38/M.
 - `deepseek_v4_flash` -> `openrouter/deepseek/deepseek-v4-flash`: DeepSeek V4 Flash — budget-tier variant at $0.14/M input, $0.28/M output (cheaper than V3.2). 1M context. Tool calling supported via OpenRouter. Test whether V4 fixes the RubyLLM API hallucination that made V3.2 Tier 3. Phase 2 disabled: DeepSeek's thinking-mode API rejects replayed `reasoning_content` tokens from opencode's session continuation.
 - `deepseek_v4_pro` -> `openrouter/deepseek/deepseek-v4-pro`: DeepSeek V4 Pro — premium variant at $1.74/M input, $3.48/M output. 1M context. Uses thinking mode by default which requires the client to echo reasoning_content on subsequent turns (opencode doesn't). reasoning=false tells opencode to treat it as a non-reasoning model so it won't extract/pass back reasoning_content.
@@ -120,6 +121,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | Xiaomi MiMo V2.5 Pro | openrouter | - | completed | 644.40 | 80447 | 288.04 | yes | 1554 | Rails app, tests, README, and container files detected. |
 | GLM 5 | openrouter | - | completed | 1033.99 | 59378 | 400.01 | yes | 1680 | Rails app, tests, README, and container files detected. |
 | Qwen 3.6 Plus | openrouter | - | completed | 1031.84 | 88940 | 182.91 | yes | 744 | Rails app, tests, README, and container files detected. |
+| Qwen3.7 Max | openrouter | - | failed | 767.37 | 44664 | 111.27 | yes | 1926 | Exit code -15. Rails app, tests, README, and container files detected. |
 | Qwen 3.5 397B Cloud | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | Gemma 4 31B Cloud | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | Llama 4 Scout Cloud | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
