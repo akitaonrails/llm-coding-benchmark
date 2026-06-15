@@ -70,7 +70,7 @@ Earlier rounds of this benchmark made contradictory calls about the RubyLLM API.
 
 ---
 
-## Final Rankings (32 scored models)
+## Final Rankings (33 scored models)
 
 All models scored against the same rubric. Note the "RubyLLM OK" column is binary (API correct vs hallucinated) and is separate from the overall score — a model can have correct RubyLLM code and still score low if deliverables or tests are missing.
 
@@ -103,15 +103,18 @@ All models scored against the same rubric. Note the "RubyLLM OK" column is binar
 | 25 | GLM 4.7 Flash bf16 | 52 | C | ✅ | Local (AMD) | failed | free |
 | 26 | GLM 5.1 (Z.ai) | 46 | C | ❌ | Z.ai | 22m | subscription |
 | 27 | DeepSeek V3.2 | 43 | C | ❌ | OpenRouter | 60m | ~$0.07 |
-| 28 | MiniMax M2.7 | 41 | C | ❌ | OpenRouter | 14m | ~$0.30 |
-| 29 | Qwen 3.5 122B | 37 | D | ❌ | Local (AMD) | 43m | free |
-| 30 | Qwen 3 Coder Next | 32 | D | ❌ | Local (AMD) | 17m | free |
-| 31 | Grok 4.20 | 25 | D | ❌ | OpenRouter | 8m | ~$0.60 |
-| 32 | GPT OSS 20B | 11 | D | ❌ | Local (AMD) | failed | free |
+| 28 | Qwen 3.5 397B A17B (base) | 42 | C | ❌ | OpenRouter | 15m | ~$0.58 |
+| 29 | MiniMax M2.7 | 41 | C | ❌ | OpenRouter | 14m | ~$0.30 |
+| 30 | Qwen 3.5 122B | 37 | D | ❌ | Local (AMD) | 43m | free |
+| 31 | Qwen 3 Coder Next | 32 | D | ❌ | Local (AMD) | 17m | free |
+| 32 | Grok 4.20 | 25 | D | ❌ | OpenRouter | 8m | ~$0.60 |
+| 33 | GPT OSS 20B | 11 | D | ❌ | Local (AMD) | failed | free |
 
 **Note on score adjustment**: The original audit rubric wrongly penalized `RUBY_VERSION=4.0.2` as a fake placeholder. It's actually the current stable Ruby (released 2026-03-17). Scores for every model except Gemini 3.1 Pro have been adjusted +3 to remove that deduction. Gemini used Ruby 3.4.1 (older LTS, valid) so its score is unchanged. Relative ordering is preserved; only **MiniMax M2.7 crossed a tier boundary (D → C)** due to this correction.
 
 ### What changed from the previous ranking
+
+- **Qwen 3.5 397B A17B (base)** (added 2026-06-15, scored 42/100, Tier C, #28): the raw base behind Nex-N2-Pro, run as a controlled comparison. Hallucinates the RubyLLM API (`chat.system`/`chat.user`/`response.text`, crashes at runtime), built in a nested `chat-app/` subdir, and its tests mock the hallucinated API. Confirms the base lacks the API correctness that Nex AGI's fine-tune adds (83/A) — see Cross-Cutting Finding #6.
 
 - **Nex-N2-Pro** (added 2026-06-15, scored 83/100, Tier A, #10): Nex AGI's free, open-weight agentic model on the Qwen3.5-397B-A17B base. The notable result — it is the **first Qwen-family model in the benchmark to use the real RubyLLM API with zero hallucinations** (the lineage otherwise reliably invents the gem's API), and it ties Claude Opus 4.6 at 83 despite being free. Real `RubyLLM.chat(provider:, assume_model_exists:)` + `ask` + `content`, latest-Sonnet floating alias, excellent error handling (explicit preflight), real Turbo Streams. Held to the bottom of Tier A by two shortcuts: multi-turn via transcript-flattening (no `add_message`/`with_instructions`, RubyLLM reduced to single-shot) and client-carried hidden-field persistence (stateless but lost on reload, tamperable).
 
@@ -441,7 +444,7 @@ Uses `RubyLLM::Chat.new(model:, provider:)` + `@llm_chat.ask(content, &)` + `res
 
 ---
 
-## Tier C — major rework needed (6 models)
+## Tier C — major rework needed (7 models)
 
 ### 23. Step 3.5 Flash (56/100)
 
@@ -477,7 +480,24 @@ Uses `RubyLLM::Client.new` + `client.chat(messages: [...])` — **both hallucina
 
 ---
 
-### 28. MiniMax M2.7 (41/100) — moved from Tier D after Ruby 4.0.2 correction
+### 28. Qwen 3.5 397B A17B (base) (42/100) — the raw base behind Nex-N2-Pro, and it hallucinates
+
+This is the **un-fine-tuned Qwen3.5-397B-A17B base** (OpenRouter `qwen/qwen3.5-397b-a17b`) — the exact architecture Nex AGI fine-tuned into Nex-N2-Pro (#10, 83/A). Run head-to-head, it is a clean natural experiment, and the base **fails the one thing that matters**: it hallucinates the RubyLLM API in `chat-app/app/services/chat_service.rb`:
+
+```ruby
+chat = RubyLLM.chat(model: "anthropic/claude-sonnet-4")
+chat.system(SYSTEM_PROMPT)        # hallucinated — no such method (real: with_instructions)
+response = chat.user(@message)     # hallucinated — no such method (real: ask)
+response.respond_to?(:text) ? response.text : response.to_s  # hallucinated — should be .content
+```
+
+`chat.system` raises `NoMethodError` on the first call — Tier 3, dead at runtime. Compounding failures: it built the whole app in a **nested `chat-app/` subdirectory** (the brief explicitly forbids this; `completed_with_errors`), and its tests **mock the hallucinated API** (`FakeChat#system`/`#user`), so the suite passes green while the real code is broken — worse than no tests. Real Turbo Streams, Stimulus, and a full Gemfile/Dockerfile/compose keep it out of Tier D, but the hallucination + nesting cap it at Tier C.
+
+**Why it matters**: see Cross-Cutting Finding "Agentic fine-tuning *can* instill library-API correctness the base lacks" below. Base = 42/C; Nex-N2-Pro fine-tune = 83/A — a 41-point swing from identical architecture.
+
+---
+
+### 29. MiniMax M2.7 (41/100) — moved from Tier D after Ruby 4.0.2 correction
 
 Hallucinated `RubyLLM.chat(model:, messages: [...])` batch signature — crashes on first call (`ArgumentError: unknown keyword: messages`). Best architectural decomposition of any Tier C/D model (service + form object + POROs + partials), wrapped around a corpse.
 
@@ -485,15 +505,15 @@ Tests mock the hallucinated API so they pass green against a bug.
 
 ## Tier D — throw away (4 models)
 
-### 29. Qwen 3.5 122B (37/100) — local model
+### 30. Qwen 3.5 122B (37/100) — local model
 
 Doesn't use `ruby_llm` at all. Uses `Openrouter::Client.new(api_key: @api_key)` — wrong casing for the real `OpenRouter::Client` (exists in `openrouter` gem but requires a configuration object, not a bare `api_key:` kwarg). Plus calls `client.chat(model:, messages:)` — real gem method is `completion`, not `chat`.
 
-### 30. Qwen 3 Coder Next (32/100) — local model
+### 31. Qwen 3 Coder Next (32/100) — local model
 
 Invented `RubyLLM::Client.new(api_key:, model:)` + `client.chat(messages: [...])` + OpenAI-shaped `response.choices.first.message.content` — pure hallucination. Also commits a placeholder `.env` file to the repo.
 
-### 31. Grok 4.20 (25/100)
+### 32. Grok 4.20 (25/100)
 
 Bypasses RubyLLM with `ruby-openai`, but the gem is in `:development, :test` group with `require: false` — production `NameError` on first request. Gemfile missing turbo-rails, stimulus-rails, bundle-audit.
 
@@ -501,7 +521,7 @@ Stimulus controller JavaScript is **uncompilable** (`class ChatFormController < 
 
 At ~$0.60/run, Grok is the most expensive Tier D model.
 
-### 32. GPT OSS 20B (11/100) — local model
+### 33. GPT OSS 20B (11/100) — local model
 
 Benchmark low. Stock Rails README template (no customization), nested `app/app/` directory (violates "stay in workspace root" rule), **no tests folder at all**, no docker-compose, Gemfile has `gem "tailwindcss"` (CLI gem, not the Rails binding) with brakeman commented out.
 
@@ -547,7 +567,18 @@ Local provider probing on `192.168.0.90` is documented in `docs/local-provider-s
 - **Cheap near-miss**: MiniMax M3 (Tier B, ~$0.10) has correct RubyLLM and good architecture, but phase 2 DNF + original `.env` secret leak mean it needs cleanup before use.
 - **Premium**: Opus 4.8/4.7 (Tier A, ~$1.10), Claude Fable 5 (Tier A, ~$11 est.), GPT 5.4 xHigh (Tier A, ~$16)
 
-For production use where code correctness matters, **Kimi K2.6 at ~$0.30/run is the cheapest Tier A** — 3-50× cheaper than the other Tier A models at comparable quality. If budget is extremely tight, **DeepSeek V4 Flash at ~$0.01/run** is Tier B with one known bug (model slug needs `anthropic/` prefix) that's a 30-second fix.
+**Nex-N2-Pro is now the cheapest Tier A — it's free** (open-weight, served on OpenRouter's `:free` endpoint) at 83/100, tying Claude Opus 4.6. The caveat is the free tier's aggressive rate limits (our run completed, but a stall is possible). For paid reliability, **Kimi K2.6 at ~$0.30/run** remains the cheapest dependable Tier A — 3-50× cheaper than the other paid Tier A models. If budget is extremely tight, **DeepSeek V4 Flash at ~$0.01/run** is Tier B with one known bug (model slug needs `anthropic/` prefix) that's a 30-second fix.
+
+### 6. Agentic fine-tuning *can* instill library-API correctness the base lacks
+
+The single most interesting result of this batch comes from running Nex-N2-Pro and its raw base head-to-head:
+
+| Model | RubyLLM API | Score | Tier |
+|---|---|---|---|
+| Qwen 3.5 397B A17B (raw base) | hallucinates `chat.system`/`chat.user`/`response.text` → crashes | 42 | C |
+| Nex-N2-Pro (Nex AGI agentic fine-tune of that base) | real `RubyLLM.chat`/`ask`/`response.content` | 83 | A |
+
+**A 41-point swing from identical architecture.** The base exhibits the exact Qwen3.5-family hallucination the whole lineage shares; Nex AGI's agentic fine-tune is what corrected it. This is the **inverse** of this benchmark's other headline (`success_report.nvidia.md`: "Claude reasoning *distillation* does NOT transfer library API knowledge"). The contrast suggests the mechanism matters: distilling reasoning traces doesn't carry API facts, but **task-targeted agentic fine-tuning can** — presumably because the fine-tune corpus contains real tool/library call sequences, not just reasoning. A model's RubyLLM correctness is therefore a property of its post-training, not just its base architecture or parameter count.
 
 ---
 

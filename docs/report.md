@@ -1,15 +1,15 @@
 # Benchmark Report
 
-Generated at: 2026-06-15T18:31:28+00:00
+Generated at: 2026-06-15T18:56:16+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
 
 - `completed`: 38
-- `completed_with_errors`: 2
+- `completed_with_errors`: 3
 - `failed`: 8
 - `timeout`: 1
-- `not_run`: 11
+- `not_run`: 10
 
 ## Runner
 
@@ -123,7 +123,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | Xiaomi MiMo V2.5 Pro | openrouter | - | completed | 644.40 | 80447 | 288.04 | yes | 1554 | Rails app, tests, README, and container files detected. |
 | GLM 5 | openrouter | - | completed | 1033.99 | 59378 | 400.01 | yes | 1680 | Rails app, tests, README, and container files detected. |
 | Qwen 3.6 Plus | openrouter | - | completed | 1031.84 | 88940 | 182.91 | yes | 744 | Rails app, tests, README, and container files detected. |
-| Qwen 3.5 397B Cloud | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
+| Qwen 3.5 397B Cloud | openrouter | - | completed_with_errors | 920.18 | 96659 | 337.43 | no | 169 | Generated files do not resemble the requested Rails project. |
 | Gemma 4 31B Cloud | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | Llama 4 Scout Cloud | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | Nemotron 3 Super Cloud | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |

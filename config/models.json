@@ -429,7 +429,7 @@
       "label": "Qwen 3.5 397B Cloud",
       "provider": "openrouter",
       "skip_by_default": true,
-      "selection_reason": "Added as the OpenRouter cloud Qwen 3.5 flagship under the requested qwen3.5:397b-cloud benchmark slot. Skipped by default because it stalled after completing validation steps and never emitted a terminal stop."
+      "selection_reason": "The raw OpenRouter Qwen 3.5 397B A17B base — the architecture Nex AGI fine-tuned into Nex-N2-Pro. Force-run 2026-06-15 as a controlled base-vs-fine-tune comparison: completed_with_errors at 42/100 Tier C (hallucinates the RubyLLM API via chat.system/chat.user/response.text, builds in a nested chat-app/ subdir, tests mock the hallucinated API). Kept skip_by_default because it's a broken Tier C reference run, not a routine target. See Cross-Cutting Finding #6 in docs/success_report.md."
     },
     {
       "slug": "gemma4_31b_cloud",
