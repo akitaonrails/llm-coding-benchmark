@@ -1,11 +1,11 @@
 # Benchmark Report
 
-Generated at: 2026-06-15T18:56:16+00:00
+Generated at: 2026-06-15T20:15:58+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
 
-- `completed`: 38
+- `completed`: 39
 - `completed_with_errors`: 3
 - `failed`: 8
 - `timeout`: 1
@@ -58,7 +58,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 - `mimo_v2_5_pro` -> `openrouter/xiaomi/mimo-v2.5-pro`: Xiaomi's flagship coding model. $1/$3 per M, 1M context, tool calling supported. Brand-new family we haven't tested — competitive pricing with mid-tier Chinese models like Kimi and GLM.
 - `glm_5` -> `openrouter/z-ai/glm-5`: Chosen as the latest/highest GLM variant listed by OpenRouter locally; this replaces the local GLM test. Skipped by default because it completed with errors in the previous benchmark pass.
 - `qwen3_6_plus` -> `openrouter/qwen/qwen3.6-plus`: Added from OpenRouter cloud availability; chose the non-preview Qwen 3.6 Plus variant exposed locally. Skipped by default because it completed with errors in the previous benchmark pass.
-- `qwen3_5_397b_cloud` -> `openrouter/qwen/qwen3.5-397b-a17b`: Added as the OpenRouter cloud Qwen 3.5 flagship under the requested qwen3.5:397b-cloud benchmark slot. Skipped by default because it stalled after completing validation steps and never emitted a terminal stop.
+- `qwen3_5_397b_cloud` -> `openrouter/qwen/qwen3.5-397b-a17b`: The raw OpenRouter Qwen 3.5 397B A17B base — the architecture Nex AGI fine-tuned into Nex-N2-Pro. Force-run 2026-06-15 as a controlled base-vs-fine-tune comparison: completed_with_errors at 42/100 Tier C (hallucinates the RubyLLM API via chat.system/chat.user/response.text, builds in a nested chat-app/ subdir, tests mock the hallucinated API). Kept skip_by_default because it's a broken Tier C reference run, not a routine target. See Cross-Cutting Finding #6 in docs/success_report.md.
 - `gemma4_31b_cloud` -> `openrouter/google/gemma-4-31b-it`: Google Gemma 4 31B IT BF16 served via Ollama's hosted cloud (https://ollama.com). Originally added to bypass the local llama.cpp parser bugs that caused infinite repetition loops on local Q3/Q8 GGUFs. Curl tests confirm the model itself works correctly for tool calling. **However, opencode benchmark runs hit HTTP 504 Gateway Timeout consistently around 20-24K total tokens of conversation history** — Cloudflare edge appears to enforce a ~100s per-request limit which 20K+ token prefill exceeds. Tried maxRetries:5 (didn't help — failures are consistent, not transient). Set limit.context:16384 to force opencode history trimming below the wall. Skipped by default until either Ollama Cloud raises the timeout or we test via Google's native Gemini API. Requires OLLAMA_API_KEY env var with Ollama Cloud subscription.
 - `llama4_scout_cloud` -> `openrouter/meta-llama/llama-4-scout`: Added as the OpenRouter cloud Llama 4 Scout benchmark counterpart to the unusable local Scout path. Skipped by default because it does not currently resolve cleanly in this opencode build.
 - `nemotron_3_super_cloud` -> `openrouter/nvidia/nemotron-3-super-120b-a12b`: Added as the closest OpenRouter cloud Nemotron line available after local Nemotron Cascade 2 proved unusable in this harness. Skipped by default because it still needs a clean first benchmark run.
@@ -68,6 +68,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 - `deepseek_v4_flash` -> `openrouter/deepseek/deepseek-v4-flash`: DeepSeek V4 Flash — budget-tier variant at $0.14/M input, $0.28/M output (cheaper than V3.2). 1M context. Tool calling supported via OpenRouter. Test whether V4 fixes the RubyLLM API hallucination that made V3.2 Tier 3. Phase 2 disabled: DeepSeek's thinking-mode API rejects replayed `reasoning_content` tokens from opencode's session continuation.
 - `deepseek_v4_pro` -> `openrouter/deepseek/deepseek-v4-pro`: DeepSeek V4 Pro — premium variant at $1.74/M input, $3.48/M output. 1M context. Uses thinking mode by default which requires the client to echo reasoning_content on subsequent turns (opencode doesn't). reasoning=false tells opencode to treat it as a non-reasoning model so it won't extract/pass back reasoning_content.
 - `step_3_5_flash` -> `openrouter/stepfun/step-3.5-flash`: StepFun Step 3.5 Flash on OpenRouter. Input $0.10/M, output $0.30/M.
+- `step_3_7_flash` -> `openrouter/stepfun/step-3.7-flash`: StepFun Step 3.7 Flash on OpenRouter (snapshot step-3.7-flash-20260528). Added 2026-06-15 per community Issue #7. 256K context, tool calling supported, $0.20/M input and $1.15/M output. Tests whether 3.7 fixes Step 3.5's ruby-openai bypass (3.5 scored 56/C ⚠️ bypass for using the wrong gem instead of ruby_llm).
 - `claude_sonnet_4_6` -> `openrouter/anthropic/claude-sonnet-4.6`: Anthropic Claude Sonnet 4.6 on OpenRouter. Input $3.00/M, output $15.00/M.
 - `gemini_3_1_pro` -> `openrouter/google/gemini-3.1-pro-preview`: Latest Google Gemini model with enhanced SWE performance and agentic reliability. Input $2.00/M, output $12.00/M.
 - `gemini_3_5_flash` -> `openrouter/google/gemini-3.5-flash`: Google Gemini 3.5 Flash on OpenRouter (GA snapshot gemini-3.5-flash-20260519). Added 2026-06-15 to run + score in-house after community PR #6 submitted pre-scored results without the gitignored project code. Input $1.50/M, output $9.00/M, 1M context. Tests whether a Flash-tier model can match the 3.1 Pro RubyLLM correctness baseline.
@@ -133,6 +134,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | DeepSeek V4 Flash | openrouter | - | completed | 155.12 | 51929 | 334.77 | yes | 1704 | Rails app, tests, README, and container files detected. |
 | DeepSeek V4 Pro | openrouter | - | failed | 1359.25 | 61170 | 45.00 | partial | 1972 | Some expected benchmark artifacts exist, but the scaffold looks incomplete. |
 | Step 3.5 Flash | openrouter | - | completed | 2273.00 | 156267 | 242.11 | yes | 1606 | Rails app, tests, README, and container files detected. |
+| Step 3.7 Flash | openrouter | - | completed | 1623.79 | 181572 | 771.20 | yes | 104 | Rails app, tests, README, and container files detected. |
 | Claude Sonnet 4.6 | openrouter | - | completed | 966.85 | 127067 | 532.26 | yes | 2042 | Rails app, tests, README, and container files detected. |
 | Gemini 3.1 Pro | openrouter | - | completed | 811.00 | 104034 | 508.18 | yes | 138 | Rails app, tests, README, and container files detected. |
 | Gemini 3.5 Flash | openrouter | - | completed | 1079.70 | 165172 | 442.50 | yes | 1983 | Rails app, tests, README, and container files detected. |
