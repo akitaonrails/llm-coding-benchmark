@@ -592,6 +592,13 @@
       "label": "Qwen3.7 Max",
       "provider": "openrouter",
       "selection_reason": "Alibaba Qwen3.7 Max on OpenRouter. Added 2026-06-15 to run + score in-house after community PR #4 submitted pre-scored results (82/A on a phase-2 DNF) without the gitignored project code. Tests whether the flagship Qwen Max tier achieves correct RubyLLM API usage and completes phase 2 validation under our harness."
+    },
+    {
+      "slug": "nex_n2_pro",
+      "id": "openrouter/nex-agi/nex-n2-pro:free",
+      "label": "Nex-N2-Pro",
+      "provider": "openrouter",
+      "selection_reason": "Nex AGI Nex-N2-Pro on OpenRouter (free tier). Agentic MoE, 397B total / 17B active, built on the Qwen3.5-397B-A17B architecture with 'Adaptive Thinking'; 262K context, supports tool calling. Added 2026-06-15. Vendor claims rival GPT-5.5/Opus 4.7 on coding (SWE-Bench Verified ~80.8). Tests whether Nex AGI's agentic fine-tune of the Qwen3.5 base fixes the RubyLLM API hallucination that the Qwen3.5 family typically exhibits. Caveat: the :free endpoint has aggressive rate limits that may stall a long agentic run."
     }
   ]
 }
