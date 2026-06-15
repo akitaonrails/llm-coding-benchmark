@@ -1,11 +1,11 @@
 # Benchmark Report
 
-Generated at: 2026-06-15T14:08:19+00:00
+Generated at: 2026-06-15T18:31:28+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
 
-- `completed`: 37
+- `completed`: 38
 - `completed_with_errors`: 2
 - `failed`: 8
 - `timeout`: 1
@@ -80,6 +80,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 - `qwen3_5_27b_sushi_coder` -> `ollama/qwen/qwen3.5-27b-sushi-coder`: Qwen 3.5 27B fine-tuned via reinforcement learning on Codeforces problems (bigatuna/Qwen3.5-27b-Sushi-Coder-RL). Q4_K_M ~15 GB. Tests whether RL coding fine-tuning transfers correct RubyLLM API usage — direct comparison with the Claude reasoning distillation (qwen3.5:27b-claude) and the general qwen3.5:35b.
 - `gemma4_31b_cloud` -> `ollama-cloud/gemma4-31b`: Google Gemma 4 31B IT BF16 served via Ollama's hosted cloud (https://ollama.com). Bypasses the local llama.cpp parser bugs that caused infinite repetition loops on local Q3/Q8 GGUFs. Tests whether Gemma 4 is actually capable for agentic tool calling when served by Google's full-precision infrastructure rather than crippled by quantization + parser regressions. Requires OLLAMA_API_KEY env var with an Ollama Cloud subscription.
 - `qwen3_7_max` -> `openrouter/qwen/qwen3.7-max`: Alibaba Qwen3.7 Max on OpenRouter. Added 2026-06-15 to run + score in-house after community PR #4 submitted pre-scored results (82/A on a phase-2 DNF) without the gitignored project code. Tests whether the flagship Qwen Max tier achieves correct RubyLLM API usage and completes phase 2 validation under our harness.
+- `nex_n2_pro` -> `openrouter/nex-agi/nex-n2-pro:free`: Nex AGI Nex-N2-Pro on OpenRouter (free tier). Agentic MoE, 397B total / 17B active, built on the Qwen3.5-397B-A17B architecture with 'Adaptive Thinking'; 262K context, supports tool calling. Added 2026-06-15. Vendor claims rival GPT-5.5/Opus 4.7 on coding (SWE-Bench Verified ~80.8). Tests whether Nex AGI's agentic fine-tune of the Qwen3.5 base fixes the RubyLLM API hallucination that the Qwen3.5 family typically exhibits. Caveat: the :free endpoint has aggressive rate limits that may stall a long agentic run.
 
 ## Results
 
@@ -144,6 +145,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | Qwen 3.5 27B Sushi Coder RL | ollama | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | Gemma 4 31B (Ollama Cloud) | ollama-cloud | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | Qwen3.7 Max | openrouter | - | completed | 1130.81 | 142463 | 500.92 | yes | 1916 | Rails app, tests, README, and container files detected. |
+| Nex-N2-Pro | openrouter | - | completed | 1490.98 | 145823 | 559.42 | yes | 1923 | Rails app, tests, README, and container files detected. |
 
 ## Per-Run Paths
 
