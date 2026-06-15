@@ -503,6 +503,13 @@
       "selection_reason": "StepFun Step 3.5 Flash on OpenRouter. Input $0.10/M, output $0.30/M."
     },
     {
+      "slug": "step_3_7_flash",
+      "id": "openrouter/stepfun/step-3.7-flash",
+      "label": "Step 3.7 Flash",
+      "provider": "openrouter",
+      "selection_reason": "StepFun Step 3.7 Flash on OpenRouter (snapshot step-3.7-flash-20260528). Added 2026-06-15 per community Issue #7. 256K context, tool calling supported, $0.20/M input and $1.15/M output. Tests whether 3.7 fixes Step 3.5's ruby-openai bypass (3.5 scored 56/C ⚠️ bypass for using the wrong gem instead of ruby_llm)."
+    },
+    {
       "slug": "claude_sonnet_4_6",
       "id": "openrouter/anthropic/claude-sonnet-4.6",
       "label": "Claude Sonnet 4.6",
