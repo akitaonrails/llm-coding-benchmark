@@ -86,7 +86,7 @@ All models scored against the same rubric. Note the "RubyLLM OK" column is binar
 | 7 | GLM 5.2 (Z.ai) | 87 | A | ✅ | Z.ai | 43m | subscription |
 | 9 | Kimi K2.7 Code | 86 | A | ✅ | OpenRouter | 22m | ~$0.30 |
 | 10 | Claude Opus 4.6 | 83 | A | ✅ | OpenRouter | 16m | ~$1.10 |
-| 11 | Gemini 3.1 Pro | 82 | A | ✅ | OpenRouter | 14m | ~$0.40 |
+| 11 | Gemini 3.1 Pro | 79 | B | ✅ | OpenRouter | 14m | ~$0.40 |
 | 12 | Claude Sonnet 4.6 | 78 | B | ✅ | OpenRouter | 16m | ~$0.63 |
 | 12 | DeepSeek V4 Flash | 78 | B | ✅ | OpenRouter | 3m | ~$0.01 |
 | 12 | MiniMax M3 | 78 | B | ✅ | OpenRouter | 53m (phase 2 DNF) | ~$0.10 |
@@ -112,7 +112,7 @@ All models scored against the same rubric. Note the "RubyLLM OK" column is binar
 
 ### What changed from the previous ranking
 
-- **Gemini 3.5 Flash** (added 2026-06-15, scored 93/100, Tier A, #6): the benchmark's biggest surprise — a Flash-tier model is now the #6 model overall and the best non-Anthropic/non-OpenAI result, 11 points clear of Gemini 3.1 Pro (82). Textbook RubyLLM idiom (`chat(model:, provider: :openrouter, assume_model_exists: true)` + `with_instructions` + `add_message` replay + `complete` + `content`, latest sonnet-4.6), the strongest test suite of the cohort, real Turbo Streams, and file-backed persistence (capped at 50 messages, system message preserved) that survives restart. Run in-house after closing community PR #6 (which under-claimed 86 and whose committed excerpt showed an older model pin). Score validated by a blind A/B cross-audit (independent judge, projects anonymized) that scored it 91 and confirmed it clearly outranks Gemini 3.1 Pro. Held below the frontier-lab models by file-store concurrency/ephemerality gaps and no missing-key preflight.
+- **Gemini 3.5 Flash** (added 2026-06-15, scored 93/100, Tier A, #6): the benchmark's biggest surprise — a Flash-tier model is now the #6 model overall and the best non-Anthropic/non-OpenAI result, 14 points clear of Gemini 3.1 Pro (79, re-tiered to B). Textbook RubyLLM idiom (`chat(model:, provider: :openrouter, assume_model_exists: true)` + `with_instructions` + `add_message` replay + `complete` + `content`, latest sonnet-4.6), the strongest test suite of the cohort, real Turbo Streams, and file-backed persistence (capped at 50 messages, system message preserved) that survives restart. Run in-house after closing community PR #6 (which under-claimed 86 and whose committed excerpt showed an older model pin). Score validated by a blind A/B cross-audit (independent judge, projects anonymized) that scored it 91 and confirmed it clearly outranks Gemini 3.1 Pro. Held below the frontier-lab models by file-store concurrency/ephemerality gaps and no missing-key preflight.
 - **Qwen3.7 Max** (added 2026-06-15, scored 78/100, Tier B, #12): run in-house after closing community PR #4, which claimed 82/A on a phase-2 DNF. Under our harness it completed both phases (the DNF was the author's environment), but scored 78/B not 82/A: it pins the non-latest `claude-sonnet-4`, skips the required Turbo Streams entirely (raw SSE via `ActionController::Live`), and uses an unbounded class-level `@conversations` hash (process-local, memory-leaking). RubyLLM API itself is correct. Ties the existing 78/B cluster (Sonnet 4.6, DeepSeek V4 Flash, MiniMax M3).
 - **Kimi K2.7 Code** (added 2026-06-13, scored 86/100, Tier A, #9): exposed on OpenRouter as `moonshotai/kimi-k2.7-code`. Real RubyLLM throughout (`RubyLLM.chat` + `add_message` full-history-replay + `complete` + `response.content`), verified against gem source 1.16.0; session-cookie persistence, error-path-tested, real Turbo Streams + 3 Stimulus controllers. **Methodology note**: the structural scanner flagged six `chat.user`/`chat.assistant` "hallucinations" that were all false positives — they resolve to the app's own `Chat`/`Message` domain methods, not RubyLLM's DSL. Hand-reading confirmed genuine Tier 1 API; trusting the scanner would have wrongly tanked it like GLM 5.1. Lands just below the K2.6/GLM 5.2 pair (87) because it ships no `with_instructions` system prompt (its main regression from K2.6), no message cap on the cookie, and embeds LLM I/O in the session value-object model rather than a service.
 - **GLM 5.2** (added 2026-06-14): the benchmark's biggest single-version jump — 46→87, Tier C→A, #21→#6. GLM 5.1's fatal hallucination (invented `chat.user`/`chat.assistant`, multi-turn crash) is gone; 5.2 replays history with the real `add_message` and verifies clean against gem source 1.16.0. Cleanest dependency-injection design in the cohort. Held to a tie with Kimi K2.6 (and ranked just behind it) only by an uncapped process-local singleton store — the persistence axis again. Slowest Tier A run at 43m on the throttled Z.ai coding endpoint.
@@ -125,7 +125,7 @@ Several earlier models also moved significantly after re-audit with the correcte
 
 - **Kimi K2.5** (was Tier 3 → now Tier B): `chat.complete(&block)` and `chat.add_message(role:, content:)` are both real RubyLLM API, not hallucinations as previously claimed. Drops to B solely because tests don't exercise the LLM path and class-var storage is fragile.
 - **Kimi K2.6** (was Tier 2 → now Tier A): with the kwargs "bug" revealed as non-existent, K2.6 is the only Chinese model whose tests actually mock RubyLLM with a correctly-signatured FakeChat AND rescues `RubyLLM::Error` AND uses a session-cookie store that survives restarts.
-- **Gemini 3.1 Pro** (was Tier 3 → now Tier A): `Chat.new` is real, `add_message` kwargs form is valid, and Gemini has proper cache-backed server-side persistence plus real Turbo Streams. Uses Ruby 3.4.1 (older LTS, valid) rather than 4.0.2 — both are production-viable.
+- **Gemini 3.1 Pro** (was Tier 3 → Tier A → re-tiered to Tier B at 79 on 2026-06-15): `Chat.new` is real, `add_message` kwargs form is valid, and Gemini has proper cache-backed server-side persistence plus real Turbo Streams. Uses Ruby 3.4.1 (older LTS, valid) rather than 4.0.2 — both are production-viable. The later re-audit dropped it below the A/B line for the missing `with_instructions` system prompt and stale `claude-3.7-sonnet` pin (see its Tier B entry).
 - **GPT 5.4 xHigh** (was Tier 2 → now co-leader Tier A): the `add_message` kwargs form isn't a bug. Re-audit scored it 94/100, tying Opus 4.7 on correctness but losing on cost (~15× more expensive).
 - **MiMo V2.5 Pro** (was "Tier 1" overclaim → now Tier B at 64): still the cleanest RubyLLM integration from a non-Anthropic model, but demoted because tests never exercise the LLM path and the `ChatStore` Singleton is process-local (dies on Puma restart, not multi-worker safe).
 - **DeepSeek V4 Pro** (was "Tier 1 code" → now Tier B at 66): DNF harness run. Clean RubyLLM usage but ships stock Rails README template + no docker-compose + missing bundle-audit. Concrete gaps, not just harness incompatibility.
@@ -133,7 +133,7 @@ Several earlier models also moved significantly after re-audit with the correcte
 
 ---
 
-## Tier A — Ship as-is (11 models)
+## Tier A — Ship as-is (10 models)
 
 ### 1. Claude Opus 4.7 (97/100) — most test-disciplined
 
@@ -237,7 +237,7 @@ Notably, it read the installed gem source mid-run before writing any integration
 
 ### 6. Gemini 3.5 Flash (93/100) — best non-Anthropic/non-OpenAI result, a Flash that beats Pro
 
-Run + scored in-house (2026-06-15) after closing community PR #6, which submitted pre-scored results without the gitignored project code. The result is the benchmark's biggest surprise: a *Flash*-tier model lands at **93/100, #6 overall** — above GLM 5.2 / Kimi K2.6 (87) and **11 points above Gemini 3.1 Pro** (82), behind only Opus 4.7/4.8, GPT 5.4/5.5, and Fable 5. Newer generation (3.5 vs 3.1) beats the tier gap.
+Run + scored in-house (2026-06-15) after closing community PR #6, which submitted pre-scored results without the gitignored project code. The result is the benchmark's biggest surprise: a *Flash*-tier model lands at **93/100, #6 overall** — above GLM 5.2 / Kimi K2.6 (87) and **14 points above Gemini 3.1 Pro** (79), behind only Opus 4.7/4.8, GPT 5.4/5.5, and Fable 5. Newer generation (3.5 vs 3.1) beats the tier gap.
 
 The RubyLLM integration is textbook, verified against gem source 1.16.0 in `app/services/chat_service.rb`:
 
@@ -315,23 +315,23 @@ Correct RubyLLM usage (`RubyLLM.chat` + `chat.ask` + `response.content`). Histor
 
 **Biggest weakness**: no rescue around `chat_service.ask` in the controller. A transient OpenRouter 5xx produces a 500 page with stack trace. This is the difference between 4.6 (Tier A low) and 4.7 (Tier A high).
 
-### 11. Gemini 3.1 Pro (82/100) — cache-backed persistence, real Turbo Streams
+## Tier B — 1-2 hours to ship (11 models)
 
-Previously misclassified as Tier 3 for "invented `Chat.new` + `add_message`" — both are real API.
+### 11. Gemini 3.1 Pro (79/100) — real API, but stale model + no system prompt
 
-- `RubyLLM::Chat.new(model:, provider:, assume_model_exists:)` — real constructor
-- `chat.add_message(role:, content:)` — valid positional hash form
-- `chat.ask` + `response.content` — correct
-- Dockerfile uses Ruby 3.4.1 (older LTS, still production-viable)
-- Real Turbo Streams (not fetch+innerHTML): `remove empty-state → append user + assistant → replace form`
-- Rails.cache-backed session persistence with 2h expiry
-- FakeChat mocks match real API shape + error path tested
+**Re-audited 2026-06-15: 82 → 79, re-tiered A → B.** The RubyLLM usage is genuinely real (`RubyLLM::Chat.new(model:, provider:, assume_model_exists:)` + `add_message(role:, content:)` replay + `ask` + `response.content`), and it ships real Turbo Streams (`remove empty-state → append user + assistant → replace form`), a Stimulus scroll controller, partials, and `Rails.cache`-backed persistence with a 2h TTL. Tests use a correctly-signatured `FakeChat` (stubs `RubyLLM::Chat.new`) and cover the error path.
 
-**Killer weakness**: uses stale model string `claude-3.7-sonnet` instead of current Sonnet 4.x. One-character fix.
+The drop from the original 82 comes from deductions that pass weren't fully charged:
+
+- **No `with_instructions` system prompt at all** (−4 on RubyLLM correctness) — the assistant has no persona/guardrails despite the ChatGPT-like brief.
+- **Stale `anthropic/claude-3.7-sonnet`** pin instead of current Sonnet 4.x (−2).
+- **No initializer / no missing-key preflight** — `LlmService.ask` sets `RubyLLM.config.openrouter_api_key` inline on every call.
+- **`Rails.cache` history has TTL but no size cap**, and the cache store is the defaulted file_store (multi-worker safe on one host, but ephemeral in containers).
+- Lighter CI tooling (no rubocop config, brakeman binstub, or CI workflow) and only 2 test files.
+
+The re-tier was corroborated by an independent blind A/B cross-audit that scored this project 71 (vs. this deliberate re-read's 79) — both clearly sub-80. **Borderline call** (79 is one point under the A/B line), but the missing system prompt is a concrete, uncontested deduction, not noise.
 
 ---
-
-## Tier B — 1-2 hours to ship (11 models)
 
 ### 12. Claude Sonnet 4.6 (78/100) — ambitious scope, subtle bug
 
@@ -522,7 +522,7 @@ Local provider probing on `192.168.0.90` is documented in `docs/local-provider-s
 ### 5. Most cost-efficient picks
 
 - **Under $0.05/run**: DeepSeek V4 Flash (Tier B, ~$0.01), Step 3.5 Flash (Tier C, ~$0.02)
-- **Under $0.50/run that actually work**: Kimi K2.6 (Tier A, ~$0.30), Gemini 3.1 Pro (Tier A, ~$0.40), MiMo V2.5 Pro (Tier B, ~$0.14)
+- **Under $0.50/run that actually work**: Kimi K2.6 (Tier A, ~$0.30), Gemini 3.1 Pro (Tier B, ~$0.40), MiMo V2.5 Pro (Tier B, ~$0.14)
 - **Cheap near-miss**: MiniMax M3 (Tier B, ~$0.10) has correct RubyLLM and good architecture, but phase 2 DNF + original `.env` secret leak mean it needs cleanup before use.
 - **Premium**: Opus 4.8/4.7 (Tier A, ~$1.10), Claude Fable 5 (Tier A, ~$11 est.), GPT 5.4 xHigh (Tier A, ~$16)
 
