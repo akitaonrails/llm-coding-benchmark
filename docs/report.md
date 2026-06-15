@@ -1,11 +1,11 @@
 # Benchmark Report
 
-Generated at: 2026-06-14T15:19:15+00:00
+Generated at: 2026-06-15T14:08:19+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
 
-- `completed`: 35
+- `completed`: 37
 - `completed_with_errors`: 2
 - `failed`: 8
 - `timeout`: 1
@@ -63,13 +63,14 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 - `llama4_scout_cloud` -> `openrouter/meta-llama/llama-4-scout`: Added as the OpenRouter cloud Llama 4 Scout benchmark counterpart to the unusable local Scout path. Skipped by default because it does not currently resolve cleanly in this opencode build.
 - `nemotron_3_super_cloud` -> `openrouter/nvidia/nemotron-3-super-120b-a12b`: Added as the closest OpenRouter cloud Nemotron line available after local Nemotron Cascade 2 proved unusable in this harness. Skipped by default because it still needs a clean first benchmark run.
 - `minimax_m2_7` -> `openrouter/minimax/minimax-m2.7`: Chosen as the largest/latest MiniMax variant listed by OpenRouter locally.
-- `minimax_m3` -> `openrouter/minimax/minimax-m3`: MiniMax M3 on OpenRouter. Direct successor to MiniMax M2.7. 1M context, tool calling supported, $0.30/M input and $1.20/M output. Tests whether the new MiniMax release fixes M2.7's RubyLLM batch-form hallucination and becomes a viable low-cost Rails/RubyLLM builder.
+- `minimax_m3` -> `openrouter/minimax/minimax-m3`: MiniMax M3 on OpenRouter. Direct successor to MiniMax M2.7. 1M context, tool calling supported, $0.30/M input and $1.20/M output. Tests whether the new MiniMax release fixes M2.7's RubyLLM batch-form hallucination and becomes a viable low-cost Rails/RubyLLM builder. Cloud-only: a GGUF exists (unsloth/MiniMax-M3-GGUF, ollama.com/library/minimax-m3) but as a 230B-total MoE it needs ~195 GB (Q3) / ~264 GB (Q4) resident, which exceeds both local profiles (RTX 5090 32 GB; Strix Halo ≤128 GB) — see docs/llama-swap.md.
 - `deepseek_v3_2` -> `openrouter/deepseek/deepseek-v3.2`: Latest DeepSeek model on OpenRouter. Input $0.26/M, output $0.38/M.
 - `deepseek_v4_flash` -> `openrouter/deepseek/deepseek-v4-flash`: DeepSeek V4 Flash — budget-tier variant at $0.14/M input, $0.28/M output (cheaper than V3.2). 1M context. Tool calling supported via OpenRouter. Test whether V4 fixes the RubyLLM API hallucination that made V3.2 Tier 3. Phase 2 disabled: DeepSeek's thinking-mode API rejects replayed `reasoning_content` tokens from opencode's session continuation.
 - `deepseek_v4_pro` -> `openrouter/deepseek/deepseek-v4-pro`: DeepSeek V4 Pro — premium variant at $1.74/M input, $3.48/M output. 1M context. Uses thinking mode by default which requires the client to echo reasoning_content on subsequent turns (opencode doesn't). reasoning=false tells opencode to treat it as a non-reasoning model so it won't extract/pass back reasoning_content.
 - `step_3_5_flash` -> `openrouter/stepfun/step-3.5-flash`: StepFun Step 3.5 Flash on OpenRouter. Input $0.10/M, output $0.30/M.
 - `claude_sonnet_4_6` -> `openrouter/anthropic/claude-sonnet-4.6`: Anthropic Claude Sonnet 4.6 on OpenRouter. Input $3.00/M, output $15.00/M.
 - `gemini_3_1_pro` -> `openrouter/google/gemini-3.1-pro-preview`: Latest Google Gemini model with enhanced SWE performance and agentic reliability. Input $2.00/M, output $12.00/M.
+- `gemini_3_5_flash` -> `openrouter/google/gemini-3.5-flash`: Google Gemini 3.5 Flash on OpenRouter (GA snapshot gemini-3.5-flash-20260519). Added 2026-06-15 to run + score in-house after community PR #6 submitted pre-scored results without the gitignored project code. Input $1.50/M, output $9.00/M, 1M context. Tests whether a Flash-tier model can match the 3.1 Pro RubyLLM correctness baseline.
 - `grok_4_20` -> `openrouter/x-ai/grok-4.20`: xAI's latest flagship on OpenRouter. Fastest model in the benchmark (8 min) but produced architecturally broken code: bypassed RubyLLM with ruby-openai (only in dev/test group, NameError in prod), used format.turbo_stream without installing turbo-rails, RUBY_VERSION=4.0.2 Dockerfile bug. Tier 3 — broken core.
 - `glm_5_1` -> `zai/glm-5.1`: Z.ai's latest flagship GLM model. Uses Z.ai coding plan endpoint at https://api.z.ai/api/coding/paas/v4 (NOT the general /api/paas/v4) — Lite subscription includes glm-5.1 only via the coding endpoint. Completed in 22 min with 24 tests, correct primary RubyLLM.chat/ask usage, but invented chat.user/chat.assistant for multi-turn history seeding (single-turn works, multi-turn crashes). Tier 2 — works with caveats.
 - `glm_5_2` -> `zai/glm-5.2`: Z.ai's newest flagship GLM (released 2026-06). Served on the coding plan endpoint at https://api.z.ai/api/coding/paas/v4 (live and key-verified 2026-06-14, though not yet in that endpoint's /models listing; not on OpenRouter yet). Like all GLM models it returns reasoning in reasoning_content with empty content by default — the zai provider wiring already handles this for GLM 5.1. Tests whether 5.2 fixes 5.1's hallucinated chat.user/chat.assistant multi-turn DSL (the bug that put 5.1 in Tier C).
@@ -78,6 +79,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 - `qwen3_coder_30b` -> `ollama/qwen/qwen3-coder-30b`: Qwen 3 dedicated coder variant (the regular 30B, not the 51 GB qwen3-coder-next-ctx). Direct comparison with the general qwen3:32b. Sourced from Ollama (Q4_K_M ~18 GB).
 - `qwen3_5_27b_sushi_coder` -> `ollama/qwen/qwen3.5-27b-sushi-coder`: Qwen 3.5 27B fine-tuned via reinforcement learning on Codeforces problems (bigatuna/Qwen3.5-27b-Sushi-Coder-RL). Q4_K_M ~15 GB. Tests whether RL coding fine-tuning transfers correct RubyLLM API usage — direct comparison with the Claude reasoning distillation (qwen3.5:27b-claude) and the general qwen3.5:35b.
 - `gemma4_31b_cloud` -> `ollama-cloud/gemma4-31b`: Google Gemma 4 31B IT BF16 served via Ollama's hosted cloud (https://ollama.com). Bypasses the local llama.cpp parser bugs that caused infinite repetition loops on local Q3/Q8 GGUFs. Tests whether Gemma 4 is actually capable for agentic tool calling when served by Google's full-precision infrastructure rather than crippled by quantization + parser regressions. Requires OLLAMA_API_KEY env var with an Ollama Cloud subscription.
+- `qwen3_7_max` -> `openrouter/qwen/qwen3.7-max`: Alibaba Qwen3.7 Max on OpenRouter. Added 2026-06-15 to run + score in-house after community PR #4 submitted pre-scored results (82/A on a phase-2 DNF) without the gitignored project code. Tests whether the flagship Qwen Max tier achieves correct RubyLLM API usage and completes phase 2 validation under our harness.
 
 ## Results
 
@@ -132,6 +134,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | Step 3.5 Flash | openrouter | - | completed | 2273.00 | 156267 | 242.11 | yes | 1606 | Rails app, tests, README, and container files detected. |
 | Claude Sonnet 4.6 | openrouter | - | completed | 966.85 | 127067 | 532.26 | yes | 2042 | Rails app, tests, README, and container files detected. |
 | Gemini 3.1 Pro | openrouter | - | completed | 811.00 | 104034 | 508.18 | yes | 138 | Rails app, tests, README, and container files detected. |
+| Gemini 3.5 Flash | openrouter | - | completed | 1079.70 | 165172 | 442.50 | yes | 1983 | Rails app, tests, README, and container files detected. |
 | Grok 4.20 | openrouter | - | completed | 502.68 | 63457 | 412.54 | yes | 108 | Rails app, tests, README, and container files detected. |
 | GLM 5.1 | zai | - | completed | 1291.19 | 81666 | 166.62 | yes | 1571 | Rails app, tests, README, and container files detected. |
 | GLM 5.2 | zai | - | completed | 2602.50 | 92430 | 151.63 | yes | 811 | Rails app, tests, README, and container files detected. |
@@ -140,6 +143,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | Qwen 3 Coder 30B | ollama | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | Qwen 3.5 27B Sushi Coder RL | ollama | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | Gemma 4 31B (Ollama Cloud) | ollama-cloud | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
+| Qwen3.7 Max | openrouter | - | completed | 1130.81 | 142463 | 500.92 | yes | 1916 | Rails app, tests, README, and container files detected. |
 
 ## Per-Run Paths
 

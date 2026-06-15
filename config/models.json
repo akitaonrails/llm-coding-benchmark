@@ -517,6 +517,13 @@
       "selection_reason": "Latest Google Gemini model with enhanced SWE performance and agentic reliability. Input $2.00/M, output $12.00/M."
     },
     {
+      "slug": "gemini_3_5_flash",
+      "id": "openrouter/google/gemini-3.5-flash",
+      "label": "Gemini 3.5 Flash",
+      "provider": "openrouter",
+      "selection_reason": "Google Gemini 3.5 Flash on OpenRouter (GA snapshot gemini-3.5-flash-20260519). Added 2026-06-15 to run + score in-house after community PR #6 submitted pre-scored results without the gitignored project code. Input $1.50/M, output $9.00/M, 1M context. Tests whether a Flash-tier model can match the 3.1 Pro RubyLLM correctness baseline."
+    },
+    {
       "slug": "grok_4_20",
       "id": "openrouter/x-ai/grok-4.20",
       "label": "Grok 4.20",
@@ -578,6 +585,13 @@
       "label": "Gemma 4 31B (Ollama Cloud)",
       "provider": "ollama-cloud",
       "selection_reason": "Google Gemma 4 31B IT BF16 served via Ollama's hosted cloud (https://ollama.com). Bypasses the local llama.cpp parser bugs that caused infinite repetition loops on local Q3/Q8 GGUFs. Tests whether Gemma 4 is actually capable for agentic tool calling when served by Google's full-precision infrastructure rather than crippled by quantization + parser regressions. Requires OLLAMA_API_KEY env var with an Ollama Cloud subscription."
+    },
+    {
+      "slug": "qwen3_7_max",
+      "id": "openrouter/qwen/qwen3.7-max",
+      "label": "Qwen3.7 Max",
+      "provider": "openrouter",
+      "selection_reason": "Alibaba Qwen3.7 Max on OpenRouter. Added 2026-06-15 to run + score in-house after community PR #4 submitted pre-scored results (82/A on a phase-2 DNF) without the gitignored project code. Tests whether the flagship Qwen Max tier achieves correct RubyLLM API usage and completes phase 2 validation under our harness."
     }
   ]
 }
