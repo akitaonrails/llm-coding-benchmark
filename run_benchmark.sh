@@ -4,7 +4,7 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 API_KEY="${QWEN36_API_KEY:-}"
 API_BASE="${LOCAL_API_BASE:-http://localhost:8000}"
-MODEL="${LOCAL_MODEL:-qwen3_6_35b_a3b_q8_ik_llamacpp}"
+MODEL="${LOCAL_MODEL:-qwen3_6_35b_a3b_ud_q5_k_m_ik_llamacpp}"
 RESULTS_DIR="${LOCAL_RESULTS_DIR:-results-local-qwen36}"
 REPORT="${LOCAL_REPORT:-docs/report.local_qwen36.md}"
 OPENCODE_CONFIG="${LOCAL_OPENCODE_CONFIG:-config/opencode.benchmark.local_qwen36.json}"
@@ -38,6 +38,7 @@ config = {
                 "Qwen3.6-35B-A3B": {
                     "name": "Qwen3.6-35B-A3B (ik_llama.cpp)",
                     "limit": {"context": 131072, "output": 8192},
+                    "tool_call": True,
                 }
             }
         }
