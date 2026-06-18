@@ -25,7 +25,6 @@ results-claude-code/*/prompt.txt
 tmp/
 config/opencode.benchmark.json
 config/opencode.benchmark.local.json
-config/opencode.benchmark.local_qwen36.json
 __pycache__/
 *.pyc
 .ai-jail/
@@ -42,14 +41,3 @@ results-claude-code/*/.npm/
 # Manual cross-process orchestration: per-dispatch raw opencode JSON outputs are large
 results/manual_*/dispatches/*.json
 results/manual_*/project/
-
-# Local ik_llama.cpp profile: keep only normalized metadata/notes/reports in git.
-results-local-qwen36/*/project/
-results-local-qwen36/*/opencode-output.ndjson
-results-local-qwen36/*/opencode-stderr.log
-results-local-qwen36/*/followup-opencode-output.ndjson
-results-local-qwen36/*/followup-opencode-stderr.log
-results-local-qwen36/*/session-export.json
-results-local-qwen36/*/session-export.stderr.log
-results-local-qwen36/*/prompt.txt
-results-local-qwen36/*/followup-prompt.txt
