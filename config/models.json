@@ -467,7 +467,7 @@
       "id": "openrouter/minimax/minimax-m3",
       "label": "MiniMax M3",
       "provider": "openrouter",
-      "selection_reason": "MiniMax M3 on OpenRouter. Direct successor to MiniMax M2.7. 1M context, tool calling supported, $0.30/M input and $1.20/M output. Tests whether the new MiniMax release fixes M2.7's RubyLLM batch-form hallucination and becomes a viable low-cost Rails/RubyLLM builder. Cloud-only: a GGUF exists (unsloth/MiniMax-M3-GGUF, ollama.com/library/minimax-m3) but as a 230B-total MoE it needs ~195 GB (Q3) / ~264 GB (Q4) resident, which exceeds both local profiles (RTX 5090 32 GB; Strix Halo ≤128 GB) — see docs/llama-swap.md."
+      "selection_reason": "MiniMax M3 on OpenRouter. Direct successor to MiniMax M2.7. 1M context, tool calling supported, $0.30/M input and $1.20/M output. Tests whether the new MiniMax release fixes M2.7's RubyLLM batch-form hallucination and becomes a viable low-cost Rails/RubyLLM builder. Cloud-only: a GGUF exists (unsloth/MiniMax-M3-GGUF, ollama.com/library/minimax-m3), but as a 230B-total MoE it needs ~195 GB (Q3) / ~264 GB (Q4) for weights alone; usable inference also needs KV cache, runtime scratch, and OS headroom, so it exceeds both local profiles (RTX 5090 32 GB; Strix Halo ≤128 GB) — see docs/llama-swap.md."
     },
     {
       "slug": "deepseek_v3_2",
