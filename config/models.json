@@ -305,6 +305,36 @@
       "selection_reason": "GPT 5.5 via Codex CLI at xhigh reasoning effort. Successor to GPT 5.4 \u2014 matches gpt_5_4_codex config exactly so the comparison measures model capability delta, not harness differences. Expected to produce similar ~$16/run cost band."
     },
     {
+      "slug": "sakana_fugu",
+      "id": "sakana/fugu",
+      "label": "Sakana Fugu",
+      "provider": "sakana",
+      "skip_by_default": true,
+      "opencode_model_options": {
+        "tool_call": true,
+        "limit": {
+          "context": 1000000,
+          "output": 32768
+        }
+      },
+      "selection_reason": "Sakana Fugu default router via Sakana's OpenAI-compatible Chat Completions API (https://api.sakana.ai/v1). Docs list 1M context, streaming, tools/tool_choice, and reasoning effort high/xhigh/max; this opencode path uses @ai-sdk/openai-compatible with SAKANA_AI_TOKEN because the benchmark harness expects Chat Completions-style tool calling. Skipped by default until an in-house benchmark run confirms cost, latency, and long-session stability."
+    },
+    {
+      "slug": "sakana_fugu_ultra",
+      "id": "sakana/fugu-ultra",
+      "label": "Sakana Fugu Ultra",
+      "provider": "sakana",
+      "skip_by_default": true,
+      "opencode_model_options": {
+        "tool_call": true,
+        "limit": {
+          "context": 1000000,
+          "output": 32768
+        }
+      },
+      "selection_reason": "Sakana Fugu Ultra via Sakana's OpenAI-compatible Chat Completions API. Docs describe it as the higher-quality/deeper multi-agent Fugu mode with 1M context, tools/tool_choice, streaming, and fixed pay-as-you-go pricing for fugu-ultra-20260615 ($5/M input, $30/M output; higher above 272K context). Skipped by default because long benchmark sessions may be slower/costlier and should be launched explicitly."
+    },
+    {
       "slug": "gpt_5_4_multi_balanced",
       "id": "gpt-5.4",
       "label": "GPT 5.4 xHigh + medium coder (Codex multi-agent)",
