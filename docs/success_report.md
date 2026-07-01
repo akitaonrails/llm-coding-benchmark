@@ -82,7 +82,7 @@ Earlier rounds of this benchmark made contradictory calls about the RubyLLM API.
 
 ---
 
-## Final Rankings (35 scored models)
+## Final Rankings (36 scored models)
 
 All models scored against the same rubric. Note the "RubyLLM OK" column is binary (API correct vs hallucinated) and is separate from the overall score — a model can have correct RubyLLM code and still score low if deliverables or tests are missing.
 
@@ -112,21 +112,24 @@ All models scored against the same rubric. Note the "RubyLLM OK" column is binar
 | 20 | Step 3.7 Flash | 69 | B | ✅ | OpenRouter | 27m | ~$0.30 |
 | 23 | Xiaomi MiMo V2.5 Pro | 67 | B | ✅ | OpenRouter | 11m | ~$0.14 |
 | 24 | GLM 5 | 64 | B | ✅ | OpenRouter | 17m | ~$0.11 |
-| 25 | Step 3.5 Flash | 56 | C | ⚠️ bypass | OpenRouter | 38m | ~$0.02 |
-| 26 | Qwen 3.5 35B | 55 | C | ✅ | Local (AMD) | 28m | free |
-| 27 | GLM 4.7 Flash bf16 | 52 | C | ✅ | Local (AMD) | failed | free |
-| 28 | GLM 5.1 (Z.ai) | 46 | C | ❌ | Z.ai | 22m | subscription |
-| 29 | DeepSeek V3.2 | 43 | C | ❌ | OpenRouter | 60m | ~$0.07 |
-| 30 | Qwen 3.5 397B A17B (base) | 42 | C | ❌ | OpenRouter | 15m | ~$0.58 |
-| 31 | MiniMax M2.7 | 41 | C | ❌ | OpenRouter | 14m | ~$0.30 |
-| 32 | Qwen 3.5 122B | 37 | D | ❌ | Local (AMD) | 43m | free |
-| 33 | Qwen 3 Coder Next | 32 | D | ❌ | Local (AMD) | 17m | free |
-| 34 | Grok 4.20 | 25 | D | ❌ | OpenRouter | 8m | ~$0.60 |
-| 35 | GPT OSS 20B | 11 | D | ❌ | Local (AMD) | failed | free |
+| 25 | Claude Sonnet 5 | 58 | C | ❌ | OpenRouter | 27m | ~$0.80 |
+| 26 | Step 3.5 Flash | 56 | C | ⚠️ bypass | OpenRouter | 38m | ~$0.02 |
+| 27 | Qwen 3.5 35B | 55 | C | ✅ | Local (AMD) | 28m | free |
+| 28 | GLM 4.7 Flash bf16 | 52 | C | ✅ | Local (AMD) | failed | free |
+| 29 | GLM 5.1 (Z.ai) | 46 | C | ❌ | Z.ai | 22m | subscription |
+| 30 | DeepSeek V3.2 | 43 | C | ❌ | OpenRouter | 60m | ~$0.07 |
+| 31 | Qwen 3.5 397B A17B (base) | 42 | C | ❌ | OpenRouter | 15m | ~$0.58 |
+| 32 | MiniMax M2.7 | 41 | C | ❌ | OpenRouter | 14m | ~$0.30 |
+| 33 | Qwen 3.5 122B | 37 | D | ❌ | Local (AMD) | 43m | free |
+| 34 | Qwen 3 Coder Next | 32 | D | ❌ | Local (AMD) | 17m | free |
+| 35 | Grok 4.20 | 25 | D | ❌ | OpenRouter | 8m | ~$0.60 |
+| 36 | GPT OSS 20B | 11 | D | ❌ | Local (AMD) | failed | free |
 
 **Note on score adjustment**: The original audit rubric wrongly penalized `RUBY_VERSION=4.0.2` as a fake placeholder. It's actually the current stable Ruby (released 2026-03-17). Scores for every model except Gemini 3.1 Pro have been adjusted +3 to remove that deduction. Gemini used Ruby 3.4.1 (older LTS, valid) so its score is unchanged. Relative ordering is preserved; only **MiniMax M2.7 crossed a tier boundary (D → C)** due to this correction.
 
 ### What changed from the previous ranking
+
+- **Claude Sonnet 5** (added 2026-07-01, scored 58/100, Tier C, #25): newly available on Anthropic and OpenRouter (`anthropic/claude-sonnet-5` / `claude-sonnet-5`). The harness completed both phases in 27m and validated local boot, Docker build, and Docker Compose, but the generated app's first real chat request would crash before contacting the model: `ChatResponder#build_chat` assigns `chat.messages = history`, while RubyLLM 1.16 exposes `messages` and `add_message` but no `messages=` writer. The service test's `FakeChat` defines `attr_accessor :messages`, masking the nonexistent API. It also defaults the generated app to `anthropic/claude-sonnet-4.6` instead of Sonnet 5.
 
 - **Sakana Fugu Ultra** (added 2026-06-23, scored 79/100, Tier B, #12 tie): first Sakana/Fugu run, using Sakana's OpenAI-compatible Chat Completions endpoint through opencode (`sakana/fugu-ultra`). Completed both phases in 21m37s: phase 1 generated the Rails app, phase 2 passed local Rails boot, Docker build, and Docker Compose. RubyLLM calls are real (`RubyLLM.chat` + `with_instructions` + `ask` + `response.content`) and tests use a `FakeChat`, but the service sends only the latest user message to RubyLLM — prior turns are stored/displayed but never replayed into the model. Combined with process-local in-memory persistence, it lands exactly at the B/A boundary rather than Tier A.
 
@@ -494,27 +497,43 @@ Uses `RubyLLM::Chat.new(model:, provider:)` + `@llm_chat.ask(content, &)` + `res
 
 ---
 
-## Tier C — major rework needed (7 models)
+## Tier C — major rework needed (8 models)
 
-### 25. Step 3.5 Flash (56/100)
+### 25. Claude Sonnet 5 (58/100) — complete shell, broken first chat request
+
+Newly available Sonnet 5 (`openrouter/anthropic/claude-sonnet-5`) completed both phases in **1625s / 27m05s**. Phase 2 validated local Rails boot, Docker build, and Docker Compose, and the project is structurally complete: Rails app at root, `ruby_llm`, Turbo/Stimulus/Tailwind, README, Dockerfile, compose, SimpleCov, Brakeman, RuboCop, and bundler-audit.
+
+The core LLM path is broken. `app/services/chat_responder.rb` captures history, adds the user message, then builds a RubyLLM chat like this:
+
+```ruby
+RubyLLM.chat(model: MODEL, provider: PROVIDER).tap do |chat|
+  chat.messages = history
+end
+```
+
+RubyLLM 1.16 exposes `messages`, `add_message`, `ask`, and `with_instructions`, but **not `messages=`**. A direct method check returned `messages=true`, `messages==false`, `add_message=true`, `ask=true`, `with_instructions=true`, so the first real request raises `NoMethodError` before `chat.ask` can run. The test suite misses this because `test/services/chat_responder_test.rb` defines `FakeChat` with `attr_accessor :messages`, exactly the nonexistent writer the production code calls.
+
+Other deductions: no `with_instructions` system prompt, default model pin is still `anthropic/claude-sonnet-4.6` despite running the benchmark with Sonnet 5, and the rescue ladder only catches `RubyLLM::*` errors, not the `NoMethodError` it actually triggers. The session-cookie transcript is capped and the Turbo/Stimulus UI is solid, but the application needs core RubyLLM replay rewritten with `add_message` before it is usable. Score: **58/C**.
+
+### 26. Step 3.5 Flash (56/100)
 
 Bypasses `ruby_llm` entirely using raw `Net::HTTP` to OpenRouter. The HTTP implementation itself is competent (timeouts, JSON parse errors, missing-key preflight all rescued with user-visible fallbacks). Session-backed multi-turn works. Best error handling of any model.
 
 **But**: non-compliant with the prompt requirement (missing `ruby_llm` gem). Also: the Stimulus `afterSubmit` flow never renders the user's message into `#messages` — only the assistant reply appears, so the UI is silently broken.
 
-### 26. Qwen 3.5 35B (55/100) — local model
+### 27. Qwen 3.5 35B (55/100) — local model
 
 Real `RubyLLM.chat` + `chat.ask` + `chat.messages.last.content` — correct API. No service layer (logic in controller). No multi-turn (fresh `RubyLLM.chat` per request).
 
 **Killer weakness**: `test/models/ruby_llm_service_test.rb:14-22` wraps the real call in `rescue => e; assert true` — tests pass even if RubyLLM is completely broken.
 
-### 27. GLM 4.7 Flash bf16 (52/100) — local model, near-miss
+### 28. GLM 4.7 Flash bf16 (52/100) — local model, near-miss
 
 **Most RubyLLM-literate local model** of the benchmark — correctly uses the fluent chain `.with_model().with_temperature().with_params().with_instructions().complete(&block)`, all real API per gem source.
 
 **Fatal bug**: `gem "ruby_llm"` is placed in `group :development, :test` with `require: false` — won't load in production. App would crash on boot with `NameError`. Also uses class-var `Message.all` storage (process-local).
 
-### 28. GLM 5.1 / Z.ai (46/100) — hallucinated fluent DSL
+### 29. GLM 5.1 / Z.ai (46/100) — hallucinated fluent DSL
 
 `RubyLLM.chat(model:, provider:)` is correct, but history is replayed via hallucinated `c.user(msg)` / `c.assistant(msg)` fluent DSL — these methods do not exist in RubyLLM. Confirmed via grep of the gem source.
 
@@ -522,7 +541,7 @@ Compounded bug: every HTTP request constructs a brand-new `ChatSession.new` that
 
 Stimulus controller uses `fetch` + manual `innerHTML` for streaming — SSE-based but not Turbo Streams.
 
-### 29. DeepSeek V3.2 (43/100)
+### 30. DeepSeek V3.2 (43/100)
 
 Uses `RubyLLM::Client.new` + `client.chat(messages: [...])` — **both hallucinated**. Treats response as raw OpenAI JSON via `result.dig("choices", 0, "message", "content")`. Tests mock `RubyLLM::Client.any_instance` — mocking a class that doesn't exist. The entire LLM integration is fictional.
 
@@ -530,7 +549,7 @@ Uses `RubyLLM::Client.new` + `client.chat(messages: [...])` — **both hallucina
 
 ---
 
-### 30. Qwen 3.5 397B A17B (base) (42/100) — the raw base behind Nex-N2-Pro, and it hallucinates
+### 31. Qwen 3.5 397B A17B (base) (42/100) — the raw base behind Nex-N2-Pro, and it hallucinates
 
 This is the **un-fine-tuned Qwen3.5-397B-A17B base** (OpenRouter `qwen/qwen3.5-397b-a17b`) — the exact architecture Nex AGI fine-tuned into Nex-N2-Pro (#10, 83/A). Run head-to-head, it is a clean natural experiment, and the base **fails the one thing that matters**: it hallucinates the RubyLLM API in `chat-app/app/services/chat_service.rb`:
 
@@ -547,7 +566,7 @@ response.respond_to?(:text) ? response.text : response.to_s  # hallucinated — 
 
 ---
 
-### 31. MiniMax M2.7 (41/100) — moved from Tier D after Ruby 4.0.2 correction
+### 32. MiniMax M2.7 (41/100) — moved from Tier D after Ruby 4.0.2 correction
 
 Hallucinated `RubyLLM.chat(model:, messages: [...])` batch signature — crashes on first call (`ArgumentError: unknown keyword: messages`). Best architectural decomposition of any Tier C/D model (service + form object + POROs + partials), wrapped around a corpse.
 
@@ -555,15 +574,15 @@ Tests mock the hallucinated API so they pass green against a bug.
 
 ## Tier D — throw away (4 models)
 
-### 32. Qwen 3.5 122B (37/100) — local model
+### 33. Qwen 3.5 122B (37/100) — local model
 
 Doesn't use `ruby_llm` at all. Uses `Openrouter::Client.new(api_key: @api_key)` — wrong casing for the real `OpenRouter::Client` (exists in `openrouter` gem but requires a configuration object, not a bare `api_key:` kwarg). Plus calls `client.chat(model:, messages:)` — real gem method is `completion`, not `chat`.
 
-### 33. Qwen 3 Coder Next (32/100) — local model
+### 34. Qwen 3 Coder Next (32/100) — local model
 
 Invented `RubyLLM::Client.new(api_key:, model:)` + `client.chat(messages: [...])` + OpenAI-shaped `response.choices.first.message.content` — pure hallucination. Also commits a placeholder `.env` file to the repo.
 
-### 34. Grok 4.20 (25/100)
+### 35. Grok 4.20 (25/100)
 
 Bypasses RubyLLM with `ruby-openai`, but the gem is in `:development, :test` group with `require: false` — production `NameError` on first request. Gemfile missing turbo-rails, stimulus-rails, bundle-audit.
 
@@ -571,7 +590,7 @@ Stimulus controller JavaScript is **uncompilable** (`class ChatFormController < 
 
 At ~$0.60/run, Grok is the most expensive Tier D model.
 
-### 35. GPT OSS 20B (11/100) — local model
+### 36. GPT OSS 20B (11/100) — local model
 
 Benchmark low. Stock Rails README template (no customization), nested `app/app/` directory (violates "stay in workspace root" rule), **no tests folder at all**, no docker-compose, Gemfile has `gem "tailwindcss"` (CLI gem, not the Rails binding) with brakeman commented out.
 
@@ -600,6 +619,7 @@ Models use three different legitimate multi-turn patterns, plus one recurring br
 - **Explicit history replay** (Gemini 3.5 Flash, Kimi K2.7, GLM 5.2, Claude Fable 5, Opus 4.8/4.7/4.6, Sonnet 4.6, Kimi K2.6, Gemini, DeepSeek V4 Flash, MiniMax M3): rebuild `Chat`, call `.add_message()` per historic message, then `.ask()`. More code but persistence-friendly (store messages in cookie/cache, reconstruct Chat per request).
 - **Batch single-shot** (GLM 5 — intentional one-shot, not multi-turn): just `RubyLLM.chat` + `ask` with no history. Fine for stateless echo services, not a chat app.
 - **Display-only history** (Sakana Fugu Ultra, Step 3.7 Flash): store previous messages for the UI, but create a fresh RubyLLM chat and send only the newest user message. This looks like a chat app but the model has no memory of the conversation.
+- **Invalid direct history assignment** (Claude Sonnet 5): tries to replay history with `chat.messages = history`, but RubyLLM's `Chat` has no `messages=` writer. Use `add_message` for each historic turn instead.
 
 ### 4. Harness compatibility matters as much as model capability
 
