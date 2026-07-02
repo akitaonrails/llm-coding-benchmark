@@ -1,11 +1,11 @@
 # Benchmark Report
 
-Generated at: 2026-07-01T18:11:39+00:00
+Generated at: 2026-07-02T21:21:20+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
 
-- `completed`: 41
+- `completed`: 42
 - `completed_with_errors`: 3
 - `failed`: 8
 - `timeout`: 1
@@ -35,6 +35,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 - `claude_opus_4_7` -> `openrouter/anthropic/claude-opus-4.7`: Anthropic Claude Opus 4.7 on OpenRouter. Built for long-running async agents. Same pricing as 4.6: $5/M input, $25/M output. 1M context, 128K max output. Released 2026-04-16.
 - `claude_opus_4_8` -> `openrouter/anthropic/claude-opus-4.8`: Anthropic Claude Opus 4.8 on OpenRouter. Direct successor to Opus 4.7 using the regular (non-fast) endpoint. 1M context, tool calling supported, $5/M input and $25/M output. Tests whether the 4.8 release keeps Opus 4.7's benchmark-leading RubyLLM correctness while improving speed or implementation discipline.
 - `claude_fable_5` -> `openrouter/anthropic/claude-fable-5`: Anthropic Claude Fable 5 on OpenRouter (snapshot claude-5-fable-20260609, released 2026-06). New Claude 5-generation model. 1M context, tool calling supported, $10/M input and $50/M output — 2x Opus 4.x pricing. Tests whether the new generation improves on Opus 4.7/4.8's benchmark-leading RubyLLM correctness.
+- `claude_fable_5_rerelease` -> `openrouter/anthropic/claude-fable-5`: Anthropic Claude Fable 5 re-release on OpenRouter, tested separately from the original 2026-06 claude_fable_5 run after the model was removed and re-released. Uses the same concrete model ID so the old result remains intact while measuring whether the new serving snapshot regressed in RubyLLM/Rails benchmark behavior.
 - `claude_sonnet_5` -> `openrouter/anthropic/claude-sonnet-5`: Anthropic Claude Sonnet 5 on OpenRouter, released 2026-06-30. Direct successor to Sonnet 4.6 with 1M context, tool calling, and adaptive thinking. Tests whether the Claude 5-generation Sonnet tier catches up to Opus/Fable on RubyLLM API correctness while remaining cheaper than Opus-class models.
 - `opencode_opus_glm` -> `openrouter/anthropic/claude-opus-4.7`: opencode multi-agent: Opus 4.7 primary + GLM 5.1 (Z.ai) coding subagent. Tests whether the cost-effective Chinese model handles coding when Opus plans. GLM 5.1 via Z.ai coding plan endpoint (subscription). Comparable to Claude Code's opus+sonnet variant but with a non-Anthropic coder.
 - `opencode_opus_glm_forced` -> `openrouter/anthropic/claude-opus-4.7`: Forced-delegation variant of opencode_opus_glm. Runs with prompts/benchmark_prompt_forced_delegation.txt. Measures whether forcing the orchestrator pattern produces usable code via Opus (plan) + GLM 5.1 (execute) vs the free-choice version which didn't delegate at all.
@@ -104,6 +105,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | Claude Opus 4.7 | openrouter | - | completed | 1091.67 | 118216 | 328.24 | yes | 11345 | Rails app, tests, README, and container files detected. |
 | Claude Opus 4.8 | openrouter | - | completed | 1008.12 | 104470 | 478.63 | yes | 2838 | Rails app, tests, README, and container files detected. |
 | Claude Fable 5 | openrouter | - | completed | 1458.86 | 103119 | 436.22 | yes | 2710 | Rails app, tests, README, and container files detected. |
+| Claude Fable 5 (re-release) | openrouter | - | completed | 1058.76 | 62493 | 260.74 | yes | 1860 | Rails app, tests, README, and container files detected. |
 | Claude Sonnet 5 | openrouter | - | completed | 1625.32 | 128727 | 372.26 | yes | 100 | Rails app, tests, README, and container files detected. |
 | opencode Opus 4.7 + GLM 5.1 coder | openrouter | - | completed | 618.15 | 108279 | 947.65 | yes | 1888 | Rails app, tests, README, and container files detected. |
 | opencode Opus 4.7 + GLM 5.1 coder (FORCED delegation) | openrouter | - | completed | 765.82 | 111912 | 633.13 | yes | 1703 | Rails app, tests, README, and container files detected. |
