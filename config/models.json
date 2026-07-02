@@ -142,6 +142,14 @@
       "selection_reason": "Anthropic Claude Fable 5 on OpenRouter (snapshot claude-5-fable-20260609, released 2026-06). New Claude 5-generation model. 1M context, tool calling supported, $10/M input and $50/M output — 2x Opus 4.x pricing. Tests whether the new generation improves on Opus 4.7/4.8's benchmark-leading RubyLLM correctness."
     },
     {
+      "slug": "claude_fable_5_rerelease",
+      "id": "openrouter/anthropic/claude-fable-5",
+      "label": "Claude Fable 5 (re-release)",
+      "provider": "openrouter",
+      "skip_by_default": true,
+      "selection_reason": "Anthropic Claude Fable 5 re-release on OpenRouter, tested separately from the original 2026-06 claude_fable_5 run after the model was removed and re-released. Uses the same concrete model ID so the old result remains intact while measuring whether the new serving snapshot regressed in RubyLLM/Rails benchmark behavior."
+    },
+    {
       "slug": "claude_sonnet_5",
       "id": "openrouter/anthropic/claude-sonnet-5",
       "label": "Claude Sonnet 5",
