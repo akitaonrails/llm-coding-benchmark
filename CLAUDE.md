@@ -88,6 +88,7 @@ Hand-written deep code review (the actual interpretive analysis):
 
 Local infra docs:
 - `docs/llama-swap.md` — full guide to the NVIDIA llama-swap Docker setup (CUDA 12.8 + sm_120 build, model sourcing via Ollama symlinks vs HF GGUFs, VRAM budget reasoning, common pitfalls)
+- `docs/cost_analysis.md` — pricing audit (verified per-M rates + per-run recomputation from token logs), quality × time × cost table rationale, productivity-floor argument (Tier A is the economic floor for shippable work). `docs/pricing.md` is the raw rate reference; both dated 2026-07-09.
 - `docs/codex-integration.md` — Codex CLI integration for GPT 5.4 (hurdles: shell wrapper needs `bash -lc`, relative paths need `.resolve()`, sandbox flags, reasoning effort via `-c`, different JSONL event format)
 
 ## Model Slug Convention

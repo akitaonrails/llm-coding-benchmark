@@ -1,71 +1,79 @@
 # Model Pricing Reference
 
-Prices as of April 3, 2026. OpenRouter prices from their live `/api/v1/models` endpoint.
+Prices as of **July 9, 2026**. OpenRouter prices from their live `/api/v1/models` endpoint; subscription pricing from vendor pages. Previous revision (April 3, 2026) is in git history — notable changes since then are flagged in the Notes column. For per-run cost analysis and the quality × cost trade-off, see [`cost_analysis.md`](cost_analysis.md).
 
 ## OpenRouter API Pricing (per million tokens)
 
 | Model | Input $/M | Output $/M | Context | Notes |
 |-------|-----------|------------|---------|-------|
-| Claude Opus 4.6 | $5.00 | $25.00 | 1,000,000 | Premium coding model |
-| GPT 5.4 Pro | $30.00 | $180.00 | 1,050,000 | Most expensive; enhanced reasoning |
-| Kimi K2.5 | $0.38 | $1.72 | 262,144 | Multimodal with visual coding |
-| GLM 5 | $0.72 | $2.30 | 80,000 | Smallest context window |
-| Qwen 3.6 Plus | **FREE** | **FREE** | 1,000,000 | Rate-limited free tier |
-| Qwen 3.5 397B | $0.39 | $2.34 | 262,144 | MoE (17B active of 397B) |
-| Gemma 4 31B | $0.14 | $0.40 | 262,144 | Cheapest non-free model |
-| Llama 4 Scout | $0.08 | $0.30 | 327,680 | MoE (17B active of 109B) |
-| Nemotron 3 Super | $0.10 | $0.50 | 262,144 | MoE (12B active of 120B); free tier also available |
-| MiniMax M2.7 | $0.30 | $1.20 | 204,800 | Up to 131K output tokens |
-| DeepSeek V3.2 | $0.26 | $0.38 | 163,840 | Very cheap input+output |
-| Step 3.5 Flash | $0.10 | $0.30 | 262,144 | Free tier also available |
-| Claude Sonnet 4.6 | $3.00 | $15.00 | 200,000 | Mid-tier Anthropic model |
+| Claude Opus 4.7 / 4.8 | $5.00 | $25.00 | 1,000,000 | Top-2 benchmark scores |
+| Claude Fable 5 | $10.00 | $50.00 | 1,000,000 | Claude 5 generation; premium tier |
+| Claude Sonnet 5 | $2.00 | $10.00 | 1,000,000 | Tier C in benchmark despite the name |
+| Claude Sonnet 4.6 | $3.00 | $15.00 | 1,000,000 | |
+| Claude Opus 4.6 | $5.00 | $25.00 | 1,000,000 | |
+| GPT 5.4 Pro (OR) | $30.00 | $180.00 | 1,050,000 | Unused — benchmark uses Codex/OpenAI direct |
+| Gemini 3.5 Flash | $1.50 | $9.00 | 1,048,576 | Best non-Anthropic/OpenAI score (93) |
+| Gemini 3.1 Pro | $2.00 | $12.00 | 1,048,576 | |
+| Kimi K2.5 | $0.38 | $2.02 | 262,144 | Output rate up from $1.72 (Apr) |
+| Kimi K2.6 | $0.65 | $3.41 | 262,144 | **Rates rose ~30% since its benchmark run** |
+| Kimi K2.7 Code | $0.74 | $3.50 | 262,144 | |
+| Grok 4.5 | $2.00 | $6.00 | 500,000 | Reasoning always on; max effort = default |
+| Grok 4.3 / 4.20 | $1.25 | $2.50 | 1,000,000 | |
+| Nex-N2-Pro | $0.25 | $1.00 | 262,144 | **`:free` endpoint delisted** — was free at benchmark run time (2026-06-15) |
+| DeepSeek V4 Flash | $0.09 | $0.18 | 1,048,576 | Cheapest working model |
+| DeepSeek V4 Pro | $0.43 | $0.87 | 1,048,576 | |
+| DeepSeek V3.2 | $0.23 | $0.34 | 131,072 | |
+| MiniMax M3 | $0.30 | $1.20 | 1,048,576 | |
+| MiniMax M2.7 | $0.18 | $0.72 | 204,800 | |
+| Qwen3.7 Max | $1.25 | $3.75 | 1,000,000 | |
+| Qwen 3.6 Plus | $0.33 | $1.95 | 1,000,000 | **No longer free** (was free-tier in Apr) |
+| Qwen 3.5 397B A17B | $0.39 | $2.45 | 256,000 | Nex-N2-Pro's base model |
+| Step 3.7 Flash | $0.20 | $1.15 | 256,000 | |
+| Step 3.5 Flash | $0.10 | $0.30 | 262,144 | |
+| Xiaomi MiMo V2.5 Pro | $0.43 | $0.87 | 1,048,576 | |
+| GLM 5 | $0.60 | $1.92 | 202,752 | Context grew from 80K; rates changed |
+| Gemma 4 31B | $0.12 | $0.35 | 262,144 | |
+| Llama 4 Scout | $0.10 | $0.30 | 10,000,000 | Context now 10M |
+| Nemotron 3 Super | $0.08 | $0.45 | 1,000,000 | |
 
 ### Cost tiers
 
-- **Free:** Qwen 3.6 Plus (rate-limited)
-- **Ultra-cheap (< $0.50/M input):** Llama 4 Scout, Gemma 4 31B, Nemotron 3 Super, Kimi K2.5, Qwen 3.5 397B, MiniMax M2.7
-- **Mid-range:** GLM 5
-- **Premium:** Claude Opus 4.6 ($5/$25)
-- **Ultra-premium:** GPT 5.4 Pro ($30/$180)
+- **Ultra-cheap (< $0.50/M input):** Nemotron 3 Super, DeepSeek V4 Flash, Llama 4 Scout, Step 3.5 Flash, Gemma 4 31B, MiniMax M2.7, Step 3.7 Flash, DeepSeek V3.2, Nex-N2-Pro, MiniMax M3, Qwen 3.6 Plus, Kimi K2.5, Qwen 3.5 397B
+- **Mid-range ($0.50–$2/M input):** DeepSeek V4 Pro, MiMo V2.5 Pro, GLM 5, Kimi K2.6/K2.7, Grok 4.3, Qwen3.7 Max, Gemini 3.5 Flash
+- **Premium ($2–$10/M input):** Grok 4.5, Gemini 3.1 Pro, Claude Sonnet 5/4.6, Claude Opus 4.6/4.7/4.8
+- **Ultra-premium:** Claude Fable 5 ($10/$50), GPT 5.4 Pro ($30/$180)
+- **No free tier remains** among benchmark-relevant models: Qwen 3.6 Plus and Nex-N2-Pro both converted to paid since April.
 
-## Subscription Plans
+## OpenAI Direct (Codex CLI runs)
 
-### Anthropic (Claude)
+| Model | Input $/M | Cached $/M | Output $/M | Notes |
+|-------|-----------|------------|------------|-------|
+| GPT 5.4 | $2.50 | $0.25 | $15.00 | Used for the GPT 5.4 xHigh Codex runs |
+| GPT 5.5 | $5.00 | $0.50 | $30.00 | 2× price jump over 5.4 |
 
-| Plan | $/month | Models | Usage Limits | Claude Code |
-|------|---------|--------|--------------|-------------|
-| Free | $0 | Sonnet 4.6 (limited) | Limited messages | No |
-| Pro | $20 ($17 annual) | Sonnet 4.6, Opus 4.6 | ~44K tokens/5hr window | Yes |
-| Max 5x | $100 | Sonnet 4.6, Opus 4.6 | ~88K tokens/5hr window | Yes + priority |
-| Max 20x | $200 | Sonnet 4.6, Opus 4.6 | ~220K tokens/5hr window | Yes + priority + early features |
+## Subscription Plans (flat-rate, used by the benchmark)
 
-Token-per-window figures are approximate (Anthropic describes Max limits as "5x" and "20x" relative to Pro).
+### Z.ai GLM Coding Plan (GLM 5.1 / 5.2 runs)
 
-### OpenAI (ChatGPT)
+| Tier | $/month | Prompts | Notes |
+|------|---------|---------|-------|
+| Lite | $18 ($12.60 promo) | ~80 / 5h, ~400 / week | Includes GLM-5.2 flagship on all tiers |
+| Pro | $72 ($50.40 promo) | ~400 / 5h, ~2,000 / week | |
+| Max | $160 ($112 promo) | ~1,600 / 5h, ~8,000 / week | 30% promo through Sept 2026 |
 
-| Plan | $/month | Key Inclusions | Limits |
-|------|---------|----------------|--------|
-| Free | $0 | GPT-5.2 Instant (limited) | Low message caps |
-| Go | $8 | GPT-5.2 Instant (unlimited), GPT-5.3 | 160 msgs/3hr for GPT-5.3; has ads |
-| Plus | $20 | GPT-5.4 Thinking, Codex, Agent Mode, Deep Research (10/mo) | Generous limits |
-| Pro | $200 | All models unlimited, o1 Pro mode, GPT-5.4 Pro exclusive | Unlimited messages, max compute |
+### Sakana (Fugu / Fugu Ultra runs)
 
-Codex is included with Plus ($20/mo) and above — no separate subscription. Codex API pricing: `codex-mini-latest` at $1.50/$6.00/M tokens, GPT-5 at $1.25/$10.00/M tokens.
+| Tier | $/month | Notes |
+|------|---------|-------|
+| Standard | $20 | Both Fugu and Fugu Ultra included |
+| Pro | $100 | 10× Standard usage |
+| Max | $200 | 20× Standard usage |
 
-## Effective Cost: Subscription vs API
+Pay-as-you-go also exists for Fugu Ultra at $5/$30 per M (rises above 272K context; $0.50/M cached input).
 
-Estimated for moderate coding use (~15M input + ~3M output tokens/month):
+## Key changes since the April 3 revision
 
-| Approach | Est. $/month | Notes |
-|----------|-------------|-------|
-| Qwen 3.6 Plus (OpenRouter) | $0 | Free but rate-limited |
-| Llama 4 Scout (OpenRouter) | ~$2 | Cheapest paid option |
-| Kimi K2.5 (OpenRouter) | ~$11 | Good quality/price ratio |
-| Claude Pro subscription | $20 | Capped at ~44K tokens/5hr |
-| ChatGPT Plus subscription | $20 | Includes Codex |
-| Claude Opus 4.6 (OpenRouter) | ~$150 | Raw API, no caps |
-| Claude Max 20x subscription | $200 | ~220K tokens/5hr; best for heavy interactive use |
-| ChatGPT Pro subscription | $200 | Unlimited GPT 5.4 Pro — huge value vs API |
-| GPT 5.4 Pro (OpenRouter) | ~$990 | Extremely expensive via raw API |
-
-**Key takeaway:** ChatGPT Pro at $200/mo is the best value for GPT 5.4 Pro access (API would cost ~5x more). For Claude, Pro at $20/mo covers moderate use; heavy users benefit from Max 20x. For budget benchmarking, open-source models on OpenRouter are all under $2.50/M output tokens.
+1. **Free tiers evaporated**: Qwen 3.6 Plus (now $0.33/$1.95) and Nex-N2-Pro's `:free` endpoint (now $0.25/$1.00) both converted to paid.
+2. **Kimi got pricier across the line**: K2.5 output $1.72→$2.02; K2.6 effectively +30% vs its benchmark-run rates.
+3. **New premium ceiling**: Claude Fable 5 at $10/$50 doubles the Opus 4.x rate card.
+4. **A reminder that per-M ≠ per-run**: agentic runs are cache-read-dominated (5–15M cache-read tokens per run), so cheap rate cards with high token churn (Gemini 3.5 Flash) can out-cost pricier disciplined models per run. See [`cost_analysis.md`](cost_analysis.md).
