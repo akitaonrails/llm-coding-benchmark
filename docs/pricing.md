@@ -71,6 +71,29 @@ Prices as of **July 9, 2026**. OpenRouter prices from their live `/api/v1/models
 
 Pay-as-you-go also exists for Fugu Ultra at $5/$30 per M (rises above 272K context; $0.50/M cached input).
 
+## Consumer Subscriptions (Anthropic / OpenAI) — verified 2026-07-09
+
+The benchmark itself pays raw API rates (OpenRouter BYO key; Codex runs billed via `OPENAI_API_KEY`), but individual developers often run the same models through consumer plans:
+
+### Anthropic (Claude)
+
+| Plan | $/month | Claude Code | Notes |
+|------|---------|-------------|-------|
+| Pro | $20 ($17/mo annual) | Yes | Session limits doubled 2026-05-06; weekly limits +50% promo through 2026-07-13 |
+| Max 5x | $100 | Yes + priority | 5× Pro limits |
+| Max 20x | $200 | Yes + priority | 20× Pro limits; monthly billing only |
+
+### OpenAI (ChatGPT)
+
+| Plan | $/month | Codex | Notes |
+|------|---------|-------|-------|
+| Go | $8 | limited | |
+| Plus | $20 | Yes | 15-80 GPT-5.5 msgs / 5h window |
+| Pro 5x | $100 | Yes | 5× Plus limits |
+| Pro 20x | $200 | Yes | 20× Plus limits |
+
+**Codex subscription usage is credit-metered since 2026-04-02** (GPT-5.5 = 125 in / 750 out credits per 1M tokens; GPT-5.4 = 62.5/375) — heavy real-world use runs $100-200/developer/month, so "included" is not "unlimited". See [`cost_analysis.md`](cost_analysis.md) §4 for break-even math against our per-run costs.
+
 ## Key changes since the April 3 revision
 
 1. **Free tiers evaporated**: Qwen 3.6 Plus (now $0.33/$1.95) and Nex-N2-Pro's `:free` endpoint (now $0.25/$1.00) both converted to paid.
