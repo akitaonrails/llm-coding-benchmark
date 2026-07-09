@@ -84,50 +84,78 @@ Earlier rounds of this benchmark made contradictory calls about the RubyLLM API.
 
 ## Final Rankings (38 scored models)
 
-All models scored against the same rubric. Note the "RubyLLM OK" column is binary (API correct vs hallucinated) and is separate from the overall score — a model can have correct RubyLLM code and still score low if deliverables or tests are missing.
+All models scored against the same rubric. **Cost column updated 2026-07-09**: per-run costs recomputed from each run's recorded token logs at rates verified against the OpenRouter live API / vendor price pages on 2026-07-09; earlier figures under-counted cache-read tokens for several models (Opus 4.7/4.8, Gemini 3.1 Pro, MiniMax M3 corrected upward). "(hist.)" marks runs whose token logs are no longer available — original estimate retained. Full pricing audit: [`cost_analysis.md`](cost_analysis.md). Note the "RubyLLM OK" column is binary (API correct vs hallucinated) and is separate from the overall score — a model can have correct RubyLLM code and still score low if deliverables or tests are missing.
 
 | Rank | Model | Score | Tier | RubyLLM OK | Provider | Runtime | Cost |
 |---:|---|---:|:---:|:---:|---|---|---|
-| 1 | **Claude Opus 4.7** | **97** | A | ✅ | OpenRouter | 18m | ~$1.10 |
+| 1 | **Claude Opus 4.7** | **97** | A | ✅ | OpenRouter | 18m | ~$7.00 |
 | 1 | **GPT 5.4 xHigh (Codex)** | **97** | A | ✅ | OpenAI direct | 22m | ~$16 |
 | 3 | **GPT 5.5 xHigh (Codex)** | **96** | A | ✅ | OpenAI direct | 18m | ~$10 |
-| 4 | **Claude Opus 4.8** | **95** | A | ✅ | OpenRouter | 17m | ~$1.10 |
-| 5 | Claude Fable 5 | 94 | A | ✅ | OpenRouter | 24m | ~$11 (est.) |
-| 6 | Claude Fable 5 (re-release) | 93 | A | ✅ | OpenRouter | 18m | premium |
-| 6 | Gemini 3.5 Flash | 93 | A | ✅ | OpenRouter | 18m | ~$3.50 |
-| 8 | Kimi K2.6 | 87 | A | ✅ | OpenRouter | 20m | ~$0.30 |
+| 4 | **Claude Opus 4.8** | **95** | A | ✅ | OpenRouter | 17m | ~$6.40 |
+| 5 | Claude Fable 5 | 94 | A | ✅ | OpenRouter | 24m | ~$11.20 |
+| 6 | Claude Fable 5 (re-release) | 93 | A | ✅ | OpenRouter | 18m | ~$8.30 |
+| 6 | Gemini 3.5 Flash | 93 | A | ✅ | OpenRouter | 18m | ~$3.55 |
+| 8 | Kimi K2.6 | 87 | A | ✅ | OpenRouter | 20m | ~$1.00 |
 | 8 | GLM 5.2 (Z.ai) | 87 | A | ✅ | Z.ai | 43m | subscription |
-| 8 | Grok 4.5 | 87 | A | ✅ | OpenRouter | 16m | ~$5.10 (est.) |
-| 11 | Kimi K2.7 Code | 86 | A | ✅ | OpenRouter | 22m | ~$0.30 |
-| 12 | Claude Opus 4.6 | 83 | A | ✅ | OpenRouter | 16m | ~$1.10 |
-| 12 | Nex-N2-Pro | 83 | A | ✅ | OpenRouter | 25m | free |
-| 14 | Gemini 3.1 Pro | 79 | B | ✅ | OpenRouter | 14m | ~$0.40 |
+| 8 | Grok 4.5 | 87 | A | ✅ | OpenRouter | 16m | ~$5.10 |
+| 11 | Kimi K2.7 Code | 86 | A | ✅ | OpenRouter | 22m | ~$1.15 |
+| 12 | Claude Opus 4.6 | 83 | A | ✅ | OpenRouter | 16m | ~$1.10 (hist.) |
+| 12 | Nex-N2-Pro | 83 | A | ✅ | OpenRouter | 25m | ~$0.34 (was free) |
+| 14 | Gemini 3.1 Pro | 79 | B | ✅ | OpenRouter | 14m | ~$3.10 |
 | 14 | Sakana Fugu Ultra | 79 | B | ✅ | Sakana | 22m | subscription |
-| 16 | Claude Sonnet 4.6 | 78 | B | ✅ | OpenRouter | 16m | ~$0.63 |
+| 16 | Claude Sonnet 4.6 | 78 | B | ✅ | OpenRouter | 16m | ~$0.63 (hist.) |
 | 16 | DeepSeek V4 Flash | 78 | B | ✅ | OpenRouter | 3m | ~$0.01 |
-| 16 | MiniMax M3 | 78 | B | ✅ | OpenRouter | 53m (phase 2 DNF) | ~$0.10 |
+| 16 | MiniMax M3 | 78 | B | ✅ | OpenRouter | 53m (phase 2 DNF) | ~$1.25 |
 | 16 | Qwen3.7 Max | 78 | B | ✅ | OpenRouter | 19m | ~$1.40 |
-| 20 | Grok 4.3 | 72 | B | ✅ | OpenRouter | 15m | ~$1.74 |
-| 21 | Qwen 3.6 Plus | 71 | B | ✅ | OpenRouter | 17m | ~$0.15 |
-| 22 | DeepSeek V4 Pro | 69 | B | ✅ | OpenRouter | 22m (DNF) | ~$0.50 |
-| 22 | Kimi K2.5 | 69 | B | ✅ | OpenRouter | 29m | ~$0.10 |
-| 22 | Step 3.7 Flash | 69 | B | ✅ | OpenRouter | 27m | ~$0.30 |
-| 25 | Xiaomi MiMo V2.5 Pro | 67 | B | ✅ | OpenRouter | 11m | ~$0.14 |
-| 26 | GLM 5 | 64 | B | ✅ | OpenRouter | 17m | ~$0.11 |
-| 27 | Claude Sonnet 5 | 58 | C | ❌ | OpenRouter | 27m | ~$0.80 |
-| 28 | Step 3.5 Flash | 56 | C | ⚠️ bypass | OpenRouter | 38m | ~$0.02 |
+| 20 | Grok 4.3 | 72 | B | ✅ | OpenRouter | 15m | ~$1.70 |
+| 21 | Qwen 3.6 Plus | 71 | B | ✅ | OpenRouter | 17m | ~$0.15 (hist.) |
+| 22 | DeepSeek V4 Pro | 69 | B | ✅ | OpenRouter | 22m (DNF) | ~$0.05 |
+| 22 | Kimi K2.5 | 69 | B | ✅ | OpenRouter | 29m | ~$0.10 (hist.) |
+| 22 | Step 3.7 Flash | 69 | B | ✅ | OpenRouter | 27m | ~$0.80 |
+| 25 | Xiaomi MiMo V2.5 Pro | 67 | B | ✅ | OpenRouter | 11m | ~$0.09 |
+| 26 | GLM 5 | 64 | B | ✅ | OpenRouter | 17m | ~$0.11 (hist.) |
+| 27 | Claude Sonnet 5 | 58 | C | ❌ | OpenRouter | 27m | ~$2.25 |
+| 28 | Step 3.5 Flash | 56 | C | ⚠️ bypass | OpenRouter | 38m | ~$0.02 (hist.) |
 | 29 | Qwen 3.5 35B | 55 | C | ✅ | Local (AMD) | 28m | free |
 | 30 | GLM 4.7 Flash bf16 | 52 | C | ✅ | Local (AMD) | failed | free |
 | 31 | GLM 5.1 (Z.ai) | 46 | C | ❌ | Z.ai | 22m | subscription |
-| 32 | DeepSeek V3.2 | 43 | C | ❌ | OpenRouter | 60m | ~$0.07 |
-| 33 | Qwen 3.5 397B A17B (base) | 42 | C | ❌ | OpenRouter | 15m | ~$0.58 |
-| 34 | MiniMax M2.7 | 41 | C | ❌ | OpenRouter | 14m | ~$0.30 |
+| 32 | DeepSeek V3.2 | 43 | C | ❌ | OpenRouter | 60m | ~$0.07 (hist.) |
+| 33 | Qwen 3.5 397B A17B (base) | 42 | C | ❌ | OpenRouter | 15m | ~$0.31 |
+| 34 | MiniMax M2.7 | 41 | C | ❌ | OpenRouter | 14m | ~$0.30 (hist.) |
 | 35 | Qwen 3.5 122B | 37 | D | ❌ | Local (AMD) | 43m | free |
 | 36 | Qwen 3 Coder Next | 32 | D | ❌ | Local (AMD) | 17m | free |
-| 37 | Grok 4.20 | 25 | D | ❌ | OpenRouter | 8m | ~$0.60 |
+| 37 | Grok 4.20 | 25 | D | ❌ | OpenRouter | 8m | ~$0.70 |
 | 38 | GPT OSS 20B | 11 | D | ❌ | Local (AMD) | failed | free |
 
 **Note on score adjustment**: The original audit rubric wrongly penalized `RUBY_VERSION=4.0.2` as a fake placeholder. It's actually the current stable Ruby (released 2026-03-17). Scores for every model except Gemini 3.1 Pro have been adjusted +3 to remove that deduction. Gemini used Ruby 3.4.1 (older LTS, valid) so its score is unchanged. Relative ordering is preserved; only **MiniMax M2.7 crossed a tier boundary (D → C)** due to this correction.
+
+### Quality × Time × Cost (verified 2026-07-09)
+
+Score alone doesn't answer "which model should I use?" — this table adds the two axes that matter in practice. **Score/$** is benchmark points per dollar of run cost (recorded tokens × verified 2026-07-09 rates). It rewards cheap models mercilessly, so read it *together with the tier*: a Tier B model isn't "80% as useful" as a Tier A model — it's a model whose output still needs 1-2 engineer-hours before it ships (see [`cost_analysis.md`](cost_analysis.md) for the full argument). Subscription-billed and local models are excluded from Score/$ (no marginal per-run price).
+
+| Model | Score | Tier | Runtime | Cost/run | Score/$ | Value verdict |
+|---|---:|:---:|---:|---:|---:|---|
+| Nex-N2-Pro | 83 | A | 25m | ~$0.34 | 244 | **Best value in the benchmark** — Tier A at pocket change (was free at run time; now $0.25/$1.00 per M) |
+| Kimi K2.6 | 87 | A | 20m | ~$1.00 | 87 | Cheapest *dependable* Tier A; rates rose ~30% since its run |
+| Kimi K2.7 Code | 86 | A | 22m | ~$1.15 | 75 | Nearly K2.6 value; no system prompt |
+| Gemini 3.5 Flash | 93 | A | 18m | ~$3.55 | 26 | Best quality-per-dollar above 90; the token churn eats the low per-M rate |
+| Grok 4.5 | 87 | A | 16m | ~$5.10 | 17 | Fastest Tier A run, but K2.6 gives the same score for 5× less |
+| Claude Opus 4.8 | 95 | A | 17m | ~$6.40 | 15 | The frontier-quality/price sweet spot among the 95+ cluster |
+| Claude Opus 4.7 | 97 | A | 18m | ~$7.00 | 14 | Highest score per dollar of the two 97s |
+| Claude Fable 5 (re-release) | 93 | A | 18m | ~$8.30 | 11 | Gemini 3.5 Flash matches it for 40% of the price |
+| GPT 5.5 xHigh | 96 | A | 18m | ~$10 | 10 | — |
+| Claude Fable 5 | 94 | A | 24m | ~$11.20 | 8 | — |
+| GPT 5.4 xHigh | 97 | A | 22m | ~$16 | 6 | Co-leader on quality, worst $/point in Tier A |
+| DeepSeek V4 Flash | 78 | B | 3m | ~$0.01 | 7800 | The Score/$ outlier — but Tier B: needs its known 30-second fix + review |
+| Xiaomi MiMo V2.5 Pro | 67 | B | 11m | ~$0.09 | 744 | Cheap, but tests don't cover the LLM path |
+| Step 3.7 Flash | 69 | B | 27m | ~$0.80 | 86 | Multi-turn broken at LLM level — cheap run, expensive fix |
+| MiniMax M3 | 78 | B | 53m | ~$1.25 | 62 | Phase-2 DNF + secret-hygiene penalty |
+| Qwen3.7 Max | 78 | B | 19m | ~$1.40 | 56 | — |
+| Grok 4.3 | 72 | B | 15m | ~$1.70 | 42 | Superseded by Grok 4.5 at every axis except price |
+| Gemini 3.1 Pro | 79 | B | 14m | ~$3.10 | 25 | Superseded by 3.5 Flash: +14 points for similar money |
+| Claude Sonnet 5 | 58 | C | 27m | ~$2.25 | 26 | Below the productive floor — run cost is irrelevant |
+
+**How to read it**: within Tier A, value peaks at Nex-N2-Pro ($0.34) and Kimi K2.6 ($1.00); the 93+ cluster starts at ~$3.55 (Gemini 3.5 Flash) and frontier 95+ at ~$6.40 (Opus 4.8). Below Tier A, low run cost is mostly an illusion — the fix cost is human time. The two defensible exceptions are DeepSeek V4 Flash (known, 30-second fix) and cases where you review everything anyway.
 
 ### What changed from the previous ranking
 
@@ -671,12 +699,14 @@ Local provider probing on `192.168.0.90` is documented in `docs/local-provider-s
 
 ### 5. Most cost-efficient picks
 
-- **Under $0.05/run**: DeepSeek V4 Flash (Tier B, ~$0.01), Step 3.5 Flash (Tier C, ~$0.02)
-- **Under $0.50/run that actually work**: Kimi K2.6 (Tier A, ~$0.30), Gemini 3.1 Pro (Tier B, ~$0.40), MiMo V2.5 Pro (Tier B, ~$0.14)
-- **Cheap near-miss**: MiniMax M3 (Tier B, ~$0.10) has correct RubyLLM and good architecture, but phase 2 DNF + original `.env` secret leak mean it needs cleanup before use.
-- **Premium**: Opus 4.8/4.7 (Tier A, ~$1.10), Claude Fable 5 original/re-release (Tier A, premium), GPT 5.4 xHigh (Tier A, ~$16)
+*(Figures re-verified 2026-07-09 against the OpenRouter live API and vendor price pages; per-run costs recomputed from recorded token logs — earlier numbers under-counted cache reads for several models. Full audit: [`cost_analysis.md`](cost_analysis.md).)*
 
-**Nex-N2-Pro is now the cheapest Tier A — it's free** (open-weight, served on OpenRouter's `:free` endpoint) at 83/100, tying Claude Opus 4.6. The caveat is the free tier's aggressive rate limits (our run completed, but a stall is possible). For paid reliability, **Kimi K2.6 at ~$0.30/run** remains the cheapest dependable Tier A — 3-50× cheaper than the other paid Tier A models. If budget is extremely tight, **DeepSeek V4 Flash at ~$0.01/run** is Tier B with one known bug (model slug needs `anthropic/` prefix) that's a 30-second fix.
+- **Under $0.05/run**: DeepSeek V4 Flash (Tier B, ~$0.01), Step 3.5 Flash (Tier C, ~$0.02 hist.)
+- **Under $1.50/run that actually work**: Nex-N2-Pro (Tier A, ~$0.34), Kimi K2.6 (Tier A, ~$1.00), Kimi K2.7 Code (Tier A, ~$1.15)
+- **Cheap near-miss**: MiniMax M3 (Tier B, ~$1.25) has correct RubyLLM and good architecture, but phase 2 DNF + original `.env` secret leak mean it needs cleanup before use.
+- **Premium**: Opus 4.8 (~$6.40) / Opus 4.7 (~$7.00), Claude Fable 5 original (~$11.20) / re-release (~$8.30), GPT 5.4 xHigh (~$16)
+
+**Nex-N2-Pro is the cheapest Tier A at ~$0.34/run.** It was free at run time (2026-06-15, OpenRouter `:free` endpoint); that endpoint has since been delisted and the model is now paid at $0.25/$1.00 per M — which still makes it roughly 3× cheaper than the next Tier A option. For a more battle-tested pick, **Kimi K2.6 at ~$1.00/run** (rates rose ~30% since its run: now $0.65/$3.41 per M) is the cheapest dependable Tier A from a major lab. If budget is extremely tight, **DeepSeek V4 Flash at ~$0.01/run** is Tier B with one known bug (model slug needs `anthropic/` prefix) that's a 30-second fix.
 
 Practical reading of the tiers:
 - **Production-critical or long-context agentic work**: start with Tier A, then still hand-review library calls, persistence, secrets, and tests.
@@ -737,4 +767,5 @@ llama-swap (wrapping llama-server from llama.cpp) solves Ollama's lifecycle prob
 - [`audit_prompt_template.md`](audit_prompt_template.md) — The standardized prompt used to score every model consistently. Use this for any future model added to the benchmark.
 - [`codex-integration.md`](codex-integration.md) — Codex CLI integration guide (GPT 5.4/GPT 5.5 xHigh runs through Codex, not opencode)
 - [`llama-swap.md`](llama-swap.md) — Local NVIDIA llama-swap Docker setup
-- [`pricing.md`](pricing.md) — Per-token pricing reference for cost calculations
+- [`pricing.md`](pricing.md) — Per-token pricing reference (verified 2026-07-09)
+- [`cost_analysis.md`](cost_analysis.md) — Pricing audit, quality × time × cost analysis, and the productivity-floor argument (why going too cheap is a false economy for programming)
