@@ -446,6 +446,13 @@
       "selection_reason": "x.AI Grok 4.3 via OpenRouter. $1.25/$2.50 per M (mid-tier), 1M context, tool calling supported. First Grok variant in the benchmark — tests whether Grok's RubyLLM API recall is correct (real chat.ask path) or hits the same fluent-DSL/chat.complete hallucinations seen in some Tier B/C cloud models. Pricing positions it between Kimi K2.6 ($0.50/$2.50) and DeepSeek V4 Pro ($0.44/$0.87), well below Opus ($5/$25)."
     },
     {
+      "slug": "grok_4_5",
+      "id": "openrouter/x-ai/grok-4.5",
+      "label": "Grok 4.5",
+      "provider": "openrouter",
+      "selection_reason": "xAI Grok 4.5 via OpenRouter (snapshot grok-4.5-20260708, released 2026-07-08). xAI's flagship 'smartest model' with frontier coding claims. 500K context, $2/$6 per M, tool calling + reasoning supported. Reasoning effort maxes at 'high' which is the DEFAULT (no xhigh tier; reasoning cannot be disabled), so the standard run is already highest-effort. Tests whether 4.5 fixes the Grok-family weaknesses: 4.20's Tier D collapse and 4.3's dead Stimulus wiring, bypassed test stubs, and stale claude-3.7-sonnet pin."
+    },
+    {
       "slug": "mimo_v2_5_pro",
       "id": "openrouter/xiaomi/mimo-v2.5-pro",
       "label": "Xiaomi MiMo V2.5 Pro",
