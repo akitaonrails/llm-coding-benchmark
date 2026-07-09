@@ -12,6 +12,9 @@ Prices as of **July 9, 2026**. OpenRouter prices from their live `/api/v1/models
 | Claude Sonnet 4.6 | $3.00 | $15.00 | 1,000,000 | |
 | Claude Opus 4.6 | $5.00 | $25.00 | 1,000,000 | |
 | GPT 5.4 Pro (OR) | $30.00 | $180.00 | 1,050,000 | Unused — benchmark uses Codex/OpenAI direct |
+| GPT 5.6 Sol / Sol Pro | $5.00 | $30.00 | 1,050,000 | New generation (2026-07-09); same card as GPT 5.5 |
+| GPT 5.6 Terra | $2.50 | $15.00 | 1,050,000 | Same card as GPT 5.4 |
+| GPT 5.6 Luna | $1.00 | $6.00 | 1,050,000 | Cheap tier |
 | Gemini 3.5 Flash | $1.50 | $9.00 | 1,048,576 | Best non-Anthropic/OpenAI score (93) |
 | Gemini 3.1 Pro | $2.00 | $12.00 | 1,048,576 | |
 | Kimi K2.5 | $0.38 | $2.02 | 262,144 | Output rate up from $1.72 (Apr) |
@@ -50,6 +53,7 @@ Prices as of **July 9, 2026**. OpenRouter prices from their live `/api/v1/models
 |-------|-----------|------------|------------|-------|
 | GPT 5.4 | $2.50 | $0.25 | $15.00 | Used for the GPT 5.4 xHigh Codex runs |
 | GPT 5.5 | $5.00 | $0.50 | $30.00 | 2× price jump over 5.4 |
+| GPT 5.6 Sol | $5.00 | $0.50 | $30.00 | Benchmark run billed via ChatGPT subscription instead (Codex ChatGPT auth) |
 
 ## Subscription Plans (flat-rate, used by the benchmark)
 

@@ -139,7 +139,7 @@
       "id": "openrouter/anthropic/claude-fable-5",
       "label": "Claude Fable 5",
       "provider": "openrouter",
-      "selection_reason": "Anthropic Claude Fable 5 on OpenRouter (snapshot claude-5-fable-20260609, released 2026-06). New Claude 5-generation model. 1M context, tool calling supported, $10/M input and $50/M output — 2x Opus 4.x pricing. Tests whether the new generation improves on Opus 4.7/4.8's benchmark-leading RubyLLM correctness."
+      "selection_reason": "Anthropic Claude Fable 5 on OpenRouter (snapshot claude-5-fable-20260609, released 2026-06). New Claude 5-generation model. 1M context, tool calling supported, $10/M input and $50/M output \u2014 2x Opus 4.x pricing. Tests whether the new generation improves on Opus 4.7/4.8's benchmark-leading RubyLLM correctness."
     },
     {
       "slug": "claude_fable_5_rerelease",
@@ -320,6 +320,15 @@
       "selection_reason": "GPT 5.5 via Codex CLI at xhigh reasoning effort. Successor to GPT 5.4 \u2014 matches gpt_5_4_codex config exactly so the comparison measures model capability delta, not harness differences. Expected to produce similar ~$16/run cost band."
     },
     {
+      "slug": "gpt_5_6_sol",
+      "id": "gpt-5.6-sol",
+      "label": "GPT 5.6 Sol xHigh (Codex)",
+      "provider": "codex",
+      "runner_type": "codex",
+      "codex_reasoning_effort": "xhigh",
+      "selection_reason": "GPT 5.6 Sol via Codex CLI at xhigh reasoning effort, run 2026-07-10 on the user's ChatGPT subscription (codex logged in via ChatGPT; probe confirmed gpt-5.6-sol + xhigh accepted). OpenAI's new-generation flagship (Sol/Terra/Luna naming), public release delayed by a US government review; API rates $5/$30 per M (same card as GPT 5.5). Mirrors gpt_5_4_codex/gpt_5_5_codex config so the comparison measures model delta, not harness differences. A gpt-5.6-sol-pro variant also exists on OpenRouter (untested, likely the $30/$180-class tier)."
+    },
+    {
       "slug": "sakana_fugu",
       "id": "sakana/fugu",
       "label": "Sakana Fugu",
@@ -443,7 +452,7 @@
       "id": "openrouter/x-ai/grok-4.3",
       "label": "Grok 4.3",
       "provider": "openrouter",
-      "selection_reason": "x.AI Grok 4.3 via OpenRouter. $1.25/$2.50 per M (mid-tier), 1M context, tool calling supported. First Grok variant in the benchmark — tests whether Grok's RubyLLM API recall is correct (real chat.ask path) or hits the same fluent-DSL/chat.complete hallucinations seen in some Tier B/C cloud models. Pricing positions it between Kimi K2.6 ($0.50/$2.50) and DeepSeek V4 Pro ($0.44/$0.87), well below Opus ($5/$25)."
+      "selection_reason": "x.AI Grok 4.3 via OpenRouter. $1.25/$2.50 per M (mid-tier), 1M context, tool calling supported. First Grok variant in the benchmark \u2014 tests whether Grok's RubyLLM API recall is correct (real chat.ask path) or hits the same fluent-DSL/chat.complete hallucinations seen in some Tier B/C cloud models. Pricing positions it between Kimi K2.6 ($0.50/$2.50) and DeepSeek V4 Pro ($0.44/$0.87), well below Opus ($5/$25)."
     },
     {
       "slug": "grok_4_5",
@@ -481,7 +490,7 @@
       "label": "Qwen 3.5 397B Cloud",
       "provider": "openrouter",
       "skip_by_default": true,
-      "selection_reason": "The raw OpenRouter Qwen 3.5 397B A17B base — the architecture Nex AGI fine-tuned into Nex-N2-Pro. Force-run 2026-06-15 as a controlled base-vs-fine-tune comparison: completed_with_errors at 42/100 Tier C (hallucinates the RubyLLM API via chat.system/chat.user/response.text, builds in a nested chat-app/ subdir, tests mock the hallucinated API). Kept skip_by_default because it's a broken Tier C reference run, not a routine target. See Cross-Cutting Finding #6 in docs/success_report.md."
+      "selection_reason": "The raw OpenRouter Qwen 3.5 397B A17B base \u2014 the architecture Nex AGI fine-tuned into Nex-N2-Pro. Force-run 2026-06-15 as a controlled base-vs-fine-tune comparison: completed_with_errors at 42/100 Tier C (hallucinates the RubyLLM API via chat.system/chat.user/response.text, builds in a nested chat-app/ subdir, tests mock the hallucinated API). Kept skip_by_default because it's a broken Tier C reference run, not a routine target. See Cross-Cutting Finding #6 in docs/success_report.md."
     },
     {
       "slug": "gemma4_31b_cloud",
@@ -519,7 +528,7 @@
       "id": "openrouter/minimax/minimax-m3",
       "label": "MiniMax M3",
       "provider": "openrouter",
-      "selection_reason": "MiniMax M3 on OpenRouter. Direct successor to MiniMax M2.7. 1M context, tool calling supported, $0.30/M input and $1.20/M output. Tests whether the new MiniMax release fixes M2.7's RubyLLM batch-form hallucination and becomes a viable low-cost Rails/RubyLLM builder. Cloud-only: a GGUF exists (unsloth/MiniMax-M3-GGUF, ollama.com/library/minimax-m3), but as a 230B-total MoE it needs ~195 GB (Q3) / ~264 GB (Q4) for weights alone; usable inference also needs KV cache, runtime scratch, and OS headroom, so it exceeds both local profiles (RTX 5090 32 GB; Strix Halo ≤128 GB) — see docs/llama-swap.md."
+      "selection_reason": "MiniMax M3 on OpenRouter. Direct successor to MiniMax M2.7. 1M context, tool calling supported, $0.30/M input and $1.20/M output. Tests whether the new MiniMax release fixes M2.7's RubyLLM batch-form hallucination and becomes a viable low-cost Rails/RubyLLM builder. Cloud-only: a GGUF exists (unsloth/MiniMax-M3-GGUF, ollama.com/library/minimax-m3), but as a 230B-total MoE it needs ~195 GB (Q3) / ~264 GB (Q4) for weights alone; usable inference also needs KV cache, runtime scratch, and OS headroom, so it exceeds both local profiles (RTX 5090 32 GB; Strix Halo \u2264128 GB) \u2014 see docs/llama-swap.md."
     },
     {
       "slug": "deepseek_v3_2",
@@ -559,7 +568,7 @@
       "id": "openrouter/stepfun/step-3.7-flash",
       "label": "Step 3.7 Flash",
       "provider": "openrouter",
-      "selection_reason": "StepFun Step 3.7 Flash on OpenRouter (snapshot step-3.7-flash-20260528). Added 2026-06-15 per community Issue #7. 256K context, tool calling supported, $0.20/M input and $1.15/M output. Tests whether 3.7 fixes Step 3.5's ruby-openai bypass (3.5 scored 56/C ⚠️ bypass for using the wrong gem instead of ruby_llm)."
+      "selection_reason": "StepFun Step 3.7 Flash on OpenRouter (snapshot step-3.7-flash-20260528). Added 2026-06-15 per community Issue #7. 256K context, tool calling supported, $0.20/M input and $1.15/M output. Tests whether 3.7 fixes Step 3.5's ruby-openai bypass (3.5 scored 56/C \u26a0\ufe0f bypass for using the wrong gem instead of ruby_llm)."
     },
     {
       "slug": "claude_sonnet_4_6",
