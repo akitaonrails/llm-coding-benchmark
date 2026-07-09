@@ -95,10 +95,36 @@ The run-cost differences *within* a tier are pocket change next to the tier gaps
 
 ---
 
+## 4. Subscriptions change the math — but only for individuals, and only up to the caps
+
+Everything above prices runs at raw API rates, which is how *this benchmark* pays (OpenRouter BYO key; Codex runs billed via `OPENAI_API_KEY`). But Anthropic and OpenAI consumer plans (verified 2026-07-09, see [`pricing.md`](pricing.md)) change the calculus for an individual developer who already owns one:
+
+**Break-even against our measured per-run costs:**
+
+| Plan | $/mo | Covers | Break-even vs API |
+|---|---:|---|---|
+| Claude Pro | $20 | Claude Code incl. Opus-class usage within capped windows | ~3 Opus 4.7/4.8-scale runs/month |
+| Claude Max 5x | $100 | 5× Pro limits | ~14-16 Opus runs/month |
+| Claude Max 20x | $200 | 20× Pro limits | ~29-31 Opus runs (~$6.40-7.00 each) or ~18 Fable 5 runs (~$11.20) /month |
+| ChatGPT Plus | $20 | Codex, credit-metered | ~1-2 GPT 5.4 xHigh-scale runs/month |
+| ChatGPT Pro 20x | $200 | 20× Plus credits | ~13 GPT 5.4 xHigh runs (~$16) or ~20 GPT 5.5 runs (~$10) /month |
+
+Three consequences, and three caveats that keep the API analysis primary:
+
+- **For an individual on Max/Pro, the marginal cost of a frontier run is ≈ $0 within caps.** That collapses the price axis of the value frontier: if the subscription is already paid for, "use the best model your plan gives you" beats every per-token optimization — a Max 20x holder gains nothing choosing Kimi K2.6 over Opus 4.7 to save $6 they aren't spending. The frontier logic (§2) then only governs *overflow* usage beyond the caps and models outside the plan.
+- **The productivity-floor conclusion (§3) is unchanged and gets stronger.** Subscriptions make Tier A frontier models *cheaper* relative to sub-floor models, not pricier — there is even less reason to step below Tier A when Opus-class runs are effectively prepaid.
+- **At ~30 benchmark-scale agentic runs/month, subscription and API costs converge** (~$200 either way for Opus-class). Below that volume the subscription wins; far above it you exhaust caps and are back to API rates anyway.
+
+Caveats: (1) **"included" is not "unlimited"** — Codex has been credit-metered since 2026-04-02 (GPT-5.5 at 125/750 credits per 1M tokens; heavy real-world use runs $100-200/dev/month), and Claude plans meter by session/weekly windows; a cache-read-heavy agentic session consumes limits fast. (2) **Automation and CI cannot ride consumer plans** — unattended pipelines, this benchmark included, pay API rates, so the §2 frontier is the right lens for anything scripted. (3) **OpenRouter-served models never see these subscriptions** — Kimi, GLM, DeepSeek, Nex, Gemini et al. are API-priced regardless, so cross-vendor comparisons must hold the billing mode constant or say which one they assume.
+
+---
+
 ## Sources
 
 - OpenRouter live model API (`https://openrouter.ai/api/v1/models`), fetched 2026-07-09 — all OpenRouter per-M rates
 - [OpenAI API pricing](https://developers.openai.com/api/docs/pricing) — GPT 5.4/5.5 direct rates
 - [Z.ai GLM Coding Plan](https://z.ai/subscribe) — subscription tiers
 - [Sakana Fugu pricing](https://console.sakana.ai/pricing) — subscription + pay-as-you-go
+- [Claude plans](https://claude.com/pricing) + [Max plan help page](https://support.claude.com/en/articles/11049741-what-is-the-max-plan) — Pro/Max pricing and limits
+- [Codex pricing](https://developers.openai.com/codex/pricing) + [Codex rate card](https://help.openai.com/en/articles/20001106-codex-rate-card) — ChatGPT plan inclusion and credit metering
 - Per-run token counts: `results/<slug>/opencode-output.ndjson` + `followup-*.ndjson` in this repo
