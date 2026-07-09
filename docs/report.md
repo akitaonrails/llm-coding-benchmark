@@ -1,11 +1,11 @@
 # Benchmark Report
 
-Generated at: 2026-07-09T01:46:10+00:00
+Generated at: 2026-07-09T17:56:53+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
 
-- `completed`: 43
+- `completed`: 44
 - `completed_with_errors`: 3
 - `failed`: 8
 - `timeout`: 1
@@ -49,6 +49,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 - `gpt_5_4_pro` -> `openrouter/openai/gpt-5.4-pro`: Chosen from the OpenRouter GPT 5.4 family as the largest and most coding-oriented variant. Skipped by default because it failed in the previous benchmark pass.
 - `gpt_5_4_codex` -> `gpt-5.4`: GPT 5.4 via Codex CLI at xhigh reasoning effort. Tier 2: correct entry point (RubyLLM.chat + ask + response.content) but add_message uses keyword args instead of positional hash — crashes on multi-turn. ~$16/run (15x Claude). Polished architecture but wrong API calling convention.
 - `gpt_5_5_codex` -> `gpt-5.5`: GPT 5.5 via Codex CLI at xhigh reasoning effort. Successor to GPT 5.4 — matches gpt_5_4_codex config exactly so the comparison measures model capability delta, not harness differences. Expected to produce similar ~$16/run cost band.
+- `gpt_5_6_sol` -> `gpt-5.6-sol`: GPT 5.6 Sol via Codex CLI at xhigh reasoning effort, run 2026-07-10 on the user's ChatGPT subscription (codex logged in via ChatGPT; probe confirmed gpt-5.6-sol + xhigh accepted). OpenAI's new-generation flagship (Sol/Terra/Luna naming), public release delayed by a US government review; API rates $5/$30 per M (same card as GPT 5.5). Mirrors gpt_5_4_codex/gpt_5_5_codex config so the comparison measures model delta, not harness differences. A gpt-5.6-sol-pro variant also exists on OpenRouter (untested, likely the $30/$180-class tier).
 - `sakana_fugu` -> `sakana/fugu`: Sakana Fugu default router via Sakana's OpenAI-compatible Chat Completions API (https://api.sakana.ai/v1). Docs list 1M context, streaming, tools/tool_choice, and reasoning effort high/xhigh/max; this opencode path uses @ai-sdk/openai-compatible with SAKANA_AI_TOKEN because the benchmark harness expects Chat Completions-style tool calling. Skipped by default until an in-house benchmark run confirms cost, latency, and long-session stability.
 - `sakana_fugu_ultra` -> `sakana/fugu-ultra`: Sakana Fugu Ultra via Sakana's OpenAI-compatible Chat Completions API. Docs describe it as the higher-quality/deeper multi-agent Fugu mode with 1M context, tools/tool_choice, streaming, and fixed pay-as-you-go pricing for fugu-ultra-20260615 ($5/M input, $30/M output; higher above 272K context). Skipped by default because long benchmark sessions may be slower/costlier and should be launched explicitly.
 - `gpt_5_4_multi_balanced` -> `gpt-5.4`: Codex multi-agent: xhigh plans and orchestrates, medium/balanced handles coding. Tests whether GPT 5.4 at lower effort can execute well when the xhigh parent makes decisions. Comparison against gpt_5_4_codex (xhigh alone).
@@ -120,6 +121,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | GPT 5.4 Pro | openrouter | - | failed | 2910.65 | 63491 | 21.81 | partial | 1118 | Exit code -15. Some expected benchmark artifacts exist, but the scaffold looks incomplete. |
 | GPT 5.4 xHigh (Codex) | codex | - | completed | 1312.34 | 7643800 | 5824.56 | yes | 1808 | Rails app, tests, README, and container files detected. |
 | GPT 5.5 xHigh (Codex) | codex | - | completed | 1080.90 | 4904634 | 4537.55 | yes | 1553 | Rails app, tests, README, and container files detected. |
+| GPT 5.6 Sol xHigh (Codex) | codex | - | completed | 1011.30 | 3918623 | 3874.84 | yes | 1373 | Rails app, tests, README, and container files detected. |
 | Sakana Fugu | sakana | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
 | Sakana Fugu Ultra | sakana | - | completed | 1297.34 | 142469 | 492.26 | yes | 1967 | Rails app, tests, README, and container files detected. |
 | GPT 5.4 xHigh + medium coder (Codex multi-agent) | codex | - | completed | 1271.76 | 5438106 | 4276.05 | yes | 1671 | Rails app, tests, README, and container files detected. |

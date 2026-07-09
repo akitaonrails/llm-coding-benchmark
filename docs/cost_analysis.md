@@ -48,6 +48,7 @@ This document answers three questions:
 |---|---|---|
 | OpenAI direct (Codex CLI) | GPT 5.4 | $2.50/M in, $0.25/M cached, $15/M out |
 | OpenAI direct (Codex CLI) | GPT 5.5 | $5/M in, $0.50/M cached, $30/M out (2× price jump over 5.4) |
+| ChatGPT subscription (Codex CLI) | GPT 5.6 Sol | billed as plan credits; API-equiv $5/$30 per M — the benchmark run ≈$8.70 equivalent |
 | Z.ai coding plan | GLM 5.1, GLM 5.2 | flat-rate subscription: Lite $18/mo, Pro $72/mo, Max $160/mo (30% promo through Sept 2026); all tiers include GLM-5.2 |
 | Sakana | Fugu Ultra | subscription $20/$100/$200 per month; pay-as-you-go exists at $5/$30 per M (rises above 272K context) |
 | Local (AMD Strix Halo / RTX 5090) | all `ollama`/llama-swap models | hardware + electricity; no marginal per-run cost |
@@ -66,6 +67,7 @@ The consolidated table lives in [`success_report.md` → "Quality × Time × Cos
 
 - **The value frontier (Tier A only):** Nex-N2-Pro (~$0.34, 83) → Kimi K2.6 (~$1.00, 87) → Gemini 3.5 Flash (~$3.55, 93) → Claude Opus 4.8 (~$6.40, 95) → Claude Opus 4.7 (~$7.00, 97). Every point on this frontier is a rational choice; everything to the right of it (same score, higher price) is not — e.g., Grok 4.5 (~$5.10, 87) is dominated by Kimi K2.6, and GPT 5.4 xHigh (~$16, 97) by Opus 4.7.
 - **Per-M rate ≠ per-run cost.** Gemini 3.5 Flash has one of the cheapest rate cards in Tier A yet costs ~$3.55/run because it churns 11M+ cache-read tokens. Token discipline matters as much as the rate card: Opus 4.7 at a 3.3× higher rate costs only 2× more per run.
+- **Subscription billing is now on the board**: GPT 5.6 Sol (92) ran on ChatGPT plan credits at ≈$8.70 API-equivalent. At API rates it is dominated by Opus 4.8 (95 at ~$6.40); on an already-paid ChatGPT plan its marginal cost is ≈$0, making it the rational frontier pick for Pro subscribers (see §4).
 - **Runtime barely differentiates.** Cloud Tier A runs cluster at 16-25 minutes. Time is not where the trade-off lives; quality and cost are.
 
 ---
