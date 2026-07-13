@@ -462,6 +462,20 @@
       "selection_reason": "xAI Grok 4.5 via OpenRouter (snapshot grok-4.5-20260708, released 2026-07-08). xAI's flagship 'smartest model' with frontier coding claims. 500K context, $2/$6 per M, tool calling + reasoning supported. Reasoning effort maxes at 'high' which is the DEFAULT (no xhigh tier; reasoning cannot be disabled), so the standard run is already highest-effort. Tests whether 4.5 fixes the Grok-family weaknesses: 4.20's Tier D collapse and 4.3's dead Stimulus wiring, bypassed test stubs, and stale claude-3.7-sonnet pin."
     },
     {
+      "slug": "grok_composer_2_5_fast",
+      "id": "grok-composer-2.5-fast",
+      "label": "Grok Composer 2.5 Fast",
+      "provider": "grok",
+      "runner_type": "grok",
+      "skip_by_default": true,
+      "enable_followup": true,
+      "grok_max_turns": 200,
+      "grok_followup_max_turns": 100,
+      "grok_followup_no_progress_minutes": 30,
+      "grok_followup_resume": false,
+      "selection_reason": "xAI Grok Composer 2.5 Fast via the Grok Build CLI headless runner (grok.com login or XAI_API_KEY). First benchmark entry for the grok runner_type. Phase 1 completed in ~4m with correct RubyLLM API (Tier A audit ~92/100); phase 2 validated local boot, docker build, and compose. grok_followup_resume=false because --resume stalls silently; phase 2 uses a fresh session with the standard follow-up fallback prompt. Skipped by default because it requires the Grok CLI and a separate auth path from OpenRouter."
+    },
+    {
       "slug": "mimo_v2_5_pro",
       "id": "openrouter/xiaomi/mimo-v2.5-pro",
       "label": "Xiaomi MiMo V2.5 Pro",

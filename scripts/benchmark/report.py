@@ -94,7 +94,19 @@ def build_report(
     lines.append("")
     lines.append("## Runner")
     lines.append("")
-    lines.append("`opencode run --agent build --format json`")
+    runner_types = {
+        result.get("model", {}).get("runner_type", "opencode")
+        for result in results
+        if result.get("status") != "not_run"
+    }
+    if not runner_types:
+        runner_types = {"opencode"}
+    if "opencode" in runner_types:
+        lines.append("`opencode run --agent build --format json`")
+    if "codex" in runner_types:
+        lines.append("`codex exec` (runner_type=codex models)")
+    if "grok" in runner_types:
+        lines.append("`grok --prompt-file --output-format streaming-json --always-approve` (runner_type=grok models)")
     lines.append("")
     for note in config["runner"]["notes"]:
         lines.append(f"- {note}")
@@ -160,8 +172,8 @@ def build_report(
     lines.append("")
     lines.append("- `project/`: the generated project workspace")
     lines.append("- `prompt.txt`: exact prompt used for the run")
-    lines.append("- `opencode-output.ndjson`: raw JSON event stream from opencode")
-    lines.append("- `opencode-stderr.log`: stderr from the opencode process")
+    lines.append("- `opencode-output.ndjson`: raw JSON event stream from the runner (opencode, codex, or grok)")
+    lines.append("- `opencode-stderr.log`: stderr from the runner process")
     lines.append("- `followup-prompt.txt`: second-phase validation prompt for continuations when enabled")
     lines.append("- `followup-opencode-output.ndjson`: raw JSON event stream from the follow-up continuation")
     lines.append("- `followup-opencode-stderr.log`: stderr from the follow-up continuation")

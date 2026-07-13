@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any, Callable, cast
 
 from benchmark.backends import LocalModelBackend
+from benchmark.grok_runner import run_grok_phase
 from benchmark.config import (
     OPENCODE_YOLO_PERMISSION,
     BenchmarkConfig,
@@ -28,6 +29,7 @@ from benchmark.util import (
     count_files,
     format_duration,
     format_value,
+    load_json,
     print_line,
     prompt_sha256,
     save_json,
@@ -1031,7 +1033,17 @@ def run_model(model: dict[str, Any], bench: BenchmarkConfig, index: int, total: 
     result_dir.mkdir(parents=True, exist_ok=True)
     project_dir.mkdir(parents=True, exist_ok=True)
 
-    if not bench.force:
+    if bench.phase2_only and not bench.followup_prompt:
+        print_line(f"[{model['slug']}] phase2-only requested but no follow-up prompt configured")
+        return {
+            "status": "failed",
+            "model": model,
+            "project_summary": summarize_project(project_dir),
+            "elapsed_seconds": 0.0,
+            "tokens": {},
+        }
+
+    if not bench.force and not bench.phase2_only:
         cached = existing_terminal_result(result_path)
         if cached:
             print_line(
@@ -1042,15 +1054,16 @@ def run_model(model: dict[str, Any], bench: BenchmarkConfig, index: int, total: 
 
     runner_type = model.get("runner_type", "opencode")
 
-    if runner_type != "codex":
+    if runner_type == "opencode":
         _kill_stale_opencode_processes()
 
     started_at = utc_now()
     print_line("")
-    print_line(f"[{index}/{total}] starting {model['slug']} -> {model['id']} (runner={runner_type})")
+    mode_label = "phase2-only" if bench.phase2_only else "full"
+    print_line(f"[{index}/{total}] starting {model['slug']} -> {model['id']} (runner={runner_type}, mode={mode_label})")
     print_line(f"[{model['slug']}] results_dir={result_dir}")
     print_line(f"[{model['slug']}] timeout={bench.timeout_seconds}s")
-    if runner_type != "codex" and bench.opencode_config_path is not None:
+    if runner_type == "opencode" and bench.opencode_config_path is not None:
         print_line(f"[{model['slug']}] opencode_config={bench.opencode_config_path}")
     print_line(f"[{model['slug']}] no_progress_timeout={bench.no_progress_timeout_seconds}s")
 
@@ -1095,35 +1108,73 @@ def run_model(model: dict[str, Any], bench: BenchmarkConfig, index: int, total: 
             print_line(f"[{index}/{total}] finished {model['slug']} status=failed preflight_error={preflight_message}")
             return payload
 
-    _run_phase = run_codex_phase if runner_type == "codex" else run_opencode_phase
-    phase1_kwargs: dict[str, Any] = {
-        "bench": bench,
-        "model": model,
-        "model_slug": model["slug"],
-        "prompt": bench.prompt,
-        "started_at": started_at,
-        "project_dir": project_dir,
-        "prompt_path": prompt_path,
-        "stdout_path": stdout_path,
-        "stderr_path": stderr_path,
-        "result_path": phase1_result_path,
-        "phase_name": "phase1",
-    }
-    if runner_type != "codex":
-        phase1_kwargs["continue_session_id"] = None
-    phase1 = _run_phase(**phase1_kwargs)
+    if runner_type == "codex":
+        _run_phase = run_codex_phase
+    elif runner_type == "grok":
+        _run_phase = run_grok_phase
+    else:
+        _run_phase = run_opencode_phase
 
-    phases = [phase1]
-    final_phase = phase1
+    if bench.phase2_only:
+        if not phase1_result_path.exists():
+            print_line(f"[{model['slug']}] phase2-only aborted: missing {phase1_result_path}")
+            payload = {
+                "status": "failed",
+                "model": model,
+                "project_summary": summarize_project(project_dir),
+                "elapsed_seconds": 0.0,
+                "tokens": {},
+                "phases": [],
+            }
+            save_json(result_path, payload)
+            return payload
+        phase1 = load_json(phase1_result_path)
+        phases = [phase1]
+        final_phase = phase1
+        print_line(
+            f"[{model['slug']}] reusing cached phase1 status={phase1.get('status')} "
+            f"session={phase1.get('opencode_session_id') or '-'}"
+        )
+    else:
+        phase1_kwargs: dict[str, Any] = {
+            "bench": bench,
+            "model": model,
+            "model_slug": model["slug"],
+            "prompt": bench.prompt,
+            "started_at": started_at,
+            "project_dir": project_dir,
+            "prompt_path": prompt_path,
+            "stdout_path": stdout_path,
+            "stderr_path": stderr_path,
+            "result_path": phase1_result_path,
+            "phase_name": "phase1",
+        }
+        if runner_type == "opencode":
+            phase1_kwargs["continue_session_id"] = None
+        elif runner_type == "grok":
+            phase1_kwargs["continue_session_id"] = None
+        phase1 = _run_phase(**phase1_kwargs)
+        phases = [phase1]
+        final_phase = phase1
 
-    if (
+    run_phase2 = bench.phase2_only or (
         bench.followup_prompt
         and model_enables_followup(model)
         and not phase1.get("timed_out")
         and not phase1.get("stalled")
-    ):
-        continued_session_id = phase1.get("opencode_session_id") if runner_type != "codex" else None
-        print_line(f"[{model['slug']}] primary phase complete; continuing with follow-up prompt")
+    )
+    if run_phase2 and bench.followup_prompt:
+        continued_session_id = (
+            phase1.get("opencode_session_id")
+            if runner_type in ("opencode", "grok")
+            else None
+        )
+        if runner_type == "grok" and model.get("grok_followup_resume") is False:
+            continued_session_id = None
+        if bench.phase2_only:
+            print_line(f"[{model['slug']}] phase2-only; resuming follow-up validation")
+        else:
+            print_line(f"[{model['slug']}] primary phase complete; continuing with follow-up prompt")
         phase2_kwargs: dict[str, Any] = {
             "bench": bench,
             "model": model,
@@ -1136,9 +1187,11 @@ def run_model(model: dict[str, Any], bench: BenchmarkConfig, index: int, total: 
             "stderr_path": followup_stderr_path,
             "result_path": phase2_result_path,
             "phase_name": "phase2",
-            "override_min_preview_tps": None,
         }
-        if runner_type != "codex":
+        if runner_type == "opencode":
+            phase2_kwargs["continue_session_id"] = continued_session_id
+            phase2_kwargs["override_min_preview_tps"] = None
+        elif runner_type == "grok":
             phase2_kwargs["continue_session_id"] = continued_session_id
         phase2 = _run_phase(**phase2_kwargs)
         phases.append(phase2)
@@ -1160,7 +1213,7 @@ def run_model(model: dict[str, Any], bench: BenchmarkConfig, index: int, total: 
 
     session_id = final_phase.get("opencode_session_id") or phase1.get("opencode_session_id")
     exported_session = None
-    if runner_type != "codex":
+    if runner_type == "opencode":
         process_env = os.environ.copy()
         if bench.opencode_config_path is not None:
             process_env["OPENCODE_CONFIG"] = str(bench.opencode_config_path.resolve())

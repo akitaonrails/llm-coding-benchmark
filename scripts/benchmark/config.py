@@ -54,6 +54,7 @@ class BenchmarkConfig:
     min_preview_samples: int
     auto_skip_slow_preview: bool
     force: bool
+    phase2_only: bool = False
     backend: LocalModelBackend | None = None
     selected_models: list[dict[str, Any]] = field(default_factory=list)
     prompt: str = ""

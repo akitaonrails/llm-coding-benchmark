@@ -1,11 +1,11 @@
 # Benchmark Report
 
-Generated at: 2026-07-09T17:56:53+00:00
+Generated at: 2026-07-13T13:12:01+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
 
-- `completed`: 44
+- `completed`: 45
 - `completed_with_errors`: 3
 - `failed`: 8
 - `timeout`: 1
@@ -14,6 +14,8 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 ## Runner
 
 `opencode run --agent build --format json`
+`codex exec` (runner_type=codex models)
+`grok --prompt-file --output-format streaming-json --always-approve` (runner_type=grok models)
 
 - Selected after local probing because it exposes machine-readable JSON events with session IDs and token counts.
 - The local crush install advertised --yolo in help output but rejected the flag at runtime, which makes it a poor default for unattended benchmarking here.
@@ -61,6 +63,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 - `kimi_k2_7_code` -> `openrouter/moonshotai/kimi-k2.7-code`: MoonshotAI Kimi K2.7 Code on OpenRouter. Direct successor to K2.6 for coding. OpenRouter lists 262K context, tool calling, structured outputs, and reasoning controls; pricing $0.95/M input and $4/M output. Tests whether the Kimi line keeps K2.6's Tier A trajectory while improving RubyLLM API accuracy and Rails app execution quality.
 - `grok_4_3` -> `openrouter/x-ai/grok-4.3`: x.AI Grok 4.3 via OpenRouter. $1.25/$2.50 per M (mid-tier), 1M context, tool calling supported. First Grok variant in the benchmark — tests whether Grok's RubyLLM API recall is correct (real chat.ask path) or hits the same fluent-DSL/chat.complete hallucinations seen in some Tier B/C cloud models. Pricing positions it between Kimi K2.6 ($0.50/$2.50) and DeepSeek V4 Pro ($0.44/$0.87), well below Opus ($5/$25).
 - `grok_4_5` -> `openrouter/x-ai/grok-4.5`: xAI Grok 4.5 via OpenRouter (snapshot grok-4.5-20260708, released 2026-07-08). xAI's flagship 'smartest model' with frontier coding claims. 500K context, $2/$6 per M, tool calling + reasoning supported. Reasoning effort maxes at 'high' which is the DEFAULT (no xhigh tier; reasoning cannot be disabled), so the standard run is already highest-effort. Tests whether 4.5 fixes the Grok-family weaknesses: 4.20's Tier D collapse and 4.3's dead Stimulus wiring, bypassed test stubs, and stale claude-3.7-sonnet pin.
+- `grok_composer_2_5_fast` -> `grok-composer-2.5-fast`: xAI Grok Composer 2.5 Fast via the Grok Build CLI headless runner (grok.com login or XAI_API_KEY). First benchmark entry for the grok runner_type. Phase 1 completed in ~4m with correct RubyLLM API (Tier A audit ~92/100); phase 2 validated local boot, docker build, and compose. grok_followup_resume=false because --resume stalls silently; phase 2 uses a fresh session with the standard follow-up fallback prompt. Skipped by default because it requires the Grok CLI and a separate auth path from OpenRouter.
 - `mimo_v2_5_pro` -> `openrouter/xiaomi/mimo-v2.5-pro`: Xiaomi's flagship coding model. $1/$3 per M, 1M context, tool calling supported. Brand-new family we haven't tested — competitive pricing with mid-tier Chinese models like Kimi and GLM.
 - `glm_5` -> `openrouter/z-ai/glm-5`: Chosen as the latest/highest GLM variant listed by OpenRouter locally; this replaces the local GLM test. Skipped by default because it completed with errors in the previous benchmark pass.
 - `qwen3_6_plus` -> `openrouter/qwen/qwen3.6-plus`: Added from OpenRouter cloud availability; chose the non-preview Qwen 3.6 Plus variant exposed locally. Skipped by default because it completed with errors in the previous benchmark pass.
@@ -133,6 +136,7 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | Kimi K2.7 Code | openrouter | - | completed | 1295.74 | 86967 | 486.83 | yes | 1687 | Rails app, tests, README, and container files detected. |
 | Grok 4.3 | openrouter | - | completed | 900.07 | 46929 | 175.07 | yes | 2355 | Rails app, tests, README, and container files detected. |
 | Grok 4.5 | openrouter | - | completed | 964.07 | 154335 | 553.25 | yes | 1564 | Rails app, tests, README, and container files detected. |
+| Grok Composer 2.5 Fast | grok | - | completed | 1020.82 | 1670461 | 2161.35 | yes | 1806 | Rails app, tests, README, and container files detected. |
 | Xiaomi MiMo V2.5 Pro | openrouter | - | completed | 644.40 | 80447 | 288.04 | yes | 1554 | Rails app, tests, README, and container files detected. |
 | GLM 5 | openrouter | - | completed | 1033.99 | 59378 | 400.01 | yes | 1680 | Rails app, tests, README, and container files detected. |
 | Qwen 3.6 Plus | openrouter | - | completed | 1031.84 | 88940 | 182.91 | yes | 744 | Rails app, tests, README, and container files detected. |
@@ -167,8 +171,8 @@ Each run writes to `results/<slug>/` with these files:
 
 - `project/`: the generated project workspace
 - `prompt.txt`: exact prompt used for the run
-- `opencode-output.ndjson`: raw JSON event stream from opencode
-- `opencode-stderr.log`: stderr from the opencode process
+- `opencode-output.ndjson`: raw JSON event stream from the runner (opencode, codex, or grok)
+- `opencode-stderr.log`: stderr from the runner process
 - `followup-prompt.txt`: second-phase validation prompt for continuations when enabled
 - `followup-opencode-output.ndjson`: raw JSON event stream from the follow-up continuation
 - `followup-opencode-stderr.log`: stderr from the follow-up continuation
