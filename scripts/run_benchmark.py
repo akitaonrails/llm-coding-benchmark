@@ -16,6 +16,7 @@ from benchmark.config import (
     write_local_opencode_config,
 )
 from benchmark.report import build_report, load_results
+from benchmark.grok_runner import resolve_grok_binary
 from benchmark.runner import run_model
 from benchmark.util import load_json, print_line
 
@@ -81,6 +82,11 @@ def parse_args() -> argparse.Namespace:
         help="Disable the second-phase follow-up prompt.",
     )
     parser.add_argument(
+        "--phase2-only",
+        action="store_true",
+        help="Skip phase 1 and re-run phase 2 only (requires results/<slug>/phase1-result.json).",
+    )
+    parser.add_argument(
         "--min-preview-output-tps",
         type=float,
         default=5.0,
@@ -144,11 +150,15 @@ def main() -> int:
     # Check that required runner binaries are available
     has_opencode_models = any(m.get("runner_type", "opencode") == "opencode" for m in selected_models)
     has_codex_models = any(m.get("runner_type") == "codex" for m in selected_models)
+    has_grok_models = any(m.get("runner_type") == "grok" for m in selected_models)
     if has_opencode_models and shutil.which("opencode") is None:
         print("opencode is not available on PATH (needed by selected models)", file=sys.stderr)
         return 1
     if has_codex_models and shutil.which("codex") is None:
         print("codex is not available on PATH (needed by selected models)", file=sys.stderr)
+        return 1
+    if has_grok_models and resolve_grok_binary() is None:
+        print("grok is not available on PATH (needed by selected models; tried grok and agent)", file=sys.stderr)
         return 1
 
     warmup_payload = load_ollama_warmup_payload(warmup_path)
@@ -189,6 +199,7 @@ def main() -> int:
             min_preview_samples=args.min_preview_samples,
             auto_skip_slow_preview=args.auto_skip_slow_preview,
             force=args.force,
+            phase2_only=args.phase2_only,
             backend=backend,
             selected_models=selected_models,
             prompt=prompt,
