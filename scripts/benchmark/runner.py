@@ -488,6 +488,12 @@ def stream_process_output(
                             if event.get("type") == "turn.completed":
                                 terminal_stop_seen_at = now
 
+                            # Kimi Code CLI: the session.resume_hint meta event is only
+                            # emitted at the clean end of a prompt-mode run, but the kimi
+                            # process can linger afterwards — treat it as terminal stop.
+                            if event.get("role") == "meta" and event.get("type") == "session.resume_hint":
+                                terminal_stop_seen_at = now
+
                             # Tool-call loop detection (Gemini CLI style)
                             if event.get("type") == "tool_use":
                                 part = event.get("part", {})
@@ -895,6 +901,262 @@ def run_codex_phase(
     return payload
 
 
+
+def build_kimi_command(model_id: str, prompt: str, session_id: str | None = None) -> list[str]:
+    """Build a Kimi Code CLI command for a non-interactive benchmark phase.
+
+    kimi's prompt mode (-p) auto-approves tool calls; --yolo/--auto are
+    rejected when combined with -p. Phase 2 resumes a session via -S <id>.
+    Launched through bash -lc so the installer's PATH entry applies.
+    """
+    kimi_args = [
+        "kimi",
+        "-p", prompt,
+        "--output-format", "stream-json",
+        "-m", model_id,
+    ]
+    if session_id:
+        kimi_args.extend(["-S", session_id])
+    return ["bash", "-lc", " ".join(shlex_quote(a) for a in kimi_args)]
+
+
+def describe_kimi_event(event: dict[str, Any]) -> str | None:
+    role = event.get("role")
+    if role == "assistant":
+        calls = event.get("tool_calls")
+        if calls:
+            names = ",".join((c.get("function") or {}).get("name", "?") for c in calls)
+            return f"event: tool ({names})"
+        content = (event.get("content") or "").strip()
+        if content:
+            return f"assistant text: {content[:120]}"
+        return None
+    if role == "tool":
+        return "tool result"
+    if role == "meta" and event.get("type") == "session.resume_hint":
+        return f"kimi session: {event.get('session_id')}"
+    return None
+
+
+def extract_kimi_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
+    """Normalize kimi stream-json events.
+
+    The stream carries no token usage; the terminal session.resume_hint meta
+    event doubles as the finish marker (only emitted on a clean end of run).
+    Tokens are collected separately from the session export (see
+    collect_kimi_session_tokens).
+    """
+    assistant_parts: list[str] = []
+    session_id: str | None = None
+    finish_reason: str | None = None
+    for event in events:
+        if not isinstance(event, dict):
+            continue
+        if event.get("role") == "assistant" and isinstance(event.get("content"), str):
+            text = event["content"].strip()
+            if text:
+                assistant_parts.append(text)
+        if event.get("role") == "meta" and event.get("type") == "session.resume_hint":
+            session_id = event.get("session_id")
+            finish_reason = "stop"
+    return {
+        "assistant_output": "\n".join(assistant_parts),
+        "session_id": session_id,
+        "finish_reason": finish_reason,
+        "tokens": {},
+    }
+
+
+def collect_kimi_session_tokens(session_id: str | None, model_slug: str) -> dict[str, Any]:
+    """Sum token usage from a kimi session export (agents/*/wire.jsonl).
+
+    Each LLM call emits a context.append_loop_event step.end with a usage
+    object; summing those avoids double counting the per-turn usage.record
+    events. Returns cumulative usage for the whole session.
+    """
+    if not session_id:
+        return {}
+    import tempfile
+    import zipfile
+
+    try:
+        with tempfile.TemporaryDirectory() as tmp:
+            zip_path = Path(tmp) / "session.zip"
+            export_cmd = ["bash", "-lc", f"kimi export {shlex_quote(session_id)} -o {shlex_quote(str(zip_path))}"]
+            proc = subprocess.run(export_cmd, capture_output=True, text=True, timeout=180)
+            if proc.returncode != 0 or not zip_path.exists():
+                print_line(f"[{model_slug}] kimi export failed (rc={proc.returncode}); tokens unavailable")
+                return {}
+            tin = tout = tcr = tcw = 0
+            with zipfile.ZipFile(zip_path) as archive:
+                for name in archive.namelist():
+                    if not name.endswith("wire.jsonl"):
+                        continue
+                    for line in archive.read(name).decode("utf-8", errors="replace").splitlines():
+                        try:
+                            record = json.loads(line)
+                        except json.JSONDecodeError:
+                            continue
+                        if record.get("type") != "context.append_loop_event":
+                            continue
+                        step = record.get("event") or {}
+                        usage = step.get("usage")
+                        if step.get("type") == "step.end" and isinstance(usage, dict):
+                            tin += usage.get("inputOther", 0) or 0
+                            tout += usage.get("output", 0) or 0
+                            tcr += usage.get("inputCacheRead", 0) or 0
+                            tcw += usage.get("inputCacheCreation", 0) or 0
+            total = tin + tout + tcr + tcw
+            if not total:
+                return {}
+            return {
+                "input": tin,
+                "output": tout,
+                "cache": {"read": tcr, "write": tcw},
+                "total": total,
+            }
+    except (OSError, subprocess.TimeoutExpired) as error:
+        print_line(f"[{model_slug}] kimi export error: {error}")
+        return {}
+
+
+def run_kimi_phase(
+    *,
+    bench: BenchmarkConfig,
+    model: dict[str, Any],
+    model_slug: str,
+    prompt: str,
+    started_at: str,
+    project_dir: Path,
+    prompt_path: Path,
+    stdout_path: Path,
+    stderr_path: Path,
+    result_path: Path | None,
+    phase_name: str = "phase1",
+    continue_session_id: str | None = None,
+    tokens_baseline: dict[str, Any] | None = None,
+    override_min_preview_tps: float | None | object = MIN_PREVIEW_TPS_DEFAULT,
+) -> dict[str, Any]:
+    """Run a single benchmark phase using the Kimi Code CLI."""
+    prompt_path.write_text(prompt)
+    command = build_kimi_command(model["id"], prompt, session_id=continue_session_id)
+    wall_start = time.monotonic()
+
+    process = subprocess.Popen(
+        command,
+        cwd=project_dir.resolve(),
+        env=os.environ.copy(),
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        start_new_session=True,
+        bufsize=1,
+    )
+
+    effective_min_tps: float | None = (
+        bench.min_preview_output_tps
+        if override_min_preview_tps is MIN_PREVIEW_TPS_DEFAULT
+        else cast(float | None, override_min_preview_tps)
+    )
+
+    result = stream_process_output(
+        process=process,
+        stdout_path=stdout_path,
+        stderr_path=stderr_path,
+        project_dir=project_dir,
+        model_slug=f"{model_slug}/{phase_name}",
+        backend=None,  # kimi models are cloud-only
+        timeout_seconds=bench.timeout_seconds,
+        no_progress_timeout_seconds=bench.no_progress_timeout_seconds,
+        min_preview_output_tps=effective_min_tps,
+        min_preview_samples=bench.min_preview_samples,
+        event_describer=describe_kimi_event,
+    )
+
+    wall_end = time.monotonic()
+    events = parse_event_stream(result.stdout)
+    metrics = extract_kimi_metrics(events)
+    session_id = metrics["session_id"] or continue_session_id
+
+    # Tokens come from the session export (cumulative); subtract the prior
+    # phase's cumulative sums so each phase reports only its own usage.
+    session_tokens = collect_kimi_session_tokens(session_id, model_slug)
+    tokens: dict[str, Any] = session_tokens
+    if session_tokens and tokens_baseline:
+        base_cache = tokens_baseline.get("cache") or {}
+        cache_read = (session_tokens.get("cache") or {}).get("read", 0) - (base_cache.get("read", 0) or 0)
+        cache_write = (session_tokens.get("cache") or {}).get("write", 0) - (base_cache.get("write", 0) or 0)
+        tokens = {
+            "input": max(session_tokens.get("input", 0) - (tokens_baseline.get("input", 0) or 0), 0),
+            "output": max(session_tokens.get("output", 0) - (tokens_baseline.get("output", 0) or 0), 0),
+            "cache": {"read": max(cache_read, 0), "write": max(cache_write, 0)},
+        }
+        tokens["total"] = tokens["input"] + tokens["output"] + tokens["cache"]["read"] + tokens["cache"]["write"]
+    metrics["tokens"] = tokens
+
+    project_summary = summarize_project(project_dir)
+    elapsed_seconds = round(wall_end - wall_start, 2)
+    total_tokens = tokens.get("total")
+    terminal_stop_completed = metrics["finish_reason"] == "stop"
+
+    if result.timed_out:
+        status = "timeout"
+    elif result.stalled:
+        status = "failed"
+    elif terminal_stop_completed and project_summary["works_as_intended"] == "yes":
+        status = "completed"
+    elif terminal_stop_completed:
+        status = "completed_with_errors"
+    elif process.returncode == 0 and project_summary["works_as_intended"] == "yes":
+        status = "completed"
+    elif process.returncode == 0:
+        status = "completed_with_errors"
+    else:
+        status = "failed"
+
+    payload = {
+        "phase": phase_name,
+        "assistant_output_excerpt": metrics["assistant_output"][:4000],
+        "command": command,
+        "continued_from_session": continue_session_id,
+        "elapsed_seconds": elapsed_seconds,
+        "ended_at": utc_now(),
+        "exit_code": process.returncode,
+        "finish_reason": metrics["finish_reason"],
+        "model": model,
+        "opencode_session_id": session_id,
+        "paths": {
+            "opencode_config": None,
+            "project_dir": str(project_dir),
+            "prompt": str(prompt_path),
+            "stderr": str(stderr_path),
+            "stdout": str(stdout_path),
+        },
+        "project_summary": project_summary,
+        "prompt_sha256": prompt_sha256(prompt),
+        "started_at": started_at,
+        "status": status,
+        "stderr_excerpt": result.stderr[:4000],
+        "stalled": result.stalled,
+        "stall_reason": result.stall_reason,
+        "timed_out": result.timed_out,
+        "timeout_seconds": bench.timeout_seconds,
+        "no_progress_timeout_seconds": bench.no_progress_timeout_seconds,
+        "tokens": tokens,
+        "preview_output_tokens_per_second": result.latest_preview_output_tps,
+        "preview_output_tokens_per_second_average": result.preview_average_output_tps,
+        "tokens_per_second": round(total_tokens / elapsed_seconds, 2) if total_tokens and elapsed_seconds else None,
+        "output_tokens_per_second": (
+            round(tokens.get("output", 0) / elapsed_seconds, 2)
+            if tokens.get("output") and elapsed_seconds
+            else None
+        ),
+    }
+    if result_path is not None:
+        save_json(result_path, payload)
+    return payload
+
+
 def _kill_stale_opencode_processes() -> None:
     """Kill stale opencode run processes that may hold the SQLite DB lock.
 
@@ -1042,7 +1304,7 @@ def run_model(model: dict[str, Any], bench: BenchmarkConfig, index: int, total: 
 
     runner_type = model.get("runner_type", "opencode")
 
-    if runner_type != "codex":
+    if runner_type == "opencode":
         _kill_stale_opencode_processes()
 
     started_at = utc_now()
@@ -1050,7 +1312,7 @@ def run_model(model: dict[str, Any], bench: BenchmarkConfig, index: int, total: 
     print_line(f"[{index}/{total}] starting {model['slug']} -> {model['id']} (runner={runner_type})")
     print_line(f"[{model['slug']}] results_dir={result_dir}")
     print_line(f"[{model['slug']}] timeout={bench.timeout_seconds}s")
-    if runner_type != "codex" and bench.opencode_config_path is not None:
+    if runner_type == "opencode" and bench.opencode_config_path is not None:
         print_line(f"[{model['slug']}] opencode_config={bench.opencode_config_path}")
     print_line(f"[{model['slug']}] no_progress_timeout={bench.no_progress_timeout_seconds}s")
 
@@ -1095,7 +1357,12 @@ def run_model(model: dict[str, Any], bench: BenchmarkConfig, index: int, total: 
             print_line(f"[{index}/{total}] finished {model['slug']} status=failed preflight_error={preflight_message}")
             return payload
 
-    _run_phase = run_codex_phase if runner_type == "codex" else run_opencode_phase
+    if runner_type == "codex":
+        _run_phase = run_codex_phase
+    elif runner_type == "kimi":
+        _run_phase = run_kimi_phase
+    else:
+        _run_phase = run_opencode_phase
     phase1_kwargs: dict[str, Any] = {
         "bench": bench,
         "model": model,
@@ -1140,6 +1407,8 @@ def run_model(model: dict[str, Any], bench: BenchmarkConfig, index: int, total: 
         }
         if runner_type != "codex":
             phase2_kwargs["continue_session_id"] = continued_session_id
+        if runner_type == "kimi":
+            phase2_kwargs["tokens_baseline"] = phase1.get("tokens") or {}
         phase2 = _run_phase(**phase2_kwargs)
         phases.append(phase2)
         final_phase = phase2
@@ -1160,7 +1429,7 @@ def run_model(model: dict[str, Any], bench: BenchmarkConfig, index: int, total: 
 
     session_id = final_phase.get("opencode_session_id") or phase1.get("opencode_session_id")
     exported_session = None
-    if runner_type != "codex":
+    if runner_type == "opencode":
         process_env = os.environ.copy()
         if bench.opencode_config_path is not None:
             process_env["OPENCODE_CONFIG"] = str(bench.opencode_config_path.resolve())

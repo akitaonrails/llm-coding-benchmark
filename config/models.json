@@ -456,6 +456,23 @@
       "skip_by_default": true
     },
     {
+      "slug": "kimi_k3_cli",
+      "id": "kimi-code/k3",
+      "label": "Kimi K3 (Kimi Code CLI)",
+      "provider": "kimi",
+      "runner_type": "kimi",
+      "selection_reason": "Kimi K3 via Moonshot's own Kimi Code CLI (runner_type kimi, added 2026-07-16), billed via Kimi subscription OAuth. Workaround for the opencode incompatibility (Moonshot rejects opencode's anyOf tool schemas) \u2014 same precedent as GPT 5.4 via Codex CLI. 256K context on this plan. Non-interactive via -p + --output-format stream-json; phase 2 via -S <session>; tokens from kimi export wire.jsonl step.end sums."
+    },
+    {
+      "slug": "kimi_k2_7_coding_cli",
+      "id": "kimi-code/kimi-for-coding",
+      "label": "Kimi K2.7 Coding (Kimi Code CLI)",
+      "provider": "kimi",
+      "runner_type": "kimi",
+      "skip_by_default": true,
+      "selection_reason": "K2.7 Coding via Kimi Code CLI \u2014 HARNESS-COMPARISON run against the opencode kimi_k2_7_code result (86/A). Managed 'kimi-for-coding' model; Moonshot positions it as the K2.7 Code lineage though the serving snapshot may differ from OpenRouter's kimi-k2.7-code. skip_by_default: comparison study only, not part of the default set. Note: the Kimi subscription does NOT expose K2.5/K2.6, so the harness comparison is limited to the K2.7 generation."
+    },
+    {
       "slug": "grok_4_3",
       "id": "openrouter/x-ai/grok-4.3",
       "label": "Grok 4.3",
