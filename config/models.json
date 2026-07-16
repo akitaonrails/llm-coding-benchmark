@@ -448,6 +448,14 @@
       "selection_reason": "MoonshotAI Kimi K2.7 Code on OpenRouter. Direct successor to K2.6 for coding. OpenRouter lists 262K context, tool calling, structured outputs, and reasoning controls; pricing $0.95/M input and $4/M output. Tests whether the Kimi line keeps K2.6's Tier A trajectory while improving RubyLLM API accuracy and Rails app execution quality."
     },
     {
+      "slug": "kimi_k3",
+      "id": "openrouter/moonshotai/kimi-k3",
+      "label": "Kimi K3",
+      "provider": "openrouter",
+      "selection_reason": "Moonshot Kimi K3 on OpenRouter ($3/$15, 1M ctx, reasoning). HARNESS-INCOMPATIBLE with opencode as of 2026-07-16: K3's Moonshot endpoint enforces strict JSON-schema validation and rejects opencode's tool definitions ('when using anyOf, type should be defined in anyOf items instead of the parent schema'). Controlled probe confirmed K3 tool-calling works with clean schemas \u2014 the model is fine, the opencode toolset pairing is broken (same genre as DeepSeek V4 Pro reasoning_content). Only upstream is Moonshot itself (no alternate OR provider to route around). Retest when opencode normalizes tool schemas or another provider serves K3. K2.5/K2.6/K2.7 ran fine with identical tooling.",
+      "skip_by_default": true
+    },
+    {
       "slug": "grok_4_3",
       "id": "openrouter/x-ai/grok-4.3",
       "label": "Grok 4.3",

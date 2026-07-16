@@ -95,10 +95,10 @@ All models scored against the same rubric. **Cost column updated 2026-07-09**: p
 | 5 | Claude Fable 5 (re-release) | 93 | A | ✅ | OpenRouter | 18m | ~$8.30 |
 | 5 | Gemini 3.5 Flash | 93 | A | ✅ | OpenRouter | 18m | ~$3.55 |
 | 7 | GPT 5.6 Sol xHigh (Codex) | 92 | A | ✅ | ChatGPT subscription | 17m | credits (≈$8.70 API-equiv) |
-| 8 | Kimi K2.6 | 87 | A | ✅ | OpenRouter | 20m | ~$1.00 |
+| 8 | Kimi K2.6 | 87 | A | ✅ | OpenRouter | 20m | ~$1.19 |
 | 8 | GLM 5.2 (Z.ai) | 87 | A | ✅ | Z.ai | 43m | subscription |
 | 8 | Grok 4.5 | 87 | A | ✅ | OpenRouter | 16m | ~$5.10 |
-| 11 | Kimi K2.7 Code | 86 | A | ✅ | OpenRouter | 22m | ~$1.15 |
+| 11 | Kimi K2.7 Code | 86 | A | ✅ | OpenRouter | 22m | ~$1.23 |
 | 12 | GPT 5.5 xHigh (Codex) | 85 | A | ✅ | OpenAI direct | 18m | ~$10 |
 | 13 | Claude Opus 4.6 | 83 | A | ✅ | OpenRouter | 16m | ~$1.10 (hist.) |
 | 13 | Nex-N2-Pro | 83 | A | ✅ | OpenRouter | 25m | ~$0.34 (was free) |
@@ -137,8 +137,8 @@ Score alone doesn't answer "which model should I use?" — this table adds the t
 | Model | Score | Tier | Runtime | Cost/run | Score/$ | Value verdict |
 |---|---:|:---:|---:|---:|---:|---|
 | Nex-N2-Pro | 83 | A | 25m | ~$0.34 | 244 | **Best value in the benchmark** — Tier A at pocket change (was free at run time; now $0.25/$1.00 per M) |
-| Kimi K2.6 | 87 | A | 20m | ~$1.00 | 87 | Cheapest *dependable* Tier A; rates rose ~30% since its run |
-| Kimi K2.7 Code | 86 | A | 22m | ~$1.15 | 75 | Nearly K2.6 value; no system prompt |
+| Kimi K2.6 | 87 | A | 20m | ~$1.19 | 73 | Cheapest *dependable* Tier A; Moonshot rates have ≈doubled since its run (2026-07-16) |
+| Kimi K2.7 Code | 86 | A | 22m | ~$1.23 | 70 | Nearly K2.6 value; no system prompt |
 | Gemini 3.5 Flash | 93 | A | 18m | ~$3.55 | 26 | Best quality-per-dollar above 90; the token churn eats the low per-M rate |
 | GPT 5.6 Sol xHigh | 92 | A | 17m | subscription (≈$8.70 API-equiv) | ~11* | *At API-equivalent rates; marginal cost ≈$0 within ChatGPT plan credits. Dominated by Opus 4.8 at API rates; the best pick if you already pay for ChatGPT Pro |
 | Grok 4.5 | 87 | A | 16m | ~$5.10 | 17 | Fastest Tier A run, but K2.6 gives the same score for 5× less |
@@ -160,6 +160,8 @@ Score alone doesn't answer "which model should I use?" — this table adds the t
 **How to read it**: within Tier A, value peaks at Nex-N2-Pro ($0.34) and Kimi K2.6 ($1.00); the 93+ cluster starts at ~$3.55 (Gemini 3.5 Flash) and frontier 95+ at ~$6.40 (Opus 4.8). Below Tier A, low run cost is mostly an illusion — the fix cost is human time. The two defensible exceptions are DeepSeek V4 Flash (known, 30-second fix) and cases where you review everything anyway.
 
 ### What changed from the previous ranking
+
+- **Kimi K3 attempted 2026-07-16 — harness-incompatible, not scored**: Moonshot's new flagship ($3/$15, 1M ctx, reasoning) rejects opencode's tool schemas (strict validator: root-level `anyOf`+`type` disallowed), erroring on every tool call; K2.5/K2.6/K2.7 ran fine with identical tooling. A controlled probe confirmed K3 tool-calling works with clean schemas, so this is an opencode↔Moonshot pairing bug, not a model defect — same genre as DeepSeek V4 Pro's reasoning_content. Listed under Failed Models; will retest when opencode normalizes schemas or an alternate provider appears. Same-day Kimi pricing refresh: K2.6 now $0.95/$4.00 (≈2× its run-era card; run cost ~$1.19), K2.5 $0.57/$2.85, K3 debuts at Sonnet-class $3/$15 — Moonshot has left the value niche.
 
 - **GPT 5.5 xHigh re-audited 96 → 85 (#12); GPT 5.4 xHigh 97 → 95 (#2, ties Opus 4.8)** (2026-07-09): the GPT 5.6 Sol blind A/B exposed defects the original audits missed. Verified by hand: both ships' Dockerfiles are dev images (`RAILS_ENV=development`, root, `CMD ./bin/dev`); 5.5 additionally has zero error-path test coverage and a byte-uncapped cookie. 5.4 keeps most of its score (its error paths ARE tested). Claude Opus 4.7 (97) is now the sole benchmark leader. Methodology lesson recorded: pre-Sol audits under-weighted Dockerfile inspection. **A same-day sweep of all 14 Tier A projects for the three blind-spot patterns (dev-mode Dockerfile, missing error-path tests, uncapped cookies) confirmed the defect was isolated to the two Codex-runner models** — the structural cause being that Codex runs skip phase-2 Docker validation, which for every opencode model forces a working production image. All other Tier A Dockerfiles ship `RAILS_ENV=production` + entrypoint + non-root `USER`; the only other error-test gap (Opus 4.6) was already priced into its 83.
 
@@ -706,7 +708,7 @@ Local provider probing on `192.168.0.90` is documented in `docs/local-provider-s
 - **Cheap near-miss**: MiniMax M3 (Tier B, ~$1.25) has correct RubyLLM and good architecture, but phase 2 DNF + original `.env` secret leak mean it needs cleanup before use.
 - **Premium**: Opus 4.8 (~$6.40) / Opus 4.7 (~$7.00), Claude Fable 5 original (~$11.20) / re-release (~$8.30), GPT 5.4 xHigh (~$16)
 
-**Nex-N2-Pro is the cheapest Tier A at ~$0.34/run.** It was free at run time (2026-06-15, OpenRouter `:free` endpoint); that endpoint has since been delisted and the model is now paid at $0.25/$1.00 per M — which still makes it roughly 3× cheaper than the next Tier A option. For a more battle-tested pick, **Kimi K2.6 at ~$1.00/run** (rates rose ~30% since its run: now $0.65/$3.41 per M) is the cheapest dependable Tier A from a major lab. If budget is extremely tight, **DeepSeek V4 Flash at ~$0.01/run** is Tier B with one known bug (model slug needs `anthropic/` prefix) that's a 30-second fix.
+**Nex-N2-Pro is the cheapest Tier A at ~$0.34/run.** It was free at run time (2026-06-15, OpenRouter `:free` endpoint); that endpoint has since been delisted and the model is now paid at $0.25/$1.00 per M — which still makes it roughly 3× cheaper than the next Tier A option. For a more battle-tested pick, **Kimi K2.6 at ~$1.19/run** (Moonshot rates have ≈doubled since its run: now $0.95/$4.00 per M as of 2026-07-16) is the cheapest dependable Tier A from a major lab. If budget is extremely tight, **DeepSeek V4 Flash at ~$0.01/run** is Tier B with one known bug (model slug needs `anthropic/` prefix) that's a 30-second fix.
 
 Practical reading of the tiers:
 - **Production-critical or long-context agentic work**: start with Tier A, then still hand-review library calls, persistence, secrets, and tests.
@@ -737,6 +739,7 @@ The single most interesting result of this batch comes from running Nex-N2-Pro a
 | Qwen 3 32B (local) | Too slow (7.3 tok/s) | Hardware bottleneck |
 | Qwen 2.5 Coder 32B (local) | 90m timeout with 0 files | Infinite reasoning loop |
 | GPT 5.4 Pro (OpenRouter) | Stalled after tool-calls | OpenRouter tool-calling integration broken for GPT; use Codex CLI instead |
+| Kimi K3 (OpenRouter) | Rejects every opencode tool call | K3's Moonshot endpoint enforces strict JSON-schema validation and rejects opencode's root-level `anyOf`+`type` tool schemas. Controlled probe: clean-schema tool calling works — the model is fine, the pairing is broken. Sole upstream is Moonshot (no route-around). Retest when opencode normalizes schemas. |
 
 ---
 
