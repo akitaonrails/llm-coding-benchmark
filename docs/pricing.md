@@ -17,9 +17,10 @@ Prices as of **July 9, 2026**. OpenRouter prices from their live `/api/v1/models
 | GPT 5.6 Luna | $1.00 | $6.00 | 1,050,000 | Cheap tier |
 | Gemini 3.5 Flash | $1.50 | $9.00 | 1,048,576 | Best non-Anthropic/OpenAI score (93) |
 | Gemini 3.1 Pro | $2.00 | $12.00 | 1,048,576 | |
-| Kimi K2.5 | $0.38 | $2.02 | 262,144 | Output rate up from $1.72 (Apr) |
-| Kimi K2.6 | $0.65 | $3.41 | 262,144 | **Rates rose ~30% since its benchmark run** |
-| Kimi K2.7 Code | $0.74 | $3.50 | 262,144 | |
+| Kimi K3 | $3.00 | $15.00 | 1,048,576 | New flagship (2026-07); harness-incompatible with opencode (strict tool-schema validation) |
+| Kimi K2.5 | $0.57 | $2.85 | 262,144 | Rates keep climbing (was $0.38/$2.02 on Jul 9) |
+| Kimi K2.6 | $0.95 | $4.00 | 262,144 | **Third increase since its run** (Jul 9: $0.65/$3.41; run-era: ~$0.50/$2.50) |
+| Kimi K2.7 Code | $0.75 | $3.50 | 262,144 | |
 | Grok 4.5 | $2.00 | $6.00 | 500,000 | Reasoning always on; max effort = default |
 | Grok 4.3 / 4.20 | $1.25 | $2.50 | 1,000,000 | |
 | Nex-N2-Pro | $0.25 | $1.00 | 262,144 | **`:free` endpoint delisted** — was free at benchmark run time (2026-06-15) |
@@ -101,6 +102,6 @@ The benchmark itself pays raw API rates (OpenRouter BYO key; Codex runs billed v
 ## Key changes since the April 3 revision
 
 1. **Free tiers evaporated**: Qwen 3.6 Plus (now $0.33/$1.95) and Nex-N2-Pro's `:free` endpoint (now $0.25/$1.00) both converted to paid.
-2. **Kimi got pricier across the line**: K2.5 output $1.72→$2.02; K2.6 effectively +30% vs its benchmark-run rates.
+2. **Kimi got pricier across the line, repeatedly**: as of 2026-07-16, K2.5 $0.57/$2.85, K2.6 $0.95/$4.00 (≈2× its run-era card), K2.7 $0.75/$3.50 — and K3 debuts at $3/$15, Sonnet-class pricing. Moonshot has left the value niche.
 3. **New premium ceiling**: Claude Fable 5 at $10/$50 doubles the Opus 4.x rate card.
 4. **A reminder that per-M ≠ per-run**: agentic runs are cache-read-dominated (5–15M cache-read tokens per run), so cheap rate cards with high token churn (Gemini 3.5 Flash) can out-cost pricier disciplined models per run. See [`cost_analysis.md`](cost_analysis.md).
