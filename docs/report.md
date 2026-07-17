@@ -1,15 +1,15 @@
 # Benchmark Report
 
-Generated at: 2026-07-09T17:56:53+00:00
+Generated at: 2026-07-17T13:04:57+00:00
 Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c`
 
 ## Progress
 
-- `completed`: 44
+- `completed`: 46
 - `completed_with_errors`: 3
 - `failed`: 8
 - `timeout`: 1
-- `not_run`: 11
+- `not_run`: 12
 
 ## Runner
 
@@ -59,6 +59,9 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 - `kimi_k2_5` -> `openrouter/moonshotai/kimi-k2.5`: Chosen as the latest/highest Kimi variant listed by OpenRouter locally.
 - `kimi_k2_6` -> `openrouter/moonshotai/kimi-k2.6`: Direct successor to K2.5. $0.74/$4.66 per M, 256K context, tool calling supported. Tests whether K2.6 fixes K2.5's Tier 3 hallucinations of RubyLLM add_message() and complete().
 - `kimi_k2_7_code` -> `openrouter/moonshotai/kimi-k2.7-code`: MoonshotAI Kimi K2.7 Code on OpenRouter. Direct successor to K2.6 for coding. OpenRouter lists 262K context, tool calling, structured outputs, and reasoning controls; pricing $0.95/M input and $4/M output. Tests whether the Kimi line keeps K2.6's Tier A trajectory while improving RubyLLM API accuracy and Rails app execution quality.
+- `kimi_k3` -> `openrouter/moonshotai/kimi-k3`: Moonshot Kimi K3 on OpenRouter ($3/$15, 1M ctx, reasoning). HARNESS-INCOMPATIBLE with opencode as of 2026-07-16: K3's Moonshot endpoint enforces strict JSON-schema validation and rejects opencode's tool definitions ('when using anyOf, type should be defined in anyOf items instead of the parent schema'). Controlled probe confirmed K3 tool-calling works with clean schemas — the model is fine, the opencode toolset pairing is broken (same genre as DeepSeek V4 Pro reasoning_content). Only upstream is Moonshot itself (no alternate OR provider to route around). Retest when opencode normalizes tool schemas or another provider serves K3. K2.5/K2.6/K2.7 ran fine with identical tooling.
+- `kimi_k3_cli` -> `kimi-code/k3`: Kimi K3 via Moonshot's own Kimi Code CLI (runner_type kimi, added 2026-07-16), billed via Kimi subscription OAuth. Workaround for the opencode incompatibility (Moonshot rejects opencode's anyOf tool schemas) — same precedent as GPT 5.4 via Codex CLI. 256K context on this plan. Non-interactive via -p + --output-format stream-json; phase 2 via -S <session>; tokens from kimi export wire.jsonl step.end sums.
+- `kimi_k2_7_coding_cli` -> `kimi-code/kimi-for-coding`: K2.7 Coding via Kimi Code CLI — HARNESS-COMPARISON run against the opencode kimi_k2_7_code result (86/A). Managed 'kimi-for-coding' model; Moonshot positions it as the K2.7 Code lineage though the serving snapshot may differ from OpenRouter's kimi-k2.7-code. skip_by_default: comparison study only, not part of the default set. Note: the Kimi subscription does NOT expose K2.5/K2.6, so the harness comparison is limited to the K2.7 generation.
 - `grok_4_3` -> `openrouter/x-ai/grok-4.3`: x.AI Grok 4.3 via OpenRouter. $1.25/$2.50 per M (mid-tier), 1M context, tool calling supported. First Grok variant in the benchmark — tests whether Grok's RubyLLM API recall is correct (real chat.ask path) or hits the same fluent-DSL/chat.complete hallucinations seen in some Tier B/C cloud models. Pricing positions it between Kimi K2.6 ($0.50/$2.50) and DeepSeek V4 Pro ($0.44/$0.87), well below Opus ($5/$25).
 - `grok_4_5` -> `openrouter/x-ai/grok-4.5`: xAI Grok 4.5 via OpenRouter (snapshot grok-4.5-20260708, released 2026-07-08). xAI's flagship 'smartest model' with frontier coding claims. 500K context, $2/$6 per M, tool calling + reasoning supported. Reasoning effort maxes at 'high' which is the DEFAULT (no xhigh tier; reasoning cannot be disabled), so the standard run is already highest-effort. Tests whether 4.5 fixes the Grok-family weaknesses: 4.20's Tier D collapse and 4.3's dead Stimulus wiring, bypassed test stubs, and stale claude-3.7-sonnet pin.
 - `mimo_v2_5_pro` -> `openrouter/xiaomi/mimo-v2.5-pro`: Xiaomi's flagship coding model. $1/$3 per M, 1M context, tool calling supported. Brand-new family we haven't tested — competitive pricing with mid-tier Chinese models like Kimi and GLM.
@@ -131,6 +134,9 @@ Prompt SHA256: `d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c
 | Kimi K2.5 | openrouter | - | completed | 1738.77 | 63638 | 160.14 | yes | 3405 | Rails app, tests, README, and container files detected. |
 | Kimi K2.6 | openrouter | - | completed | 1181.65 | 102250 | 258.32 | yes | 1890 | Rails app, tests, README, and container files detected. |
 | Kimi K2.7 Code | openrouter | - | completed | 1295.74 | 86967 | 486.83 | yes | 1687 | Rails app, tests, README, and container files detected. |
+| Kimi K3 | openrouter | - | not_run | - | - | - | n/a | 0 | Run has not been executed yet. |
+| Kimi K3 (Kimi Code CLI) | kimi | - | completed | 1533.45 | 884937 | 4232.93 | yes | 2592 | Rails app, tests, README, and container files detected. |
+| Kimi K2.7 Coding (Kimi Code CLI) | kimi | - | completed | 976.24 | 1620218 | 8167.24 | yes | 2989 | Rails app, tests, README, and container files detected. |
 | Grok 4.3 | openrouter | - | completed | 900.07 | 46929 | 175.07 | yes | 2355 | Rails app, tests, README, and container files detected. |
 | Grok 4.5 | openrouter | - | completed | 964.07 | 154335 | 553.25 | yes | 1564 | Rails app, tests, README, and container files detected. |
 | Xiaomi MiMo V2.5 Pro | openrouter | - | completed | 644.40 | 80447 | 288.04 | yes | 1554 | Rails app, tests, README, and container files detected. |

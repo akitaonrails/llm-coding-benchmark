@@ -17,7 +17,7 @@ Prices as of **July 9, 2026**. OpenRouter prices from their live `/api/v1/models
 | GPT 5.6 Luna | $1.00 | $6.00 | 1,050,000 | Cheap tier |
 | Gemini 3.5 Flash | $1.50 | $9.00 | 1,048,576 | Best non-Anthropic/OpenAI score (93) |
 | Gemini 3.1 Pro | $2.00 | $12.00 | 1,048,576 | |
-| Kimi K3 | $3.00 | $15.00 | 1,048,576 | New flagship (2026-07); harness-incompatible with opencode (strict tool-schema validation) |
+| Kimi K3 | $3.00 | $15.00 | 1,048,576 | New flagship (2026-07); opencode-incompatible — benchmarked via Kimi Code CLI on subscription (89/A) |
 | Kimi K2.5 | $0.57 | $2.85 | 262,144 | Rates keep climbing (was $0.38/$2.02 on Jul 9) |
 | Kimi K2.6 | $0.95 | $4.00 | 262,144 | **Third increase since its run** (Jul 9: $0.65/$3.41; run-era: ~$0.50/$2.50) |
 | Kimi K2.7 Code | $0.75 | $3.50 | 262,144 | |
