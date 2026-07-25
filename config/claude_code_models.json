@@ -5,10 +5,17 @@
       "Uses Claude Code CLI in headless mode (-p with --output-format stream-json).",
       "--dangerously-skip-permissions enables full autonomy (no confirmation prompts).",
       "Project-local .claude/agents/*.md files are auto-loaded from the project directory.",
-      "The modelUsage field in the final result event provides per-model token breakdown — perfect for measuring subagent delegation."
+      "The modelUsage field in the final result event provides per-model token breakdown \u2014 perfect for measuring subagent delegation."
     ]
   },
   "variants": [
+    {
+      "slug": "claude_opus_5_alone",
+      "label": "Claude Opus 5 alone",
+      "main_model": "claude-opus-5",
+      "subagent": null,
+      "selection_reason": "Claude Opus 5 (released 2026-07) solo via Claude Code headless on the user's Max subscription, probe-verified 2026-07-24. First Opus of the Claude 5 generation. Claude-code-profile run (harness differs from the opencode main table per the multi_model harness-effect findings); an opencode/OpenRouter main-table run (anthropic/claude-opus-5, also live) is the follow-up if wanted."
+    },
     {
       "slug": "claude_opus_alone",
       "label": "Claude Opus 4.7 alone",
@@ -24,7 +31,7 @@
         "name": "sonnet-coder",
         "model": "claude-sonnet-4-6",
         "description": "Claude Sonnet 4.6 for concrete coding execution. Use PROACTIVELY for any code change where the plan is already clear: file edits, refactors, bug fixes, test writing, boilerplate generation, single-file implementations. Opus should plan and delegate; Sonnet should execute. Only skip delegation for cross-file architectural decisions or debugging with unclear root cause.",
-        "prompt": "You are a focused coding agent. The parent (Opus) has already decided the approach — your job is to execute cleanly.\n\nRules:\n- Follow the provided instructions precisely. Don't re-plan or second-guess the approach.\n- Prefer editing existing files over creating new ones. Don't create docs unless explicitly asked.\n- Match the existing codebase style (indentation, naming, imports).\n- Keep changes minimal — do what was asked, nothing more. No unrequested refactors, no scope creep.\n- Default to no comments. Only add a comment for non-obvious WHY.\n- Run tests or typechecks after significant edits if the tooling is obvious from the project layout.\n- When reporting back, be terse: what changed, what's verified, what's open."
+        "prompt": "You are a focused coding agent. The parent (Opus) has already decided the approach \u2014 your job is to execute cleanly.\n\nRules:\n- Follow the provided instructions precisely. Don't re-plan or second-guess the approach.\n- Prefer editing existing files over creating new ones. Don't create docs unless explicitly asked.\n- Match the existing codebase style (indentation, naming, imports).\n- Keep changes minimal \u2014 do what was asked, nothing more. No unrequested refactors, no scope creep.\n- Default to no comments. Only add a comment for non-obvious WHY.\n- Run tests or typechecks after significant edits if the tooling is obvious from the project layout.\n- When reporting back, be terse: what changed, what's verified, what's open."
       },
       "selection_reason": "Opus plans and orchestrates, Sonnet handles concrete coding. Tests the hypothesis that Sonnet's coding throughput + Opus's architectural reasoning is more cost-effective than Opus-only."
     },
@@ -36,7 +43,7 @@
         "name": "haiku-coder",
         "model": "claude-haiku-4-5-20251001",
         "description": "Claude Haiku 4.5 for simple, high-volume coding execution. Use PROACTIVELY for any code change where the plan is already clear: file edits, simple refactors, boilerplate, test writing, single-file implementations. Opus should plan and delegate; Haiku should execute cheaply. Only skip delegation for cross-file architectural decisions or complex debugging.",
-        "prompt": "You are a focused coding agent. The parent (Opus) has already decided the approach — your job is to execute cleanly.\n\nRules:\n- Follow the provided instructions precisely. Don't re-plan or second-guess the approach.\n- Prefer editing existing files over creating new ones. Don't create docs unless explicitly asked.\n- Match the existing codebase style (indentation, naming, imports).\n- Keep changes minimal — do what was asked, nothing more.\n- Default to no comments.\n- When reporting back, be terse: what changed, what's verified, what's open."
+        "prompt": "You are a focused coding agent. The parent (Opus) has already decided the approach \u2014 your job is to execute cleanly.\n\nRules:\n- Follow the provided instructions precisely. Don't re-plan or second-guess the approach.\n- Prefer editing existing files over creating new ones. Don't create docs unless explicitly asked.\n- Match the existing codebase style (indentation, naming, imports).\n- Keep changes minimal \u2014 do what was asked, nothing more.\n- Default to no comments.\n- When reporting back, be terse: what changed, what's verified, what's open."
       },
       "selection_reason": "Opus plans, Haiku executes. Tests whether Haiku's cheap-but-less-capable coding is enough when Opus handles the decisions. Haiku is roughly 1/12th the cost of Opus."
     },
@@ -48,7 +55,7 @@
         "name": "sonnet-coder",
         "model": "claude-sonnet-4-6",
         "description": "Claude Sonnet 4.6 for all concrete coding execution dispatched by the planner-orchestrator. The planner provides full context per subtask.",
-        "prompt": "You are a focused coding agent. Execute the dispatched subtask exactly as specified. Follow the provided instructions, file paths, and acceptance criteria literally. Keep changes minimal — only do what the subtask describes. Match existing codebase style. When reporting back, be terse: what changed, what's verified, what's open."
+        "prompt": "You are a focused coding agent. Execute the dispatched subtask exactly as specified. Follow the provided instructions, file paths, and acceptance criteria literally. Keep changes minimal \u2014 only do what the subtask describes. Match existing codebase style. When reporting back, be terse: what changed, what's verified, what's open."
       },
       "selection_reason": "Forced-delegation variant of claude_opus_sonnet. Runs with prompts/benchmark_prompt_forced_delegation.txt. Measures whether forcing the orchestrator pattern changes output quality or cost vs free-choice (which didn't delegate at all)."
     },
@@ -88,7 +95,7 @@
         "name": "sonnet-coder",
         "model": "claude-sonnet-4-6",
         "description": "Claude Sonnet 4.6 for concrete coding execution. Use PROACTIVELY for any code change where the plan is already clear: file edits, refactors, bug fixes, test writing, boilerplate generation, single-file implementations. The DeepSeek planner should dispatch implementation work; Sonnet should execute. Only skip delegation for cross-file architectural decisions or debugging with unclear root cause.",
-        "prompt": "You are a focused coding agent. The parent (DeepSeek planner) has already decided the approach — your job is to execute cleanly. Follow the provided instructions precisely. Match the existing codebase style. Keep changes minimal — do what was asked, nothing more. Default to no comments. Run tests or typechecks after significant edits. When reporting back, be terse."
+        "prompt": "You are a focused coding agent. The parent (DeepSeek planner) has already decided the approach \u2014 your job is to execute cleanly. Follow the provided instructions precisely. Match the existing codebase style. Keep changes minimal \u2014 do what was asked, nothing more. Default to no comments. Run tests or typechecks after significant edits. When reporting back, be terse."
       },
       "env_overrides": {
         "ANTHROPIC_BASE_URL": "https://openrouter.ai/api",
@@ -98,7 +105,7 @@
         "ANTHROPIC_DEFAULT_HAIKU_MODEL": "deepseek/deepseek-v4-pro",
         "UNSET:ANTHROPIC_API_KEY": ""
       },
-      "selection_reason": "Asymmetric pairing test: DeepSeek V4 Pro as the planner-orchestrator (via deepclaude shim) and Claude Sonnet 4.6 as the implementation subagent. Because the project-local sonnet-coder subagent definition pins its own model name (claude-sonnet-4-6), Claude Code spawns it with that model regardless of the env var defaults — so Sonnet is reached through the normal Anthropic API while the main loop runs DeepSeek. Note: ANTHROPIC_API_KEY must be present in the parent env for Sonnet to authenticate (deepclaude only unsets it for the deepclaude-routed turns). KNOWN RISK: Claude Code may use ANTHROPIC_AUTH_TOKEN for the subagent spawn too, which would route Sonnet through OpenRouter and likely fail — measure outcome and document. Compare against the opus+sonnet pairings: same subagent quality, different planner cost/quality."
+      "selection_reason": "Asymmetric pairing test: DeepSeek V4 Pro as the planner-orchestrator (via deepclaude shim) and Claude Sonnet 4.6 as the implementation subagent. Because the project-local sonnet-coder subagent definition pins its own model name (claude-sonnet-4-6), Claude Code spawns it with that model regardless of the env var defaults \u2014 so Sonnet is reached through the normal Anthropic API while the main loop runs DeepSeek. Note: ANTHROPIC_API_KEY must be present in the parent env for Sonnet to authenticate (deepclaude only unsets it for the deepclaude-routed turns). KNOWN RISK: Claude Code may use ANTHROPIC_AUTH_TOKEN for the subagent spawn too, which would route Sonnet through OpenRouter and likely fail \u2014 measure outcome and document. Compare against the opus+sonnet pairings: same subagent quality, different planner cost/quality."
     }
   ]
 }

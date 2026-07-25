@@ -67,7 +67,7 @@ This document answers three questions:
 
 The consolidated table lives in [`success_report.md` → "Quality × Time × Cost"](success_report.md). The shape of the data:
 
-- **The value frontier (Tier A only):** Nex-N2-Pro (~$0.34, 83) → Kimi K2.6 (~$1.19, 87) → Gemini 3.5 Flash (~$3.55, 93) → Claude Opus 4.8 (~$6.40, 95) → Claude Opus 4.7 (~$7.00, 97). Every point on this frontier is a rational choice; everything to the right of it (same score, higher price) is not — e.g., Grok 4.5 (~$5.10, 87) is dominated by Kimi K2.6, and GPT 5.4 xHigh (~$16, 97) by Opus 4.7.
+- **The value frontier (Tier A only, updated 2026-07-24):** Nex-N2-Pro (~$0.34, 83) → Kimi K2.6 (~$1.19, 87) → Kimi K3 (subscription, ≈$2.10 API-equiv, 89) → Gemini 3.5 Flash (~$3.55, 93) → Claude Opus 4.8 (~$6.40, 95). Everything to the right of a frontier point (same score, higher price) is dominated — e.g., Grok 4.5 (~$5.10, 87) and the re-audited Claude Opus 4.7 (~$7.00, 87) by Kimi K2.6, and GPT 5.4 xHigh (~$16, 95) by Opus 4.8.
 - **Per-M rate ≠ per-run cost.** Gemini 3.5 Flash has one of the cheapest rate cards in Tier A yet costs ~$3.55/run because it churns 11M+ cache-read tokens. Token discipline matters as much as the rate card: Opus 4.7 at a 3.3× higher rate costs only 2× more per run.
 - **Subscription billing is now on the board**: GPT 5.6 Sol (92) ran on ChatGPT plan credits at ≈$8.70 API-equivalent. At API rates it is dominated by Opus 4.8 (95 at ~$6.40); on an already-paid ChatGPT plan its marginal cost is ≈$0, making it the rational frontier pick for Pro subscribers (see §4).
 - **Runtime barely differentiates.** Cloud Tier A runs cluster at 16-25 minutes. Time is not where the trade-off lives; quality and cost are.

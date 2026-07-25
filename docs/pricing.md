@@ -6,7 +6,8 @@ Prices as of **July 9, 2026**. OpenRouter prices from their live `/api/v1/models
 
 | Model | Input $/M | Output $/M | Context | Notes |
 |-------|-----------|------------|---------|-------|
-| Claude Opus 4.7 / 4.8 | $5.00 | $25.00 | 1,000,000 | Top-2 benchmark scores |
+| Claude Opus 5 | $5.00 | $25.00 | 1,000,000 | New (2026-07); same card as Opus 4.x — NOT Fable-tier pricing; claude-code-profile run scored 95 |
+| Claude Opus 4.7 / 4.8 | $5.00 | $25.00 | 1,000,000 | 4.8 co-leads the main table at 95; 4.7 re-audited 97→87 (2026-07-24) |
 | Claude Fable 5 | $10.00 | $50.00 | 1,000,000 | Claude 5 generation; premium tier |
 | Claude Sonnet 5 | $2.00 | $10.00 | 1,000,000 | Tier C in benchmark despite the name |
 | Claude Sonnet 4.6 | $3.00 | $15.00 | 1,000,000 | |
