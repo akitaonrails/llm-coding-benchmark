@@ -88,17 +88,17 @@ All models scored against the same rubric. **Cost column updated 2026-07-09**: p
 
 | Rank | Model | Score | Tier | RubyLLM OK | Provider | Runtime | Cost |
 |---:|---|---:|:---:|:---:|---|---|---|
-| 1 | **Claude Opus 4.7** | **97** | A | ✅ | OpenRouter | 18m | ~$7.00 |
-| 2 | **GPT 5.4 xHigh (Codex)** | **95** | A | ✅ | OpenAI direct | 22m | ~$16 |
-| 2 | **Claude Opus 4.8** | **95** | A | ✅ | OpenRouter | 17m | ~$6.40 |
-| 4 | Claude Fable 5 | 94 | A | ✅ | OpenRouter | 24m | ~$11.20 |
-| 5 | Claude Fable 5 (re-release) | 93 | A | ✅ | OpenRouter | 18m | ~$8.30 |
-| 5 | Gemini 3.5 Flash | 93 | A | ✅ | OpenRouter | 18m | ~$3.55 |
-| 7 | GPT 5.6 Sol xHigh (Codex) | 92 | A | ✅ | ChatGPT subscription | 17m | credits (≈$8.70 API-equiv) |
-| 8 | Kimi K3 (Kimi Code CLI) | 89 | A | ✅ | Kimi subscription | 26m | credits (≈$2.10 API-equiv) |
-| 9 | Kimi K2.6 | 87 | A | ✅ | OpenRouter | 20m | ~$1.19 |
-| 9 | GLM 5.2 (Z.ai) | 87 | A | ✅ | Z.ai | 43m | subscription |
-| 9 | Grok 4.5 | 87 | A | ✅ | OpenRouter | 16m | ~$5.10 |
+| 1 | **GPT 5.4 xHigh (Codex)** | **95** | A | ✅ | OpenAI direct | 22m | ~$16 |
+| 1 | **Claude Opus 4.8** | **95** | A | ✅ | OpenRouter | 17m | ~$6.40 |
+| 3 | Claude Fable 5 | 94 | A | ✅ | OpenRouter | 24m | ~$11.20 |
+| 4 | Claude Fable 5 (re-release) | 93 | A | ✅ | OpenRouter | 18m | ~$8.30 |
+| 4 | Gemini 3.5 Flash | 93 | A | ✅ | OpenRouter | 18m | ~$3.55 |
+| 6 | GPT 5.6 Sol xHigh (Codex) | 92 | A | ✅ | ChatGPT subscription | 17m | credits (≈$8.70 API-equiv) |
+| 7 | Kimi K3 (Kimi Code CLI) | 89 | A | ✅ | Kimi subscription | 26m | credits (≈$2.10 API-equiv) |
+| 8 | Claude Opus 4.7 | 87 | A | ✅ | OpenRouter | 18m | ~$7.00 |
+| 8 | Kimi K2.6 | 87 | A | ✅ | OpenRouter | 20m | ~$1.19 |
+| 8 | GLM 5.2 (Z.ai) | 87 | A | ✅ | Z.ai | 43m | subscription |
+| 8 | Grok 4.5 | 87 | A | ✅ | OpenRouter | 16m | ~$5.10 |
 | 12 | Kimi K2.7 Code | 86 | A | ✅ | OpenRouter | 22m | ~$1.23 |
 | 13 | GPT 5.5 xHigh (Codex) | 85 | A | ✅ | OpenAI direct | 18m | ~$10 |
 | 14 | Claude Opus 4.6 | 83 | A | ✅ | OpenRouter | 16m | ~$1.10 (hist.) |
@@ -145,7 +145,7 @@ Score alone doesn't answer "which model should I use?" — this table adds the t
 | Kimi K3 (Kimi Code CLI) | 89 | A | 26m | subscription (≈$2.10 API-equiv) | ~42* | *Cheapest frontier-adjacent Tier A per API-equivalent dollar; needs the vendor CLI + a Kimi plan; 5-hour quota windows throttle batch use (see cost_analysis §4) |
 | Grok 4.5 | 87 | A | 16m | ~$5.10 | 17 | Fastest Tier A run, but K2.6 gives the same score for 5× less |
 | Claude Opus 4.8 | 95 | A | 17m | ~$6.40 | 15 | The frontier-quality/price sweet spot among the 95+ cluster |
-| Claude Opus 4.7 | 97 | A | 18m | ~$7.00 | 14 | Sole leader since the GPT 5.4/5.5 re-audits; best $/point at the 95+ frontier |
+| Claude Opus 4.7 | 87 | A | 18m | ~$7.00 | 12 | Re-audited 97→87 (double-send); now dominated by Kimi K2.6 (87 at ~$1.19) |
 | Claude Fable 5 (re-release) | 93 | A | 18m | ~$8.30 | 11 | Gemini 3.5 Flash matches it for 40% of the price |
 | GPT 5.5 xHigh | 85 | A | 18m | ~$10 | 9 | Re-audited 96→85; dominated by Kimi K2.6 (87 at ~$1) |
 | Claude Fable 5 | 94 | A | 24m | ~$11.20 | 8 | — |
@@ -162,6 +162,9 @@ Score alone doesn't answer "which model should I use?" — this table adds the t
 **How to read it**: within Tier A, value peaks at Nex-N2-Pro ($0.34) and Kimi K2.6 ($1.00); the 93+ cluster starts at ~$3.55 (Gemini 3.5 Flash) and frontier 95+ at ~$6.40 (Opus 4.8). Below Tier A, low run cost is mostly an illusion — the fix cost is human time. The two defensible exceptions are DeepSeek V4 Flash (known, 30-second fix) and cases where you review everything anyway.
 
 ### What changed from the previous ranking
+
+- **Claude Opus 4.7 re-audited 97 → 87 (#8); GPT 5.4 xHigh + Claude Opus 4.8 are the new co-leaders at 95**: the Opus 5 blind A/B exposed the champion's double-send bug (user turns sent twice — verified by hand on the April artifacts), error-apologies replayed into context, and a count-only cookie cap; its celebrated test suite structurally masks all three. Third April-cohort correction after GPT 5.5 (96→85) and GPT 5.4 (97→95). Fable 5's blind-audit "test suite stronger than 4.8's" note ages well. Opus 4.6 was checked and is clean (its `[0..-2]` slice explicitly excludes the pending turn).
+- **Claude Opus 5 (claude-code profile, 2026-07-24): 95/100 — the strongest engineering yet seen in ANY harness**, run solo via Claude Code headless on the user's Max subscription ($16.02 API-equivalent at the verified $5/$25 card — same rates as Opus 4.x, not Fable's premium). Repository-pattern Rails.cache persistence with TTL + replay cap, role-alternation contract awareness, throttled Turbo Stream broadcasts with signed stream names, 121 tests including a gem-surface guard test, and a correct pending-prompt split. Held to 95 by a lost-update race under concurrency (bounded by its own WEB_CONCURRENCY=1 constraint), a stale sonnet-4.6 pin, and committed log/coverage cruft. Blind A/B vs the then-champion: 94 vs 70 decisive. Lives in the claude-code profile (not the main table) per harness-effect policy — but note it REVERSES the multi_model finding: Claude Code degraded Opus 4.7, yet produced Opus 5's near-record output. Harness effects are model-generation-specific.
 
 - **Kimi K3** (added 2026-07-17, scored 89/100, Tier A, #8 — best Kimi ever): run via Moonshot's own Kimi Code CLI (`runner_type: "kimi"`, new harness integration) after K3's endpoint rejected opencode's tool schemas; billed on a $19 Moderato subscription (~$2.10 API-equivalent). First model to use the rubric's ideal persistence (Rails.cache + TTL + cap); pins latest sonnet-5; held back by the Kimi-family signature gaps (no system prompt, LLM-in-model). **Harness-effect side experiment**: the same CLI running K2.7-Coding produced a ~68/B-quality app (informal score, not ranked) vs opencode-K2.7's 86/A — an ~18-point harness effect; see Cross-Cutting Finding #4. K3's own opencode counterfactual is unrunnable, so its entry carries the vendor-CLI harness caveat like the GPT Codex entries.
 
@@ -208,23 +211,7 @@ Several earlier models also moved significantly after re-audit with the correcte
 
 ## Tier A — Ship as-is (15 models)
 
-### 1. Claude Opus 4.7 (97/100) — most test-disciplined
-
-The benchmark leader by a hair. `LlmClient#reply_to` uses the full real API chain:
-
-```ruby
-chat = @client.chat(model:, provider:)
-chat.with_instructions(@system_prompt)
-previous_messages.each { |msg| chat.add_message({role: msg.role.to_sym, content: msg.content}) }
-response = chat.ask(user_message)
-response.content
-```
-
-Textbook correct. The `FakeChat` test double matches every real signature (`with_instructions`, `add_message(attrs)`, `ask`). Tests verify history replay, error wrapping, model/provider override, and system prompt application. Session cookie persistence via `to_a`/`from_session` round-trip is multi-worker safe. Error handling: `rescue RubyLLM::Error + StandardError` → user-friendly truncated bubble.
-
-**Killer strength**: test suite uses exact real-API signatures. **Killer weakness**: no concrete defects — Opus 4.7 is the cleanest output in the benchmark.
-
-### 2. GPT 5.4 xHigh (Codex CLI) (95/100) — most production-polish, most expensive (re-audited 97 → 95)
+### 1. GPT 5.4 xHigh (Codex CLI) (95/100) — most production-polish, most expensive (re-audited 97 → 95)
 
 Ties Opus 4.7 on score. Uses `RubyLLM.chat(model:, provider: :openrouter, assume_model_exists: true)` + `with_instructions` + `add_message(role:, content:)` + `chat.ask` + `response.content`. Textbook plus provider pinning and registry-skip.
 
@@ -240,7 +227,7 @@ The only model with:
 
 **Re-audit note (2026-07-09)**: −2 on production readiness, found during the GPT 5.5 re-audit — the Dockerfile ships `RAILS_ENV=development` as root with `CMD ["./bin/dev"]` (a dev image, not the "functional Dockerfile" the brief intends for production). Error paths ARE tested (unlike 5.5). 97 → 95, now tied with Opus 4.8 at #2.
 
-### 2. Claude Opus 4.8 (95/100) — fastest Opus, live-validated end-to-end
+### 1. Claude Opus 4.8 (95/100) — fastest Opus, live-validated end-to-end
 
 Opus 4.8 keeps the Opus 4.7 quality bar but ships a smaller, cleaner Rails 8.1/Ruby 4.0.3 app. The RubyLLM path is fully verified in `app/services/chat_service.rb`:
 
@@ -256,7 +243,7 @@ response.content.to_s
 
 **Killer strength**: combines Opus-level API correctness with live Rails+Docker+OpenRouter verification in 16m48s, faster than 4.7. **Killer weakness**: session-cookie persistence has no message cap, so long chats can hit the 4KB cookie ceiling; no explicit missing-key preflight before RubyLLM initialization.
 
-### 4. Claude Fable 5 (94/100) — first Claude 5-gen entry, fixed 4.8's deductions
+### 3. Claude Fable 5 (94/100) — first Claude 5-gen entry, fixed 4.8's deductions
 
 Fable 5 (snapshot `claude-5-fable-20260609`) is the first Claude 5-generation model on the board. The RubyLLM path in `app/services/chat/completion.rb` is fully verified against the ruby_llm 1.16.0 gem source:
 
@@ -277,7 +264,7 @@ Notably, it read the installed gem source mid-run before writing any integration
 
 **Killer weakness**: persistence is a process-local singleton (`Chat::ConversationStore`) — thread-safe and capped, but history dies on restart and breaks under multi-worker Puma. The rubric rates that below 4.8's session cookie, which is what keeps Fable 5 at #5 despite otherwise stronger engineering. It is also the priciest Claude run yet: ~$11 est. ($10/M input, $50/M output) over 24m — roughly 10× an Opus 4.8 run for one point less. The 4.8-vs-Fable ordering was confirmed by a blind head-to-head cross-audit (independent judge, projects anonymized): 19 vs 18 on the contested dimensions, with the judge noting Fable's test suite is actually the stronger of the two, and that a single change — backing `ConversationStore` with `Rails.cache` instead of an in-process hash — would flip the ranking.
 
-### 5. Claude Fable 5 re-release (93/100) — slight regression vs original, still Tier A
+### 4. Claude Fable 5 re-release (93/100) — slight regression vs original, still Tier A
 
 Run separately as `claude_fable_5_rerelease` after Anthropic/OpenRouter re-released `anthropic/claude-fable-5`. The output is structurally different from the original Fable run but lands at **93/A**, one point below the original rather than a large rumored regression.
 
@@ -297,7 +284,7 @@ The scanner's `chat.user` / `chat.assistant` hits are false positives: they are 
 
 **What regressed or stayed weaker**: the app still defaults to `anthropic/claude-sonnet-4.6` even though Sonnet 5 is live now and RubyLLM exposed a floating `~anthropic/claude-sonnet-latest` alias; phase 2 validated local boot/Docker/Compose with `/up` only, whereas the original Fable phase 2 performed live Turbo Stream chat through both local Rails and Compose; and the cache entry is TTL-bound but not hard-capped even though the LLM replay history is capped. Net: **93/A** — a small regression from the original 94/A, but still a strong Tier A result rather than a collapse.
 
-### 5. Gemini 3.5 Flash (93/100) — best non-Anthropic/non-OpenAI result, a Flash that beats Pro
+### 4. Gemini 3.5 Flash (93/100) — best non-Anthropic/non-OpenAI result, a Flash that beats Pro
 
 Run + scored in-house (2026-06-15) after closing community PR #6, which submitted pre-scored results without the gitignored project code. The result is the benchmark's biggest surprise: a *Flash*-tier model lands at **93/100, tied #6 on this benchmark** — above GLM 5.2 / Kimi K2.6 (87) and **14 points above Gemini 3.1 Pro** (79), behind only Opus 4.7/4.8, GPT 5.4/5.5, and original Fable 5. Newer generation (3.5 vs 3.1) beats the tier gap on this task.
 
@@ -318,7 +305,7 @@ response = chat.complete
 
 **Killer weaknesses** (why 93, not higher): persistence has no file locking (concurrent writes to one conversation can race) and `tmp/` is ephemeral in containerized deploys; no dedicated missing-key preflight (a missing key surfaces via the generic rescue rather than a friendly message). Also, despite the low $1.50/$9 per-M rate, the run cost ~$3.50 — *more* than an Opus 4.8 run — because it churned far more tokens (1.1M input + 11M cache reads). Every dimension was hand-verified, then independently confirmed by a blind A/B cross-audit that scored it 91/100 (vs. this 93) — a 2-point spread within noise — and found the persistence cap I initially missed.
 
-### 7. GPT 5.6 Sol xHigh (92/100) — new-generation flagship, run on a ChatGPT subscription
+### 6. GPT 5.6 Sol xHigh (92/100) — new-generation flagship, run on a ChatGPT subscription
 
 Run 2026-07-09 via Codex CLI at `xhigh` reasoning effort, **billed against the user's ChatGPT subscription credits** (codex ChatGPT auth verified before the run) — the first subscription-billed OpenAI entry. API-rate equivalent computed from token logs: **≈$8.70** at Sol's verified $5/$30 card (same blended cache-mix methodology as the GPT 5.5 figure). Also the most token-frugal GPT run yet: 3.9M total tokens vs 5.5's 4.9M and 5.4's 7.6M, in 17m.
 
@@ -330,7 +317,7 @@ The RubyLLM surface is fully real, verified against gem source 1.16.0 (`app/serv
 
 **Why 92, not higher**: no `with_instructions` system prompt anywhere (−4, same gap as Kimi K2.7 — the assistant ships with no persona/guardrails), and persistence is client-carried hidden-field history — rigorously capped, but lost on reload and client-tamperable (−4 vs a session cookie). Blind A/B cross-audit vs its predecessor GPT 5.5 xHigh: **92 vs 81, decisive** — the judge also surfaced real defects in the 5.5 project that its committed 96 missed; the deliberate re-audit (same day) confirmed them and re-scored 5.5 at 85 (see its entry). Primary hand-read scored Sol 89; the cross-audit's Dockerfile/test-coverage evidence lifted it to 92.
 
-### 8. Kimi K3 (89/100) — best Kimi ever, via Moonshot's own CLI, on a $19 subscription
+### 7. Kimi K3 (89/100) — best Kimi ever, via Moonshot's own CLI, on a $19 subscription
 
 Run 2026-07-17 through the new **`kimi` runner** (Kimi Code CLI, `runner_type: "kimi"`) after K3's Moonshot endpoint proved incompatible with opencode's tool schemas — same vendor-CLI precedent as the GPT Codex entries. Billed as **Kimi Moderato subscription credits** (~$2.10 API-equivalent from token logs at K3's $3/$15 card; 4.7M of 4.8M tokens were cache reads at $0.30/M). Both phases completed in 25.6m, 2,592 files.
 
@@ -340,7 +327,7 @@ The RubyLLM integration is fully real, verified against gem source 1.16.0 (`app/
 
 **Why 89, not higher**: no `with_instructions` system prompt — now a three-generation Kimi family signature (K2.6 had one; K2.7 and K3 don't); LLM I/O lives inside the `Conversation` model rather than a service (also a family trait); no missing-key preflight; production cache store left at the Rails default (container-ephemeral). Below the 93+ cluster and adjacent Sol (92), so no cross-audit per the standing rule. Family arc: K2.5 69/B → K2.6 87/A → K2.7 86/A → **K3 89/A**.
 
-### 9. Kimi K2.6 (87/100) — best Chinese-model output
+### 8. Kimi K2.6 (87/100) — best Chinese-model output
 
 The standout of the non-Anthropic/non-OpenAI cohort. `RubyLLM.chat` + `with_instructions(SYSTEM_INSTRUCTION)` + `chat.add_message(role:, content:)` + `chat.ask` + `response.content` — all real API.
 
@@ -352,7 +339,7 @@ The standout of the non-Anthropic/non-OpenAI cohort. `RubyLLM.chat` + `with_inst
 
 At ~$0.30/run, Kimi K2.6 is the cheapest Tier A model — 3-50× cheaper than the top 2.
 
-### 9. GLM 5.2 / Z.ai (87/100) — biggest single-version turnaround in the benchmark
+### 8. GLM 5.2 / Z.ai (87/100) — biggest single-version turnaround in the benchmark
 
 GLM 5.2 fixes the exact bug that put GLM 5.1 in Tier C (46/100): where 5.1 invented `chat.user`/`chat.assistant` to seed multi-turn history (crashing on turn 2), 5.2 uses the real `chat.add_message(role:, content:)` to replay prior turns. Every RubyLLM call is verified against gem source 1.16.0 — `RubyLLM.chat(model:)` (via an injected `client`), `with_instructions`, `add_message`, `ask`, `response.content` — zero hallucinations. Phase 2 live-validated the full path end-to-end (real OpenRouter chat, Docker, compose, CSRF correctly rejecting a bare curl POST). Interpret the jump narrowly: it shows a major improvement in RubyLLM/API recall and agentic Rails execution for this task, not a blanket proof that GLM 5.2 dominates unrelated programming domains.
 
@@ -372,7 +359,13 @@ conversation.add(role: "assistant", content: response.content)
 
 **Killer weakness**: persistence is an **uncapped** process-local `Singleton` `ConversationStore` — lost on restart, not multi-worker safe, and (unlike Kimi K2.6 and Claude Fable 5's capped stores) free to grow without bound. It is honest about this in code comments, but the rubric rates it below Kimi's restart-surviving, multi-worker-safe capped cookie. That single axis is why it ties Kimi at 87 yet ranks just behind it — the same persistence axis that separated Fable 5 from Opus 4.8. Also the slowest Tier A run (43m on a throttled Z.ai coding endpoint at 12-55 tok/s).
 
-### 9. Grok 4.5 (87/100) — the Grok family finally reaches Tier A, with one subtle correctness bug
+### 8. Claude Opus 4.7 (87/100) — the champion dethroned by its own descendants' audits (re-audited 97 → 87)
+
+**Re-audited 2026-07-24.** The blind A/B for Claude Opus 5 accidentally exposed what every April-era audit missed: the long-standing champion has the **double-send bug** — `chats_controller.rb` appends the user turn to the session *before* calling the service, and `LlmClient#previous_messages` filters only system messages, so every user turn reaches the LLM twice (verified by hand on the April-dated files; the exact defect class the Grok 4.5 cross-audit later made a standard check). Also verified: error apologies are stored as assistant messages and replayed into future context, and the 40-message cookie cap is count-only (CookieOverflow reachable). Its tests — long praised as the benchmark's most disciplined — are structured so none of this can be caught: controller tests monkey-patch past `LlmClient`, and the service test builds history without the pending prompt (masking the double-send exactly like Grok 4.5's).
+
+What remains true: fully real RubyLLM API (`RubyLLM.chat` + `with_instructions` + `add_message` + `ask` + `.content`), the sonnet-4.6 pin was latest at its April run date, a production Dockerfile, and genuine error-path tests. Re-scored 87 — landing, with grim poetry, in the same cluster as Grok 4.5, whose near-identical app (same service/file layout, same defect trio) scored 87 under far harsher scrutiny. The scoring drift was never model quality; it was audit-methodology maturity. Standing corrected alongside GPT 5.5 (96→85) and GPT 5.4 (97→95) as the third and final April-cohort casualty.
+
+### 8. Grok 4.5 (87/100) — the Grok family finally reaches Tier A, with one subtle correctness bug
 
 Run 2026-07-08 (snapshot `grok-4.5-20260708`, released the same day; reasoning effort maxes at `high`, which is the default, so this is already the highest-effort configuration). The family trajectory is now 25 (4.20, Tier D) → 72 (4.3, Tier B) → **87 (4.5, Tier A)** — and 4.5 fixes **all three of 4.3's failure modes**:
 

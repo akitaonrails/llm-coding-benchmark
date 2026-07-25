@@ -1,0 +1,99 @@
+{
+  "assistant_turns": 291,
+  "command": [
+    "claude",
+    "-p",
+    "--model",
+    "claude-opus-5",
+    "--output-format",
+    "stream-json",
+    "--dangerously-skip-permissions",
+    "--verbose",
+    "<prompt>"
+  ],
+  "elapsed_seconds": 2336.81,
+  "ended_at": "2026-07-24T18:51:00+00:00",
+  "exit_code": 0,
+  "file_count": 1744,
+  "label": "Claude Opus 5 alone",
+  "main_model": "claude-opus-5",
+  "model_usage": {
+    "claude-haiku-4-5-20251001": {
+      "cacheCreationInputTokens": 0,
+      "cacheReadInputTokens": 0,
+      "contextWindow": 200000,
+      "costUSD": 0.001152,
+      "inputTokens": 1052,
+      "maxOutputTokens": 32000,
+      "outputTokens": 20,
+      "webSearchRequests": 0
+    },
+    "claude-opus-5": {
+      "cacheCreationInputTokens": 223570,
+      "cacheReadInputTokens": 22133220,
+      "contextWindow": 200000,
+      "costUSD": 16.022747499999998,
+      "inputTokens": 8255,
+      "maxOutputTokens": 32000,
+      "outputTokens": 140702,
+      "webSearchRequests": 0
+    }
+  },
+  "no_progress_timeout_seconds": 360,
+  "num_turns": 201,
+  "paths": {
+    "project_dir": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_opus_5_alone/project",
+    "prompt": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_opus_5_alone/prompt.txt",
+    "stderr_log": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_opus_5_alone/stderr.log",
+    "stream_ndjson": "/mnt/data/Projects/llm-coding-benchmark/results-claude-code/claude_opus_5_alone/stream.ndjson"
+  },
+  "prompt_sha256": "d25f119447215ebf47477c1ce61b24f801bfcb9336467f5b019d554f3c83537c",
+  "slug": "claude_opus_5_alone",
+  "stall_reason": null,
+  "stalled": false,
+  "started_at": "2026-07-24T18:12:04+00:00",
+  "status": "completed",
+  "stop_reason": "end_turn",
+  "subagent": null,
+  "subagent_invocation_counts": {},
+  "subagent_invocations": [],
+  "timed_out": false,
+  "timeout_seconds": 5400,
+  "tool_use_counts": {
+    "Bash": 67,
+    "Edit": 39,
+    "Read": 11,
+    "Write": 83
+  },
+  "total_cost_usd": 16.023899499999995,
+  "usage_total": {
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 221710
+    },
+    "cache_creation_input_tokens": 221710,
+    "cache_read_input_tokens": 21695837,
+    "inference_geo": "global",
+    "input_tokens": 8251,
+    "iterations": [
+      {
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 0,
+          "ephemeral_5m_input_tokens": 678
+        },
+        "cache_creation_input_tokens": 678,
+        "cache_read_input_tokens": 238501,
+        "input_tokens": 2,
+        "output_tokens": 1381,
+        "type": "message"
+      }
+    ],
+    "output_tokens": 136643,
+    "server_tool_use": {
+      "web_fetch_requests": 0,
+      "web_search_requests": 0
+    },
+    "service_tier": "standard",
+    "speed": "standard"
+  }
+}

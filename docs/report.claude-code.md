@@ -14,6 +14,7 @@ Runner: `claude -p --output-format stream-json --dangerously-skip-permissions`
 
 | Variant | Status | Time | Files | Turns | Delegations | Total Cost |
 |---|---|---:|---:|---:|---:|---:|
+| claude_opus_5_alone | completed | 2337s | 1744 | 201 | 0 | $16.0239 |
 | claude_opus_alone | completed | 662s | 1742 | 129 | 0 | $6.7394 |
 | claude_opus_sonnet | completed | 606s | 1829 | 106 | 0 | $5.1309 |
 | claude_opus_haiku | completed | 882s | 1984 | 136 | 0 | $7.8282 |
@@ -25,6 +26,13 @@ Runner: `claude -p --output-format stream-json --dangerously-skip-permissions`
 ## Per-Model Token Usage
 
 Extracted from Claude Code's `modelUsage` field. Cost is computed server-side by the SDK.
+
+### claude_opus_5_alone
+
+| Model | Input | Output | Cache Read | Cache Create | Cost |
+|---|---:|---:|---:|---:|---:|
+| claude-haiku-4-5-20251001 | 1,052 | 20 | 0 | 0 | $0.0012 |
+| claude-opus-5 | 8,255 | 140,702 | 22,133,220 | 223,570 | $16.0227 |
 
 ### claude_opus_alone
 

@@ -13,6 +13,12 @@ For baseline comparisons, the reference is `results/claude_opus_4_7` (Opus 4.7 v
 
 ---
 
+## Update 2026-07-24: Claude Opus 5 solo — the harness-effect finding reverses
+
+**Claude Opus 5 (solo, no subagent) via Claude Code headless: 95/100-equivalent — the strongest engineering seen in any harness to date.** Run on the user's Max subscription ($16.02 API-equivalent, 38.9m, 201 turns, 22.1M cache reads). Repository-pattern `Rails.cache` persistence (12h TTL + 40-message replay window + explicit 32MB memory-store cap), provider-contract-aware history (role alternation enforced, leading assistant turns dropped), throttled `Turbo::StreamsChannel` streaming broadcasts on signed stream names, credentials preflight, six RubyLLM error classes mapped to friendly messages, and 121 tests including a guard test asserting the real gem surface. Verified deductions: a lost-update race if a second prompt is posted mid-generation (explicitly bounded by its own documented `WEB_CONCURRENCY=1`), a stale `sonnet-4.6` pin (sonnet-5 was current), and committed `log/`+`coverage/` cruft.
+
+This **reverses this report's original headline for the new generation**: the same Claude Code harness that pushed Opus 4.7 into Tier 3 hallucination produced Opus 5's near-record output — and the blind A/B between Opus 5 and the Opus 4.7 *opencode* champion (94 vs 70 on the judge's scale) incidentally exposed that the champion's 97 was itself April-audit-inflated (now re-audited to 87 in the main table). Two conclusions: (1) harness effects are model-generation-specific, not a fixed property of the harness; (2) the April 2026 audit cohort systematically missed multi-turn payload correctness — the double-send class — in every harness. Zero delegations remains unbroken: Opus 5 ran solo by design, so the delegation question stays open for a follow-up with a subagent variant.
+
 ## Headline Findings
 
 1. **Zero delegations across all 7 multi-model runs.** Every variant had at least one coding subagent visible to the main model (some more than intended — see Methodology Caveat below). Every variant ran with the main model doing 100% of the work. The `Task` tool, opencode's task dispatcher, and Codex's `spawn_agent` all went unused.
