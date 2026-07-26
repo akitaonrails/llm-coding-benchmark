@@ -1,0 +1,15 @@
+This is phase 3 of 3 (self-review) — a continuation of the existing project in the current working directory. Do NOT implement new features in this phase. Small, surgical fixes are allowed only if you discover something broken while reviewing; record any such fix in the review.
+
+Your task: produce an honest, evidence-based review of the work in this workspace, written to a file named SELF_REVIEW.md at the workspace root. Accuracy is scored: a goal marked PASS that the reviewers later find failing counts heavily against the review's credibility — an honest FAIL is worth more than an optimistic PASS.
+
+SELF_REVIEW.md must contain:
+
+1. GOAL VERIFICATION TABLE — one row per goal G1 through G14 from the original brief, columns: goal id, verdict (PASS / PARTIAL / FAIL), and one line of concrete evidence (file:line references, test names, or the exact command you ran and its result). Re-verify each goal against the actual code NOW; do not rely on memory of what you intended to build.
+
+2. CODE QUALITY ASSESSMENT — a frank evaluation of the codebase against clean code principles: naming, single responsibility, duplication, dead code, method/class size, coupling between layers. Cite specific files. List the top 3 things you would refactor with more time and why.
+
+3. TEST COVERAGE ASSESSMENT — report the actual SimpleCov line and branch percentages (run the suite if needed), name the weakest-tested area of the codebase, and state which failure modes are NOT covered by any test.
+
+4. KNOWN DEFECTS AND RISKS — anything you know or suspect is broken, racy, unbounded, or fragile: concurrency hazards, edge cases, security concerns, operational risks. An empty list will be treated as a claim that none exist, and will be checked.
+
+Keep it factual and specific. No marketing language.
