@@ -1,0 +1,15 @@
+This is phase 2 of 3 (runtime validation) — a continuation of the existing project in the current working directory. Do not regenerate the app. Do not create a second app. Validate and fix the current codebase in place. Do not ask for confirmation; fix what fails and continue.
+
+Source ~/.config/zsh/secrets only to load required environment variables, especially OPENROUTER_API_KEY. Never print secret values; never commit secrets.
+
+Validate end-to-end, in this order, fixing anything that fails before moving on:
+
+1. Boot the app locally and prove it responds (e.g. curl the root path).
+2. Prove TRUE streaming (goal G4): send a chat message and verify the reply arrives incrementally via Turbo Stream broadcasts — not as a single post-completion append. Describe exactly how you verified it.
+3. Prove tool calling (goal G7): ask the assistant "what time is it on the server?" and verify the answer came from the server_time tool; then ask it to compute an arithmetic expression via the calculator tool.
+4. Prove restart survival and multi-worker correctness (goal G6): start the server with WEB_CONCURRENCY=2, hold a short conversation, restart the server, and verify the conversation history is intact and consistent afterwards.
+5. Run the full test suite and the quality gates (RuboCop, Brakeman, bundle-audit); everything must pass.
+6. `docker build` must finish successfully.
+7. `docker compose up --build` must run, and the app inside compose must answer a real chat message end-to-end.
+
+Only stop when validation is complete or you hit a hard blocker that cannot be resolved from inside the workspace. Summarize what passed, what you fixed, and how each proof was obtained.

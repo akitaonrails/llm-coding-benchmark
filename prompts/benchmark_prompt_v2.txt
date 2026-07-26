@@ -1,0 +1,37 @@
+I want you to build a Ruby on Rails application. Use the newest Ruby and Rails available in mise here; you have access to mise. First make a short implementation plan for yourself, then implement without asking for confirmation. Do not stop to ask what to do next. Use the file and shell tools available in this runtime; if a tool call fails, recover and continue.
+
+This is phase 1 of 3 (build). Phase 2 will validate the running app. Phase 3 will ask you to verify every numbered goal below, so implement with the goals in mind — they are the scoring contract.
+
+Source ~/.config/zsh/secrets only to load required environment variables, especially OPENROUTER_API_KEY. Never print secret values and never commit secrets into source files, .env files, Dockerfiles, compose files, logs, or README examples.
+
+THE GOALS (numbered — you will be asked to verify each one in phase 3):
+
+G1. A Rails app using the newest Ruby and Rails from mise. No Active Record, no Action Mailer, no Active Job — configure the app accordingly. Generated with Rails generators, at the workspace root (no nested app directory).
+
+G2. A minimal ChatGPT-like SPA: Tailwind CSS, Hotwire with Stimulus and Turbo Streams, componentized with Rails partials. No single-file CSS/JS dumps, no fetch()+innerHTML hand-rolling where Turbo fits.
+
+G3. RubyLLM (gem name `ruby_llm`, latest version) configured for OpenRouter, using the latest Claude Sonnet as the chat model (model selection overridable via env var).
+
+G4. TRUE token streaming: the assistant's reply must appear in the page incrementally as tokens arrive, delivered via Turbo Stream broadcasts from the server. Appending the full reply after completion does not satisfy this goal.
+
+G5. Multi-turn payload correctness: on every exchange, each user turn is sent to the provider EXACTLY once — the history you replay must exclude the prompt you are about to send. Include a unit test that asserts the exact outgoing message array for a multi-turn conversation.
+
+G6. Concurrency-safe, bounded persistence: conversation history must survive an application restart, must behave correctly when the server runs with WEB_CONCURRENCY=2 (no process-local stores), and must be bounded (message-count and byte caps) with a TTL.
+
+G7. Tool calling: expose exactly two tools to the assistant using RubyLLM's tool API — `server_time` (returns the server's current UTC time) and `calculator` (evaluates a basic arithmetic expression safely). When a user asks for the time or a calculation, the assistant must answer via the tool.
+
+G8. Structured output: after the first completed exchange of a conversation, generate a short conversation title using RubyLLM's structured-output/schema API, and display it in the UI.
+
+G9. Token budgeting: track approximate token usage per conversation; when a configurable budget (env var, sane default) is exceeded, refuse further turns with a friendly in-UI message instead of calling the provider.
+
+G10. Robustness: a system prompt set through RubyLLM's instructions API; a missing-API-key preflight with a friendly, actionable error; every provider failure rescued into a visible degraded UI state; failed turns must never be stored into the history that gets replayed to the provider.
+
+G11. Minitest tests for every component. Mocks must mirror the real RubyLLM API surface (a test that mocks a nonexistent API is worse than no test). Error paths covered. SimpleCov wired with a coverage report.
+
+G12. Brakeman, RuboCop, and bundle-audit all pass clean.
+
+G13. A production-grade Dockerfile (RAILS_ENV=production, non-root user, proper entrypoint) and a docker compose configuration that runs the app locally. A README.md documenting what the app does, setup, and how to run it.
+
+G14. No authentication (it is a demo), no secrets committed anywhere, everything inside the current workspace.
+
+Focus this phase on implementation, tests, and structure. Do not spend time on full runtime validation beyond what keeps implementation moving.
