@@ -93,12 +93,15 @@ Same audit depth as wave 1: suite re-run by the auditor, self-review claims chas
 | 6 | **Claude Opus 4.7** | **91** | 43.7 min | **67.7M** | $44.28 | Max sub |
 | 7 | GPT 5.5 | 88 | 57.5 min | 25.7M | $131.88 raw / ~$53 blended¹ | ChatGPT credits |
 | 8 | GPT 5.4 | 86 | 66.7 min | 25.0M | $64.50 raw / ~$26 blended¹ | ChatGPT credits |
+| 6 | **GLM 5.2** | **91** | 121.8 min | 443K² | **$0 (flat sub)** | Z.ai coding plan |
 | 8 | **Kimi K2.7-Coding** | **86** | 53.8 min | 25.6M | **$4.37** | Moderato sub (1 window, 0 quota waits) |
 | 10 | **Claude Opus 4.6** | **83** | **39.5 min** | 16.8M | $12.83 | Max sub |
 
-(GPT 5.4 and K2.7-Coding tie at 86 — at roughly 6× different blended cost.)
+(GPT 5.4 and K2.7-Coding tie at 86 — at roughly 6× different blended cost. GLM 5.2 and Opus 4.7 tie at 91.)
 
-Queue: GLM 5.2 (running) → K2.6 → Grok 4.5 → Nex-N2-Pro → Gemini 3.5 Flash @ high effort (Pro-slot fallback; Pro still allowlist-only via Antigravity/Vertex).
+² opencode reports per-response API usage, not the cumulative per-request token flow (incl. cache reads) that the claude/kimi CLIs report — token columns are not comparable across harnesses; wall time and cost are.
+
+Queue: K2.6 (running) → Grok 4.5 → Nex-N2-Pro → Gemini 3.5 Flash @ high effort (Pro-slot fallback; Pro still allowlist-only via Antigravity/Vertex).
 
 **The Claude generation gradient is now fully resolved**: 4.6 (83) → 4.7 (91) → 4.8 (93) → Opus 5 (95) → Fable (96). v1 had all five inside Tier A noise; the v2 brief spreads them across 13 points.
 
@@ -123,6 +126,16 @@ The cheapest run of the cohort ($4.37 API-equivalent, single Moderato quota wind
 **Scoring**: gates 14/15 (−1 stale `claude-sonnet-4.6` pin), streaming 10 (replace-with-growing-content broadcasts, live-proven), payload 8 (final state correct + tested, but the double-send shipped through two phases undetected), concurrency 8 (Redis `setex` TTL + count bound tested; byte-cap untested and read-modify-write race, both confessed), tools 8 (both live-proven, **but the calculator is `Kernel.eval` behind a token whitelist** — the exact hazard "safely" was aimed at; confessed as its own top refactor), schema 5, budget 3 (between-turns shared −1; user turns count 0 tokens so the budget lags a full turn, confessed), robustness 8 (Redis-down unhandled; error placeholder lingers — both confessed), tests+gates 8 (branch coverage enabled; byte-trim and error branches untested), fidelity 14/15 (correct goal-table structure, every chased claim verified, review-fix and environment workarounds disclosed; −1 for the stale-pin PASS claim).
 
 The K2.7 verdict: 86-grade work — tied with GPT 5.4 at ~1/6th its cost — and the only model so far to catch one of its own hard-gate bugs in the self-review phase. The Kimi line's v2 gap (K3 95 vs K2.7 86) is the largest single-vendor generation jump measured yet.
+
+### GLM 5.2 — 91 (audited 2026-07-27)
+
+First v2 run through the opencode harness (shakedown clean: session-independent phases, metrics, YOLO permissions all worked) and the slowest run of the cohort (121.8 min; phase 1 brushed the 90-min timeout at 87.8) — at **$0 marginal cost** on the Z.ai flat-rate coding plan. The result ties Opus 4.7 at 91 and beats GLM's own v1 relative position: the only model so far to climb the order under the harder brief.
+
+Standout engineering: the **best G5 test in the cohort** — the mock aliases the real `Chat#provider_completion` private boundary, returns real `RubyLLM::Message`/`Chunk` objects, and asserts the exact role sequence, exact contents, and exactly-once counts of the captured outgoing array. Canonical G4 streaming (per-chunk `Turbo::StreamsChannel.broadcast_replace_to`, live-proven cross-worker over Redis in compose). Calculator is a hand-written recursive-descent parser with DoS guards. Phase 2 fixed two real phase-1 bugs within mandate, each with regression tests: an `ActiveModel::API` `persisted?` bug that routed conversation links to the collection path (opening a chat from the index was broken), and production `force_ssl`/`assume_ssl` breaking every compose POST via CSRF origin mismatch. Its concurrency proofs were the most rigorous of any phase 2: SHA-256-identical store across restart, 8 concurrent cross-worker creates with 0 corrupt files, 10 rapid reads with one consistent fingerprint. Suite verified: 77 runs / 211 assertions / 96.27% line — exact match to self-report.
+
+**Scoring**: gates 13/15 (−1 stale `claude-sonnet-4.6` pin; −1 for the two real user-facing phase-1 defects), streaming 10, payload 10, concurrency 8 (disclosed lost-update race: the conversation is read in a `before_action` *before* the flock is taken, so simultaneous posts to one conversation can drop a message — honest, precise, and exactly G6's letter; plus O(n) TTL sweep per request), tools 10, schema 5, budget 3 (between-turns shared −1; token accounting depends on the upstream returning usage on streamed responses, no fallback tokenizer — confessed, the G9 guard silently disables on some models), robustness 9 (broad rescue taxonomy with rollback; streaming holds a Puma thread for the whole reply — the confessed scalability ceiling), tests+gates 9 (second-largest suite, deepest mock seam, no branch coverage), fidelity 14/15 (goal table correct and evidence-dense with real gem-source citations; three caveats disclosed *inline with their PASS verdicts* — the most honest PASS-framing format yet; −1 stale-pin claim).
+
+The GLM verdict: at flat-rate $0, 91-grade work with the cohort's best payload test — the value story of wave 2 alongside K3. The tradeoff is pure wall time: 2.7× Fable's duration for 5 fewer points.
 
 ## Cross-references
 
