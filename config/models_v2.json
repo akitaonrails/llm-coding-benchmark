@@ -71,7 +71,7 @@
       "model_id": "openrouter/google/gemini-3.5-pro",
       "billing": "OpenRouter API (no Google subscription harness available)",
       "wave": 2,
-      "blocked": "gemini-3.5-pro not yet released (checked 2026-07-26); replaces Gemini 3.5 Flash in the Tier A cohort per user decision"
+      "blocked": "gemini-3.5-pro still unreleased (re-checked 2026-07-27); superseded by v2_gemini_flash_high per user directive"
     },
     {
       "slug": "v2_claude_opus_4_8",
@@ -209,6 +209,21 @@
         "output": 1.0
       },
       "wave": 2
+    },
+    {
+      "slug": "v2_gemini_flash_high",
+      "label": "Gemini 3.5 Flash @ reasoning_effort=high (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/google/gemini-3.5-flash",
+      "billing": "OpenRouter API (no Google subscription harness)",
+      "rates_per_m": {
+        "input": 1.5,
+        "cache_read": 0.375,
+        "cache_write": 1.5,
+        "output": 9.0
+      },
+      "wave": 2,
+      "notes": "User directive 2026-07-27: Pro unavailable -> highest-effort available Gemini. Effort forced via home-config model options (reasoning.effort=high) cloned into opencode.benchmark.json; verify forwarding by comparing the run's reasoning-token share against the v1 dynamic-thinking baseline (23,322 reasoning tokens / 98 events)."
     }
   ],
   "skipped": {
