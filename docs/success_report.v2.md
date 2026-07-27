@@ -93,9 +93,12 @@ Same audit depth as wave 1: suite re-run by the auditor, self-review claims chas
 | 6 | **Claude Opus 4.7** | **91** | 43.7 min | **67.7M** | $44.28 | Max sub |
 | 7 | GPT 5.5 | 88 | 57.5 min | 25.7M | $131.88 raw / ~$53 blended¹ | ChatGPT credits |
 | 8 | GPT 5.4 | 86 | 66.7 min | 25.0M | $64.50 raw / ~$26 blended¹ | ChatGPT credits |
-| 9 | **Claude Opus 4.6** | **83** | **39.5 min** | 16.8M | $12.83 | Max sub |
+| 8 | **Kimi K2.7-Coding** | **86** | 53.8 min | 25.6M | **$4.37** | Moderato sub (1 window, 0 quota waits) |
+| 10 | **Claude Opus 4.6** | **83** | **39.5 min** | 16.8M | $12.83 | Max sub |
 
-Queue: K2.7-Coding (running) → GLM 5.2 → K2.6 → Grok 4.5 → Nex-N2-Pro → Gemini 3.5 Flash @ high effort (Pro-slot fallback; Pro still allowlist-only via Antigravity/Vertex).
+(GPT 5.4 and K2.7-Coding tie at 86 — at roughly 6× different blended cost.)
+
+Queue: GLM 5.2 (running) → K2.6 → Grok 4.5 → Nex-N2-Pro → Gemini 3.5 Flash @ high effort (Pro-slot fallback; Pro still allowlist-only via Antigravity/Vertex).
 
 **The Claude generation gradient is now fully resolved**: 4.6 (83) → 4.7 (91) → 4.8 (93) → Opus 5 (95) → Fable (96). v1 had all five inside Tier A noise; the v2 brief spreads them across 13 points.
 
@@ -112,6 +115,14 @@ The fastest Claude run yet (43.7 min) and the *hungriest* model in the cohort (6
 The fastest (39.5 min) and second-cheapest ($12.83) run in the cohort — and the first where **phase 1 delivered a non-viable build**: a non-registry model pin (`anthropic/claude-sonnet-4-20250514`, would fail on the first call) and Dockerfile/BUNDLE_WITHOUT issues; phase 2 applied 5 fixes before its 7 validations passed (every other model so far shipped a working phase-1 build; 4.7 needed zero fixes). One of those "fixes" was itself wrong: it declared `ruby-4.0.6` "non-existent" and downgraded to 3.4.10 — mise on this machine has 4.0.6 installed as `latest`, and 4.7's project runs on it. Once repaired, the app is genuinely solid: correct drop-last exactly-once replay with a real captured-array G5 test, live-proven streaming/tools/restart-survival, SQLite WAL, real `with_schema` titles, and two cohort-firsts — **branch coverage enabled** (64.63%, honestly reported) and a **real CI workflow** enforcing the quality gates.
 
 **Scoring**: gates 12/15 (−1 stale pin, −1 phase-1 non-viable artifacts, −1 needless Ruby downgrade off G1's "newest"), streaming 9, payload 9 (drop-last relies on the just-inserted row being last — fragile under concurrent appends), concurrency 8 (TTL is dead code — `cleanup_expired!` has zero production callers, confessed; shared-SQLite-connection thread hazard, confessed), tools 10, schema 5, budget 3 (between-turns shared −1; confessed token double-counting — heuristic estimate ADDED to real API counts — inflates usage and trips the budget early), robustness 9, tests+gates 8 (51 runs/106 asserts verified; OpenStruct-seam mocks are the shallowest in the Claude line), **fidelity 10/15** — the biggest deduction of the cohort: the SELF_REVIEW goal table **renumbered G1-G14 from memory** instead of re-reading the brief (its "G3" is an invented "SPA" goal; the brief's G5 payload, G6 bounds/TTL, G8 schema, and G9 budget have no explicit verdict rows), it justified a G1 PASS with an invented "Rubric accepts 3.4.x" after its own false-premise downgrade, and it cites `ruby_llm-1.14.1` source paths while 1.16.0 is installed. Credit where due: every §4 defect it confessed (double-counting, TTL dead code, thread safety) checked out true.
+
+### Kimi K2.7-Coding — 86 (audited 2026-07-27)
+
+The cheapest run of the cohort ($4.37 API-equivalent, single Moderato quota window, zero waits) and the most interesting *self-correction story*: **phase 1 shipped the classic double-send bug** (user prompt persisted before streaming AND re-added by `chat.ask`) — the exact v1-era failure class the cohort had seemingly made extinct — and its own phase-2 validation didn't catch it (double-send is invisible in the UI). Then **phase 3 found it during review, fixed it within the review mandate, disclosed it prominently, and added the required outgoing-array test** (asserting system+history captured at ask-time, prompt excluded). All 7 phase-2 validations passed live (streaming proven by watching Redis pub/sub broadcasts grow; tools, restart-survival under 2 workers, compose e2e). Suite verified: 43 runs / 93 assertions, 95.43% line / 61.11% branch — matches self-report to the decimal.
+
+**Scoring**: gates 14/15 (−1 stale `claude-sonnet-4.6` pin), streaming 10 (replace-with-growing-content broadcasts, live-proven), payload 8 (final state correct + tested, but the double-send shipped through two phases undetected), concurrency 8 (Redis `setex` TTL + count bound tested; byte-cap untested and read-modify-write race, both confessed), tools 8 (both live-proven, **but the calculator is `Kernel.eval` behind a token whitelist** — the exact hazard "safely" was aimed at; confessed as its own top refactor), schema 5, budget 3 (between-turns shared −1; user turns count 0 tokens so the budget lags a full turn, confessed), robustness 8 (Redis-down unhandled; error placeholder lingers — both confessed), tests+gates 8 (branch coverage enabled; byte-trim and error branches untested), fidelity 14/15 (correct goal-table structure, every chased claim verified, review-fix and environment workarounds disclosed; −1 for the stale-pin PASS claim).
+
+The K2.7 verdict: 86-grade work — tied with GPT 5.4 at ~1/6th its cost — and the only model so far to catch one of its own hard-gate bugs in the self-review phase. The Kimi line's v2 gap (K3 95 vs K2.7 86) is the largest single-vendor generation jump measured yet.
 
 ## Cross-references
 

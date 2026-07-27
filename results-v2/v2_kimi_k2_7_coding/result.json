@@ -1,0 +1,79 @@
+{
+  "billing": "Kimi Moderato subscription",
+  "cost_usd_total": 4.373,
+  "elapsed_seconds_total": 3225.43,
+  "ended_at": "2026-07-27T19:32:28+00:00",
+  "harness": "kimi",
+  "label": "Kimi K2.7 Coding (Kimi Code CLI)",
+  "phases": [
+    {
+      "command_kind": "bash -lc",
+      "cost_usd": 2.7058,
+      "elapsed_seconds": 1683.51,
+      "ended_at": "2026-07-27T19:06:42+00:00",
+      "exit_code": -15,
+      "file_count_after": 1568,
+      "harness": "kimi",
+      "phase": "phase1",
+      "session_id": "session_97a0fbfa-eadf-4dee-ba4c-ffec63ed4197",
+      "started_at": "2026-07-27T18:38:37+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 16053248,
+          "write": 0
+        },
+        "input": 164607,
+        "output": 49806,
+        "total": 16267661
+      }
+    },
+    {
+      "command_kind": "bash -lc",
+      "cost_usd": 0.8514,
+      "elapsed_seconds": 766.66,
+      "ended_at": "2026-07-27T19:19:31+00:00",
+      "exit_code": -15,
+      "file_count_after": 1769,
+      "harness": "kimi",
+      "phase": "phase2",
+      "session_id": "session_fd88721d-148b-476d-a796-64141bd75a9c",
+      "started_at": "2026-07-27T19:06:42+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 4799744,
+          "write": 0
+        },
+        "input": 75512,
+        "output": 21359,
+        "total": 4896615
+      }
+    },
+    {
+      "command_kind": "bash -lc",
+      "cost_usd": 0.8158,
+      "elapsed_seconds": 775.26,
+      "ended_at": "2026-07-27T19:32:28+00:00",
+      "exit_code": 0,
+      "file_count_after": 1770,
+      "harness": "kimi",
+      "phase": "phase3",
+      "session_id": "session_571b16e4-33a4-445c-b34c-52380304c2ce",
+      "started_at": "2026-07-27T19:19:31+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 4329984,
+          "write": 0
+        },
+        "input": 86990,
+        "output": 28887,
+        "total": 4445861
+      }
+    }
+  ],
+  "self_review_present": true,
+  "slug": "v2_kimi_k2_7_coding",
+  "tokens_total": 25610137
+}
