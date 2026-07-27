@@ -77,6 +77,33 @@ All four cleared every v2 hard gate: TRUE streaming (per-chunk Turbo broadcasts,
 
 **Wave-1 verdict**: the harder brief worked — it separated the models on efficiency, honesty, and engineering depth where v1 had them tied. If you ship with one of these four: Fable 5 for the strongest all-round engineering per minute, K3 for 95% of the quality at 15-25% of the cost, Opus 5 when thoroughness beats economy, Sol competent but currently dominated on both cost and depth.
 
+## Wave 2 (in progress, started 2026-07-27)
+
+Same audit depth as wave 1: suite re-run by the auditor, self-review claims chased to file:line, shared deductions normalized (stale Sonnet pin −1 gate / −1 fidelity; between-turns-only budgets −1).
+
+### Standings so far (waves combined)
+
+| # | Model | v2 score | Wall time | Tokens | Cost (API-equiv) | Billing |
+|---:|---|---:|---:|---:|---:|---|
+| 1 | Claude Fable 5 | 96 | 45.8 min | 14.6M | $26.03 | API (auth bug¹ᵇ) |
+| 2 | Claude Opus 5 | 95 | 78.3 min | 56.8M | $38.91 | API (auth bug¹ᵇ) |
+| 2 | Kimi K3 | 95 | 64.9 min | 13.2M | $6.14 | Moderato sub |
+| 4 | GPT 5.6 Sol | 93 | 56.5 min | 21.9M | ~$45 (blended¹) | ChatGPT credits |
+| 4 | Claude Opus 4.8 | 93 | 53.5 min | 25.8M | $21.82 | Max sub |
+| 6 | **Claude Opus 4.7** | **91** | 43.7 min | **67.7M** | $44.28 | Max sub |
+| 7 | GPT 5.5 | 88 | 57.5 min | 25.7M | $131.88 raw / ~$53 blended¹ | ChatGPT credits |
+| 8 | GPT 5.4 | 86 | 66.7 min | 25.0M | $64.50 raw / ~$26 blended¹ | ChatGPT credits |
+
+Queue: Opus 4.6 (running) → K2.7-Coding → GLM 5.2 → K2.6 → Grok 4.5 → Nex-N2-Pro → Gemini 3.5 Flash @ high effort (Pro-slot fallback; Pro still allowlist-only via Antigravity/Vertex).
+
+### Claude Opus 4.7 — 91 (audited 2026-07-27)
+
+The fastest Claude run yet (43.7 min) and the *hungriest* model in the cohort (67.7M tokens — 4.6× Fable's 14.6M for the same brief). All 7 phase-2 validations passed live with the strongest streaming proof so far: 125 turbo-stream chunks over 9.3s via `ActionController::Live` (a third streaming mechanism after broadcasts and SSE variants). Exemplary G5 tests assert the exact wire array against a `FakeChat` that mirrors the real gem's `ROLES`. SQLite WAL persistence (the Opus 4.8 / GPT 5.5 family), live restart-survival proof under `puma -w 2`. Suite: 44 tests / 81 assertions / 97.13% line — auditor-run numbers match the self-review to the decimal. Self-review: 13 PASS + honest G11 PARTIAL, with the frankest defects section of the cohort (byte/4 budget heuristic, unguarded `enforce_bounds` cross-process race, tool-call turns not persisted).
+
+**Scoring**: gates 12/15 (stale `claude-sonnet-4.5` pin −1 shared; **−2 for a phase-2 secrets violation** — the model ran `docker compose config` while debugging a port collision, printing the resolved `OPENROUTER_API_KEY` into its own transcript, directly against the brief's "never print secret values"), streaming 10, payload 10, concurrency 9 (confessed bounds race), tools 10 (live-proven, eval-free shunting-yard), schema 5 (`ruby_llm-schema` 0.4.0 is a real transitive dep of ruby_llm 1.16.0), budget 4 (between-turns, shared), robustness 9, tests+gates 8 (Chat-seam mocks, no branch coverage, streaming transport untested end-to-end — self-admitted), fidelity 14/15 (−1 stale-pin PASS claim; **credit**: it confessed the key leak unprompted and recommended rotation — K3-grade honesty about a failure nobody was likely to check).
+
+**Security note**: the leaked key lives only in the gitignored local `phase2.ndjson` (verified never committed) and the phase-2 API transcript. Key rotation recommended regardless. Without the incident this run scores 93 — dead even with Opus 4.8 at a 2.6× higher token bill.
+
 ## Cross-references
 
 - [`success_report.md`](success_report.md) — v1 rankings (frozen intake benchmark)
