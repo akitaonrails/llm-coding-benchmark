@@ -41,3 +41,15 @@ results-claude-code/*/.npm/
 # Manual cross-process orchestration: per-dispatch raw opencode JSON outputs are large
 results/manual_*/dispatches/*.json
 results/manual_*/project/
+# v2 results: commit only result JSONs + self-reviews; NEVER the isolated HOMEs
+# (results-v2/*/.claude/ contains copied subscription credentials)
+results-v2/*/project/
+results-v2/*/.claude/
+results-v2/*/.claude.json
+results-v2/*/.bundle/
+results-v2/*/.docker/
+results-v2/*/.local/
+results-v2/*/.npm/
+results-v2/*/*.ndjson
+results-v2/*/*.stderr.log
+results-v2/*/*.prompt.txt
