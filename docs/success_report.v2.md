@@ -96,8 +96,11 @@ Same audit depth as wave 1: suite re-run by the auditor, self-review claims chas
 | 6 | **GLM 5.2** | **91** | 121.8 min | 443K² | **$0 (flat sub)** | Z.ai coding plan |
 | 8 | **Kimi K2.7-Coding** | **86** | 53.8 min | 25.6M | **$4.37** | Moderato sub (1 window, 0 quota waits) |
 | 10 | **Claude Opus 4.6** | **83** | **39.5 min** | 16.8M | $12.83 | Max sub |
+| 11 | **Kimi K2.6** | **77** | 57.3 min | 292K² | ~$1-2 est.³ | OpenRouter API |
 
 (GPT 5.4 and K2.7-Coding tie at 86 — at roughly 6× different blended cost. GLM 5.2 and Opus 4.7 tie at 91.)
+
+³ The orchestrator computed $0.05 from opencode-reported usage, which misses per-request context re-billing; estimated from the v1 K2.6 run's billing ratio. Reconcile against the OpenRouter dashboard.
 
 ² opencode reports per-response API usage, not the cumulative per-request token flow (incl. cache reads) that the claude/kimi CLIs report — token columns are not comparable across harnesses; wall time and cost are.
 
@@ -136,6 +139,14 @@ Standout engineering: the **best G5 test in the cohort** — the mock aliases th
 **Scoring**: gates 13/15 (−1 stale `claude-sonnet-4.6` pin; −1 for the two real user-facing phase-1 defects), streaming 10, payload 10, concurrency 8 (disclosed lost-update race: the conversation is read in a `before_action` *before* the flock is taken, so simultaneous posts to one conversation can drop a message — honest, precise, and exactly G6's letter; plus O(n) TTL sweep per request), tools 10, schema 5, budget 3 (between-turns shared −1; token accounting depends on the upstream returning usage on streamed responses, no fallback tokenizer — confessed, the G9 guard silently disables on some models), robustness 9 (broad rescue taxonomy with rollback; streaming holds a Puma thread for the whole reply — the confessed scalability ceiling), tests+gates 9 (second-largest suite, deepest mock seam, no branch coverage), fidelity 14/15 (goal table correct and evidence-dense with real gem-source citations; three caveats disclosed *inline with their PASS verdicts* — the most honest PASS-framing format yet; −1 stale-pin claim).
 
 The GLM verdict: at flat-rate $0, 91-grade work with the cohort's best payload test — the value story of wave 2 alongside K3. The tradeoff is pure wall time: 2.7× Fable's duration for 5 fewer points.
+
+### Kimi K2.6 — 77 (audited 2026-07-28)
+
+The first sub-80 v2 score, and the cleanest demonstration that **v2 measures something v1 couldn't**: K2.6 scored 87 in v1 (Tier A, #8); under the production-hardening brief it lands last. The failures are structural, not cosmetic — it hand-rolled **SSE + EventSource streaming where G4 explicitly requires Turbo Stream broadcasts** (leaving an unused Turbo partial behind as confessed dead code), **never wrote the required G5 outgoing-array test** (the exclusion logic exists in code but no test touches any RubyLLM seam), stores the user message *before* streaming so **failed turns stay in replay history** (explicit G10 violation), and defines `MAX_BYTES` without ever enforcing it. The suite is the cohort's thinnest: 25 tests / 35 assertions, 71.58% line (verified), with `ChatService#stream` and `generate_title` — the two core LLM paths — completely untested. Model pin: `anthropic/claude-sonnet-4`, three generations stale, the oldest in the cohort. What *does* work was live-proven in phase 2 (all 7 steps, one Dockerfile npm/yarn fix): real incremental SSE delivery, both tools with real answers, restart survival under 2 workers, compose e2e.
+
+**Scoring**: gates 13/15 (−1 stale pin, −1 broken-at-delivery Dockerfile), streaming 7 (true streaming, wrong mechanism), payload 6 (required test absent, self-marked PARTIAL), concurrency 7 (byte bound unenforced; budget-check race; path-traversal hazard in the file store — all confessed), tools 10, schema 4 (untested), budget 3, robustness 7 (failed-turn replay violation), tests+gates 6, **fidelity 14/15** — the redeeming dimension: its PARTIAL verdicts on G5/G10/G11 match the audit findings exactly, and it explicitly corrected an earlier session's inflated coverage claim ("not the high coverage claimed in prior session notes").
+
+The Kimi line now spans the v2 spectrum: **K2.6 77 → K2.7-Coding 86 → K3 95** — a perfect 9-point-per-generation staircase, and the single clearest vendor-trajectory signal either benchmark has produced.
 
 ## Cross-references
 
