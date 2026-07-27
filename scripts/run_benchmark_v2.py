@@ -8,7 +8,9 @@ across harnesses and mirrors real-world "new session picks up the repo" usage.
 
 First-class metrics per phase: elapsed seconds, token usage, cost.
 - claude: total_cost_usd + modelUsage from the final result event (native USD)
-- codex:  token_count events -> tokens x rates_per_m from config
+- codex:  token_count events -> tokens x rates_per_m from config (UPPER BOUND:
+          codex events expose no cached-input split, so cached tokens are
+          charged at the full input rate; correct with blended methodology in analysis)
 - kimi:   session export wire.jsonl step.end sums x rates_per_m (API-equivalent)
 """
 from __future__ import annotations

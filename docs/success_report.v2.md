@@ -40,9 +40,40 @@ Within-v2 comparability = every model in its natural habitat. v2 scores are NOT 
 
 **Efficiency is reported first-class** (not folded into the score): per-phase and total tokens, wall time, and cost (native `costUSD` for Claude Code; token-log × verified rates elsewhere). With near-peer quality expected at the top, efficiency and self-review fidelity are the designed tiebreakers.
 
-## Wave 1 results
+## Wave 1 results (2026-07-26)
 
-*(pending — filled per run as they complete: goal-gate table, efficiency table, self-review fidelity analysis, per-model sections)*
+**Every model was verified to the same depth**: scanner + hand-read vs gem source 1.16.0, load-bearing self-review claims chased to file:line, and each model's own test suite executed by the auditor (all four ran clean, with coverage matching self-reported numbers exactly).
+
+### Scores
+
+| Model | v2 score | Goal verdicts (self) | Suite (auditor-run) | Self-review fidelity |
+|---|---:|---|---|---|
+| **Claude Fable 5** | **96** | 14 PASS | 84 runs/271 asserts, 99.02%/85.0% | 14/15 |
+| **Claude Opus 5** | **95** | 13 PASS + honest PARTIAL (untested JS) | 168 runs/438 asserts, 100%/92.0% (enforced minimums) | 14/15 |
+| **Kimi K3** | **95** | 13 PASS + honest PARTIAL (stale pin, confessed) | 53 runs, 92.85%/88.0% | **15/15** |
+| **GPT 5.6 Sol** | **93** | 13 PASS + honest PARTIAL (coverage gaps) | 47 runs, 97.08%/78.81% | 14/15 |
+
+All four cleared every v2 hard gate: TRUE streaming (per-chunk Turbo broadcasts, live-proven), exactly-once payloads (each ships the required outgoing-array test — the double-send class is extinct in this cohort), WEB_CONCURRENCY=2 + restart survival, real `RubyLLM::Tool` subclasses + live tool-call proofs, `with_schema` titles, eval-free calculators, production Dockerfiles. Zero hallucinations anywhere (all scanner flags were own-domain-factory false positives). K3 fixed the three-generation Kimi system-prompt gap. The shared −1s: none pinned the literally-latest Sonnet (sonnet-5) — only K3 admitted it, keeping the sole perfect fidelity score — and all four enforce token budgets only between turns.
+
+### Efficiency (first-class axis)
+
+| Model | Wall time | Tokens | Cost (API-equiv) | Billing |
+|---|---:|---:|---:|---|
+| Claude Fable 5 | **45.8 min** | 14.6M | $26.03 | Max subscription |
+| GPT 5.6 Sol | 56.5 min | 21.9M | ~$45 (blended est.¹) | ChatGPT credits |
+| Kimi K3 | 64.9 min | 13.2M | **$6.14** | Moderato subscription (single window, no quota block) |
+| Claude Opus 5 | 78.3 min | 56.8M | $38.91 | Max subscription |
+
+¹ Codex events expose no cached-input split; the orchestrator's raw figure ($112) charges cached tokens at full rate — corrected with the same blended-cache methodology as the v1 GPT figures.
+
+### The objective differences (what separates near-peers when quality ties)
+
+1. **Efficiency is the story.** Quality spans 3 points; cost spans **7×** (K3 $6.14 vs Sol ~$45) and tokens span **4.3×** (K3 13.2M vs Opus 5 56.8M). Opus 5 buys nothing with its 3.9× token appetite over Fable — same quality band, +71% wall time. K3 delivers 95-grade work at pocket change: the value verdict of wave 1.
+2. **Honesty separated them where quality could not.** All four produced accurate self-reviews (a sea change vs the v1-era masked-bug pattern), but only K3 volunteered a failure it could have hidden. Opus 5 and Sol earned their honesty on gaps an auditor would find anyway (coverage numbers); K3 confessed one nobody was likely to check.
+3. **Test-engineering depth is the Claudes' edge**: Fable mocks below the gem (real Chat code runs in tests), Opus 5 asserts the literal HTTP wire body with enforced coverage minimums; Sol and K3 mock at the Chat seam with signature guards — good, one tier shallower.
+4. **Architecture flavor, all defensible**: Redis (Opus 5, K3 — most production-real), flock-file stores (Fable single-lock, Sol 64-stripe). Nobody chose a broken pattern — v1's entire persistence-failure taxonomy is absent under an explicit goal.
+
+**Wave-1 verdict**: the harder brief worked — it separated the models on efficiency, honesty, and engineering depth where v1 had them tied. If you ship with one of these four: Fable 5 for the strongest all-round engineering per minute, K3 for 95% of the quality at 15-25% of the cost, Opus 5 when thoroughness beats economy, Sol competent but currently dominated on both cost and depth.
 
 ## Cross-references
 
