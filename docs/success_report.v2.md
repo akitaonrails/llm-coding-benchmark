@@ -59,10 +59,12 @@ All four cleared every v2 hard gate: TRUE streaming (per-chunk Turbo broadcasts,
 
 | Model | Wall time | Tokens | Cost (API-equiv) | Billing |
 |---|---:|---:|---:|---|
-| Claude Fable 5 | **45.8 min** | 14.6M | $26.03 | Max subscription |
+| Claude Fable 5 | **45.8 min** | 14.6M | $26.03 | **API-billed** (auth bug¹ᵇ) |
 | GPT 5.6 Sol | 56.5 min | 21.9M | ~$45 (blended est.¹) | ChatGPT credits |
 | Kimi K3 | 64.9 min | 13.2M | **$6.14** | Moderato subscription (single window, no quota block) |
-| Claude Opus 5 | 78.3 min | 56.8M | $38.91 | Max subscription |
+| Claude Opus 5 | 78.3 min | 56.8M | $38.91 | **API-billed** (auth bug¹ᵇ) |
+
+¹ᵇ **Billing correction (2026-07-27)**: the wave-1 Claude runs were intended to bill the Max subscription but the isolated-HOME setup cut the CLI off from the subscription credentials, and the CLI silently fell back to the `ANTHROPIC_API_KEY` in the environment — these runs (and the v1 claude-code-profile Opus 5 run) billed the API account directly (~$95 total, surfaced by the user's auto-top-ups). The dollar figures shown are therefore exact billed amounts, not estimates. Fixed for all subsequent runs: subscription credentials are copied into the isolated HOME and the API key is stripped from the run environment, so an auth failure now errors loudly instead of billing silently.
 
 ¹ Codex events expose no cached-input split; the orchestrator's raw figure ($112) charges cached tokens at full rate — corrected with the same blended-cache methodology as the v1 GPT figures.
 

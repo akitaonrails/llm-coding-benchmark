@@ -78,8 +78,18 @@ def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
 
     if harness == "claude":
         command = build_claude_command(model["model_id"], prompt)
-        # Isolate HOME so user-level ~/.claude/agents don't leak into the run
+        # Isolate HOME so user-level ~/.claude/agents don't leak into the run —
+        # but copy the SUBSCRIPTION credentials in, and strip ANTHROPIC_API_KEY
+        # so the CLI can never silently fall back to API billing. (Learned the
+        # expensive way: without this, every run bills the API account.)
         env["HOME"] = str(out_dir.resolve())
+        import shutil
+        real_creds = Path.home() / ".claude" / ".credentials.json"
+        iso_claude = out_dir / ".claude"
+        iso_claude.mkdir(parents=True, exist_ok=True)
+        if real_creds.exists():
+            shutil.copy2(real_creds, iso_claude / ".credentials.json")
+        env.pop("ANTHROPIC_API_KEY", None)
     elif harness == "codex":
         command = build_codex_command(
             model["model_id"], project_dir,
