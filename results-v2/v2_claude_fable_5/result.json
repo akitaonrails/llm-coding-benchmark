@@ -1,0 +1,79 @@
+{
+  "billing": "Claude Max subscription",
+  "cost_usd_total": 26.0313,
+  "elapsed_seconds_total": 2750.83,
+  "ended_at": "2026-07-26T17:49:55+00:00",
+  "harness": "claude",
+  "label": "Claude Fable 5 (Claude Code)",
+  "phases": [
+    {
+      "command_kind": "claude",
+      "cost_usd": 15.447878999999999,
+      "elapsed_seconds": 1531.67,
+      "ended_at": "2026-07-26T17:29:36+00:00",
+      "exit_code": 0,
+      "file_count_after": 1821,
+      "harness": "claude",
+      "phase": "phase1",
+      "session_id": "51b18e34-e70d-4af3-9aa2-39ad07f24867",
+      "started_at": "2026-07-26T17:04:05+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 8370789,
+          "write": 154316
+        },
+        "input": 12361,
+        "output": 100459,
+        "total": 8637925
+      }
+    },
+    {
+      "command_kind": "claude",
+      "cost_usd": 6.750285,
+      "elapsed_seconds": 809.58,
+      "ended_at": "2026-07-26T17:43:06+00:00",
+      "exit_code": 0,
+      "file_count_after": 1863,
+      "harness": "claude",
+      "phase": "phase2",
+      "session_id": "c0319d41-5735-4e6b-9f54-c03ae911e6b5",
+      "started_at": "2026-07-26T17:29:36+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 4134924,
+          "write": 87748
+        },
+        "input": 3713,
+        "output": 29608,
+        "total": 4255993
+      }
+    },
+    {
+      "command_kind": "claude",
+      "cost_usd": 3.833121,
+      "elapsed_seconds": 409.58,
+      "ended_at": "2026-07-26T17:49:55+00:00",
+      "exit_code": 0,
+      "file_count_after": 1864,
+      "harness": "claude",
+      "phase": "phase3",
+      "session_id": "f975b459-0e3d-4005-8e27-ba7ec67b8888",
+      "started_at": "2026-07-26T17:43:06+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 1624765,
+          "write": 75084
+        },
+        "input": 3025,
+        "output": 24771,
+        "total": 1727645
+      }
+    }
+  ],
+  "self_review_present": true,
+  "slug": "v2_claude_fable_5",
+  "tokens_total": 14621563
+}

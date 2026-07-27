@@ -1,5 +1,5 @@
 {
-  "description": "Benchmark v2 (production-hardening, 3 phases) — Tier A models only, native harness + user subscriptions preferred. v1 remains the intake benchmark for everything else.",
+  "description": "Benchmark v2 (production-hardening, 3 phases) \u2014 Tier A models only, native harness + user subscriptions preferred. v1 remains the intake benchmark for everything else.",
   "prompts": {
     "phase1": "prompts/benchmark_prompt_v2.txt",
     "phase2": "prompts/benchmark_followup_v2.txt",
@@ -12,7 +12,12 @@
       "harness": "claude",
       "model_id": "claude-fable-5",
       "billing": "Claude Max subscription",
-      "rates_per_m": {"input": 10.0, "cache_read": 1.0, "cache_write": 12.5, "output": 50.0},
+      "rates_per_m": {
+        "input": 10.0,
+        "cache_read": 1.0,
+        "cache_write": 12.5,
+        "output": 50.0
+      },
       "wave": 1
     },
     {
@@ -21,7 +26,12 @@
       "harness": "claude",
       "model_id": "claude-opus-5",
       "billing": "Claude Max subscription",
-      "rates_per_m": {"input": 5.0, "cache_read": 0.5, "cache_write": 6.25, "output": 25.0},
+      "rates_per_m": {
+        "input": 5.0,
+        "cache_read": 0.5,
+        "cache_write": 6.25,
+        "output": 25.0
+      },
       "wave": 1
     },
     {
@@ -31,7 +41,12 @@
       "model_id": "gpt-5.6-sol",
       "codex_reasoning_effort": "xhigh",
       "billing": "ChatGPT subscription credits",
-      "rates_per_m": {"input": 5.0, "cache_read": 0.5, "cache_write": 0.0, "output": 30.0},
+      "rates_per_m": {
+        "input": 5.0,
+        "cache_read": 0.5,
+        "cache_write": 0.0,
+        "output": 30.0
+      },
       "wave": 1
     },
     {
@@ -40,9 +55,14 @@
       "harness": "kimi",
       "model_id": "kimi-code/k3",
       "billing": "Kimi Moderato subscription",
-      "rates_per_m": {"input": 3.0, "cache_read": 0.3, "cache_write": 3.0, "output": 15.0},
+      "rates_per_m": {
+        "input": 3.0,
+        "cache_read": 0.3,
+        "cache_write": 3.0,
+        "output": 15.0
+      },
       "wave": 1,
-      "notes": "5h quota windows — a 3-phase run may need the quota watcher pattern"
+      "notes": "5h quota windows \u2014 a 3-phase run may need the quota watcher pattern"
     },
     {
       "slug": "v2_gemini_pro",
@@ -52,6 +72,147 @@
       "billing": "OpenRouter API (no Google subscription harness available)",
       "wave": 2,
       "blocked": "gemini-3.5-pro not yet released (checked 2026-07-26); replaces Gemini 3.5 Flash in the Tier A cohort per user decision"
+    },
+    {
+      "slug": "v2_claude_opus_4_8",
+      "label": "Claude Opus 4.8 (Claude Code)",
+      "harness": "claude",
+      "model_id": "claude-opus-4-8",
+      "billing": "Claude Max subscription",
+      "rates_per_m": {
+        "input": 5.0,
+        "cache_read": 0.5,
+        "cache_write": 6.25,
+        "output": 25.0
+      },
+      "wave": 2
+    },
+    {
+      "slug": "v2_gpt_5_4",
+      "label": "GPT 5.4 xHigh (Codex)",
+      "harness": "codex",
+      "model_id": "gpt-5.4",
+      "codex_reasoning_effort": "xhigh",
+      "billing": "ChatGPT subscription credits",
+      "rates_per_m": {
+        "input": 2.5,
+        "cache_read": 0.25,
+        "cache_write": 0.0,
+        "output": 15.0
+      },
+      "wave": 2
+    },
+    {
+      "slug": "v2_gpt_5_5",
+      "label": "GPT 5.5 xHigh (Codex)",
+      "harness": "codex",
+      "model_id": "gpt-5.5",
+      "codex_reasoning_effort": "xhigh",
+      "billing": "ChatGPT subscription credits",
+      "rates_per_m": {
+        "input": 5.0,
+        "cache_read": 0.5,
+        "cache_write": 0.0,
+        "output": 30.0
+      },
+      "wave": 2
+    },
+    {
+      "slug": "v2_claude_opus_4_7",
+      "label": "Claude Opus 4.7 (Claude Code)",
+      "harness": "claude",
+      "model_id": "claude-opus-4-7",
+      "billing": "Claude Max subscription",
+      "rates_per_m": {
+        "input": 5.0,
+        "cache_read": 0.5,
+        "cache_write": 6.25,
+        "output": 25.0
+      },
+      "wave": 2
+    },
+    {
+      "slug": "v2_claude_opus_4_6",
+      "label": "Claude Opus 4.6 (Claude Code)",
+      "harness": "claude",
+      "model_id": "claude-opus-4-6",
+      "billing": "Claude Max subscription",
+      "rates_per_m": {
+        "input": 5.0,
+        "cache_read": 0.5,
+        "cache_write": 6.25,
+        "output": 25.0
+      },
+      "wave": 2
+    },
+    {
+      "slug": "v2_kimi_k2_7_coding",
+      "label": "Kimi K2.7 Coding (Kimi Code CLI)",
+      "harness": "kimi",
+      "model_id": "kimi-code/kimi-for-coding",
+      "billing": "Kimi Moderato subscription",
+      "rates_per_m": {
+        "input": 0.75,
+        "cache_read": 0.15,
+        "cache_write": 0.75,
+        "output": 3.5
+      },
+      "wave": 2,
+      "notes": "schedule in its own 5h quota window, apart from K3"
+    },
+    {
+      "slug": "v2_kimi_k2_6",
+      "label": "Kimi K2.6 (opencode/OpenRouter fallback)",
+      "harness": "opencode",
+      "model_id": "openrouter/moonshotai/kimi-k2.6",
+      "billing": "OpenRouter API \u2014 K2.6 NOT exposed by the Kimi subscription",
+      "rates_per_m": {
+        "input": 0.95,
+        "cache_read": 0.16,
+        "cache_write": 0.95,
+        "output": 4.0
+      },
+      "wave": 2
+    },
+    {
+      "slug": "v2_glm_5_2",
+      "label": "GLM 5.2 (opencode/Z.ai coding plan)",
+      "harness": "opencode",
+      "model_id": "zai/glm-5.2",
+      "billing": "Z.ai coding plan subscription (opencode is the subscription path; no vendor CLI)",
+      "wave": 2
+    },
+    {
+      "slug": "v2_grok_4_5",
+      "label": "Grok 4.5 (opencode/OpenRouter fallback)",
+      "harness": "opencode",
+      "model_id": "openrouter/x-ai/grok-4.5",
+      "billing": "OpenRouter API \u2014 no xAI subscription harness",
+      "rates_per_m": {
+        "input": 2.0,
+        "cache_read": 2.0,
+        "cache_write": 2.0,
+        "output": 6.0
+      },
+      "wave": 2
+    },
+    {
+      "slug": "v2_nex_n2_pro",
+      "label": "Nex-N2-Pro (opencode/OpenRouter fallback)",
+      "harness": "opencode",
+      "model_id": "openrouter/nex-agi/nex-n2-pro",
+      "billing": "OpenRouter API \u2014 no vendor harness",
+      "rates_per_m": {
+        "input": 0.25,
+        "cache_read": 0.25,
+        "cache_write": 0.25,
+        "output": 1.0
+      },
+      "wave": 2
     }
-  ]
+  ],
+  "skipped": {
+    "claude_fable_5_rerelease": "same model ID as v2_claude_fable_5 (claude-fable-5); the June original-vs-rerelease snapshot distinction no longer exists \u2014 one run covers it",
+    "gemini_3_5_flash": "replaced by Gemini 3.5 Pro in the Tier A cohort per user decision; Pro not yet released (v2_gemini_pro, blocked)"
+  }
 }
