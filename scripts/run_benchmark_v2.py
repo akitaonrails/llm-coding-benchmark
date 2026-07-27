@@ -30,9 +30,11 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / "scripts"))
 
 from benchmark.runner import (  # noqa: E402
+    OPENCODE_YOLO_PERMISSION,
     build_codex_command,
     extract_codex_metrics,
     extract_kimi_metrics,
+    extract_metrics as extract_opencode_metrics,
     collect_kimi_session_tokens,
     parse_event_stream,
 )
@@ -86,6 +88,19 @@ def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
         stdin_data = prompt
     elif harness == "kimi":
         command = build_kimi_v2_command(model["model_id"], prompt)
+    elif harness == "opencode":
+        # v2 phases are session-independent: fresh `opencode run` per phase
+        # in the same workspace, model selected via -m each time.
+        command = [
+            "opencode", "run", "--agent", "build", "--format", "json",
+            "--dir", str(project_dir.resolve()),
+            "-m", model["model_id"],
+            prompt,
+        ]
+        opencode_config = REPO_ROOT / "config" / "opencode.benchmark.json"
+        if opencode_config.exists():
+            env["OPENCODE_CONFIG"] = str(opencode_config.resolve())
+        env["OPENCODE_PERMISSION"] = json.dumps(OPENCODE_YOLO_PERMISSION, separators=(",", ":"))
     else:
         raise ValueError(f"unknown harness {harness}")
 
@@ -178,6 +193,10 @@ def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
         metrics = extract_kimi_metrics(events)
         session_id = metrics.get("session_id")
         tokens = collect_kimi_session_tokens(session_id, model["slug"]) or {}
+    elif harness == "opencode":
+        metrics = extract_opencode_metrics(events)
+        tokens = metrics.get("tokens") or {}
+        session_id = metrics.get("session_id")
 
     if cost_usd is None and tokens and rates:
         cost_usd = round(
