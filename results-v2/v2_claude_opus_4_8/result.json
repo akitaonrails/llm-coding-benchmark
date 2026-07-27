@@ -1,0 +1,79 @@
+{
+  "billing": "Claude Max subscription",
+  "cost_usd_total": 21.8226,
+  "elapsed_seconds_total": 3209.23,
+  "ended_at": "2026-07-27T14:42:02+00:00",
+  "harness": "claude",
+  "label": "Claude Opus 4.8 (Claude Code)",
+  "phases": [
+    {
+      "command_kind": "claude",
+      "cost_usd": 15.969524500000002,
+      "elapsed_seconds": 2000.08,
+      "ended_at": "2026-07-27T14:21:53+00:00",
+      "exit_code": 0,
+      "file_count_after": 2211,
+      "harness": "claude",
+      "phase": "phase1",
+      "session_id": "2667723c-29c8-4e28-9aa0-8f5dbf272029",
+      "started_at": "2026-07-27T13:48:33+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 19785829,
+          "write": 263862
+        },
+        "input": 16006,
+        "output": 134256,
+        "total": 20199953
+      }
+    },
+    {
+      "command_kind": "claude",
+      "cost_usd": 4.099609999999999,
+      "elapsed_seconds": 917.72,
+      "ended_at": "2026-07-27T14:37:11+00:00",
+      "exit_code": 0,
+      "file_count_after": 2222,
+      "harness": "claude",
+      "phase": "phase2",
+      "session_id": "247fc8f3-782a-4871-bcb8-af4f56dd04d5",
+      "started_at": "2026-07-27T14:21:53+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 4108908,
+          "write": 94184
+        },
+        "input": 5716,
+        "output": 42950,
+        "total": 4251758
+      }
+    },
+    {
+      "command_kind": "claude",
+      "cost_usd": 1.753489,
+      "elapsed_seconds": 291.43,
+      "ended_at": "2026-07-27T14:42:02+00:00",
+      "exit_code": 0,
+      "file_count_after": 2223,
+      "harness": "claude",
+      "phase": "phase3",
+      "session_id": "5293cd45-e5ea-4ffc-8198-f30d45c7006d",
+      "started_at": "2026-07-27T14:37:11+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 1250976,
+          "write": 64078
+        },
+        "input": 3798,
+        "output": 18689,
+        "total": 1337541
+      }
+    }
+  ],
+  "self_review_present": true,
+  "slug": "v2_claude_opus_4_8",
+  "tokens_total": 25789252
+}
