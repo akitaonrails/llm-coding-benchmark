@@ -332,6 +332,15 @@ def run_variant(
     # Auth still works because ANTHROPIC_API_KEY is inherited from the env.
     isolated_env = os.environ.copy()
     isolated_env["HOME"] = str(result_dir.resolve())
+    # Subscription auth under isolated HOME: copy credentials in and strip the
+    # API key so the CLI cannot silently fall back to API billing.
+    import shutil as _shutil
+    _real_creds = Path.home() / ".claude" / ".credentials.json"
+    _iso_claude = result_dir / ".claude"
+    _iso_claude.mkdir(parents=True, exist_ok=True)
+    if _real_creds.exists():
+        _shutil.copy2(_real_creds, _iso_claude / ".credentials.json")
+    isolated_env.pop("ANTHROPIC_API_KEY", None)
     print_line(f"[{slug}] HOME isolated to {result_dir} (prevents user-level agent leakage)")
 
     # Optional per-variant env overrides — used by deepclaude-style variants that swap
