@@ -300,6 +300,21 @@
       },
       "wave": 3,
       "notes": "v1 Tier B (78) with a phase-2 DNF \u2014 watch the 90-min phase timeout."
+    },
+    {
+      "slug": "v2_qwen3_7_max",
+      "label": "Qwen3.7 Max (opencode/OpenRouter) \u2014 wave 3 group 1",
+      "harness": "opencode",
+      "model_id": "openrouter/qwen/qwen3.7-max",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 1.2,
+        "cache_read": 0.24,
+        "cache_write": 1.2,
+        "output": 6.0
+      },
+      "wave": 3,
+      "notes": "v1 Tier B (78)."
     }
   ],
   "skipped": {
