@@ -23,6 +23,26 @@ The current successful path is a two-phase OpenRouter run:
 1. phase 1 builds the Rails app
 2. phase 2 continues the same session and validates local boot, `docker build`, and `docker compose up --build`
 
+### System prompt caveat: opencode dispatches a different prompt per model family
+
+opencode does not give every model the same system prompt. It substring-matches the model
+ID and injects a family-specific built-in prompt (see opencode's
+`packages/opencode/src/session/system.ts`): Claude models get an Anthropic-style prompt,
+GPT models a Codex-style one, Gemini and Kimi their own — and everything else (DeepSeek,
+Qwen, GLM, MiniMax, Grok, Step, …) falls back to a generic `default.txt`. The bespoke
+prompts share essentially no text with each other, so opencode-run models in the tables
+were **not** running under identical system instructions; part of any score difference may
+reflect opencode's per-family prompt tuning rather than the model itself. Details and
+measurements: [issue #12](https://github.com/akitaonrails/llm-coding-benchmark/issues/12).
+
+To control for this, `scripts/run_benchmark.py --uniform-system-prompt` injects a single
+fixed prompt (`prompts/system_prompt_uniform.txt`, a frozen copy of opencode's
+`default.txt` — i.e. exactly what the fallback models already receive) as
+`agent.build.prompt` in the generated benchmark opencode config, which replaces opencode's
+per-model dispatch for **all** models. Defaults are unchanged; existing results were run
+without this flag. `run_benchmark_v2.py` picks the setting up automatically, since it
+reuses the generated `config/opencode.benchmark.json`.
+
 ## Key Findings
 
 The deep code reviews in `docs/success_report*.md` are the substance of this repo. Rankings use a 0-100 holistic rubric across 8 dimensions (deliverables, RubyLLM correctness, tests, error handling, persistence, Hotwire, architecture, production-readiness) — see [`docs/audit_prompt_template.md`](docs/audit_prompt_template.md) for the exact methodology.
@@ -65,6 +85,9 @@ The deep code reviews in `docs/success_report*.md` are the substance of this rep
   Phase 1 implementation prompt used for every benchmark run.
 - `prompts/benchmark_followup_prompt.txt`
   Phase 2 validation prompt used for OpenRouter continuation runs.
+- `prompts/system_prompt_uniform.txt`
+  Fixed system prompt for `--uniform-system-prompt` runs (frozen copy of opencode's
+  built-in `default.txt`, MIT-licensed, taken at opencode commit `017a5977d`).
 - `scripts/warmup_ollama_models.py`
   Verifies that the local Ollama models can actually load at useful context windows.
 - `scripts/run_benchmark.py`

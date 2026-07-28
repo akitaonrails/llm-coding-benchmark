@@ -295,6 +295,7 @@ def prepare_local_opencode_config(
     warmup_payload: dict[str, Any] | None,
     local_api_base: str | None = None,
     local_backend_type: str | None = None,
+    uniform_system_prompt: str | None = None,
 ) -> tuple[dict[str, Any] | None, dict[str, Any]]:
     summary: dict[str, Any] = {
         "configured": [],
@@ -508,6 +509,18 @@ def prepare_local_opencode_config(
             }
         summary["multi_agent_subagents"] = sorted({m["opencode_subagent"]["name"] for m in multi_agent_models})
 
+    # Uniform system prompt: opencode normally dispatches a different built-in
+    # system prompt per model family (claude/gpt/gemini/kimi get bespoke prompts;
+    # everything else falls back to a generic default — see opencode's
+    # packages/opencode/src/session/system.ts). An explicit agent-level prompt
+    # replaces that dispatch entirely, so injecting one here gives every
+    # benchmarked model byte-identical system instructions.
+    if uniform_system_prompt:
+        agent_map = local_config.setdefault("agent", {})
+        build_agent = agent_map.setdefault("build", {})
+        build_agent["prompt"] = uniform_system_prompt
+        summary["uniform_system_prompt"] = True
+
     if not local_config["provider"]:
         summary["skipped_reason"] = "no provider config available for selected models"
         return None, summary
@@ -521,9 +534,11 @@ def write_local_opencode_config(
     warmup_payload: dict[str, Any] | None,
     local_api_base: str | None = None,
     local_backend_type: str | None = None,
+    uniform_system_prompt: str | None = None,
 ) -> dict[str, Any]:
     local_config, summary = prepare_local_opencode_config(
         models, warmup_payload, local_api_base=local_api_base, local_backend_type=local_backend_type,
+        uniform_system_prompt=uniform_system_prompt,
     )
     if local_config is None:
         return summary
@@ -550,6 +565,10 @@ def print_local_opencode_config_summary(summary: dict[str, Any]) -> None:
     if base_override:
         print_line(f"Ollama provider baseURL override: {base_override}")
     print_line("Local opencode benchmark permissions: yolo (auto-approve enabled)")
+    if summary.get("uniform_system_prompt"):
+        print_line(
+            "Uniform system prompt: enabled (agent.build.prompt overrides opencode's per-model dispatch)"
+        )
     if configured:
         print_line(f"Ollama benchmark contexts: {', '.join(configured)}")
     else:

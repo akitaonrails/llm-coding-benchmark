@@ -108,6 +108,21 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="API base URL for the local backend. Defaults to the Ollama URL from the opencode config.",
     )
+    parser.add_argument(
+        "--uniform-system-prompt",
+        action="store_true",
+        help=(
+            "Give every opencode-run model the same system prompt instead of opencode's "
+            "per-model-family built-in prompts (claude/gpt/gemini/kimi get bespoke prompts; "
+            "everything else gets a generic default). Injects agent.build.prompt into the "
+            "generated benchmark opencode config, which replaces the per-model dispatch."
+        ),
+    )
+    parser.add_argument(
+        "--uniform-system-prompt-file",
+        default="prompts/system_prompt_uniform.txt",
+        help="Prompt file used by --uniform-system-prompt.",
+    )
     return parser.parse_args()
 
 
@@ -153,10 +168,19 @@ def main() -> int:
 
     warmup_payload = load_ollama_warmup_payload(warmup_path)
 
+    uniform_system_prompt = None
+    if args.uniform_system_prompt:
+        uniform_prompt_path = Path(args.uniform_system_prompt_file)
+        if not uniform_prompt_path.exists():
+            print(f"--uniform-system-prompt-file not found: {uniform_prompt_path}", file=sys.stderr)
+            return 1
+        uniform_system_prompt = uniform_prompt_path.read_text().strip()
+
     if args.sync_ollama_contexts_only:
         config_summary = write_local_opencode_config(
             opencode_config_path, selected_models, warmup_payload,
             local_api_base=args.local_api_base, local_backend_type=args.local_backend,
+            uniform_system_prompt=uniform_system_prompt,
         )
         print_local_opencode_config_summary(config_summary)
         return 0
@@ -174,9 +198,19 @@ def main() -> int:
         config_summary = write_local_opencode_config(
             opencode_config_path, opencode_models, warmup_payload,
             local_api_base=args.local_api_base, local_backend_type=args.local_backend,
+            uniform_system_prompt=uniform_system_prompt,
         )
         print_local_opencode_config_summary(config_summary)
         opencode_override = opencode_config_path if config_summary.get("path") else None
+        if uniform_system_prompt and opencode_models and opencode_override is None:
+            # Without the generated config the override never reaches opencode,
+            # and the run would silently fall back to per-model prompts.
+            print(
+                "--uniform-system-prompt requested but the benchmark opencode config "
+                "was not generated; aborting to avoid a non-uniform run.",
+                file=sys.stderr,
+            )
+            return 1
 
         bench = BenchmarkConfig(
             runner=config["runner"],
