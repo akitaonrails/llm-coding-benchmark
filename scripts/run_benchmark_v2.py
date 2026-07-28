@@ -123,6 +123,16 @@ def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
         if opencode_config.exists():
             env["OPENCODE_CONFIG"] = str(opencode_config.resolve())
         env["OPENCODE_PERMISSION"] = json.dumps(OPENCODE_YOLO_PERMISSION, separators=(",", ":"))
+        # Full config isolation: plugins (oh-my-opencode-slim) load from
+        # $XDG_CONFIG_HOME/opencode regardless of OPENCODE_CONFIG, replacing the
+        # built-in agents with an "orchestrator" whose delegation machinery
+        # (fixer/librarian lanes, deepwork) derailed delegation-prone models.
+        # Redirecting XDG_CONFIG_HOME restores vanilla opencode: the built-in
+        # "build" agent resolves and no user plugin shapes the run. Auth is
+        # unaffected (auth.json lives under XDG_DATA_HOME).
+        xdg_iso = REPO_ROOT / "config" / "opencode.xdg-isolated"
+        (xdg_iso / "opencode").mkdir(parents=True, exist_ok=True)
+        env["XDG_CONFIG_HOME"] = str(xdg_iso.resolve())
     else:
         raise ValueError(f"unknown harness {harness}")
 
