@@ -1,64 +1,83 @@
-# SELF_REVIEW
+# Self-review
 
-Phase 3 self-review. Every verdict below was re-verified against the working tree at the start of this session (2026-07-28T15:55Z). I did not delegate verification; I read the workspace myself, then re-checked the phase 1 and phase 2 output to confirm what was actually produced.
+Review performed against the G1-G14 contract in `../phase1.prompt.txt:9-35`. No application source fixes were made during this review.
 
-**Headline finding:** the workspace is empty of implementation. No Rails app, no Ruby code, no `Gemfile`, no `Dockerfile`, no `compose.yaml`, no tests, no views, no models, no controllers, no scripts. The only file present is a planning note written by the phase 1 orchestrator before it dispatched a background implementation task and exited. The phase 2 session confirmed the workspace was empty and exited without validating anything. No work was carried over from any prior benchmark run on this slug.
+## 1. Goal verification table
 
-**Fix made during this review:** none. Phase 3 rules allow only surgical fixes for things discovered broken *while reviewing*. There is no code to be broken or to fix; the absence is the finding.
-
-## 1. GOAL VERIFICATION TABLE
-
-| Goal | Verdict | Evidence |
+| Goal | Verdict | Concrete evidence |
 |---|---|---|
-| G1 | FAIL | No `Gemfile`, no `config/application.rb`, no `bin/rails`, no `Rakefile`, no `.ruby-version` exist under `results-v2/v2_minimax_m3/project/`. `find /mnt/data/Projects/llm-coding-benchmark/results-v2/v2_minimax_m3/project -type f` returns exactly one file: `.slim/deepwork/rails-streaming-chat.md` (a phase 1 planning note, not application code). Phase 1 result (`phase1.result.json:7`) confirms `file_count_after: 1`. |
-| G2 | FAIL | No `app/views/`, no `app/javascript/`, no `app/assets/`, no `tailwind` integration, no Stimulus controllers, no partials. Single `grep` for `rails\\|tailwind\\|hotwire\\|stimulus\\|turbo` over the workspace matches only the planning note text. |
-| G3 | FAIL | No `ruby_llm` configuration anywhere. `Gemfile` does not exist. `config/initializers/ruby_llm.rb` does not exist. Cannot verify OpenRouter key wiring, model override, or any RubyLLM constant. |
-| G4 | FAIL | No Turbo Stream implementation, no `app/channels/`, no `app/services/`, no broadcast code. Cannot produce or verify incremental token delivery because there is no chat endpoint. |
-| G5 | FAIL | No `Chat` construction code, no outbound-payload assertion test, no `test/` or `spec/` directory. The G5 unit test ("assert the exact outgoing message array for a multi-turn conversation") was never written. |
-| G6 | FAIL | No persistence layer. No `app/models/conversation*.rb`, no `db/`, no Redis/SQLite/JSON store. No TTL, no message-count cap, no byte cap. No `WEB_CONCURRENCY` behavior to validate because there is no application. |
-| G7 | FAIL | No `RubyLLM::Tool` subclasses. No `server_time` tool, no `calculator` tool. No `app/tools/` directory. |
-| G8 | FAIL | No schema file, no `TitleGenerator` service, no `with_schema` call. No title-rendering location in a UI that does not exist. |
-| G9 | FAIL | No `TokenBudget` class, no `CHAT_TOKEN_BUDGET` reading, no refusal path. |
-| G10 | FAIL | No `with_instructions` call, no preflight for missing key, no rescue-error-to-UI path, no persistence filter for failed turns. |
-| G11 | FAIL | No `test/` directory (`ls test/` → not found). No `spec/` directory. No `test_helper.rb`. No `Rakefile` to run `rake test`. No SimpleCov configuration. Zero tests exist. |
-| G12 | FAIL | No `Gemfile`, so `bundle exec brakeman`, `bundle exec rubocop`, `bundle exec bundle-audit` cannot be invoked against this workspace. None of the tools are configured. |
-| G13 | FAIL | No `Dockerfile`, no `compose.yaml` / `docker-compose.yml`, no `README.md` at the workspace root. Phase 2 result (`phase2.result.json:7`) confirms `file_count_after: 1`, so `docker build` could not have succeeded; phase 2 had no application to validate. |
-| G14 | FAIL | No source code at all to evaluate for "no authentication". The "no secrets committed" claim cannot be verified on a workspace that contains no code. The "everything inside the current workspace" claim is vacuously true for the planning note, but the brief was about a Rails app, not a markdown file. |
+| G1 | PASS | `.ruby-version:1` selects Ruby 4.0.6 and `Gemfile:4` selects Rails 8.1.3; `ruby --version && bin/rails --version && mise current ruby` returned Ruby 4.0.6, Rails 8.1.3, and mise Ruby 4.0.6. `config/application.rb:5-15` omits Active Record, Active Job, and Action Mailer; a Rails runner check returned `[nil, nil, nil]`. The generated Rails layout is at the workspace root. |
+| G2 | PARTIAL | Tailwind, Stimulus, Turbo, and partial-based UI work is present (`app/views/home/index.html.erb:17-40`, `app/javascript/controllers/composer_controller.js:1-32`, `app/views/shared/_composer.html.erb:3-13`). However, `config/routes.rb:12-14` routes to two nonexistent controllers; a current root-request runner failed with `uninitialized constant ConversationsController`, so the SPA is not usable. |
+| G3 | PARTIAL | `ruby_llm` 1.16.0 is locked (`Gemfile.lock:306`) and the OpenRouter key is read from the environment (`config/initializers/ruby_llm.rb:4-6`). No code constructs a RubyLLM chat, chooses Claude Sonnet, chooses OpenRouter as provider, or reads a model override. |
+| G4 | FAIL | The page subscribes to a Turbo stream (`app/views/home/index.html.erb:24-26`), but a source search found no RubyLLM `ask` streaming block and no Turbo broadcast call. No message controller or chat service exists. |
+| G5 | FAIL | There is no provider request/history replay implementation. `bin/rails test` ran 0 tests and 0 assertions, so the required exact outgoing multi-turn message-array test does not exist. |
+| G6 | FAIL | `Conversation` is a transient ActiveModel value object (`app/models/conversation.rb:1-24`); there is no store, TTL, locking, message-count cap, or byte cap. Redis is configured only for Action Cable (`config/cable.yml:1-12`), so restart and two-worker history behavior are not implemented. |
+| G7 | PARTIAL | Exactly two tool classes exist (`app/tools/server_time.rb:1-7`, `app/tools/calculator.rb:1-121`), but neither is registered with a chat. `ruby -c app/tools/calculator.rb` failed with syntax errors at lines 22 and 24, so the calculator cannot currently load. |
+| G8 | PARTIAL | A RubyLLM schema is declared (`app/models/conversation_title_schema.rb:1-3`) and the header displays a supplied title (`app/views/shared/_header.html.erb:6-10`). There is no schema call, first-exchange trigger, or title persistence. |
+| G9 | FAIL | `Conversation` merely accepts `used_tokens` and `reserved_tokens` values (`app/models/conversation.rb:4,11-12`). There is no token estimation, configurable budget, pre-provider refusal, or friendly budget state. |
+| G10 | FAIL | The initializer only assigns the API key (`config/initializers/ruby_llm.rb:4-6`). There is no instructions API call, missing-key preflight, provider rescue path, or successful-turn-only history logic; its comment about a coordinator (`:1-3`) refers to code that does not exist. |
+| G11 | FAIL | `test/test_helper.rb:1-12` is generated setup only and all test directories contain only `.keep` files. `bin/rails test` returned `0 runs, 0 assertions`; `bundle info simplecov` returned `Could not find gem 'simplecov'`, and no coverage output exists. |
+| G12 | FAIL | `bundle exec bundle-audit check` returned `No vulnerabilities found`, but `bundle exec rubocop` reported 7 syntax offenses in `app/tools/calculator.rb:22,24`, and Brakeman reported one parse error for the same file. The three required gates do not all pass cleanly. |
+| G13 | PARTIAL | `Dockerfile:23-28,63-77` sets production mode, creates a non-root user, and uses an entrypoint. `docker compose config` failed with `no configuration file provided: not found`, and `README.md:1-24` is the stock placeholder rather than setup/run documentation. |
+| G14 | PASS | There are no authentication routes or controllers (`config/routes.rb:1-15`, `app/controllers/application_controller.rb:1-7`). The OpenRouter key is environment-only (`config/initializers/ruby_llm.rb:5`), `.gitignore:2-4,16-18` excludes secret-bearing paths, and `git ls-files -- .` returned no tracked workspace files, so no workspace secret is committed. `tmp/local_secret.txt` exists locally but is ignored by `.gitignore:6`; all application artifacts inspected are under this workspace. |
 
-## 2. CODE QUALITY ASSESSMENT
+## 2. Code quality assessment
 
-There is no code to assess. The only file in the workspace is `.slim/deepwork/rails-streaming-chat.md` (766 bytes), a planning note written by the phase 1 orchestrator with two headings (`# Plan`, `## Review gates`) and a `## Current state` section that ends with: "Workspace was empty at session start. Existing memory indicates prior attempts used Rails 8.1.3/Ruby 4.0.6 and RubyLLM 1.16.0, but no files are present to reuse."
+### Naming and structure
 
-What I can observe from the limited artifacts:
+Custom names such as `Conversation`, `ChatMessage`, `ServerTime`, `Calculator::Parser`, and `chat_scroll_controller` state their intended roles clearly. The larger problem is that the names imply a functioning domain that does not exist: `Conversation` and `ChatMessage` are passive wrappers with no validation or persistence (`app/models/conversation.rb:1-24`, `app/models/chat_message.rb:1-16`), and `ChatMessage#persisted?` always returns true (`app/models/chat_message.rb:13-15`).
 
-- The note's `## Plan` section lists the right ingredients (no AR/Mailer/Job, RubyLLM/OpenRouter, durable bounded persistence, streaming, tools, structured title, budget, error handling) and then a product-hardening phase (Tailwind/Hotwire, Stimulus, tests, Docker/Compose, README, quality tooling). The plan is reasonable on paper.
-- The note's `## Review gates` commits to two Oracle reviews (foundation/backend, then hardening). Neither review happened because the foundation was never built.
-- The plan is duplicated almost verbatim in the long-running `ai-memory` retrieved during phase 2 (`sessions/e467870b-708b-5a06-9ef9-1f652b68c6af.md`, `sessions/adfd8a95-66c1-5ab3-9c0d-3a038ea54f8b.md`) — meaning this is a recurring failure pattern in the v2_minimax_m3 slug, not a one-off.
-- The phase 1 orchestrator dispatched two background tasks (`ses_055ead502ffePXdXgpyDKpPF6u` for RubyLLM research, `ses_055eaad4dffe9oc7gXJHoQIEDx` for the Rails build — verified via `rg "sessionId" phase1.ndjson`). Both tasks were launched with `background: true`. The orchestrator's own session ended with `stop` reason at line 39 of `phase1.ndjson` (timestamp 1785264969836) before either task reported back. The session exited with `exit_code: 0` while no files beyond the planning note had been written — the "0" reflects the orchestrator process, not deliverable completion.
+### Single responsibility and size
 
-Top 3 things I would refactor with more time — there is literally nothing to refactor, so this is what would have been the top 3 risks if a build had been produced:
+Most existing classes and Stimulus controllers are short. `Calculator` is the exception: its 121 lines combine the RubyLLM adapter and a recursive-descent arithmetic parser (`app/tools/calculator.rb:1-121`). The parser methods are individually small, but the combination makes the tool harder to test independently and currently hides syntax errors in an otherwise unused class.
 
-1. **The dispatcher pattern that caused this run to produce zero code.** The phase 1 orchestrator handed the entire implementation to a background `fixer` task and then exited without reconciling it. The hook-driven completion path was never used; the planning note was the only durable artifact. With more time I would (a) keep the orchestrator pinned to the deliverable until the implementing session reports back, or (b) have the orchestrator itself perform the work on a clearly bounded scope, since the empty-workspace state was visible at the very first `glob` call.
-2. **The "deliverable-level" success check.** The phase 1 result schema records `exit_code: 0` and `file_count_after: 1`; both are poor proxies for "the Rails app was built." A future refactor should add a deliverable check that requires ≥20 expected files (`Gemfile`, `config/application.rb`, `bin/rails`, `config.ru`, `config/routes.rb`, plus `app/`, `test/`, `Dockerfile`, `compose.yaml`) before accepting a phase 1 result.
-3. **The state machine across phases.** Phase 2 was given a "validate the existing app" prompt, but the handover from phase 1 was a planning note, not a build. Phase 2 should have detected "no implementable artifact" and either restarted the build or escalated rather than exiting cleanly. A future refactor would have phase 2 verify `Gemfile` exists and `bin/rails routes` succeeds before accepting the phase 1 handover.
+### Duplication and dead code
 
-## 3. TEST COVERAGE ASSESSMENT
+The hash-or-object extraction lambda is duplicated in `app/views/home/index.html.erb:2-11` and `app/views/shared/_message.html.erb:1-5`. It weakens the presentation contract by silently accepting several unrelated record shapes. `app/javascript/controllers/hello_controller.js:1-7` is unused generated code. The PWA templates are unreachable because their routes remain commented (`config/routes.rb:8-10`). The main home template, models, schema, and tools are also effectively dead because no application controller or chat coordinator references them.
 
-- **Line coverage:** 0/0 (0.00%). There is no test suite, no `test/` directory, no SimpleCov configuration. No tests can be run; running `bin/rails test` or `bundle exec rake test` would fail because `bin/rails`, `Rakefile`, and `Gemfile` do not exist.
-- **Branch coverage:** 0/0 (0.00%). SimpleCov is not configured.
-- **Weakest-tested area of the codebase:** the codebase. There is no code; the entire workspace is the weakest-tested area.
-- **Failure modes NOT covered by any test:** every failure mode enumerable under G1–G14. Concretely: missing API key, multi-worker concurrency, TTL expiry, message-count cap, byte cap, tool-call round-trip, structured-output schema rejection, budget exceeded, provider error mid-stream, Turbo Stream delivery, restart survival, Docker build, docker compose end-to-end, missing `SECRET_KEY_BASE`, parallel-store corruption, message ordering, calculator malformed input, server-time edge cases, malformed JSON in title, persistence race conditions, cable adapter failure. None of these are tested because there is no code to test.
+### Coupling between layers
 
-## 4. KNOWN DEFECTS AND RISKS
+There is too little implemented application flow to judge healthy layer boundaries. Routes are coupled to absent controller constants (`config/routes.rb:12-14`), while views use reflection to compensate for an undefined data contract. No controller/service/store/provider boundary exists. The initializer's reference to a coordinator that was never created (`config/initializers/ruby_llm.rb:1-3`) is stale documentation.
 
-1. **The implementation is missing.** The deliverable defined by the brief (a Rails ChatGPT-like SPA with RubyLLM streaming, tool calling, structured output, persistence, tests, Docker) was not produced. What was produced is a 12-line planning note under `.slim/deepwork/`. This is a hard FAIL — every G1–G14 goal is a regression of this single defect.
-2. **Phase 1 orchestrator exited before its background implementation task completed.** `phase1.ndjson` shows two `task` tool calls with `background: true` (sessions `ses_055ead502ffePXdXgpyDKpPF6u` and `ses_055eaad4dffe9oc7gXJHoQIEDx`) which were never reconciled. The orchestrator's `step_finish` at line 39 has `reason: "stop"`. The `phase1.result.json` shows `file_count_after: 1` and `cost_usd: 0.0102` (low token usage consistent with planning only, not building). The session ended with `exit_code: 0` despite writing only the planning note — the exit code is meaningless for "did the build happen."
-3. **Phase 2 surfaced the missing build but did not restart it.** `phase2.result.json` shows `file_count_after: 1` (still only the planning note) and `elapsed_seconds: 90.29`. The phase 2 prompt explicitly forbids regenerating the app, and the agent complied. The phase 2 session exited cleanly with `exit_code: 0` while no validation steps could run. This is the same scoring-without-deliverable defect as #2.
-4. **Recurring failure on this slug.** Memory retrieved during phase 2 lists at least four prior v2_minimax_m3 sessions that hit the same empty-workspace state (`sessions/96055f34-6ffb-5d73-851d-69bc3a4f3039.md`, `sessions/4bc887e6-3023-523b-b03b-f508dadee89d.md`, `sessions/adfd8a95-66c1-5ab3-9c0d-3a038ea54f8b.md`, `sessions/e467870b-708b-5a06-9ef9-1f652b68c6af.md`). This is a model-specific behavioral pattern — the v2_minimax_m3 agent reliably plans and dispatches, but does not carry the build to completion within the per-phase budget. Each phase result is a clean exit; the cumulative outcome is zero delivered code.
-5. **No runtime, no security, no operability claims can be made.** Because there is no code, there is nothing to lock down, run as a non-root user, expose a public endpoint on, or attack. The Docker security claims (non-root user, `RAILS_ENV=production`), the API-key preflight, the system-instructions injection, the calculator `eval` risk, the file-locking semantics, the Redis ActionCable adapter — all are absent and therefore cannot be defended or scored.
-6. **Cost usage for the run is small but not zero.** Phase 1 cost $0.0102, phase 2 cost $0.0171 — total ~$0.027 for an empty workspace. This is relevant for the benchmark's cost-effectiveness argument but not a defect on its own; the defect is that the cost bought no deliverable.
-7. **No production-environment risk to record** (no secrets committed, no exposed ports, no auth bypass, no PII storage). The vacuous security posture is safer than a broken implementation, but it is not a substitute for one.
+### Top three refactors with more time
 
-## Reviewer-facing note
+1. **Define one presenter/view-model contract.** Replace both `read_value` lambdas with explicit objects or a helper so missing fields fail visibly and templates do not normalize arbitrary hashes and objects.
+2. **Separate the calculator parser from the RubyLLM tool adapter.** A standalone parser would allow direct syntax, precedence, depth, magnitude, division-by-zero, and malformed-input tests; the tool class should only map provider arguments and results.
+3. **Remove orphaned generated code and establish explicit runtime boundaries.** Delete unused controllers/templates/dependencies, then align each route with one controller, one chat coordinator, and one persistence interface. At present the central path is absent rather than merely untidy.
 
-I am the same minimax-m3 model that ran the prior phases on this slug (the slug is `v2_minimax_m3`). I deliberately did not retroactively claim partial credit for any goal — the workspace I read at the start of phase 3 contains exactly one file that is 766 bytes of planning prose. Every PASS in the table would have been a lie. The defect is not in the code; it is that the build was never produced.
+## 3. Test coverage assessment
+
+- **SimpleCov line coverage: N/A (no percentage was produced).**
+- **SimpleCov branch coverage: N/A (no percentage was produced).**
+
+These values are not 0.0% measurements. SimpleCov is not installed (`bundle info simplecov` returned `Could not find gem 'simplecov'`), is not started by `test/test_helper.rb:1-12`, and no `coverage/` files exist. The current full suite command, `bin/rails test`, completed with `0 runs, 0 assertions, 0 failures, 0 errors, 0 skips`; that green exit is not evidence of tested behavior.
+
+The weakest-tested area is the **message-to-provider lifecycle**, which is both untested and unimplemented: request validation, exact-once history replay, provider invocation, streaming broadcasts, tool calls, title generation, token accounting, persistence, and visible error handling.
+
+No test covers any of these failure modes:
+
+- missing API key; provider timeout, 429, 5xx, disconnect, or failure after partial streaming;
+- duplicate user turns, replay of the current prompt, concurrent submissions, request idempotency, or stream ordering;
+- restart recovery, two-worker access, stale locks, Redis outage, TTL expiry, message cap, or byte cap;
+- token estimation, budget exhaustion, reservation rollback, or invalid/negative counters;
+- tool registration and invocation; malformed calculator input, division by zero, exponent/magnitude/depth limits, or calculator precedence;
+- malformed structured title output, title-generation failure, first-exchange triggering, or title length;
+- controller routing, blank/oversized messages, arbitrary roles, missing conversation IDs, or cross-conversation access;
+- Turbo Stream delivery, Action Cable failure, DOM identity collisions, or user scroll behavior during streaming;
+- production boot, Docker image behavior, Redis connectivity, Compose startup ordering, or container health.
+
+## 4. Known defects and risks
+
+1. **Primary endpoints are broken.** `GET /`, `GET /conversations/:id`, and `POST /messages` point to missing controllers (`config/routes.rb:12-14`). A current root request failed with `uninitialized constant ConversationsController`.
+2. **The requested chat behavior does not exist.** There is no RubyLLM chat construction, model/provider selection, prompt replay, provider call, streaming callback, tool registration, title call, budget gate, or provider rescue path.
+3. **No persistence exists.** Conversation history cannot survive restart and has no concurrency control, TTL, or bounds. The SQLite dependency at `Gemfile:21` is unused.
+4. **The calculator is syntactically invalid.** Ruby 4.0 parses the unescaped `/` characters in the regex literals at `app/tools/calculator.rb:22,24` as delimiters. This also prevents RuboCop and Brakeman from completing clean analysis.
+5. **Duplicate and out-of-order submissions would be possible.** The composer re-enables its button at `turbo:submit-end` (`app/javascript/controllers/composer_controller.js:23-31`), not after provider completion, and the form has no idempotency key (`app/views/shared/_composer.html.erb:3-10`).
+6. **Input and domain values are unbounded or weakly validated.** The message has only browser-side `required` validation (`app/views/shared/_composer.html.erb:3-6`); title length is descriptive rather than enforced (`app/models/conversation_title_schema.rb:2`); token counters accept arbitrary values through `to_i` (`app/models/conversation.rb:11-12`); roles are unrestricted (`app/models/chat_message.rb:6-10`).
+7. **Production Action Cable depends on an undeployed Redis.** `config/cable.yml:9-12` defaults to `localhost`, no Compose service exists, and the Kamal Redis accessory is commented out (`config/deploy.yml:84-104`).
+8. **Production environment injection is incomplete.** `config/deploy.yml:39-45` injects only `RAILS_MASTER_KEY`, not `OPENROUTER_API_KEY` or `REDIS_URL`.
+9. **The production image retains test dependencies.** `Dockerfile:24-28` excludes only the development group, so Capybara and Selenium from `Gemfile:58-62` remain in the final bundle.
+10. **Privacy wording is misleading.** The UI says `Private space` (`app/views/shared/_header.html.erb:10`) although authentication is deliberately absent. A future client-supplied `conversation_id` (`app/views/shared/_composer.html.erb:4`) would be an insecure-direct-object-reference risk unless server-side ownership or unguessable capability semantics are enforced.
+11. **Prompt content is not explicitly filtered from logs.** The default parameter filter has no `message` or `content` entry, so future request logging may retain user prompts.
+12. **Streaming scroll behavior may be disruptive.** Every subtree mutation triggers a smooth scroll (`app/javascript/controllers/chat_scroll_controller.js:8-17`), which can repeatedly pull a reader to the bottom during token streaming.
+13. **The Docker/operations story is incomplete.** There is no Compose file, container health check, Redis readiness ordering, or useful README. `/up` checks only Rails boot and would not establish provider or Redis readiness.
