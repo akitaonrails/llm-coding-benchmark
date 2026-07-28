@@ -253,7 +253,23 @@
         "output": 30.0
       },
       "wave": 3,
-      "notes": "v1 Tier B (79). Deep multi-agent Fugu mode, 1M ctx."
+      "notes": "v1 Tier B (79). Deep multi-agent Fugu mode, 1M ctx.",
+      "blocked": "Sakana prepaid credit balance exhausted (HTTP 429, probed 2026-07-28). Top up at console.sakana.ai to unblock; infra (provider clone + env backfill) is ready."
+    },
+    {
+      "slug": "v2_claude_sonnet_4_6",
+      "label": "Claude Sonnet 4.6 (Claude Code) \u2014 wave 3 group 1",
+      "harness": "claude",
+      "model_id": "claude-sonnet-4-6",
+      "billing": "Claude Max subscription",
+      "rates_per_m": {
+        "input": 3.0,
+        "cache_read": 0.3,
+        "cache_write": 3.75,
+        "output": 15.0
+      },
+      "wave": 3,
+      "notes": "v1 Tier B (78). Native harness per doctrine."
     }
   ],
   "skipped": {

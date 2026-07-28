@@ -74,6 +74,18 @@ def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
     (out_dir / f"{phase_name}.prompt.txt").write_text(prompt)
 
     env = os.environ.copy()
+    # Backfill env vars from the user's secrets file without overriding anything
+    # already set — headless sessions don't source zsh config, and provider
+    # templates like {env:SAKANA_AI_TOKEN} silently hang opencode when empty.
+    secrets_file = Path.home() / ".config" / "zsh" / "secrets"
+    if secrets_file.exists():
+        for line in secrets_file.read_text().splitlines():
+            line = line.strip()
+            if line.startswith("export ") and "=" in line:
+                name, _, value = line[len("export "):].partition("=")
+                name = name.strip()
+                if name and name not in env:
+                    env[name] = value.strip().strip('"').strip("'")
     stdin_data: str | None = None
 
     if harness == "claude":
