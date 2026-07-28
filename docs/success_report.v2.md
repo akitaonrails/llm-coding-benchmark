@@ -238,6 +238,20 @@ Three attempts, three failure shapes, one outcome. *Attempt 1*: phase 1 ran 5.3 
 
 **The harness finding that fell out**: every v2 opencode run had silently fallen back from the missing `build` agent to opencode's default agent, which exposes the task/delegation tool — v1 ran on an opencode that still shipped a build agent. Two delegation-prone models (M3, Qwen3.7) walked into that trap; the strong opencode models (GLM 5.2, Grok 4.5, K2.6, Gemini) never touched it. The benchmark config now defines `agent.build` with `tools.task=false`, restoring v1's synchronous-build semantics. Qwen's attempt 3 proves the fix works (no more 34-second bails) *and* that its failure wasn't only the trap — the capacity ceiling is real. The Kimi-K3-style lesson recurs: harness defaults are part of the measurement.
 
+## Harness-isolation re-runs (started 2026-07-28)
+
+**Condition discovery**: every v2 opencode run before 2026-07-28 executed under the user's oh-my-opencode-slim **orchestrator** agent (the plugin loads from `~/.config/opencode/` regardless of `OPENCODE_CONFIG`, and the home config disables the stock agents). MiniMax M3's "Fixer/Librarian lanes" and `.slim/deepwork/` were the plugin's real delegation machinery. Per user directive, all 11 affected runs are being re-run under full `XDG_CONFIG_HOME` isolation (vanilla opencode, built-in `build` agent, no plugins); the orchestrator-condition originals are preserved as `results-v2/<slug>.orchestrator/`. Scores below supersede the orchestrator-condition scores; claude/codex/kimi harness results are unaffected.
+
+| Model (v1) | Orchestrator score | **Clean score** | Note |
+|---|---:|---:|---|
+| **Qwen 3.6 Plus** (71) | n/a (run interrupted) | **75** | 10 PASS / 4 honest PARTIAL; 11 phase-2 fixes |
+
+### Qwen 3.6 Plus — 75 (clean harness, audited 2026-07-28)
+
+First model through the isolated harness, and an immediate signal: the *weaker* Qwen (v1: 71) delivered a complete, validated app where its bigger sibling Qwen3.7 Max DNF'd three times under the orchestrator condition. 75 minutes, all 7 phase-2 validations passed including compose e2e with streaming — after phase 2 repaired 11 phase-1 defects, several app-breaking (model ID resolving to the Anthropic provider instead of OpenRouter — no chat possible as shipped; missing `to_param` breaking conversation URLs; string-vs-symbol key mismatch in the replay path). Suite verified: 45 runs / 84 assertions, 85.10% line.
+
+**Scoring**: gates 12/15 (−1 stale `claude-sonnet-4.6` pin, −2 phase-1 non-viable), streaming 7 (server writes per-chunk turbo-stream fragments but the client consumes them via a hand-rolled `fetch`+`ReadableStream`+regex layer — confessed in its honest G2 PARTIAL), payload 7 (test verifies replay counts via callback, not the exact outgoing array), concurrency 6 (file-JSON store with bounds + TTL but no visible locking), tools 10, schema 2 (sets the schema by `instance_variable_set(:@schema, …)` and calls a private method via `send` — works, fragile, confessed), budget 3, robustness 8 (user message persists before the provider call — self-flagged), tests+gates 7 (mock-fidelity gaps confessed), fidelity 13/15 (four honest PARTIALs all verified; −1 stale-pin PASS, −1 G5 PASS on a count-based test).
+
 ## Wave 2 conclusions
 
 1. **v2 de-saturated the benchmark.** v1 packed 15 models into 92-97; v2 spreads the same cohort across 20 points (96 → 76) with defensible per-point evidence. The three models that dropped furthest from their v1 positions (K2.6 87→77, Nex 83→78, Gemini Flash 93→76) failed on exactly the axes v2 added: payload tests, concurrency correctness, self-review discipline.
