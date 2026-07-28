@@ -188,6 +188,7 @@ Plan: [`v2_wave3_plan.md`](v2_wave3_plan.md). v1 remains the official ranking fo
 | **DeepSeek V4 Flash** (78/B) | **81** | 46.7 min | ~$0.01³ | Cheapest real run of either benchmark |
 | **MiniMax M3** (78/B) | **15 (DNF)** | 6.6 min | ~$0.05 | Phase 1 built nothing — phantom-delegation pathology, reproduced twice |
 | **Grok 4.3** (72/B) | **57** | 7.3 min | ~$0.23³ | Untested build; phase 2 surrendered; stalest pin in the benchmark |
+| **Qwen3.7 Max** (78/B) | **22 (DNF)** | 15.8 min | ~$0.17³ | Phase 1 stops at scaffolding — 3 attempts, 3 shapes, same outcome |
 
 Blocked: **Sakana Fugu Ultra** — prepaid balance exhausted (429; top up at console.sakana.ai to unblock, infra ready).
 
@@ -230,6 +231,12 @@ The anti-Grok-4.5. Where its successor delivered a validated 91 in 18 minutes, 4
 Fidelity problems beyond the surrender framing: **G5 marked PASS with no outgoing-array test in existence** (the required test), and the G8 evidence cites `RubyLLM.structured` — a method that does not exist in gem 1.16.0 (the actual code correctly uses `chat.with_schema`; the review fabricated its own citation). G7's honest FAIL and G10-G12 PARTIALs earn back some credit.
 
 **Scoring**: gates 12/15, streaming 6 (hand-read only, never proven), payload 4 (required test absent, claimed PASS), concurrency 4 (unproven), tools 6, schema 4, budget 3, robustness 6, tests+gates 1, fidelity 11/15. **The xAI generation gap (4.3 → 4.5) is now the largest measured: 34 points** — bigger than Kimi's 18 across two generations.
+
+### Qwen3.7 Max — 22 (DNF, audited 2026-07-28) + the build-agent harness finding
+
+Three attempts, three failure shapes, one outcome. *Attempt 1*: phase 1 ran 5.3 min and delivered a bare Rails skeleton — no chat, no RubyLLM code, zero tests, 154 RuboCop offenses — with a scrupulously honest 9×FAIL self-review. *Attempt 2*: phase 1 exited in **34 seconds** after spawning "recon tasks" — the same delegation-and-exit disease as MiniMax M3 — and then phase 2 violated its validation-only mandate by rebuilding the app via bash (127 tool calls, protocol-contaminated, not scoreable). *Attempt 3*, under the corrected harness (see below): no delegation bail, 5.7 minutes of honest synchronous work — and it still stopped at scaffolding, self-marking G2-G11 FAIL. The model simply cannot carry the v2 phase-1 workload to completion in one session. Score on the protocol-clean attempt 3: gates 6, tests 1, all other build dimensions 0, **fidelity 15/15** (every FAIL accurate, three times running).
+
+**The harness finding that fell out**: every v2 opencode run had silently fallen back from the missing `build` agent to opencode's default agent, which exposes the task/delegation tool — v1 ran on an opencode that still shipped a build agent. Two delegation-prone models (M3, Qwen3.7) walked into that trap; the strong opencode models (GLM 5.2, Grok 4.5, K2.6, Gemini) never touched it. The benchmark config now defines `agent.build` with `tools.task=false`, restoring v1's synchronous-build semantics. Qwen's attempt 3 proves the fix works (no more 34-second bails) *and* that its failure wasn't only the trap — the capacity ceiling is real. The Kimi-K3-style lesson recurs: harness defaults are part of the measurement.
 
 ## Wave 2 conclusions
 
