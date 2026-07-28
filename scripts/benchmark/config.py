@@ -319,6 +319,11 @@ def prepare_local_opencode_config(
         "$schema": source_config.get("$schema", "https://opencode.ai/config.json"),
         "provider": {},
     }
+    # Clone small_model so opencode's internal tasks (titles/summaries) never
+    # auto-select an OAuth-backed provider whose token refresh can kill a run
+    # (observed: openai oauth refresh 401 aborted the nex_n2_pro v2 phase 1).
+    if source_config.get("small_model"):
+        local_config["small_model"] = source_config["small_model"]
 
     # Collect all cloud providers we'll need (models AND their opencode_subagent entries)
     cloud_provider_names: set[str] = set()
