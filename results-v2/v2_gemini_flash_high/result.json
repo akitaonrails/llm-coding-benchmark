@@ -1,0 +1,36 @@
+{
+  "billing": "OpenRouter API (no Google subscription harness)",
+  "cost_usd_total": 0.0456,
+  "elapsed_seconds_total": 445.36,
+  "ended_at": "2026-07-28T04:17:22+00:00",
+  "harness": "opencode",
+  "label": "Gemini 3.5 Flash @ reasoning_effort=high (opencode/OpenRouter)",
+  "phases": [
+    {
+      "command_kind": "opencode",
+      "cost_usd": 0.0456,
+      "elapsed_seconds": 445.36,
+      "ended_at": "2026-07-28T04:17:22+00:00",
+      "exit_code": 0,
+      "file_count_after": 2174,
+      "harness": "opencode",
+      "phase": "phase3",
+      "session_id": "ses_05915be26ffeb6H8aead19s4DR",
+      "started_at": "2026-07-28T04:09:56+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 110745,
+          "write": 0
+        },
+        "input": 2702,
+        "output": 0,
+        "reasoning": 30717,
+        "total": 144164
+      }
+    }
+  ],
+  "self_review_present": false,
+  "slug": "v2_gemini_flash_high",
+  "tokens_total": 144164
+}

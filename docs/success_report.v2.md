@@ -99,14 +99,15 @@ Same audit depth as wave 1: suite re-run by the auditor, self-review claims chas
 | 6 | **Grok 4.5** | **91** | **18.2 min** | 283K² | $0.57 as computed³ | OpenRouter API |
 | 12 | **Nex-N2-Pro** | **78** | 29.1 min | 335K² | ~$0.30-1 est.³ | OpenRouter API |
 | 13 | **Kimi K2.6** | **77** | 57.3 min | 292K² | ~$1-2 est.³ | OpenRouter API |
+| 14 | **Gemini 3.5 Flash @ high** | **76** | 35.5 min | 505K² | ~$0.47 (incl. retry) | OpenRouter API |
 
-(GPT 5.4 and K2.7-Coding tie at 86 — at roughly 6× different blended cost. GLM 5.2 and Opus 4.7 tie at 91.)
+(GPT 5.4 and K2.7-Coding tie at 86 — at roughly 6× different blended cost. GLM 5.2, Opus 4.7 and Grok 4.5 tie at 91.)
 
-³ The orchestrator computed $0.05 from opencode-reported usage, which misses per-request context re-billing; estimated from the v1 K2.6 run's billing ratio. Reconcile against the OpenRouter dashboard.
+³ The orchestrator computed these from opencode-reported usage, which misses per-request context re-billing; estimated from v1 billing ratios. Reconcile against the OpenRouter dashboard.
 
 ² opencode reports per-response API usage, not the cumulative per-request token flow (incl. cache reads) that the claude/kimi CLIs report — token columns are not comparable across harnesses; wall time and cost are.
 
-Queue: K2.6 (running) → Grok 4.5 → Nex-N2-Pro → Gemini 3.5 Flash @ high effort (Pro-slot fallback; Pro still allowlist-only via Antigravity/Vertex).
+**WAVE 2 COMPLETE (2026-07-28).** 14 of 15 cohort slots run and audited; the 15th (Gemini 3.5 Pro) remains blocked on release — Flash @ forced-high effort held the Gemini slot per the 2026-07-27 fallback decision, with effort forwarding probe-verified (73-78% reasoning-token share across both attempts).
 
 **The Claude generation gradient is now fully resolved**: 4.6 (83) → 4.7 (91) → 4.8 (93) → Opus 5 (95) → Fable (96). v1 had all five inside Tier A noise; the v2 brief spreads them across 13 points.
 
@@ -167,6 +168,23 @@ The run itself needed three attempts, none the model's fault: attempts 1-2 died 
 **Scoring**: gates 14/15 (−1 for the G2 repeated-interaction defect; **no stale-pin deduction** — the only model to earn that), streaming 8 (real accumulated-buffer broadcasts, live-logged, but the target-removal bug compromises turns 2+), payload 6 (correct-by-code, required test absent), concurrency 7 (locks/atomic-rename/TTL/caps + 2-worker restart proof, but no turn-level transaction — confessed), tools 10 (real invocations logged, eval-free parser), schema 5, budget 3, robustness 8, **tests+gates 2/10** (a near-untested application; gates themselves clean), **fidelity 15/15**.
 
 The Nex verdict: a fast, honest, structurally sound build that simply didn't write tests — the single largest tests-dimension deduction in the cohort, softened nowhere else. And the tilde-alias find is actionable for everyone: `~vendor/model-latest` is how a benchmark subject (or a production app) should pin "latest" on OpenRouter.
+
+### Gemini 3.5 Flash @ reasoning_effort=high — 76 (audited 2026-07-28)
+
+The wave's most interesting **negative result**, in three acts. *Act 1*: run 1's phase 1 died mid-build to Google's intermittent `Corrupted thought signature` API bug (400, non-retryable — the Gemini analog of the DeepSeek `reasoning_content` class); the clean retry sailed through. *Act 2*: the build itself is genuinely good — it **hard-pinned `anthropic/claude-sonnet-5`**, the actual latest Sonnet, something none of the five Claudes did (only Nex's tilde alias also complies); all 7 phase-2 validations passed live (tools with exact answers, restart survival under 2 workers, compose e2e); a valid G5 exact-array test; an eval-free whitelist + recursive-descent calculator. *Act 3*: **phase 3 failed twice, differently each time** — attempt 1 looped on reconstructing the goal list ("Wait, if there are only 13 goals…" ad infinitum), attempt 2 spent 52 tool calls re-reading the same test file five different ways (`head`, `wc -l`, `grep -n ""`, `ruby -e`, `ruby -wc`) — and **never wrote SELF_REVIEW.md**. Every other model produced it on the first try, so it scores as missing.
+
+**Scoring**: gates 15/15 (the only correct hard pin in the cohort), streaming 10 (live-proven), payload 10 (valid exact-array test), concurrency 7 (count/byte/TTL bounds + atomic rename, but **no flock** — concurrent same-conversation writes are last-writer-wins), tools 10, schema 5, budget 4, robustness 9, tests+gates 6 (21 tests, 75.28% line / 44.44% branch — thin), **self-review fidelity 0/15** (deliverable absent after two attempts).
+
+**The effort experiment's answer**: forcing `reasoning_effort=high` was verified to work (73-78% reasoning-token share) and did not make Flash smarter — it made it *obsessive*. The same model at default dynamic thinking completed every v1 deliverable and scored 93; at forced-high effort under v2 it built well and then reasoned itself in circles on the one open-ended writing task, twice. Without the fidelity zero this is an ~87-90 run. Buying more thinking bought a failure mode.
+
+## Wave 2 conclusions
+
+1. **v2 de-saturated the benchmark.** v1 packed 15 models into 92-97; v2 spreads the same cohort across 20 points (96 → 76) with defensible per-point evidence. The three models that dropped furthest from their v1 positions (K2.6 87→77, Nex 83→78, Gemini Flash 93→76) failed on exactly the axes v2 added: payload tests, concurrency correctness, self-review discipline.
+2. **Vendor trajectories are now measurable.** Claude: 83→91→93→95→96 across five generations. Kimi: 77→86→95 across three. Both lines climb ~monotonically; the Kimi slope is steeper (9 pts/gen vs ~3).
+3. **The price of a point is wildly nonlinear.** 91 points is available for $0 (GLM, slow), pennies (Grok, fast), or $44 (Opus 4.7, thorough). The last 5 points (Fable 96) cost either ~$26 + Claude Code or aren't for sale.
+4. **Honesty is a skill axis, and it doesn't correlate with capability.** Perfect fidelity: K3 (95) and Nex (78). Zero fidelity: Gemini Flash — a 93-grade v1 model. The self-review phase measures something the build phases can't.
+5. **Native harnesses and subscriptions matter operationally, not just economically.** All three infrastructure failures of the wave were auth-layer, not model-layer: the Claude API-billing bug (wave 1), the opencode openai OAuth 401, and Google's thought-signature corruption. The models were fine; the plumbing wasn't.
+6. **Efficiency spread, quality held**: 18 min (Grok) to 122 min (GLM) for the same 91. Wall time is now the honest differentiator among peers — and forced-high reasoning effort (Gemini) bought pathology, not points.
 
 ## Cross-references
 
