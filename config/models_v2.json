@@ -285,6 +285,21 @@
       },
       "wave": 3,
       "notes": "v1 Tier B (78) in an absurd 3 minutes. reasoning_content multi-turn bug is V4 Pro-specific; Flash ran fine via opencode in v1."
+    },
+    {
+      "slug": "v2_minimax_m3",
+      "label": "MiniMax M3 (opencode/OpenRouter) \u2014 wave 3 group 1",
+      "harness": "opencode",
+      "model_id": "openrouter/minimax/minimax-m3",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.3,
+        "cache_read": 0.3,
+        "cache_write": 0.3,
+        "output": 1.2
+      },
+      "wave": 3,
+      "notes": "v1 Tier B (78) with a phase-2 DNF \u2014 watch the 90-min phase timeout."
     }
   ],
   "skipped": {
