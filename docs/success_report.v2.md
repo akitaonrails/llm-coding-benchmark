@@ -185,6 +185,7 @@ Plan: [`v2_wave3_plan.md`](v2_wave3_plan.md). v1 remains the official ranking fo
 |---|---:|---:|---:|---|
 | **Claude Sonnet 4.6** (78/B) | **87** | 45.4 min | $9.90 (Max sub) | Above GPT 5.4, K2.7 and Opus 4.6 |
 | **Gemini 3.1 Pro** (79/B) | **84** | 26.5 min | ~$0.16³ | Beats Opus 4.6 (83, v1 Tier A) |
+| **DeepSeek V4 Flash** (78/B) | **81** | 46.7 min | ~$0.01³ | Cheapest real run of either benchmark |
 
 Blocked: **Sakana Fugu Ultra** — prepaid balance exhausted (429; top up at console.sakana.ai to unblock, infra ready).
 
@@ -203,6 +204,14 @@ The strongest wave-3 result yet, and the second-biggest v1→v2 climb measured (
 Two family patterns recur. **Phase 1 shipped an unusable model pin** — `claude-sonnet-4-6`, an invalid OpenRouter slug the API rejects, so no chat could complete as delivered (phase 2's one fix; corrected value still one generation stale). And like Opus 4.6, **the self-review invented its own goal list** — its "G1" is `add_message` correctness, its "G8" is Tailwind v4, its "G14" is SimpleCov; the brief's G12 (quality gates) and G14 (no secrets) have no verdict rows at all. Within its invented rows the evidence is excellent (real gem-source citations, four genuine confessed defects D1-D4 including the unmanaged streaming thread and the title-generation race) — but the phase-3 instruction was to verify *the brief's* goals, and two Claudes have now failed it the same way while all non-Claude models numbered correctly.
 
 **Scoring**: gates 13/15 (−1 invalid-slug delivery, −1 stale post-fix pin), streaming 10, payload 10, concurrency 9, tools 10, schema 5, budget 4, robustness 9 (unmanaged `Thread.new` — stuck spinner on worker death, confessed), tests+gates 7, fidelity 10/15 (invented goal numbering; accurate within itself).
+
+### DeepSeek V4 Flash — 81 (audited 2026-07-28)
+
+The v1 speed-freak (3-minute run) took 46.7 minutes on the v2 brief — and produced the **cheapest real run of either benchmark** (~1-5 cents). The self-review is the honest kind that makes auditing easy: correct G1-G14 numbering, a confessed **G8 FAIL** ("no call to `with_schema` exists anywhere — confirmed via grep"; titles use plain instruction prompting → schema 0/5), and a confessed **G12 PARTIAL** (Brakeman flags the calculator's whitelisted `eval` — the K2.7 pattern, verified: `eval(sanitized)` behind a regex allowlist with a rubocop-disable). Suite verified exactly: 49 runs / 111 assertions, 75.32% line.
+
+The as-delivered build needed the most phase-2 surgery of wave 3 so far — **6 fixes**: another invalid dated model snapshot (`claude-sonnet-4-20250514`, not in the registry), **Puma had no `workers` directive so `WEB_CONCURRENCY=2` never engaged as shipped**, SQLite fork-safety, a broken Dockerfile chmod/user sequence, missing compose `SECRET_KEY_BASE`, and test repairs. All 7 validations passed after repair (per-token `ActionController::Live` streaming, tools, restart survival, compose e2e).
+
+**Scoring**: gates 12/15 (−1 stale `anthropic/claude-sonnet-4` pin — 3 generations; −2 phase-1 non-viable), streaming 10, payload 10 (exact-array 3-turn test), concurrency 8 (WAL + caps + TTL, but `reap_expired!` unscheduled and fork-safety was a phase-2 fix), tools 8 (whitelisted eval), schema 0 (honest FAIL), budget 4, robustness 9, tests+gates 6 (Brakeman not clean), fidelity 14/15 (both confessions verified true; −1 stale-pin PASS).
 
 ## Wave 2 conclusions
 
