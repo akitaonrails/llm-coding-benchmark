@@ -177,6 +177,22 @@ The wave's most interesting **negative result**, in three acts. *Act 1*: run 1's
 
 **The effort experiment's answer**: forcing `reasoning_effort=high` was verified to work (73-78% reasoning-token share) and did not make Flash smarter — it made it *obsessive*. The same model at default dynamic thinking completed every v1 deliverable and scored 93; at forced-high effort under v2 it built well and then reasoned itself in circles on the one open-ended writing task, twice. Without the fidelity zero this is an ~87-90 run. Buying more thinking bought a failure mode.
 
+## Wave 3 (in progress, started 2026-07-28) — remaining tiers as stretch data
+
+Plan: [`v2_wave3_plan.md`](v2_wave3_plan.md). v1 remains the official ranking for these models; v2 runs measure each tier's distance from the production-hardening bar. Same audit depth and shared-deduction normalization as waves 1-2.
+
+| Model (v1 score/tier) | v2 score | Wall time | Cost | Note |
+|---|---:|---:|---:|---|
+| **Gemini 3.1 Pro** (79/B) | **84** | 26.5 min | ~$0.16³ | Beats Opus 4.6 (83, v1 Tier A) |
+
+### Gemini 3.1 Pro — 84 (audited 2026-07-28)
+
+The first wave-3 datapoint lands *above* a wave-2 Tier-A Claude: 84 vs Opus 4.6's 83, at a quarter of the cost and 33% less time. The build: Redis store with `watch`-based optimistic concurrency + bounds + TTL (confessed hazard: infinite `retry` without backoff), valid `with_schema` hash-form titles, strict-mock G5 test (Minitest::Mock expectations enforce exactly-once replay with exact kwargs), suite verified 9 runs / 23 assertions / 88.61% line (matches self-report). Phase 2 passed all 7 validations but had to **fix phase-1's streaming implementation** — the delivered code didn't stream correctly through `ruby_llm`'s block-based `ask` until repaired — and remapped compose ports around host conflicts. Its 3.5-generation sibling's phase-3 pathology did not recur: at default dynamic effort, the self-review was produced first-try, correct G1-G14 numbering, honest G11 PARTIAL (error paths untested — verified true: missing-key, budget, and rescue branches have no tests).
+
+**Scoring**: gates 13/15 (−1 stale `claude-sonnet-4.6` pin, −1 phase-1 streaming defect), streaming 8, payload 9, concurrency 8, tools 10, schema 5, budget 3, robustness 9, tests+gates 5 (9 tests is thin; no branch coverage), fidelity 14/15.
+
+**Early wave-3 signal**: the v1 Tier-A/B boundary does not survive v2. Gemini 3.1 Pro (v1: 79) outscores Opus 4.6 (v1: 83) and sits within 2 points of K2.7-Coding (v1: 86) — v1's compressed top was hiding real reordering.
+
 ## Wave 2 conclusions
 
 1. **v2 de-saturated the benchmark.** v1 packed 15 models into 92-97; v2 spreads the same cohort across 20 points (96 → 76) with defensible per-point evidence. The three models that dropped furthest from their v1 positions (K2.6 87→77, Nex 83→78, Gemini Flash 93→76) failed on exactly the axes v2 added: payload tests, concurrency correctness, self-review discipline.

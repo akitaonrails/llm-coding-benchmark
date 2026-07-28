@@ -224,6 +224,36 @@
       },
       "wave": 2,
       "notes": "User directive 2026-07-27: Pro unavailable -> highest-effort available Gemini. Effort forced via home-config model options (reasoning.effort=high) cloned into opencode.benchmark.json; verify forwarding by comparing the run's reasoning-token share against the v1 dynamic-thinking baseline (23,322 reasoning tokens / 98 events)."
+    },
+    {
+      "slug": "v2_gemini_3_1_pro",
+      "label": "Gemini 3.1 Pro (opencode/OpenRouter) \u2014 wave 3 group 1",
+      "harness": "opencode",
+      "model_id": "openrouter/google/gemini-3.1-pro-preview",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 2.0,
+        "cache_read": 0.5,
+        "cache_write": 2.0,
+        "output": 12.0
+      },
+      "wave": 3,
+      "notes": "v1 Tier B (79). Wave-3 stretch run under the v2 brief; v1 remains its official ranking."
+    },
+    {
+      "slug": "v2_sakana_fugu_ultra",
+      "label": "Sakana Fugu Ultra (opencode/Sakana API) \u2014 wave 3 group 1",
+      "harness": "opencode",
+      "model_id": "sakana/fugu-ultra",
+      "billing": "Sakana pay-as-you-go API",
+      "rates_per_m": {
+        "input": 5.0,
+        "cache_read": 5.0,
+        "cache_write": 5.0,
+        "output": 30.0
+      },
+      "wave": 3,
+      "notes": "v1 Tier B (79). Deep multi-agent Fugu mode, 1M ctx."
     }
   ],
   "skipped": {
