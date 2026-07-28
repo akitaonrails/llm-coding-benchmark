@@ -186,7 +186,7 @@ Plan: [`v2_wave3_plan.md`](v2_wave3_plan.md). v1 remains the official ranking fo
 | **Claude Sonnet 4.6** (78/B) | **87** | 45.4 min | $9.90 (Max sub) | Above GPT 5.4, K2.7 and Opus 4.6 |
 | **Gemini 3.1 Pro** (79/B) | **84** | 26.5 min | ~$0.16³ | Beats Opus 4.6 (83, v1 Tier A) |
 | **DeepSeek V4 Flash** (78/B) | **81** | 46.7 min | ~$0.01³ | Cheapest real run of either benchmark |
-| **MiniMax M3** (78/B) | **15 (DNF)** | 6.6 min | ~$0.05 | Phase 1 built nothing — phantom-delegation pathology, reproduced twice |
+| **MiniMax M3** (78/B) | **24 (DNF)** | 14.9 min | ~$0.07 | Builds partially under fixed harness; capacity ceiling remains |
 | **Grok 4.3** (72/B) | **57** | 7.3 min | ~$0.23³ | Untested build; phase 2 surrendered; stalest pin in the benchmark |
 | **Qwen3.7 Max** (78/B) | **22 (DNF)** | 15.8 min | ~$0.17³ | Phase 1 stops at scaffolding — 3 attempts, 3 shapes, same outcome |
 
@@ -222,7 +222,7 @@ The as-delivered build needed the most phase-2 surgery of wave 3 so far — **6 
 
 The two honest phases deserve their due: phase 2 correctly declared a hard blocker instead of rebuilding the app against its instructions, and the phase-3 SELF_REVIEW is perversely exemplary — 14× FAIL with correct numbering and precise evidence (`find` output, `file_count_after` citations from the phase result JSONs), plus "the absence is the finding."
 
-**Scoring**: all nine build dimensions 0; **fidelity 15/15** — the review is perfectly accurate about a workspace that contains nothing. Total 15/100. The score is the honesty floor: a model that builds nothing but reports it truthfully outscores nothing else, and that is the correct ordering.
+**Scoring (final, corrected harness)**: after the build-agent fix (see the Qwen3.7 Max section), M3's third attempt worked synchronously for 7 minutes and produced a partial app — 23 Ruby files, tool classes present but unregistered (the calculator doesn't even parse: it ran `ruby -c` on its own file and reported the syntax errors in its review), a declared-but-never-called title schema, zero tests. The phantom-lane pathology was the harness trap; the capacity ceiling is the model. Final: gates 7, tools 1, schema 1, everything else 0, **fidelity 15/15 on all three attempts** — total **24/100** (was 15 under the trapped harness). The two attempts under the default agent stand preserved in `results-v2/v2_minimax_m3.attempt*` as the harness-effect evidence.
 
 ### Grok 4.3 — 57 (audited 2026-07-28)
 

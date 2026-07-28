@@ -330,6 +330,21 @@
       },
       "wave": 3,
       "notes": "v1 Tier B (72)."
+    },
+    {
+      "slug": "v2_qwen3_6_plus",
+      "label": "Qwen 3.6 Plus (opencode/OpenRouter) \u2014 wave 3 group 1",
+      "harness": "opencode",
+      "model_id": "openrouter/qwen/qwen3.6-plus",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.4,
+        "cache_read": 0.08,
+        "cache_write": 0.4,
+        "output": 1.2
+      },
+      "wave": 3,
+      "notes": "v1 Tier B (71)."
     }
   ],
   "skipped": {
