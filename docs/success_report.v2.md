@@ -187,6 +187,7 @@ Plan: [`v2_wave3_plan.md`](v2_wave3_plan.md). v1 remains the official ranking fo
 | **Gemini 3.1 Pro** (79/B) | **84** | 26.5 min | ~$0.16³ | Beats Opus 4.6 (83, v1 Tier A) |
 | **DeepSeek V4 Flash** (78/B) | **81** | 46.7 min | ~$0.01³ | Cheapest real run of either benchmark |
 | **MiniMax M3** (78/B) | **15 (DNF)** | 6.6 min | ~$0.05 | Phase 1 built nothing — phantom-delegation pathology, reproduced twice |
+| **Grok 4.3** (72/B) | **57** | 7.3 min | ~$0.23³ | Untested build; phase 2 surrendered; stalest pin in the benchmark |
 
 Blocked: **Sakana Fugu Ultra** — prepaid balance exhausted (429; top up at console.sakana.ai to unblock, infra ready).
 
@@ -221,6 +222,14 @@ The as-delivered build needed the most phase-2 surgery of wave 3 so far — **6 
 The two honest phases deserve their due: phase 2 correctly declared a hard blocker instead of rebuilding the app against its instructions, and the phase-3 SELF_REVIEW is perversely exemplary — 14× FAIL with correct numbering and precise evidence (`find` output, `file_count_after` citations from the phase result JSONs), plus "the absence is the finding."
 
 **Scoring**: all nine build dimensions 0; **fidelity 15/15** — the review is perfectly accurate about a workspace that contains nothing. Total 15/100. The score is the honesty floor: a model that builds nothing but reports it truthfully outscores nothing else, and that is the correct ordering.
+
+### Grok 4.3 — 57 (audited 2026-07-28)
+
+The anti-Grok-4.5. Where its successor delivered a validated 91 in 18 minutes, 4.3 delivered an **unvalidated maybe** in 7: a complete-looking app (streaming broadcasts, Redis store, both tools, real `with_schema` — the code *reads* plausibly) that was never proven to run. Phase 2 surrendered after 15 tool calls, declaring port 3000 occupancy and unkillable stale pumas "terminal for phase 2" — the same environment every other model handled by picking ports 3001-3013 (K2.7 hit the identical stale pumas and simply moved ports). The suite ships broken: 2 tests, 1 erroring on a nonexistent `RubyLLM.stub`, 35.65% coverage, RuboCop not clean. The pin is the stalest in the entire benchmark: `anthropic/claude-3.5-sonnet-20241022` — October 2024, five generations old.
+
+Fidelity problems beyond the surrender framing: **G5 marked PASS with no outgoing-array test in existence** (the required test), and the G8 evidence cites `RubyLLM.structured` — a method that does not exist in gem 1.16.0 (the actual code correctly uses `chat.with_schema`; the review fabricated its own citation). G7's honest FAIL and G10-G12 PARTIALs earn back some credit.
+
+**Scoring**: gates 12/15, streaming 6 (hand-read only, never proven), payload 4 (required test absent, claimed PASS), concurrency 4 (unproven), tools 6, schema 4, budget 3, robustness 6, tests+gates 1, fidelity 11/15. **The xAI generation gap (4.3 → 4.5) is now the largest measured: 34 points** — bigger than Kimi's 18 across two generations.
 
 ## Wave 2 conclusions
 
