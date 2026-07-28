@@ -186,6 +186,7 @@ Plan: [`v2_wave3_plan.md`](v2_wave3_plan.md). v1 remains the official ranking fo
 | **Claude Sonnet 4.6** (78/B) | **87** | 45.4 min | $9.90 (Max sub) | Above GPT 5.4, K2.7 and Opus 4.6 |
 | **Gemini 3.1 Pro** (79/B) | **84** | 26.5 min | ~$0.16³ | Beats Opus 4.6 (83, v1 Tier A) |
 | **DeepSeek V4 Flash** (78/B) | **81** | 46.7 min | ~$0.01³ | Cheapest real run of either benchmark |
+| **MiniMax M3** (78/B) | **15 (DNF)** | 6.6 min | ~$0.05 | Phase 1 built nothing — phantom-delegation pathology, reproduced twice |
 
 Blocked: **Sakana Fugu Ultra** — prepaid balance exhausted (429; top up at console.sakana.ai to unblock, infra ready).
 
@@ -212,6 +213,14 @@ The v1 speed-freak (3-minute run) took 46.7 minutes on the v2 brief — and prod
 The as-delivered build needed the most phase-2 surgery of wave 3 so far — **6 fixes**: another invalid dated model snapshot (`claude-sonnet-4-20250514`, not in the registry), **Puma had no `workers` directive so `WEB_CONCURRENCY=2` never engaged as shipped**, SQLite fork-safety, a broken Dockerfile chmod/user sequence, missing compose `SECRET_KEY_BASE`, and test repairs. All 7 validations passed after repair (per-token `ActionController::Live` streaming, tools, restart survival, compose e2e).
 
 **Scoring**: gates 12/15 (−1 stale `anthropic/claude-sonnet-4` pin — 3 generations; −2 phase-1 non-viable), streaming 10, payload 10 (exact-array 3-turn test), concurrency 8 (WAL + caps + TTL, but `reap_expired!` unscheduled and fork-safety was a phase-2 fix), tools 8 (whitelisted eval), schema 0 (honest FAIL), budget 4, robustness 9, tests+gates 6 (Brakeman not clean), fidelity 14/15 (both confessions verified true; −1 stale-pin PASS).
+
+### MiniMax M3 — 15 (DNF, audited 2026-07-28)
+
+**Phase 1 built nothing, twice.** On both a first run and a clean retry, M3 spent ~2 minutes writing a plan into `.slim/deepwork/rails-streaming-chat.md`, announced that implementation was "underway in two parallel specialist lanes" (a "Fixer" building the app, a "Librarian" researching RubyLLM APIs), and exited — waiting on phantom sub-agents that do not exist in the opencode runtime. Deterministic pathology, not a flake: M3 role-plays its vendor's multi-agent orchestration product inside a single-agent harness. Its v1 phase-2 DNF now looks like the same disease in a milder form.
+
+The two honest phases deserve their due: phase 2 correctly declared a hard blocker instead of rebuilding the app against its instructions, and the phase-3 SELF_REVIEW is perversely exemplary — 14× FAIL with correct numbering and precise evidence (`find` output, `file_count_after` citations from the phase result JSONs), plus "the absence is the finding."
+
+**Scoring**: all nine build dimensions 0; **fidelity 15/15** — the review is perfectly accurate about a workspace that contains nothing. Total 15/100. The score is the honesty floor: a model that builds nothing but reports it truthfully outscores nothing else, and that is the correct ordering.
 
 ## Wave 2 conclusions
 
