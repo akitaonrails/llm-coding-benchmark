@@ -96,7 +96,8 @@ Same audit depth as wave 1: suite re-run by the auditor, self-review claims chas
 | 6 | **GLM 5.2** | **91** | 121.8 min | 443K² | **$0 (flat sub)** | Z.ai coding plan |
 | 8 | **Kimi K2.7-Coding** | **86** | 53.8 min | 25.6M | **$4.37** | Moderato sub (1 window, 0 quota waits) |
 | 10 | **Claude Opus 4.6** | **83** | **39.5 min** | 16.8M | $12.83 | Max sub |
-| 11 | **Kimi K2.6** | **77** | 57.3 min | 292K² | ~$1-2 est.³ | OpenRouter API |
+| 6 | **Grok 4.5** | **91** | **18.2 min** | 283K² | $0.57 as computed³ | OpenRouter API |
+| 12 | **Kimi K2.6** | **77** | 57.3 min | 292K² | ~$1-2 est.³ | OpenRouter API |
 
 (GPT 5.4 and K2.7-Coding tie at 86 — at roughly 6× different blended cost. GLM 5.2 and Opus 4.7 tie at 91.)
 
@@ -147,6 +148,14 @@ The first sub-80 v2 score, and the cleanest demonstration that **v2 measures som
 **Scoring**: gates 13/15 (−1 stale pin, −1 broken-at-delivery Dockerfile), streaming 7 (true streaming, wrong mechanism), payload 6 (required test absent, self-marked PARTIAL), concurrency 7 (byte bound unenforced; budget-check race; path-traversal hazard in the file store — all confessed), tools 10, schema 4 (untested), budget 3, robustness 7 (failed-turn replay violation), tests+gates 6, **fidelity 14/15** — the redeeming dimension: its PARTIAL verdicts on G5/G10/G11 match the audit findings exactly, and it explicitly corrected an earlier session's inflated coverage claim ("not the high coverage claimed in prior session notes").
 
 The Kimi line now spans the v2 spectrum: **K2.6 77 → K2.7-Coding 86 → K3 95** — a perfect 9-point-per-generation staircase, and the single clearest vendor-trajectory signal either benchmark has produced.
+
+### Grok 4.5 — 91 (audited 2026-07-28)
+
+The speed story of the entire benchmark: **91-grade work in 18.2 minutes** — 2.2× faster than the next-fastest run (Opus 4.6's 39.5) and 6.7× faster than its score-tie GLM 5.2 — with **zero phase-2 fixes** ("App validated as-is"). Phase 1 took 4.2 minutes and still produced 53 files, 17 test files, and the only store in the cohort using `BEGIN IMMEDIATE` transactions on top of WAL + busy_timeout, with byte-identical-after-restart proof, cross-instance tests, and a 40-message concurrent-writer stress test. Suite verified exactly: 69 runs / 201 assertions, 97.54% line / **80.70% branch** (second-best branch coverage). All 7 phase-2 validations live-proven: 3 growing broadcasts + finalize for streaming, both tools with correct answers (`17*(23+9)-41 = 503`), compose e2e echo test.
+
+**Scoring**: gates 14/15 (−1 stale `claude-sonnet-4.6` pin), streaming 10 (per-chunk `broadcast_update_to`, live-proven), payload 9 (the required test captures the real outgoing array and asserts it against a pure `MessageBuilder` — but production builds history separately from that "source of truth", and a code comment falsely claims otherwise; drift-prone, self-confessed), concurrency 8 (best transactional store, but confessed preload/fork pool hazard, no per-conversation turn lock, lazy-only TTL), tools 10, schema 5, budget 3 (between-turns shared −1; ~4-chars/token estimator with a confessed double-pass race), robustness 9 (fire-and-forget `Thread.new` dispatch — a restart mid-stream leaves a stuck bubble with no timeout UI, confessed), tests+gates 9, fidelity 14/15 (correct table, honest inline caveats — including admitting docker wasn't re-run in phase 3 and that tool invocation is model-dependent; the 10-item §4 defect list is the most complete operational risk assessment in the cohort; −1 stale-pin PASS claim).
+
+The Grok verdict: it turns the quality-cost-time triangle into a genuine three-way trade. GLM 5.2 gives 91 at $0 but 122 minutes; Grok gives 91 at pennies-to-dollars in 18; the Claudes above it buy 2-5 more points at 2-4× the time and 10-80× the cost. For iteration-speed-dominated workflows, this is the wave-2 discovery.
 
 ## Cross-references
 
