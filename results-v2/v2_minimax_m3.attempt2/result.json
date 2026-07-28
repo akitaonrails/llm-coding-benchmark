@@ -1,0 +1,82 @@
+{
+  "billing": "OpenRouter API",
+  "cost_usd_total": 0.0543,
+  "elapsed_seconds_total": 393.98,
+  "ended_at": "2026-07-28T19:00:51+00:00",
+  "harness": "opencode",
+  "label": "MiniMax M3 (opencode/OpenRouter) \u2014 wave 3 group 1",
+  "phases": [
+    {
+      "command_kind": "opencode",
+      "cost_usd": 0.0102,
+      "elapsed_seconds": 113.4,
+      "ended_at": "2026-07-28T18:56:10+00:00",
+      "exit_code": 0,
+      "file_count_after": 1,
+      "harness": "opencode",
+      "phase": "phase1",
+      "session_id": "ses_055ec1b87ffevlU8XqoRXvPrU4",
+      "started_at": "2026-07-28T18:54:17+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 32256,
+          "write": 0
+        },
+        "input": 1112,
+        "output": 123,
+        "reasoning": 54,
+        "total": 33545
+      }
+    },
+    {
+      "command_kind": "opencode",
+      "cost_usd": 0.0171,
+      "elapsed_seconds": 90.29,
+      "ended_at": "2026-07-28T18:57:40+00:00",
+      "exit_code": 0,
+      "file_count_after": 1,
+      "harness": "opencode",
+      "phase": "phase2",
+      "session_id": "ses_055ea60b2ffetTFMBQrqK6gdvt",
+      "started_at": "2026-07-28T18:56:10+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 55759,
+          "write": 694
+        },
+        "input": 3,
+        "output": 110,
+        "reasoning": 0,
+        "total": 56566
+      }
+    },
+    {
+      "command_kind": "opencode",
+      "cost_usd": 0.027,
+      "elapsed_seconds": 190.29,
+      "ended_at": "2026-07-28T19:00:51+00:00",
+      "exit_code": 0,
+      "file_count_after": 2,
+      "harness": "opencode",
+      "phase": "phase3",
+      "session_id": "ses_055e8ffe2ffe5U3Hdv5L4M6bMP",
+      "started_at": "2026-07-28T18:57:40+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 88576,
+          "write": 0
+        },
+        "input": 154,
+        "output": 331,
+        "reasoning": 41,
+        "total": 89102
+      }
+    }
+  ],
+  "self_review_present": true,
+  "slug": "v2_minimax_m3",
+  "tokens_total": 179213
+}
