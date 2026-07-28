@@ -183,7 +183,10 @@ Plan: [`v2_wave3_plan.md`](v2_wave3_plan.md). v1 remains the official ranking fo
 
 | Model (v1 score/tier) | v2 score | Wall time | Cost | Note |
 |---|---:|---:|---:|---|
+| **Claude Sonnet 4.6** (78/B) | **87** | 45.4 min | $9.90 (Max sub) | Above GPT 5.4, K2.7 and Opus 4.6 |
 | **Gemini 3.1 Pro** (79/B) | **84** | 26.5 min | ~$0.16³ | Beats Opus 4.6 (83, v1 Tier A) |
+
+Blocked: **Sakana Fugu Ultra** — prepaid balance exhausted (429; top up at console.sakana.ai to unblock, infra ready).
 
 ### Gemini 3.1 Pro — 84 (audited 2026-07-28)
 
@@ -192,6 +195,14 @@ The first wave-3 datapoint lands *above* a wave-2 Tier-A Claude: 84 vs Opus 4.6'
 **Scoring**: gates 13/15 (−1 stale `claude-sonnet-4.6` pin, −1 phase-1 streaming defect), streaming 8, payload 9, concurrency 8, tools 10, schema 5, budget 3, robustness 9, tests+gates 5 (9 tests is thin; no branch coverage), fidelity 14/15.
 
 **Early wave-3 signal**: the v1 Tier-A/B boundary does not survive v2. Gemini 3.1 Pro (v1: 79) outscores Opus 4.6 (v1: 83) and sits within 2 points of K2.7-Coding (v1: 86) — v1's compressed top was hiding real reordering.
+
+### Claude Sonnet 4.6 — 87 (audited 2026-07-28)
+
+The strongest wave-3 result yet, and the second-biggest v1→v2 climb measured (78 → 87): the mid-tier Sonnet outscores GPT 5.4, K2.7-Coding, and its own bigger sibling Opus 4.6 under the harder brief, at $9.90 on the Max subscription. The build earns it: Redis store with `WATCH`/`MULTI` optimistic locking and **bounded** retries (vs Gemini 3.1 Pro's confessed infinite retry), TTL on every write, a real captured-array G5 test, allowlist recursive-descent calculator with injection tests, and a clean live phase 2 (streaming chunks with distinct arrivals, tools exact, 6-message conversation surviving a 2-worker restart byte-identical, compose e2e). Suite verified: 35 runs / 67 assertions / 86.47% line; RuboCop/Brakeman/bundle-audit re-run clean by the auditor.
+
+Two family patterns recur. **Phase 1 shipped an unusable model pin** — `claude-sonnet-4-6`, an invalid OpenRouter slug the API rejects, so no chat could complete as delivered (phase 2's one fix; corrected value still one generation stale). And like Opus 4.6, **the self-review invented its own goal list** — its "G1" is `add_message` correctness, its "G8" is Tailwind v4, its "G14" is SimpleCov; the brief's G12 (quality gates) and G14 (no secrets) have no verdict rows at all. Within its invented rows the evidence is excellent (real gem-source citations, four genuine confessed defects D1-D4 including the unmanaged streaming thread and the title-generation race) — but the phase-3 instruction was to verify *the brief's* goals, and two Claudes have now failed it the same way while all non-Claude models numbered correctly.
+
+**Scoring**: gates 13/15 (−1 invalid-slug delivery, −1 stale post-fix pin), streaming 10, payload 10, concurrency 9, tools 10, schema 5, budget 4, robustness 9 (unmanaged `Thread.new` — stuck spinner on worker death, confessed), tests+gates 7, fidelity 10/15 (invented goal numbering; accurate within itself).
 
 ## Wave 2 conclusions
 
