@@ -333,6 +333,13 @@ def prepare_local_opencode_config(
         sub = model.get("opencode_subagent")
         if isinstance(sub, dict) and sub.get("provider") and sub["provider"] != "ollama":
             cloud_provider_names.add(sub["provider"])
+    # Also clone every other cloud provider defined in the home config. They are
+    # inert unless a run references them, and v2 wave models (config/models_v2.json)
+    # select providers this generator can't see — a missing definition makes
+    # opencode hang or fail model resolution (observed: sakana/fugu-ultra).
+    for name, entry in source_providers.items():
+        if name not in ("ollama", "llama-swap") and isinstance(entry, dict):
+            cloud_provider_names.add(name)
 
     for provider_name in sorted(cloud_provider_names):
         provider_entry = source_providers.get(provider_name)
