@@ -1,5 +1,7 @@
 # v2 Wave 3 Plan — Remaining Tiers (B/C/D) + Local Fleets
 
+> **SCOPE CUT (2026-07-28, user decision)**: local fleets (Groups 3-4 — AMD Strix Halo and RTX 5090) are dropped from v2. Wave 3 ends with the cloud groups (subscription/OpenRouter models). Rationale: sub-Tier-A cloud models are already failing the v2 workload outright (M3 24, Qwen3.7 22); local models — which scored lower than those in v1 — would burn days of wall time to demonstrate the same DNF floor. The runner work described below for local backends is therefore not needed for v2.
+
 **Status: planned 2026-07-27, execution starts after wave 2 completes.** User directive: after wave 2, run the remaining tiers under v2, with careful attention to the local models — RTX 5090 workstation (this machine, llama-swap at `localhost`) and the AMD Strix Halo homeserver (remote, `192.168.0.90`).
 
 v1 (`success_report.md`) stays frozen as the official ranking for these models; wave-3 v2 runs are *stretch data* — they measure how far below the Tier A production-hardening bar each tier sits, and validate that v2's difficulty ordering agrees with v1's.
