@@ -1,0 +1,82 @@
+{
+  "billing": "OpenRouter API \u2014 no vendor harness",
+  "cost_usd_total": 0.0836,
+  "elapsed_seconds_total": 1744.55,
+  "ended_at": "2026-07-28T02:04:06+00:00",
+  "harness": "opencode",
+  "label": "Nex-N2-Pro (opencode/OpenRouter fallback)",
+  "phases": [
+    {
+      "command_kind": "opencode",
+      "cost_usd": 0.0134,
+      "elapsed_seconds": 238.57,
+      "ended_at": "2026-07-28T01:39:00+00:00",
+      "exit_code": 0,
+      "file_count_after": 1343,
+      "harness": "opencode",
+      "phase": "phase1",
+      "session_id": "ses_059a394a0ffegqMsgWh0Xdlz31",
+      "started_at": "2026-07-28T01:35:01+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 23658,
+          "write": 29881
+        },
+        "input": 3,
+        "output": 57,
+        "reasoning": 534,
+        "total": 54133
+      }
+    },
+    {
+      "command_kind": "opencode",
+      "cost_usd": 0.0425,
+      "elapsed_seconds": 1126.71,
+      "ended_at": "2026-07-28T01:57:46+00:00",
+      "exit_code": 0,
+      "file_count_after": 1872,
+      "harness": "opencode",
+      "phase": "phase2",
+      "session_id": "ses_0599ff0bcffeESoYncQpNsD7gk",
+      "started_at": "2026-07-28T01:39:00+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 23658,
+          "write": 145223
+        },
+        "input": 3,
+        "output": 261,
+        "reasoning": 448,
+        "total": 169593
+      }
+    },
+    {
+      "command_kind": "opencode",
+      "cost_usd": 0.0277,
+      "elapsed_seconds": 379.27,
+      "ended_at": "2026-07-28T02:04:06+00:00",
+      "exit_code": 0,
+      "file_count_after": 1875,
+      "harness": "opencode",
+      "phase": "phase3",
+      "session_id": "ses_0598ebf60ffecSEfohWDhz8EQX",
+      "started_at": "2026-07-28T01:57:46+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 23652,
+          "write": 87238
+        },
+        "input": 3,
+        "output": 24,
+        "reasoning": 422,
+        "total": 111339
+      }
+    }
+  ],
+  "self_review_present": true,
+  "slug": "v2_nex_n2_pro",
+  "tokens_total": 335065
+}

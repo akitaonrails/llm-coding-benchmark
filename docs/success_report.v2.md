@@ -97,7 +97,8 @@ Same audit depth as wave 1: suite re-run by the auditor, self-review claims chas
 | 8 | **Kimi K2.7-Coding** | **86** | 53.8 min | 25.6M | **$4.37** | Moderato sub (1 window, 0 quota waits) |
 | 10 | **Claude Opus 4.6** | **83** | **39.5 min** | 16.8M | $12.83 | Max sub |
 | 6 | **Grok 4.5** | **91** | **18.2 min** | 283K² | $0.57 as computed³ | OpenRouter API |
-| 12 | **Kimi K2.6** | **77** | 57.3 min | 292K² | ~$1-2 est.³ | OpenRouter API |
+| 12 | **Nex-N2-Pro** | **78** | 29.1 min | 335K² | ~$0.30-1 est.³ | OpenRouter API |
+| 13 | **Kimi K2.6** | **77** | 57.3 min | 292K² | ~$1-2 est.³ | OpenRouter API |
 
 (GPT 5.4 and K2.7-Coding tie at 86 — at roughly 6× different blended cost. GLM 5.2 and Opus 4.7 tie at 91.)
 
@@ -156,6 +157,16 @@ The speed story of the entire benchmark: **91-grade work in 18.2 minutes** — 2
 **Scoring**: gates 14/15 (−1 stale `claude-sonnet-4.6` pin), streaming 10 (per-chunk `broadcast_update_to`, live-proven), payload 9 (the required test captures the real outgoing array and asserts it against a pure `MessageBuilder` — but production builds history separately from that "source of truth", and a code comment falsely claims otherwise; drift-prone, self-confessed), concurrency 8 (best transactional store, but confessed preload/fork pool hazard, no per-conversation turn lock, lazy-only TTL), tools 10, schema 5, budget 3 (between-turns shared −1; ~4-chars/token estimator with a confessed double-pass race), robustness 9 (fire-and-forget `Thread.new` dispatch — a restart mid-stream leaves a stuck bubble with no timeout UI, confessed), tests+gates 9, fidelity 14/15 (correct table, honest inline caveats — including admitting docker wasn't re-run in phase 3 and that tool invocation is model-dependent; the 10-item §4 defect list is the most complete operational risk assessment in the cohort; −1 stale-pin PASS claim).
 
 The Grok verdict: it turns the quality-cost-time triangle into a genuine three-way trade. GLM 5.2 gives 91 at $0 but 122 minutes; Grok gives 91 at pennies-to-dollars in 18; the Claudes above it buy 2-5 more points at 2-4× the time and 10-80× the cost. For iteration-speed-dominated workflows, this is the wave-2 discovery.
+
+### Nex-N2-Pro — 78 (audited 2026-07-28)
+
+Two findings bigger than the score. **First, the pin discovery**: Nex is the *only* model in the cohort that actually satisfies G3's "latest Claude Sonnet" — it used OpenRouter's self-updating tilde alias (`~anthropic/claude-sonnet-latest` + `assume_model_exists: true`), which I probe-verified resolves to `anthropic/claude-sonnet-5` today. Every other model, including all five Claudes reviewing their own vendor's lineup, pinned a stale snapshot. **Second, perfect self-review fidelity (15/15, joining K3)**: it marked its own G11 **FAIL** — the suite is 2 tests / 3 assertions, 27.10% line, **0.00% branch** (verified exactly), with controllers, tools, store, and the entire chat path untested — and its G2/G5/G6 PARTIALs describe real defects with precise mechanics (status broadcasts remove the Stimulus target so repeated interaction degrades; the required G5 payload test doesn't exist; the turn isn't atomically locked, so concurrent turns can use stale history and bypass the budget). It even re-ran docker build + compose during phase 3 to re-verify G13 with fresh HTTP 200s.
+
+The run itself needed three attempts, none the model's fault: attempts 1-2 died in ~28s to the opencode `openai` OAuth token-refresh 401 (infrastructure; fixed by removing the dead credential). Attempt 3: 29.1 min, second-fastest of the cohort.
+
+**Scoring**: gates 14/15 (−1 for the G2 repeated-interaction defect; **no stale-pin deduction** — the only model to earn that), streaming 8 (real accumulated-buffer broadcasts, live-logged, but the target-removal bug compromises turns 2+), payload 6 (correct-by-code, required test absent), concurrency 7 (locks/atomic-rename/TTL/caps + 2-worker restart proof, but no turn-level transaction — confessed), tools 10 (real invocations logged, eval-free parser), schema 5, budget 3, robustness 8, **tests+gates 2/10** (a near-untested application; gates themselves clean), **fidelity 15/15**.
+
+The Nex verdict: a fast, honest, structurally sound build that simply didn't write tests — the single largest tests-dimension deduction in the cohort, softened nowhere else. And the tilde-alias find is actionable for everyone: `~vendor/model-latest` is how a benchmark subject (or a production app) should pin "latest" on OpenRouter.
 
 ## Cross-references
 
