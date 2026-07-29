@@ -249,6 +249,7 @@ Three attempts, three failure shapes, one outcome. *Attempt 1*: phase 1 ran 5.3 
 | **Qwen3.7 Max** (78) | 22 (DNF ×3) | **51** | Builds now — but `ask(array)` hallucination breaks multi-turn |
 | **Grok 4.3** (72) | 57 | **18 (DNF ×2)** | **Inverted effect: the orchestrator *helped* it; vanilla → 48-second stub-quit, twice** |
 | **Nex-N2-Pro** (83) | 78 | **88** | +10; ties GPT 5.5 at ~$0.18; sharpest self-caught bug list of the re-runs |
+| **Kimi K2.6** (87) | 77 | **91** | +14; every orchestrator-condition structural miss fixed itself under vanilla |
 
 ### Qwen 3.6 Plus — 75 (clean harness, audited 2026-07-28)
 
@@ -285,6 +286,14 @@ Real credit where due: the self-review's PARTIALs are honest and sharp — G10's
 +10 under isolation, and a different *kind* of improvement than the DNF recoveries: the orchestrator-condition Nex built well but shipped a 2-test suite; the clean-condition Nex wrote a real one — 16 sharp tests, **95.6% line / 69.13% branch (verified)** — and passed all 7 phase-2 validations live (tool invocations captured in `RUBYLLM_DEBUG` logs with exact results, 3-turn conversation surviving a 2-worker restart, compose e2e). Phase 3 initially died on a context-window overflow (the model's 400 error, not the harness); the fresh-session re-run produced the **sharpest self-caught defect list of the re-run campaign**: a budget off-by-one (`<` where `<=` belongs), trimmed messages not reducing accumulated `token_usage`, and a genuinely subtle flock-inode race in the tmp-rename path — plus conservative PARTIALs where its own session lacked live proof (G7) even though phase 2 had it. It also found and removed a stray `tmp/local_secret.txt` before review.
 
 **Scoring**: gates 13/15 (−1 stale `claude-sonnet-4.5` pin, −1 multi-turn replay broken as-delivered — phase 2's key-conversion fix), streaming 10, payload 9, concurrency 8 (confessed inode race), tools 10, schema 5, budget 3 (off-by-one + trim bug, both confessed), robustness 9, tests+gates 7 (small but sharp suite; it live-introspected the real gem's method surface to verify its mocks), fidelity 14/15 (−1 stale-pin PASS). At ~$0.18 total it ties GPT 5.5 — the second-best value point in the benchmark after K3/GLM.
+
+### Kimi K2.6 — 91 (clean harness, audited 2026-07-29) · orchestrator condition: 77
+
++14, and the most instructive *quality-mode* shift of the campaign: every structural miss from the orchestrator condition fixed itself under vanilla opencode. SSE hand-rolling → proper per-chunk `Turbo::StreamsChannel.broadcast_append_to`. Missing G5 test → an exact-array test asserting `[{role: :user, "first"}, {role: :assistant, "reply one"}, {role: :user, "second"}]` with mocks built from **real `RubyLLM::Message` and `RubyLLM::Chunk` objects**. Unenforced `MAX_BYTES` → tested count/byte bounds + TTL-refresh tests on a Redis store. Failed-turn replay violation → persistence only after `chat.complete` succeeds, with a test proving zero messages after a raised error. And the calculator — `eval` territory for half the cohort — uses **Dentaku**, a dedicated expression-parser gem: the only model in either benchmark to reach for the right library instead of writing (or eval-ing) its own. Suite verified: 29 runs / 70 assertions, 86.05% line. Phase 2 passed all 7 with two fixes (the Puma `workers` directive was missing — `WEB_CONCURRENCY` documented but inert as shipped — and compose lacked `SECRET_KEY_BASE`).
+
+**Scoring**: gates 13/15 (−1 stale `claude-sonnet-4.6` pin, −1 phase-1 defects), streaming 10, payload 10, concurrency 9, tools 10, schema 5, budget 4, robustness 9, tests+gates 7 (no branch coverage; tool-persistence and title paths unhit — confessed precisely with coverage counts), fidelity 14/15.
+
+**A casualty worth noting honestly**: the wave-2 "Kimi staircase" (77 → 86 → 95) was partly a harness artifact. Clean-harness K2.6 (91, opencode) now *outscores* K2.7-Coding (86, Kimi CLI) — but those two ran on different harnesses, so the comparison carries a cross-harness caveat either way. The K3 (95) gap survives; the tidy 9-points-per-generation story does not.
 
 ## Wave 2 conclusions
 
