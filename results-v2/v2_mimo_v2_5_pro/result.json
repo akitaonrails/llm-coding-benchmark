@@ -1,0 +1,59 @@
+{
+  "billing": "OpenRouter API",
+  "cost_usd_total": 0.0526,
+  "elapsed_seconds_total": 1371.95,
+  "ended_at": "2026-07-29T22:25:35+00:00",
+  "harness": "opencode",
+  "label": "Xiaomi MiMo V2.5 Pro (opencode/OpenRouter) \u2014 wave 3 group 1",
+  "phases": [
+    {
+      "command_kind": "opencode",
+      "cost_usd": 0.0359,
+      "elapsed_seconds": 1143.96,
+      "ended_at": "2026-07-29T22:21:47+00:00",
+      "exit_code": 0,
+      "file_count_after": 1494,
+      "harness": "opencode",
+      "phase": "phase2",
+      "session_id": "ses_050193cecffecUCh46tYpJwPEX",
+      "started_at": "2026-07-29T22:02:43+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 117184,
+          "write": 0
+        },
+        "input": 577,
+        "output": 612,
+        "reasoning": 0,
+        "total": 118373
+      }
+    },
+    {
+      "command_kind": "opencode",
+      "cost_usd": 0.0167,
+      "elapsed_seconds": 227.99,
+      "ended_at": "2026-07-29T22:25:35+00:00",
+      "exit_code": 0,
+      "file_count_after": 1494,
+      "harness": "opencode",
+      "phase": "phase3",
+      "session_id": "ses_05007c831ffe6999k0FXfhWACL",
+      "started_at": "2026-07-29T22:21:47+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 54592,
+          "write": 0
+        },
+        "input": 290,
+        "output": 187,
+        "reasoning": 0,
+        "total": 55069
+      }
+    }
+  ],
+  "self_review_present": true,
+  "slug": "v2_mimo_v2_5_pro",
+  "tokens_total": 173442
+}

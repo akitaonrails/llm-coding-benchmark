@@ -390,6 +390,21 @@
       },
       "wave": 3,
       "notes": "v1 Tier B (67)."
+    },
+    {
+      "slug": "v2_glm_5",
+      "label": "GLM 5 (opencode/OpenRouter) \u2014 wave 3 group 1",
+      "harness": "opencode",
+      "model_id": "openrouter/z-ai/glm-5",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.6,
+        "cache_read": 0.11,
+        "cache_write": 0.6,
+        "output": 2.2
+      },
+      "wave": 3,
+      "notes": "v1 Tier B (64). Superseded generation; closes Tier B."
     }
   ],
   "skipped": {
