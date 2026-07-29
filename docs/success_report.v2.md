@@ -340,6 +340,12 @@ The largest upward v1→v2 reordering in the benchmark: v1 scored K2.5 at 69 (Ti
 
 The Moonshot line under clean v2 now reads: **K2.5 92 · K2.6 91 · K2.7-Coding 86 (Kimi CLI) · K3 95** — the two OpenRouter/opencode runs sit above the vendor-CLI K2.7 run, reinforcing the cross-harness caveat rather than any generation story below K3.
 
+### Step 3.7 Flash — 84 (clean harness, audited 2026-07-29)
+
+Another big Tier-B climb (v1: 69 → 84), on the K2.5 pattern minus the polish. The build passed 7-phase-2 validation (75 minutes of it — thorough), with a Redis store whose cap check it honestly flags as a non-atomic read-before-write race under `WEB_CONCURRENCY=2`, and an **honest G12 FAIL**: Brakeman flags the calculator's `Kernel.eval` (whitelist-guarded, the recurring pattern) and RuboCop counts 6 offenses in app code — it reported both verbatim instead of rounding up to "clean". Its G1 PARTIAL is over-conservative (generator defaults present — the brief explicitly allows generator output), the kind of self-harshness that costs nothing but signals reliable reporting. Suite verified: 18 runs / 49 assertions, 77.14% line / 40.81% branch. Pin: `anthropic/claude-sonnet-4`, three generations stale.
+
+**Scoring**: gates 14/15 (−1 stale pin), streaming 9, payload 9, concurrency 7 (confessed cap race), tools 8 (whitelisted eval), schema 5, budget 4, robustness 9, tests+gates 5 (thin suite, gates honestly not clean), fidelity 14/15 (−1 stale-pin PASS; the G12 FAIL and G6 race confessions both verified exactly).
+
 ## Wave 2 conclusions
 
 1. **v2 de-saturated the benchmark.** v1 packed 15 models into 92-97; v2 spreads the same cohort across 20 points (96 → 76) with defensible per-point evidence. The three models that dropped furthest from their v1 positions (K2.6 87→77, Nex 83→78, Gemini Flash 93→76) failed on exactly the axes v2 added: payload tests, concurrency correctness, self-review discipline.

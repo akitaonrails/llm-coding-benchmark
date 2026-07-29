@@ -365,7 +365,7 @@
       "slug": "v2_step_3_7_flash",
       "label": "Step 3.7 Flash (opencode/OpenRouter) \u2014 wave 3 group 1",
       "harness": "opencode",
-      "model_id": "openrouter/stepfun-ai/step-3.7-flash",
+      "model_id": "openrouter/stepfun/step-3.7-flash",
       "billing": "OpenRouter API",
       "rates_per_m": {
         "input": 0.1,
@@ -375,6 +375,21 @@
       },
       "wave": 3,
       "notes": "v1 Tier B (69)."
+    },
+    {
+      "slug": "v2_mimo_v2_5_pro",
+      "label": "Xiaomi MiMo V2.5 Pro (opencode/OpenRouter) \u2014 wave 3 group 1",
+      "harness": "opencode",
+      "model_id": "openrouter/xiaomi/mimo-v2.5-pro",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.3,
+        "cache_read": 0.3,
+        "cache_write": 0.3,
+        "output": 1.0
+      },
+      "wave": 3,
+      "notes": "v1 Tier B (67)."
     }
   ],
   "skipped": {
