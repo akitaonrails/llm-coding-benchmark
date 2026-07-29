@@ -250,6 +250,7 @@ Three attempts, three failure shapes, one outcome. *Attempt 1*: phase 1 ran 5.3 
 | **Grok 4.3** (72) | 57 | **18 (DNF ×2)** | **Inverted effect: the orchestrator *helped* it; vanilla → 48-second stub-quit, twice** |
 | **Nex-N2-Pro** (83) | 78 | **88** | +10; ties GPT 5.5 at ~$0.18; sharpest self-caught bug list of the re-runs |
 | **Kimi K2.6** (87) | 77 | **91** | +14; every orchestrator-condition structural miss fixed itself under vanilla |
+| **DeepSeek V4 Flash** (78) | 81 | **81** | Δ0 — the first harness-insensitive model; different flaws, same total |
 
 ### Qwen 3.6 Plus — 75 (clean harness, audited 2026-07-28)
 
@@ -294,6 +295,12 @@ Real credit where due: the self-review's PARTIALs are honest and sharp — G10's
 **Scoring**: gates 13/15 (−1 stale `claude-sonnet-4.6` pin, −1 phase-1 defects), streaming 10, payload 10, concurrency 9, tools 10, schema 5, budget 4, robustness 9, tests+gates 7 (no branch coverage; tool-persistence and title paths unhit — confessed precisely with coverage counts), fidelity 14/15.
 
 **A casualty worth noting honestly**: the wave-2 "Kimi staircase" (77 → 86 → 95) was partly a harness artifact. Clean-harness K2.6 (91, opencode) now *outscores* K2.7-Coding (86, Kimi CLI) — but those two ran on different harnesses, so the comparison carries a cross-harness caveat either way. The K3 (95) gap survives; the tidy 9-points-per-generation story does not.
+
+### DeepSeek V4 Flash — 81 (clean harness, audited 2026-07-29) · orchestrator condition: 81
+
+**Δ0 — the first harness-insensitive model.** Same total, different composition: the orchestrator run shipped 6 phase-2-repaired delivery defects and a whitelisted-eval calculator but enforced its bounds; the clean run shipped cleaner (all 7 validations passed; compose e2e delivered 19 incremental turbo-stream updates) but with `MAX_MESSAGES`/`MAX_BYTES` defined and **never enforced**, the user message persisted before the provider call (failed-turn replay — confessed), and a non-halting `before_action` double-render hazard (confessed). One miss is condition-invariant and therefore model-level: **no `with_schema` in either condition** — titles via instruction prompting both times (G8 honest PARTIAL/FAIL twice). Suite verified: 34/51, 82.58%. Pin: `anthropic/claude-sonnet-4`, three generations stale, both conditions.
+
+**Scoring**: gates 14/15 (−1 stale pin), streaming 10, payload 9, concurrency 7 (unenforced bounds), tools 10, schema 1 (working title, wrong API), budget 4, robustness 7 (failed-turn replay + non-halting preflight), tests+gates 6 (Brakeman 1 weak warning claimed as PASS), fidelity 13/15 (−1 stale-pin PASS, −1 G12 PASS despite the warning; the G6/G8/G10 confessions are precise). Cost: **$0.005** — still the cheapest real runs in the benchmark by an order of magnitude.
 
 ## Wave 2 conclusions
 

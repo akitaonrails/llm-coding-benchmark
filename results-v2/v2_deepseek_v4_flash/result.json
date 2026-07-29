@@ -1,0 +1,82 @@
+{
+  "billing": "OpenRouter API",
+  "cost_usd_total": 0.0054,
+  "elapsed_seconds_total": 2178.55,
+  "ended_at": "2026-07-29T04:27:31+00:00",
+  "harness": "opencode",
+  "label": "DeepSeek V4 Flash (opencode/OpenRouter) \u2014 wave 3 group 1",
+  "phases": [
+    {
+      "command_kind": "opencode",
+      "cost_usd": 0.0016,
+      "elapsed_seconds": 549.96,
+      "ended_at": "2026-07-29T04:00:22+00:00",
+      "exit_code": 0,
+      "file_count_after": 1465,
+      "harness": "opencode",
+      "phase": "phase1",
+      "session_id": "ses_054008ba4ffeHNHr5gzsDo7q5B",
+      "started_at": "2026-07-29T03:51:12+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 82944,
+          "write": 0
+        },
+        "input": 1584,
+        "output": 470,
+        "reasoning": 0,
+        "total": 84998
+      }
+    },
+    {
+      "command_kind": "opencode",
+      "cost_usd": 0.0026,
+      "elapsed_seconds": 1398.17,
+      "ended_at": "2026-07-29T04:23:40+00:00",
+      "exit_code": 0,
+      "file_count_after": 1688,
+      "harness": "opencode",
+      "phase": "phase2",
+      "session_id": "ses_053f82739ffewpTTeaxH6B99qo",
+      "started_at": "2026-07-29T04:00:22+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 151552,
+          "write": 0
+        },
+        "input": 681,
+        "output": 740,
+        "reasoning": 12,
+        "total": 152985
+      }
+    },
+    {
+      "command_kind": "opencode",
+      "cost_usd": 0.0012,
+      "elapsed_seconds": 230.42,
+      "ended_at": "2026-07-29T04:27:31+00:00",
+      "exit_code": 0,
+      "file_count_after": 1689,
+      "harness": "opencode",
+      "phase": "phase3",
+      "session_id": "ses_053e2d190ffeYWFuGdLqzSZ6T5",
+      "started_at": "2026-07-29T04:23:40+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 50176,
+          "write": 0
+        },
+        "input": 2826,
+        "output": 259,
+        "reasoning": 18,
+        "total": 53279
+      }
+    }
+  ],
+  "self_review_present": true,
+  "slug": "v2_deepseek_v4_flash",
+  "tokens_total": 291262
+}
