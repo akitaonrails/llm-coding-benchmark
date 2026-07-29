@@ -253,6 +253,7 @@ Three attempts, three failure shapes, one outcome. *Attempt 1*: phase 1 ran 5.3 
 | **DeepSeek V4 Flash** (78) | 81 | **81** | Δ0 — the first harness-insensitive model; different flaws, same total |
 | **Gemini 3.1 Pro** (79) | 84 | **60** | −24, second inverted case; clean phase 2 killed 3× by Google's signature bug |
 | **Gemini 3.5 Flash @ high** (—) | 76 | **78** | Δ+2; but the phase-3 infinite-loop pathology did NOT recur under vanilla — it was orchestrator-conditioned |
+| **Grok 4.5** (87) | 91 | **92** | Δ+1; same 18-min speed, zero fixes — flagship is harness-insensitive where 4.3 was scaffold-dependent |
 
 ### Qwen 3.6 Plus — 75 (clean harness, audited 2026-07-28)
 
