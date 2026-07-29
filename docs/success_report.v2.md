@@ -244,6 +244,7 @@ Three attempts, three failure shapes, one outcome. *Attempt 1*: phase 1 ran 5.3 
 
 | Model (v1) | Orchestrator score | **Clean score** | Note |
 |---|---:|---:|---|
+| **MiniMax M3** (78) | 24 (DNF) | **93** | **+69 — the largest harness effect ever measured here** |
 | **Qwen 3.6 Plus** (71) | n/a (run interrupted) | **75** | 10 PASS / 4 honest PARTIAL; 11 phase-2 fixes |
 
 ### Qwen 3.6 Plus — 75 (clean harness, audited 2026-07-28)
@@ -251,6 +252,14 @@ Three attempts, three failure shapes, one outcome. *Attempt 1*: phase 1 ran 5.3 
 First model through the isolated harness, and an immediate signal: the *weaker* Qwen (v1: 71) delivered a complete, validated app where its bigger sibling Qwen3.7 Max DNF'd three times under the orchestrator condition. 75 minutes, all 7 phase-2 validations passed including compose e2e with streaming — after phase 2 repaired 11 phase-1 defects, several app-breaking (model ID resolving to the Anthropic provider instead of OpenRouter — no chat possible as shipped; missing `to_param` breaking conversation URLs; string-vs-symbol key mismatch in the replay path). Suite verified: 45 runs / 84 assertions, 85.10% line.
 
 **Scoring**: gates 12/15 (−1 stale `claude-sonnet-4.6` pin, −2 phase-1 non-viable), streaming 7 (server writes per-chunk turbo-stream fragments but the client consumes them via a hand-rolled `fetch`+`ReadableStream`+regex layer — confessed in its honest G2 PARTIAL), payload 7 (test verifies replay counts via callback, not the exact outgoing array), concurrency 6 (file-JSON store with bounds + TTL but no visible locking), tools 10, schema 2 (sets the schema by `instance_variable_set(:@schema, …)` and calls a private method via `send` — works, fragile, confessed), budget 3, robustness 8 (user message persists before the provider call — self-flagged), tests+gates 7 (mock-fidelity gaps confessed), fidelity 13/15 (four honest PARTIALs all verified; −1 stale-pin PASS, −1 G5 PASS on a count-based test).
+
+### MiniMax M3 — 93 (clean harness, audited 2026-07-28) · orchestrator condition: 24
+
+**The largest harness effect ever measured in this project: +69 points.** Under the OMO-slim orchestrator, M3 delegated to phantom lanes and produced literally zero code in two attempts. Under vanilla opencode it worked synchronously for 56 minutes and delivered a 93-grade app — tying GPT 5.6 Sol and Claude Opus 4.8 — at **$0.17 total**. The prior "phantom-delegation pathology" verdict was wrong in attribution: the pathology was real but *induced* — M3 is exquisitely sensitive to harness framing (v1's multi-model finding about harness context, now with a 69-point magnitude on a single model).
+
+The build earns the score on its own terms. Phase 2 ran the most forensic validation of the entire benchmark: streaming proven with per-chunk arrival timestamps (0.0/0.1/0.2/0.3/0.5s), tool calls proven by *inspecting the SQLite store's tool rows* (`server_time` → `{utc: …}`, `calculator` → `{expression: "(12*7)+3", result: 87.0}` — and note, M3 **persists tool turns**, which even Opus 4.7 didn't), restart survival under a real 2-worker cluster with the SQLite ActionCable adapter bridging workers, and a compose e2e chat streamed to a WebSocket client (13 incremental appends). Suite verified: 49 runs / 174 assertions / 0 failures, with a `CapturedChat` mock mirroring the broad RubyLLM surface and an exact captured-array G5 test with exactly-once counts. The self-review's G11 PARTIAL is the best single piece of self-diagnosis in the cohort: it root-caused SimpleCov's misleading 5.12% as a load-order bug (libs required before `SimpleCov.start`), explained the mechanism, and verified it experimentally.
+
+**Scoring**: gates 14/15 (−1 stale `claude-sonnet-4.5` pin), streaming 10, payload 10, concurrency 9, tools 10, schema 5, budget 4, robustness 9, tests+gates 8 (coverage numbers unusable due to the self-diagnosed tooling bug), fidelity 14/15 (13 accurate PASS + the exemplary PARTIAL; −1 stale-pin claim).
 
 ## Wave 2 conclusions
 
