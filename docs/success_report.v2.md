@@ -247,6 +247,7 @@ Three attempts, three failure shapes, one outcome. *Attempt 1*: phase 1 ran 5.3 
 | **MiniMax M3** (78) | 24 (DNF) | **93** | **+69 — the largest harness effect ever measured here** |
 | **Qwen 3.6 Plus** (71) | n/a (run interrupted) | **75** | 10 PASS / 4 honest PARTIAL; 11 phase-2 fixes |
 | **Qwen3.7 Max** (78) | 22 (DNF ×3) | **51** | Builds now — but `ask(array)` hallucination breaks multi-turn |
+| **Grok 4.3** (72) | 57 | **18 (DNF ×2)** | **Inverted effect: the orchestrator *helped* it; vanilla → 48-second stub-quit, twice** |
 
 ### Qwen 3.6 Plus — 75 (clean harness, audited 2026-07-28)
 
@@ -271,6 +272,12 @@ Real credit where due: the self-review's PARTIALs are honest and sharp — G10's
 **Scoring**: gates 13/15 (−1 `claude-sonnet-4` pin, three generations stale; −1 unverified docker/compose), streaming 4 (mechanism present, never proven, built atop the broken replay), payload 2 (hallucinated usage + test enshrining it), concurrency 4 (lpop rollback corrupts history; restart/2-worker unproven), tools 5 (real registration, `eval` calculator, never live-proven), schema 2, budget 3, robustness 5, tests+gates 3 (suite passes but its central test asserts a fabricated API; gates not clean), fidelity 10/15 (three excellent PARTIALs; −1 stale pin, −2 G4/G5 PASS over-claims, −2 phase-2 non-completion unacknowledged).
 
 **The Qwen sibling paradox**: the smaller 3.6 Plus (75) beats the flagship 3.7 Max (51) under identical clean conditions — 3.6 hand-rolled a worse *transport* but got the *API semantics* right; 3.7 wrote cleaner-looking code around a fundamental misunderstanding of the library. v1 ranked them 78 vs 71 the other way.
+
+### Grok 4.3 — 18 (clean harness, DNF ×2, audited 2026-07-28) · orchestrator condition: 57
+
+**The harness effect runs both directions.** Where the orchestrator persona sent M3 and Qwen3.7 off a delegation cliff, it apparently *kept Grok 4.3 working*: under OMO-slim it produced a complete-looking (if never-validated) app scoring 57; under vanilla opencode it quit at the Rails scaffold in **48 seconds — twice, identically** (12-16 tool calls, empty controller stubs, then "Done" with a parenthetical plan describing work it never did). Phase 3 both times delivered an honest 14×FAIL review ("Empty controllers will 500 on any request").
+
+**Scoring (clean condition, official)**: gates 3/15 (G14 clean, G13 partial artifacts), all build dimensions 0, fidelity 15/15. Total **18/100**. The orchestrator-condition 57 stands in the table above as the B-condition record — the only model measured whose score *dropped* 39 points when the scaffolding persona was removed. Combined with M3's +69, the harness-effect spread across models is now **108 points**, which is the strongest evidence either benchmark version has produced that agent scaffolding is not a neutral wrapper: it is a model-specific multiplier in both directions.
 
 ## Wave 2 conclusions
 
