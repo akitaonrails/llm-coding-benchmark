@@ -1,0 +1,82 @@
+{
+  "billing": "OpenRouter API (no Google subscription harness)",
+  "cost_usd_total": 0.1563,
+  "elapsed_seconds_total": 1538.2,
+  "ended_at": "2026-07-29T05:50:55+00:00",
+  "harness": "opencode",
+  "label": "Gemini 3.5 Flash @ reasoning_effort=high (opencode/OpenRouter)",
+  "phases": [
+    {
+      "command_kind": "opencode",
+      "cost_usd": 0.0543,
+      "elapsed_seconds": 527.58,
+      "ended_at": "2026-07-29T05:34:04+00:00",
+      "exit_code": 1,
+      "file_count_after": 1770,
+      "harness": "opencode",
+      "phase": "phase1",
+      "session_id": "ses_053aa6c33ffeKa3n405fg6ZxCg",
+      "started_at": "2026-07-29T05:25:16+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 94930,
+          "write": 0
+        },
+        "input": 11368,
+        "output": 188,
+        "reasoning": 110,
+        "total": 106596
+      }
+    },
+    {
+      "command_kind": "opencode",
+      "cost_usd": 0.0462,
+      "elapsed_seconds": 597.85,
+      "ended_at": "2026-07-29T05:44:02+00:00",
+      "exit_code": 1,
+      "file_count_after": 2037,
+      "harness": "opencode",
+      "phase": "phase2",
+      "session_id": "ses_053a25f5bffeIw1s1PygqPRgDJ",
+      "started_at": "2026-07-29T05:34:04+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 94756,
+          "write": 0
+        },
+        "input": 6747,
+        "output": 57,
+        "reasoning": 206,
+        "total": 101766
+      }
+    },
+    {
+      "command_kind": "opencode",
+      "cost_usd": 0.0558,
+      "elapsed_seconds": 412.77,
+      "ended_at": "2026-07-29T05:50:54+00:00",
+      "exit_code": 1,
+      "file_count_after": 2039,
+      "harness": "opencode",
+      "phase": "phase3",
+      "session_id": "ses_053993fdfffeVbLvMvvuxQs6mQ",
+      "started_at": "2026-07-29T05:44:02+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 71576,
+          "write": 0
+        },
+        "input": 19057,
+        "output": 42,
+        "reasoning": 152,
+        "total": 90827
+      }
+    }
+  ],
+  "self_review_present": true,
+  "slug": "v2_gemini_flash_high",
+  "tokens_total": 299189
+}

@@ -252,6 +252,7 @@ Three attempts, three failure shapes, one outcome. *Attempt 1*: phase 1 ran 5.3 
 | **Kimi K2.6** (87) | 77 | **91** | +14; every orchestrator-condition structural miss fixed itself under vanilla |
 | **DeepSeek V4 Flash** (78) | 81 | **81** | Δ0 — the first harness-insensitive model; different flaws, same total |
 | **Gemini 3.1 Pro** (79) | 84 | **60** | −24, second inverted case; clean phase 2 killed 3× by Google's signature bug |
+| **Gemini 3.5 Flash @ high** (—) | 76 | **78** | Δ+2; but the phase-3 infinite-loop pathology did NOT recur under vanilla — it was orchestrator-conditioned |
 
 ### Qwen 3.6 Plus — 75 (clean harness, audited 2026-07-28)
 
@@ -308,6 +309,14 @@ Real credit where due: the self-review's PARTIALs are honest and sharp — G10's
 **−24: the second inverted case, compounded by a provider bug.** Two independent things went wrong. First, Google's intermittent `Corrupted thought signature` error killed phase 2 on **three consecutive attempts** (~3-5 min in each time), so the clean run's streaming/tools/restart/docker claims were never runtime-proven — while the orchestrator run had sailed through all 7 validations the day before. Second, and more interesting: the clean-condition *build itself* is substantially weaker than what the same model produced under the orchestrator. The pin regressed from `claude-sonnet-4.6` to ancient `claude-3.5-sonnet`; `with_schema` (present in the orchestrator build) is gone — titles via prompt text, honest G8 FAIL; the Redis `WATCH` store became a lockless conversation store; the strict-mock G5 test became a G5 PASS claim with **no exact-array test in the suite at all**. Suite verified: 15 runs / 31 assertions, 88.88% line / 69.76% branch. The build-quality regression under vanilla mirrors Grok 4.3's collapse: for some models the orchestrator persona was scaffolding in the load-bearing sense.
 
 **Scoring (runtime-unproven where applicable)**: gates 13/15, streaming 6, payload 4 (required test absent, claimed PASS), concurrency 4, tools 6, schema 0 (honest FAIL), budget 3, robustness 6 (confessed eager-store replay flaw), tests+gates 6 (branch coverage enabled — one of few), fidelity 12/15 (−2 false G5 PASS, −1 stale-pin PASS; G8/G10 confessions honest).
+
+### Gemini 3.5 Flash @ high — 78 (clean harness, audited 2026-07-29) · orchestrator condition: 76
+
+Δ+2 on the score, but the important result is a **finding revision**: under vanilla opencode the forced-high-effort Flash **wrote its SELF_REVIEW.md first try** — the twice-repeated phase-3 infinite-reasoning-loop that zeroed its orchestrator-condition fidelity did not recur. The loop pathology was orchestrator-conditioned (persona × effort interaction), not a pure property of high reasoning effort. The wave-2 conclusion "buying more thinking bought a failure mode" softens to "…bought a failure mode *inside an orchestrator persona*".
+
+The run itself fought Google the whole way: the `Corrupted thought signature` bug terminated **all three phases** (near-deterministic for vanilla-agent Gemini sessions now, while the orchestrator runs of the 27th-28th mostly dodged it — cadence of tool calls presumably differs). Before dying, real work landed each time: a verified 20/78 suite at 94.21%, genuine `with_schema` titles (present in both Flash conditions — unlike either 3.1 Pro condition), a true exact-array G5 test with an exactly-once assertion, and phase-2 streaming/test/multiworker verification via scripts and sqlite inspection. Docker and compose never ran, so the review's G13 PASS (and blanket 14×PASS) over-claims.
+
+**Scoring**: gates 13/15 (−1 `claude-sonnet-4` pin, −1 docker unverified), streaming 8, payload 10, concurrency 7, tools 7, schema 5, budget 3, robustness 7, tests+gates 7, fidelity 11/15 (−3 for PASS claims on validations that never executed, −1 stale-pin).
 
 ## Wave 2 conclusions
 
