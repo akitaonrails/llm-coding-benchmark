@@ -248,6 +248,7 @@ Three attempts, three failure shapes, one outcome. *Attempt 1*: phase 1 ran 5.3 
 | **Qwen 3.6 Plus** (71) | n/a (run interrupted) | **75** | 10 PASS / 4 honest PARTIAL; 11 phase-2 fixes |
 | **Qwen3.7 Max** (78) | 22 (DNF ×3) | **51** | Builds now — but `ask(array)` hallucination breaks multi-turn |
 | **Grok 4.3** (72) | 57 | **18 (DNF ×2)** | **Inverted effect: the orchestrator *helped* it; vanilla → 48-second stub-quit, twice** |
+| **Nex-N2-Pro** (83) | 78 | **88** | +10; ties GPT 5.5 at ~$0.18; sharpest self-caught bug list of the re-runs |
 
 ### Qwen 3.6 Plus — 75 (clean harness, audited 2026-07-28)
 
@@ -278,6 +279,12 @@ Real credit where due: the self-review's PARTIALs are honest and sharp — G10's
 **The harness effect runs both directions.** Where the orchestrator persona sent M3 and Qwen3.7 off a delegation cliff, it apparently *kept Grok 4.3 working*: under OMO-slim it produced a complete-looking (if never-validated) app scoring 57; under vanilla opencode it quit at the Rails scaffold in **48 seconds — twice, identically** (12-16 tool calls, empty controller stubs, then "Done" with a parenthetical plan describing work it never did). Phase 3 both times delivered an honest 14×FAIL review ("Empty controllers will 500 on any request").
 
 **Scoring (clean condition, official)**: gates 3/15 (G14 clean, G13 partial artifacts), all build dimensions 0, fidelity 15/15. Total **18/100**. The orchestrator-condition 57 stands in the table above as the B-condition record — the only model measured whose score *dropped* 39 points when the scaffolding persona was removed. Combined with M3's +69, the harness-effect spread across models is now **108 points**, which is the strongest evidence either benchmark version has produced that agent scaffolding is not a neutral wrapper: it is a model-specific multiplier in both directions.
+
+### Nex-N2-Pro — 88 (clean harness, audited 2026-07-29) · orchestrator condition: 78
+
++10 under isolation, and a different *kind* of improvement than the DNF recoveries: the orchestrator-condition Nex built well but shipped a 2-test suite; the clean-condition Nex wrote a real one — 16 sharp tests, **95.6% line / 69.13% branch (verified)** — and passed all 7 phase-2 validations live (tool invocations captured in `RUBYLLM_DEBUG` logs with exact results, 3-turn conversation surviving a 2-worker restart, compose e2e). Phase 3 initially died on a context-window overflow (the model's 400 error, not the harness); the fresh-session re-run produced the **sharpest self-caught defect list of the re-run campaign**: a budget off-by-one (`<` where `<=` belongs), trimmed messages not reducing accumulated `token_usage`, and a genuinely subtle flock-inode race in the tmp-rename path — plus conservative PARTIALs where its own session lacked live proof (G7) even though phase 2 had it. It also found and removed a stray `tmp/local_secret.txt` before review.
+
+**Scoring**: gates 13/15 (−1 stale `claude-sonnet-4.5` pin, −1 multi-turn replay broken as-delivered — phase 2's key-conversion fix), streaming 10, payload 9, concurrency 8 (confessed inode race), tools 10, schema 5, budget 3 (off-by-one + trim bug, both confessed), robustness 9, tests+gates 7 (small but sharp suite; it live-introspected the real gem's method surface to verify its mocks), fidelity 14/15 (−1 stale-pin PASS). At ~$0.18 total it ties GPT 5.5 — the second-best value point in the benchmark after K3/GLM.
 
 ## Wave 2 conclusions
 
