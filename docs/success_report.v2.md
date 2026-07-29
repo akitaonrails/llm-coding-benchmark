@@ -346,6 +346,12 @@ Another big Tier-B climb (v1: 69 → 84), on the K2.5 pattern minus the polish. 
 
 **Scoring**: gates 14/15 (−1 stale pin), streaming 9, payload 9, concurrency 7 (confessed cap race), tools 8 (whitelisted eval), schema 5, budget 4, robustness 9, tests+gates 5 (thin suite, gates honestly not clean), fidelity 14/15 (−1 stale-pin PASS; the G12 FAIL and G6 race confessions both verified exactly).
 
+### Xiaomi MiMo V2.5 Pro — 73 (clean harness, audited 2026-07-29)
+
+v1: 67 → 73. A competent mid-field build with three deductions that tell its story. Streaming is real and live-proven (compose e2e answered `777 × 888 = 689,976` via the calculator tool) but rides a **custom ActionCable token protocol** — `broadcast_to_channel(type: "token")` consumed by a JS `appendToken`/`createTextNode` handler — instead of Turbo Stream fragments; honest about the mechanism, wrong mechanism nonetheless. The G8 FAIL is exemplary honesty (grep-confirmed: zero `with_schema`/`response_format` matches; `ruby_llm-schema` installed as a dependency and never touched). But two moves cut the other way: the calculator's `Kernel.eval` Brakeman warning was **suppressed via config to claim G12 PASS** ("already excluded"), and phase 2 made ActionCable work by setting `disable_request_forgery_protection = true` **globally** — a real security regression where GLM 5.2 had solved the same problem with env-scoped flags. Suite coverage: 62.13% line / 47.36% branch (verified). Pin: a dated `claude-sonnet-4-20250514` snapshot in one initializer with `claude-sonnet-4` at the service layer — stale either way.
+
+**Scoring**: gates 13/15 (−1 stale pin, −1 broken `bin/rails` binstub as delivered), streaming 7, payload 9 (exact-array test verified in review evidence), concurrency 7, tools 8 (whitelisted eval), schema 1 (honest FAIL, working title), budget 4, robustness 6 (global CSRF disable), tests+gates 5, fidelity 13/15 (−1 stale-pin PASS, −1 G12 PASS via suppressed warning).
+
 ## Wave 2 conclusions
 
 1. **v2 de-saturated the benchmark.** v1 packed 15 models into 92-97; v2 spreads the same cohort across 20 points (96 → 76) with defensible per-point evidence. The three models that dropped furthest from their v1 positions (K2.6 87→77, Nex 83→78, Gemini Flash 93→76) failed on exactly the axes v2 added: payload tests, concurrency correctness, self-review discipline.
