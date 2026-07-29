@@ -1,0 +1,82 @@
+{
+  "billing": "OpenRouter API \u2014 K2.5 not exposed by Kimi subscription",
+  "cost_usd_total": 0.0275,
+  "elapsed_seconds_total": 2582.2,
+  "ended_at": "2026-07-29T18:38:22+00:00",
+  "harness": "opencode",
+  "label": "Kimi K2.5 (opencode/OpenRouter) \u2014 wave 3 group 1",
+  "phases": [
+    {
+      "command_kind": "opencode",
+      "cost_usd": 0.013,
+      "elapsed_seconds": 2075.43,
+      "ended_at": "2026-07-29T18:29:55+00:00",
+      "exit_code": 0,
+      "file_count_after": 1922,
+      "harness": "opencode",
+      "phase": "phase1",
+      "session_id": "ses_050fbb9ccffegGrKNjZaEzTZHm",
+      "started_at": "2026-07-29T17:55:20+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 113536,
+          "write": 0
+        },
+        "input": 675,
+        "output": 496,
+        "reasoning": 22,
+        "total": 114729
+      }
+    },
+    {
+      "command_kind": "opencode",
+      "cost_usd": 0.0085,
+      "elapsed_seconds": 287.77,
+      "ended_at": "2026-07-29T18:34:43+00:00",
+      "exit_code": 0,
+      "file_count_after": 1992,
+      "harness": "opencode",
+      "phase": "phase2",
+      "session_id": "ses_050dc0eabffeRTLieb88iZn9JD",
+      "started_at": "2026-07-29T18:29:55+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 63744,
+          "write": 0
+        },
+        "input": 858,
+        "output": 627,
+        "reasoning": 14,
+        "total": 65243
+      }
+    },
+    {
+      "command_kind": "opencode",
+      "cost_usd": 0.006,
+      "elapsed_seconds": 219.0,
+      "ended_at": "2026-07-29T18:38:22+00:00",
+      "exit_code": 0,
+      "file_count_after": 1993,
+      "harness": "opencode",
+      "phase": "phase3",
+      "session_id": "ses_050d7aa89ffeszHSgqaK5GXe8S",
+      "started_at": "2026-07-29T18:34:43+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 53376,
+          "write": 0
+        },
+        "input": 150,
+        "output": 211,
+        "reasoning": 186,
+        "total": 53923
+      }
+    }
+  ],
+  "self_review_present": true,
+  "slug": "v2_kimi_k2_5",
+  "tokens_total": 233895
+}

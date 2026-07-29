@@ -345,6 +345,36 @@
       },
       "wave": 3,
       "notes": "v1 Tier B (71)."
+    },
+    {
+      "slug": "v2_kimi_k2_5",
+      "label": "Kimi K2.5 (opencode/OpenRouter) \u2014 wave 3 group 1",
+      "harness": "opencode",
+      "model_id": "openrouter/moonshotai/kimi-k2.5",
+      "billing": "OpenRouter API \u2014 K2.5 not exposed by Kimi subscription",
+      "rates_per_m": {
+        "input": 0.6,
+        "cache_read": 0.1,
+        "cache_write": 0.6,
+        "output": 2.5
+      },
+      "wave": 3,
+      "notes": "v1 Tier B (69)."
+    },
+    {
+      "slug": "v2_step_3_7_flash",
+      "label": "Step 3.7 Flash (opencode/OpenRouter) \u2014 wave 3 group 1",
+      "harness": "opencode",
+      "model_id": "openrouter/stepfun-ai/step-3.7-flash",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.1,
+        "cache_read": 0.1,
+        "cache_write": 0.1,
+        "output": 0.3
+      },
+      "wave": 3,
+      "notes": "v1 Tier B (69)."
     }
   ],
   "skipped": {

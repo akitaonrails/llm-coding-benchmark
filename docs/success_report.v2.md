@@ -332,6 +332,14 @@ The run itself fought Google the whole way: the `Corrupted thought signature` bu
 
 **Scoring**: gates 13/15 (−1 `claude-sonnet-4` pin, −1 docker unverified), streaming 8, payload 10, concurrency 7, tools 7, schema 5, budget 3, robustness 7, tests+gates 7, fidelity 11/15 (−3 for PASS claims on validations that never executed, −1 stale-pin).
 
+### Kimi K2.5 — 92 (clean harness, audited 2026-07-29) — wave 3 resumes
+
+The largest upward v1→v2 reordering in the benchmark: v1 scored K2.5 at 69 (Tier B, #24); under the clean v2 harness it ties Grok 4.5 and GLM 5.2 at **92**, for $0.03. Three headlines. **First**: it hard-pinned **`anthropic/claude-sonnet-5`** — the actual latest Sonnet — joining Nex (tilde alias) and Gemini Flash as the only G3-compliant models, and the only Moonshot model to do it. **Second**: the third perfect **15/15 fidelity** of the benchmark (after K3 and M3): both PARTIALs are honest (G4's `Thread.new` streaming carries confessed operational risks; G8's title schema is mocked, never e2e-verified), and every PASS verified — including a proper `flock` LOCK_SH/LOCK_EX file store with all four bounds (conversations cap, message cap, byte cap, TTL) and an exact-array G5 test. **Third**: phase 2 completed all 7 validations with one legitimate fix (a volume-ownership `chown` in the Dockerfile), suite verified 37 runs / 89 assertions at 96.52%.
+
+**Scoring**: gates 14/15 (−1 phase-2 Dockerfile fix; pin CORRECT), streaming 9, payload 10, concurrency 9, tools 10, schema 4 (custom schema class, mocked only), budget 4, robustness 9, tests+gates 8, fidelity **15/15**.
+
+The Moonshot line under clean v2 now reads: **K2.5 92 · K2.6 91 · K2.7-Coding 86 (Kimi CLI) · K3 95** — the two OpenRouter/opencode runs sit above the vendor-CLI K2.7 run, reinforcing the cross-harness caveat rather than any generation story below K3.
+
 ## Wave 2 conclusions
 
 1. **v2 de-saturated the benchmark.** v1 packed 15 models into 92-97; v2 spreads the same cohort across 20 points (96 → 76) with defensible per-point evidence. The three models that dropped furthest from their v1 positions (K2.6 87→77, Nex 83→78, Gemini Flash 93→76) failed on exactly the axes v2 added: payload tests, concurrency correctness, self-review discipline.
