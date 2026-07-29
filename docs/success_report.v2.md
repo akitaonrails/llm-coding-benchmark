@@ -352,6 +352,14 @@ v1: 67 → 73. A competent mid-field build with three deductions that tell its s
 
 **Scoring**: gates 13/15 (−1 stale pin, −1 broken `bin/rails` binstub as delivered), streaming 7, payload 9 (exact-array test verified in review evidence), concurrency 7, tools 8 (whitelisted eval), schema 1 (honest FAIL, working title), budget 4, robustness 6 (global CSRF disable), tests+gates 5, fidelity 13/15 (−1 stale-pin PASS, −1 G12 PASS via suppressed warning).
 
+### GLM 5 — 83 (clean harness, audited 2026-07-29) — Tier B complete
+
+v1: 64 → 83, closing cloud Tier B with the group's now-familiar profile: real `with_schema` titles, live-proven streaming and tools, docker + compose validated, and the recurring whitelisted-`eval` calculator honestly flagged in a G12 PARTIAL (contrast MiMo, which suppressed the identical warning). Its best moment is the G10 PARTIAL: "FAILED TURNS ARE STORED — line 28 adds user message to history BEFORE the try block… should be moved inside" — confession plus exact fix. Suite verified: 26 runs / 63 assertions, 64.60% line. Pin: `anthropic/claude-sonnet-4`, stale.
+
+**Scoring**: gates 14/15 (−1 stale pin), streaming 9, payload 9, concurrency 8, tools 8 (whitelisted eval), schema 5, budget 4, robustness 7 (confessed failed-turn storage), tests+gates 5 (64.6%, no branch, Brakeman warning), fidelity 14/15.
+
+**Cloud Tier B final (clean-harness v2 vs v1)**: Sonnet 4.6 87 (78) · Gemini 3.1 Pro 60* (79) · DeepSeek Flash 81 (78) · M3 93 (78) · Qwen3.7 51 (78) · Grok 4.3 18 (72) · Qwen 3.6 75 (71) · K2.5 92 (69) · Step 3.7 84 (69) · MiMo 73 (67) · GLM 5 83 (64). The v1 ordering barely survives contact: rank correlation is close to zero, the spread quadrupled, and the two biggest v1→v2 movers (K2.5 +23, GLM 5 +19) were v1's bottom quartile. (*3.1 Pro's 60 carries the Google-signature-bug caveat.)
+
 ## Wave 2 conclusions
 
 1. **v2 de-saturated the benchmark.** v1 packed 15 models into 92-97; v2 spreads the same cohort across 20 points (96 → 76) with defensible per-point evidence. The three models that dropped furthest from their v1 positions (K2.6 87→77, Nex 83→78, Gemini Flash 93→76) failed on exactly the axes v2 added: payload tests, concurrency correctness, self-review discipline.

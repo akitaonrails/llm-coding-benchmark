@@ -405,6 +405,21 @@
       },
       "wave": 3,
       "notes": "v1 Tier B (64). Superseded generation; closes Tier B."
+    },
+    {
+      "slug": "v2_claude_sonnet_5",
+      "label": "Claude Sonnet 5 (Claude Code) \u2014 wave 3 group 2 (C/D)",
+      "harness": "claude",
+      "model_id": "claude-sonnet-5",
+      "billing": "Claude Max subscription",
+      "rates_per_m": {
+        "input": 3.0,
+        "cache_read": 0.3,
+        "cache_write": 3.75,
+        "output": 15.0
+      },
+      "wave": 3,
+      "notes": "v1 Tier C (58, hallucinated RubyLLM). Key experiment: does the v2 goal contract + native harness fix it?"
     }
   ],
   "skipped": {
