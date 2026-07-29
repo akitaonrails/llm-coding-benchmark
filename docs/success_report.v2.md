@@ -246,6 +246,7 @@ Three attempts, three failure shapes, one outcome. *Attempt 1*: phase 1 ran 5.3 
 |---|---:|---:|---|
 | **MiniMax M3** (78) | 24 (DNF) | **93** | **+69 — the largest harness effect ever measured here** |
 | **Qwen 3.6 Plus** (71) | n/a (run interrupted) | **75** | 10 PASS / 4 honest PARTIAL; 11 phase-2 fixes |
+| **Qwen3.7 Max** (78) | 22 (DNF ×3) | **51** | Builds now — but `ask(array)` hallucination breaks multi-turn |
 
 ### Qwen 3.6 Plus — 75 (clean harness, audited 2026-07-28)
 
@@ -260,6 +261,16 @@ First model through the isolated harness, and an immediate signal: the *weaker* 
 The build earns the score on its own terms. Phase 2 ran the most forensic validation of the entire benchmark: streaming proven with per-chunk arrival timestamps (0.0/0.1/0.2/0.3/0.5s), tool calls proven by *inspecting the SQLite store's tool rows* (`server_time` → `{utc: …}`, `calculator` → `{expression: "(12*7)+3", result: 87.0}` — and note, M3 **persists tool turns**, which even Opus 4.7 didn't), restart survival under a real 2-worker cluster with the SQLite ActionCable adapter bridging workers, and a compose e2e chat streamed to a WebSocket client (13 incremental appends). Suite verified: 49 runs / 174 assertions / 0 failures, with a `CapturedChat` mock mirroring the broad RubyLLM surface and an exact captured-array G5 test with exactly-once counts. The self-review's G11 PARTIAL is the best single piece of self-diagnosis in the cohort: it root-caused SimpleCov's misleading 5.12% as a load-order bug (libs required before `SimpleCov.start`), explained the mechanism, and verified it experimentally.
 
 **Scoring**: gates 14/15 (−1 stale `claude-sonnet-4.5` pin), streaming 10, payload 10, concurrency 9, tools 10, schema 5, budget 4, robustness 9, tests+gates 8 (coverage numbers unusable due to the self-diagnosed tooling bug), fidelity 14/15 (13 accurate PASS + the exemplary PARTIAL; −1 stale-pin claim).
+
+### Qwen3.7 Max — 51 (clean harness, audited 2026-07-28) · orchestrator condition: 22 (DNF ×3)
+
+The harness fix cured the *not building* (41 min, 42 files, full app where three orchestrator attempts died at scaffolding) — and thereby exposed what the model actually builds: **the first RubyLLM hallucination of the v2 era**. Production replays multi-turn history via `chat.ask(messages_array)`; verified against gem source, `ask` wraps its argument into a *single user message's content* (`chat.rb:39-41`), so the entire conversation history — assistant turns included — gets stuffed into one user message with all roles obliterated. Multi-turn is fundamentally broken at the wire level. Worse, the required G5 test **mocks the same nonexistent surface** (`mock_chat.expects(:ask).with(expected_messages)`) — the exact case the brief warns about: a test that mocks a fabricated API is worse than no test. Phase 2 confirmed only step 1 (boot) before degenerating into a loop of invalid tool calls (`Model tried to call unavailable tool 'unknown'` repeated dozens of times); streaming, tools, restart, docker, and compose were never proven.
+
+Real credit where due: the self-review's PARTIALs are honest and sharp — G10's confession that failure rollback pops the wrong end of the Redis list (`lpop` for newest-message rollback, deleting the *oldest* messages and leaving failed turns in replay) is a genuinely good find; G11's coverage breakdown and G12's eval-warning disclosure are accurate. But G4/G5 are claimed PASS on evidence phase 2 never obtained, and G5's PASS rests on the hallucinated-API test.
+
+**Scoring**: gates 13/15 (−1 `claude-sonnet-4` pin, three generations stale; −1 unverified docker/compose), streaming 4 (mechanism present, never proven, built atop the broken replay), payload 2 (hallucinated usage + test enshrining it), concurrency 4 (lpop rollback corrupts history; restart/2-worker unproven), tools 5 (real registration, `eval` calculator, never live-proven), schema 2, budget 3, robustness 5, tests+gates 3 (suite passes but its central test asserts a fabricated API; gates not clean), fidelity 10/15 (three excellent PARTIALs; −1 stale pin, −2 G4/G5 PASS over-claims, −2 phase-2 non-completion unacknowledged).
+
+**The Qwen sibling paradox**: the smaller 3.6 Plus (75) beats the flagship 3.7 Max (51) under identical clean conditions — 3.6 hand-rolled a worse *transport* but got the *API semantics* right; 3.7 wrote cleaner-looking code around a fundamental misunderstanding of the library. v1 ranked them 78 vs 71 the other way.
 
 ## Wave 2 conclusions
 
