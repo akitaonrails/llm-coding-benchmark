@@ -254,6 +254,19 @@ Three attempts, three failure shapes, one outcome. *Attempt 1*: phase 1 ran 5.3 
 | **Gemini 3.1 Pro** (79) | 84 | **60** | −24, second inverted case; clean phase 2 killed 3× by Google's signature bug |
 | **Gemini 3.5 Flash @ high** (—) | 76 | **78** | Δ+2; but the phase-3 infinite-loop pathology did NOT recur under vanilla — it was orchestrator-conditioned |
 | **Grok 4.5** (87) | 91 | **92** | Δ+1; same 18-min speed, zero fixes — flagship is harness-insensitive where 4.3 was scaffold-dependent |
+| **GLM 5.2** (87) | 91 | **92** | Δ+1; zero app fixes in phase 2 this time; branch coverage enabled (73.52%) |
+
+**CAMPAIGN COMPLETE (11/11, 2026-07-29).** Clean-condition scores are official for all opencode models; orchestrator-condition runs remain preserved for the A/B record.
+
+### The harness-effect conclusions (the campaign's headline)
+
+Sorted by delta (clean − orchestrator): **M3 +69 · Qwen3.7 +29 · K2.6 +14 · Nex +10 · Flash@high +2 · Grok 4.5 +1 · GLM 5.2 +1 · DeepSeek Flash 0 · Gemini 3.1 Pro −24 · Grok 4.3 −39.** (Qwen 3.6 Plus has no orchestrator baseline.)
+
+1. **Agent scaffolding is a model-specific multiplier, not a neutral wrapper.** The same plugin shifted scores across a 108-point spread. Nothing else in either benchmark version — model generation, price tier, provider — produces effects of this magnitude.
+2. **The direction is culturally patterned.** Every model *suppressed* by the orchestrator persona (MiniMax, Qwen, Kimi, Nex) treated its delegation framing as an instruction to delegate-and-wait; every model *propped up* by it (Gemini 3.1 Pro, Grok 4.3) used the persona's structure as a crutch and regressed — weaker pins, vanished schema usage, missing tests — when it was removed.
+3. **The strongest models don't care.** Grok 4.5 (+1), GLM 5.2 (+1), DeepSeek Flash (0) delivered near-identical quality in both conditions. Harness-insensitivity may itself be a maturity signal worth benchmarking deliberately.
+4. **Two prior findings were revised by controlled re-measurement**: MiniMax M3's "phantom-delegation pathology" was induced, not intrinsic (24 → 93, now tied with Sol/Opus 4.8 at $0.17); Gemini Flash's high-effort phase-3 infinite loop was persona-conditioned, not pure reasoning-effort (review produced first-try under vanilla).
+5. **One provider-side constant emerged**: Google's `Corrupted thought signature` bug is near-deterministic for vanilla-agent Gemini sessions through OpenRouter (6 of 6 phase attempts across both Geminis) while orchestrator-condition sessions mostly dodged it — tool-call cadence differs. This gates any future Gemini 3.5 Pro run.
 
 ### Qwen 3.6 Plus — 75 (clean harness, audited 2026-07-28)
 
