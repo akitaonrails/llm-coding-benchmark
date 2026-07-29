@@ -251,6 +251,7 @@ Three attempts, three failure shapes, one outcome. *Attempt 1*: phase 1 ran 5.3 
 | **Nex-N2-Pro** (83) | 78 | **88** | +10; ties GPT 5.5 at ~$0.18; sharpest self-caught bug list of the re-runs |
 | **Kimi K2.6** (87) | 77 | **91** | +14; every orchestrator-condition structural miss fixed itself under vanilla |
 | **DeepSeek V4 Flash** (78) | 81 | **81** | Δ0 — the first harness-insensitive model; different flaws, same total |
+| **Gemini 3.1 Pro** (79) | 84 | **60** | −24, second inverted case; clean phase 2 killed 3× by Google's signature bug |
 
 ### Qwen 3.6 Plus — 75 (clean harness, audited 2026-07-28)
 
@@ -301,6 +302,12 @@ Real credit where due: the self-review's PARTIALs are honest and sharp — G10's
 **Δ0 — the first harness-insensitive model.** Same total, different composition: the orchestrator run shipped 6 phase-2-repaired delivery defects and a whitelisted-eval calculator but enforced its bounds; the clean run shipped cleaner (all 7 validations passed; compose e2e delivered 19 incremental turbo-stream updates) but with `MAX_MESSAGES`/`MAX_BYTES` defined and **never enforced**, the user message persisted before the provider call (failed-turn replay — confessed), and a non-halting `before_action` double-render hazard (confessed). One miss is condition-invariant and therefore model-level: **no `with_schema` in either condition** — titles via instruction prompting both times (G8 honest PARTIAL/FAIL twice). Suite verified: 34/51, 82.58%. Pin: `anthropic/claude-sonnet-4`, three generations stale, both conditions.
 
 **Scoring**: gates 14/15 (−1 stale pin), streaming 10, payload 9, concurrency 7 (unenforced bounds), tools 10, schema 1 (working title, wrong API), budget 4, robustness 7 (failed-turn replay + non-halting preflight), tests+gates 6 (Brakeman 1 weak warning claimed as PASS), fidelity 13/15 (−1 stale-pin PASS, −1 G12 PASS despite the warning; the G6/G8/G10 confessions are precise). Cost: **$0.005** — still the cheapest real runs in the benchmark by an order of magnitude.
+
+### Gemini 3.1 Pro — 60 (clean harness, audited 2026-07-29) · orchestrator condition: 84
+
+**−24: the second inverted case, compounded by a provider bug.** Two independent things went wrong. First, Google's intermittent `Corrupted thought signature` error killed phase 2 on **three consecutive attempts** (~3-5 min in each time), so the clean run's streaming/tools/restart/docker claims were never runtime-proven — while the orchestrator run had sailed through all 7 validations the day before. Second, and more interesting: the clean-condition *build itself* is substantially weaker than what the same model produced under the orchestrator. The pin regressed from `claude-sonnet-4.6` to ancient `claude-3.5-sonnet`; `with_schema` (present in the orchestrator build) is gone — titles via prompt text, honest G8 FAIL; the Redis `WATCH` store became a lockless conversation store; the strict-mock G5 test became a G5 PASS claim with **no exact-array test in the suite at all**. Suite verified: 15 runs / 31 assertions, 88.88% line / 69.76% branch. The build-quality regression under vanilla mirrors Grok 4.3's collapse: for some models the orchestrator persona was scaffolding in the load-bearing sense.
+
+**Scoring (runtime-unproven where applicable)**: gates 13/15, streaming 6, payload 4 (required test absent, claimed PASS), concurrency 4, tools 6, schema 0 (honest FAIL), budget 3, robustness 6 (confessed eager-store replay flaw), tests+gates 6 (branch coverage enabled — one of few), fidelity 12/15 (−2 false G5 PASS, −1 stale-pin PASS; G8/G10 confessions honest).
 
 ## Wave 2 conclusions
 
