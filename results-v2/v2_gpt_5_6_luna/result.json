@@ -1,0 +1,67 @@
+{
+  "billing": "ChatGPT subscription credits",
+  "cost_usd_total": 105.4488,
+  "elapsed_seconds_total": 2731.49,
+  "ended_at": "2026-07-30T02:35:43+00:00",
+  "harness": "codex",
+  "label": "GPT 5.6 Luna xHigh (Codex)",
+  "phases": [
+    {
+      "command_kind": "bash -lc",
+      "cost_usd": 61.7683,
+      "elapsed_seconds": 1493.11,
+      "ended_at": "2026-07-30T02:15:05+00:00",
+      "exit_code": 0,
+      "file_count_after": 163,
+      "harness": "codex",
+      "phase": "phase1",
+      "session_id": null,
+      "started_at": "2026-07-30T01:50:12+00:00",
+      "timed_out": false,
+      "tokens": {
+        "input": 11950229,
+        "output": 67239,
+        "total": 12017468
+      }
+    },
+    {
+      "command_kind": "bash -lc",
+      "cost_usd": 36.6336,
+      "elapsed_seconds": 816.84,
+      "ended_at": "2026-07-30T02:28:42+00:00",
+      "exit_code": 0,
+      "file_count_after": 166,
+      "harness": "codex",
+      "phase": "phase2",
+      "session_id": null,
+      "started_at": "2026-07-30T02:15:05+00:00",
+      "timed_out": false,
+      "tokens": {
+        "input": 7132702,
+        "output": 32337,
+        "total": 7165039
+      }
+    },
+    {
+      "command_kind": "bash -lc",
+      "cost_usd": 7.0469,
+      "elapsed_seconds": 421.54,
+      "ended_at": "2026-07-30T02:35:43+00:00",
+      "exit_code": 0,
+      "file_count_after": 167,
+      "harness": "codex",
+      "phase": "phase3",
+      "session_id": null,
+      "started_at": "2026-07-30T02:28:42+00:00",
+      "timed_out": false,
+      "tokens": {
+        "input": 1283352,
+        "output": 21005,
+        "total": 1304357
+      }
+    }
+  ],
+  "self_review_present": true,
+  "slug": "v2_gpt_5_6_luna",
+  "tokens_total": 20486864
+}

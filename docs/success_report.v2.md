@@ -374,6 +374,12 @@ v1: 56 → 27. The generation gap inside StepFun is now the story (3.7 Flash: 84
 
 **Scoring**: gates 8, streaming 4, payload 3, concurrency 3, tools 4, schema 0, budget 2, robustness 3, tests+gates 0, fidelity 0.
 
+### GPT 5.6 Luna — 90 (Codex, audited 2026-07-30) — the final v2 run
+
+Second-best GPT of the benchmark (Sol 93 · **Luna 90** · GPT 5.5 88 · GPT 5.4 86), and the first with an honest cost figure: the new codex event schema exposes `cached_input_tokens`, so Luna's raw $105 resolves to **$16.79 blended** (19.7M of 20.4M input tokens were cache hits) — retroactively confirming the blended methodology used for the earlier GPT estimates. All 7 phase-2 validations live-proven (timestamped streaming frames, live tools, 2-worker restart, compose e2e) with three moderate fixes, one carrying a regression test. Suite verified: 21 runs / 67 assertions, 94.21% line / 64.22% branch. Its best fidelity moment is the self-caught G2 PARTIAL: the compiled Tailwind file isn't linked, so the UI ships unstyled — a finding an auditor could easily miss and it volunteered.
+
+**Scoring**: gates 13/15 (−1 stale `claude-sonnet-4.6` pin, −1 the unstyled-UI defect), streaming 10, payload 10, concurrency 8, tools 9 (honest G7 PARTIAL — nothing forces tool choice), schema 5, budget 4, robustness 9, tests+gates 8, fidelity 14/15.
+
 ## Wave 2 conclusions
 
 1. **v2 de-saturated the benchmark.** v1 packed 15 models into 92-97; v2 spreads the same cohort across 20 points (96 → 76) with defensible per-point evidence. The three models that dropped furthest from their v1 positions (K2.6 87→77, Nex 83→78, Gemini Flash 93→76) failed on exactly the axes v2 added: payload tests, concurrency correctness, self-review discipline.
