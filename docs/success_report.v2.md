@@ -115,11 +115,13 @@ All four cleared every v2 hard gate: TRUE streaming (per-chunk Turbo broadcasts,
 
 **Wave-1 verdict**: the harder brief worked — it separated the models on efficiency, honesty, and engineering depth where v1 had them tied. If you ship with one of these four: Fable 5 for the strongest all-round engineering per minute, K3 for 95% of the quality at 15-25% of the cost, Opus 5 when thoroughness beats economy, Sol competent but currently dominated on both cost and depth.
 
-## Wave 2 (in progress, started 2026-07-27)
+## Wave 2 (2026-07-27, COMPLETE — historical record)
+
+> **Note**: opencode-harness scores in this section are the superseded orchestrator-condition values. The clean-condition official scores are in the FINAL STANDINGS above and the harness-isolation section below.
 
 Same audit depth as wave 1: suite re-run by the auditor, self-review claims chased to file:line, shared deductions normalized (stale Sonnet pin −1 gate / −1 fidelity; between-turns-only budgets −1).
 
-### Standings so far (waves combined)
+### Standings as of wave 2 (historical — superseded by FINAL STANDINGS)
 
 | # | Model | v2 score | Wall time | Tokens | Cost (API-equiv) | Billing |
 |---:|---|---:|---:|---:|---:|---|
@@ -145,7 +147,7 @@ Same audit depth as wave 1: suite re-run by the auditor, self-review claims chas
 
 ² opencode reports per-response API usage, not the cumulative per-request token flow (incl. cache reads) that the claude/kimi CLIs report — token columns are not comparable across harnesses; wall time and cost are.
 
-**WAVE 2 COMPLETE (2026-07-28).** 14 of 15 cohort slots run and audited; the 15th (Gemini 3.5 Pro) remains blocked on release — Flash @ forced-high effort held the Gemini slot per the 2026-07-27 fallback decision, with effort forwarding probe-verified (73-78% reasoning-token share across both attempts).
+**WAVE 2 COMPLETE (2026-07-28).** 14 of 15 cohort slots run and audited; the 15th (Gemini 3.5 Pro) remains blocked on release. Effort forwarding for the Flash fallback was probe-verified (73-78% reasoning-token share).
 
 **The Claude generation gradient is now fully resolved**: 4.6 (83) → 4.7 (91) → 4.8 (93) → Opus 5 (95) → Fable (96). v1 had all five inside Tier A noise; the v2 brief spreads them across 13 points.
 
@@ -215,7 +217,9 @@ The wave's most interesting **negative result**, in three acts. *Act 1*: run 1's
 
 **The effort experiment's answer**: forcing `reasoning_effort=high` was verified to work (73-78% reasoning-token share) and did not make Flash smarter — it made it *obsessive*. The same model at default dynamic thinking completed every v1 deliverable and scored 93; at forced-high effort under v2 it built well and then reasoned itself in circles on the one open-ended writing task, twice. Without the fidelity zero this is an ~87-90 run. Buying more thinking bought a failure mode.
 
-## Wave 3 (in progress, started 2026-07-28) — remaining tiers as stretch data
+## Wave 3 (2026-07-28/30, COMPLETE) — remaining tiers
+
+> **Note**: entries audited before the isolation campaign (Gemini 3.1 Pro 84, DeepSeek Flash 81, M3 15, Grok 4.3 57, Qwen3.7 22) are orchestrator-condition records; their clean-condition official scores are in the harness-isolation section.
 
 Plan: [`v2_wave3_plan.md`](v2_wave3_plan.md). v1 remains the official ranking for these models; v2 runs measure each tier's distance from the production-hardening bar. Same audit depth and shared-deduction normalization as waves 1-2.
 
