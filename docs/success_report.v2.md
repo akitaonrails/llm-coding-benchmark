@@ -18,7 +18,7 @@
 | 10 | MiniMax M3 | 91ᵃ | opencode | 78 | +13 |
 | 10 | Kimi K2.6 | 91 | opencode | 87 | +4 |
 | 10 | Claude Opus 4.7 | 91 | Claude Code | 87 | +4 |
-| 13 | GPT 5.6 Luna | 90 | Codex | — | — |
+| 10 | GPT 5.6 Luna | 91ᵃ | Codex | — | — |
 | 14 | Nex-N2-Pro | 88 | opencode | 83 | +5 |
 | 14 | GPT 5.5 | 88 | Codex | 85 | +3 |
 | 16 | Claude Sonnet 4.6 | 87 | Claude Code | 78 | +9 |
@@ -27,11 +27,11 @@
 | 19 | Step 3.7 Flash | 84 | opencode | 69 | +15 |
 | 20 | Claude Opus 4.6 | 83 | Claude Code | 83 | 0 |
 | 20 | GLM 5 | 83 | opencode | 64 | **+19** |
-| 22 | DeepSeek V4 Flash | 81 | opencode | 78 | +3 |
-| 23 | Gemini 3.5 Flash @ high | 78 | opencode | 93* | −15 |
-| 24 | Qwen 3.6 Plus | 75 | opencode | 71 | +4 |
+| 22 | DeepSeek V4 Flash | 80ᵃ | opencode | 78 | +2 |
+| 23 | Gemini 3.5 Flash @ high | 79ᵃ | opencode | 93* | −14 |
+| 24 | Qwen 3.6 Plus | 76ᵃ | opencode | 71 | +5 |
 | 25 | MiMo V2.5 Pro | 73 | opencode | 67 | +6 |
-| 26 | Gemini 3.1 Pro | 60† | opencode | 79 | −19 |
+| 26 | Gemini 3.1 Pro | 62ᵃ† | opencode | 79 | −17 |
 | 27 | Qwen3.7 Max | 51 | opencode | 78 | **−27** |
 | 28 | Step 3.5 Flash | 27 | opencode | 56 | −29 |
 | 29 | Grok 4.3 | 18 | opencode | 72 | **−54** |
@@ -104,6 +104,8 @@ Every score is the sum of the ten dimension scores above. Dimensions are graded 
 ### Scoring integrity re-check (2026-07-30, user-prompted)
 
 Two scores were corrected after a consistency audit against the deduction catalog above, and the catalog itself was written down as a result: **Claude Sonnet 5 96 → 95** (concurrency 9 → 8: its confessed hazard set matches the class that scored 8 elsewhere) and **MiniMax M3 93 → 91** (concurrency 9 → 8 for plain `BEGIN` + no turn lock; tests 8 → 7 because its coverage metric is unverifiable — every other 8 had a real number). Both re-audits also *confirmed* the runs' substance: Sonnet 5's 100% line coverage is genuine (union recomputed across all 33 parallel workers: 281/281) and its G5 test asserts the literal HTTP wire body; M3's phase-2 forensics are corroborated by its command trace (docker build, compose up, 51 proof-script invocations). The rubric weights were reviewed and kept (the standing no-reweight decision); the one known structural distortion — the stale-pin double penalty — is documented above rather than patched mid-benchmark.
+
+**Full-matrix consistency audit (2026-07-30, second pass, user-prompted):** every per-dimension scoring line was machine-parsed, summed against its stated total, and column-compared against the deduction catalog. Six inconsistencies found and fixed — three had slipped scores *up*, three *down*, so the errors were non-directional: DeepSeek V4 Flash clean 81→**80** (tools 10→8, its verified `eval` had escaped the uniform −2; payload 9→10, its exact-array test had been under-credited), GPT 5.6 Luna 90→**91** (tools 9→10 — the no-forced-tool-choice caveat cost no other model), Gemini Flash@high clean 78→**79** and Qwen 3.6 Plus 75→**76** (budget 3→4 — the extra −1 requires a documented second flaw), Gemini 3.1 Pro clean 60→**62** (schema 0→1 per the working-title-wrong-API anchor; budget 3→4). Stale section headers from the first correction pass (M3, Sonnet 5) were also fixed. Known documentation gap: wave-1 per-dimension breakdowns were never published (only totals + fidelity survive in this report); their audits predate the written catalog and their totals stand as originally cross-verified.
 
 **Efficiency is reported first-class** (not folded into the score): per-phase and total tokens, wall time, and cost (native `costUSD` for Claude Code; token-log × verified rates elsewhere). With near-peer quality expected at the top, efficiency and self-review fidelity are the designed tiebreakers.
 
@@ -315,15 +317,15 @@ Three attempts, three failure shapes, one outcome. *Attempt 1*: phase 1 ran 5.3 
 
 | Model (v1) | Orchestrator score | **Clean score** | Note |
 |---|---:|---:|---|
-| **MiniMax M3** (78) | 24 (DNF) | **93** | **+69 — the largest harness effect ever measured here** |
-| **Qwen 3.6 Plus** (71) | n/a (run interrupted) | **75** | 10 PASS / 4 honest PARTIAL; 11 phase-2 fixes |
+| **MiniMax M3** (78) | 24 (DNF) | **91** | **+67 — the largest harness effect ever measured here** |
+| **Qwen 3.6 Plus** (71) | n/a (run interrupted) | **76** | 10 PASS / 4 honest PARTIAL; 11 phase-2 fixes |
 | **Qwen3.7 Max** (78) | 22 (DNF ×3) | **51** | Builds now — but `ask(array)` hallucination breaks multi-turn |
 | **Grok 4.3** (72) | 57 | **18 (DNF ×2)** | **Inverted effect: the orchestrator *helped* it; vanilla → 48-second stub-quit, twice** |
 | **Nex-N2-Pro** (83) | 78 | **88** | +10; ties GPT 5.5 at ~$0.18; sharpest self-caught bug list of the re-runs |
 | **Kimi K2.6** (87) | 77 | **91** | +14; every orchestrator-condition structural miss fixed itself under vanilla |
-| **DeepSeek V4 Flash** (78) | 81 | **81** | Δ0 — the first harness-insensitive model; different flaws, same total |
-| **Gemini 3.1 Pro** (79) | 84 | **60** | −24, second inverted case; clean phase 2 killed 3× by Google's signature bug |
-| **Gemini 3.5 Flash @ high** (—) | 76 | **78** | Δ+2; but the phase-3 infinite-loop pathology did NOT recur under vanilla — it was orchestrator-conditioned |
+| **DeepSeek V4 Flash** (78) | 81 | **80** | Δ−1 — harness-insensitive within noise; different flaws, same weight |
+| **Gemini 3.1 Pro** (79) | 84 | **62** | −22, second inverted case; clean phase 2 killed 3× by Google's signature bug |
+| **Gemini 3.5 Flash @ high** (—) | 76 | **79** | Δ+3; and the phase-3 infinite-loop pathology did NOT recur under vanilla — it was orchestrator-conditioned |
 | **Grok 4.5** (87) | 91 | **92** | Δ+1; same 18-min speed, zero fixes — flagship is harness-insensitive where 4.3 was scaffold-dependent |
 | **GLM 5.2** (87) | 91 | **92** | Δ+1; zero app fixes in phase 2 this time; branch coverage enabled (73.52%) |
 
@@ -331,21 +333,21 @@ Three attempts, three failure shapes, one outcome. *Attempt 1*: phase 1 ran 5.3 
 
 ### The harness-effect conclusions (the campaign's headline)
 
-Sorted by delta (clean − orchestrator): **M3 +69 · Qwen3.7 +29 · K2.6 +14 · Nex +10 · Flash@high +2 · Grok 4.5 +1 · GLM 5.2 +1 · DeepSeek Flash 0 · Gemini 3.1 Pro −24 · Grok 4.3 −39.** (Qwen 3.6 Plus has no orchestrator baseline.)
+Sorted by delta (clean − orchestrator): **M3 +67 · Qwen3.7 +29 · K2.6 +14 · Nex +10 · Flash@high +3 · Grok 4.5 +1 · GLM 5.2 +1 · DeepSeek Flash −1 · Gemini 3.1 Pro −22 · Grok 4.3 −39.** (Deltas reflect the 2026-07-30 consistency corrections.) (Qwen 3.6 Plus has no orchestrator baseline.)
 
-1. **Agent scaffolding is a model-specific multiplier, not a neutral wrapper.** The same plugin shifted scores across a 108-point spread. Nothing else in either benchmark version — model generation, price tier, provider — produces effects of this magnitude.
+1. **Agent scaffolding is a model-specific multiplier, not a neutral wrapper.** The same plugin shifted scores across a 106-point spread. Nothing else in either benchmark version — model generation, price tier, provider — produces effects of this magnitude.
 2. **The direction is culturally patterned.** Every model *suppressed* by the orchestrator persona (MiniMax, Qwen, Kimi, Nex) treated its delegation framing as an instruction to delegate-and-wait; every model *propped up* by it (Gemini 3.1 Pro, Grok 4.3) used the persona's structure as a crutch and regressed — weaker pins, vanished schema usage, missing tests — when it was removed.
 3. **The strongest models don't care.** Grok 4.5 (+1), GLM 5.2 (+1), DeepSeek Flash (0) delivered near-identical quality in both conditions. Harness-insensitivity may itself be a maturity signal worth benchmarking deliberately.
-4. **Two prior findings were revised by controlled re-measurement**: MiniMax M3's "phantom-delegation pathology" was induced, not intrinsic (24 → 93, now tied with Sol/Opus 4.8 at $0.17); Gemini Flash's high-effort phase-3 infinite loop was persona-conditioned, not pure reasoning-effort (review produced first-try under vanilla).
+4. **Two prior findings were revised by controlled re-measurement**: MiniMax M3's "phantom-delegation pathology" was induced, not intrinsic (24 → 91 at $0.17); Gemini Flash's high-effort phase-3 infinite loop was persona-conditioned, not pure reasoning-effort (review produced first-try under vanilla).
 5. **One provider-side constant emerged**: Google's `Corrupted thought signature` bug is near-deterministic for vanilla-agent Gemini sessions through OpenRouter (6 of 6 phase attempts across both Geminis) while orchestrator-condition sessions mostly dodged it — tool-call cadence differs. This gates any future Gemini 3.5 Pro run.
 
-### Qwen 3.6 Plus — 75 (clean harness, audited 2026-07-28)
+### Qwen 3.6 Plus — 76 (clean harness, audited 2026-07-28, corrected 07-30)
 
 First model through the isolated harness, and an immediate signal: the *weaker* Qwen (v1: 71) delivered a complete, validated app where its bigger sibling Qwen3.7 Max DNF'd three times under the orchestrator condition. 75 minutes, all 7 phase-2 validations passed including compose e2e with streaming — after phase 2 repaired 11 phase-1 defects, several app-breaking (model ID resolving to the Anthropic provider instead of OpenRouter — no chat possible as shipped; missing `to_param` breaking conversation URLs; string-vs-symbol key mismatch in the replay path). Suite verified: 45 runs / 84 assertions, 85.10% line.
 
-**Scoring**: gates 12/15 (−1 stale `claude-sonnet-4.6` pin, −2 phase-1 non-viable), streaming 7 (server writes per-chunk turbo-stream fragments but the client consumes them via a hand-rolled `fetch`+`ReadableStream`+regex layer — confessed in its honest G2 PARTIAL), payload 7 (test verifies replay counts via callback, not the exact outgoing array), concurrency 6 (file-JSON store with bounds + TTL but no visible locking), tools 10, schema 2 (sets the schema by `instance_variable_set(:@schema, …)` and calls a private method via `send` — works, fragile, confessed), budget 3, robustness 8 (user message persists before the provider call — self-flagged), tests+gates 7 (mock-fidelity gaps confessed), fidelity 13/15 (four honest PARTIALs all verified; −1 stale-pin PASS, −1 G5 PASS on a count-based test).
+**Scoring**: gates 12/15 (−1 stale `claude-sonnet-4.6` pin, −2 phase-1 non-viable), streaming 7 (server writes per-chunk turbo-stream fragments but the client consumes them via a hand-rolled `fetch`+`ReadableStream`+regex layer — confessed in its honest G2 PARTIAL), payload 7 (test verifies replay counts via callback, not the exact outgoing array), concurrency 6 (file-JSON store with bounds + TTL but no visible locking), tools 10, schema 2 (sets the schema by `instance_variable_set(:@schema, …)` and calls a private method via `send` — works, fragile, confessed), budget 4 (between-turns only; no second flaw documented — corrected 2026-07-30 from 3), robustness 8 (user message persists before the provider call — self-flagged), tests+gates 7 (mock-fidelity gaps confessed), fidelity 13/15 (four honest PARTIALs all verified; −1 stale-pin PASS, −1 G5 PASS on a count-based test). **Total 76.**
 
-### MiniMax M3 — 93 (clean harness, audited 2026-07-28) · orchestrator condition: 24
+### MiniMax M3 — 91 (clean harness, audited 2026-07-28, corrected 07-30) · orchestrator condition: 24
 
 **The largest harness effect ever measured in this project: +69 points.** Under the OMO-slim orchestrator, M3 delegated to phantom lanes and produced literally zero code in two attempts. Under vanilla opencode it worked synchronously for 56 minutes and delivered a 93-grade app — tying GPT 5.6 Sol and Claude Opus 4.8 — at **$0.17 total**. The prior "phantom-delegation pathology" verdict was wrong in attribution: the pathology was real but *induced* — M3 is exquisitely sensitive to harness framing (v1's multi-model finding about harness context, now with a 69-point magnitude on a single model).
 
@@ -383,25 +385,25 @@ Real credit where due: the self-review's PARTIALs are honest and sharp — G10's
 
 **A casualty worth noting honestly**: the wave-2 "Kimi staircase" (77 → 86 → 95) was partly a harness artifact. Clean-harness K2.6 (91, opencode) now *outscores* K2.7-Coding (86, Kimi CLI) — but those two ran on different harnesses, so the comparison carries a cross-harness caveat either way. The K3 (95) gap survives; the tidy 9-points-per-generation story does not.
 
-### DeepSeek V4 Flash — 81 (clean harness, audited 2026-07-29) · orchestrator condition: 81
+### DeepSeek V4 Flash — 80 (clean harness, audited 2026-07-29, corrected 07-30) · orchestrator condition: 81
 
-**Δ0 — the first harness-insensitive model.** Same total, different composition: the orchestrator run shipped 6 phase-2-repaired delivery defects and a whitelisted-eval calculator but enforced its bounds; the clean run shipped cleaner (all 7 validations passed; compose e2e delivered 19 incremental turbo-stream updates) but with `MAX_MESSAGES`/`MAX_BYTES` defined and **never enforced**, the user message persisted before the provider call (failed-turn replay — confessed), and a non-halting `before_action` double-render hazard (confessed). One miss is condition-invariant and therefore model-level: **no `with_schema` in either condition** — titles via instruction prompting both times (G8 honest PARTIAL/FAIL twice). Suite verified: 34/51, 82.58%. Pin: `anthropic/claude-sonnet-4`, three generations stale, both conditions.
+**Δ−1 — the first harness-insensitive model (within the 1-point noise threshold).** Same total, different composition: the orchestrator run shipped 6 phase-2-repaired delivery defects and a whitelisted-eval calculator but enforced its bounds; the clean run shipped cleaner (all 7 validations passed; compose e2e delivered 19 incremental turbo-stream updates) but with `MAX_MESSAGES`/`MAX_BYTES` defined and **never enforced**, the user message persisted before the provider call (failed-turn replay — confessed), and a non-halting `before_action` double-render hazard (confessed). One miss is condition-invariant and therefore model-level: **no `with_schema` in either condition** — titles via instruction prompting both times (G8 honest PARTIAL/FAIL twice). Suite verified: 34/51, 82.58%. Pin: `anthropic/claude-sonnet-4`, three generations stale, both conditions.
 
-**Scoring**: gates 14/15 (−1 stale pin), streaming 10, payload 9, concurrency 7 (unenforced bounds), tools 10, schema 1 (working title, wrong API), budget 4, robustness 7 (failed-turn replay + non-halting preflight), tests+gates 6 (Brakeman 1 weak warning claimed as PASS), fidelity 13/15 (−1 stale-pin PASS, −1 G12 PASS despite the warning; the G6/G8/G10 confessions are precise). Cost: **$0.005** — still the cheapest real runs in the benchmark by an order of magnitude.
+**Scoring (corrected 2026-07-30)**: gates 14/15 (−1 stale pin), streaming 10, payload 10 (exact-array test — catalog anchor), concurrency 7 (unenforced bounds), tools 8 (whitelisted eval — uniform −2), schema 1 (working title, wrong API), budget 4, robustness 7 (failed-turn replay + non-halting preflight), tests+gates 6 (Brakeman warning claimed as PASS), fidelity 13/15 (−1 stale-pin PASS, −1 G12 PASS despite the warning; the G6/G8/G10 confessions are precise). Cost: **$0.005** — still the cheapest real runs in the benchmark by an order of magnitude.
 
-### Gemini 3.1 Pro — 60 (clean harness, audited 2026-07-29) · orchestrator condition: 84
+### Gemini 3.1 Pro — 62 (clean harness, audited 2026-07-29, corrected 07-30) · orchestrator condition: 84
 
 **−24: the second inverted case, compounded by a provider bug.** Two independent things went wrong. First, Google's intermittent `Corrupted thought signature` error killed phase 2 on **three consecutive attempts** (~3-5 min in each time), so the clean run's streaming/tools/restart/docker claims were never runtime-proven — while the orchestrator run had sailed through all 7 validations the day before. Second, and more interesting: the clean-condition *build itself* is substantially weaker than what the same model produced under the orchestrator. The pin regressed from `claude-sonnet-4.6` to ancient `claude-3.5-sonnet`; `with_schema` (present in the orchestrator build) is gone — titles via prompt text, honest G8 FAIL; the Redis `WATCH` store became a lockless conversation store; the strict-mock G5 test became a G5 PASS claim with **no exact-array test in the suite at all**. Suite verified: 15 runs / 31 assertions, 88.88% line / 69.76% branch. The build-quality regression under vanilla mirrors Grok 4.3's collapse: for some models the orchestrator persona was scaffolding in the load-bearing sense.
 
-**Scoring (runtime-unproven where applicable)**: gates 13/15, streaming 6, payload 4 (required test absent, claimed PASS), concurrency 4, tools 6, schema 0 (honest FAIL), budget 3, robustness 6 (confessed eager-store replay flaw), tests+gates 6 (branch coverage enabled — one of few), fidelity 12/15 (−2 false G5 PASS, −1 stale-pin PASS; G8/G10 confessions honest).
+**Scoring (runtime-unproven where applicable; corrected 2026-07-30)**: gates 13/15, streaming 6, payload 4 (required test absent, claimed PASS), concurrency 4, tools 6, schema 1 (working title via wrong API — same anchor as DeepSeek/MiMo, consistency fix from 0), budget 4 (no second flaw documented — consistency fix from 3), robustness 6 (confessed eager-store replay flaw), tests+gates 6 (branch coverage enabled — one of few), fidelity 12/15. **Total 62.**
 
-### Gemini 3.5 Flash @ high — 78 (clean harness, audited 2026-07-29) · orchestrator condition: 76
+### Gemini 3.5 Flash @ high — 79 (clean harness, audited 2026-07-29, corrected 07-30) · orchestrator condition: 76
 
 Δ+2 on the score, but the important result is a **finding revision**: under vanilla opencode the forced-high-effort Flash **wrote its SELF_REVIEW.md first try** — the twice-repeated phase-3 infinite-reasoning-loop that zeroed its orchestrator-condition fidelity did not recur. The loop pathology was orchestrator-conditioned (persona × effort interaction), not a pure property of high reasoning effort. The wave-2 conclusion "buying more thinking bought a failure mode" softens to "…bought a failure mode *inside an orchestrator persona*".
 
 The run itself fought Google the whole way: the `Corrupted thought signature` bug terminated **all three phases** (near-deterministic for vanilla-agent Gemini sessions now, while the orchestrator runs of the 27th-28th mostly dodged it — cadence of tool calls presumably differs). Before dying, real work landed each time: a verified 20/78 suite at 94.21%, genuine `with_schema` titles (present in both Flash conditions — unlike either 3.1 Pro condition), a true exact-array G5 test with an exactly-once assertion, and phase-2 streaming/test/multiworker verification via scripts and sqlite inspection. Docker and compose never ran, so the review's G13 PASS (and blanket 14×PASS) over-claims.
 
-**Scoring**: gates 13/15 (−1 `claude-sonnet-4` pin, −1 docker unverified), streaming 8, payload 10, concurrency 7, tools 7, schema 5, budget 3, robustness 7, tests+gates 7, fidelity 11/15 (−3 for PASS claims on validations that never executed, −1 stale-pin).
+**Scoring (corrected 2026-07-30)**: gates 13/15 (−1 `claude-sonnet-4` pin, −1 docker unverified), streaming 8, payload 10, concurrency 7, tools 7, schema 5, budget 4 (between-turns only; no second flaw documented — consistency fix from 3), robustness 7, tests+gates 7, fidelity 11/15. **Total 79.**
 
 ### Kimi K2.5 — 92 (clean harness, audited 2026-07-29) — wave 3 resumes
 
@@ -431,9 +433,9 @@ v1: 64 → 83, closing cloud Tier B with the group's now-familiar profile: real 
 
 **Cloud Tier B final (clean-harness v2 vs v1)**: Sonnet 4.6 87 (78) · Gemini 3.1 Pro 60* (79) · DeepSeek Flash 81 (78) · M3 93 (78) · Qwen3.7 51 (78) · Grok 4.3 18 (72) · Qwen 3.6 75 (71) · K2.5 92 (69) · Step 3.7 84 (69) · MiMo 73 (67) · GLM 5 83 (64). The v1 ordering barely survives contact: rank correlation is close to zero, the spread quadrupled, and the two biggest v1→v2 movers (K2.5 +23, GLM 5 +19) were v1's bottom quartile. (*3.1 Pro's 60 carries the Google-signature-bug caveat.)
 
-### Claude Sonnet 5 — 96 (Claude Code, audited 2026-07-30) — TIED #1 OVERALL; the redemption experiment
+### Claude Sonnet 5 — 95 (Claude Code, audited 2026-07-30, corrected same day) — tied #2 overall; the redemption experiment
 
-**The single largest v1→v2 reversal possible: 58 (Tier C, hallucinated RubyLLM) → 96, tying Claude Fable 5 for first place overall.** The experiment this run existed to answer — does the explicit G1-G14 contract plus the native Claude Code harness cure v1's hallucination? — is answered beyond argument. Not one fabricated API anywhere: real `add_message` hash form, real `with_schema` class, `with_instructions`/`with_tools` chains verified against gem source. Phase 2 needed **zero fixes** and produced frame-timestamped websocket proof of mid-request streaming (7 append frames arriving while the triggering POST was still in flight) plus `RUBYLLM_DEBUG` tool-call logs. The suite: 58 runs / 200 assertions, **100.0% line coverage — the first perfect line coverage in either benchmark** — with a G5 test that asserts the exact outgoing message array **against a captured HTTP request body** (Opus-5-class wire depth). And it is the first Claude-family model to pin the actual latest Sonnet: `anthropic/claude-sonnet-5` — itself. All five Opus/Fable runs pinned stale.
+**The single largest v1→v2 reversal possible: 58 (Tier C, hallucinated RubyLLM) → 95, tying Claude Opus 5 and Kimi K3 one point behind Fable.** The experiment this run existed to answer — does the explicit G1-G14 contract plus the native Claude Code harness cure v1's hallucination? — is answered beyond argument. Not one fabricated API anywhere: real `add_message` hash form, real `with_schema` class, `with_instructions`/`with_tools` chains verified against gem source. Phase 2 needed **zero fixes** and produced frame-timestamped websocket proof of mid-request streaming (7 append frames arriving while the triggering POST was still in flight) plus `RUBYLLM_DEBUG` tool-call logs. The suite: 58 runs / 200 assertions, **100.0% line coverage — the first perfect line coverage in either benchmark** — with a G5 test that asserts the exact outgoing message array **against a captured HTTP request body** (Opus-5-class wire depth). And it is the first Claude-family model to pin the actual latest Sonnet: `anthropic/claude-sonnet-5` — itself. All five Opus/Fable runs pinned stale.
 
 The §4 defects section is the deepest of the benchmark: seven findings, led by a gem-source-verified trace showing RubyLLM's `ErrorMiddleware` only wraps *received-response* errors, so a bare `Faraday` connection failure during best-effort title generation falls into the main rescue and **overwrites an already-delivered reply** via a Turbo `update` — a narrow, real, test-uncovered path. It also self-caught its conversation-ID authorization leak, a budget double-pass race, and the byte-trim floor edge case.
 
@@ -445,11 +447,11 @@ v1: 56 → 27. The generation gap inside StepFun is now the story (3.7 Flash: 84
 
 **Scoring**: gates 8, streaming 4, payload 3, concurrency 3, tools 4, schema 0, budget 2, robustness 3, tests+gates 0, fidelity 0.
 
-### GPT 5.6 Luna — 90 (Codex, audited 2026-07-30) — the final v2 run
+### GPT 5.6 Luna — 91 (Codex, audited 2026-07-30, corrected same day) — the final v2 run
 
-Second-best GPT of the benchmark (Sol 93 · **Luna 90** · GPT 5.5 88 · GPT 5.4 86), and the first with an honest cost figure: the new codex event schema exposes `cached_input_tokens`, so Luna's raw $105 resolves to **$16.79 blended** (19.7M of 20.4M input tokens were cache hits) — retroactively confirming the blended methodology used for the earlier GPT estimates. All 7 phase-2 validations live-proven (timestamped streaming frames, live tools, 2-worker restart, compose e2e) with three moderate fixes, one carrying a regression test. Suite verified: 21 runs / 67 assertions, 94.21% line / 64.22% branch. Its best fidelity moment is the self-caught G2 PARTIAL: the compiled Tailwind file isn't linked, so the UI ships unstyled — a finding an auditor could easily miss and it volunteered.
+Second-best GPT of the benchmark (Sol 93 · **Luna 91** · GPT 5.5 88 · GPT 5.4 86), and the first with an honest cost figure: the new codex event schema exposes `cached_input_tokens`, so Luna's raw $105 resolves to **$16.79 blended** (19.7M of 20.4M input tokens were cache hits) — retroactively confirming the blended methodology used for the earlier GPT estimates. All 7 phase-2 validations live-proven (timestamped streaming frames, live tools, 2-worker restart, compose e2e) with three moderate fixes, one carrying a regression test. Suite verified: 21 runs / 67 assertions, 94.21% line / 64.22% branch. Its best fidelity moment is the self-caught G2 PARTIAL: the compiled Tailwind file isn't linked, so the UI ships unstyled — a finding an auditor could easily miss and it volunteered.
 
-**Scoring**: gates 13/15 (−1 stale `claude-sonnet-4.6` pin, −1 the unstyled-UI defect), streaming 10, payload 10, concurrency 8, tools 9 (honest G7 PARTIAL — nothing forces tool choice), schema 5, budget 4, robustness 9, tests+gates 8, fidelity 14/15.
+**Scoring (corrected 2026-07-30)**: gates 13/15 (−1 stale `claude-sonnet-4.6` pin, −1 the unstyled-UI defect), streaming 10, payload 10, concurrency 8, tools 10 (live-proven; the no-forced-tool-choice caveat is universal and cost no one else — consistency fix from 9), schema 5, budget 4, robustness 9, tests+gates 8, fidelity 14/15. **Total 91.**
 
 ## Wave 2 conclusions
 
