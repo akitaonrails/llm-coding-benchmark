@@ -27,18 +27,21 @@
 | 19 | Step 3.7 Flash | 84 | opencode | 69 | +15 |
 | 20 | Claude Opus 4.6 | 83 | Claude Code | 83 | 0 |
 | 20 | GLM 5 | 83 | opencode | 64 | **+19** |
-| 22 | DeepSeek V4 Flash | 80ᵃ | opencode | 78 | +2 |
-| 23 | Gemini 3.5 Flash @ high | 79ᵃ | opencode | 93* | −14 |
-| 24 | Qwen 3.6 Plus | 76ᵃ | opencode | 71 | +5 |
-| 25 | MiMo V2.5 Pro | 73 | opencode | 67 | +6 |
-| 26 | Gemini 3.1 Pro | 62ᵃ† | opencode | 79 | −17 |
-| 27 | Qwen3.7 Max | 51 | opencode | 78 | **−27** |
-| 28 | Step 3.5 Flash | 27 | opencode | 56 | −29 |
-| 29 | Grok 4.3 | 18 | opencode | 72 | **−54** |
+| 22 | DeepSeek V4 Pro | 82 | opencode | 69 | +13 |
+| 23 | DeepSeek V4 Flash | 80ᵃ | opencode | 78 | +2 |
+| 24 | Gemini 3.5 Flash @ high | 79ᵃ | opencode | 93* | −14 |
+| 25 | Qwen 3.6 Plus | 76ᵃ | opencode | 71 | +5 |
+| 26 | MiMo V2.5 Pro | 73 | opencode | 67 | +6 |
+| 27 | Gemini 3.1 Pro | 62ᵃ† | opencode | 79 | −17 |
+| 28 | Qwen3.7 Max | 51 | opencode | 78 | **−27** |
+| 29 | Step 3.5 Flash | 27 | opencode | 56 | −29 |
+| 30 | Grok 4.3 | 18 | opencode | 72 | **−54** |
 
 ᵃ Corrected 2026-07-30 after user-prompted re-audit (see "Scoring integrity re-check" below). \* v1 Flash ran at default dynamic effort; the v2 run forces `reasoning_effort=high`. † Carries the Google signature-bug caveat (phase 2 unproven, 3 attempts).
 
-Not run: Sakana Fugu Ultra (prepaid balance exhausted), Gemini 3.5 Pro (unreleased), DeepSeek V4 Pro (needs deepclaude support wired into the v2 runner — the one in-scope model skipped; say the word), and five C/D models cut by scope decision (GLM 5.1, DeepSeek V3.2, Qwen 3.5 397B, MiniMax M2.7, Grok 4.20). Locals dropped 2026-07-28.
+**Native-harness runs (wave 4) are scored but kept OUT of this table** to avoid double-counting the same model across harnesses — see the Wave 4 section for the full A/B analysis. For reference: Gemini 3.6 Flash @ high **92** (agy — newest model tested, no opencode baseline), Gemini 3.1 Pro @ high **88** (agy, vs opencode 62 — a reliability effect), Grok 4.5 **91** (grok CLI, vs opencode 92 — within noise), Grok 4.3 **55** (grok CLI, vs opencode 18 — scaffolding effect).
+
+Not run: Sakana Fugu Ultra (prepaid balance exhausted — top up to unblock), Gemini 3.5 Pro (unreleased; not present on Antigravity either — 3.1 is the newest Pro tier there), and five C/D models cut by scope decision (GLM 5.1, DeepSeek V3.2, Qwen 3.5 397B, MiniMax M2.7, Grok 4.20). Locals dropped 2026-07-28. DeepSeek V4 Pro was run as an addendum (deepclaude no longer needed — opencode's reasoning_content bug is fixed in 1.18.4).
 
 ## Design
 

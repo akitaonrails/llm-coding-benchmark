@@ -53,3 +53,8 @@ results-v2/*/.npm/
 results-v2/*/*.ndjson
 results-v2/*/*.stderr.log
 results-v2/*/*.prompt.txt
+
+# grok CLI cwd-local settings stub (created when grok runs with cwd in repo)
+.grok/
+# generated XDG isolation home for opencode benchmark runs (has node_modules)
+config/opencode.xdg-isolated/
