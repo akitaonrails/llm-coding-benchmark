@@ -66,6 +66,26 @@ def build_kimi_v2_command(model_id: str, prompt: str) -> list[str]:
     return ["bash", "-lc", " ".join(shlex_quote(a) for a in args)]
 
 
+def build_grok_command(model_id: str, prompt: str) -> list[str]:
+    # grok CLI (grok-cli-hurry-mode, mise/npm) — headless via -p, plain-JSONL
+    # role messages on stdout, no usage metrics (cost reconciled via xAI console).
+    # Requires the local search_parameters patch (xAI deleted the Live Search API).
+    args = ["grok", "-m", model_id, "-p", prompt, "--max-tool-rounds", "400"]
+    return ["bash", "-lc", " ".join(shlex_quote(a) for a in args)]
+
+
+def build_agy_command(model_id: str, prompt: str, project_dir: Path) -> list[str]:
+    # Antigravity CLI — headless via --print. agy defaults file operations to its
+    # own scratch workspace, so the workspace must be added via --add-dir AND the
+    # prompt gets a workspace preamble (run_phase does that for harness == "agy").
+    return [
+        "agy", "--print", prompt, "--model", model_id,
+        "--dangerously-skip-permissions",
+        "--add-dir", str(project_dir.resolve()),
+        "--print-timeout", "100m",
+    ]
+
+
 def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
               project_dir: Path, out_dir: Path) -> dict[str, Any]:
     harness = model["harness"]
@@ -110,6 +130,12 @@ def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
         stdin_data = prompt
     elif harness == "kimi":
         command = build_kimi_v2_command(model["model_id"], prompt)
+    elif harness == "grok":
+        command = build_grok_command(model["model_id"], prompt)
+    elif harness == "agy":
+        preamble = (f"Your workspace directory is {project_dir.resolve()}. Do ALL work inside it; "
+                    f"create and edit every file under that absolute path, never in any other scratch area.\n\n")
+        command = build_agy_command(model["model_id"], preamble + prompt, project_dir)
     elif harness == "opencode":
         # v2 phases are session-independent: fresh `opencode run` per phase
         # in the same workspace, model selected via -m each time.
