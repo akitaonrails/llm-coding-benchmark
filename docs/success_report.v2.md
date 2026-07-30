@@ -470,6 +470,16 @@ Two vendor-native harnesses wired into the v2 orchestrator: **grok CLI** (xAI) a
 |---|---:|---:|---:|---|
 | Grok 4.5 | 92 | **91** (grok CLI) | −1 | **within noise** — no harness effect |
 | Grok 4.3 | 18 (built nothing) | **55** (grok CLI) | **+37** | **OUT OF MARGIN** — native harness rescues the scaffold-dependent model |
+| Gemini 3.6 Flash @ high | — (new gen) | **provisional build only** | n/a | Antigravity quota exhausted after phase 1 — validation + self-review never ran |
+| Gemini 3.1 Pro @ high | 62 (opencode, bug-capped) | **blocked** | — | same quota block; deferred to ~2026-08-05 |
+
+### Gemini 3.6 Flash @ high (Antigravity CLI) — provisional, build-only (quota-blocked)
+
+Antigravity's individual quota was exhausted by phase 1 ("resets in 155h" ≈ 6.5 days), so phase 2 (runtime validation) and phase 3 (self-review) never executed — an infrastructure block, not charged to the model per the retry policy. What phase 1 produced is auditable directly and is **the strongest build-only artifact of any non-Claude model**: a **shunting-yard calculator** (no eval), real `with_schema` titles, real `with_tool` registration, per-chunk `broadcast_append`/`broadcast_replace` streaming, and a genuine **exact-array G5 test** — auditor-run suite **23 tests / 64 assertions, 88.76% line, clean**. Pin: `claude-sonnet-4.6` (stale); no concurrency lock visible.
+
+No rankable total is assigned: the five runtime-proof/self-review dimensions (live streaming, live tools, restart survival, docker, compose, fidelity) require phases 2-3, which didn't run. On hand-read of the build dimensions it tracks with the low-90s cohort, but that is **not** a scored result and is not placed in the standings. As the first look at a generation newer than anything else tested, the qualitative read is promising; a real comparison to Gemini 3.5 Flash's 79 (its nearest tested relative) awaits the quota reset. **Resume path**: `run_benchmark_v2.py --model v2_gemini_3_6_flash_high --phases 2,3` after ~2026-08-05.
+
+**Wave 4 status**: Grok 4.5 and Grok 4.3 complete (both A/B-annotated above); both Gemini/agy runs are blocked on the shared Antigravity quota until it resets. The native-harness verdict from the two completed pairs is already clear — **CLI vs opencode is within noise for the harness-insensitive model (Grok 4.5, −1) and out of margin for the scaffold-dependent one (Grok 4.3, +37)** — the same split the isolation campaign found, reproduced on the vendors' own tooling.
 
 ### Grok 4.3 (grok CLI) — 55 · vs opencode-clean 18 (Δ+37, OUT OF MARGIN)
 
