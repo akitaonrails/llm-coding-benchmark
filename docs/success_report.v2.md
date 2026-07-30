@@ -1,6 +1,44 @@
 # Benchmark v2: Production Hardening — Tier A Only
 
-**Status: wave 1 in progress (started 2026-07-26).** v1 (`success_report.md`, 40 models) remains frozen as the intake benchmark for new models and everything below Tier A. v2 re-tests the Tier A cohort on a harder, 3-phase brief where efficiency (tokens, time, cost) is a first-class axis.
+**Status: COMPLETE (2026-07-30).** 29 scored runs across three waves plus an 11-model harness-isolation campaign. v1 (`success_report.md`, 40 models) remains frozen as the historical intake benchmark; v2 is the authoritative production-hardening ranking. Opencode-harness scores are clean-condition (XDG-isolated) throughout; orchestrator-condition A/B records preserved under `results-v2/<slug>.orchestrator/`.
+
+## FINAL v2 STANDINGS (all waves, clean-condition official)
+
+| # | Model | v2 | Harness | v1 | Move |
+|---:|---|---:|---|---:|---:|
+| 1 | Claude Fable 5 | **96** | Claude Code | 94 | +2 |
+| 1 | **Claude Sonnet 5** | **96** | Claude Code | 58 | **+38** |
+| 3 | Claude Opus 5 | 95 | Claude Code | — | — |
+| 3 | Kimi K3 | 95 | Kimi CLI | 89 | +6 |
+| 5 | MiniMax M3 | 93 | opencode | 78 | +15 |
+| 5 | GPT 5.6 Sol | 93 | Codex | 92 | +1 |
+| 5 | Claude Opus 4.8 | 93 | Claude Code | 95 | −2 |
+| 8 | Grok 4.5 | 92 | opencode | 87 | +5 |
+| 8 | GLM 5.2 | 92 | opencode | 87 | +5 |
+| 8 | Kimi K2.5 | 92 | opencode | 69 | **+23** |
+| 11 | Kimi K2.6 | 91 | opencode | 87 | +4 |
+| 11 | Claude Opus 4.7 | 91 | Claude Code | 87 | +4 |
+| 13 | GPT 5.6 Luna | 90 | Codex | — | — |
+| 14 | Nex-N2-Pro | 88 | opencode | 83 | +5 |
+| 14 | GPT 5.5 | 88 | Codex | 85 | +3 |
+| 16 | Claude Sonnet 4.6 | 87 | Claude Code | 78 | +9 |
+| 17 | GPT 5.4 | 86 | Codex | 95 | −9 |
+| 17 | Kimi K2.7-Coding | 86 | Kimi CLI | 86 | 0 |
+| 19 | Step 3.7 Flash | 84 | opencode | 69 | +15 |
+| 20 | Claude Opus 4.6 | 83 | Claude Code | 83 | 0 |
+| 20 | GLM 5 | 83 | opencode | 64 | **+19** |
+| 22 | DeepSeek V4 Flash | 81 | opencode | 78 | +3 |
+| 23 | Gemini 3.5 Flash @ high | 78 | opencode | 93* | −15 |
+| 24 | Qwen 3.6 Plus | 75 | opencode | 71 | +4 |
+| 25 | MiMo V2.5 Pro | 73 | opencode | 67 | +6 |
+| 26 | Gemini 3.1 Pro | 60† | opencode | 79 | −19 |
+| 27 | Qwen3.7 Max | 51 | opencode | 78 | **−27** |
+| 28 | Step 3.5 Flash | 27 | opencode | 56 | −29 |
+| 29 | Grok 4.3 | 18 | opencode | 72 | **−54** |
+
+\* v1 Flash ran at default dynamic effort; the v2 run forces `reasoning_effort=high`. † Carries the Google signature-bug caveat (phase 2 unproven, 3 attempts).
+
+Not run: Sakana Fugu Ultra (prepaid balance exhausted), Gemini 3.5 Pro (unreleased), DeepSeek V4 Pro (needs deepclaude support wired into the v2 runner — the one in-scope model skipped; say the word), and five C/D models cut by scope decision (GLM 5.1, DeepSeek V3.2, Qwen 3.5 397B, MiniMax M2.7, Grok 4.20). Locals dropped 2026-07-28.
 
 ## Design
 
