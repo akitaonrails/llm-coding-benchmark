@@ -454,6 +454,14 @@ Second-best GPT of the benchmark (Sol 93 · **Luna 91** · GPT 5.5 88 · GPT 5.4
 
 **Scoring (corrected 2026-07-30)**: gates 13/15 (−1 stale `claude-sonnet-4.6` pin, −1 the unstyled-UI defect), streaming 10, payload 10, concurrency 8, tools 10 (live-proven; the no-forced-tool-choice caveat is universal and cost no one else — consistency fix from 9), schema 5, budget 4, robustness 9, tests+gates 8, fidelity 14/15. **Total 91.**
 
+### DeepSeek V4 Pro — 82 (opencode, audited 2026-07-30) — deepclaude retired
+
+The addendum that closed a v1-era workaround. In v1, DeepSeek V4 Pro could only be benchmarked through the deepclaude env-swap because opencode's ai-sdk stripped `reasoning_content` and broke every multi-turn session at turn 2. That bug is **fixed as of opencode 1.18.4** (probe-verified before the run: a 3-turn read→write→answer tool flow completed clean), so V4 Pro ran on the standard harness — better comparability than deepclaude ever gave.
+
+The build is solid-but-flawed with unusually honest disclosure. Its standout defect, self-caught: **tool results never reach the UI** — `handle_tool_chunk` broadcasts a hardcoded `"executing..."` placeholder and the real result (correctly computed and stored) is never broadcast, so the user watches a `<details>` block that never resolves (G7 PARTIAL, verified). Also confessed: the required exact-array G5 test is absent (only `assert_includes` checks), TTL `cleanup!` is dead code, and reads lock but writes don't. Suite verified: 63 runs / 113 assertions, 82.62% line. Phase 2 passed all 7 live (calculator `(156*23)+48 = 3636`, restart survival). Pin: `claude-sonnet-4.6`, stale.
+
+**Scoring**: gates 14/15 (−1 stale pin), streaming 9, payload 6 (required exact-array test absent — anchor cap), concurrency 6 (write lock missing, TTL dead code — both confessed), tools 7 (real eval-free calculator, but the results-never-broadcast bug is a real G7 miss), schema 5, budget 4, robustness 9, tests+gates 7, fidelity 15/15 — the G7/G5/G6 PARTIALs are precise and volunteer bugs an auditor might miss. **Total 82.** At $0.013 it's a value standout, and the honest self-review is the story: this is the model the v1 harness bug hid.
+
 ## Wave 2 conclusions
 
 1. **v2 de-saturated the benchmark.** v1 packed 15 models into 92-97; v2 spreads the same cohort across 20 points (96 → 76) with defensible per-point evidence. The three models that dropped furthest from their v1 positions (K2.6 87→77, Nex 83→78, Gemini Flash 93→76) failed on exactly the axes v2 added: payload tests, concurrency correctness, self-review discipline.
