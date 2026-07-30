@@ -1,0 +1,55 @@
+{
+  "billing": "Antigravity OAuth (Google account)",
+  "cost_usd_total": 0,
+  "elapsed_seconds_total": 1351.27,
+  "ended_at": "2026-07-30T16:36:20+00:00",
+  "harness": "agy",
+  "label": "Gemini 3.1 Pro @ high (Antigravity CLI)",
+  "phases": [
+    {
+      "command_kind": "agy",
+      "cost_usd": null,
+      "elapsed_seconds": 463.77,
+      "ended_at": "2026-07-30T16:21:33+00:00",
+      "exit_code": 0,
+      "file_count_after": 1831,
+      "harness": "agy",
+      "phase": "phase1",
+      "session_id": null,
+      "started_at": "2026-07-30T16:13:49+00:00",
+      "timed_out": false,
+      "tokens": {}
+    },
+    {
+      "command_kind": "agy",
+      "cost_usd": null,
+      "elapsed_seconds": 674.93,
+      "ended_at": "2026-07-30T16:32:48+00:00",
+      "exit_code": 0,
+      "file_count_after": 2059,
+      "harness": "agy",
+      "phase": "phase2",
+      "session_id": null,
+      "started_at": "2026-07-30T16:21:33+00:00",
+      "timed_out": false,
+      "tokens": {}
+    },
+    {
+      "command_kind": "agy",
+      "cost_usd": null,
+      "elapsed_seconds": 212.57,
+      "ended_at": "2026-07-30T16:36:20+00:00",
+      "exit_code": 0,
+      "file_count_after": 2060,
+      "harness": "agy",
+      "phase": "phase3",
+      "session_id": null,
+      "started_at": "2026-07-30T16:32:48+00:00",
+      "timed_out": false,
+      "tokens": {}
+    }
+  ],
+  "self_review_present": true,
+  "slug": "v2_gemini_3_1_pro_agy",
+  "tokens_total": 0
+}

@@ -471,7 +471,7 @@ Two vendor-native harnesses wired into the v2 orchestrator: **grok CLI** (xAI) a
 | Grok 4.5 | 92 | **91** (grok CLI) | −1 | **within noise** — no harness effect |
 | Grok 4.3 | 18 (built nothing) | **55** (grok CLI) | **+37** | **OUT OF MARGIN** — native harness rescues the scaffold-dependent model |
 | Gemini 3.6 Flash @ high | — (new gen; agy) | **92** (agy) | n/a | no same-model opencode baseline — cross-gen note vs 3.5 Flash 79, not a clean A/B |
-| Gemini 3.1 Pro @ high | 62 (opencode, bug-capped) | **blocked** | — | same quota block; deferred to ~2026-08-05 |
+| Gemini 3.1 Pro @ high | 62 (opencode, bug-capped) | **88** (agy) | +26 | **OUT OF MARGIN — but it measures harness *reliability*, not quality: agy escapes the provider bug that blocked opencode's phase 2** |
 
 ### Gemini 3.6 Flash @ high (Antigravity CLI) — 92 (audited 2026-07-30)
 
@@ -481,7 +481,23 @@ The newest model in the entire benchmark (a generation past anything else tested
 
 **Significance annotation (per the A/B directive):** unlike the Grok pairs, 3.6 Flash has **no same-model opencode baseline** — it's a generation newer than anything in the opencode runs, so no clean harness A/B is possible. Its nearest tested relative is Gemini 3.5 Flash @ high (opencode clean, **79**), and 92 is +13 over that — but that gap bundles *three* changes at once (a generation jump, an agy-vs-opencode harness change, and the fact that 3.5's runs fought Google's signature bug), so it must be read as a cross-generation observation, **not** a harness effect. The clean read: the newest Gemini, on Google's own harness, lands in the 92 tier — competitive with the frontier, one tier below the 95-96 leaders.
 
-**Wave 4 status**: Grok 4.5 and Grok 4.3 complete (both A/B-annotated above); both Gemini/agy runs are blocked on the shared Antigravity quota until it resets. The native-harness verdict from the two completed pairs is already clear — **CLI vs opencode is within noise for the harness-insensitive model (Grok 4.5, −1) and out of margin for the scaffold-dependent one (Grok 4.3, +37)** — the same split the isolation campaign found, reproduced on the vendors' own tooling.
+### Gemini 3.1 Pro @ high (Antigravity CLI) — 88 · vs opencode-clean 62 (Δ+26, OUT OF MARGIN — a reliability effect)
+
+The cleanest native-harness win of the wave, and the most careful to interpret. Gemini 3.1 Pro's opencode-clean score was **62**, but that number was **artificially capped**: Google's `Corrupted thought signature` bug killed its opencode phase 2 on three consecutive attempts, so streaming/tools/docker/compose were all scored on hand-read only (the ~60% unproven-runtime caps). On Google's own agy harness — a direct API path that never touches OpenRouter — **the bug did not appear at all**, and all three phases completed: incremental streaming proven, restart survival under `WEB_CONCURRENCY=2`, docker build, compose e2e. Auditor-run suite: **24 tests / 63 assertions, 86.51% line, clean**. Shunting-yard calculator (no eval), real `with_schema` titles, exact-array G5 test.
+
+**Scoring**: gates 13/15 (**−2 for G3: the default model is `google/gemini-2.5-flash` — not a Claude Sonnet at all, the wrong vendor entirely; the env override works but the shipped default fails "latest Claude Sonnet"**), streaming 10 (live-proven), payload 10 (exact-array test), concurrency 8 (Redis + TTL + bounds, restart-proven, no atomic lock — hazard-class cap), tools 9 (real shunting-yard + `with_tool`, live run completed but the tool-call proof wasn't captured in the transcript), schema 5, budget 4, robustness 9, tests+gates 8, fidelity 12/15 (−2 for claiming G3 PASS on a non-Claude default; the other 13 PASS are phase-2-proven). **Total 88.**
+
+**Significance annotation (per the A/B directive):** Δ+26 is far outside the ±1 noise band — but it must be read precisely. It does **not** mean agy makes Gemini 3.1 Pro write better code; it means **agy can finish the run where opencode-via-OpenRouter cannot**. The entire delta is a *reliability/completability* effect: the opencode 62 was a floor imposed by a provider-path bug (OpenRouter→Google thought-signature handling), not a true quality ceiling. Had opencode not hit the bug, 3.1 Pro would plausibly have scored in the mid-80s there too. The correct takeaway: **for Gemini, the vendor's own harness is materially more reliable than the OpenRouter path**, and that reliability is worth ~26 practical points when the alternative is a blocked validation. This is the inverse of the Grok findings (where the effect was about scaffolding/persona); here it's about a provider-transport bug, cleanly avoided by going direct.
+
+**Wave 4 status**
+
+**Wave 4 COMPLETE (2026-07-30)**: four native-harness runs across two vendor CLIs, each A/B-annotated. The verdict is that "does the native harness matter?" has **three distinct answers depending on why**:
+- **No (within noise)** when the model is harness-insensitive: Grok 4.5, grok CLI 91 vs opencode 92 (Δ−1).
+- **Yes, via scaffolding** when the model is scaffold-dependent: Grok 4.3, grok CLI 55 vs bare-opencode 18 (Δ+37) — the vendor CLI supplies the structure bare vanilla opencode withholds.
+- **Yes, via reliability** when the OpenRouter path carries a provider bug: Gemini 3.1 Pro, agy 88 vs opencode 62 (Δ+26) — the direct API avoids the thought-signature bug that capped the opencode run.
+- **Not comparable** for a model with no opencode baseline: Gemini 3.6 Flash 92 (agy) is the newest model tested but has no same-model opencode run, so its number is a cross-generation datapoint, not a harness A/B.
+
+Net: harness choice is never neutral, but the *mechanism* differs — scaffolding, transport reliability, or nothing — and only a controlled A/B separates them. Both new harnesses (grok CLI, agy) are wired into `run_benchmark_v2.py` for future use; grok CLI carries a documented local patch for xAI's deleted Live Search API.
 
 ### Grok 4.3 (grok CLI) — 55 · vs opencode-clean 18 (Δ+37, OUT OF MARGIN)
 
