@@ -1,0 +1,14 @@
+{
+  "command_kind": "agy",
+  "cost_usd": null,
+  "elapsed_seconds": 714.79,
+  "ended_at": "2026-07-30T16:09:08+00:00",
+  "exit_code": 0,
+  "file_count_after": 2074,
+  "harness": "agy",
+  "phase": "phase2",
+  "session_id": null,
+  "started_at": "2026-07-30T15:57:13+00:00",
+  "timed_out": false,
+  "tokens": {}
+}
