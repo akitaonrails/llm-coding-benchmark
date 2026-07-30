@@ -435,6 +435,22 @@
       },
       "wave": 3,
       "notes": "v1 Tier C (56, RubyLLM bypass)."
+    },
+    {
+      "slug": "v2_gpt_5_6_luna",
+      "label": "GPT 5.6 Luna xHigh (Codex)",
+      "harness": "codex",
+      "model_id": "gpt-5.6-luna",
+      "codex_reasoning_effort": "xhigh",
+      "billing": "ChatGPT subscription credits",
+      "rates_per_m": {
+        "input": 5.0,
+        "cache_read": 0.5,
+        "cache_write": 0.0,
+        "output": 30.0
+      },
+      "wave": 3,
+      "notes": "Added per user 2026-07-30. Probe-verified on codex. Newer codex event schema exposes cached_input_tokens \u2014 check whether cost calc can use the real cached split this time."
     }
   ],
   "skipped": {
