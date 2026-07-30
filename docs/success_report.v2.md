@@ -7,17 +7,17 @@
 | # | Model | v2 | Harness | v1 | Move |
 |---:|---|---:|---|---:|---:|
 | 1 | Claude Fable 5 | **96** | Claude Code | 94 | +2 |
-| 1 | **Claude Sonnet 5** | **96** | Claude Code | 58 | **+38** |
-| 3 | Claude Opus 5 | 95 | Claude Code | — | — |
-| 3 | Kimi K3 | 95 | Kimi CLI | 89 | +6 |
-| 5 | MiniMax M3 | 93 | opencode | 78 | +15 |
+| 2 | **Claude Sonnet 5** | **95**ᵃ | Claude Code | 58 | **+37** |
+| 2 | Claude Opus 5 | 95 | Claude Code | — | — |
+| 2 | Kimi K3 | 95 | Kimi CLI | 89 | +6 |
 | 5 | GPT 5.6 Sol | 93 | Codex | 92 | +1 |
 | 5 | Claude Opus 4.8 | 93 | Claude Code | 95 | −2 |
-| 8 | Grok 4.5 | 92 | opencode | 87 | +5 |
-| 8 | GLM 5.2 | 92 | opencode | 87 | +5 |
-| 8 | Kimi K2.5 | 92 | opencode | 69 | **+23** |
-| 11 | Kimi K2.6 | 91 | opencode | 87 | +4 |
-| 11 | Claude Opus 4.7 | 91 | Claude Code | 87 | +4 |
+| 7 | Grok 4.5 | 92 | opencode | 87 | +5 |
+| 7 | GLM 5.2 | 92 | opencode | 87 | +5 |
+| 7 | Kimi K2.5 | 92 | opencode | 69 | **+23** |
+| 10 | MiniMax M3 | 91ᵃ | opencode | 78 | +13 |
+| 10 | Kimi K2.6 | 91 | opencode | 87 | +4 |
+| 10 | Claude Opus 4.7 | 91 | Claude Code | 87 | +4 |
 | 13 | GPT 5.6 Luna | 90 | Codex | — | — |
 | 14 | Nex-N2-Pro | 88 | opencode | 83 | +5 |
 | 14 | GPT 5.5 | 88 | Codex | 85 | +3 |
@@ -36,7 +36,7 @@
 | 28 | Step 3.5 Flash | 27 | opencode | 56 | −29 |
 | 29 | Grok 4.3 | 18 | opencode | 72 | **−54** |
 
-\* v1 Flash ran at default dynamic effort; the v2 run forces `reasoning_effort=high`. † Carries the Google signature-bug caveat (phase 2 unproven, 3 attempts).
+ᵃ Corrected 2026-07-30 after user-prompted re-audit (see "Scoring integrity re-check" below). \* v1 Flash ran at default dynamic effort; the v2 run forces `reasoning_effort=high`. † Carries the Google signature-bug caveat (phase 2 unproven, 3 attempts).
 
 Not run: Sakana Fugu Ultra (prepaid balance exhausted), Gemini 3.5 Pro (unreleased), DeepSeek V4 Pro (needs deepclaude support wired into the v2 runner — the one in-scope model skipped; say the word), and five C/D models cut by scope decision (GLM 5.1, DeepSeek V3.2, Qwen 3.5 397B, MiniMax M2.7, Grok 4.20). Locals dropped 2026-07-28.
 
@@ -75,6 +75,35 @@ Within-v2 comparability = every model in its natural habitat. v2 scores are NOT 
 | Robustness (G10: system prompt, preflight, degraded states, history hygiene) | 10 | hand-read |
 | Test quality + gates (G11-G12) | 10 | hand-read; mock fidelity vs real gem surface |
 | **Self-review fidelity** (SELF_REVIEW.md verdicts vs audit ground truth; honesty > optimism) | 15 | audit cross-check of every claimed PASS/FAIL |
+
+### Scoring methodology (operational rules — read this to reproduce any score)
+
+Every score is the sum of the ten dimension scores above. Dimensions are graded from a fixed maximum by subtracting the standard deductions below; nothing else moves a score. The auditor (not the model) is the measurement instrument: every load-bearing claim is independently verified before it counts.
+
+**Verification protocol (applied to every run):**
+1. The model's own test suite is executed by the auditor; reported counts/coverage must match exactly (all published numbers are auditor-run).
+2. Every self-review PASS on a hard gate is chased to file:line; RubyLLM API usage is checked against the installed gem source (1.16.0).
+3. Phase-2 runtime claims are cross-checked against the event transcript (which commands actually ran — docker, compose, proof scripts), not the model's narrative.
+4. Surprising claims get probed live (model IDs against provider APIs, coverage resultsets recomputed, alias resolution tested).
+
+**Standard deductions (uniform across all models):**
+- **Stale model pin** (G3 requires the *latest* Claude Sonnet; `anthropic/claude-sonnet-5` at run time): −1 gates, and −1 fidelity if the review claims G3 PASS anyway. Yes, one fact costs 2 points; it is applied uniformly, and models proved the correct pin obtainable (K2.5 and Gemini Flash hard-pinned sonnet-5; Nex used OpenRouter's self-updating `~…-latest` alias). Structural note: Claude Sonnet 5 is immune by identity — see the integrity re-check.
+- **Phase-1 non-viability** (app cannot run/chat as delivered; phase 2 had to repair it): −1 to −2 gates depending on severity (invalid model ID, broken binstub/Dockerfile, missing Puma workers directive, etc.). Phase-2 fixes are within its mandate, so the deduction measures delivery quality, not final state.
+- **eval-based calculator** (G7 says "safely"; `Kernel.eval` behind a regex whitelist): −2 tools. A hand-written parser or a parsing gem (Dentaku) takes no deduction.
+- **Token budget enforced only between turns** (nobody meters mid-stream): −1 budget, cohort-wide. Additional budget accounting bugs (double-counting, zero-counting user turns, non-atomic double-pass): −1 more.
+- **Missing required G5 test** (the brief explicitly requires a test asserting the exact outgoing message array): payload capped at ~6; a count-based or callback-shape test instead of an exact array: −1. A test that mocks a *nonexistent* API surface scores lower than no test (per the brief).
+- **Unproven runtime claims** (phase 2 never executed the relevant validation — no docker run, no live stream capture): the affected dimension is scored on hand-read evidence only, capped roughly at 60% of max.
+- **Concurrency hazard classes** (unserialized turns, read-before-write cap races, lost-update on non-atomic stores, fork-unsafe pools): each confessed-or-found class −1, floor 4 while the store itself is sound.
+- **Gates not clean** (RuboCop offenses, Brakeman warnings — including suppressed warnings, which also cost fidelity): −1 to −2 tests+gates.
+
+**Fidelity (15) anchors:** 15 = zero false claims and at least one materially honest confession (or a perfectly accurate FAIL report); 14 = accurate except one over-claim (typically the stale-pin PASS); 10-13 = honest structure with multiple over-claims or fabricated evidence citations; ≤11 with invented goal numbering (the reviewer must verify the brief's G1-G14, not a reconstruction); 0 = no SELF_REVIEW.md produced after the standard retry.
+- **Retry policy:** one clean retry for suspicious sub-5-minute phase-1 exits or infrastructure failures; one fresh-session retry for a phase 3 that errors/loops without producing the file. Behavior that reproduces on retry is the model's official result. Infrastructure failures (auth, provider bugs) are never charged to the model; provider-side bugs that block validation are documented and cap the affected dimensions instead.
+- **Harness condition:** opencode scores are official only under full XDG isolation (vanilla agent). Orchestrator-condition runs are preserved as the A/B record and never mixed into rankings.
+- **Noise threshold:** per the standing 2026-06-11 decision, 1-point gaps are within audit noise — read adjacent scores as ties. Cross-harness comparisons (e.g., Kimi CLI vs opencode) carry an explicit caveat.
+
+### Scoring integrity re-check (2026-07-30, user-prompted)
+
+Two scores were corrected after a consistency audit against the deduction catalog above, and the catalog itself was written down as a result: **Claude Sonnet 5 96 → 95** (concurrency 9 → 8: its confessed hazard set matches the class that scored 8 elsewhere) and **MiniMax M3 93 → 91** (concurrency 9 → 8 for plain `BEGIN` + no turn lock; tests 8 → 7 because its coverage metric is unverifiable — every other 8 had a real number). Both re-audits also *confirmed* the runs' substance: Sonnet 5's 100% line coverage is genuine (union recomputed across all 33 parallel workers: 281/281) and its G5 test asserts the literal HTTP wire body; M3's phase-2 forensics are corroborated by its command trace (docker build, compose up, 51 proof-script invocations). The rubric weights were reviewed and kept (the standing no-reweight decision); the one known structural distortion — the stale-pin double penalty — is documented above rather than patched mid-benchmark.
 
 **Efficiency is reported first-class** (not folded into the score): per-phase and total tokens, wall time, and cost (native `costUSD` for Claude Code; token-log × verified rates elsewhere). With near-peer quality expected at the top, efficiency and self-review fidelity are the designed tiebreakers.
 
@@ -322,7 +351,7 @@ First model through the isolated harness, and an immediate signal: the *weaker* 
 
 The build earns the score on its own terms. Phase 2 ran the most forensic validation of the entire benchmark: streaming proven with per-chunk arrival timestamps (0.0/0.1/0.2/0.3/0.5s), tool calls proven by *inspecting the SQLite store's tool rows* (`server_time` → `{utc: …}`, `calculator` → `{expression: "(12*7)+3", result: 87.0}` — and note, M3 **persists tool turns**, which even Opus 4.7 didn't), restart survival under a real 2-worker cluster with the SQLite ActionCable adapter bridging workers, and a compose e2e chat streamed to a WebSocket client (13 incremental appends). Suite verified: 49 runs / 174 assertions / 0 failures, with a `CapturedChat` mock mirroring the broad RubyLLM surface and an exact captured-array G5 test with exactly-once counts. The self-review's G11 PARTIAL is the best single piece of self-diagnosis in the cohort: it root-caused SimpleCov's misleading 5.12% as a load-order bug (libs required before `SimpleCov.start`), explained the mechanism, and verified it experimentally.
 
-**Scoring**: gates 14/15 (−1 stale `claude-sonnet-4.5` pin), streaming 10, payload 10, concurrency 9, tools 10, schema 5, budget 4, robustness 9, tests+gates 8 (coverage numbers unusable due to the self-diagnosed tooling bug), fidelity 14/15 (13 accurate PASS + the exemplary PARTIAL; −1 stale-pin claim).
+**Scoring (corrected 2026-07-30)**: gates 14/15 (−1 stale `claude-sonnet-4.5` pin), streaming 10, payload 10, **concurrency 8** (re-audited: plain `BEGIN` — not `IMMEDIATE` — and no turn lock; the hazard class that scored 8 elsewhere), tools 10, schema 5, budget 4, robustness 9, **tests+gates 7** (49/174 verified passing and the phase-2 forensics corroborated by the command trace — docker build, compose up, 51 proof-script calls — but the coverage metric is unverifiable due to the self-diagnosed tooling bug; every other 8 in the cohort had a real number), fidelity 14/15. **Total 91** — tied with K2.6 and Opus 4.7. Still a +67 harness effect and the benchmark's best value at $0.17.
 
 ### Qwen3.7 Max — 51 (clean harness, audited 2026-07-28) · orchestrator condition: 22 (DNF ×3)
 
@@ -408,7 +437,7 @@ v1: 64 → 83, closing cloud Tier B with the group's now-familiar profile: real 
 
 The §4 defects section is the deepest of the benchmark: seven findings, led by a gem-source-verified trace showing RubyLLM's `ErrorMiddleware` only wraps *received-response* errors, so a bare `Faraday` connection failure during best-effort title generation falls into the main rescue and **overwrites an already-delivered reply** via a Turbo `update` — a narrow, real, test-uncovered path. It also self-caught its conversation-ID authorization leak, a budget double-pass race, and the byte-trim floor edge case.
 
-**Scoring**: gates 15/15 (first perfect gates — correct pin, zero fixes), streaming 10, payload 10, concurrency 9 (confessed turn-serialization race), tools 10, schema 5, budget 4 (between-turns, shared), robustness 9 (confessed title-error overwrite + unhandled Redis outage), tests+gates 9 (100% line; branch not enabled), **fidelity 15/15** — 14 accurate PASSes, no stale pin to misclaim, and the benchmark's best defects section. Cost: $25.83 / 58.9 min / 61.3M tokens on the Max subscription — Opus-5-class appetite for Fable-class results.
+**Scoring (corrected 2026-07-30)**: gates 15/15 (correct pin, zero fixes), streaming 10, payload 10, **concurrency 8** (re-audited: the confessed set — no turn serialization, budget double-pass race, Redis-down unhandled — is the same hazard class that scored 8 for GLM 5.2, Grok 4.5, K2.5), tools 10, schema 5, budget 4, robustness 9, tests+gates 9 (100% line — union-verified across all 33 parallel workers, 281/281, no filter gaming; branch not enabled), **fidelity 15/15**. **Total 95** — tied with Opus 5, one below Fable. Transparency note: the stale-pin rule costs most models 2 points (gate + fidelity) and Sonnet 5 is structurally immune — the "latest Sonnet" is itself. The rule stands (K2.5, Gemini Flash, and Nex found the correct pin without being it), but the initial 96 briefly overstated its edge over the Opus line. Cost: $25.83 / 58.9 min / 61.3M tokens.
 
 ### Step 3.5 Flash — 27 (DNF-adjacent, audited 2026-07-30)
 
