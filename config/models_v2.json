@@ -420,6 +420,21 @@
       },
       "wave": 3,
       "notes": "v1 Tier C (58, hallucinated RubyLLM). Key experiment: does the v2 goal contract + native harness fix it?"
+    },
+    {
+      "slug": "v2_step_3_5_flash",
+      "label": "Step 3.5 Flash (opencode/OpenRouter) \u2014 wave 3 group 2 (C/D)",
+      "harness": "opencode",
+      "model_id": "openrouter/stepfun/step-3.5-flash",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.1,
+        "cache_read": 0.1,
+        "cache_write": 0.1,
+        "output": 0.3
+      },
+      "wave": 3,
+      "notes": "v1 Tier C (56, RubyLLM bypass)."
     }
   ],
   "skipped": {
