@@ -23,6 +23,10 @@ The current successful path is a two-phase OpenRouter run:
 1. phase 1 builds the Rails app
 2. phase 2 continues the same session and validates local boot, `docker build`, and `docker compose up --build`
 
+### Known confound: opencode dispatches per-family system prompts
+
+As surfaced by @leandromineti in [issue #12](https://github.com/akitaonrails/llm-coding-benchmark/issues/12) (with a verified source citation), `opencode run` substring-matches the model ID and injects a *family-specific* built-in system prompt — Claude, GPT/Codex, Gemini, and Kimi models each get bespoke prompts while everything else (DeepSeek, Qwen, GLM, MiniMax, Grok, Step, …) receives the generic `default.txt`. opencode-harness scores therefore do not run under literally identical system instructions, and part of any cross-family difference inside the opencode harness may reflect opencode's prompt tuning rather than the model. This sits alongside the benchmark's own measured harness effects (see the v2 report's harness-isolation campaign: a user-level plugin shifted single-model scores across a 106-point spread). v2 treats the harness as part of the measured system and documents conditions explicitly; a uniform-prompt condition (as prototyped in PR #13) is earmarked for a possible v3.
+
 ## Key Findings
 
 The deep code reviews in `docs/success_report*.md` are the substance of this repo. Rankings use a 0-100 holistic rubric across 8 dimensions (deliverables, RubyLLM correctness, tests, error handling, persistence, Hotwire, architecture, production-readiness) — see [`docs/audit_prompt_template.md`](docs/audit_prompt_template.md) for the exact methodology.
