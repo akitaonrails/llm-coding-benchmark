@@ -4,40 +4,53 @@
 
 ## FINAL v2 STANDINGS (all waves, clean-condition official)
 
-| # | Model | v2 | Harness | v1 | Move |
-|---:|---|---:|---|---:|---:|
-| 1 | Claude Fable 5 | **96** | Claude Code | 94 | +2 |
-| 2 | **Claude Sonnet 5** | **95**ᵃ | Claude Code | 58 | **+37** |
-| 2 | Claude Opus 5 | 95 | Claude Code | — | — |
-| 2 | Kimi K3 | 95 | Kimi CLI | 89 | +6 |
-| 5 | GPT 5.6 Sol | 93 | Codex | 92 | +1 |
-| 5 | Claude Opus 4.8 | 93 | Claude Code | 95 | −2 |
-| 7 | Grok 4.5 | 92 | opencode | 87 | +5 |
-| 7 | GLM 5.2 | 92 | opencode | 87 | +5 |
-| 7 | Kimi K2.5 | 92 | opencode | 69 | **+23** |
-| 10 | MiniMax M3 | 91ᵃ | opencode | 78 | +13 |
-| 10 | Kimi K2.6 | 91 | opencode | 87 | +4 |
-| 10 | Claude Opus 4.7 | 91 | Claude Code | 87 | +4 |
-| 10 | GPT 5.6 Luna | 91ᵃ | Codex | — | — |
-| 14 | Nex-N2-Pro | 88 | opencode | 83 | +5 |
-| 14 | GPT 5.5 | 88 | Codex | 85 | +3 |
-| 16 | Claude Sonnet 4.6 | 87 | Claude Code | 78 | +9 |
-| 17 | GPT 5.4 | 86 | Codex | 95 | −9 |
-| 17 | Kimi K2.7-Coding | 86 | Kimi CLI | 86 | 0 |
-| 19 | Step 3.7 Flash | 84 | opencode | 69 | +15 |
-| 20 | Claude Opus 4.6 | 83 | Claude Code | 83 | 0 |
-| 20 | GLM 5 | 83 | opencode | 64 | **+19** |
-| 22 | DeepSeek V4 Pro | 82 | opencode | 69 | +13 |
-| 23 | DeepSeek V4 Flash | 80ᵃ | opencode | 78 | +2 |
-| 24 | Gemini 3.5 Flash @ high | 79ᵃ | opencode | 93* | −14 |
-| 25 | Qwen 3.6 Plus | 76ᵃ | opencode | 71 | +5 |
-| 26 | MiMo V2.5 Pro | 73 | opencode | 67 | +6 |
-| 27 | Gemini 3.1 Pro | 62ᵃ† | opencode | 79 | −17 |
-| 28 | Qwen3.7 Max | 51 | opencode | 78 | **−27** |
-| 29 | Step 3.5 Flash | 27 | opencode | 56 | −29 |
-| 30 | Grok 4.3 | 18 | opencode | 72 | **−54** |
+| # | Model | v2 | Tier | Harness | v1 | Move |
+|---:|---|---:|:---:|---|---:|---:|
+| 1 | Claude Fable 5 | **96** | A | Claude Code | 94 | +2 |
+| 2 | **Claude Sonnet 5** | **95**ᵃ | A | Claude Code | 58 | **+37** |
+| 2 | Claude Opus 5 | 95 | A | Claude Code | — | — |
+| 2 | Kimi K3 | 95 | A | Kimi CLI | 89 | +6 |
+| 5 | GPT 5.6 Sol | 93 | A | Codex | 92 | +1 |
+| 5 | Claude Opus 4.8 | 93 | A | Claude Code | 95 | −2 |
+| 7 | Grok 4.5 | 92 | A | opencode | 87 | +5 |
+| 7 | GLM 5.2 | 92 | A | opencode | 87 | +5 |
+| 7 | Kimi K2.5 | 92 | A | opencode | 69 | **+23** |
+| 10 | MiniMax M3 | 91ᵃ | A | opencode | 78 | +13 |
+| 10 | Kimi K2.6 | 91 | A | opencode | 87 | +4 |
+| 10 | Claude Opus 4.7 | 91 | A | Claude Code | 87 | +4 |
+| 10 | GPT 5.6 Luna | 91ᵃ | A | Codex | — | — |
+| 14 | Nex-N2-Pro | 88 | A | opencode | 83 | +5 |
+| 14 | GPT 5.5 | 88 | A | Codex | 85 | +3 |
+| 16 | Claude Sonnet 4.6 | 87 | A | Claude Code | 78 | +9 |
+| 17 | GPT 5.4 | 86 | A | Codex | 95 | −9 |
+| 17 | Kimi K2.7-Coding | 86 | A | Kimi CLI | 86 | 0 |
+| 19 | Step 3.7 Flash | 84 | A | opencode | 69 | +15 |
+| 20 | Claude Opus 4.6 | 83 | A | Claude Code | 83 | 0 |
+| 20 | GLM 5 | 83 | A | opencode | 64 | **+19** |
+| 22 | DeepSeek V4 Pro | 82 | B | opencode | 69 | +13 |
+| 23 | DeepSeek V4 Flash | 80ᵃ | B | opencode | 78 | +2 |
+| 24 | Gemini 3.5 Flash @ high | 79ᵃ | B | opencode | 93* | −14 |
+| 25 | Qwen 3.6 Plus | 76ᵃ | B | opencode | 71 | +5 |
+| 26 | MiMo V2.5 Pro | 73 | B | opencode | 67 | +6 |
+| 27 | Gemini 3.1 Pro | 62ᵃ† | C | opencode | 79 | −17 |
+| 28 | Qwen3.7 Max | 51 | C | opencode | 78 | **−27** |
+| 29 | Step 3.5 Flash | 27 | D | opencode | 56 | −29 |
+| 30 | Grok 4.3 | 18 | D | opencode | 72 | **−54** |
 
 ᵃ Corrected 2026-07-30 after user-prompted re-audit (see "Scoring integrity re-check" below). \* v1 Flash ran at default dynamic effort; the v2 run forces `reasoning_effort=high`. † Carries the Google signature-bug caveat (phase 2 unproven, 3 attempts).
+
+### Tier definitions (v2, anchored on Claude Opus 4.6 = 83)
+
+The v2 tiers are **capability tiers for real Rails/RubyLLM programming**, anchored on Claude Opus 4.6 (83) as the floor of "ship-with-it" competence — usable across all three tools, capable of the full production-hardening brief. The thresholds and their practical meaning:
+
+| Tier | Score | Meaning — what you can actually do with it |
+|:---:|:---:|---|
+| **A** | **≥ 83** | **Usable for programming.** Opus 4.6 and above — any Tier A model can carry the full brief (streaming, concurrency, tools, tests, production Docker) to a shippable result. Differences within A are efficiency, honesty, and depth, not capability. 21 models. |
+| **B** | **73–82** | **Close, but still lacking — on the radar for the near future.** Produces a mostly-correct app that needs human cleanup (a missed hard gate, a shallow test suite, a stale pin, an unenforced bound). Fine for scaffolding and prototypes; not yet trustworthy for unattended production work. 5 models. |
+| **C** | **51–72** | **Do not use for programming.** Ships a coherent-looking app with a load-bearing defect (Gemini 3.1 Pro was bug-capped; Qwen3.7 Max hallucinated the RubyLLM API and broke multi-turn). Still useful for simpler tasks — translation, summarization, simple agents, glue code. 2 models. |
+| **D** | **≤ 50** | **Inconsistent, buggy, incoherent** as a coding agent — bare `eval`, a test suite that won't load, phase-2 abandoned mid-work, or nothing built at all. Not usable for programming in any form. 2 models. |
+
+**Harness caveat on tiers:** a model's tier is a property of *model × harness*, not the model alone — the isolation and wave-4 campaigns proved harness swings of up to 69 points. Concretely: **Gemini 3.1 Pro is Tier C on opencode (62, provider-bug-capped) but Tier A on its native agy harness (88)**; **Grok 4.3 is Tier D on bare opencode (18) but Tier C on the grok CLI (55)**; **MiniMax M3 was Tier D-looking under the orchestrator (24) and is Tier A clean (91)**. Tiers in the table above are the clean-condition opencode/subscription scores; where a native harness changes the tier, that is called out in the Wave 4 section and is itself a finding (for Gemini, prefer the vendor's direct harness over the OpenRouter path).
 
 **Native-harness runs (wave 4) are scored but kept OUT of this table** to avoid double-counting the same model across harnesses — see the Wave 4 section for the full A/B analysis. For reference: Gemini 3.6 Flash @ high **92** (agy — newest model tested, no opencode baseline), Gemini 3.1 Pro @ high **88** (agy, vs opencode 62 — a reliability effect), Grok 4.5 **91** (grok CLI, vs opencode 92 — within noise), Grok 4.3 **55** (grok CLI, vs opencode 18 — scaffolding effect).
 
