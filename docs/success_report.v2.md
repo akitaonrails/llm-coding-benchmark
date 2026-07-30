@@ -462,6 +462,20 @@ The build is solid-but-flawed with unusually honest disclosure. Its standout def
 
 **Scoring**: gates 14/15 (−1 stale pin), streaming 9, payload 6 (required exact-array test absent — anchor cap), concurrency 6 (write lock missing, TTL dead code — both confessed), tools 7 (real eval-free calculator, but the results-never-broadcast bug is a real G7 miss), schema 5, budget 4, robustness 9, tests+gates 7, fidelity 15/15 — the G7/G5/G6 PARTIALs are precise and volunteer bugs an auditor might miss. **Total 82.** At $0.013 it's a value standout, and the honest self-review is the story: this is the model the v1 harness bug hid.
 
+## Wave 4 (2026-07-30) — native vendor CLIs vs opencode (A/B by user directive)
+
+Two vendor-native harnesses wired into the v2 orchestrator: **grok CLI** (xAI) and **Antigravity CLI / agy** (Google). The mandate: measure whether a model's *own* CLI moves its score outside the ±1 noise threshold versus its clean-opencode run. Neither CLI emits token metrics, so these report wall time only; cost is a console-reconciliation note. The grok CLI required a local source patch — every current release still calls xAI's **deleted** Live Search API and 410s on every prompt until the `search_parameters` injection is removed.
+
+| Model | opencode clean | native CLI | Δ | verdict |
+|---|---:|---:|---:|---|
+| Grok 4.5 | 92 | **91** (grok CLI) | −1 | **within noise** — no harness effect |
+
+### Grok 4.5 (grok CLI) — 91 · vs opencode 92 (Δ−1, within noise)
+
+The clean result: the vendor CLI produces essentially the same score as clean opencode (−1 is inside the stated ±1 noise band), which is itself the finding — Grok 4.5 was already the most harness-insensitive model in the isolation campaign (opencode +1 vs its own orchestrator run), and its own CLI confirms it. Real recursive-descent `ArithmeticEvaluator` (Ripper-guarded, no `Kernel.eval`), a true exact-array G5 test (`outgoing_messages_for` asserted against the literal 5-element array), Redis `rpush` store, all 7 phase-2 validations live-proven (calculator `5**4 = 1649`, restart survival under 2 workers, compose e2e) with two honest fixes. Suite verified: 43 runs / 98 assertions, 92.62% line. Pin: `claude-sonnet-4.6`, stale.
+
+**Scoring**: gates 14/15 (−1 stale pin), streaming 10, payload 10 (exact-array test), concurrency 7 (Redis store but no `WATCH`/lock — read-modify-write race), tools 10 (hand-rolled parser), schema 5, budget 4, robustness 9, tests+gates 8, fidelity 14/15 (−1 stale-pin PASS). **Total 91.** Wall time 24.9 min (vs opencode's 18.2) — the CLI is slower but no better or worse in quality.
+
 ## Wave 2 conclusions
 
 1. **v2 de-saturated the benchmark.** v1 packed 15 models into 92-97; v2 spreads the same cohort across 20 points (96 → 76) with defensible per-point evidence. The three models that dropped furthest from their v1 positions (K2.6 87→77, Nex 83→78, Gemini Flash 93→76) failed on exactly the axes v2 added: payload tests, concurrency correctness, self-review discipline.
