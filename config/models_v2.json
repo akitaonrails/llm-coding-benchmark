@@ -451,6 +451,21 @@
       },
       "wave": 3,
       "notes": "Added per user 2026-07-30. Probe-verified on codex. Newer codex event schema exposes cached_input_tokens \u2014 check whether cost calc can use the real cached split this time."
+    },
+    {
+      "slug": "v2_deepseek_v4_pro",
+      "label": "DeepSeek V4 Pro (opencode/OpenRouter) \u2014 wave 3 addendum",
+      "harness": "opencode",
+      "model_id": "openrouter/deepseek/deepseek-v4-pro",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.28,
+        "cache_read": 0.028,
+        "cache_write": 0.28,
+        "output": 0.42
+      },
+      "wave": 3,
+      "notes": "v1 Tier B (69, via deepclaude workaround). The opencode reasoning_content multi-turn bug is FIXED as of opencode 1.18.4 (probe-verified 2026-07-30: 3-turn tool flow clean) \u2014 runs on the standard harness, deepclaude retired."
     }
   ],
   "skipped": {
