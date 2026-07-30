@@ -1,0 +1,79 @@
+{
+  "billing": "Claude Max subscription",
+  "cost_usd_total": 25.8349,
+  "elapsed_seconds_total": 3533.89,
+  "ended_at": "2026-07-30T00:25:44+00:00",
+  "harness": "claude",
+  "label": "Claude Sonnet 5 (Claude Code) \u2014 wave 3 group 2 (C/D)",
+  "phases": [
+    {
+      "command_kind": "claude",
+      "cost_usd": 21.16927080000001,
+      "elapsed_seconds": 2503.11,
+      "ended_at": "2026-07-30T00:08:33+00:00",
+      "exit_code": 0,
+      "file_count_after": 1867,
+      "harness": "claude",
+      "phase": "phase1",
+      "session_id": "b1223aa2-095b-4136-9fa3-f9a94f16dc59",
+      "started_at": "2026-07-29T23:26:50+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 51308071,
+          "write": 416451
+        },
+        "input": 476,
+        "output": 177767,
+        "total": 51902765
+      }
+    },
+    {
+      "command_kind": "claude",
+      "cost_usd": 2.9037773000000002,
+      "elapsed_seconds": 547.73,
+      "ended_at": "2026-07-30T00:17:41+00:00",
+      "exit_code": 0,
+      "file_count_after": 1878,
+      "harness": "claude",
+      "phase": "phase2",
+      "session_id": "76732ded-0eff-447f-8e84-92ff6e9a8d07",
+      "started_at": "2026-07-30T00:08:33+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 6449191,
+          "write": 90493
+        },
+        "input": 160,
+        "output": 28305,
+        "total": 6568149
+      }
+    },
+    {
+      "command_kind": "claude",
+      "cost_usd": 1.7618179999999997,
+      "elapsed_seconds": 483.05,
+      "ended_at": "2026-07-30T00:25:44+00:00",
+      "exit_code": 0,
+      "file_count_after": 1881,
+      "harness": "claude",
+      "phase": "phase3",
+      "session_id": "47e0e73b-152c-4159-8dc6-02df3607a479",
+      "started_at": "2026-07-30T00:17:41+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 2662200,
+          "write": 99441
+        },
+        "input": 70,
+        "output": 24352,
+        "total": 2786063
+      }
+    }
+  ],
+  "self_review_present": true,
+  "slug": "v2_claude_sonnet_5",
+  "tokens_total": 61256977
+}
