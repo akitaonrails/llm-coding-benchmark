@@ -469,6 +469,15 @@ Two vendor-native harnesses wired into the v2 orchestrator: **grok CLI** (xAI) a
 | Model | opencode clean | native CLI | Δ | verdict |
 |---|---:|---:|---:|---|
 | Grok 4.5 | 92 | **91** (grok CLI) | −1 | **within noise** — no harness effect |
+| Grok 4.3 | 18 (built nothing) | **55** (grok CLI) | **+37** | **OUT OF MARGIN** — native harness rescues the scaffold-dependent model |
+
+### Grok 4.3 (grok CLI) — 55 · vs opencode-clean 18 (Δ+37, OUT OF MARGIN)
+
+The scaffold-dependency verdict, from a third angle. Grok 4.3's story across conditions: OMO orchestrator **57** (scaffolded) → bare vanilla opencode **18** (built nothing, stub-quit in 48s, twice) → its own vendor CLI **55** (a real app in 37 tool calls). The pattern is now unambiguous: **Grok 4.3 needs a scaffold to function, and both the OMO orchestrator and xAI's own grok CLI provide one; only bare vanilla opencode leaves it rudderless.** This is the exact inverse of Grok 4.5, which is scaffold-*independent* across all three conditions (91/92/91). A one-generation gap inside xAI splits cleanly on harness-sensitivity.
+
+The rescued build is genuinely weak, which is why it lands at 55 not 91: a bare **`Kernel.eval` calculator** (`calculator_tool.rb:9`, the only unguarded eval in the entire benchmark), a **test suite that cannot load** (no `test_helper.rb` exists; the single test file errors on require — effectively zero runnable tests), the **stalest pin in the benchmark** (`claude-3.5-sonnet`, ~5 generations old, same as its opencode run), and a phase-3 review that marked all 14 goals **UNVERIFIABLE** — honest about its fresh-session blindness but delivering zero verification of a real, present codebase (worse than MiniMax M3's DNF, which at least accurately described its empty workspace). Phase 2's proofs were largely hand-read from source rather than runtime-captured.
+
+**Scoring**: gates 13/15 (−1 stale pin, −1 phase-2 regex/Dockerfile fixes), streaming 7 (real per-chunk `broadcast_append` code, not runtime-proven incremental), payload 5 (exact-array test file exists but suite won't load — unverifiable), concurrency 5 (Redis store, confessed non-atomic append race, WEB_CONCURRENCY claimed not proven), tools 6 (real `with_tool` wiring but `Kernel.eval`), schema 3, budget 3, robustness 7, tests+gates 2 (suite does not load — a hard G11 miss), fidelity 4/15 (UNVERIFIABLE on a real codebase is a near-total abdication of the review's purpose; not zero only because it didn't fabricate). **Total 55.** Wall time 6.3 min.
 
 ### Grok 4.5 (grok CLI) — 91 · vs opencode 92 (Δ−1, within noise)
 
