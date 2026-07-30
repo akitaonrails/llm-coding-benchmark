@@ -466,6 +466,54 @@
       },
       "wave": 3,
       "notes": "v1 Tier B (69, via deepclaude workaround). The opencode reasoning_content multi-turn bug is FIXED as of opencode 1.18.4 (probe-verified 2026-07-30: 3-turn tool flow clean) \u2014 runs on the standard harness, deepclaude retired."
+    },
+    {
+      "slug": "v2_grok_4_5_cli",
+      "label": "Grok 4.5 (grok CLI, native)",
+      "harness": "grok",
+      "model_id": "grok-4.5",
+      "billing": "xAI API (GROK_API_KEY)",
+      "rates_per_m": {
+        "input": 2.0,
+        "cache_read": 2.0,
+        "cache_write": 2.0,
+        "output": 6.0
+      },
+      "wave": 4,
+      "notes": "Native-harness condition for the 92-scoring opencode run. grok CLI patched locally for xAI's deleted Live Search API."
+    },
+    {
+      "slug": "v2_grok_4_3_cli",
+      "label": "Grok 4.3 (grok CLI, native)",
+      "harness": "grok",
+      "model_id": "grok-4.3",
+      "billing": "xAI API (GROK_API_KEY)",
+      "rates_per_m": {
+        "input": 2.0,
+        "cache_read": 2.0,
+        "cache_write": 2.0,
+        "output": 6.0
+      },
+      "wave": 4,
+      "notes": "The scaffold-dependency test: 57 orchestrator / 18 vanilla \u2014 does the vendor harness rescue it?"
+    },
+    {
+      "slug": "v2_gemini_3_6_flash_high",
+      "label": "Gemini 3.6 Flash @ high (Antigravity CLI)",
+      "harness": "agy",
+      "model_id": "gemini-3.6-flash-high",
+      "billing": "Antigravity OAuth (Google account)",
+      "wave": 4,
+      "notes": "NEW generation \u2014 newer than anything tested. Discovered in agy model list 2026-07-30; no 3.5 Pro exists there."
+    },
+    {
+      "slug": "v2_gemini_3_1_pro_agy",
+      "label": "Gemini 3.1 Pro @ high (Antigravity CLI)",
+      "harness": "agy",
+      "model_id": "gemini-3.1-pro-high",
+      "billing": "Antigravity OAuth (Google account)",
+      "wave": 4,
+      "notes": "Native-harness escape from the OpenRouter thought-signature bug that blocked its clean phase 2 three times."
     }
   ],
   "skipped": {
