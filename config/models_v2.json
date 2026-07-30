@@ -504,7 +504,8 @@
       "model_id": "gemini-3.6-flash-high",
       "billing": "Antigravity OAuth (Google account)",
       "wave": 4,
-      "notes": "NEW generation \u2014 newer than anything tested. Discovered in agy model list 2026-07-30; no 3.5 Pro exists there."
+      "notes": "NEW generation \u2014 newer than anything tested. Discovered in agy model list 2026-07-30; no 3.5 Pro exists there.",
+      "blocked": "Antigravity individual quota exhausted after Gemini-3.6 phase 1 (2026-07-30); resets ~2026-08-05 (155h). Resume 3.6 with --phases 2,3; run 3.1 Pro fresh after reset."
     },
     {
       "slug": "v2_gemini_3_1_pro_agy",
@@ -513,7 +514,8 @@
       "model_id": "gemini-3.1-pro-high",
       "billing": "Antigravity OAuth (Google account)",
       "wave": 4,
-      "notes": "Native-harness escape from the OpenRouter thought-signature bug that blocked its clean phase 2 three times."
+      "notes": "Native-harness escape from the OpenRouter thought-signature bug that blocked its clean phase 2 three times.",
+      "blocked": "Antigravity individual quota exhausted after Gemini-3.6 phase 1 (2026-07-30); resets ~2026-08-05 (155h). Resume 3.6 with --phases 2,3; run 3.1 Pro fresh after reset."
     }
   ],
   "skipped": {
