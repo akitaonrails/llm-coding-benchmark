@@ -368,6 +368,12 @@ The §4 defects section is the deepest of the benchmark: seven findings, led by 
 
 **Scoring**: gates 15/15 (first perfect gates — correct pin, zero fixes), streaming 10, payload 10, concurrency 9 (confessed turn-serialization race), tools 10, schema 5, budget 4 (between-turns, shared), robustness 9 (confessed title-error overwrite + unhandled Redis outage), tests+gates 9 (100% line; branch not enabled), **fidelity 15/15** — 14 accurate PASSes, no stale pin to misclaim, and the benchmark's best defects section. Cost: $25.83 / 58.9 min / 61.3M tokens on the Max subscription — Opus-5-class appetite for Fable-class results.
 
+### Step 3.5 Flash — 27 (DNF-adjacent, audited 2026-07-30)
+
+v1: 56 → 27. The generation gap inside StepFun is now the story (3.7 Flash: 84): the older Flash shipped a broken suite (5 failures / 11 errors, 0% coverage recorded), a bare-`eval` calculator, no schema API, phase 2 that ended mid-sentence ("Now, let's install the new gem") with docker and compose never attempted, and no SELF_REVIEW.md after two phase-3 attempts (fidelity 0, Gemini-orchestrator precedent). Cost $0.03.
+
+**Scoring**: gates 8, streaming 4, payload 3, concurrency 3, tools 4, schema 0, budget 2, robustness 3, tests+gates 0, fidelity 0.
+
 ## Wave 2 conclusions
 
 1. **v2 de-saturated the benchmark.** v1 packed 15 models into 92-97; v2 spreads the same cohort across 20 points (96 → 76) with defensible per-point evidence. The three models that dropped furthest from their v1 positions (K2.6 87→77, Nex 83→78, Gemini Flash 93→76) failed on exactly the axes v2 added: payload tests, concurrency correctness, self-review discipline.
