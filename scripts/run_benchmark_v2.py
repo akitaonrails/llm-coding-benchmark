@@ -255,11 +255,12 @@ def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
         metrics = extract_opencode_metrics(events)
         tokens = metrics.get("tokens") or {}
         session_id = metrics.get("session_id")
+        cost_usd = round(metrics["cost"], 4) if metrics.get("cost") else None
 
     if cost_usd is None and tokens and rates:
         cost_usd = round(
             (tokens.get("input", 0) or 0) / 1e6 * rates.get("input", 0)
-            + (tokens.get("output", 0) or 0) / 1e6 * rates.get("output", 0)
+            + ((tokens.get("output", 0) or 0) + (tokens.get("reasoning", 0) or 0)) / 1e6 * rates.get("output", 0)
             + ((tokens.get("cache") or {}).get("read", 0) or 0) / 1e6 * rates.get("cache_read", 0)
             + ((tokens.get("cache") or {}).get("write", 0) or 0) / 1e6 * rates.get("cache_write", 0),
             4,
