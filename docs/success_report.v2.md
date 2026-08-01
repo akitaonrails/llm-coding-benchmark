@@ -14,30 +14,31 @@
 | 2 | Kimi K3 | 95 | A | Kimi CLI | 89 | +6 |
 | 5 | GPT 5.6 Sol | 93 | A | Codex | 92 | +1 |
 | 5 | Claude Opus 4.8 | 93 | A | Claude Code | 95 | −2 |
-| 7 | Grok 4.5 | 92 | A | opencode | 87 | +5 |
-| 7 | GLM 5.2 | 92 | A | opencode | 87 | +5 |
-| 7 | Kimi K2.5 | 92 | A | opencode | 69 | **+23** |
-| 10 | MiniMax M3 | 91ᵃ | A | opencode | 78 | +13 |
-| 10 | Kimi K2.6 | 91 | A | opencode | 87 | +4 |
-| 10 | Claude Opus 4.7 | 91 | A | Claude Code | 87 | +4 |
-| 10 | GPT 5.6 Luna | 91ᵃ | A | Codex | — | — |
-| 14 | Nex-N2-Pro | 88 | A | opencode | 83 | +5 |
-| 14 | GPT 5.5 | 88 | A | Codex | 85 | +3 |
-| 16 | Claude Sonnet 4.6 | 87 | A | Claude Code | 78 | +9 |
-| 17 | GPT 5.4 | 86 | A | Codex | 95 | −9 |
-| 17 | Kimi K2.7-Coding | 86 | A | Kimi CLI | 86 | 0 |
-| 19 | Step 3.7 Flash | 84 | A | opencode | 69 | +15 |
-| 20 | Claude Opus 4.6 | 83 | A | Claude Code | 83 | 0 |
-| 20 | GLM 5 | 83 | A | opencode | 64 | **+19** |
-| 22 | DeepSeek V4 Pro | 82 | B | opencode | 69 | +13 |
-| 23 | DeepSeek V4 Flash | 80ᵃ | B | opencode | 78 | +2 |
-| 24 | Gemini 3.5 Flash @ high | 79ᵃ | B | opencode | 93* | −14 |
-| 25 | Qwen 3.6 Plus | 76ᵃ | B | opencode | 71 | +5 |
-| 26 | MiMo V2.5 Pro | 73 | B | opencode | 67 | +6 |
-| 27 | Gemini 3.1 Pro | 62ᵃ† | C | opencode | 79 | −17 |
-| 28 | Qwen3.7 Max | 51 | C | opencode | 78 | **−27** |
-| 29 | Step 3.5 Flash | 27 | D | opencode | 56 | −29 |
-| 30 | Grok 4.3 | 18 | D | opencode | 72 | **−54** |
+| 5 | GPT 5.6 Terra | **93** | A | Codex | — | — |
+| 8 | Grok 4.5 | 92 | A | opencode | 87 | +5 |
+| 8 | GLM 5.2 | 92 | A | opencode | 87 | +5 |
+| 8 | Kimi K2.5 | 92 | A | opencode | 69 | **+23** |
+| 11 | MiniMax M3 | 91ᵃ | A | opencode | 78 | +13 |
+| 11 | Kimi K2.6 | 91 | A | opencode | 87 | +4 |
+| 11 | Claude Opus 4.7 | 91 | A | Claude Code | 87 | +4 |
+| 11 | GPT 5.6 Luna | 91ᵃ | A | Codex | — | — |
+| 15 | Nex-N2-Pro | 88 | A | opencode | 83 | +5 |
+| 15 | GPT 5.5 | 88 | A | Codex | 85 | +3 |
+| 17 | Claude Sonnet 4.6 | 87 | A | Claude Code | 78 | +9 |
+| 18 | GPT 5.4 | 86 | A | Codex | 95 | −9 |
+| 18 | Kimi K2.7-Coding | 86 | A | Kimi CLI | 86 | 0 |
+| 20 | Step 3.7 Flash | 84 | A | opencode | 69 | +15 |
+| 21 | Claude Opus 4.6 | 83 | A | Claude Code | 83 | 0 |
+| 21 | GLM 5 | 83 | A | opencode | 64 | **+19** |
+| 23 | DeepSeek V4 Pro | 82 | B | opencode | 69 | +13 |
+| 24 | DeepSeek V4 Flash | 80ᵃ | B | opencode | 78 | +2 |
+| 25 | Gemini 3.5 Flash @ high | 79ᵃ | B | opencode | 93* | −14 |
+| 26 | Qwen 3.6 Plus | 76ᵃ | B | opencode | 71 | +5 |
+| 27 | MiMo V2.5 Pro | 73 | B | opencode | 67 | +6 |
+| 28 | Gemini 3.1 Pro | 62ᵃ† | C | opencode | 79 | −17 |
+| 29 | Qwen3.7 Max | 51 | C | opencode | 78 | **−27** |
+| 30 | Step 3.5 Flash | 27 | D | opencode | 56 | −29 |
+| 31 | Grok 4.3 | 18 | D | opencode | 72 | **−54** |
 
 ᵃ Corrected 2026-07-30 after user-prompted re-audit (see "Scoring integrity re-check" below). \* v1 Flash ran at default dynamic effort; the v2 run forces `reasoning_effort=high`. † Carries the Google signature-bug caveat (phase 2 unproven, 3 attempts).
 
@@ -530,6 +531,14 @@ The rescued build is genuinely weak, which is why it lands at 55 not 91: a bare 
 The clean result: the vendor CLI produces essentially the same score as clean opencode (−1 is inside the stated ±1 noise band), which is itself the finding — Grok 4.5 was already the most harness-insensitive model in the isolation campaign (opencode +1 vs its own orchestrator run), and its own CLI confirms it. Real recursive-descent `ArithmeticEvaluator` (Ripper-guarded, no `Kernel.eval`), a true exact-array G5 test (`outgoing_messages_for` asserted against the literal 5-element array), Redis `rpush` store, all 7 phase-2 validations live-proven (calculator `5**4 = 1649`, restart survival under 2 workers, compose e2e) with two honest fixes. Suite verified: 43 runs / 98 assertions, 92.62% line. Pin: `claude-sonnet-4.6`, stale.
 
 **Scoring**: gates 14/15 (−1 stale pin), streaming 10, payload 10 (exact-array test), concurrency 7 (Redis store but no `WATCH`/lock — read-modify-write race), tools 10 (hand-rolled parser), schema 5, budget 4, robustness 9, tests+gates 8, fidelity 14/15 (−1 stale-pin PASS). **Total 91.** Wall time 24.9 min (vs opencode's 18.2) — the CLI is slower but no better or worse in quality.
+
+### GPT 5.6 Terra — 93 (Codex, audited 2026-08-01) — joint-best GPT
+
+The third GPT 5.6 variant, and it ties **GPT 5.6 Sol** for the best GPT of the benchmark (Sol 93 · **Terra 93** · Luna 91 · GPT 5.5 88 · GPT 5.4 86). Its distinguishing strength is **the best-defended concurrency in the cohort**: a Redis store with `WATCH`/`MULTI` optimistic locking *plus* a distributed per-conversation turn-lock (`SET NX` + a Lua release script), which *actively prevents* the lost-update / concurrent-turn race that GLM 5.2, MiniMax M3, Sonnet 5, and others could only confess. It also **forces tool choice** (`with_tools(*tools, choice: forced_tool_for(prompt))`) — addressing the "nothing forces the model to call the tool" caveat that every other model left open. Eval-free `SafeCalculator`, real `with_schema` titles, an exact-array G5 test, all 7 phase-2 validations live-proven (compose e2e returned `81 ÷ 9 = 9` from a production container, restart survival under 2 workers). Suite verified: 26 runs / 88 assertions, 95.33% line / **70.88% branch** (branch coverage enabled). Pin: `claude-sonnet-4.6` (stale).
+
+**Scoring**: gates 14/15 (−1 stale pin), streaming 10, payload 10 (exact-array test), concurrency 9 (`WATCH`/`MULTI` + distributed turn-lock — the strongest concurrency story of the cohort, no confessed race), tools 10 (eval-free, forces tool choice, live-proven), schema 5, budget 4, robustness 9, tests+gates 8 (branch coverage enabled; honest G11 PARTIAL on missing Stimulus/integration tests), fidelity 14/15 (−1 stale-pin PASS; all else accurate). **Total 93.**
+
+**Efficiency:** 48.5 min, 21.7M tokens, **$16.92 blended** (raw codex $111.62 is the upper bound — the event schema's `cached_input_tokens` shows 21.0M of 21.7M input were cache hits, same honest-cost basis as Luna). Essentially cost-tied with Luna ($16.79) at +2 points, and the cheapest of the three 93-scorers to Sol's ~$45.
 
 ## Wave 2 conclusions
 
