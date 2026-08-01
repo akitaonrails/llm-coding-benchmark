@@ -202,7 +202,12 @@ def parse_event_stream(raw: str) -> list[dict[str, Any]]:
 
 def extract_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
     finish = next((event for event in reversed(events) if event.get("type") == "step_finish"), {})
-    tokens = finish.get("part", {}).get("tokens", {}) if finish else {}
+    parts = [event.get("part", {}) for event in events if event.get("type") == "step_finish"]
+    usages = [part.get("tokens") or {} for part in parts]
+    sums = {key: sum(usage.get(key) or 0 for usage in usages) for key in ("input", "output", "reasoning")}
+    cache = {key: sum((usage.get("cache") or {}).get(key) or 0 for usage in usages) for key in ("read", "write")}
+    tokens = {**sums, "cache": cache, "total": sum(sums.values()) + sum(cache.values())} if parts else {}
+    cost = sum(part.get("cost") or 0 for part in parts) if parts else None
     text_parts = []
     for event in events:
         if event.get("type") != "text":
@@ -214,6 +219,7 @@ def extract_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
         "session_id": next((event.get("sessionID") for event in events if event.get("sessionID")), None),
         "finish_reason": finish.get("part", {}).get("reason"),
         "tokens": tokens,
+        "cost": cost,
         "assistant_output": "\n".join(text_parts).strip(),
     }
 
