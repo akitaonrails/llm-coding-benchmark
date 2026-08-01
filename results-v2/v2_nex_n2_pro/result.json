@@ -1,6 +1,6 @@
 {
   "billing": "OpenRouter API \u2014 no vendor harness",
-  "cost_usd_total": 0.0268,
+  "cost_usd_total": 0.1747,
   "elapsed_seconds_total": 498.38,
   "ended_at": "2026-07-29T03:16:22+00:00",
   "harness": "opencode",
@@ -8,7 +8,7 @@
   "phases": [
     {
       "command_kind": "opencode",
-      "cost_usd": 0.0268,
+      "cost_usd": 0.1747,
       "elapsed_seconds": 498.38,
       "ended_at": "2026-07-29T03:16:22+00:00",
       "exit_code": 0,
@@ -19,18 +19,18 @@
       "started_at": "2026-07-29T03:08:03+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 100817,
+        "output": 26456,
         "cache": {
-          "read": 106752,
+          "read": 4922496,
           "write": 0
         },
-        "input": 226,
-        "output": 52,
-        "reasoning": 1,
-        "total": 107031
+        "total": 5049769
       }
     }
   ],
   "self_review_present": true,
   "slug": "v2_nex_n2_pro",
-  "tokens_total": 107031
+  "tokens_total": 5049769,
+  "_cost_corrected": "2026-08-01: recomputed from cumulative opencode part.cost per issue #14/PR #15"
 }

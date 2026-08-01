@@ -1,6 +1,6 @@
 {
   "billing": "OpenRouter API (no Google subscription harness)",
-  "cost_usd_total": 0.0456,
+  "cost_usd_total": 2.7112,
   "elapsed_seconds_total": 445.36,
   "ended_at": "2026-07-28T04:17:22+00:00",
   "harness": "opencode",
@@ -8,7 +8,7 @@
   "phases": [
     {
       "command_kind": "opencode",
-      "cost_usd": 0.0456,
+      "cost_usd": 2.7112,
       "elapsed_seconds": 445.36,
       "ended_at": "2026-07-28T04:17:22+00:00",
       "exit_code": 0,
@@ -19,18 +19,18 @@
       "started_at": "2026-07-28T04:09:56+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 970117,
+        "output": 77428,
         "cache": {
-          "read": 110745,
+          "read": 3727826,
           "write": 0
         },
-        "input": 2702,
-        "output": 0,
-        "reasoning": 30717,
-        "total": 144164
+        "total": 4775371
       }
     }
   ],
   "self_review_present": false,
   "slug": "v2_gemini_flash_high",
-  "tokens_total": 144164
+  "tokens_total": 4775371,
+  "_cost_corrected": "2026-08-01: recomputed from cumulative opencode part.cost per issue #14/PR #15"
 }

@@ -1,6 +1,6 @@
 {
   "billing": "OpenRouter API \u2014 no vendor harness",
-  "cost_usd_total": 0.0836,
+  "cost_usd_total": 48.6566,
   "elapsed_seconds_total": 1744.55,
   "ended_at": "2026-07-28T02:04:06+00:00",
   "harness": "opencode",
@@ -8,7 +8,7 @@
   "phases": [
     {
       "command_kind": "opencode",
-      "cost_usd": 0.0134,
+      "cost_usd": 2.0407,
       "elapsed_seconds": 238.57,
       "ended_at": "2026-07-28T01:39:00+00:00",
       "exit_code": 0,
@@ -19,19 +19,18 @@
       "started_at": "2026-07-28T01:35:01+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 27638,
+        "output": 13680,
         "cache": {
-          "read": 23658,
-          "write": 29881
+          "read": 581412,
+          "write": 258213
         },
-        "input": 3,
-        "output": 57,
-        "reasoning": 534,
-        "total": 54133
+        "total": 880943
       }
     },
     {
       "command_kind": "opencode",
-      "cost_usd": 0.0425,
+      "cost_usd": 36.5713,
       "elapsed_seconds": 1126.71,
       "ended_at": "2026-07-28T01:57:46+00:00",
       "exit_code": 0,
@@ -42,19 +41,18 @@
       "started_at": "2026-07-28T01:39:00+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 71778,
+        "output": 32509,
         "cache": {
-          "read": 23658,
-          "write": 145223
+          "read": 1884756,
+          "write": 5584879
         },
-        "input": 3,
-        "output": 261,
-        "reasoning": 448,
-        "total": 169593
+        "total": 7573922
       }
     },
     {
       "command_kind": "opencode",
-      "cost_usd": 0.0277,
+      "cost_usd": 10.0446,
       "elapsed_seconds": 379.27,
       "ended_at": "2026-07-28T02:04:06+00:00",
       "exit_code": 0,
@@ -65,18 +63,18 @@
       "started_at": "2026-07-28T01:57:46+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 59664,
+        "output": 21360,
         "cache": {
-          "read": 23652,
-          "write": 87238
+          "read": 966460,
+          "write": 1474730
         },
-        "input": 3,
-        "output": 24,
-        "reasoning": 422,
-        "total": 111339
+        "total": 2522214
       }
     }
   ],
   "self_review_present": true,
   "slug": "v2_nex_n2_pro",
-  "tokens_total": 335065
+  "tokens_total": 10977079,
+  "_cost_corrected": "2026-08-01: recomputed from cumulative opencode part.cost per issue #14/PR #15"
 }

@@ -1,6 +1,6 @@
 {
   "billing": "OpenRouter API \u2014 K2.6 NOT exposed by the Kimi subscription",
-  "cost_usd_total": 0.0546,
+  "cost_usd_total": 1.8723,
   "elapsed_seconds_total": 3435.56,
   "ended_at": "2026-07-27T23:26:13+00:00",
   "harness": "opencode",
@@ -8,7 +8,7 @@
   "phases": [
     {
       "command_kind": "opencode",
-      "cost_usd": 0.0191,
+      "cost_usd": 0.5839,
       "elapsed_seconds": 906.17,
       "ended_at": "2026-07-27T22:44:04+00:00",
       "exit_code": 0,
@@ -19,19 +19,18 @@
       "started_at": "2026-07-27T22:28:57+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 96835,
+        "output": 35685,
         "cache": {
-          "read": 94288,
+          "read": 3899680,
           "write": 0
         },
-        "input": 2108,
-        "output": 496,
-        "reasoning": 271,
-        "total": 97163
+        "total": 4032200
       }
     },
     {
       "command_kind": "opencode",
-      "cost_usd": 0.0244,
+      "cost_usd": 1.1371,
       "elapsed_seconds": 2114.52,
       "ended_at": "2026-07-27T23:19:18+00:00",
       "exit_code": 0,
@@ -42,19 +41,18 @@
       "started_at": "2026-07-27T22:44:04+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 127343,
+        "output": 64520,
         "cache": {
-          "read": 129376,
+          "read": 8082288,
           "write": 0
         },
-        "input": 568,
-        "output": 799,
-        "reasoning": 667,
-        "total": 131410
+        "total": 8274151
       }
     },
     {
       "command_kind": "opencode",
-      "cost_usd": 0.0111,
+      "cost_usd": 0.1513,
       "elapsed_seconds": 414.87,
       "ended_at": "2026-07-27T23:26:13+00:00",
       "exit_code": 0,
@@ -65,18 +63,18 @@
       "started_at": "2026-07-27T23:19:18+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 42054,
+        "output": 15648,
         "cache": {
-          "read": 62592,
+          "read": 749472,
           "write": 0
         },
-        "input": 238,
-        "output": 215,
-        "reasoning": 358,
-        "total": 63403
+        "total": 807174
       }
     }
   ],
   "self_review_present": true,
   "slug": "v2_kimi_k2_6",
-  "tokens_total": 291976
+  "tokens_total": 13113525,
+  "_cost_corrected": "2026-08-01: recomputed from cumulative opencode part.cost per issue #14/PR #15"
 }

@@ -1,6 +1,6 @@
 {
   "billing": "OpenRouter API",
-  "cost_usd_total": 0.2309,
+  "cost_usd_total": 0.8197,
   "elapsed_seconds_total": 438.66,
   "ended_at": "2026-07-28T19:24:33+00:00",
   "harness": "opencode",
@@ -8,7 +8,7 @@
   "phases": [
     {
       "command_kind": "opencode",
-      "cost_usd": 0.0994,
+      "cost_usd": 0.5706,
       "elapsed_seconds": 287.01,
       "ended_at": "2026-07-28T19:22:01+00:00",
       "exit_code": 0,
@@ -19,19 +19,18 @@
       "started_at": "2026-07-28T19:17:14+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 51263,
+        "output": 12017,
         "cache": {
-          "read": 49472,
+          "read": 2382272,
           "write": 0
         },
-        "input": 136,
-        "output": 33,
-        "reasoning": 17,
-        "total": 49658
+        "total": 2445552
       }
     },
     {
       "command_kind": "opencode",
-      "cost_usd": 0.0628,
+      "cost_usd": 0.125,
       "elapsed_seconds": 88.93,
       "ended_at": "2026-07-28T19:23:30+00:00",
       "exit_code": 0,
@@ -42,19 +41,18 @@
       "started_at": "2026-07-28T19:22:01+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 30812,
+        "output": 4083,
         "cache": {
-          "read": 30208,
+          "read": 381568,
           "write": 0
         },
-        "input": 221,
-        "output": 325,
-        "reasoning": 211,
-        "total": 30965
+        "total": 416463
       }
     },
     {
       "command_kind": "opencode",
-      "cost_usd": 0.0687,
+      "cost_usd": 0.1241,
       "elapsed_seconds": 62.72,
       "ended_at": "2026-07-28T19:24:33+00:00",
       "exit_code": 0,
@@ -65,18 +63,18 @@
       "started_at": "2026-07-28T19:23:30+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 34403,
+        "output": 3248,
         "cache": {
-          "read": 32704,
+          "read": 364800,
           "write": 0
         },
-        "input": 1487,
-        "output": 60,
-        "reasoning": 18,
-        "total": 34269
+        "total": 402451
       }
     }
   ],
   "self_review_present": true,
   "slug": "v2_grok_4_3",
-  "tokens_total": 114892
+  "tokens_total": 3264466,
+  "_cost_corrected": "2026-08-01: recomputed from cumulative opencode part.cost per issue #14/PR #15"
 }
