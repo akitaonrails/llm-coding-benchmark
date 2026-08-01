@@ -1,6 +1,6 @@
 {
   "billing": "Z.ai coding plan subscription (opencode is the subscription path; no vendor CLI)",
-  "cost_usd_total": 0,
+  "cost_usd_total": 12.0452,
   "elapsed_seconds_total": 9298.55,
   "ended_at": "2026-07-29T17:54:26+00:00",
   "harness": "opencode",
@@ -8,7 +8,7 @@
   "phases": [
     {
       "command_kind": "opencode",
-      "cost_usd": null,
+      "cost_usd": 9.1039,
       "elapsed_seconds": 4259.33,
       "ended_at": "2026-07-29T16:30:27+00:00",
       "exit_code": 0,
@@ -19,19 +19,18 @@
       "started_at": "2026-07-29T15:19:28+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 233412,
+        "output": 125212,
         "cache": {
-          "read": 227712,
+          "read": 31639296,
           "write": 0
         },
-        "input": 380,
-        "output": 512,
-        "reasoning": 493,
-        "total": 229097
+        "total": 31997920
       }
     },
     {
       "command_kind": "opencode",
-      "cost_usd": null,
+      "cost_usd": 2.4565,
       "elapsed_seconds": 4433.49,
       "ended_at": "2026-07-29T17:44:21+00:00",
       "exit_code": 0,
@@ -42,19 +41,18 @@
       "started_at": "2026-07-29T16:30:27+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 122138,
+        "output": 54182,
         "cache": {
-          "read": 131008,
+          "read": 7873408,
           "write": 0
         },
-        "input": 1116,
-        "output": 1018,
-        "reasoning": 0,
-        "total": 133142
+        "total": 8049728
       }
     },
     {
       "command_kind": "opencode",
-      "cost_usd": null,
+      "cost_usd": 0.4848,
       "elapsed_seconds": 605.73,
       "ended_at": "2026-07-29T17:54:26+00:00",
       "exit_code": 0,
@@ -65,18 +63,18 @@
       "started_at": "2026-07-29T17:44:21+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 71556,
+        "output": 22704,
         "cache": {
-          "read": 68032,
+          "read": 1095232,
           "write": 0
         },
-        "input": 5581,
-        "output": 373,
-        "reasoning": 0,
-        "total": 73986
+        "total": 1189492
       }
     }
   ],
   "self_review_present": true,
   "slug": "v2_glm_5_2",
-  "tokens_total": 436225
+  "tokens_total": 41237140,
+  "_cost_corrected": "2026-08-01: recomputed from cumulative opencode part.cost per issue #14/PR #15"
 }

@@ -1,6 +1,6 @@
 {
   "billing": "OpenRouter API",
-  "cost_usd_total": 0.0682,
+  "cost_usd_total": 10.4097,
   "elapsed_seconds_total": 896.23,
   "ended_at": "2026-07-28T20:32:54+00:00",
   "harness": "opencode",
@@ -8,7 +8,7 @@
   "phases": [
     {
       "command_kind": "opencode",
-      "cost_usd": 0.0253,
+      "cost_usd": 4.308,
       "elapsed_seconds": 418.42,
       "ended_at": "2026-07-28T20:24:56+00:00",
       "exit_code": 0,
@@ -19,19 +19,18 @@
       "started_at": "2026-07-28T20:17:58+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 76139,
+        "output": 15193,
         "cache": {
-          "read": 23657,
-          "write": 60215
+          "read": 436633,
+          "write": 597054
         },
-        "input": 3,
-        "output": 112,
-        "reasoning": 225,
-        "total": 84212
+        "total": 1125019
       }
     },
     {
       "command_kind": "opencode",
-      "cost_usd": 0.015,
+      "cost_usd": 1.3718,
       "elapsed_seconds": 182.97,
       "ended_at": "2026-07-28T20:27:59+00:00",
       "exit_code": 0,
@@ -42,19 +41,18 @@
       "started_at": "2026-07-28T20:24:56+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 42027,
+        "output": 5632,
         "cache": {
-          "read": 23657,
-          "write": 25796
+          "read": 287862,
+          "write": 187452
         },
-        "input": 3,
-        "output": 98,
-        "reasoning": 101,
-        "total": 49655
+        "total": 522973
       }
     },
     {
       "command_kind": "opencode",
-      "cost_usd": 0.0279,
+      "cost_usd": 4.7299,
       "elapsed_seconds": 294.84,
       "ended_at": "2026-07-28T20:32:54+00:00",
       "exit_code": 0,
@@ -65,18 +63,18 @@
       "started_at": "2026-07-28T20:27:59+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 61141,
+        "output": 13902,
         "cache": {
-          "read": 23657,
-          "write": 69102
+          "read": 394371,
+          "write": 677173
         },
-        "input": 3,
-        "output": 54,
-        "reasoning": 218,
-        "total": 93034
+        "total": 1146587
       }
     }
   ],
   "self_review_present": true,
   "slug": "v2_minimax_m3",
-  "tokens_total": 226901
+  "tokens_total": 2794579,
+  "_cost_corrected": "2026-08-01: recomputed from cumulative opencode part.cost per issue #14/PR #15"
 }

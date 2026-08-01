@@ -1,6 +1,6 @@
 {
   "billing": "OpenRouter API",
-  "cost_usd_total": 0.0526,
+  "cost_usd_total": 0.215,
   "elapsed_seconds_total": 1371.95,
   "ended_at": "2026-07-29T22:25:35+00:00",
   "harness": "opencode",
@@ -8,7 +8,7 @@
   "phases": [
     {
       "command_kind": "opencode",
-      "cost_usd": 0.0359,
+      "cost_usd": 0.1421,
       "elapsed_seconds": 1143.96,
       "ended_at": "2026-07-29T22:21:47+00:00",
       "exit_code": 0,
@@ -19,19 +19,18 @@
       "started_at": "2026-07-29T22:02:43+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 219512,
+        "output": 30852,
         "cache": {
-          "read": 117184,
+          "read": 5496960,
           "write": 0
         },
-        "input": 577,
-        "output": 612,
-        "reasoning": 0,
-        "total": 118373
+        "total": 5747324
       }
     },
     {
       "command_kind": "opencode",
-      "cost_usd": 0.0167,
+      "cost_usd": 0.0729,
       "elapsed_seconds": 227.99,
       "ended_at": "2026-07-29T22:25:35+00:00",
       "exit_code": 0,
@@ -42,18 +41,18 @@
       "started_at": "2026-07-29T22:21:47+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 137663,
+        "output": 11677,
         "cache": {
-          "read": 54592,
+          "read": 793024,
           "write": 0
         },
-        "input": 290,
-        "output": 187,
-        "reasoning": 0,
-        "total": 55069
+        "total": 942364
       }
     }
   ],
   "self_review_present": true,
   "slug": "v2_mimo_v2_5_pro",
-  "tokens_total": 173442
+  "tokens_total": 6689688,
+  "_cost_corrected": "2026-08-01: recomputed from cumulative opencode part.cost per issue #14/PR #15"
 }

@@ -1,6 +1,6 @@
 {
   "billing": "OpenRouter API (no Google subscription harness)",
-  "cost_usd_total": 0.1563,
+  "cost_usd_total": 6.9771,
   "elapsed_seconds_total": 1538.2,
   "ended_at": "2026-07-29T05:50:55+00:00",
   "harness": "opencode",
@@ -8,7 +8,7 @@
   "phases": [
     {
       "command_kind": "opencode",
-      "cost_usd": 0.0543,
+      "cost_usd": 2.5127,
       "elapsed_seconds": 527.58,
       "ended_at": "2026-07-29T05:34:04+00:00",
       "exit_code": 1,
@@ -19,19 +19,18 @@
       "started_at": "2026-07-29T05:25:16+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 967417,
+        "output": 56499,
         "cache": {
-          "read": 94930,
+          "read": 3686901,
           "write": 0
         },
-        "input": 11368,
-        "output": 188,
-        "reasoning": 110,
-        "total": 106596
+        "total": 4710817
       }
     },
     {
       "command_kind": "opencode",
-      "cost_usd": 0.0462,
+      "cost_usd": 2.4271,
       "elapsed_seconds": 597.85,
       "ended_at": "2026-07-29T05:44:02+00:00",
       "exit_code": 1,
@@ -42,19 +41,18 @@
       "started_at": "2026-07-29T05:34:04+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 980286,
+        "output": 28895,
         "cache": {
-          "read": 94756,
+          "read": 4643882,
           "write": 0
         },
-        "input": 6747,
-        "output": 57,
-        "reasoning": 206,
-        "total": 101766
+        "total": 5653063
       }
     },
     {
       "command_kind": "opencode",
-      "cost_usd": 0.0558,
+      "cost_usd": 2.0373,
       "elapsed_seconds": 412.77,
       "ended_at": "2026-07-29T05:50:54+00:00",
       "exit_code": 1,
@@ -65,18 +63,18 @@
       "started_at": "2026-07-29T05:44:02+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 855286,
+        "output": 30436,
         "cache": {
-          "read": 71576,
+          "read": 3203109,
           "write": 0
         },
-        "input": 19057,
-        "output": 42,
-        "reasoning": 152,
-        "total": 90827
+        "total": 4088831
       }
     }
   ],
   "self_review_present": true,
   "slug": "v2_gemini_flash_high",
-  "tokens_total": 299189
+  "tokens_total": 14452711,
+  "_cost_corrected": "2026-08-01: recomputed from cumulative opencode part.cost per issue #14/PR #15"
 }

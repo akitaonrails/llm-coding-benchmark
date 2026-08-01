@@ -1,6 +1,6 @@
 {
   "billing": "OpenRouter API",
-  "cost_usd_total": 0.07,
+  "cost_usd_total": 1.349,
   "elapsed_seconds_total": 470.24,
   "ended_at": "2026-07-29T05:24:36+00:00",
   "harness": "opencode",
@@ -8,7 +8,7 @@
   "phases": [
     {
       "command_kind": "opencode",
-      "cost_usd": 0.0397,
+      "cost_usd": 0.3512,
       "elapsed_seconds": 162.56,
       "ended_at": "2026-07-29T05:19:29+00:00",
       "exit_code": 1,
@@ -19,19 +19,18 @@
       "started_at": "2026-07-29T05:16:46+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 119611,
+        "output": 2354,
         "cache": {
-          "read": 15798,
+          "read": 418740,
           "write": 0
         },
-        "input": 15593,
-        "output": 52,
-        "reasoning": 24,
-        "total": 31467
+        "total": 540705
       }
     },
     {
       "command_kind": "opencode",
-      "cost_usd": 0.0303,
+      "cost_usd": 0.9978,
       "elapsed_seconds": 307.68,
       "ended_at": "2026-07-29T05:24:36+00:00",
       "exit_code": 0,
@@ -42,18 +41,18 @@
       "started_at": "2026-07-29T05:19:29+00:00",
       "timed_out": false,
       "tokens": {
+        "input": 309544,
+        "output": 11416,
         "cache": {
-          "read": 31137,
+          "read": 1208800,
           "write": 0
         },
-        "input": 6224,
-        "output": 192,
-        "reasoning": 3,
-        "total": 37556
+        "total": 1529760
       }
     }
   ],
   "self_review_present": true,
   "slug": "v2_gemini_3_1_pro",
-  "tokens_total": 69023
+  "tokens_total": 2070465,
+  "_cost_corrected": "2026-08-01: recomputed from cumulative opencode part.cost per issue #14/PR #15"
 }
