@@ -514,6 +514,22 @@
       "billing": "Antigravity OAuth (Google account)",
       "wave": 4,
       "notes": "Native-harness escape from the OpenRouter thought-signature bug that blocked its clean phase 2 three times."
+    },
+    {
+      "slug": "v2_gpt_5_6_terra",
+      "label": "GPT 5.6 Terra xHigh (Codex)",
+      "harness": "codex",
+      "model_id": "gpt-5.6-terra",
+      "codex_reasoning_effort": "xhigh",
+      "billing": "ChatGPT subscription credits",
+      "rates_per_m": {
+        "input": 5.0,
+        "cache_read": 0.5,
+        "cache_write": 0.0,
+        "output": 30.0
+      },
+      "wave": 4,
+      "notes": "Added per user 2026-08-01. Third GPT 5.6 variant (Sol 93, Luna 91). Probe-verified on codex; event schema exposes cached_input_tokens for honest blended cost."
     }
   ],
   "skipped": {
