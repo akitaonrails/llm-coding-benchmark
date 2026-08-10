@@ -14,8 +14,8 @@ Prices as of **July 9, 2026**. OpenRouter prices from their live `/api/v1/models
 | Claude Opus 4.6 | $5.00 | $25.00 | 1,000,000 | |
 | GPT 5.4 Pro (OR) | $30.00 | $180.00 | 1,050,000 | Unused — benchmark uses Codex/OpenAI direct |
 | GPT 5.6 Sol / Sol Pro | $5.00 | $30.00 | 1,050,000 | New generation (2026-07-09); same card as GPT 5.5 |
-| GPT 5.6 Terra | $2.50 | $15.00 | 1,050,000 | Same card as GPT 5.4 |
-| GPT 5.6 Luna | $1.00 | $6.00 | 1,050,000 | Cheap tier |
+| GPT 5.6 Terra | $2.50 | $15.00 | 1,050,000 | Pre-July-30 card. The v2 run on Aug 1 used the reduced $2/$12 card. |
+| GPT 5.6 Luna | $1.00 | $6.00 | 1,050,000 | Pre-July-30 card. The v2 run completed before the reduction. |
 | Gemini 3.5 Flash | $1.50 | $9.00 | 1,048,576 | Best non-Anthropic/OpenAI score (93) |
 | Gemini 3.1 Pro | $2.00 | $12.00 | 1,048,576 | |
 | Kimi K3 | $3.00 | $15.00 | 1,048,576 | New flagship (2026-07); opencode-incompatible — benchmarked via Kimi Code CLI on subscription (89/A) |
