@@ -469,7 +469,7 @@ v1: 56 → 27. The generation gap inside StepFun is now the story (3.7 Flash: 84
 
 ### GPT 5.6 Luna — 91 (Codex, audited 2026-07-30, corrected same day) — the final v2 run
 
-Second-best GPT of the benchmark (Sol 93 · **Luna 91** · GPT 5.5 88 · GPT 5.4 86), and the first with an honest cost figure: the new codex event schema exposes `cached_input_tokens`, so Luna's raw $105 resolves to **$16.79 blended** (19.7M of 20.4M input tokens were cache hits) — retroactively confirming the blended methodology used for the earlier GPT estimates. All 7 phase-2 validations live-proven (timestamped streaming frames, live tools, 2-worker restart, compose e2e) with three moderate fixes, one carrying a regression test. Suite verified: 21 runs / 67 assertions, 94.21% line / 64.22% branch. Its best fidelity moment is the self-caught G2 PARTIAL: the compiled Tailwind file isn't linked, so the UI ships unstyled — a finding an auditor could easily miss and it volunteered.
+Second-best GPT of the benchmark (Sol 93 · **Luna 91** · GPT 5.5 88 · GPT 5.4 86), and the first with an honest cost figure: the new codex event schema exposes `cached_input_tokens`, so Luna's corrected raw $21.09 resolves to **$3.36 blended** at its historical $1/$0.10 cached/$6 per-M rate card (19.7M of 20.4M input tokens were cache hits) — retroactively confirming the blended methodology used for the earlier GPT estimates. All 7 phase-2 validations live-proven (timestamped streaming frames, live tools, 2-worker restart, compose e2e) with three moderate fixes, one carrying a regression test. Suite verified: 21 runs / 67 assertions, 94.21% line / 64.22% branch. Its best fidelity moment is the self-caught G2 PARTIAL: the compiled Tailwind file isn't linked, so the UI ships unstyled — a finding an auditor could easily miss and it volunteered.
 
 **Scoring (corrected 2026-07-30)**: gates 13/15 (−1 stale `claude-sonnet-4.6` pin, −1 the unstyled-UI defect), streaming 10, payload 10, concurrency 8, tools 10 (live-proven; the no-forced-tool-choice caveat is universal and cost no one else — consistency fix from 9), schema 5, budget 4, robustness 9, tests+gates 8, fidelity 14/15. **Total 91.**
 
@@ -538,7 +538,7 @@ The third GPT 5.6 variant, and it ties **GPT 5.6 Sol** for the best GPT of the b
 
 **Scoring**: gates 14/15 (−1 stale pin), streaming 10, payload 10 (exact-array test), concurrency 9 (`WATCH`/`MULTI` + distributed turn-lock — the strongest concurrency story of the cohort, no confessed race), tools 10 (eval-free, forces tool choice, live-proven), schema 5, budget 4, robustness 9, tests+gates 8 (branch coverage enabled; honest G11 PARTIAL on missing Stimulus/integration tests), fidelity 14/15 (−1 stale-pin PASS; all else accurate). **Total 93.**
 
-**Efficiency:** 48.5 min, 21.7M tokens, **$16.92 blended** (raw codex $111.62 is the upper bound — the event schema's `cached_input_tokens` shows 21.0M of 21.7M input were cache hits, same honest-cost basis as Luna). Essentially cost-tied with Luna ($16.79) at +2 points, and the cheapest of the three 93-scorers to Sol's ~$45.
+**Efficiency:** 48.5 min, 21.7M tokens, **$6.77 blended** at Terra's post-July-30 $2/$0.20 cached/$12 per-M rate card (raw codex $44.65 is the upper bound — the event schema's `cached_input_tokens` shows 21.0M of 21.7M input were cache hits, on the same honest-cost basis as Luna). Terra costs $3.41 more than Luna at +2 points, and remains the cheapest of the three 93-scorers to Sol's ~$45.
 
 ## Wave 2 conclusions
 

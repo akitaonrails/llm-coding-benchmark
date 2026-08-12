@@ -444,13 +444,13 @@
       "codex_reasoning_effort": "xhigh",
       "billing": "ChatGPT subscription credits",
       "rates_per_m": {
-        "input": 5.0,
-        "cache_read": 0.5,
+        "input": 1.0,
+        "cache_read": 0.1,
         "cache_write": 0.0,
-        "output": 30.0
+        "output": 6.0
       },
       "wave": 3,
-      "notes": "Added per user 2026-07-30. Probe-verified on codex. Newer codex event schema exposes cached_input_tokens \u2014 check whether cost calc can use the real cached split this time."
+      "notes": "Added per user 2026-07-30. The run completed before the July 30 price reduction, so it uses Luna's historical $1/$0.10 cached/$6 per-M card. Newer codex event schema exposes cached_input_tokens for honest blended cost."
     },
     {
       "slug": "v2_deepseek_v4_pro",
@@ -523,13 +523,13 @@
       "codex_reasoning_effort": "xhigh",
       "billing": "ChatGPT subscription credits",
       "rates_per_m": {
-        "input": 5.0,
-        "cache_read": 0.5,
+        "input": 2.0,
+        "cache_read": 0.2,
         "cache_write": 0.0,
-        "output": 30.0
+        "output": 12.0
       },
       "wave": 4,
-      "notes": "Added per user 2026-08-01. Third GPT 5.6 variant (Sol 93, Luna 91). Probe-verified on codex; event schema exposes cached_input_tokens for honest blended cost."
+      "notes": "Added per user 2026-08-01. The run used Terra's post-July-30 $2/$0.20 cached/$12 per-M card. Third GPT 5.6 variant (Sol 93, Luna 91); Codex event schema exposes cached_input_tokens for honest blended cost."
     }
   ],
   "skipped": {
