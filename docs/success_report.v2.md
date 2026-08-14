@@ -18,27 +18,28 @@
 | 8 | Grok 4.5 | 92 | A | opencode | 87 | +5 |
 | 8 | GLM 5.2 | 92 | A | opencode | 87 | +5 |
 | 8 | Kimi K2.5 | 92 | A | opencode | 69 | **+23** |
-| 11 | MiniMax M3 | 91ᵃ | A | opencode | 78 | +13 |
-| 11 | Kimi K2.6 | 91 | A | opencode | 87 | +4 |
-| 11 | Claude Opus 4.7 | 91 | A | Claude Code | 87 | +4 |
-| 11 | GPT 5.6 Luna | 91ᵃ | A | Codex | — | — |
-| 15 | Nex-N2-Pro | 88 | A | opencode | 83 | +5 |
-| 15 | GPT 5.5 | 88 | A | Codex | 85 | +3 |
-| 17 | Claude Sonnet 4.6 | 87 | A | Claude Code | 78 | +9 |
-| 18 | GPT 5.4 | 86 | A | Codex | 95 | −9 |
-| 18 | Kimi K2.7-Coding | 86 | A | Kimi CLI | 86 | 0 |
-| 20 | Step 3.7 Flash | 84 | A | opencode | 69 | +15 |
-| 21 | Claude Opus 4.6 | 83 | A | Claude Code | 83 | 0 |
-| 21 | GLM 5 | 83 | A | opencode | 64 | **+19** |
-| 23 | DeepSeek V4 Pro | 82 | B | opencode | 69 | +13 |
-| 24 | DeepSeek V4 Flash | 80ᵃ | B | opencode | 78 | +2 |
-| 25 | Gemini 3.5 Flash @ high | 79ᵃ | B | opencode | 93* | −14 |
-| 26 | Qwen 3.6 Plus | 76ᵃ | B | opencode | 71 | +5 |
-| 27 | MiMo V2.5 Pro | 73 | B | opencode | 67 | +6 |
-| 28 | Gemini 3.1 Pro | 62ᵃ† | C | opencode | 79 | −17 |
-| 29 | Qwen3.7 Max | 51 | C | opencode | 78 | **−27** |
-| 30 | Step 3.5 Flash | 27 | D | opencode | 56 | −29 |
-| 31 | Grok 4.3 | 18 | D | opencode | 72 | **−54** |
+| 8 | Qwen 3.8 Max | **92** | A | opencode | — | — |
+| 12 | MiniMax M3 | 91ᵃ | A | opencode | 78 | +13 |
+| 12 | Kimi K2.6 | 91 | A | opencode | 87 | +4 |
+| 12 | Claude Opus 4.7 | 91 | A | Claude Code | 87 | +4 |
+| 12 | GPT 5.6 Luna | 91ᵃ | A | Codex | — | — |
+| 16 | Nex-N2-Pro | 88 | A | opencode | 83 | +5 |
+| 16 | GPT 5.5 | 88 | A | Codex | 85 | +3 |
+| 18 | Claude Sonnet 4.6 | 87 | A | Claude Code | 78 | +9 |
+| 19 | GPT 5.4 | 86 | A | Codex | 95 | −9 |
+| 19 | Kimi K2.7-Coding | 86 | A | Kimi CLI | 86 | 0 |
+| 21 | Step 3.7 Flash | 84 | A | opencode | 69 | +15 |
+| 22 | Claude Opus 4.6 | 83 | A | Claude Code | 83 | 0 |
+| 22 | GLM 5 | 83 | A | opencode | 64 | **+19** |
+| 24 | DeepSeek V4 Pro | 82 | B | opencode | 69 | +13 |
+| 25 | DeepSeek V4 Flash | 80ᵃ | B | opencode | 78 | +2 |
+| 26 | Gemini 3.5 Flash @ high | 79ᵃ | B | opencode | 93* | −14 |
+| 27 | Qwen 3.6 Plus | 76ᵃ | B | opencode | 71 | +5 |
+| 28 | MiMo V2.5 Pro | 73 | B | opencode | 67 | +6 |
+| 29 | Gemini 3.1 Pro | 62ᵃ† | C | opencode | 79 | −17 |
+| 30 | Qwen3.7 Max | 51 | C | opencode | 78 | **−27** |
+| 31 | Step 3.5 Flash | 27 | D | opencode | 56 | −29 |
+| 32 | Grok 4.3 | 18 | D | opencode | 72 | **−54** |
 
 ᵃ Corrected 2026-07-30 after user-prompted re-audit (see "Scoring integrity re-check" below). \* v1 Flash ran at default dynamic effort; the v2 run forces `reasoning_effort=high`. † Carries the Google signature-bug caveat (phase 2 unproven, 3 attempts).
 
@@ -539,6 +540,16 @@ The third GPT 5.6 variant, and it ties **GPT 5.6 Sol** for the best GPT of the b
 **Scoring**: gates 14/15 (−1 stale pin), streaming 10, payload 10 (exact-array test), concurrency 9 (`WATCH`/`MULTI` + distributed turn-lock — the strongest concurrency story of the cohort, no confessed race), tools 10 (eval-free, forces tool choice, live-proven), schema 5, budget 4, robustness 9, tests+gates 8 (branch coverage enabled; honest G11 PARTIAL on missing Stimulus/integration tests), fidelity 14/15 (−1 stale-pin PASS; all else accurate). **Total 93.**
 
 **Efficiency:** 48.5 min, 21.7M tokens, **$6.77 blended** at Terra's post-July-30 $2/$0.20 cached/$12 per-M rate card (raw codex $44.65 is the upper bound — the event schema's `cached_input_tokens` shows 21.0M of 21.7M input were cache hits, on the same honest-cost basis as Luna). Terra costs $3.41 more than Luna at +2 points, and remains the cheapest of the three 93-scorers to Sol's ~$45.
+
+### Qwen 3.8 Max — 92 (opencode, audited 2026-08-14)
+
+The Qwen line's redemption, and one of the largest generational jumps in the benchmark: **Qwen 3.7 Max scored 51 (Tier C)** — it hallucinated the RubyLLM API (`chat.ask(entire_history_array)`, which the gem folds into a single user message, breaking multi-turn) and wrote its required G5 test against that fabricated surface. **Qwen 3.8 Max fixes exactly that**: real `chat.add_message(role:, content:)` for history replay, the new prompt added once, real `with_instructions`/`with_tools`/`with_schema` — verified against gem source, no hallucination anywhere. It's a +41 swing (C → A) driven by the model finally understanding the library.
+
+The build is legitimately Tier A: an exclusive `flock(LOCK_EX)` file store wrapping every mutation (prevents the lost-update race GLM 5.2 and others confessed), eval-free hand-rolled `ArithmeticEvaluator`, a real exact-array G5 test, and all 7 phase-2 validations live-proven — server_time/calculator tools (`(123456*789012)-54321/3 = 97408247365`, exact), restart survival, and a compose e2e with **16 incremental streaming frames over 9s cross-worker via the Redis cable adapter**. Suite verified: **62 runs / 226 assertions, 92.25% line** (one of the larger suites). Pin: `claude-sonnet-4.6` (stale). One phase-2 fix: `config/puma.rb` shipped without the `workers` directive, so `WEB_CONCURRENCY=2` was silently single-process as delivered (the same miss K2.6/DeepSeek Flash/Step 3.7 had).
+
+**Scoring**: gates 14/15 (−1 stale pin), streaming 10 (live-proven cross-worker), payload 10 (exact-array test, correct once-only replay), concurrency 8 (sound flock store + restart-proven, −1 for the delivered-broken `WEB_CONCURRENCY` needing a phase-2 fix), tools 10 (eval-free, live-proven), schema 5, budget 4, robustness 9, tests+gates 8 (large verified suite, no branch coverage), fidelity 14/15 (−1 stale-pin PASS; the other 13 accurate and phase-2-proven). **Total 92** — ties Grok 4.5, GLM 5.2, and K2.5.
+
+**Efficiency:** 77.8 min, 25.1M tokens, **$9.16** (opencode, cumulative-metered post issue-#14 fix). Verbose (25M tokens, second only to M3 among opencode runs) but correctly priced.
 
 ## Wave 2 conclusions
 
