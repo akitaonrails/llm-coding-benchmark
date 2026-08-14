@@ -1,0 +1,82 @@
+{
+  "billing": "OpenRouter API",
+  "cost_usd_total": 9.1607,
+  "elapsed_seconds_total": 4665.62,
+  "ended_at": "2026-08-14T19:25:02+00:00",
+  "harness": "opencode",
+  "label": "Qwen 3.8 Max (opencode/OpenRouter)",
+  "phases": [
+    {
+      "command_kind": "opencode",
+      "cost_usd": 6.0053,
+      "elapsed_seconds": 2993.06,
+      "ended_at": "2026-08-14T18:57:10+00:00",
+      "exit_code": 0,
+      "file_count_after": 2224,
+      "harness": "opencode",
+      "phase": "phase1",
+      "session_id": "ses_ffe8af99cffemDrUtSTQOCkQcE",
+      "started_at": "2026-08-14T18:07:17+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 15871872,
+          "write": 0
+        },
+        "input": 680162,
+        "output": 55403,
+        "reasoning": 57431,
+        "total": 16664868
+      }
+    },
+    {
+      "command_kind": "opencode",
+      "cost_usd": 1.787,
+      "elapsed_seconds": 936.97,
+      "ended_at": "2026-08-14T19:12:47+00:00",
+      "exit_code": 0,
+      "file_count_after": 2249,
+      "harness": "opencode",
+      "phase": "phase2",
+      "session_id": "ses_ffe5d5c2cffermi7TaQqYdjkhC",
+      "started_at": "2026-08-14T18:57:10+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 4544640,
+          "write": 0
+        },
+        "input": 205871,
+        "output": 19641,
+        "reasoning": 20210,
+        "total": 4790362
+      }
+    },
+    {
+      "command_kind": "opencode",
+      "cost_usd": 1.3684,
+      "elapsed_seconds": 735.59,
+      "ended_at": "2026-08-14T19:25:02+00:00",
+      "exit_code": 0,
+      "file_count_after": 2250,
+      "harness": "opencode",
+      "phase": "phase3",
+      "session_id": "ses_ffe4f1033ffeLY3E7sJf0r8zhe",
+      "started_at": "2026-08-14T19:12:47+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 3398272,
+          "write": 0
+        },
+        "input": 168422,
+        "output": 15430,
+        "reasoning": 14909,
+        "total": 3597033
+      }
+    }
+  ],
+  "self_review_present": true,
+  "slug": "v2_qwen3_8_max",
+  "tokens_total": 25052263
+}

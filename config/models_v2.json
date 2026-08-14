@@ -530,6 +530,21 @@
       },
       "wave": 4,
       "notes": "Added per user 2026-08-01. The run used Terra's post-July-30 $2/$0.20 cached/$12 per-M card. Third GPT 5.6 variant (Sol 93, Luna 91); Codex event schema exposes cached_input_tokens for honest blended cost."
+    },
+    {
+      "slug": "v2_qwen3_8_max",
+      "label": "Qwen 3.8 Max (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/qwen/qwen3.8-max",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 2.0,
+        "cache_read": 0.4,
+        "cache_write": 2.0,
+        "output": 6.0
+      },
+      "wave": 4,
+      "notes": "Added per user 2026-08-11. Highest-effort online Qwen 3.8 (the 27B is local-only). Successor to Qwen3.7 Max (51/C, hallucinated RubyLLM). opencode harness, XDG-isolated, cumulative-metered (post issue #14 fix)."
     }
   ],
   "skipped": {
