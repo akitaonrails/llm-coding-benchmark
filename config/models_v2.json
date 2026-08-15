@@ -560,6 +560,21 @@
       },
       "wave": 4,
       "notes": "Added per user 2026-08-14. Offline dense 27B counterpart to online qwen3.8-max (92). llama-swap Q5_K_M on the 5090, --jinja --reasoning-format none, 64K ctx. The FIRST local model in v2 (locals were dropped in wave 3) \u2014 tests whether the small offline model holds the API-correctness 3.8-max showed. Local, so cost=$0; report wall time + tok/s."
+    },
+    {
+      "slug": "v2_glm_5_3",
+      "label": "GLM 5.3 (opencode/Z.ai coding plan)",
+      "harness": "opencode",
+      "model_id": "zai/glm-5.3",
+      "billing": "Z.ai flat-rate coding plan ($0 marginal; API-equiv reported)",
+      "rates_per_m": {
+        "input": 0.6,
+        "cache_read": 0.11,
+        "cache_write": 0.6,
+        "output": 2.2
+      },
+      "wave": 4,
+      "notes": "Added 2026-08-15. Successor to GLM 5.2 (92). z.ai coding endpoint, cumulative-metered. Frontier cloud \u2014 unshielded, spot-checked post-run."
     }
   ],
   "skipped": {
