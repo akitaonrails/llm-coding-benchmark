@@ -545,6 +545,21 @@
       },
       "wave": 4,
       "notes": "Added per user 2026-08-11. Highest-effort online Qwen 3.8 (the 27B is local-only). Successor to Qwen3.7 Max (51/C, hallucinated RubyLLM). opencode harness, XDG-isolated, cumulative-metered (post issue #14 fix)."
+    },
+    {
+      "slug": "v2_qwen3_8_27b_local",
+      "label": "Qwen 3.8 27B dense Q5_K_M (LOCAL, RTX 5090 llama-swap)",
+      "harness": "opencode",
+      "model_id": "llamaswap/qwen3.8:27b",
+      "billing": "Local (RTX 5090, free)",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 4,
+      "notes": "Added per user 2026-08-14. Offline dense 27B counterpart to online qwen3.8-max (92). llama-swap Q5_K_M on the 5090, --jinja --reasoning-format none, 64K ctx. The FIRST local model in v2 (locals were dropped in wave 3) \u2014 tests whether the small offline model holds the API-correctness 3.8-max showed. Local, so cost=$0; report wall time + tok/s."
     }
   ],
   "skipped": {
