@@ -1,0 +1,23 @@
+{
+  "command_kind": "opencode",
+  "cost_usd": 0.8402,
+  "elapsed_seconds": 251.04,
+  "ended_at": "2026-08-15T18:17:04+00:00",
+  "exit_code": 0,
+  "file_count_after": 2389,
+  "harness": "opencode",
+  "phase": "phase3",
+  "session_id": "ses_ff95f8c59ffe20iQfjbmCQboNd",
+  "started_at": "2026-08-15T18:12:53+00:00",
+  "timed_out": false,
+  "tokens": {
+    "cache": {
+      "read": 4992904,
+      "write": 0
+    },
+    "input": 494311,
+    "output": 8967,
+    "reasoning": 16356,
+    "total": 5512538
+  }
+}

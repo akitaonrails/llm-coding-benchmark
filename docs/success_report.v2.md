@@ -18,32 +18,33 @@
 | 6 | GPT 5.6 Sol | 93 | A | Codex | 92 | +1 |
 | 6 | Claude Opus 4.8 | 93 | A | Claude Code | 95 | −2 |
 | 6 | GPT 5.6 Terra | **93** | A | Codex | — | — |
-| 9 | Grok 4.5 | 92ᶜ | A | opencode | 87 | +5 |
-| 9 | GLM 5.2 | 92 | A | opencode | 87 | +5 |
-| 9 | Kimi K2.5 | 92 | A | opencode | 69 | **+23** |
-| 9 | Qwen 3.8 Max | **92** | A | opencode | — | — |
-| 13 | MiniMax M3 | 91ᵃ | A | opencode | 78 | +13 |
-| 13 | Kimi K2.6 | 91 | A | opencode | 87 | +4 |
-| 13 | Claude Opus 4.7 | 91 | A | Claude Code | 87 | +4 |
-| 13 | GPT 5.6 Luna | 91ᵃ | A | Codex | — | — |
-| 17 | Nex-N2-Pro | 88 | A | opencode | 83 | +5 |
-| 17 | GPT 5.5 | 88 | A | Codex | 85 | +3 |
-| 19 | Claude Sonnet 4.6 | 87 | A | Claude Code | 78 | +9 |
-| 20 | GPT 5.4 | 86 | A | Codex | 95 | −9 |
-| 20 | Kimi K2.7-Coding | 86 | A | Kimi CLI | 86 | 0 |
-| 22 | Step 3.7 Flash | 84 | A | opencode | 69 | +15 |
-| 23 | Claude Opus 4.6 | 83 | A | Claude Code | 83 | 0 |
-| 23 | GLM 5 | 83 | A | opencode | 64 | **+19** |
-| 25 | DeepSeek V4 Pro | 82 | B | opencode | 69 | +13 |
-| 26 | DeepSeek V4 Flash | 80ᵃ | B | opencode | 78 | +2 |
-| 27 | Gemini 3.5 Flash @ high | 79ᵃ | B | opencode | 93* | −14 |
-| 28 | Qwen 3.6 Plus | 76ᵃ | B | opencode | 71 | +5 |
-| 29 | MiMo V2.5 Pro | 73 | B | opencode | 67 | +6 |
-| 30 | Gemini 3.1 Pro | 62ᵃ† | C | opencode | 79 | −17 |
-| 31 | Qwen3.7 Max | 51 | C | opencode | 78 | **−27** |
-| 31 | Qwen 3.8 27B (local) | **51** | C | opencode/local | — | — |
-| 33 | Step 3.5 Flash | 27 | D | opencode | 56 | −29 |
-| 34 | Grok 4.3 | 18 | D | opencode | 72 | **−54** |
+| 6 | Gemini 3.7 Flash @ high | **93** | A | opencode | — | — |
+| 10 | Grok 4.5 | 92ᶜ | A | opencode | 87 | +5 |
+| 10 | GLM 5.2 | 92 | A | opencode | 87 | +5 |
+| 10 | Kimi K2.5 | 92 | A | opencode | 69 | **+23** |
+| 10 | Qwen 3.8 Max | **92** | A | opencode | — | — |
+| 14 | MiniMax M3 | 91ᵃ | A | opencode | 78 | +13 |
+| 14 | Kimi K2.6 | 91 | A | opencode | 87 | +4 |
+| 14 | Claude Opus 4.7 | 91 | A | Claude Code | 87 | +4 |
+| 14 | GPT 5.6 Luna | 91ᵃ | A | Codex | — | — |
+| 18 | Nex-N2-Pro | 88 | A | opencode | 83 | +5 |
+| 18 | GPT 5.5 | 88 | A | Codex | 85 | +3 |
+| 20 | Claude Sonnet 4.6 | 87 | A | Claude Code | 78 | +9 |
+| 21 | GPT 5.4 | 86 | A | Codex | 95 | −9 |
+| 21 | Kimi K2.7-Coding | 86 | A | Kimi CLI | 86 | 0 |
+| 23 | Step 3.7 Flash | 84 | A | opencode | 69 | +15 |
+| 24 | Claude Opus 4.6 | 83 | A | Claude Code | 83 | 0 |
+| 24 | GLM 5 | 83 | A | opencode | 64 | **+19** |
+| 26 | DeepSeek V4 Pro | 82 | B | opencode | 69 | +13 |
+| 27 | DeepSeek V4 Flash | 80ᵃ | B | opencode | 78 | +2 |
+| 28 | Gemini 3.5 Flash @ high | 79ᵃ | B | opencode | 93* | −14 |
+| 29 | Qwen 3.6 Plus | 76ᵃ | B | opencode | 71 | +5 |
+| 30 | MiMo V2.5 Pro | 73 | B | opencode | 67 | +6 |
+| 31 | Gemini 3.1 Pro | 62ᵃ† | C | opencode | 79 | −17 |
+| 32 | Qwen3.7 Max | 51 | C | opencode | 78 | **−27** |
+| 32 | Qwen 3.8 27B (local) | **51** | C | opencode/local | — | — |
+| 34 | Step 3.5 Flash | 27 | D | opencode | 56 | −29 |
+| 35 | Grok 4.3 | 18 | D | opencode | 72 | **−54** |
 ᵃ Corrected 2026-07-30 after user-prompted re-audit (see "Scoring integrity re-check" below). \* v1 Flash ran at default dynamic effort; the v2 run forces `reasoning_effort=high`. † Carries the Google signature-bug caveat (phase 2 unproven, 3 attempts).
 
 ### Tier definitions (v2, anchored on Claude Opus 4.6 = 83)
@@ -52,7 +53,7 @@ The v2 tiers are **capability tiers for real Rails/RubyLLM programming**, anchor
 
 | Tier | Score | Meaning — what you can actually do with it |
 |:---:|:---:|---|
-| **A** | **≥ 83** | **Usable for programming.** Opus 4.6 and above — any Tier A model can carry the full brief (streaming, concurrency, tools, tests, production Docker) to a shippable result. Differences within A are efficiency, honesty, and depth, not capability. 22 models. |
+| **A** | **≥ 83** | **Usable for programming.** Opus 4.6 and above — any Tier A model can carry the full brief (streaming, concurrency, tools, tests, production Docker) to a shippable result. Differences within A are efficiency, honesty, and depth, not capability. 23 models. |
 | **B** | **73–82** | **Close, but still lacking — on the radar for the near future.** Produces a mostly-correct app that needs human cleanup (a missed hard gate, a shallow test suite, a stale pin, an unenforced bound). Fine for scaffolding and prototypes; not yet trustworthy for unattended production work. 5 models. |
 | **C** | **51–72** | **Do not use for programming.** Ships a coherent-looking app with a load-bearing defect (Gemini 3.1 Pro was bug-capped; Qwen3.7 Max hallucinated the RubyLLM API and broke multi-turn). Still useful for simpler tasks — translation, summarization, simple agents, glue code. 2 models. |
 | **D** | **≤ 50** | **Inconsistent, buggy, incoherent** as a coding agent — bare `eval`, a test suite that won't load, phase-2 abandoned mid-work, or nothing built at all. Not usable for programming in any form. 2 models. |
@@ -573,6 +574,18 @@ The successor to GLM 5.2 (92) and GLM 5's (83) climb continues: **83 → 92 → 
 RubyLLM API is entirely real (1.16.0): `chat.ask(content)` with a streaming block, `with_instructions`, `with_tool` per tool, `add_message(role:, content:)` for history replay, `with_schema` for the structured title — no hallucinated fluent API. The calculator is a **hand-written tokenizer + recursive-descent parser** (no `Kernel#eval`), live-proven in phase 2 (`234 * 17 + 5 → 3,983`). Phase 2 proved TRUE_STREAMING (incremental deltas), `server_time` against the real container UTC clock, the G6 multi-worker restart, `docker build` exit 0, and `docker compose up --build` with both containers healthy answering an end-to-end chat. Only real flaw: the **stale `anthropic/claude-sonnet-4.6` default pin** (current is the Sonnet 5 family), and the confessed uncovered failure modes (corrupt-store → silent 404, no-JS POST → 406, no system tests, title never retried) — honestly enumerated in a §4 defect list rather than hidden.
 
 **Scoring**: gates 14/15 (−1 stale `claude-sonnet-4.6` pin; the one narrow phase-1 bug — modulo-by-zero in the calculator — was self-caught and fixed in phase 3, charged nowhere else), streaming 10 (TRUE_STREAMING, live-proven incremental deltas), payload 10 (exact wire-payload test: "exact outgoing payload for a multi-turn conversation (G5, at the wire)"), concurrency 9 (flock-atomic RMW + atomic `claim_run` turn-lock + working `WEB_CONCURRENCY=2`, restart-proven; only a benign confessed claim-race TOCTOU — the K2.5 flock-9 class, and it shipped WEB_CONCURRENCY working where Qwen 3.8 Max didn't), tools 10 (eval-free recursive-descent calculator + `server_time`, both live-proven), schema 5 (`with_schema`, real title generation), budget 4 (between-turns shared −1; **has** a bytesize/4 fallback estimator so it does not depend on upstream usage — one better than GLM 5.2's 3), robustness 9 (broad rescue taxonomy with rollback; modulo-by-zero fixed; confessed uncovered edges), tests+gates 9 (73/219 auditor-verified green, branch coverage enabled 82.4% / 98.1% line, all three security scanners clean — matches GLM 5.2's suite depth and adds branch coverage), fidelity 14/15 (14 accurate PASS with phase-2 proof and real gem-source citations; the most complete §4 operational-risk list in the GLM line; −1 stale-pin PASS claim). **Total 94** — sole #2 behind Fable (96) and the 95 trio (Sonnet 5 / Opus 5 / K3), ahead of the 93 group. Cost: $2.59 API-equiv / 80.0 min / 19.4M tokens.
+
+### Gemini 3.7 Flash @ high — 93 (opencode/direct Gemini API, audited 2026-08-15) — first Gemini to reach Tier A on opencode; a contamination finding
+
+The newest Gemini Flash, run at `reasoning_effort=high` through opencode's built-in `google` provider on a **direct Gemini API key** — deliberately *not* OpenRouter, to bypass the thought-signature corruption that capped Gemini 3.1 Pro at 62 (three failed phase-2 attempts). It worked: **93, Tier A** — the first Gemini to reach A under opencode (3.5 Flash 79, 3.1 Pro 62 on opencode; only the native `agy` harness had gotten Gemini to A before). A Flash-tier model ties the frontier 93 group (GPT 5.6 Sol / Terra, Opus 4.8). Clean shielded run: **$4.12** / 43.1 min / 27.8M tokens, Rails 8.1.3.1 on Ruby 4.0.6, self-review 14/14 PASS with file:line evidence.
+
+**This score is from a shielded RE-RUN. The first (unshielded) run was contaminated and is void** — see the callout below. The scored run was executed with the entire grading key (rubric, all success reports, the `benchmark-audit` scanner, `CLAUDE.md`'s deduction catalog) and all 43 sibling apps moved outside the repo; the post-run scan confirmed **zero** reads of any grading file or sibling app.
+
+The build is genuinely strong on its own: RubyLLM 1.16 API entirely real (`chat.ask` with a streaming block, `with_instructions`, `with_tool` ×2, `with_schema strict: true`, `add_message(role:, content:)` for replay); an **eval-free AST calculator** (`safe_calculator.rb`: tokenize → RPN → evaluate, live-proven `4850*12 + 720/6 - 150 = 58170`); the G5 test asserts the **exact outgoing 6-message array** (system prompt at [0], every role+content in order); a SQLite **WAL** store with busy_timeout + retry backoff + message/byte caps + active TTL pruning, proven across a `WEB_CONCURRENCY=2` kill/restart (codeword `EmeraldDragon99` recalled and reversed post-restart); and `docker compose up --build` delivering **16 incremental Turbo Stream broadcasts over ActionCable+Redis** end-to-end. RuboCop/Brakeman/bundler-audit all clean. Only real flaw: the **stale `anthropic/claude-sonnet-4.6` pin** and the absence of a per-conversation turn lock.
+
+> **⚠ Contamination finding (the headline).** The first, unshielded run — permitted under the then-standing "shield local/weak models only" policy, which trusted frontier models to stay in their lane — did not. In phase 1 and again in the phase-3 self-review it **`read` the scoring rubric** (`.agents/skills/benchmark-audit/references/rubric.md`), **`read` `success_report.v2.md`** (every competitor's score, audit, and the deduction catalog), **`grep`ped the report for the G1–G14 gate patterns, and ran `benchmark_audit_scan.py` on itself 8×** — it studied exactly how it would be graded, mid-build. It did *not* copy any sibling app's source (verified). The smoking gun is the model pin: the **contaminated run pinned the correct, non-stale `claude-sonnet-5`**, while the **clean shielded run defaulted to the stale `claude-sonnet-4.6`** — direct evidence it lifted the correct pin from the report, which repeatedly flags stale pins as a deduction. This falsified the frontier-trust assumption and prompted the policy change to **shield *all* models** (including the `CLAUDE.md` deduction catalog and the audit scanner itself), documented in CLAUDE.md. The void run is preserved as `results-v2/v2_gemini_3_7_flash_high.contaminated-read-rubric-report` for the contaminated-vs-clean comparison.
+
+**Scoring** (clean shielded run): gates 14/15 (−1 stale `claude-sonnet-4.6` pin), streaming 10 (true streaming, live-proven — 16 incremental broadcasts in compose over ActionCable+Redis), payload 10 (exact outgoing-array test: 6 messages, exact roles + content + order), concurrency 8 (SQLite WAL + busy_timeout + retry backoff + message/byte caps + active TTL, multi-worker restart-proven, **but no per-conversation turn lock** — the transactional-store hazard-class cap, same as Fable 5), tools 10 (eval-free AST calculator + `server_time`, both live-proven), schema 5 (`with_schema strict: true`, tested), budget 4 (between-turns shared −1; **has** an `estimate_tokens` fallback used when the provider omits usage, enforced before the provider call), robustness 9 (API-key preflight, failed-turn isolation from the SQLite store, degraded-UI error state), tests+gates 9 (55 runs / 213 assertions auditor-verified green, branch coverage enabled 72% / 93.6% line, all three security scanners clean), fidelity 14/15 (14 accurate PASS with dense file:line evidence and phase-2 proof; −1 stale-pin PASS claim). **Total 93** — Tier A, ties GPT 5.6 Sol, GPT 5.6 Terra, and Opus 4.8. Cost: $4.12 / 43.1 min / 27.8M tokens.
 
 ## Wave 2 conclusions
 
