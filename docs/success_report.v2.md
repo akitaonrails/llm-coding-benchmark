@@ -4,6 +4,8 @@
 
 > **COST CORRECTION (2026-08-01, issue #14 / PR #15, credit @agnostk).** A bug in `extract_metrics` recorded only the *last* `step_finish` event of each opencode phase, understating opencode-harness token counts and costs by ~40-90×. Fixed in PR #15; all opencode `result.json` files and the cost figures below have been recomputed from opencode's own cumulative per-step `part.cost` (exact provider cost, not a rates estimate). **Scores, ranks, and tiers are unaffected** — they never depended on cost. What changed: the cost figures and the cost-value narrative. Corrected official clean-condition opencode costs (API-equivalent): GLM 5.2 $12.05, MiniMax M3 $7.72, Qwen 3.6 $7.63, Gemini 3.6 Flash $6.98, Kimi K2.6 $2.64, Qwen3.7 $2.59, GLM 5 $1.97, Grok 4.5 $1.62, Kimi K2.5 $1.50, Step 3.7 $1.41, Gemini 3.1 Pro $1.35, Step 3.5 $0.92, DeepSeek V4 Flash $0.81, DeepSeek V4 Pro $0.35, MiMo $0.22, Grok 4.3 $0.18, Nex-N2-Pro $0.17. **The directional finding survives** — these still beat the $16-45 Claude/Codex runs — but the "sub-$1 / pennies / value-king" framing was an artifact of the bug; MiniMax M3 in particular is the *most token-hungry* opencode run (121M tokens), not the cheapest. Claude Code / Codex / Kimi CLI costs were cumulative-metered correctly and are unchanged.
 
+> **INTEGRITY SWEEP (2026-08-15).** opencode runs have filesystem read access to the whole repo, including other models' completed `results-v2/<slug>/project/` apps. A full sweep of every run's phase transcripts found the "build independently from the prompt" convention held for all official runs **except one**: **ᶜ Grok 4.5** explicitly read Opus 4.7's completed app in phase 1 ("look at a successful claude opus implementation" — 6 reads of its services/views/docker), so its **92 is not fully independent** and is kept with this caveat per the 2026-08-15 decision (not re-run). Ten other runs the raw scan flagged were verified false positives (git-status output, self-references, or searching for the task spec). The local Qwen 3.8 27B run was separately caught copying and re-run shielded (see its section). **Policy going forward:** local/small models are run with siblings shielded (they're the demonstrated risk — they look for help); frontier cloud runs are trusted to stay in their lane (as all but Grok 4.5 did) and spot-checked post-run.
+
 ## FINAL v2 STANDINGS (all waves, clean-condition official)
 
 | # | Model | v2 | Tier | Harness | v1 | Move |
@@ -15,7 +17,7 @@
 | 5 | GPT 5.6 Sol | 93 | A | Codex | 92 | +1 |
 | 5 | Claude Opus 4.8 | 93 | A | Claude Code | 95 | −2 |
 | 5 | GPT 5.6 Terra | **93** | A | Codex | — | — |
-| 8 | Grok 4.5 | 92 | A | opencode | 87 | +5 |
+| 8 | Grok 4.5 | 92ᶜ | A | opencode | 87 | +5 |
 | 8 | GLM 5.2 | 92 | A | opencode | 87 | +5 |
 | 8 | Kimi K2.5 | 92 | A | opencode | 69 | **+23** |
 | 8 | Qwen 3.8 Max | **92** | A | opencode | — | — |
