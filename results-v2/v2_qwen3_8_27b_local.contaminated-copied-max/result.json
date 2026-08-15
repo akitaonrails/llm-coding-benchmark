@@ -1,0 +1,82 @@
+{
+  "billing": "Local (RTX 5090, free)",
+  "cost_usd_total": 0,
+  "elapsed_seconds_total": 7749.02,
+  "ended_at": "2026-08-14T23:44:21+00:00",
+  "harness": "opencode",
+  "label": "Qwen 3.8 27B dense Q5_K_M (LOCAL, RTX 5090 llama-swap)",
+  "phases": [
+    {
+      "command_kind": "opencode",
+      "cost_usd": 0.0,
+      "elapsed_seconds": 3886.11,
+      "ended_at": "2026-08-14T22:39:58+00:00",
+      "exit_code": 0,
+      "file_count_after": 1985,
+      "harness": "opencode",
+      "phase": "phase1",
+      "session_id": "ses_ffdccab4fffeq2YCIwWvzU1Hcs",
+      "started_at": "2026-08-14T21:35:12+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 0,
+          "write": 0
+        },
+        "input": 12329004,
+        "output": 169082,
+        "reasoning": 0,
+        "total": 12498086
+      }
+    },
+    {
+      "command_kind": "opencode",
+      "cost_usd": 0.0,
+      "elapsed_seconds": 2032.99,
+      "ended_at": "2026-08-14T23:13:51+00:00",
+      "exit_code": 0,
+      "file_count_after": 1937,
+      "harness": "opencode",
+      "phase": "phase2",
+      "session_id": "ses_ffd915e90ffe9IUuJbfAFqK95G",
+      "started_at": "2026-08-14T22:39:58+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 0,
+          "write": 0
+        },
+        "input": 9097552,
+        "output": 93555,
+        "reasoning": 0,
+        "total": 9191107
+      }
+    },
+    {
+      "command_kind": "opencode",
+      "cost_usd": 0.0,
+      "elapsed_seconds": 1829.92,
+      "ended_at": "2026-08-14T23:44:21+00:00",
+      "exit_code": 0,
+      "file_count_after": 2393,
+      "harness": "opencode",
+      "phase": "phase3",
+      "session_id": "ses_ffd7259caffegWlyPuujoDDFjM",
+      "started_at": "2026-08-14T23:13:51+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 0,
+          "write": 0
+        },
+        "input": 5360887,
+        "output": 94469,
+        "reasoning": 0,
+        "total": 5455356
+      }
+    }
+  ],
+  "self_review_present": true,
+  "slug": "v2_qwen3_8_27b_local",
+  "tokens_total": 27144549
+}

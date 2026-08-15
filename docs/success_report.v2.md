@@ -38,8 +38,9 @@
 | 28 | MiMo V2.5 Pro | 73 | B | opencode | 67 | +6 |
 | 29 | Gemini 3.1 Pro | 62ᵃ† | C | opencode | 79 | −17 |
 | 30 | Qwen3.7 Max | 51 | C | opencode | 78 | **−27** |
-| 31 | Step 3.5 Flash | 27 | D | opencode | 56 | −29 |
-| 32 | Grok 4.3 | 18 | D | opencode | 72 | **−54** |
+| 30 | Qwen 3.8 27B (local) | **51** | C | opencode/local | — | — |
+| 32 | Step 3.5 Flash | 27 | D | opencode | 56 | −29 |
+| 33 | Grok 4.3 | 18 | D | opencode | 72 | **−54** |
 
 ᵃ Corrected 2026-07-30 after user-prompted re-audit (see "Scoring integrity re-check" below). \* v1 Flash ran at default dynamic effort; the v2 run forces `reasoning_effort=high`. † Carries the Google signature-bug caveat (phase 2 unproven, 3 attempts).
 
@@ -550,6 +551,16 @@ The build is legitimately Tier A: an exclusive `flock(LOCK_EX)` file store wrapp
 **Scoring**: gates 14/15 (−1 stale pin), streaming 10 (live-proven cross-worker), payload 10 (exact-array test, correct once-only replay), concurrency 8 (sound flock store + restart-proven, −1 for the delivered-broken `WEB_CONCURRENCY` needing a phase-2 fix), tools 10 (eval-free, live-proven), schema 5, budget 4, robustness 9, tests+gates 8 (large verified suite, no branch coverage), fidelity 14/15 (−1 stale-pin PASS; the other 13 accurate and phase-2-proven). **Total 92** — ties Grok 4.5, GLM 5.2, and K2.5.
 
 **Efficiency:** 77.8 min, 25.1M tokens, **$9.16** (opencode, cumulative-metered post issue-#14 fix). Verbose (25M tokens, second only to M3 among opencode runs) but correctly priced.
+
+### Qwen 3.8 27B dense Q5_K_M (LOCAL, RTX 5090) — 51 (opencode/local, audited 2026-08-14)
+
+The first and only **local** model in v2 (locals were dropped in wave 3), run to answer one question: does the offline dense 27B hold up to the online `qwen3.8-max` (92)? **It does not — 92 → 51 (−41), Tier A → Tier C.** The offline model got the *one* thing it studied right (correct RubyLLM API core — real `add_message`/`with_tools`/`chat.ask`-with-block, plus an eval-free recursive-descent calculator — the payoff of legitimately reading the gem source in phase 1) but failed most of the production-hardening brief working independently: **a direct "no ActiveRecord" violation (G1)**, **broken streaming (G4** — per-token broadcasts fire but the assistant bubble is never inserted, so the reply only appears on reload), no `with_schema` (G8 FAIL), no token budgeting at all (G9 FAIL), zero tests / no SimpleCov (G11 FAIL), RuboCop 22 offenses (G12 FAIL), no Dockerfile/compose + stock README (G13 FAIL), unbounded persistence (G6 PARTIAL), and failed-turn replay (G10 PARTIAL). Pin: stale `claude-sonnet-4.6`. Its self-review is nonetheless **exemplary** — it caught every one of these itself, including the AR violation and the streaming DOM bug, with precise file:line evidence.
+
+**Scoring**: gates 8/15 (G1 AR violation, G13 fully absent, stale pin), streaming 3 (broadcasts present but non-functional — reply invisible until reload), payload 5 (correct replay logic, no required test), concurrency 5 (DB-backed/restart-safe but no caps/TTL), tools 8 (eval-free calculator, real `with_tools`), schema 1 (no `with_schema`), budget 1 (none), robustness 5 (system prompt + rescue, but no preflight + failed-turn replay), tests+gates 1 (0 tests + RuboCop fails), fidelity 14/15 (exemplary honesty; −1 stale-pin PASS claim). **Total 51** — Tier C, tied with Qwen3.7 Max.
+
+**Two findings beyond the score:**
+1. **Context ceiling, not capability, gated completion.** It DNF'd at 32K and 64K (exhausted context reading gem source before building); only at **128K/q8 KV** (and the final run at 176K) did it reach the build step. Confirms the memory ceiling — not the model — was the initial blocker. Local perf: ~156 min, $0, on the 5090 via a fresh ollama (the tuned llama-swap build was too old for Qwen3.8's hybrid SSM architecture).
+2. **It exposed a benchmark-integrity hole — and its own weakness.** A *first* run (preserved as `results-v2/v2_qwen3_8_27b_local.contaminated-copied-max`) read the online max's completed app **16 times** in phase 2 and copied its UI/streaming, inflating it to a would-be ~75. The scored run above was re-done with all 36 sibling apps + the scoring report + the audit rubric shielded outside the repo, verified zero external reads. The 75→51 gap between the contaminated and clean runs *is* the finding: the weaker local model leans on available references when it can, and independently is a Tier-C build. (Fix noted for any future local runs: isolate the workspace from sibling outputs.)
 
 ## Wave 2 conclusions
 
