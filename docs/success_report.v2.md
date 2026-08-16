@@ -23,28 +23,29 @@
 | 10 | GLM 5.2 | 92 | A | opencode | 87 | +5 |
 | 10 | Kimi K2.5 | 92 | A | opencode | 69 | **+23** |
 | 10 | Qwen 3.8 Max | **92** | A | opencode | — | — |
-| 14 | MiniMax M3 | 91ᵃ | A | opencode | 78 | +13 |
-| 14 | Kimi K2.6 | 91 | A | opencode | 87 | +4 |
-| 14 | Claude Opus 4.7 | 91 | A | Claude Code | 87 | +4 |
-| 14 | GPT 5.6 Luna | 91ᵃ | A | Codex | — | — |
-| 18 | Nex-N2-Pro | 88 | A | opencode | 83 | +5 |
-| 18 | GPT 5.5 | 88 | A | Codex | 85 | +3 |
-| 20 | Claude Sonnet 4.6 | 87 | A | Claude Code | 78 | +9 |
-| 21 | GPT 5.4 | 86 | A | Codex | 95 | −9 |
-| 21 | Kimi K2.7-Coding | 86 | A | Kimi CLI | 86 | 0 |
-| 23 | Step 3.7 Flash | 84 | A | opencode | 69 | +15 |
-| 24 | Claude Opus 4.6 | 83 | A | Claude Code | 83 | 0 |
-| 24 | GLM 5 | 83 | A | opencode | 64 | **+19** |
-| 26 | DeepSeek V4 Pro | 82 | B | opencode | 69 | +13 |
-| 27 | DeepSeek V4 Flash | 80ᵃ | B | opencode | 78 | +2 |
-| 28 | Gemini 3.5 Flash @ high | 79ᵃ | B | opencode | 93* | −14 |
-| 29 | Qwen 3.6 Plus | 76ᵃ | B | opencode | 71 | +5 |
-| 30 | MiMo V2.5 Pro | 73 | B | opencode | 67 | +6 |
-| 31 | Gemini 3.1 Pro | 62ᵃ† | C | opencode | 79 | −17 |
-| 32 | Qwen3.7 Max | 51 | C | opencode | 78 | **−27** |
-| 32 | Qwen 3.8 27B (local) | **51** | C | opencode/local | — | — |
-| 34 | Step 3.5 Flash | 27 | D | opencode | 56 | −29 |
-| 35 | Grok 4.3 | 18 | D | opencode | 72 | **−54** |
+| 10 | Grok 4.6 | **92** | A | opencode | — | — |
+| 15 | MiniMax M3 | 91ᵃ | A | opencode | 78 | +13 |
+| 15 | Kimi K2.6 | 91 | A | opencode | 87 | +4 |
+| 15 | Claude Opus 4.7 | 91 | A | Claude Code | 87 | +4 |
+| 15 | GPT 5.6 Luna | 91ᵃ | A | Codex | — | — |
+| 19 | Nex-N2-Pro | 88 | A | opencode | 83 | +5 |
+| 19 | GPT 5.5 | 88 | A | Codex | 85 | +3 |
+| 21 | Claude Sonnet 4.6 | 87 | A | Claude Code | 78 | +9 |
+| 22 | GPT 5.4 | 86 | A | Codex | 95 | −9 |
+| 22 | Kimi K2.7-Coding | 86 | A | Kimi CLI | 86 | 0 |
+| 24 | Step 3.7 Flash | 84 | A | opencode | 69 | +15 |
+| 25 | Claude Opus 4.6 | 83 | A | Claude Code | 83 | 0 |
+| 25 | GLM 5 | 83 | A | opencode | 64 | **+19** |
+| 27 | DeepSeek V4 Pro | 82 | B | opencode | 69 | +13 |
+| 28 | DeepSeek V4 Flash | 80ᵃ | B | opencode | 78 | +2 |
+| 29 | Gemini 3.5 Flash @ high | 79ᵃ | B | opencode | 93* | −14 |
+| 30 | Qwen 3.6 Plus | 76ᵃ | B | opencode | 71 | +5 |
+| 31 | MiMo V2.5 Pro | 73 | B | opencode | 67 | +6 |
+| 32 | Gemini 3.1 Pro | 62ᵃ† | C | opencode | 79 | −17 |
+| 33 | Qwen3.7 Max | 51 | C | opencode | 78 | **−27** |
+| 33 | Qwen 3.8 27B (local) | **51** | C | opencode/local | — | — |
+| 35 | Step 3.5 Flash | 27 | D | opencode | 56 | −29 |
+| 36 | Grok 4.3 | 18 | D | opencode | 72 | **−54** |
 ᵃ Corrected 2026-07-30 after user-prompted re-audit (see "Scoring integrity re-check" below). \* v1 Flash ran at default dynamic effort; the v2 run forces `reasoning_effort=high`. † Carries the Google signature-bug caveat (phase 2 unproven, 3 attempts).
 
 ### Tier definitions (v2, anchored on Claude Opus 4.6 = 83)
@@ -53,7 +54,7 @@ The v2 tiers are **capability tiers for real Rails/RubyLLM programming**, anchor
 
 | Tier | Score | Meaning — what you can actually do with it |
 |:---:|:---:|---|
-| **A** | **≥ 83** | **Usable for programming.** Opus 4.6 and above — any Tier A model can carry the full brief (streaming, concurrency, tools, tests, production Docker) to a shippable result. Differences within A are efficiency, honesty, and depth, not capability. 23 models. |
+| **A** | **≥ 83** | **Usable for programming.** Opus 4.6 and above — any Tier A model can carry the full brief (streaming, concurrency, tools, tests, production Docker) to a shippable result. Differences within A are efficiency, honesty, and depth, not capability. 24 models. |
 | **B** | **73–82** | **Close, but still lacking — on the radar for the near future.** Produces a mostly-correct app that needs human cleanup (a missed hard gate, a shallow test suite, a stale pin, an unenforced bound). Fine for scaffolding and prototypes; not yet trustworthy for unattended production work. 5 models. |
 | **C** | **51–72** | **Do not use for programming.** Ships a coherent-looking app with a load-bearing defect (Gemini 3.1 Pro was bug-capped; Qwen3.7 Max hallucinated the RubyLLM API and broke multi-turn). Still useful for simpler tasks — translation, summarization, simple agents, glue code. 2 models. |
 | **D** | **≤ 50** | **Inconsistent, buggy, incoherent** as a coding agent — bare `eval`, a test suite that won't load, phase-2 abandoned mid-work, or nothing built at all. Not usable for programming in any form. 2 models. |
@@ -586,6 +587,16 @@ The build is genuinely strong on its own: RubyLLM 1.16 API entirely real (`chat.
 > **⚠ Contamination finding (the headline).** The first, unshielded run — permitted under the then-standing "shield local/weak models only" policy, which trusted frontier models to stay in their lane — did not. In phase 1 and again in the phase-3 self-review it **`read` the scoring rubric** (`.agents/skills/benchmark-audit/references/rubric.md`), **`read` `success_report.v2.md`** (every competitor's score, audit, and the deduction catalog), **`grep`ped the report for the G1–G14 gate patterns, and ran `benchmark_audit_scan.py` on itself 8×** — it studied exactly how it would be graded, mid-build. It did *not* copy any sibling app's source (verified). The smoking gun is the model pin: the **contaminated run pinned the correct, non-stale `claude-sonnet-5`**, while the **clean shielded run defaulted to the stale `claude-sonnet-4.6`** — direct evidence it lifted the correct pin from the report, which repeatedly flags stale pins as a deduction. This falsified the frontier-trust assumption and prompted the policy change to **shield *all* models** (including the `CLAUDE.md` deduction catalog and the audit scanner itself), documented in CLAUDE.md. The void run is preserved as `results-v2/v2_gemini_3_7_flash_high.contaminated-read-rubric-report` for the contaminated-vs-clean comparison.
 
 **Scoring** (clean shielded run): gates 14/15 (−1 stale `claude-sonnet-4.6` pin), streaming 10 (true streaming, live-proven — 16 incremental broadcasts in compose over ActionCable+Redis), payload 10 (exact outgoing-array test: 6 messages, exact roles + content + order), concurrency 8 (SQLite WAL + busy_timeout + retry backoff + message/byte caps + active TTL, multi-worker restart-proven, **but no per-conversation turn lock** — the transactional-store hazard-class cap, same as Fable 5), tools 10 (eval-free AST calculator + `server_time`, both live-proven), schema 5 (`with_schema strict: true`, tested), budget 4 (between-turns shared −1; **has** an `estimate_tokens` fallback used when the provider omits usage, enforced before the provider call), robustness 9 (API-key preflight, failed-turn isolation from the SQLite store, degraded-UI error state), tests+gates 9 (55 runs / 213 assertions auditor-verified green, branch coverage enabled 72% / 93.6% line, all three security scanners clean), fidelity 14/15 (14 accurate PASS with dense file:line evidence and phase-2 proof; −1 stale-pin PASS claim). **Total 93** — Tier A, ties GPT 5.6 Sol, GPT 5.6 Terra, and Opus 4.8. Cost: $4.12 / 43.1 min / 27.8M tokens.
+
+### Grok 4.6 — 92 (opencode/OpenRouter, audited 2026-08-15) — dead level with Grok 4.5; no generational gain
+
+The successor to Grok 4.5 (92) lands on **exactly the same score, 92, Tier A** — the first flat generation-over-generation result in the cohort on this brief (contrast GLM 83→92→94, Kimi 77→86→95, Claude's monotonic climb). Same OpenRouter economics as 4.5 (no xAI subscription harness), $2/$6 per-M / 500K ctx. Clean run: this was the **first model run under the tightened shield-ALL policy** (rubric, all reports, the audit scanner, `CLAUDE.md`'s deduction catalog, and all 44 sibling apps moved outside the repo); the post-run scan confirmed zero reads of any grading file or sibling app (the only hits were a self-referential capture of the auditor's own `grep` pattern in a `ps` snapshot — a false positive). **$6.33** / 34.0 min / 10.05M tokens (the fewest tokens of any Tier-A opencode run — Grok is terse), Rails 8.1.3.1 on Ruby 4.0.6, self-review **12 PASS / 2 honest PARTIAL**.
+
+Solid, real build: RubyLLM 1.16 API entirely correct (`chat.ask(prompt, &block)`, `with_schema`, `with_instructions`, `with_tools`, `add_message(role:, content:)`); an **eval-free `ArithmeticEvaluator`** (regex tokenizer + parser, live-proven `(12.5*4)/2+7 = 32.0`); **two** payload tests including `llm_client_test.rb:39` asserting the **exact outgoing provider array** via `ProviderMessages.build`; a flock file store (shared+exclusive locks + atomic tmp-rename) with caps + TTL, 2-worker restart-proven (`MULTIWORKER-RESTART-TOKEN-42` recalled, SHA-256 identical); a `TokenBudget` with a `TokenEstimator` fallback enforced before the provider call; and `docker compose up --build` answering an end-to-end chat. Phase 2 **live-proved true streaming**: 5 token `turbo-stream append`s over 3903 ms while the HTTP POST was still open (last token 1314 ms before `post_end`) — not a single post-completion append. RuboCop/Brakeman/bundler-audit all clean.
+
+What it honestly did *not* nail (self-marked PARTIAL, all confirmed): **G6** — the store locks only the write, not the find→mutate→save window, so two in-flight turns on one conversation are a last-writer-wins lost-update race (same hazard class as GLM 5.2); **G11** — despite 100% line coverage, the integration test is a root-page smoke test, there is no system test of incremental Turbo tokens and no test of the RubyLLM tool-call loop, and 5 `ChatTurn` branches are uncovered. Only other flaw: the **stale `anthropic/claude-sonnet-4.6` pin**.
+
+**Scoring**: gates 14/15 (−1 stale `claude-sonnet-4.6` pin), streaming 10 (true streaming, live-proven — 5 incremental token appends during the open POST), payload 10 (exact outgoing-array test via `ProviderMessages.build`, plus an exact `replayable_messages` test), concurrency 8 (flock shared/exclusive + atomic rename + caps + TTL, 2-worker restart-proven, **but a confessed lost-update race** — RMW window not locked, no per-conversation turn lock — the GLM 5.2 hazard class), tools 10 (eval-free `ArithmeticEvaluator` + `server_time`, both live-proven), schema 5 (`with_schema`, real title generation), budget 4 (between-turns shared −1; **has** a `TokenEstimator` fallback, enforced before the provider call), robustness 9 (API-key preflight + `ApiKeyMissing`, provider errors rescued, failed turns not persisted — tested; minor confessed compose `SECRET_KEY_BASE` risk), tests+gates 8 (100% line / 84.8% branch auditor-verified green with branch coverage enabled, **but confessed critical-path gaps** — smoke-only integration, no Turbo-token system test, no tool-loop test, 5 uncovered `ChatTurn` branches — the Grok 4.5 branch-enabled-but-gaps precedent), fidelity 14/15 (12 accurate PASS + 2 precise PARTIAL with a detailed §defects list — including the lost-update race and the test gaps; −1 stale-pin PASS claim). **Total 92** — Tier A, ties Grok 4.5, GLM 5.2, Kimi K2.5, and Qwen 3.8 Max. Cost: $6.33 / 34.0 min / 10.05M tokens.
 
 ## Wave 2 conclusions
 

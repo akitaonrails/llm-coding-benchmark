@@ -1,0 +1,82 @@
+{
+  "billing": "OpenRouter API \u2014 no xAI subscription harness",
+  "cost_usd_total": 6.3286,
+  "elapsed_seconds_total": 2038.1,
+  "ended_at": "2026-08-16T01:19:17+00:00",
+  "harness": "opencode",
+  "label": "Grok 4.6 (opencode/OpenRouter)",
+  "phases": [
+    {
+      "command_kind": "opencode",
+      "cost_usd": 3.7687,
+      "elapsed_seconds": 855.62,
+      "ended_at": "2026-08-16T00:59:34+00:00",
+      "exit_code": 0,
+      "file_count_after": 1875,
+      "harness": "opencode",
+      "phase": "phase1",
+      "session_id": "ses_ff7f842e2ffe93oU1G6cadWidQ",
+      "started_at": "2026-08-16T00:45:19+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 6338304,
+          "write": 0
+        },
+        "input": 145247,
+        "output": 32122,
+        "reasoning": 19383,
+        "total": 6535056
+      }
+    },
+    {
+      "command_kind": "opencode",
+      "cost_usd": 1.5561,
+      "elapsed_seconds": 790.7,
+      "ended_at": "2026-08-16T01:12:45+00:00",
+      "exit_code": 0,
+      "file_count_after": 2148,
+      "harness": "opencode",
+      "phase": "phase2",
+      "session_id": "ses_ff7eb34e7ffek5Ztf1HB28Eo7P",
+      "started_at": "2026-08-16T00:59:34+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 2368896,
+          "write": 0
+        },
+        "input": 114388,
+        "output": 13665,
+        "reasoning": 10149,
+        "total": 2507098
+      }
+    },
+    {
+      "command_kind": "opencode",
+      "cost_usd": 1.0038,
+      "elapsed_seconds": 391.78,
+      "ended_at": "2026-08-16T01:19:17+00:00",
+      "exit_code": 0,
+      "file_count_after": 2151,
+      "harness": "opencode",
+      "phase": "phase3",
+      "session_id": "ses_ff7df2432ffe5jJpvFqke1JTwf",
+      "started_at": "2026-08-16T01:12:45+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 727936,
+          "write": 0
+        },
+        "input": 263535,
+        "output": 9581,
+        "reasoning": 9210,
+        "total": 1010262
+      }
+    }
+  ],
+  "self_review_present": true,
+  "slug": "v2_grok_4_6",
+  "tokens_total": 10052416
+}
