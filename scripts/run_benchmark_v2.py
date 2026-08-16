@@ -67,10 +67,16 @@ def build_kimi_v2_command(model_id: str, prompt: str) -> list[str]:
 
 
 def build_grok_command(model_id: str, prompt: str) -> list[str]:
-    # grok CLI (grok-cli-hurry-mode, mise/npm) — headless via -p, plain-JSONL
-    # role messages on stdout, no usage metrics (cost reconciled via xAI console).
-    # Requires the local search_parameters patch (xAI deleted the Live Search API).
-    args = ["grok", "-m", model_id, "-p", prompt, "--max-tool-rounds", "400"]
+    # Official xAI grok CLI (@xai-official/grok, mise/npm) — headless single-turn
+    # via -p, streaming-json NDJSON on stdout. The terminal `end` event carries
+    # native usage + total_cost_usd (the earlier grok-cli-hurry-mode fork had no
+    # metrics and needed a Live Search patch — the official CLI needs neither).
+    # --always-approve = YOLO tool exec; --disable-web-search for parity with the
+    # opencode runs (isolate the model's own API knowledge, matching the prior
+    # grok CLI runs whose forked Live Search was non-functional); --max-turns 400.
+    args = ["grok", "-m", model_id, "-p", prompt,
+            "--max-turns", "400", "--always-approve", "--disable-web-search",
+            "--output-format", "streaming-json"]
     return ["bash", "-lc", " ".join(shlex_quote(a) for a in args)]
 
 

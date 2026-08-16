@@ -606,6 +606,21 @@
       },
       "wave": 4,
       "notes": "Added 2026-08-15. Successor to Grok 4.5 (92). opencode/OpenRouter, run SHIELDED per shield-all policy. 500K ctx."
+    },
+    {
+      "slug": "v2_grok_4_6_cli",
+      "label": "Grok 4.6 (grok CLI, native)",
+      "harness": "grok",
+      "model_id": "grok-4.6",
+      "billing": "xAI API (grok CLI native usage/cost)",
+      "rates_per_m": {
+        "input": 2.0,
+        "cache_read": 0.5,
+        "cache_write": 2.0,
+        "output": 6.0
+      },
+      "wave": 4,
+      "notes": "Added 2026-08-16. Native-harness A/B for the 92-scoring opencode Grok 4.6 run. Official @xai-official/grok CLI (v1.0.4) \u2014 reports native usage + total_cost_usd; no Live Search patch needed. --disable-web-search for parity. Run SHIELDED per shield-all policy."
     }
   ],
   "skipped": {

@@ -1,0 +1,55 @@
+{
+  "billing": "xAI API (grok CLI native usage/cost)",
+  "cost_usd_total": 0,
+  "elapsed_seconds_total": 2549.91,
+  "ended_at": "2026-08-16T18:13:50+00:00",
+  "harness": "grok",
+  "label": "Grok 4.6 (grok CLI, native)",
+  "phases": [
+    {
+      "command_kind": "bash -lc",
+      "cost_usd": null,
+      "elapsed_seconds": 1031.88,
+      "ended_at": "2026-08-16T17:48:32+00:00",
+      "exit_code": 0,
+      "file_count_after": 1708,
+      "harness": "grok",
+      "phase": "phase1",
+      "session_id": null,
+      "started_at": "2026-08-16T17:31:20+00:00",
+      "timed_out": false,
+      "tokens": {}
+    },
+    {
+      "command_kind": "bash -lc",
+      "cost_usd": null,
+      "elapsed_seconds": 976.99,
+      "ended_at": "2026-08-16T18:04:49+00:00",
+      "exit_code": 0,
+      "file_count_after": 1857,
+      "harness": "grok",
+      "phase": "phase2",
+      "session_id": null,
+      "started_at": "2026-08-16T17:48:32+00:00",
+      "timed_out": false,
+      "tokens": {}
+    },
+    {
+      "command_kind": "bash -lc",
+      "cost_usd": null,
+      "elapsed_seconds": 541.04,
+      "ended_at": "2026-08-16T18:13:50+00:00",
+      "exit_code": 0,
+      "file_count_after": 1858,
+      "harness": "grok",
+      "phase": "phase3",
+      "session_id": null,
+      "started_at": "2026-08-16T18:04:49+00:00",
+      "timed_out": false,
+      "tokens": {}
+    }
+  ],
+  "self_review_present": true,
+  "slug": "v2_grok_4_6_cli",
+  "tokens_total": 0
+}
