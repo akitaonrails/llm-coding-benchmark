@@ -58,3 +58,6 @@ results-v2/*/*.prompt.txt
 .grok/
 # generated XDG isolation home for opencode benchmark runs (has node_modules)
 config/opencode.xdg-isolated/
+
+# Local forensic copies of contaminated runs (evidence; not repo content)
+results-v2/*.contaminated-*/
