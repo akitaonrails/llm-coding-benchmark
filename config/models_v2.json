@@ -591,6 +591,21 @@
       "enable_followup": true,
       "wave": 4,
       "notes": "Added 2026-08-15. Newest Gemini Flash (untested). DIRECT Gemini API key path (GEMINI_API_KEY) via opencode built-in google provider, NOT OpenRouter \u2014 deliberately bypasses the thought-signature bug that capped 3.1 Pro at 62 (3 failed phase-2 attempts). Effort forced via reasoning.effort=high in home-config model options. Rates approximate (2.5-Flash-class $0.30/$2.50) \u2014 reconcile against the Google AI Studio console."
+    },
+    {
+      "slug": "v2_grok_4_6",
+      "label": "Grok 4.6 (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/x-ai/grok-4.6",
+      "billing": "OpenRouter API \u2014 no xAI subscription harness",
+      "rates_per_m": {
+        "input": 2.0,
+        "cache_read": 0.5,
+        "cache_write": 2.0,
+        "output": 6.0
+      },
+      "wave": 4,
+      "notes": "Added 2026-08-15. Successor to Grok 4.5 (92). opencode/OpenRouter, run SHIELDED per shield-all policy. 500K ctx."
     }
   ],
   "skipped": {
