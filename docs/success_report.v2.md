@@ -28,25 +28,26 @@
 | 15 | Kimi K2.6 | 91 | A | opencode | 87 | +4 |
 | 15 | Claude Opus 4.7 | 91 | A | Claude Code | 87 | +4 |
 | 15 | GPT 5.6 Luna | 91ᵃ | A | Codex | — | — |
-| 19 | DeepSeek V4 Flash 0731 | **90** | A | opencode | — | — |
-| 20 | Nex-N2-Pro | 88 | A | opencode | 83 | +5 |
-| 20 | GPT 5.5 | 88 | A | Codex | 85 | +3 |
-| 22 | Claude Sonnet 4.6 | 87 | A | Claude Code | 78 | +9 |
-| 23 | GPT 5.4 | 86 | A | Codex | 95 | −9 |
-| 23 | Kimi K2.7-Coding | 86 | A | Kimi CLI | 86 | 0 |
-| 25 | Step 3.7 Flash | 84 | A | opencode | 69 | +15 |
-| 26 | Claude Opus 4.6 | 83 | A | Claude Code | 83 | 0 |
-| 26 | GLM 5 | 83 | A | opencode | 64 | **+19** |
-| 28 | DeepSeek V4 Pro | 82 | B | opencode | 69 | +13 |
-| 29 | DeepSeek V4 Flash | 80ᵃ | B | opencode | 78 | +2 |
-| 30 | Gemini 3.5 Flash @ high | 79ᵃ | B | opencode | 93* | −14 |
-| 31 | Qwen 3.6 Plus | 76ᵃ | B | opencode | 71 | +5 |
-| 32 | MiMo V2.5 Pro | 73 | B | opencode | 67 | +6 |
-| 33 | Gemini 3.1 Pro | 62ᵃ† | C | opencode | 79 | −17 |
-| 34 | Qwen3.7 Max | 51 | C | opencode | 78 | **−27** |
-| 34 | Qwen 3.8 27B (local) | **51** | C | opencode/local | — | — |
-| 36 | Step 3.5 Flash | 27 | D | opencode | 56 | −29 |
-| 37 | Grok 4.3 | 18 | D | opencode | 72 | **−54** |
+| 15 | DeepSeek V4 Pro 0813 | **91** | A | opencode | — | — |
+| 20 | DeepSeek V4 Flash 0731 | **90** | A | opencode | — | — |
+| 21 | Nex-N2-Pro | 88 | A | opencode | 83 | +5 |
+| 21 | GPT 5.5 | 88 | A | Codex | 85 | +3 |
+| 23 | Claude Sonnet 4.6 | 87 | A | Claude Code | 78 | +9 |
+| 24 | GPT 5.4 | 86 | A | Codex | 95 | −9 |
+| 24 | Kimi K2.7-Coding | 86 | A | Kimi CLI | 86 | 0 |
+| 26 | Step 3.7 Flash | 84 | A | opencode | 69 | +15 |
+| 27 | Claude Opus 4.6 | 83 | A | Claude Code | 83 | 0 |
+| 27 | GLM 5 | 83 | A | opencode | 64 | **+19** |
+| 29 | DeepSeek V4 Pro | 82 | B | opencode | 69 | +13 |
+| 30 | DeepSeek V4 Flash | 80ᵃ | B | opencode | 78 | +2 |
+| 31 | Gemini 3.5 Flash @ high | 79ᵃ | B | opencode | 93* | −14 |
+| 32 | Qwen 3.6 Plus | 76ᵃ | B | opencode | 71 | +5 |
+| 33 | MiMo V2.5 Pro | 73 | B | opencode | 67 | +6 |
+| 34 | Gemini 3.1 Pro | 62ᵃ† | C | opencode | 79 | −17 |
+| 35 | Qwen3.7 Max | 51 | C | opencode | 78 | **−27** |
+| 35 | Qwen 3.8 27B (local) | **51** | C | opencode/local | — | — |
+| 37 | Step 3.5 Flash | 27 | D | opencode | 56 | −29 |
+| 38 | Grok 4.3 | 18 | D | opencode | 72 | **−54** |
 ᵃ Corrected 2026-07-30 after user-prompted re-audit (see "Scoring integrity re-check" below). \* v1 Flash ran at default dynamic effort; the v2 run forces `reasoning_effort=high`. † Carries the Google signature-bug caveat (phase 2 unproven, 3 attempts).
 
 ### Tier definitions (v2, anchored on Claude Opus 4.6 = 83)
@@ -55,7 +56,7 @@ The v2 tiers are **capability tiers for real Rails/RubyLLM programming**, anchor
 
 | Tier | Score | Meaning — what you can actually do with it |
 |:---:|:---:|---|
-| **A** | **≥ 83** | **Usable for programming.** Opus 4.6 and above — any Tier A model can carry the full brief (streaming, concurrency, tools, tests, production Docker) to a shippable result. Differences within A are efficiency, honesty, and depth, not capability. 25 models. |
+| **A** | **≥ 83** | **Usable for programming.** Opus 4.6 and above — any Tier A model can carry the full brief (streaming, concurrency, tools, tests, production Docker) to a shippable result. Differences within A are efficiency, honesty, and depth, not capability. 26 models. |
 | **B** | **73–82** | **Close, but still lacking — on the radar for the near future.** Produces a mostly-correct app that needs human cleanup (a missed hard gate, a shallow test suite, a stale pin, an unenforced bound). Fine for scaffolding and prototypes; not yet trustworthy for unattended production work. 5 models. |
 | **C** | **51–72** | **Do not use for programming.** Ships a coherent-looking app with a load-bearing defect (Gemini 3.1 Pro was bug-capped; Qwen3.7 Max hallucinated the RubyLLM API and broke multi-turn). Still useful for simpler tasks — translation, summarization, simple agents, glue code. 2 models. |
 | **D** | **≤ 50** | **Inconsistent, buggy, incoherent** as a coding agent — bare `eval`, a test suite that won't load, phase-2 abandoned mid-work, or nothing built at all. Not usable for programming in any form. 2 models. |
@@ -615,6 +616,18 @@ The build is real and mostly strong: RubyLLM 1.16 API entirely correct (`with_sc
 **The load-bearing flaw (G4 streaming, self-caught):** the streaming-bubble partial (`_assistant_streaming.html.erb`) rendering the `content-*`/`message-assistant-*` targets was **dead code** — nothing referenced it. `ChatEngine` broadcast Turbo `append`/`update` events at those ids, but the elements never existed in the DOM, so Turbo silently no-op'd and **no assistant reply appeared until a hard reload** through phases 1–2. Phase 2 missed it by only inspecting the SSE byte stream with curl (never the DOM). The model found it in phase-3 self-review (ripgrep-verified the dead partial, cited turbo-rails' silent-no-op behavior), fixed it (append the bubble before the provider call; correct the failure-handler ids), and strengthened the G4 test — but the fix is unit-verified, not live-re-proven.
 
 **Scoring**: gates 14/15 (correct `claude-sonnet-5` pin — no stale deduction; **−1 for the G4 streaming defect that shipped non-functional through phases 1–2**, GLM 5.2 phase-1-defect precedent), streaming 7 (genuine incremental Turbo mechanism, but shipped completely non-functional — reply invisible until reload — then code-fixed + unit-tested in phase 3, not live-re-proven; above Qwen-local's never-fixed 3, below the live-proven 10s), payload 10 (exact outgoing-array test), concurrency 8 (shared SQLite WAL + busy_timeout + caps + TTL, cross-process/restart-safe, **but no per-conversation turn lock** — transactional hazard class, same as Gemini 3.7/Fable), tools 10 (eval-free recursive-descent calculator + `server_time`), schema 5 (`with_schema.ask`, title in UI), budget 4 (between-turns shared −1; **has** an `estimate_tokens` fallback), robustness 9 (API-key preflight, provider errors rescued to degraded UI, failed turns not replayed), tests+gates 8 (56/155 auditor-verified green, 96.88% line, **no branch coverage**; the final suite includes the strengthened G4 test), fidelity 15/15 (all 14 goals accurately assessed for the final state, **correct pin (no stale deduction)**, and an exemplary self-caught-and-disclosed G4 defect with precise forensic evidence and fix). **Total 90** — Tier A, alone between the 91 cluster (M3/K2.6/Opus 4.7/Luna) and the 88 pair (Nex/GPT 5.5). Cost: $0.82 / 88.3 min / 44.0M tokens.
+
+### DeepSeek V4 Pro 0813 — 91 (opencode/OpenRouter, audited 2026-08-22) — +9 over base Pro; the reasoning_content bug is gone
+
+The Aug-13 refresh of DeepSeek V4 Pro (base build tested 2026-07-30 at **82**, Tier B, which needed the deepclaude/Claude-Code env-swap because the `reasoning_content` multi-turn bug broke opencode phase 2). **The bug is gone in this snapshot** — it ran end-to-end on plain opencode, phase 1 and phase 2 both exit 0, no Claude Code fallback needed. **+9 to 91, Tier A**, joining the 91 cluster. $5.01 / 82.1 min / 39.0M tokens, Rails 8.1.3.1. Clean shielded run (off-path shield + the new git sandbox); post-run scan confirmed zero grading-file/sibling/git-history reads — the only keyword hits were `ls` output showing the empty `.bench_shield` dir and the `…contaminated-read-rubric-report` sibling *name* (no reads into either).
+
+Strong build: RubyLLM 1.16 API entirely real (`with_schema.ask`, `with_instructions`, `with_tools`, `add_message(role:, content:)` for replay, `chat.ask` with a streaming block); a **Dentaku** calculator (safe, no `eval` — catalog-clean); the G5 test is a **full exact-array assertion** (`assert_equal expected, fake.captured_messages.first` with the exact `[[:system,…],[:user,"first"],[:assistant,"first reply"],…,[:user,"third"]]` sequence) plus an exactly-once check; and the standout — a **SQLite store whose read-modify-write runs inside a `BEGIN IMMEDIATE` transaction** (`append_message` fetches and mutates the freshly-loaded row inside the immediate txn: a genuine atomic cross-process RMW, "safe across threads and processes"), with WAL + `busy_timeout=5000` + msg/byte caps + TTL. That earns concurrency 9 — one better than the plain-WAL stores (Gemini 3.7, Flash 0731) that lack turn-atomicity.
+
+Two honest limitations (both disclosed): the **stale `anthropic/claude-sonnet-4.6` pin** (its sibling Flash 0731 got sonnet-5 right; Pro did not), and **token budgeting relies solely on the provider's returned usage with no fallback estimator** (the G9 guard silently disables if usage isn't returned — the GLM 5.2 case). Streaming is a genuine incremental mechanism (per-chunk `turbo_stream.append` into a rendered `live_assistant` target + an SSE `turbo-stream-source`) and unit-tested for incrementality (chunks `["Hel","lo "]`), but the self-review honestly notes it was **"verified via code + unit test only; no live OpenRouter stream was re-run."**
+
+**Scoring**: gates 14/15 (−1 stale `claude-sonnet-4.6` pin), streaming 9 (genuine incremental mechanism, target properly rendered, unit-tested incremental — but not live-re-proven, honestly disclosed), payload 10 (full exact-array outgoing-payload test), concurrency 9 (atomic `BEGIN IMMEDIATE` read-modify-write, cross-process/restart-safe, caps + TTL — the atomic-RMW class, above the plain-WAL 8s), tools 10 (Dentaku, eval-free, + `server_time`), schema 5 (`with_schema.ask`, title in UI), budget 3 (between-turns shared −1; **no fallback estimator** −1 — depends on provider usage, GLM 5.2 case), robustness 9 (API-key preflight, provider failures rescued to a degraded UI, failed turns not replayed), tests+gates 8 (51 runs / 127 assertions auditor-verified green, branch coverage enabled but 86.3% line / 72% branch — below the 9-tier), fidelity 14/15 (14 accurate PASS with honest "not live-run" streaming disclosure; −1 stale-pin PASS claim). **Total 91** — Tier A, ties MiniMax M3, Kimi K2.6, Claude Opus 4.7, and GPT 5.6 Luna. Cost: $5.01 / 82.1 min / 39.0M tokens.
+
+**DeepSeek snapshot deltas (newest vs base, both audited 2026-08-22):** Flash 80→**90** (+10, correct pin, exemplary self-review), Pro 82→**91** (+9, atomic concurrency, reasoning_content bug resolved). Both late-summer refreshes are materially stronger than their July builds; DeepSeek's dated snapshots carry real gains, and Pro no longer needs the opencode workaround.
 
 ## Wave 2 conclusions
 
