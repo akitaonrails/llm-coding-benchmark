@@ -621,6 +621,38 @@
       },
       "wave": 4,
       "notes": "Added 2026-08-16. Native-harness A/B for the 92-scoring opencode Grok 4.6 run. Official @xai-official/grok CLI (v1.0.4) \u2014 reports native usage + total_cost_usd; no Live Search patch needed. --disable-web-search for parity. Run SHIELDED per shield-all policy."
+    },
+    {
+      "slug": "v2_deepseek_v4_flash_0731",
+      "label": "DeepSeek V4 Flash 0731 (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/deepseek/deepseek-v4-flash-0731",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.08,
+        "cache_read": 0.016,
+        "cache_write": 0.08,
+        "output": 0.18
+      },
+      "enable_followup": true,
+      "wave": 4,
+      "notes": "Added 2026-08-22. Newer snapshot of deepseek-v4-flash (base tested 07-28 @ 80). 1.31M ctx. opencode, shielded (shield-all policy)."
+    },
+    {
+      "slug": "v2_deepseek_v4_pro_0813",
+      "label": "DeepSeek V4 Pro 0813 (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/deepseek/deepseek-v4-pro-0813",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 1.188,
+        "cache_read": 0.0396,
+        "cache_write": 1.188,
+        "output": 3.564
+      },
+      "enable_followup": true,
+      "wave": 4,
+      "notes": "Added 2026-08-22. Newer snapshot of deepseek-v4-pro (base tested 07-28 @ 82). WATCH the reasoning_content multi-turn bug (opencode ai-sdk strips it; breaks phase 2) \u2014 if it recurs, route via Claude Code deepclaude env-swap. opencode, shielded."
     }
   ],
   "skipped": {

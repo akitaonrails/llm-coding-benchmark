@@ -100,6 +100,12 @@ def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
     (out_dir / f"{phase_name}.prompt.txt").write_text(prompt)
 
     env = os.environ.copy()
+    # Benchmark-integrity: stop git from traversing above the results dir, so even
+    # if a model cd's out of project/ it cannot reach the benchmark repo's history
+    # (which leaks scores via commit subjects). GIT_CEILING blocks chdir ABOVE the
+    # listed dir, so it must name the results dir (out_dir.parent), not the slug
+    # dir. Pairs with the per-model `git init` of project/ (nearest .git wins).
+    env["GIT_CEILING_DIRECTORIES"] = str(out_dir.parent.resolve())
     # Backfill env vars from the user's secrets file without overriding anything
     # already set — headless sessions don't source zsh config, and provider
     # templates like {env:SAKANA_AI_TOKEN} silently hang opencode when empty.
@@ -310,6 +316,20 @@ def main() -> None:
     out_dir = Path(args.results_dir) / model["slug"]
     project_dir = out_dir / "project"
     project_dir.mkdir(parents=True, exist_ok=True)
+
+    # Benchmark-integrity: sandbox the workspace's git so the model cannot reach
+    # the benchmark repo's history. `git log`/`git show` from the enclosing repo
+    # leak competitor scores (commit subjects like "Add X — 94/100") and reveal
+    # the shield regime — a hole the file-move shield does not cover. Giving the
+    # workspace its own empty repo makes git resolve to it (nearest .git wins);
+    # GIT_CEILING_DIRECTORIES (set per phase) blocks upward traversal if a model
+    # escapes above project/. See CLAUDE.md "Benchmark-integrity".
+    if not (project_dir / ".git").exists():
+        try:
+            subprocess.run(["git", "init", "-q"], cwd=project_dir,
+                           check=False, capture_output=True, timeout=30)
+        except Exception:
+            pass
 
     prompts = {name: (REPO_ROOT / rel).read_text()
                for name, rel in config["prompts"].items()}
