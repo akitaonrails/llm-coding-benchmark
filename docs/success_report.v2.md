@@ -11,43 +11,44 @@
 | # | Model | v2 | Tier | Harness | v1 | Move |
 |---:|---|---:|:---:|---|---:|---:|
 | 1 | Claude Fable 5 | **96** | A | Claude Code | 94 | +2 |
-| 2 | **Claude Sonnet 5** | **95**ᵃ | A | Claude Code | 58 | **+37** |
-| 2 | Claude Opus 5 | 95 | A | Claude Code | — | — |
-| 2 | Kimi K3 | 95 | A | Kimi CLI | 89 | +6 |
-| 5 | GLM 5.3 | **94** | A | opencode | — | — |
-| 6 | GPT 5.6 Sol | 93 | A | Codex | 92 | +1 |
-| 6 | Claude Opus 4.8 | 93 | A | Claude Code | 95 | −2 |
-| 6 | GPT 5.6 Terra | **93** | A | Codex | — | — |
-| 6 | Gemini 3.7 Flash @ high | **93** | A | opencode | — | — |
-| 10 | Grok 4.5 | 92ᶜ | A | opencode | 87 | +5 |
-| 10 | GLM 5.2 | 92 | A | opencode | 87 | +5 |
-| 10 | Kimi K2.5 | 92 | A | opencode | 69 | **+23** |
-| 10 | Qwen 3.8 Max | **92** | A | opencode | — | — |
-| 10 | Grok 4.6 | **92** | A | opencode | — | — |
-| 15 | MiniMax M3 | 91ᵃ | A | opencode | 78 | +13 |
-| 15 | Kimi K2.6 | 91 | A | opencode | 87 | +4 |
-| 15 | Claude Opus 4.7 | 91 | A | Claude Code | 87 | +4 |
-| 15 | GPT 5.6 Luna | 91ᵃ | A | Codex | — | — |
-| 15 | DeepSeek V4 Pro 0813 | **91** | A | opencode | — | — |
-| 20 | DeepSeek V4 Flash 0731 | **90** | A | opencode | — | — |
-| 21 | Nex-N2-Pro | 88 | A | opencode | 83 | +5 |
-| 21 | GPT 5.5 | 88 | A | Codex | 85 | +3 |
-| 23 | Claude Sonnet 4.6 | 87 | A | Claude Code | 78 | +9 |
-| 24 | GPT 5.4 | 86 | A | Codex | 95 | −9 |
-| 24 | Kimi K2.7-Coding | 86 | A | Kimi CLI | 86 | 0 |
-| 26 | Step 3.7 Flash | 84 | A | opencode | 69 | +15 |
-| 27 | Claude Opus 4.6 | 83 | A | Claude Code | 83 | 0 |
-| 27 | GLM 5 | 83 | A | opencode | 64 | **+19** |
-| 29 | DeepSeek V4 Pro | 82 | B | opencode | 69 | +13 |
-| 30 | DeepSeek V4 Flash | 80ᵃ | B | opencode | 78 | +2 |
-| 31 | Gemini 3.5 Flash @ high | 79ᵃ | B | opencode | 93* | −14 |
-| 32 | Qwen 3.6 Plus | 76ᵃ | B | opencode | 71 | +5 |
-| 33 | MiMo V2.5 Pro | 73 | B | opencode | 67 | +6 |
-| 34 | Gemini 3.1 Pro | 62ᵃ† | C | opencode | 79 | −17 |
-| 35 | Qwen3.7 Max | 51 | C | opencode | 78 | **−27** |
-| 35 | Qwen 3.8 27B (local) | **51** | C | opencode/local | — | — |
-| 37 | Step 3.5 Flash | 27 | D | opencode | 56 | −29 |
-| 38 | Grok 4.3 | 18 | D | opencode | 72 | **−54** |
+| 1 | Claude Fable 5.1 | **96** | A | Claude Code | — | — |
+| 3 | **Claude Sonnet 5** | **95**ᵃ | A | Claude Code | 58 | **+37** |
+| 3 | Claude Opus 5 | 95 | A | Claude Code | — | — |
+| 3 | Kimi K3 | 95 | A | Kimi CLI | 89 | +6 |
+| 6 | GLM 5.3 | **94** | A | opencode | — | — |
+| 7 | GPT 5.6 Sol | 93 | A | Codex | 92 | +1 |
+| 7 | Claude Opus 4.8 | 93 | A | Claude Code | 95 | −2 |
+| 7 | GPT 5.6 Terra | **93** | A | Codex | — | — |
+| 7 | Gemini 3.7 Flash @ high | **93** | A | opencode | — | — |
+| 11 | Grok 4.5 | 92ᶜ | A | opencode | 87 | +5 |
+| 11 | GLM 5.2 | 92 | A | opencode | 87 | +5 |
+| 11 | Kimi K2.5 | 92 | A | opencode | 69 | **+23** |
+| 11 | Qwen 3.8 Max | **92** | A | opencode | — | — |
+| 11 | Grok 4.6 | **92** | A | opencode | — | — |
+| 16 | MiniMax M3 | 91ᵃ | A | opencode | 78 | +13 |
+| 16 | Kimi K2.6 | 91 | A | opencode | 87 | +4 |
+| 16 | Claude Opus 4.7 | 91 | A | Claude Code | 87 | +4 |
+| 16 | GPT 5.6 Luna | 91ᵃ | A | Codex | — | — |
+| 16 | DeepSeek V4 Pro 0813 | **91** | A | opencode | — | — |
+| 21 | DeepSeek V4 Flash 0731 | **90** | A | opencode | — | — |
+| 22 | Nex-N2-Pro | 88 | A | opencode | 83 | +5 |
+| 22 | GPT 5.5 | 88 | A | Codex | 85 | +3 |
+| 24 | Claude Sonnet 4.6 | 87 | A | Claude Code | 78 | +9 |
+| 25 | GPT 5.4 | 86 | A | Codex | 95 | −9 |
+| 25 | Kimi K2.7-Coding | 86 | A | Kimi CLI | 86 | 0 |
+| 27 | Step 3.7 Flash | 84 | A | opencode | 69 | +15 |
+| 28 | Claude Opus 4.6 | 83 | A | Claude Code | 83 | 0 |
+| 28 | GLM 5 | 83 | A | opencode | 64 | **+19** |
+| 30 | DeepSeek V4 Pro | 82 | B | opencode | 69 | +13 |
+| 31 | DeepSeek V4 Flash | 80ᵃ | B | opencode | 78 | +2 |
+| 32 | Gemini 3.5 Flash @ high | 79ᵃ | B | opencode | 93* | −14 |
+| 33 | Qwen 3.6 Plus | 76ᵃ | B | opencode | 71 | +5 |
+| 34 | MiMo V2.5 Pro | 73 | B | opencode | 67 | +6 |
+| 35 | Gemini 3.1 Pro | 62ᵃ† | C | opencode | 79 | −17 |
+| 36 | Qwen3.7 Max | 51 | C | opencode | 78 | **−27** |
+| 36 | Qwen 3.8 27B (local) | **51** | C | opencode/local | — | — |
+| 38 | Step 3.5 Flash | 27 | D | opencode | 56 | −29 |
+| 39 | Grok 4.3 | 18 | D | opencode | 72 | **−54** |
 ᵃ Corrected 2026-07-30 after user-prompted re-audit (see "Scoring integrity re-check" below). \* v1 Flash ran at default dynamic effort; the v2 run forces `reasoning_effort=high`. † Carries the Google signature-bug caveat (phase 2 unproven, 3 attempts).
 
 ### Tier definitions (v2, anchored on Claude Opus 4.6 = 83)
@@ -56,7 +57,7 @@ The v2 tiers are **capability tiers for real Rails/RubyLLM programming**, anchor
 
 | Tier | Score | Meaning — what you can actually do with it |
 |:---:|:---:|---|
-| **A** | **≥ 83** | **Usable for programming.** Opus 4.6 and above — any Tier A model can carry the full brief (streaming, concurrency, tools, tests, production Docker) to a shippable result. Differences within A are efficiency, honesty, and depth, not capability. 26 models. |
+| **A** | **≥ 83** | **Usable for programming.** Opus 4.6 and above — any Tier A model can carry the full brief (streaming, concurrency, tools, tests, production Docker) to a shippable result. Differences within A are efficiency, honesty, and depth, not capability. 27 models. |
 | **B** | **73–82** | **Close, but still lacking — on the radar for the near future.** Produces a mostly-correct app that needs human cleanup (a missed hard gate, a shallow test suite, a stale pin, an unenforced bound). Fine for scaffolding and prototypes; not yet trustworthy for unattended production work. 5 models. |
 | **C** | **51–72** | **Do not use for programming.** Ships a coherent-looking app with a load-bearing defect (Gemini 3.1 Pro was bug-capped; Qwen3.7 Max hallucinated the RubyLLM API and broke multi-turn). Still useful for simpler tasks — translation, summarization, simple agents, glue code. 2 models. |
 | **D** | **≤ 50** | **Inconsistent, buggy, incoherent** as a coding agent — bare `eval`, a test suite that won't load, phase-2 abandoned mid-work, or nothing built at all. Not usable for programming in any form. 2 models. |
@@ -628,6 +629,20 @@ Two honest limitations (both disclosed): the **stale `anthropic/claude-sonnet-4.
 **Scoring**: gates 14/15 (−1 stale `claude-sonnet-4.6` pin), streaming 9 (genuine incremental mechanism, target properly rendered, unit-tested incremental — but not live-re-proven, honestly disclosed), payload 10 (full exact-array outgoing-payload test), concurrency 9 (atomic `BEGIN IMMEDIATE` read-modify-write, cross-process/restart-safe, caps + TTL — the atomic-RMW class, above the plain-WAL 8s), tools 10 (Dentaku, eval-free, + `server_time`), schema 5 (`with_schema.ask`, title in UI), budget 3 (between-turns shared −1; **no fallback estimator** −1 — depends on provider usage, GLM 5.2 case), robustness 9 (API-key preflight, provider failures rescued to a degraded UI, failed turns not replayed), tests+gates 8 (51 runs / 127 assertions auditor-verified green, branch coverage enabled but 86.3% line / 72% branch — below the 9-tier), fidelity 14/15 (14 accurate PASS with honest "not live-run" streaming disclosure; −1 stale-pin PASS claim). **Total 91** — Tier A, ties MiniMax M3, Kimi K2.6, Claude Opus 4.7, and GPT 5.6 Luna. Cost: $5.01 / 82.1 min / 39.0M tokens.
 
 **DeepSeek snapshot deltas (newest vs base, both audited 2026-08-22):** Flash 80→**90** (+10, correct pin, exemplary self-review), Pro 82→**91** (+9, atomic concurrency, reasoning_content bug resolved). Both late-summer refreshes are materially stronger than their July builds; DeepSeek's dated snapshots carry real gains, and Pro no longer needs the opencode workaround.
+
+### Claude Fable 5.1 — 96 (Claude Code, audited 2026-09-02) — ties Fable 5 for #1; the claim of "beats Fable 5" doesn't clear the rubric ceiling
+
+Released 2026-09-01 and pitched by Anthropic as beating Fable 5, Opus 5, and GPT‑5.6 Sol. Tested here to challenge that claim. **Verdict: it ties Fable 5 at 96 (co-#1) — it does not beat it on this brief.** Run on the Max subscription via Claude Code (billing verified: isolated HOME, subscription credentials copied, `ANTHROPIC_API_KEY` stripped from the subprocess), fully shielded under the new criteria (off-path shield + per-workspace git sandbox); post-run scan confirmed zero grading-file/sibling/git-history reads. $22.19 API-equiv ($0 marginal on Max) / 55.9 min / 23.6M tokens, Rails 8.1.3.1. The **~75% cheaper cache-read pricing** is real (list $10/$50, cache read $1.00→$0.25).
+
+An essentially flawless build: RubyLLM 1.16 API entirely correct (`with_instructions`, `with_tools(*TOOLS)`, `add_message(message.to_llm_message)` for history replay — never re-`ask`ed, `chat.ask` with a streaming block); **correct non-stale `claude-sonnet-5` pin** (configurable via `ChatSettings`/`CHAT_MODEL`); an eval-free recursive-descent calculator; `with_schema(ConversationTitleSchema)` for the title; a `TokenEstimator` (~4 chars/token) fallback; per-chunk streaming **live-proven in phase 2** (8 chunks with per-chunk timings). Suite: **137 runs / 540 assertions, 93.48% line / 91.77% branch, 5 skips** — the deepest in the cohort by assertion count and branch coverage.
+
+**Where it genuinely improves on Fable 5:** the one dimension Fable 5 fell short on was concurrency (8 — "no turn serialization, budget double-pass race, Redis-down unhandled"). Fable 5.1 **fixes exactly that**: a Redis-backed store with **optimistic WATCH/MULTI updates + a per-conversation lock** (turn serialization), Redis `reconnect_attempts`, Puma-boot client reset, and a **real-Redis stress test (8 threads × 10 conflicting updates, zero loss)** plus live `WEB_CONCURRENCY=2` proof (10 WS subscribers across 2 worker PIDs got identical frames; Redis doc byte-identical across restart). That earns concurrency 9 — above Fable 5's 8.
+
+**Why it still only ties:** the top of the rubric is saturated. Fable 5.1's concurrency gain (8→9) is offset by a marginally-less-flawless suite: 93.48% line + 5 skips → tests 9, versus Fable 5's flawless 99.02% line / 0 skips → tests 10. Everything else is at ceiling for both. So the composition shifted (stronger concurrency, slightly softer line coverage) but the total is identical.
+
+**Scoring**: gates 15/15 (correct `claude-sonnet-5` pin, all 14 goals present and viable; the two self-caught phase-3 hardenings — a calculator result-size bound and an RMW regression test — are proactive polish with regression tests, not shipped-broken defects, charged nowhere), streaming 10 (live-proven incremental — 8 chunks, per-chunk timings), payload 10 (exact outgoing-array test: `[{role: developer, …},{role: user, …}]` for a 4-turn history + a no-double-send count), concurrency 9 (Redis WATCH/MULTI optimistic locking + per-conversation lock + a passing 8×10 real-Redis no-loss stress test + live 2-worker/restart proof — the Terra/GLM 5.3 atomic-turn-lock class, and a genuine improvement over Fable 5's 8), tools 10 (eval-free recursive-descent calculator + `server_time`), schema 5 (`with_schema(ConversationTitleSchema)`), budget 4 (between-turns shared −1; **has** a `TokenEstimator` fallback), robustness 9 (missing-key preflight naming `OPENROUTER_API_KEY`, provider failures rescued to a `data-state="failed"` bubble, failed turns never persisted — with 429/timeout/connection/tool-failure error-path tests), tests+gates 9 (137 runs / 540 assertions auditor-verified green, **highest branch coverage in the cohort at 91.77%** and most assertions — but 93.48% line + 5 skips keep it from Fable 5's flawless-suite 10), fidelity 15/15 (correct pin → no stale deduction, 14 accurate PASS with dense file:line evidence, and an exemplary §4 risk list with self-caught defects fixed under regression tests). **Total 96** — Tier A, **ties Claude Fable 5 for #1**. Cost: $22.19 API-equiv / 55.9 min / 23.6M tokens.
+
+**On Anthropic's claim:** "beats Fable 5" is **not confirmed on this production-hardening brief** — Fable 5.1 matches it (96) and improves the one axis Fable 5 was weakest on (concurrency), but the rubric's top is saturated, so the gain doesn't produce a higher number. Nor is the claim falsified: 5.1 is at least as strong, meaningfully cheaper (75% off cache reads), and hardened where its predecessor was soft. The honest read: at the frontier, this brief no longer has the headroom to separate them. (Mythos 5.1 — the same model with relaxed safeguards, US-trusted-access only — is unavailable on this account and would score identically anyway.)
 
 ## Wave 2 conclusions
 
