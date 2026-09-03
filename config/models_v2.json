@@ -653,6 +653,21 @@
       "enable_followup": true,
       "wave": 4,
       "notes": "Added 2026-08-22. Newer snapshot of deepseek-v4-pro (base tested 07-28 @ 82). WATCH the reasoning_content multi-turn bug (opencode ai-sdk strips it; breaks phase 2) \u2014 if it recurs, route via Claude Code deepclaude env-swap. opencode, shielded."
+    },
+    {
+      "slug": "v2_claude_fable_5_1",
+      "label": "Claude Fable 5.1 (Claude Code)",
+      "harness": "claude",
+      "model_id": "claude-fable-5-1",
+      "billing": "Claude Max subscription",
+      "rates_per_m": {
+        "input": 10.0,
+        "cache_read": 0.25,
+        "cache_write": 12.5,
+        "output": 50.0
+      },
+      "wave": 4,
+      "notes": "Added 2026-09-02. Released 2026-09-01; pitched as beating Fable 5 (96), Opus 5, GPT 5.6 Sol. Same list price as Fable 5 ($10/$50) but ~75% cheaper cache reads ($1.0->$0.25). Mythos 5.1 is the same model with lower safeguards, US-trusted-access only (not available). Claude Code harness, Max sub (ANTHROPIC_API_KEY stripped by runner), shielded per shield-all + git-sandbox."
     }
   ],
   "skipped": {
