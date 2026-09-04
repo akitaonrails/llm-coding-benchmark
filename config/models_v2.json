@@ -668,6 +668,22 @@
       },
       "wave": 4,
       "notes": "Added 2026-09-02. Released 2026-09-01; pitched as beating Fable 5 (96), Opus 5, GPT 5.6 Sol. Same list price as Fable 5 ($10/$50) but ~75% cheaper cache reads ($1.0->$0.25). Mythos 5.1 is the same model with lower safeguards, US-trusted-access only (not available). Claude Code harness, Max sub (ANTHROPIC_API_KEY stripped by runner), shielded per shield-all + git-sandbox."
+    },
+    {
+      "slug": "v2_gemini_3_8_flash_high",
+      "label": "Gemini 3.8 Flash @ high (opencode/direct Gemini API)",
+      "harness": "opencode",
+      "model_id": "google/gemini-3.8-flash",
+      "billing": "Direct Gemini API, pay-per-token",
+      "rates_per_m": {
+        "input": 0.75,
+        "cache_read": 0.1875,
+        "cache_write": 0.75,
+        "output": 3.75
+      },
+      "enable_followup": true,
+      "wave": 4,
+      "notes": "Added 2026-09-02. Newest Gemini flash (3.7 scored 93). DIRECT Gemini API (GEMINI_API_KEY) via opencode google provider, NOT OpenRouter (avoids thought-signature bug). effort=high. Shielded + git-sandbox."
     }
   ],
   "skipped": {
