@@ -684,6 +684,54 @@
       "enable_followup": true,
       "wave": 4,
       "notes": "Added 2026-09-02. Newest Gemini flash (3.7 scored 93). DIRECT Gemini API (GEMINI_API_KEY) via opencode google provider, NOT OpenRouter (avoids thought-signature bug). effort=high. Shielded + git-sandbox."
+    },
+    {
+      "slug": "v2_qwen3_8_flash",
+      "label": "Qwen 3.8 Flash (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/qwen/qwen3.8-flash",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.15,
+        "cache_read": 0.0375,
+        "cache_write": 0.15,
+        "output": 0.47
+      },
+      "enable_followup": true,
+      "wave": 4,
+      "notes": "Added 2026-09-03. Flash tier A/B vs qwen3.8-max (92, same opencode harness). 1M ctx."
+    },
+    {
+      "slug": "v2_glm_5_3_flash",
+      "label": "GLM 5.3 Flash (opencode/Z.ai or OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/z-ai/glm-5.3-flash",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.07,
+        "cache_read": 0.0175,
+        "cache_write": 0.07,
+        "output": 0.25
+      },
+      "enable_followup": true,
+      "wave": 4,
+      "notes": "Added 2026-09-03. Flash tier A/B vs GLM 5.3 (94, same opencode harness). 1.31M ctx."
+    },
+    {
+      "slug": "v2_gpt_6_astra",
+      "label": "GPT-6 Astra xHigh (Codex)",
+      "harness": "codex",
+      "model_id": "gpt-6-astra",
+      "codex_reasoning_effort": "xhigh",
+      "billing": "ChatGPT subscription credits",
+      "rates_per_m": {
+        "input": 10.0,
+        "cache_read": 1.0,
+        "cache_write": 0.0,
+        "output": 40.0
+      },
+      "wave": 4,
+      "notes": "Added 2026-09-04. OpenAI GPT-6 Astra (launched 09-03; SWE-SOTA/AGI claims). Codex 0.153.3 required (0.151/0.152 gated it: 'requires a newer version of Codex'); upgraded via mise. Runs on ChatGPT subscription (API key was out of credits \u2014 codex uses OAuth). Rates ESTIMATED (flagship placeholder) \u2014 reconcile against OpenAI pricing. Codex path is independent of today's OpenRouter degradation."
     }
   ],
   "skipped": {
