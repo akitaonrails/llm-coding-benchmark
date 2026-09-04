@@ -20,35 +20,36 @@
 | 7 | Claude Opus 4.8 | 93 | A | Claude Code | 95 | −2 |
 | 7 | GPT 5.6 Terra | **93** | A | Codex | — | — |
 | 7 | Gemini 3.7 Flash @ high | **93** | A | opencode | — | — |
-| 11 | Grok 4.5 | 92ᶜ | A | opencode | 87 | +5 |
-| 11 | GLM 5.2 | 92 | A | opencode | 87 | +5 |
-| 11 | Kimi K2.5 | 92 | A | opencode | 69 | **+23** |
-| 11 | Qwen 3.8 Max | **92** | A | opencode | — | — |
-| 11 | Grok 4.6 | **92** | A | opencode | — | — |
-| 16 | MiniMax M3 | 91ᵃ | A | opencode | 78 | +13 |
-| 16 | Kimi K2.6 | 91 | A | opencode | 87 | +4 |
-| 16 | Claude Opus 4.7 | 91 | A | Claude Code | 87 | +4 |
-| 16 | GPT 5.6 Luna | 91ᵃ | A | Codex | — | — |
-| 16 | DeepSeek V4 Pro 0813 | **91** | A | opencode | — | — |
-| 21 | DeepSeek V4 Flash 0731 | **90** | A | opencode | — | — |
-| 22 | Nex-N2-Pro | 88 | A | opencode | 83 | +5 |
-| 22 | GPT 5.5 | 88 | A | Codex | 85 | +3 |
-| 24 | Claude Sonnet 4.6 | 87 | A | Claude Code | 78 | +9 |
-| 25 | GPT 5.4 | 86 | A | Codex | 95 | −9 |
-| 25 | Kimi K2.7-Coding | 86 | A | Kimi CLI | 86 | 0 |
-| 27 | Step 3.7 Flash | 84 | A | opencode | 69 | +15 |
-| 28 | Claude Opus 4.6 | 83 | A | Claude Code | 83 | 0 |
-| 28 | GLM 5 | 83 | A | opencode | 64 | **+19** |
-| 30 | DeepSeek V4 Pro | 82 | B | opencode | 69 | +13 |
-| 31 | DeepSeek V4 Flash | 80ᵃ | B | opencode | 78 | +2 |
-| 32 | Gemini 3.5 Flash @ high | 79ᵃ | B | opencode | 93* | −14 |
-| 33 | Qwen 3.6 Plus | 76ᵃ | B | opencode | 71 | +5 |
-| 34 | MiMo V2.5 Pro | 73 | B | opencode | 67 | +6 |
-| 35 | Gemini 3.1 Pro | 62ᵃ† | C | opencode | 79 | −17 |
-| 36 | Qwen3.7 Max | 51 | C | opencode | 78 | **−27** |
-| 36 | Qwen 3.8 27B (local) | **51** | C | opencode/local | — | — |
-| 38 | Step 3.5 Flash | 27 | D | opencode | 56 | −29 |
-| 39 | Grok 4.3 | 18 | D | opencode | 72 | **−54** |
+| 7 | Gemini 3.8 Flash @ high | **93** | A | opencode | — | — |
+| 12 | Grok 4.5 | 92ᶜ | A | opencode | 87 | +5 |
+| 12 | GLM 5.2 | 92 | A | opencode | 87 | +5 |
+| 12 | Kimi K2.5 | 92 | A | opencode | 69 | **+23** |
+| 12 | Qwen 3.8 Max | **92** | A | opencode | — | — |
+| 12 | Grok 4.6 | **92** | A | opencode | — | — |
+| 17 | MiniMax M3 | 91ᵃ | A | opencode | 78 | +13 |
+| 17 | Kimi K2.6 | 91 | A | opencode | 87 | +4 |
+| 17 | Claude Opus 4.7 | 91 | A | Claude Code | 87 | +4 |
+| 17 | GPT 5.6 Luna | 91ᵃ | A | Codex | — | — |
+| 17 | DeepSeek V4 Pro 0813 | **91** | A | opencode | — | — |
+| 22 | DeepSeek V4 Flash 0731 | **90** | A | opencode | — | — |
+| 23 | Nex-N2-Pro | 88 | A | opencode | 83 | +5 |
+| 23 | GPT 5.5 | 88 | A | Codex | 85 | +3 |
+| 25 | Claude Sonnet 4.6 | 87 | A | Claude Code | 78 | +9 |
+| 26 | GPT 5.4 | 86 | A | Codex | 95 | −9 |
+| 26 | Kimi K2.7-Coding | 86 | A | Kimi CLI | 86 | 0 |
+| 28 | Step 3.7 Flash | 84 | A | opencode | 69 | +15 |
+| 29 | Claude Opus 4.6 | 83 | A | Claude Code | 83 | 0 |
+| 29 | GLM 5 | 83 | A | opencode | 64 | **+19** |
+| 31 | DeepSeek V4 Pro | 82 | B | opencode | 69 | +13 |
+| 32 | DeepSeek V4 Flash | 80ᵃ | B | opencode | 78 | +2 |
+| 33 | Gemini 3.5 Flash @ high | 79ᵃ | B | opencode | 93* | −14 |
+| 34 | Qwen 3.6 Plus | 76ᵃ | B | opencode | 71 | +5 |
+| 35 | MiMo V2.5 Pro | 73 | B | opencode | 67 | +6 |
+| 36 | Gemini 3.1 Pro | 62ᵃ† | C | opencode | 79 | −17 |
+| 37 | Qwen3.7 Max | 51 | C | opencode | 78 | **−27** |
+| 37 | Qwen 3.8 27B (local) | **51** | C | opencode/local | — | — |
+| 39 | Step 3.5 Flash | 27 | D | opencode | 56 | −29 |
+| 40 | Grok 4.3 | 18 | D | opencode | 72 | **−54** |
 ᵃ Corrected 2026-07-30 after user-prompted re-audit (see "Scoring integrity re-check" below). \* v1 Flash ran at default dynamic effort; the v2 run forces `reasoning_effort=high`. † Carries the Google signature-bug caveat (phase 2 unproven, 3 attempts).
 
 ### Tier definitions (v2, anchored on Claude Opus 4.6 = 83)
@@ -57,7 +58,7 @@ The v2 tiers are **capability tiers for real Rails/RubyLLM programming**, anchor
 
 | Tier | Score | Meaning — what you can actually do with it |
 |:---:|:---:|---|
-| **A** | **≥ 83** | **Usable for programming.** Opus 4.6 and above — any Tier A model can carry the full brief (streaming, concurrency, tools, tests, production Docker) to a shippable result. Differences within A are efficiency, honesty, and depth, not capability. 27 models. |
+| **A** | **≥ 83** | **Usable for programming.** Opus 4.6 and above — any Tier A model can carry the full brief (streaming, concurrency, tools, tests, production Docker) to a shippable result. Differences within A are efficiency, honesty, and depth, not capability. 28 models. |
 | **B** | **73–82** | **Close, but still lacking — on the radar for the near future.** Produces a mostly-correct app that needs human cleanup (a missed hard gate, a shallow test suite, a stale pin, an unenforced bound). Fine for scaffolding and prototypes; not yet trustworthy for unattended production work. 5 models. |
 | **C** | **51–72** | **Do not use for programming.** Ships a coherent-looking app with a load-bearing defect (Gemini 3.1 Pro was bug-capped; Qwen3.7 Max hallucinated the RubyLLM API and broke multi-turn). Still useful for simpler tasks — translation, summarization, simple agents, glue code. 2 models. |
 | **D** | **≤ 50** | **Inconsistent, buggy, incoherent** as a coding agent — bare `eval`, a test suite that won't load, phase-2 abandoned mid-work, or nothing built at all. Not usable for programming in any form. 2 models. |
@@ -643,6 +644,18 @@ An essentially flawless build: RubyLLM 1.16 API entirely correct (`with_instruct
 **Scoring**: gates 15/15 (correct `claude-sonnet-5` pin, all 14 goals present and viable; the two self-caught phase-3 hardenings — a calculator result-size bound and an RMW regression test — are proactive polish with regression tests, not shipped-broken defects, charged nowhere), streaming 10 (live-proven incremental — 8 chunks, per-chunk timings), payload 10 (exact outgoing-array test: `[{role: developer, …},{role: user, …}]` for a 4-turn history + a no-double-send count), concurrency 9 (Redis WATCH/MULTI optimistic locking + per-conversation lock + a passing 8×10 real-Redis no-loss stress test + live 2-worker/restart proof — the Terra/GLM 5.3 atomic-turn-lock class, and a genuine improvement over Fable 5's 8), tools 10 (eval-free recursive-descent calculator + `server_time`), schema 5 (`with_schema(ConversationTitleSchema)`), budget 4 (between-turns shared −1; **has** a `TokenEstimator` fallback), robustness 9 (missing-key preflight naming `OPENROUTER_API_KEY`, provider failures rescued to a `data-state="failed"` bubble, failed turns never persisted — with 429/timeout/connection/tool-failure error-path tests), tests+gates 9 (137 runs / 540 assertions auditor-verified green, **highest branch coverage in the cohort at 91.77%** and most assertions — but 93.48% line + 5 skips keep it from Fable 5's flawless-suite 10), fidelity 15/15 (correct pin → no stale deduction, 14 accurate PASS with dense file:line evidence, and an exemplary §4 risk list with self-caught defects fixed under regression tests). **Total 96** — Tier A, **ties Claude Fable 5 for #1**. Cost: $22.19 API-equiv / 55.9 min / 23.6M tokens.
 
 **On Anthropic's claim:** "beats Fable 5" is **not confirmed on this production-hardening brief** — Fable 5.1 matches it (96) and improves the one axis Fable 5 was weakest on (concurrency), but the rubric's top is saturated, so the gain doesn't produce a higher number. Nor is the claim falsified: 5.1 is at least as strong, meaningfully cheaper (75% off cache reads), and hardened where its predecessor was soft. The honest read: at the frontier, this brief no longer has the headroom to separate them. (Mythos 5.1 — the same model with relaxed safeguards, US-trusted-access only — is unavailable on this account and would score identically anyway.)
+
+### Gemini 3.8 Flash @ high — 93 (opencode/direct Gemini API, audited 2026-09-03) — ties Gemini 3.7; concurrency up, tests down
+
+The newest Gemini (3.8-flash; there is still no Gemini Pro past 3.1). Same direct-Google-API route as 3.7 (opencode `google` provider, effort=high — avoids the OpenRouter thought-signature bug). **Ties Gemini 3.7 at 93** — no net gen-over-gen gain on this brief. $4.01 / 27.7 min / 30.5M tokens, Rails 8.1.3.1. Clean shielded run (off-path shield + git sandbox), verified zero grading/sibling/git-history reads.
+
+**Outage caveat (why this is the second attempt):** the first restart hit a genuine Google outage — **18× HTTP 500 + 2× HTTP 503 + a ContentFilterError** in phase 1 (exit 1), contaminating its timing; preserved as `results-v2/v2_gemini_3_8_flash_high.outage-500s`. Per the user's stop-on-outage directive it was killed; an 8/8 sustained burst probe later came back clean and the re-run completed with **0 provider errors across all three phases** (valid timing). This one is the scored run.
+
+Real build: RubyLLM 1.16 API correct (`with_schema.ask`, `with_instructions`, `with_tools(ServerTime.new, Calculator.new)`, `add_message(role:, content:)` replay); eval-free `SafeArithmeticEvaluator` (strscan tokenizer); exact-array G5 test; a ~4-chars/token budget estimator; TRUE streaming live-proven in phase 2. Suite 47 runs / 161 assertions, 94.69% line / 74.33% branch, RuboCop/Brakeman/bundle-audit all clean.
+
+**Composition vs 3.7 (also 93):** 3.8 **improves concurrency** — where 3.7 used SQLite WAL with no turn lock (8), 3.8 wraps its Redis read-modify-write in a **per-conversation distributed lock (SETNX acquire + Lua atomic release)**, cross-worker (concurrency 9). But that gain is offset by a **thinner test suite** — 161 assertions (vs 3.7's 213) and, tellingly, the self-review confesses the lock-contention path itself is **untested under concurrency** (tests 8 vs 3.7's 9). Net identical.
+
+**Scoring**: gates 14/15 (−1 stale `claude-sonnet-4.6` pin), streaming 10 (TRUE streaming, live-proven incremental Turbo broadcasts), payload 10 (exact outgoing-array test), concurrency 9 (Redis per-conversation distributed lock — SETNX + Lua atomic release — wrapping the RMW, cross-worker; the turn-lock class, above 3.7's WAL-only 8), tools 10 (eval-free `SafeArithmeticEvaluator` + `server_time`), schema 5 (`with_schema`), budget 4 (between-turns shared −1; ~4-chars/token fallback estimator), robustness 9 (missing-key preflight, budget preflight, provider failures rescued to a degraded UI), tests+gates 8 (47 runs / 161 assertions auditor-verified green, branch enabled 74.33% / 94.69% line, all scanners clean — **but thinner than 3.7 and the load-bearing lock is untested under contention**), fidelity 14/15 (14 accurate PASS with honest §4 caveats — including the untested lock path and a disclosed phase-3 `enable_coverage :branch` addition; −1 stale-pin PASS claim). **Total 93** — Tier A, ties Gemini 3.7, GPT 5.6 Sol, GPT 5.6 Terra, and Opus 4.8. Cost: $4.01 / 27.7 min / 30.5M tokens.
 
 ## Wave 2 conclusions
 
