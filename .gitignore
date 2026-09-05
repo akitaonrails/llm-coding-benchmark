@@ -61,3 +61,20 @@ config/opencode.xdg-isolated/
 
 # Local forensic copies of contaminated runs (evidence; not repo content)
 results-v2/*.contaminated-*/
+
+# benchmark-v3 run artifacts: never commit subscription creds, nested apps, or transcripts
+results-v3/**/.claude/
+results-v3/**/.claude.json
+results-v3/*/*/project/
+results-v3/*/*/*.ndjson
+# v3 HOME/build junk (HOME is set to the task dir for the claude harness)
+results-v3/**/go/
+results-v3/**/target/
+results-v3/**/__pycache__/
+results-v3/**/.cache/
+results-v3/**/.config/
+results-v3/**/.local/
+results-v3/**/.cargo/
+results-v3/**/.rustup/
+results-v3/**/.npm/
+results-v3/**/.bundle/
