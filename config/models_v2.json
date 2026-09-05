@@ -719,10 +719,10 @@
     },
     {
       "slug": "v2_gpt_6_astra",
-      "label": "GPT-6 Astra Medium (Codex)",
+      "label": "GPT-6 Astra High (Codex)",
       "harness": "codex",
       "model_id": "gpt-6-astra",
-      "codex_reasoning_effort": "medium",
+      "codex_reasoning_effort": "high",
       "billing": "ChatGPT subscription credits",
       "rates_per_m": {
         "input": 10.0,
