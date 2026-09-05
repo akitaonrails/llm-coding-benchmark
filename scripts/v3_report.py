@@ -26,6 +26,10 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--results", default="results-v3")
     ap.add_argument("--tasks", default="", help="comma list to restrict (default: all in each result.json)")
+    ap.add_argument("--quality-weight", type=float, default=0.7,
+                    help="Overall = quality_weight*Quality + (1-quality_weight)*Efficiency (default 0.7)")
+    ap.add_argument("--cost-split", type=float, default=0.5,
+                    help="within Efficiency, weight of cost vs speed (default 0.5)")
     a = ap.parse_args()
     want = set(a.tasks.split(",")) if a.tasks else None
 
@@ -58,20 +62,44 @@ def main() -> int:
             "time": round(tot_t, 1) if time_known else None,
         })
 
-    # rank: quality desc, then cost asc (None last), then time asc
-    rows.sort(key=lambda x: (-x["quality"], x["cost"] if x["cost"] is not None else 9e9,
-                             x["time"] if x["time"] is not None else 9e9))
-
-    print(f"{'model':40} {'qual':>6} {'cost$':>9} {'time(s)':>9} {'q/$':>8} {'q/min':>7}")
-    print("-" * 84)
+    # ----- separate scores + a combined Overall -----
+    # Quality: mean correctness (0-100, absolute).
+    # Efficiency (0-100, RELATIVE to the cohort's best): the cheapest model scores 100
+    #   on cost, the fastest scores 100 on speed; Efficiency blends the two.
+    # Overall = quality_weight*Quality + (1-quality_weight)*Efficiency.
+    costs = [x["cost"] for x in rows if x["cost"] is not None]
+    times = [x["time"] for x in rows if x["time"] is not None]
+    min_cost = min(costs) if costs else None
+    min_time = min(times) if times else None
+    cw = a.cost_split  # weight of cost within Efficiency (rest = speed)
     for x in rows:
-        qpd = f"{x['quality']/x['cost']:.0f}" if x["cost"] else "  -"
-        qpm = f"{x['quality']/(x['time']/60):.1f}" if x["time"] else "  -"
-        print(f"{x['label'][:40]:40} {x['quality']:>6} "
-              f"{('%.2f'%x['cost']) if x['cost'] is not None else '   -':>9} "
-              f"{(x['time'] if x['time'] is not None else '-'):>9} {qpd:>8} {qpm:>7}")
-    print("\nTie-break order: quality desc -> cost asc -> time asc. "
-          "q/$ and q/min are value ratios (higher = more quality per dollar / per minute).")
+        cost_eff = (100.0 * min_cost / x["cost"]) if (x["cost"] and min_cost) else None
+        speed_eff = (100.0 * min_time / x["time"]) if (x["time"] and min_time) else None
+        if cost_eff is not None and speed_eff is not None:
+            x["efficiency"] = round(cw * cost_eff + (1 - cw) * speed_eff, 1)
+        else:
+            x["efficiency"] = cost_eff if cost_eff is not None else speed_eff
+        if x["efficiency"] is not None:
+            x["overall"] = round(a.quality_weight * x["quality"]
+                                 + (1 - a.quality_weight) * x["efficiency"], 1)
+        else:
+            x["overall"] = x["quality"]
+
+    rows.sort(key=lambda x: -x["overall"])
+
+    print(f"{'model':34} {'Quality':>8} {'cost$':>7} {'time(s)':>8} {'Effic.':>7} {'OVERALL':>8}")
+    print("-" * 76)
+    for x in rows:
+        print(f"{x['label'][:34]:34} {x['quality']:>8} "
+              f"{('%.2f'%x['cost']) if x['cost'] is not None else '-':>7} "
+              f"{(('%.0f'%x['time']) if x['time'] is not None else '-'):>8} "
+              f"{(x['efficiency'] if x['efficiency'] is not None else '-'):>7} "
+              f"{x['overall']:>8}")
+    print(f"\nQuality = mean correctness (absolute 0-100).")
+    print(f"Efficiency = relative to cohort best: {int(cw*100)}% cost (cheapest=100) + "
+          f"{int((1-cw)*100)}% speed (fastest=100).")
+    print(f"OVERALL = {a.quality_weight:.0%} Quality + {1-a.quality_weight:.0%} Efficiency "
+          f"(tune with --quality-weight / --cost-split).")
     return 0
 
 
