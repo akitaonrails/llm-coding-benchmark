@@ -1,0 +1,14 @@
+{
+  "command_kind": "opencode",
+  "cost_usd": null,
+  "elapsed_seconds": 5400.55,
+  "ended_at": "2026-09-04T03:50:32+00:00",
+  "exit_code": -15,
+  "file_count_after": 18,
+  "harness": "opencode",
+  "phase": "phase1",
+  "session_id": null,
+  "started_at": "2026-09-04T02:20:32+00:00",
+  "timed_out": true,
+  "tokens": {}
+}
