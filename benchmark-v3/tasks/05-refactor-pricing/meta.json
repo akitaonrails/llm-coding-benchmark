@@ -1,0 +1,17 @@
+{
+  "id": "05-refactor-pricing",
+  "category": "safe-refactor",
+  "language": "ruby",
+  "entrypoint": "lib/pricing.rb",
+  "hidden_runner": ["ruby", "hidden/run.rb"],
+  "result_format": "json:{load_error, results:[{name,tag,pass,detail}]}",
+  "weights": { "base": 1, "edge": 2, "variant": 3 },
+  "gates": {},
+  "validation": {
+    "reference_entrypoint": "reference/pricing.rb",
+    "naive_entrypoint": "workspace/lib/pricing.rb",
+    "reference_min": 100.0,
+    "naive_max": 75.0,
+    "note": "reference (real refactor, behavior preserved) = 100; the original monolith passes characterization but fails the extensibility gate, so 'do nothing' scores clearly below max. A refactor that unifies rounding fails characterization instead."
+  }
+}
