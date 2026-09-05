@@ -1,0 +1,13 @@
+{
+  "category": "algorithm-observation",
+  "language": "python",
+  "continuous": true,
+  "entrypoint": "median.py",
+  "hidden_runner": ["python3", "hidden/run.py"],
+  "validation": {
+    "reference_entrypoint": "reference/median.py",
+    "naive_entrypoint": "workspace/median.py",
+    "reference_min": 85.0,
+    "naive_max": 20.0
+  }
+}
