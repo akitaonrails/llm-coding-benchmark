@@ -30,6 +30,13 @@ def main() -> int:
                     help="Overall = quality_weight*Quality + (1-quality_weight)*Efficiency (default 0.7)")
     ap.add_argument("--cost-split", type=float, default=0.5,
                     help="within Efficiency, weight of cost vs speed (default 0.5)")
+    ap.add_argument("--baseline", default="v2_claude_opus_4_6",
+                    help="slug pinned as the index baseline (=100). Index has NO ceiling: "
+                         "better models score >100, regressions <100.")
+    ap.add_argument("--baseline-index", type=float, default=100.0,
+                    help="index value assigned to the baseline model (default 100)")
+    ap.add_argument("--index-quality-weight", type=float, default=0.6,
+                    help="Index = qw*QualityIdx + (1-qw)*EfficiencyIdx (default 0.6)")
     a = ap.parse_args()
     want = set(a.tasks.split(",")) if a.tasks else None
 
@@ -62,7 +69,7 @@ def main() -> int:
             else:
                 tot_t += e
         rows.append({
-            "label": r.get("label") or r["slug"], "harness": r.get("harness"),
+            "slug": r["slug"], "label": r.get("label") or r["slug"], "harness": r.get("harness"),
             "quality": round(qual, 1), "n": len(tasks),
             "cost": round(cost, 4) if cost_known else None,
             "time": round(tot_t, 1) if time_known else None,
@@ -108,6 +115,54 @@ def main() -> int:
           f"(tune with --quality-weight / --cost-split).")
     if failed_runs:
         print(f"\nEXCLUDED (harness/auth failure, needs re-run): {', '.join(failed_runs)}")
+
+    # ---------- baseline-relative INDEX (no ceiling) ----------
+    base = next((x for x in rows if x["slug"] == a.baseline), None)
+    if base is None:
+        # fall back to the FROZEN baseline file so future single-model runs get an index
+        # without re-running the baseline model.
+        bf = Path(__file__).resolve().parent.parent / "benchmark-v3" / "baseline.json"
+        if bf.exists():
+            fb = json.loads(bf.read_text())
+            agg = fb["aggregate"]
+            base = {"slug": fb["baseline_slug"],
+                    "label": (fb.get("baseline_label") or fb["baseline_slug"]) + " [frozen]",
+                    "quality": agg["quality"], "cost": agg["cost_usd"], "time": agg["time_s"]}
+            print(f"\n[index] using FROZEN baseline from {bf.name} "
+                  f"({base['label']}, frozen {fb.get('frozen_on')}).")
+        else:
+            print(f"\n[index] baseline '{a.baseline}' not among scored runs and no frozen "
+                  f"baseline.json — index skipped (run the baseline, or freeze it).")
+            return 0
+    B = a.baseline_index
+    bq, bc, bt = base["quality"], base["cost"], base["time"]
+    iqw = a.index_quality_weight
+    for x in rows:
+        # each sub-index: 100 = baseline; >100 = better than baseline.
+        x["qi"] = (B * x["quality"] / bq) if bq else None
+        x["ci"] = (B * bc / x["cost"]) if (x["cost"] and bc) else None
+        x["si"] = (B * bt / x["time"]) if (x["time"] and bt) else None
+        if x["ci"] is not None and x["si"] is not None:
+            eff_i = cw * x["ci"] + (1 - cw) * x["si"]
+        else:
+            eff_i = x["ci"] if x["ci"] is not None else x["si"]
+        if x["qi"] is not None and eff_i is not None:
+            x["index"] = round(iqw * x["qi"] + (1 - iqw) * eff_i, 1)
+        else:
+            x["index"] = round(x["qi"], 1) if x["qi"] is not None else None
+    ranked = sorted((x for x in rows if x["index"] is not None), key=lambda x: -x["index"])
+    print(f"\n===== BASELINE-RELATIVE INDEX (baseline: {base['label']} = {B:.0f}) =====")
+    print(f"{'model':34} {'QualIdx':>8} {'CostIdx':>8} {'SpeedIdx':>9} {'INDEX':>7} {'vs base':>8}")
+    print("-" * 78)
+    def fmt(v):
+        return f"{v:.0f}" if v is not None else "-"
+    for x in ranked:
+        d = (x["index"] - B) / B * 100.0
+        print(f"{x['label'][:34]:34} {fmt(x['qi']):>8} {fmt(x['ci']):>8} "
+              f"{fmt(x['si']):>9} {x['index']:>7.1f} {d:>+7.1f}%")
+    print(f"\nINDEX = {iqw:.0%} QualityIdx + {1-iqw:.0%} EfficiencyIdx, all RELATIVE to baseline "
+          f"({B:.0f}=baseline). >100 beats baseline, <100 trails it. No ceiling.")
+    print(f"Compare two models: pct diff = (A-B)/B. E.g. GPT-6 vs GPT-5.6 = their INDEX delta.")
     return 0
 
 
