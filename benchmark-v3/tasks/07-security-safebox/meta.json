@@ -1,0 +1,16 @@
+{
+  "id": "07-security-safebox",
+  "category": "security",
+  "language": "python",
+  "entrypoint": "safebox.py",
+  "hidden_runner": ["python3", "hidden/run.py"],
+  "result_format": "json:{load_error, score:float(0-100), breakdown:{}}",
+  "continuous": true,
+  "validation": {
+    "reference_entrypoint": "reference/safebox.py",
+    "naive_entrypoint": "workspace/safebox.py",
+    "reference_min": 95.0,
+    "naive_max": 55.0,
+    "note": "continuous: reference (all boundaries hardened) ~100; the vulnerable starter passes legit inputs but fails every exploit -> low. Partial hardening lands in between (the spread that separates the frontier)."
+  }
+}

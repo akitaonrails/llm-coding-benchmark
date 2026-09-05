@@ -1,0 +1,82 @@
+{
+  "billing": "Direct Gemini API, pay-per-token",
+  "cost_usd_total": 4.996,
+  "elapsed_seconds_total": 2646.75,
+  "ended_at": "2026-09-03T16:42:35+00:00",
+  "harness": "opencode",
+  "label": "Gemini 3.8 Flash @ high (opencode/direct Gemini API)",
+  "phases": [
+    {
+      "command_kind": "opencode",
+      "cost_usd": 0.2169,
+      "elapsed_seconds": 115.87,
+      "ended_at": "2026-09-03T16:00:24+00:00",
+      "exit_code": 1,
+      "file_count_after": 18,
+      "harness": "opencode",
+      "phase": "phase1",
+      "session_id": "ses_f9801c5e7ffeHVvY3lp5BRiSs4",
+      "started_at": "2026-09-03T15:58:28+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 399586,
+          "write": 0
+        },
+        "input": 220498,
+        "output": 2453,
+        "reasoning": 3286,
+        "total": 625823
+      }
+    },
+    {
+      "command_kind": "opencode",
+      "cost_usd": 4.1717,
+      "elapsed_seconds": 2195.63,
+      "ended_at": "2026-09-03T16:37:00+00:00",
+      "exit_code": 0,
+      "file_count_after": 1841,
+      "harness": "opencode",
+      "phase": "phase2",
+      "session_id": "ses_f98000113ffeXEXMo0zq7429Hd",
+      "started_at": "2026-09-03T16:00:24+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 31331470,
+          "write": 0
+        },
+        "input": 1959446,
+        "output": 46666,
+        "reasoning": 47279,
+        "total": 33384861
+      }
+    },
+    {
+      "command_kind": "opencode",
+      "cost_usd": 0.6074,
+      "elapsed_seconds": 335.25,
+      "ended_at": "2026-09-03T16:42:35+00:00",
+      "exit_code": 0,
+      "file_count_after": 1842,
+      "harness": "opencode",
+      "phase": "phase3",
+      "session_id": "ses_f97de807cffe2AMViurMrhgOfg",
+      "started_at": "2026-09-03T16:37:00+00:00",
+      "timed_out": false,
+      "tokens": {
+        "cache": {
+          "read": 3431809,
+          "write": 0
+        },
+        "input": 319582,
+        "output": 7808,
+        "reasoning": 21609,
+        "total": 3780808
+      }
+    }
+  ],
+  "self_review_present": true,
+  "slug": "v2_gemini_3_8_flash_high",
+  "tokens_total": 37791492
+}

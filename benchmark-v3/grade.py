@@ -43,6 +43,12 @@ def run_hidden(task_dir: Path, entrypoint_abs: Path, timeout: int) -> dict:
 def score(task_dir: Path, data: dict) -> dict:
     meta = json.loads((task_dir / "meta.json").read_text())
     weights = meta.get("weights", {})
+    # Continuous tasks: the hidden runner emits a numeric 0-100 `score` directly
+    # (measured speed, exploit-coverage %, optimality ratio, composite metric, ...).
+    if data.get("score") is not None and not data.get("load_error"):
+        return {"correctness": round(float(data["score"]), 1), "continuous": True,
+                "load_error": None, "capped_by": None,
+                "by_tag": data.get("breakdown", {}), "failures": []}
     results = data.get("results", [])
     if data.get("load_error") or not results:
         return {"correctness": 0.0, "passed": 0, "total": len(results),

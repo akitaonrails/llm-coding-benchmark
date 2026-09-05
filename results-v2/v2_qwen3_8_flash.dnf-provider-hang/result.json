@@ -1,0 +1,27 @@
+{
+  "billing": "OpenRouter API",
+  "cost_usd_total": 0,
+  "elapsed_seconds_total": 5400.55,
+  "ended_at": "2026-09-04T03:50:32+00:00",
+  "harness": "opencode",
+  "label": "Qwen 3.8 Flash (opencode/OpenRouter)",
+  "phases": [
+    {
+      "command_kind": "opencode",
+      "cost_usd": null,
+      "elapsed_seconds": 5400.55,
+      "ended_at": "2026-09-04T03:50:32+00:00",
+      "exit_code": -15,
+      "file_count_after": 18,
+      "harness": "opencode",
+      "phase": "phase1",
+      "session_id": null,
+      "started_at": "2026-09-04T02:20:32+00:00",
+      "timed_out": true,
+      "tokens": {}
+    }
+  ],
+  "self_review_present": false,
+  "slug": "v2_qwen3_8_flash",
+  "tokens_total": 0
+}
