@@ -62,40 +62,80 @@ def grade(task_dir: Path, candidate_project: Path, timeout: int) -> dict:
         return {"correctness": 0.0, "load_error": f"grader error: {p.stdout[-200:]} {p.stderr[-200:]}"}
 
 
-def shield(tasks: list[Path]) -> Path:
-    """Move every task's hidden/ and reference/ (plus the v2 grading key) out of the
-    filesystem for the duration of the run, so the model can never read the answers."""
+GRADING_KEY = ["docs", ".agents/skills/benchmark-audit", "CLAUDE.md"]
+
+
+def shield(out_root: Path) -> Path:
+    """Remove EVERYTHING a running model could cheat from out of the repo tree, for
+    the duration of the run. Guarantees zero contamination between test runs:
+
+      * every task's hidden/ and reference/  (ALL tasks, not just the ones being run,
+        so a subset run can't read another task's grader/answer)
+      * the v2 grading key (docs/, CLAUDE.md, benchmark-audit skill)
+      * every OTHER model's results-v3/<slug> solution dir (so this model can never
+        read a prior model's fix and copy it)
+
+    Returns the shield dir; pass it to unshield() to restore atomically in a finally.
+    """
     sh = Path.home() / ".cache" / f".v3shield_{uuid.uuid4().hex[:8]}"
     (sh / "tasks").mkdir(parents=True)
     (sh / "misc").mkdir(parents=True)
-    for t in tasks:
+    (sh / "results").mkdir(parents=True)
+    for t in sorted(p for p in TASKS_DIR.iterdir() if (p / "meta.json").exists()):
         for sub in ("hidden", "reference"):
             src = t / sub
             if src.exists():
                 dst = sh / "tasks" / t.name / sub
                 dst.parent.mkdir(parents=True, exist_ok=True)
                 shutil.move(str(src), str(dst))
-    # v2 grading key (shield-all policy)
-    for rel in ["docs", ".agents/skills/benchmark-audit", "CLAUDE.md"]:
+    for rel in GRADING_KEY:
         src = REPO / rel
         if src.exists():
             dst = sh / "misc" / rel
             dst.parent.mkdir(parents=True, exist_ok=True)
             shutil.move(str(src), str(dst))
+    # other models' outputs (never the current run's own dir)
+    if out_root.parent.exists():
+        for d in out_root.parent.iterdir():
+            if d.is_dir() and d.resolve() != out_root.resolve():
+                shutil.move(str(d), str(sh / "results" / d.name))
+    _assert_clean(out_root)
     return sh
 
 
-def unshield(sh: Path, tasks: list[Path]) -> None:
-    for t in tasks:
+def _assert_clean(out_root: Path) -> None:
+    """Fail loudly rather than run a contaminated benchmark."""
+    leaks = []
+    for t in TASKS_DIR.iterdir():
         for sub in ("hidden", "reference"):
-            src = sh / "tasks" / t.name / sub
+            if (t / sub).exists():
+                leaks.append(str((t / sub).relative_to(REPO)))
+    for rel in GRADING_KEY:
+        if (REPO / rel).exists():
+            leaks.append(rel)
+    if out_root.parent.exists():
+        for d in out_root.parent.iterdir():
+            if d.is_dir() and d.resolve() != out_root.resolve():
+                leaks.append(str(d.relative_to(REPO)))
+    if leaks:
+        raise RuntimeError(f"shield incomplete, refusing to run — still exposed: {leaks}")
+
+
+def unshield(sh: Path) -> None:
+    for tdir in (sh / "tasks").iterdir() if (sh / "tasks").exists() else []:
+        for sub in ("hidden", "reference"):
+            src = tdir / sub
             if src.exists():
-                shutil.move(str(src), str(t / sub))
-    for rel in ["docs", ".agents/skills/benchmark-audit", "CLAUDE.md"]:
+                shutil.move(str(src), str(TASKS_DIR / tdir.name / sub))
+    for rel in GRADING_KEY:
         src = sh / "misc" / rel
         if src.exists():
             (REPO / rel).parent.mkdir(parents=True, exist_ok=True)
             shutil.move(str(src), str(REPO / rel))
+    res = sh / "results"
+    if res.exists():
+        for d in res.iterdir():
+            shutil.move(str(d), str(REPO / "results-v3" / d.name))
     shutil.rmtree(sh, ignore_errors=True)
 
 
@@ -141,7 +181,7 @@ def main() -> int:
 
     out_root = Path(a.out) / model["slug"]
     out_root.mkdir(parents=True, exist_ok=True)
-    sh = shield(tasks)
+    sh = shield(out_root)
     phase_records = []
     try:
         for t in tasks:
@@ -155,7 +195,7 @@ def main() -> int:
             rec = run_phase(model, t.name, prompt, proj, out_dir)
             phase_records.append((t, rec))
     finally:
-        unshield(sh, tasks)
+        unshield(sh)
 
     # grade (hidden restored)
     results = []
