@@ -1,0 +1,41 @@
+# Task 01 — Debug: the paginator silently drops rows
+
+**Category:** root-cause debugging (brownfield) · **Language:** Ruby
+
+## The situation
+
+`lib/paginator.rb` implements cursor-based (keyset) pagination over an in-memory
+collection, sorted by each record's `:created_at`. It has shipped and is in use.
+
+A bug report has come in: **some records silently disappear** from the paginated
+results. It only happens sometimes. `test/paginator_test.rb` contains one
+reproduction: when two records share the same `:created_at` and that group is split
+across a page boundary, a record is lost.
+
+## Your job
+
+Find the **root cause** and fix it so that iterating with the opaque-cursor protocol
+(start with `page`, then repeatedly `page(after: previous[:next_cursor])` until
+`next_cursor` is `nil`) **visits every record exactly once, in non-decreasing
+`:created_at` order** — for *any* records and *any* positive `page_size`.
+
+Constraints:
+- Keep the public protocol: `Paginator.new(records, page_size:)` and
+  `page(after:) => { items:, next_cursor: }`. The **cursor is opaque** — you may
+  change its internal representation however you like.
+- `:created_at` is **not unique**. `:id` is unique and comparable.
+- Do not change the meaning of `page_size` (max items per page) or the ordering
+  contract (non-decreasing `:created_at`).
+- `records` may be empty; `page_size` is always a positive integer.
+
+## How you'll be graded
+
+You are graded by a **hidden** adversarial suite you cannot see, weighted toward the
+edges (large tie groups spanning many pages, ties at every boundary, `page_size` of 1,
+`page_size` larger than the collection, all-identical `:created_at`, and more). A fix
+that only special-cases the visible reproduction will fail. There is also a
+**variant** check that re-triggers the same class of bug with a different tie
+distribution — a symptom patch will not pass it. Passing the visible test is
+necessary but far from sufficient; make the fix correct **in general**.
+
+Do not add or rely on external gems. Standard library only.

@@ -1,0 +1,22 @@
+{
+  "id": "01-debug-paginator",
+  "category": "root-cause-debugging",
+  "language": "ruby",
+  "entrypoint": "lib/paginator.rb",
+  "hidden_runner": ["ruby", "hidden/run.rb"],
+  "result_format": "json:{load_error, results:[{name,tag,pass,detail}]}",
+  "weights": { "base": 1, "edge": 2, "variant": 3 },
+  "gates": {
+    "variant_gate": {
+      "rule": "if any tag=variant case fails, cap correctness at 70",
+      "cap": 70
+    }
+  },
+  "validation": {
+    "reference_entrypoint": "reference/paginator.rb",
+    "naive_entrypoint": "workspace/lib/paginator.rb",
+    "reference_min": 100.0,
+    "naive_max": 85.0,
+    "note": "reference must be 100; the shipped buggy version (naive baseline) must be clearly below the naive_max, proving the task discriminates root-fix from symptom-patch."
+  }
+}
