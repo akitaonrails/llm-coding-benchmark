@@ -41,6 +41,11 @@ from benchmark.runner import (  # noqa: E402
 from benchmark.util import save_json, utc_now  # noqa: E402
 
 PHASE_TIMEOUT = 5400
+# Stall/idle-output timeout: abort a phase if the model produces NO output for this
+# long. Catches provider hangs (which otherwise burn the full PHASE_TIMEOUT — e.g.,
+# Qwen 3.8 Flash wasted 2x90min on OpenRouter hangs). Set well above any legitimate
+# blocking tool call (docker build/compose ~5-15min) so it never kills real work.
+STALL_TIMEOUT = 1200  # 20 min of zero new output
 KIMI_TERMINAL_GRACE = 8
 
 
@@ -192,6 +197,8 @@ def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
     stdout_lines: list[str] = []
     terminal_seen: float | None = None
     timed_out = False
+    stalled = False
+    last_output = time.monotonic()
     import selectors
     sel = selectors.DefaultSelector()
     if process.stdout:
@@ -203,6 +210,12 @@ def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
             now = time.monotonic()
             if now - wall_start > PHASE_TIMEOUT:
                 timed_out = True
+                os.killpg(process.pid, signal.SIGTERM)
+                break
+            if now - last_output > STALL_TIMEOUT:
+                stalled = True
+                print(f"[{model['slug']}/{phase_name}] STALL: no output for "
+                      f"{int(now - last_output)}s (>{STALL_TIMEOUT}s) — aborting (provider hang?)")
                 os.killpg(process.pid, signal.SIGTERM)
                 break
             if terminal_seen is not None and now - terminal_seen > KIMI_TERMINAL_GRACE:
@@ -219,6 +232,7 @@ def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
                 line = stream.readline()
                 if not line:
                     continue
+                last_output = time.monotonic()
                 out_f.write(line)
                 out_f.flush()
                 stdout_lines.append(line)
@@ -287,6 +301,7 @@ def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
         "elapsed_seconds": elapsed,
         "exit_code": process.returncode,
         "timed_out": timed_out,
+        "stall_aborted": stalled,
         "tokens": tokens,
         "cost_usd": cost_usd,
         "session_id": session_id,
@@ -338,8 +353,9 @@ def main() -> None:
     results = []
     for phase_name in phases_to_run:
         results.append(run_phase(model, phase_name, prompts[phase_name], project_dir, out_dir))
-        if results[-1]["timed_out"]:
-            print(f"[{model['slug']}] {phase_name} timed out; stopping")
+        if results[-1]["timed_out"] or results[-1].get("stall_aborted"):
+            reason = "stalled (provider hang?)" if results[-1].get("stall_aborted") else "timed out"
+            print(f"[{model['slug']}] {phase_name} {reason}; stopping")
             break
 
     total = {
