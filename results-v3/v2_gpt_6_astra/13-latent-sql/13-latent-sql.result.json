@@ -1,0 +1,24 @@
+{
+  "command_kind": "bash -lc",
+  "cost_usd": 0.3399,
+  "elapsed_seconds": 94.32,
+  "ended_at": "2026-09-05T18:56:34+00:00",
+  "exit_code": 0,
+  "file_count_after": 2,
+  "harness": "codex",
+  "phase": "13-latent-sql",
+  "session_id": null,
+  "stall_aborted": false,
+  "started_at": "2026-09-05T18:55:00+00:00",
+  "timed_out": false,
+  "tokens": {
+    "input": 11008,
+    "output": 2473,
+    "reasoning": 375,
+    "cache": {
+      "read": 87424,
+      "write": 0
+    },
+    "total": 101280
+  }
+}

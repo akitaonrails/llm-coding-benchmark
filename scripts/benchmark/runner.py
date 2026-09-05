@@ -227,8 +227,11 @@ def extract_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
 def extract_codex_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
     """Extract session/token metrics from Codex CLI JSONL events."""
     thread_id = None
-    total_input = 0
+    total_input = 0          # codex input_tokens INCLUDES the cached portion
+    total_cached = 0         # cached_input_tokens (subset of input; billed at cache_read rate)
+    total_cache_write = 0
     total_output = 0
+    total_reasoning = 0      # reasoning_output_tokens (billed at output rate)
     text_parts: list[str] = []
     last_turn_failed = False
 
@@ -239,7 +242,10 @@ def extract_codex_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
         elif etype == "turn.completed":
             usage = event.get("usage", {})
             total_input += usage.get("input_tokens", 0)
+            total_cached += usage.get("cached_input_tokens", 0)
+            total_cache_write += usage.get("cache_write_input_tokens", 0)
             total_output += usage.get("output_tokens", 0)
+            total_reasoning += usage.get("reasoning_output_tokens", 0)
             last_turn_failed = False
         elif etype == "turn.failed":
             last_turn_failed = True
@@ -250,14 +256,19 @@ def extract_codex_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
                 if isinstance(text, str) and text:
                     text_parts.append(text)
 
-    total_tokens = total_input + total_output
+    uncached_input = max(0, total_input - total_cached)
+    # Match Claude's token semantics so the shared cost formula bills correctly:
+    # `input` = UNCACHED input (full rate), cache.read = cached input (cache_read rate),
+    # reasoning billed at the output rate.
     return {
         "session_id": thread_id,
         "finish_reason": "stop" if not last_turn_failed else "error",
         "tokens": {
-            "input": total_input,
+            "input": uncached_input,
             "output": total_output,
-            "total": total_tokens,
+            "reasoning": total_reasoning,
+            "cache": {"read": total_cached, "write": total_cache_write},
+            "total": total_input + total_output + total_reasoning,
         },
         "assistant_output": "\n".join(text_parts).strip(),
     }
