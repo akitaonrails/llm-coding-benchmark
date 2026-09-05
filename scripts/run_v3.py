@@ -165,10 +165,11 @@ def main() -> int:
             with __import__("tempfile").TemporaryDirectory() as d:
                 proj = Path(d) / "project"
                 shutil.copytree(t / "workspace", proj)
-                # overlay the reference file(s) onto the workspace
-                for rf in (t / "reference").iterdir():
-                    tgt = proj / meta["entrypoint"]
-                    if rf.name == Path(meta["entrypoint"]).name:
+                # overlay the ENTIRE reference tree onto the workspace (handles both a
+                # single-file entrypoint and a multi-file/package reference).
+                for rf in (t / "reference").rglob("*"):
+                    if rf.is_file():
+                        tgt = proj / rf.relative_to(t / "reference")
                         tgt.parent.mkdir(parents=True, exist_ok=True)
                         shutil.copy(rf, tgt)
                 r = grade(t, proj, a.grade_timeout)
