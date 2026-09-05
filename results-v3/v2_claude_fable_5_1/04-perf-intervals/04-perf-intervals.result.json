@@ -1,0 +1,23 @@
+{
+  "command_kind": "claude",
+  "cost_usd": 0.1939265,
+  "elapsed_seconds": 55.88,
+  "ended_at": "2026-09-05T15:22:53+00:00",
+  "exit_code": 0,
+  "file_count_after": 1,
+  "harness": "claude",
+  "phase": "04-perf-intervals",
+  "session_id": "f42a3a86-3a54-4862-8f1f-8fe73ac52bc7",
+  "stall_aborted": false,
+  "started_at": "2026-09-05T15:21:57+00:00",
+  "timed_out": false,
+  "tokens": {
+    "cache": {
+      "read": 61877,
+      "write": 9391
+    },
+    "input": 8,
+    "output": 2699,
+    "total": 73975
+  }
+}
