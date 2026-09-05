@@ -1,0 +1,23 @@
+{
+  "command_kind": "claude",
+  "cost_usd": 0.3522055,
+  "elapsed_seconds": 79.06,
+  "ended_at": "2026-09-05T16:17:08+00:00",
+  "exit_code": 0,
+  "file_count_after": 2,
+  "harness": "claude",
+  "phase": "02-edge-csv",
+  "session_id": "14fbd12e-fc8b-4ad6-8b47-be2630e65439",
+  "stall_aborted": false,
+  "started_at": "2026-09-05T16:15:49+00:00",
+  "timed_out": false,
+  "tokens": {
+    "cache": {
+      "read": 110481,
+      "write": 13949
+    },
+    "input": 12,
+    "output": 6221,
+    "total": 130663
+  }
+}
