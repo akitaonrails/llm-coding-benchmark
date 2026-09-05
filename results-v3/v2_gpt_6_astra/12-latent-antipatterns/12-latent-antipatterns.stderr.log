@@ -1,0 +1,1 @@
+2026-09-05T20:57:42.316653Z ERROR codex_core::tools::router: error=apply_patch verification failed: invalid patch: multiple operations target /mnt/data/Projects/llm-coding-benchmark/results-v3/v2_gpt_6_astra/12-latent-antipatterns/project/test_directory.py

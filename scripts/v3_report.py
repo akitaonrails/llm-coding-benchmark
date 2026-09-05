@@ -34,11 +34,17 @@ def main() -> int:
     want = set(a.tasks.split(",")) if a.tasks else None
 
     rows = []
+    failed_runs = []
     for rj in sorted(glob.glob(f"{a.results}/*/result.json")):
         md = Path(rj).parent
         r = json.loads(Path(rj).read_text())
         tasks = [t for t in r["tasks"] if (want is None or any(t["task"].startswith(w) for w in want))]
         if not tasks:
+            continue
+        # Exclude runs with harness/auth failures — their "scores" are ungraded starter
+        # files, not model attempts. Report them separately as incomplete.
+        if any(t.get("run_failed") for t in tasks):
+            failed_runs.append(r.get("label") or r["slug"])
             continue
         qual = sum((t["correctness"] or 0) for t in tasks) / len(tasks)
         cost = tot_t = 0.0
@@ -90,16 +96,18 @@ def main() -> int:
     print(f"{'model':34} {'Quality':>8} {'cost$':>7} {'time(s)':>8} {'Effic.':>7} {'OVERALL':>8}")
     print("-" * 76)
     for x in rows:
-        print(f"{x['label'][:34]:34} {x['quality']:>8} "
-              f"{('%.2f'%x['cost']) if x['cost'] is not None else '-':>7} "
-              f"{(('%.0f'%x['time']) if x['time'] is not None else '-'):>8} "
-              f"{(x['efficiency'] if x['efficiency'] is not None else '-'):>7} "
-              f"{x['overall']:>8}")
+        eff_s = f"{x['efficiency']:.1f}" if x["efficiency"] is not None else "-"
+        cost_s = f"{x['cost']:.2f}" if x["cost"] is not None else "-"
+        time_s = f"{x['time']:.0f}" if x["time"] is not None else "-"
+        print(f"{x['label'][:34]:34} {x['quality']:>8.1f} {cost_s:>7} {time_s:>8} "
+              f"{eff_s:>7} {x['overall']:>8.1f}")
     print(f"\nQuality = mean correctness (absolute 0-100).")
     print(f"Efficiency = relative to cohort best: {int(cw*100)}% cost (cheapest=100) + "
           f"{int((1-cw)*100)}% speed (fastest=100).")
     print(f"OVERALL = {a.quality_weight:.0%} Quality + {1-a.quality_weight:.0%} Efficiency "
           f"(tune with --quality-weight / --cost-split).")
+    if failed_runs:
+        print(f"\nEXCLUDED (harness/auth failure, needs re-run): {', '.join(failed_runs)}")
     return 0
 
 

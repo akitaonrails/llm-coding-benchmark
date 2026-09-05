@@ -200,6 +200,14 @@ def main() -> int:
             print(f"[{model['slug']}] running task {t.name} ...")
             rec = run_phase(model, t.name, prompt, proj, out_dir)
             phase_records.append((t, rec))
+            # A phase that exits nonzero with zero tokens = harness/auth failure, not a
+            # model attempt. If the FIRST task fails this way (e.g. expired OAuth), abort
+            # the run rather than grade untouched starter files as if they were results.
+            failed = (rec.get("exit_code") not in (0, None)) and not (rec.get("tokens") or {}).get("total")
+            if failed and len(phase_records) == 1:
+                raise RuntimeError(
+                    f"first phase failed (exit={rec.get('exit_code')}, 0 tokens) — likely "
+                    f"harness/auth failure; aborting so starter files aren't graded as scores")
     finally:
         unshield(sh)
 
@@ -209,12 +217,14 @@ def main() -> int:
         proj = out_root / t.name / "project"
         g = grade(t, proj, a.grade_timeout)
         meta = json.loads((t / "meta.json").read_text())
+        run_failed = (rec.get("exit_code") not in (0, None)) and not (rec.get("tokens") or {}).get("total")
         results.append({
             "task": t.name, "category": meta["category"], "language": meta["language"],
             "correctness": g.get("correctness"), "by_tag": g.get("by_tag"),
             "capped_by": g.get("capped_by"), "load_error": g.get("load_error"),
             "elapsed_seconds": rec.get("elapsed_seconds"), "stall_aborted": rec.get("stall_aborted"),
             "cost_usd": rec.get("cost_usd"), "tokens_total": (rec.get("tokens") or {}).get("total"),
+            "run_failed": run_failed, "exit_code": rec.get("exit_code"),
         })
         print(f"  {t.name:30} correctness={g.get('correctness')}  {g.get('by_tag')}  "
               f"{'CAP:'+g['capped_by'] if g.get('capped_by') else ''}")
