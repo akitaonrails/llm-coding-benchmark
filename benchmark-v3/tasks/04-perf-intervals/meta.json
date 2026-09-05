@@ -1,0 +1,22 @@
+{
+  "id": "04-perf-intervals",
+  "category": "performance",
+  "language": "rust",
+  "entrypoint": "main.rs",
+  "hidden_runner": ["python3", "hidden/harness.py"],
+  "result_format": "json:{load_error, results:[{name,tag,pass,detail}]}",
+  "weights": { "base": 1, "edge": 2, "perf": 4 },
+  "gates": {
+    "perf_gate": {
+      "rule": "if the perf case fails (timeout / wrong), cap correctness at 60 (correct-but-slow is not full marks)",
+      "cap": 60
+    }
+  },
+  "validation": {
+    "reference_entrypoint": "reference/main.rs",
+    "naive_entrypoint": "workspace/main.rs",
+    "reference_min": 100.0,
+    "naive_max": 65.0,
+    "note": "reference (sort + binary search) passes correctness AND the perf gate = 100; the O(N*Q) naive is correct on small cases but times out on perf, capped at 60."
+  }
+}
