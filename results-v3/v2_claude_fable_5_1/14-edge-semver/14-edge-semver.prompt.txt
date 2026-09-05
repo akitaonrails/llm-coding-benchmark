@@ -1,0 +1,36 @@
+You are working in the CURRENT directory on a single, self-contained coding task. The files already present are:
+  - __pycache__/semver.cpython-312.pyc
+  - semver.py
+
+Edit those files IN PLACE to solve the task. Do NOT create a nested project directory or a second copy of the app. Do NOT add external dependencies — standard library only unless the task explicitly allows otherwise. Do not stop to ask questions; implement the solution and finish.
+
+Your solution is graded by a hidden, adversarial test suite you cannot see, weighted toward edge cases — make the solution correct in general, not just for any examples shown.
+
+================ TASK ================
+
+# Task 14 — Semantic version range matching
+
+**Category:** edge-cases · **Language:** Python · **Scoring:** continuous (0–100)
+
+Implement `satisfies(version, range_spec)` in `semver.py`: return `True` iff the
+semver `version` satisfies the npm-style `range_spec`, else `False`.
+
+Support:
+
+- **Comparators**: `=`, `>`, `>=`, `<`, `<=`, and a bare version (exact match).
+- **Caret** `^` (compatible-with): allows changes that do not modify the left-most
+  non-zero element — e.g. `^1.2.3` → `>=1.2.3 <2.0.0`, `^0.2.3` → `>=0.2.3 <0.3.0`,
+  `^0.0.3` → `>=0.0.3 <0.0.4`.
+- **Tilde** `~`: `~1.2.3` → `>=1.2.3 <1.3.0`, `~1.2` → `>=1.2.0 <1.3.0`, `~1` →
+  `>=1.0.0 <2.0.0`.
+- **X-ranges**: `1.2.x`, `1.x`, `*`.
+- **Hyphen ranges**: `1.2.3 - 2.3.4` → `>=1.2.3 <=2.3.4`.
+- **Combinators**: space = AND, `||` = OR.
+- **Prerelease ordering** per the semver spec (numeric identifiers compare
+  numerically and rank below alphanumeric ones; a release outranks its prereleases).
+- The npm **prerelease rule**: a version that *has* a prerelease may satisfy a range
+  only if some comparator in the matched set names the same `major.minor.patch` **and**
+  itself carries a prerelease. (So `1.2.4-alpha` does **not** satisfy `^1.2.3`.)
+
+Standard library only. Keep the signature. Edit `semver.py` in place. Graded on a
+spectrum by a hidden suite over a wide range of inputs.

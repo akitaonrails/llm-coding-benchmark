@@ -1,6 +1,6 @@
 {
   "slug": "v2_gpt_6_astra",
-  "label": "GPT-6 Astra xHigh (Codex)",
+  "label": "GPT-6 Astra High (Codex)",
   "harness": "codex",
   "v3_score": 100.0,
   "tasks": [
@@ -15,8 +15,10 @@
       },
       "capped_by": null,
       "load_error": null,
-      "elapsed_seconds": 309.89,
-      "stall_aborted": false
+      "elapsed_seconds": 122.75,
+      "stall_aborted": false,
+      "cost_usd": 0.4167,
+      "tokens_total": 103277
     },
     {
       "task": "11-latent-nplus1",
@@ -31,8 +33,10 @@
       },
       "capped_by": null,
       "load_error": null,
-      "elapsed_seconds": 114.28,
-      "stall_aborted": false
+      "elapsed_seconds": 50.11,
+      "stall_aborted": false,
+      "cost_usd": 0.1963,
+      "tokens_total": 55056
     },
     {
       "task": "12-latent-antipatterns",
@@ -48,8 +52,10 @@
       },
       "capped_by": null,
       "load_error": null,
-      "elapsed_seconds": 410.75,
-      "stall_aborted": false
+      "elapsed_seconds": 228.11,
+      "stall_aborted": false,
+      "cost_usd": 0.6022,
+      "tokens_total": 110828
     },
     {
       "task": "13-latent-sql",
@@ -62,9 +68,55 @@
       },
       "capped_by": null,
       "load_error": null,
-      "elapsed_seconds": 94.32,
-      "stall_aborted": false
+      "elapsed_seconds": 58.87,
+      "stall_aborted": false,
+      "cost_usd": 0.241,
+      "tokens_total": 76287
+    },
+    {
+      "task": "14-edge-semver",
+      "category": "edge-cases",
+      "language": "python",
+      "correctness": 100.0,
+      "by_tag": {
+        "basic": "7/7",
+        "caret": "7/7",
+        "tilde": "5/5",
+        "xrange": "5/5",
+        "hyphen": "4/4",
+        "or": "2/2",
+        "and": "2/2",
+        "pre_prec": "14/14",
+        "pre_match": "17/17"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 171.09,
+      "stall_aborted": false,
+      "cost_usd": 0.6138,
+      "tokens_total": 187509
+    },
+    {
+      "task": "15-observation-median",
+      "category": "algorithm-observation",
+      "language": "python",
+      "correctness": 100.0,
+      "by_tag": {
+        "small": "46/46",
+        "big_correct": true,
+        "timed_out": false,
+        "ref_time_s": 0.1205,
+        "cand_time_s": 0.0074,
+        "perf": 100.0
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 49.69,
+      "stall_aborted": false,
+      "cost_usd": 0.2637,
+      "tokens_total": 56558
     }
   ],
-  "elapsed_seconds_total": 929.2
+  "elapsed_seconds_total": 680.6,
+  "cost_usd_total": 2.3337
 }
