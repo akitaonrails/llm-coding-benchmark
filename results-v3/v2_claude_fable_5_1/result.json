@@ -2,121 +2,31 @@
   "slug": "v2_claude_fable_5_1",
   "label": "Claude Fable 5.1 (Claude Code)",
   "harness": "claude",
-  "v3_score": 100.0,
+  "v3_score": 98.3,
   "tasks": [
     {
-      "task": "10-latent-cve-restore",
-      "category": "security-latent",
+      "task": "16-repo-order-service",
+      "category": "repository-scale",
       "language": "python",
-      "correctness": 100.0,
+      "correctness": 98.3,
       "by_tag": {
-        "legit": "6/6",
-        "sec": "10/10"
+        "pricing": "20/20",
+        "inventory": "10/11",
+        "validation": "12/12",
+        "idempotency": "6/6",
+        "atomicity": "5/5",
+        "receipt": "5/5"
       },
       "capped_by": null,
       "load_error": null,
-      "elapsed_seconds": 119.12,
+      "elapsed_seconds": 247.55,
       "stall_aborted": false,
-      "cost_usd": 0.4481365,
-      "tokens_total": 138683
-    },
-    {
-      "task": "11-latent-nplus1",
-      "category": "performance-latent",
-      "language": "python",
-      "correctness": 100.0,
-      "by_tag": {
-        "correctness": "9/9",
-        "round_trips_for_120_orders": 3,
-        "reference_round_trips": 3,
-        "efficiency": 100.0
-      },
-      "capped_by": null,
-      "load_error": null,
-      "elapsed_seconds": 35.1,
-      "stall_aborted": false,
-      "cost_usd": 0.1865975,
-      "tokens_total": 73511
-    },
-    {
-      "task": "12-latent-antipatterns",
-      "category": "quality-latent",
-      "language": "python",
-      "correctness": 100.0,
-      "by_tag": {
-        "func": "6/6",
-        "validate": "3/3",
-        "dedup": "2/2",
-        "no_mutation": "3/3",
-        "no_leak": "5/5"
-      },
-      "capped_by": null,
-      "load_error": null,
-      "elapsed_seconds": 104.04,
-      "stall_aborted": false,
-      "cost_usd": 0.379809,
-      "tokens_total": 111019
-    },
-    {
-      "task": "13-latent-sql",
-      "category": "database-latent",
-      "language": "python",
-      "correctness": 100.0,
-      "by_tag": {
-        "correct": "11/11",
-        "sec": "6/6"
-      },
-      "capped_by": null,
-      "load_error": null,
-      "elapsed_seconds": 48.25,
-      "stall_aborted": false,
-      "cost_usd": 0.2313935,
-      "tokens_total": 77081
-    },
-    {
-      "task": "14-edge-semver",
-      "category": "edge-cases",
-      "language": "python",
-      "correctness": 100.0,
-      "by_tag": {
-        "basic": "7/7",
-        "caret": "7/7",
-        "tilde": "5/5",
-        "xrange": "5/5",
-        "hyphen": "4/4",
-        "or": "2/2",
-        "and": "2/2",
-        "pre_prec": "14/14",
-        "pre_match": "17/17"
-      },
-      "capped_by": null,
-      "load_error": null,
-      "elapsed_seconds": 534.88,
-      "stall_aborted": false,
-      "cost_usd": 2.1018835000000005,
-      "tokens_total": 1200840
-    },
-    {
-      "task": "15-observation-median",
-      "category": "algorithm-observation",
-      "language": "python",
-      "correctness": 100.0,
-      "by_tag": {
-        "small": "46/46",
-        "big_correct": true,
-        "timed_out": false,
-        "ref_time_s": 0.1225,
-        "cand_time_s": 0.0081,
-        "perf": 100.0
-      },
-      "capped_by": null,
-      "load_error": null,
-      "elapsed_seconds": 36.05,
-      "stall_aborted": false,
-      "cost_usd": 0.188554,
-      "tokens_total": 73061
+      "cost_usd": 1.0254435,
+      "tokens_total": 357473,
+      "run_failed": false,
+      "exit_code": 0
     }
   ],
-  "elapsed_seconds_total": 877.4,
-  "cost_usd_total": 3.5364
+  "elapsed_seconds_total": 247.6,
+  "cost_usd_total": 1.0254
 }

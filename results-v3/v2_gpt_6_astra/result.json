@@ -5,118 +5,28 @@
   "v3_score": 100.0,
   "tasks": [
     {
-      "task": "10-latent-cve-restore",
-      "category": "security-latent",
+      "task": "16-repo-order-service",
+      "category": "repository-scale",
       "language": "python",
       "correctness": 100.0,
       "by_tag": {
-        "legit": "6/6",
-        "sec": "10/10"
+        "pricing": "20/20",
+        "inventory": "11/11",
+        "validation": "12/12",
+        "idempotency": "6/6",
+        "atomicity": "5/5",
+        "receipt": "5/5"
       },
       "capped_by": null,
       "load_error": null,
-      "elapsed_seconds": 122.75,
+      "elapsed_seconds": 327.66,
       "stall_aborted": false,
-      "cost_usd": 0.4167,
-      "tokens_total": 103277
-    },
-    {
-      "task": "11-latent-nplus1",
-      "category": "performance-latent",
-      "language": "python",
-      "correctness": 100.0,
-      "by_tag": {
-        "correctness": "9/9",
-        "round_trips_for_120_orders": 3,
-        "reference_round_trips": 3,
-        "efficiency": 100.0
-      },
-      "capped_by": null,
-      "load_error": null,
-      "elapsed_seconds": 50.11,
-      "stall_aborted": false,
-      "cost_usd": 0.1963,
-      "tokens_total": 55056
-    },
-    {
-      "task": "12-latent-antipatterns",
-      "category": "quality-latent",
-      "language": "python",
-      "correctness": 100.0,
-      "by_tag": {
-        "func": "6/6",
-        "validate": "3/3",
-        "dedup": "2/2",
-        "no_mutation": "3/3",
-        "no_leak": "5/5"
-      },
-      "capped_by": null,
-      "load_error": null,
-      "elapsed_seconds": 228.11,
-      "stall_aborted": false,
-      "cost_usd": 0.6022,
-      "tokens_total": 110828
-    },
-    {
-      "task": "13-latent-sql",
-      "category": "database-latent",
-      "language": "python",
-      "correctness": 100.0,
-      "by_tag": {
-        "correct": "11/11",
-        "sec": "6/6"
-      },
-      "capped_by": null,
-      "load_error": null,
-      "elapsed_seconds": 58.87,
-      "stall_aborted": false,
-      "cost_usd": 0.241,
-      "tokens_total": 76287
-    },
-    {
-      "task": "14-edge-semver",
-      "category": "edge-cases",
-      "language": "python",
-      "correctness": 100.0,
-      "by_tag": {
-        "basic": "7/7",
-        "caret": "7/7",
-        "tilde": "5/5",
-        "xrange": "5/5",
-        "hyphen": "4/4",
-        "or": "2/2",
-        "and": "2/2",
-        "pre_prec": "14/14",
-        "pre_match": "17/17"
-      },
-      "capped_by": null,
-      "load_error": null,
-      "elapsed_seconds": 171.09,
-      "stall_aborted": false,
-      "cost_usd": 0.6138,
-      "tokens_total": 187509
-    },
-    {
-      "task": "15-observation-median",
-      "category": "algorithm-observation",
-      "language": "python",
-      "correctness": 100.0,
-      "by_tag": {
-        "small": "46/46",
-        "big_correct": true,
-        "timed_out": false,
-        "ref_time_s": 0.1205,
-        "cand_time_s": 0.0074,
-        "perf": 100.0
-      },
-      "capped_by": null,
-      "load_error": null,
-      "elapsed_seconds": 49.69,
-      "stall_aborted": false,
-      "cost_usd": 0.2637,
-      "tokens_total": 56558
+      "cost_usd": 1.189,
+      "tokens_total": 252684,
+      "run_failed": false,
+      "exit_code": 0
     }
   ],
-  "elapsed_seconds_total": 680.6,
-  "cost_usd_total": 2.3337
+  "elapsed_seconds_total": 327.7,
+  "cost_usd_total": 1.189
 }

@@ -1,0 +1,10 @@
+2026-09-05T23:31:52.247037Z ERROR codex_core::tools::router: error=apply_patch verification failed: Failed to find expected lines in /mnt/data/Projects/llm-coding-benchmark/results-v3/v2_gpt_6_astra/16-repo-order-service/project/shop/validation.py:
+    """Validate and normalize a cart. See the reference contract in the docstring of
+    the correct version: empty cart and unknown sku and non-positive/non-int qty are
+    errors; duplicate skUs are merged."""
+    items = []
+    for raw in cart:
+        sku = raw.sku if isinstance(raw, CartItem) else raw["sku"]
+        qty = raw.qty if isinstance(raw, CartItem) else raw["qty"]
+        items.append(CartItem(sku, qty))
+    return items
