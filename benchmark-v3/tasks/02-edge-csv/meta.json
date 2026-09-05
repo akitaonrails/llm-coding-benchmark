@@ -1,0 +1,17 @@
+{
+  "id": "02-edge-csv",
+  "category": "edge-case-correctness",
+  "language": "go",
+  "entrypoint": "csvkit/csv.go",
+  "hidden_runner": ["python3", "hidden/harness.py"],
+  "result_format": "json:{load_error, results:[{name,tag,pass,detail}]}",
+  "weights": { "base": 1, "edge": 2, "variant": 3 },
+  "gates": {},
+  "validation": {
+    "reference_entrypoint": "reference/csv.go",
+    "naive_entrypoint": "workspace/csvkit/csv.go",
+    "reference_min": 100.0,
+    "naive_max": 40.0,
+    "note": "reference must be 100; the strings.Split naive passes only comma-only base cases and must fall well short, proving the edges discriminate."
+  }
+}
