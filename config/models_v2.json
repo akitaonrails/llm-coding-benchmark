@@ -727,7 +727,7 @@
       "rates_per_m": {
         "input": 10.0,
         "cache_read": 1.0,
-        "cache_write": 0.0,
+        "cache_write": 12.5,
         "output": 50.0
       },
       "wave": 4,
