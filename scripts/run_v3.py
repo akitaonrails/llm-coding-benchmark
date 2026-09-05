@@ -151,6 +151,12 @@ def main() -> int:
     tasks = load_tasks(a.tasks)
     if not tasks:
         ap.error("no matching tasks")
+    # Preflight: fail fast (before any run/spend or shield) on malformed tasks.
+    bad = [t.name for t in tasks
+           if not (t / "TASK.md").exists() or not (t / "workspace").is_dir()
+           or not (t / "hidden").exists() or not (t / "reference").exists()]
+    if bad:
+        ap.error(f"tasks missing TASK.md/workspace/hidden/reference: {bad}")
 
     if a.self_test:
         scores = []
