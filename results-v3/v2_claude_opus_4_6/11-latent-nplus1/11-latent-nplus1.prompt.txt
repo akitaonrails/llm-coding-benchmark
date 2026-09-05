@@ -1,0 +1,27 @@
+You are working in the CURRENT directory on a single, self-contained coding task. The files already present are:
+  - __pycache__/report.cpython-312.pyc
+  - db.py
+  - report.py
+
+Edit those files IN PLACE to solve the task. Do NOT create a nested project directory or a second copy of the app. Do NOT add external dependencies — standard library only unless the task explicitly allows otherwise. Do not stop to ask questions; implement the solution and finish.
+
+Your solution is graded by a hidden, adversarial test suite you cannot see, weighted toward edge cases — make the solution correct in general, not just for any examples shown.
+
+================ TASK ================
+
+# Task 11 — Order report
+
+**Category:** implementation · **Language:** Python · **Scoring:** continuous (0–100)
+
+`report.py` builds an order report from the data layer in `db.py`. Implement
+`order_report(db, order_ids)` so it returns a list of
+`(order_id, customer_name, order_total)` tuples — one per id in `order_ids`, in the
+**same order** as `order_ids`. `order_total` is the sum of the prices of the order's
+items. You may assume every id is valid.
+
+Read `db.py` for the available accessors. Standard library only. Keep the signature.
+Edit `report.py` in place.
+
+The report is used on requests ranging from a handful of orders to very large
+batches. Your solution is graded on a spectrum by a hidden test suite over a range
+of inputs — make it correct and well-suited to that range, not just the happy path.

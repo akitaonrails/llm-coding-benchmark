@@ -1,0 +1,23 @@
+{
+  "command_kind": "claude",
+  "cost_usd": 1.886016,
+  "elapsed_seconds": 717.72,
+  "ended_at": "2026-09-05T21:33:11+00:00",
+  "exit_code": 0,
+  "file_count_after": 2,
+  "harness": "claude",
+  "phase": "14-edge-semver",
+  "session_id": "1ece3a12-6c18-439f-9ed4-1cc57e0ff54e",
+  "stall_aborted": false,
+  "started_at": "2026-09-05T21:21:13+00:00",
+  "timed_out": false,
+  "tokens": {
+    "cache": {
+      "read": 126976,
+      "write": 57965
+    },
+    "input": 5,
+    "output": 49648,
+    "total": 234594
+  }
+}

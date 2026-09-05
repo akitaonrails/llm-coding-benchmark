@@ -2,69 +2,31 @@
   "slug": "v2_claude_opus_4_6",
   "label": "Claude Opus 4.6 (Claude Code)",
   "harness": "claude",
-  "v3_score": 97.4,
+  "v3_score": 96.6,
   "tasks": [
     {
-      "task": "10-latent-cve-restore",
-      "category": "security-latent",
+      "task": "16-repo-order-service",
+      "category": "repository-scale",
       "language": "python",
-      "correctness": 100.0,
+      "correctness": 96.6,
       "by_tag": {
-        "legit": "6/6",
-        "sec": "10/10"
+        "pricing": "20/20",
+        "inventory": "10/11",
+        "validation": "12/12",
+        "idempotency": "6/6",
+        "atomicity": "5/5",
+        "receipt": "4/5"
       },
       "capped_by": null,
       "load_error": null,
-      "elapsed_seconds": 100.57,
-      "stall_aborted": false
-    },
-    {
-      "task": "11-latent-nplus1",
-      "category": "performance-latent",
-      "language": "python",
-      "correctness": 100.0,
-      "by_tag": {
-        "correctness": "9/9",
-        "round_trips_for_120_orders": 3,
-        "reference_round_trips": 3,
-        "efficiency": 100.0
-      },
-      "capped_by": null,
-      "load_error": null,
-      "elapsed_seconds": 21.32,
-      "stall_aborted": false
-    },
-    {
-      "task": "12-latent-antipatterns",
-      "category": "quality-latent",
-      "language": "python",
-      "correctness": 89.5,
-      "by_tag": {
-        "func": "6/6",
-        "validate": "3/3",
-        "dedup": "2/2",
-        "no_mutation": "3/3",
-        "no_leak": "3/5"
-      },
-      "capped_by": null,
-      "load_error": null,
-      "elapsed_seconds": 126.34,
-      "stall_aborted": false
-    },
-    {
-      "task": "13-latent-sql",
-      "category": "database-latent",
-      "language": "python",
-      "correctness": 100.0,
-      "by_tag": {
-        "correct": "11/11",
-        "sec": "6/6"
-      },
-      "capped_by": null,
-      "load_error": null,
-      "elapsed_seconds": 23.64,
-      "stall_aborted": false
+      "elapsed_seconds": 237.89,
+      "stall_aborted": false,
+      "cost_usd": 0.7122135,
+      "tokens_total": 230389,
+      "run_failed": false,
+      "exit_code": 0
     }
   ],
-  "elapsed_seconds_total": 271.9
+  "elapsed_seconds_total": 237.9,
+  "cost_usd_total": 0.7122
 }

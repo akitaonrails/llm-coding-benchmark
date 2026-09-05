@@ -1,23 +1,23 @@
 {
   "command_kind": "claude",
-  "cost_usd": 0.391239,
-  "elapsed_seconds": 126.34,
-  "ended_at": "2026-09-05T19:01:38+00:00",
+  "cost_usd": 0.298479,
+  "elapsed_seconds": 78.43,
+  "ended_at": "2026-09-05T21:20:52+00:00",
   "exit_code": 0,
   "file_count_after": 8,
   "harness": "claude",
   "phase": "12-latent-antipatterns",
-  "session_id": "8ca14b0a-a972-486b-8c5f-a018733d423d",
+  "session_id": "977d3b5b-a06c-4aea-aebe-f6022dc37e33",
   "stall_aborted": false,
-  "started_at": "2026-09-05T18:59:31+00:00",
+  "started_at": "2026-09-05T21:19:33+00:00",
   "timed_out": false,
   "tokens": {
     "cache": {
-      "read": 112388,
-      "write": 15776
+      "read": 107338,
+      "write": 13210
     },
     "input": 6,
-    "output": 7036,
-    "total": 135206
+    "output": 4453,
+    "total": 125007
   }
 }
