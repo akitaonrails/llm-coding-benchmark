@@ -1,0 +1,23 @@
+{
+  "command_kind": "claude",
+  "cost_usd": 0.485633,
+  "elapsed_seconds": 42.55,
+  "ended_at": "2026-09-05T15:45:39+00:00",
+  "exit_code": 0,
+  "file_count_after": 1,
+  "harness": "claude",
+  "phase": "05-refactor-pricing",
+  "session_id": "0fea1635-994f-47c9-abcc-59b3a0a36537",
+  "stall_aborted": false,
+  "started_at": "2026-09-05T15:44:57+00:00",
+  "timed_out": false,
+  "tokens": {
+    "cache": {
+      "read": 66944,
+      "write": 11513
+    },
+    "input": 8,
+    "output": 3733,
+    "total": 82198
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "command_kind": "claude",
+  "cost_usd": 0.34385800000000005,
+  "elapsed_seconds": 25.8,
+  "ended_at": "2026-09-05T15:46:05+00:00",
+  "exit_code": 0,
+  "file_count_after": 2,
+  "harness": "claude",
+  "phase": "06-ambiguity-emails",
+  "session_id": "168d59bc-24e4-4673-835b-ab544150bf58",
+  "stall_aborted": false,
+  "started_at": "2026-09-05T15:45:39+00:00",
+  "timed_out": false,
+  "tokens": {
+    "cache": {
+      "read": 64939,
+      "write": 9470
+    },
+    "input": 8,
+    "output": 1755,
+    "total": 76172
+  }
+}
