@@ -1,0 +1,57 @@
+You are working in the CURRENT directory on a single, self-contained coding task. The files already present are:
+  - lib/pricing.rb
+
+Edit those files IN PLACE to solve the task. Do NOT create a nested project directory or a second copy of the app. Do NOT add external dependencies — standard library only unless the task explicitly allows otherwise. Do not stop to ask questions; implement the solution and finish.
+
+Your solution is graded by a hidden, adversarial test suite you cannot see, weighted toward edge cases — make the solution correct in general, not just for any examples shown.
+
+================ TASK ================
+
+# Task 05 — Safe refactor: make the pricing engine extensible, change nothing observable
+
+**Category:** safe refactor (behavior preservation) · **Language:** Ruby
+
+## Goal
+
+`lib/pricing.rb` works but is a single tangled method. Refactor it into a
+**composable pipeline of rule objects** so new pricing rules can be added without
+editing the core — **without changing any existing output by a single cent.**
+
+## Required public API (the grader depends on it)
+
+```ruby
+Pricing::Engine.new(rules: [...]).total(cart)   # runs the rules as a pipeline
+Pricing::DEFAULT_RULES                           # the built-in rules, in order
+Pricing.total(cart)                              # MUST remain; == Engine.new(rules: DEFAULT_RULES).total(cart)
+```
+
+A **rule** is any object responding to:
+
+```ruby
+rule.apply(amount_cents:, cart:) -> Integer   # receives the running amount, returns the new amount
+```
+
+The pipeline starts at `0`; each rule receives the previous rule's returned amount
+(and the full `cart`) and returns the next amount. `DEFAULT_RULES` must reproduce
+today's behavior exactly (bulk-per-line, member, coupon, tax — in that order).
+
+## The one hard requirement: preserve behavior *exactly*
+
+The current code mixes rounding on purpose — **bulk discount rounds DOWN**, **member
+discount and tax round half-up**, **coupon is applied before tax**. These look
+inconsistent, but they are the shipped behavior and customers' invoices depend on
+them. Do **not** "clean up" or unify the rounding, reorder the steps, or switch to
+exact decimal math — any of those change real outputs.
+
+## How you'll be graded
+
+A **hidden** suite (which you cannot see) has two parts:
+1. **Characterization** — many carts whose exact `total` (in cents) is pinned to
+   today's behavior, including the rounding/order quirks and boundary cases. Any
+   drift fails.
+2. **Extensibility** — it builds `Pricing::Engine.new(rules: Pricing::DEFAULT_RULES + [custom_rule])`
+   with a custom rule via the protocol above and checks it composes. Leaving the
+   code monolithic (no `Engine`/`DEFAULT_RULES`) fails this part.
+
+So "do nothing" fails extensibility, and "clean it up" fails characterization. You
+must do a *real* refactor that preserves behavior to the cent. Standard library only.
