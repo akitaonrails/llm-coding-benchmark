@@ -1,0 +1,24 @@
+{
+  "command_kind": "bash -lc",
+  "cost_usd": 1.2323,
+  "elapsed_seconds": 410.75,
+  "ended_at": "2026-09-05T18:55:00+00:00",
+  "exit_code": 0,
+  "file_count_after": 3,
+  "harness": "codex",
+  "phase": "12-latent-antipatterns",
+  "session_id": null,
+  "stall_aborted": false,
+  "started_at": "2026-09-05T18:48:09+00:00",
+  "timed_out": false,
+  "tokens": {
+    "input": 23131,
+    "output": 12477,
+    "reasoning": 2933,
+    "cache": {
+      "read": 230528,
+      "write": 0
+    },
+    "total": 269069
+  }
+}
