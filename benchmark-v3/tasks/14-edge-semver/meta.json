@@ -1,0 +1,13 @@
+{
+  "category": "edge-cases",
+  "language": "python",
+  "continuous": true,
+  "entrypoint": "semver.py",
+  "hidden_runner": ["python3", "hidden/run.py"],
+  "validation": {
+    "reference_entrypoint": "reference/semver.py",
+    "naive_entrypoint": "workspace/semver.py",
+    "reference_min": 95.0,
+    "naive_max": 75.0
+  }
+}
