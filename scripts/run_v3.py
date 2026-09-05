@@ -214,14 +214,17 @@ def main() -> int:
             "correctness": g.get("correctness"), "by_tag": g.get("by_tag"),
             "capped_by": g.get("capped_by"), "load_error": g.get("load_error"),
             "elapsed_seconds": rec.get("elapsed_seconds"), "stall_aborted": rec.get("stall_aborted"),
+            "cost_usd": rec.get("cost_usd"), "tokens_total": (rec.get("tokens") or {}).get("total"),
         })
         print(f"  {t.name:30} correctness={g.get('correctness')}  {g.get('by_tag')}  "
               f"{'CAP:'+g['capped_by'] if g.get('capped_by') else ''}")
     mean = round(sum((r["correctness"] or 0.0) for r in results) / len(results), 1)
+    costs = [r["cost_usd"] for r in results if r.get("cost_usd") is not None]
     summary = {
         "slug": model["slug"], "label": model.get("label"), "harness": model["harness"],
         "v3_score": mean, "tasks": results,
         "elapsed_seconds_total": round(sum((r["elapsed_seconds"] or 0) for r in results), 1),
+        "cost_usd_total": round(sum(costs), 4) if costs else None,
     }
     (out_root / "result.json").write_text(json.dumps(summary, indent=2))
     print(f"[{model['slug']}] V3 SCORE = {mean}  ({len(results)} tasks)")
