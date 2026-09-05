@@ -1,0 +1,17 @@
+{
+  "id": "03-invariant-eventlog",
+  "category": "long-horizon-invariant",
+  "language": "python",
+  "entrypoint": "projection.py",
+  "hidden_runner": ["python3", "hidden/run.py"],
+  "result_format": "json:{load_error, results:[{name,tag,pass,detail}]}",
+  "weights": { "base": 1, "edge": 2, "variant": 3 },
+  "gates": {},
+  "validation": {
+    "reference_entrypoint": "reference/projection.py",
+    "naive_entrypoint": "workspace/projection.py",
+    "reference_min": 100.0,
+    "naive_max": 30.0,
+    "note": "reference (buffer+dedup+contiguous-apply) = 100; the apply-immediately naive fails reorder/gap/dup/overdraw-order, so it must fall well short."
+  }
+}

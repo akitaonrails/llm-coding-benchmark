@@ -1,0 +1,46 @@
+# Task 03 — Long-horizon invariant: an event-sourced projection under unreliable delivery
+
+**Category:** long-horizon invariant · **Language:** Python
+
+## The system
+
+`projection.py` builds an account balance from an event log delivered over an
+**at-least-once** channel. Each event is a dict:
+
+```python
+{"seq": int, "type": "open"|"deposit"|"withdraw", "amount": int}
+```
+
+In the *true* log, `seq` values are unique and contiguous from 0 (`0,1,2,...`).
+But `apply(event)` may receive them **out of order**, **duplicated**, and **with
+gaps** (a higher seq before a lower one). You control neither order nor duplication.
+
+## The invariant you must hold
+
+At any time, `balance()` must return exactly the balance obtained by applying, **in
+seq order**, the **longest contiguous run of distinct events starting at seq 0** that
+has been delivered so far — each applied **at most once**. Events delivered *after* a
+gap must be **buffered** and not reflected until the gap is filled; then they apply
+in order. Redelivered seqs must be **idempotent** (no double-apply). Creating a fresh
+`Projection` and replaying the same multiset of deliveries must give the same result.
+
+Application rules (in seq order):
+- `open` → balance becomes 0.
+- `deposit` → balance += amount.
+- `withdraw` → if `balance >= amount`, balance -= amount; **otherwise the withdraw is
+  rejected** (a no-op). *This makes order matter* — whether a withdraw succeeds
+  depends on the balance at that point in seq order, so applying events in arrival
+  order (instead of seq order) gives wrong answers.
+
+Example: true log `[open(0), deposit 100 (1), withdraw 70 (2), withdraw 50 (3)]`.
+- Delivered `2,1,0` then query → reflects `0,1,2` → 100 then −70 = **30**.
+- Then deliver `3` → withdraw 50 rejected (30 < 50) → still **30**.
+- Deliver `0,1,3` (gap at 2) then query → only `0,1` contiguous → **100** (3 buffered).
+
+## How you'll be graded
+
+A **hidden** suite (which you cannot see) delivers events in adversarial schedules —
+reversed, shuffled, duplicated, gapped-then-filled, interleaved — and checks
+`balance()` against the contiguous-prefix invariant after **every** delivery, plus
+replay and large-log stress. Keep the API (`apply(event)`, `balance()`), pure Python
+standard library only.
