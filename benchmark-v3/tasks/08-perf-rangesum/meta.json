@@ -1,0 +1,13 @@
+{
+  "category": "performance",
+  "language": "python",
+  "continuous": true,
+  "entrypoint": "rangesum.py",
+  "hidden_runner": ["python3", "hidden/run.py"],
+  "validation": {
+    "reference_entrypoint": "reference/rangesum.py",
+    "naive_entrypoint": "workspace/rangesum.py",
+    "reference_min": 85.0,
+    "naive_max": 15.0
+  }
+}
