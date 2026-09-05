@@ -1,0 +1,13 @@
+{
+  "category": "debugging",
+  "language": "python",
+  "continuous": true,
+  "entrypoint": "store.py",
+  "hidden_runner": ["python3", "hidden/run.py"],
+  "validation": {
+    "reference_entrypoint": "reference/store.py",
+    "naive_entrypoint": "workspace/store.py",
+    "reference_min": 100.0,
+    "naive_max": 40.0
+  }
+}
