@@ -1,0 +1,42 @@
+# Task 06 — Dedupe contacts by unique person (read the examples carefully)
+
+**Category:** ambiguity / judgment · **Language:** Python
+
+## Goal
+
+Implement `dedupe(emails: list[str]) -> list[str]`. Given contact emails (possibly
+with duplicates that are "the same person" written differently), return the list
+with duplicates removed, **keeping the first occurrence** of each unique person, in
+original order.
+
+The hard part is deciding when two addresses are **the same person** — i.e. deliver
+to the same inbox. The requirement is deliberately terse; the examples below define
+the intended behavior precisely. Read them carefully — the obvious rule is not
+quite right.
+
+## Examples (these define the rules)
+
+| these are the SAME person | why |
+|---|---|
+| `A@X.com`, `a@x.com` | addresses are case-insensitive |
+| ` bob@x.com `, `bob@x.com` | surrounding whitespace is trimmed |
+| `j.doe@gmail.com`, `jdoe@gmail.com` | **Gmail ignores dots** in the local part |
+| `jdoe@gmail.com`, `jdoe+news@gmail.com` | **Gmail ignores everything after `+`** |
+| `jdoe@gmail.com`, `j.doe@googlemail.com` | `googlemail.com` is the same as `gmail.com` |
+
+| these are DIFFERENT people | why |
+|---|---|
+| `j.doe@work.com`, `jdoe@work.com` | **only Gmail** ignores dots — elsewhere they matter |
+| `a+sales@work.com`, `a@work.com` | **only Gmail** ignores `+` tags — elsewhere they may be distinct inboxes |
+
+So the dot/plus normalization is **Gmail-specific**. Applying it to every domain is
+wrong (it would merge distinct people). Applying nothing is also wrong (it would
+keep case/dot/plus variants of the same Gmail user).
+
+## How you'll be graded
+
+A **hidden** suite (which you cannot see) applies these exact rules to many cases,
+including the traps above (non-Gmail dots and plus-tags that must stay distinct,
+`googlemail.com` equivalence, mixed case in both local and domain, whitespace,
+combined dot+plus Gmail variants). Return the kept **original** strings (as first
+seen), order preserved. Standard library only.

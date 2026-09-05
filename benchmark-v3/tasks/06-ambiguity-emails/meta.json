@@ -1,0 +1,17 @@
+{
+  "id": "06-ambiguity-emails",
+  "category": "ambiguity-judgment",
+  "language": "python",
+  "entrypoint": "emails.py",
+  "hidden_runner": ["python3", "hidden/run.py"],
+  "result_format": "json:{load_error, results:[{name,tag,pass,detail}]}",
+  "weights": { "base": 1, "edge": 2, "variant": 3 },
+  "gates": {},
+  "validation": {
+    "reference_entrypoint": "reference/emails.py",
+    "naive_entrypoint": "workspace/emails.py",
+    "reference_min": 100.0,
+    "naive_max": 45.0,
+    "note": "reference (Gmail-specific normalization) = 100; exact-dedup naive passes base + the distinct-people variants by luck but fails all case/gmail edges. A model that over-generalizes (strip dots for all domains) fails the variant traps instead."
+  }
+}
