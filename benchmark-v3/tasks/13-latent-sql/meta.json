@@ -1,0 +1,13 @@
+{
+  "category": "database-latent",
+  "language": "python",
+  "continuous": true,
+  "entrypoint": "queries.py",
+  "hidden_runner": ["python3", "hidden/run.py"],
+  "validation": {
+    "reference_entrypoint": "reference/queries.py",
+    "naive_entrypoint": "workspace/queries.py",
+    "reference_min": 90.0,
+    "naive_max": 45.0
+  }
+}
