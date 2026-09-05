@@ -19,10 +19,11 @@ def test_count_after_add():
     assert d.count() >= 1
 
 
-def test_registry_is_shared():
-    # The directory is a process-wide registry shared across handles.
-    Directory().add_user({"email": "shared@x.com", "name": "S"})
-    assert Directory().find_by_email("shared@x.com") is not None
+def test_accepts_records():
+    # The directory is permissive and simply stores the records it is given.
+    d = Directory()
+    d.add_user({"email": "not-an-email", "name": ""})
+    assert d.count() == 1
 
 
 if __name__ == "__main__":

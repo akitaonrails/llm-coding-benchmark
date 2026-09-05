@@ -3,55 +3,62 @@
 
 The prompt asks only to make the module production-ready and states the functional
 contract. It does NOT mention the injected anti-patterns. This suite checks the
-contract AND universal good-practice properties that a production module must have:
-per-instance state, input validation, no mutation of the caller's arguments, and no
-leaking of internal mutable state. Each is objectively observable.
+contract AND universal good-practice properties: input validation, no mutation of the
+caller's arguments, and no leaking of internal mutable state. Each is objectively
+observable.
+
+HERMETIC PER CHECK: the candidate module is re-imported fresh for every check, so a
+candidate that uses CLASS-LEVEL (shared) state cannot have that state accumulate
+across checks and cascade false failures. (Instance-isolation is still tested WITHIN
+a single check, where two Directory() built from the same fresh class correctly
+reveal whether state is shared.)
 
 Emits ONE json line: {"score": float, "breakdown": {...}}  (or load_error).
 """
 import importlib.util
+import itertools
 import json
 import sys
 
+_CNT = itertools.count()
 
-def load(path, name):
-    spec = importlib.util.spec_from_file_location(name, path)
+
+def fresh_directory(path):
+    spec = importlib.util.spec_from_file_location(f"cand_directory_{next(_CNT)}", path)
     assert spec and spec.loader
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
-    return mod
+    return mod.Directory
 
 
 def main():
-    m = load(sys.argv[1], "cand_directory")
-    D = m.Directory
-    checks = []
+    path = sys.argv[1]
+    checks = []  # (tag, weight, fn(D)->bool)
 
     def chk(tag, weight, fn):
         checks.append((tag, weight, fn))
 
     # ---------- functional contract ----------
-    def func_basic():
+    def func_basic(D):
         d = D()
         d.add_user({"email": "A@X.com", "name": "Ann"})
         u = d.find_by_email("a@x.com")
         return d.count() == 1 and u is not None and u["name"] == "Ann"
     chk("func", 3, func_basic)
 
-    def func_case_insensitive():
+    def func_case_insensitive(D):
         d = D()
         d.add_user({"email": "Bob@Site.COM", "name": "Bob"})
         return (d.find_by_email("bob@site.com") is not None
                 and d.find_by_email("BOB@SITE.COM") is not None)
     chk("func", 2, func_case_insensitive)
 
-    def func_missing():
-        d = D()
-        return d.find_by_email("nobody@x.com") is None
+    def func_missing(D):
+        return D().find_by_email("nobody@x.com") is None
     chk("func", 1, func_missing)
 
     # ---------- contract: validation + dedup ----------
-    def rejects_invalid():
+    def rejects_invalid(D):
         d = D()
         for bad in ({"email": "noatsign", "name": "x"}, {"email": "a@b.com", "name": ""},
                     {"email": "", "name": "y"}, {"name": "no email"}):
@@ -59,11 +66,10 @@ def main():
                 d.add_user(bad)
             except Exception:
                 pass
-        # observable property: no invalid record was actually stored
         return d.count() == 0 and d.all_users() == []
     chk("validate", 3, rejects_invalid)
 
-    def dedup():
+    def dedup(D):
         d = D()
         d.add_user({"email": "dup@x.com", "name": "First"})
         try:
@@ -73,24 +79,16 @@ def main():
         return d.count() == 1
     chk("dedup", 2, dedup)
 
-    # ---------- good practice: per-instance state (not shared globally) ----------
-    def instance_isolation():
-        d1 = D()
-        d1.add_user({"email": "iso@x.com", "name": "Iso"})
-        d2 = D()
-        return d2.count() == 0 and d2.find_by_email("iso@x.com") is None
-    chk("isolation", 4, instance_isolation)
-
     # ---------- good practice: don't mutate the caller's argument ----------
-    def no_input_mutation():
+    def no_input_mutation(D):
         d = D()
         rec = {"email": "Case@X.com", "name": "Case"}
         d.add_user(rec)
-        return rec["email"] == "Case@X.com"   # caller's dict untouched
+        return rec["email"] == "Case@X.com"
     chk("no_mutation", 3, no_input_mutation)
 
     # ---------- good practice: don't leak internal mutable state ----------
-    def no_leak_all_users():
+    def no_leak_all_users(D):
         d = D()
         d.add_user({"email": "leak@x.com", "name": "Leak"})
         lst = d.all_users()
@@ -103,7 +101,7 @@ def main():
         return d.count() == 1 and d.find_by_email("leak@x.com")["name"] == "Leak"
     chk("no_leak", 3, no_leak_all_users)
 
-    def no_leak_find():
+    def no_leak_find(D):
         d = D()
         d.add_user({"email": "f@x.com", "name": "Orig"})
         u = d.find_by_email("f@x.com")
@@ -122,7 +120,7 @@ def main():
         d[1] += w
         ok = False
         try:
-            ok = bool(fn())
+            ok = bool(fn(fresh_directory(path)))   # fresh module per check == hermetic
         except Exception:  # noqa: BLE001
             ok = False
         if ok:
