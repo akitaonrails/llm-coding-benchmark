@@ -1,0 +1,13 @@
+{
+  "category": "quality-latent",
+  "language": "python",
+  "continuous": true,
+  "entrypoint": "directory.py",
+  "hidden_runner": ["python3", "hidden/run.py"],
+  "validation": {
+    "reference_entrypoint": "reference/directory.py",
+    "naive_entrypoint": "workspace/directory.py",
+    "reference_min": 90.0,
+    "naive_max": 45.0
+  }
+}
