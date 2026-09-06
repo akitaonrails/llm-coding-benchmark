@@ -2,30 +2,29 @@
   "slug": "v2_claude_opus_4_6",
   "label": "Claude Opus 4.6 (Claude Code)",
   "harness": "claude",
-  "v3_score": 95.2,
+  "v3_score": 100.0,
   "tasks": [
     {
-      "task": "17-marketplace-app",
-      "category": "app-simulation",
+      "task": "18-resolver-backtrack",
+      "category": "algorithm-observation",
       "language": "python",
-      "correctness": 95.2,
+      "correctness": 100.0,
       "by_tag": {
-        "commerce": "55/57",
-        "accounts": "16/16",
-        "admin": "17/17",
-        "plugins": "32/37",
-        "analytics": "18/18"
+        "simple": "2/2",
+        "diamond": "2/2",
+        "backtrack": "12/12",
+        "unsat": "7/7"
       },
       "capped_by": null,
       "load_error": null,
-      "elapsed_seconds": 319.59,
+      "elapsed_seconds": 74.58,
       "stall_aborted": false,
-      "cost_usd": 1.3220787500000002,
-      "tokens_total": 314646,
+      "cost_usd": 0.28600600000000004,
+      "tokens_total": 99294,
       "run_failed": false,
       "exit_code": 0
     }
   ],
-  "elapsed_seconds_total": 319.6,
-  "cost_usd_total": 1.3221
+  "elapsed_seconds_total": 74.6,
+  "cost_usd_total": 0.286
 }

@@ -2,30 +2,29 @@
   "slug": "v2_claude_fable_5_1",
   "label": "Claude Fable 5.1 (Claude Code)",
   "harness": "claude",
-  "v3_score": 99.3,
+  "v3_score": 100.0,
   "tasks": [
     {
-      "task": "17-marketplace-app",
-      "category": "app-simulation",
+      "task": "18-resolver-backtrack",
+      "category": "algorithm-observation",
       "language": "python",
-      "correctness": 99.3,
+      "correctness": 100.0,
       "by_tag": {
-        "commerce": "56/57",
-        "accounts": "16/16",
-        "admin": "17/17",
-        "plugins": "37/37",
-        "analytics": "18/18"
+        "simple": "2/2",
+        "diamond": "2/2",
+        "backtrack": "12/12",
+        "unsat": "7/7"
       },
       "capped_by": null,
       "load_error": null,
-      "elapsed_seconds": 762.63,
+      "elapsed_seconds": 314.62,
       "stall_aborted": false,
-      "cost_usd": 3.3184185,
-      "tokens_total": 2000752,
+      "cost_usd": 0.7180094999999999,
+      "tokens_total": 220975,
       "run_failed": false,
       "exit_code": 0
     }
   ],
-  "elapsed_seconds_total": 762.6,
-  "cost_usd_total": 3.3184
+  "elapsed_seconds_total": 314.6,
+  "cost_usd_total": 0.718
 }
