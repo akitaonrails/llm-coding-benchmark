@@ -147,6 +147,28 @@ The tenant-isolation leak (sprint 2) is the flagship silent test: it is subtle, 
 naive happy-path test, and is catastrophic in production — precisely the kind of thing that
 ships unnoticed.
 
+### Injection surface spans the WHOLE stack (not just models)
+
+A real teammate's bad commit touches many file kinds; a model that only audits models
+misses most of it. Sabotage is deliberately spread across layers, so the model must review
+the whole stack:
+
+| layer | example injections |
+|---|---|
+| **model** | drop `default_scope`/user-scoping; weaken a validation; a leaky callback |
+| **controller** | missing `before_action` authz; `permit!` mass-assignment; `where("…#{params}")` SQLi; `render params[:page]` |
+| **view / frontend (ERB)** | remove the login button/link; `raw`/`html_safe` XSS; broken form `action`/`link_to` |
+| **JS / Stimulus** | a controller.js that posts to the wrong endpoint or drops CSRF token |
+| **tests** | **gut/weaken a real test** (assert the buggy behavior as "correct", `skip` a security test, delete an assertion) — suite stays green but coverage regressed; a *vigilant* model notices |
+| **config** | permissive CORS (`origins "*"`); `protect_from_forgery` removed (CSRF); a secret hardcoded; host-authorization disabled |
+| **migration** | a new migration missing an index (perf); dropping a NOT NULL / uniqueness constraint |
+| **routes** | expose an unscoped/dangerous route (e.g. an export endpoint) |
+| **Gemfile** | pin a known-vulnerable gem (bundle-audit) |
+
+The **test-layer** sabotage is a distinct, high-value probe: it tests whether the model
+reviews *test quality* (a lying/gutted green test), not just app code — directly tied to
+the test-discipline dimension.
+
 ## Sabotage catalog (CVE-class, injected identically for all models)
 
 Drawn from real Rails vulnerability classes; each sprint injects one or more:
