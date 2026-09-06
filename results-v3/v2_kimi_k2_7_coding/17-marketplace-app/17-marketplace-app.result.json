@@ -1,0 +1,23 @@
+{
+  "command_kind": "bash -lc",
+  "cost_usd": 0.4486,
+  "elapsed_seconds": 1285.12,
+  "ended_at": "2026-09-06T06:21:06+00:00",
+  "exit_code": 0,
+  "file_count_after": 38,
+  "harness": "kimi",
+  "phase": "17-marketplace-app",
+  "session_id": "session_48861677-1be7-43f8-9bd5-a8420c3f409a",
+  "stall_aborted": false,
+  "started_at": "2026-09-06T05:59:39+00:00",
+  "timed_out": false,
+  "tokens": {
+    "cache": {
+      "read": 1597952,
+      "write": 0
+    },
+    "input": 60821,
+    "output": 46664,
+    "total": 1705437
+  }
+}

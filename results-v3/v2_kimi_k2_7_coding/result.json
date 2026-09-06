@@ -1,0 +1,51 @@
+{
+  "slug": "v2_kimi_k2_7_coding",
+  "label": "Kimi K2.7 Coding (Kimi Code CLI)",
+  "harness": "kimi",
+  "v3_score": 99.3,
+  "tasks": [
+    {
+      "task": "17-marketplace-app",
+      "category": "app-simulation",
+      "language": "python",
+      "correctness": 98.6,
+      "by_tag": {
+        "commerce": "55/57",
+        "accounts": "16/16",
+        "admin": "17/17",
+        "plugins": "37/37",
+        "analytics": "18/18"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 1285.12,
+      "stall_aborted": false,
+      "cost_usd": 0.4486,
+      "tokens_total": 1705437,
+      "run_failed": false,
+      "exit_code": 0
+    },
+    {
+      "task": "18-resolver-backtrack",
+      "category": "algorithm-observation",
+      "language": "python",
+      "correctness": 100.0,
+      "by_tag": {
+        "simple": "2/2",
+        "diamond": "2/2",
+        "backtrack": "12/12",
+        "unsat": "7/7"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 317.08,
+      "stall_aborted": false,
+      "cost_usd": 0.0813,
+      "tokens_total": 253171,
+      "run_failed": false,
+      "exit_code": 0
+    }
+  ],
+  "elapsed_seconds_total": 1602.2,
+  "cost_usd_total": 0.5299
+}

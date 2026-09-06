@@ -1,0 +1,124 @@
+==> marketplace/__init__.py <==
+
+==> marketplace/accounts/__init__.py <==
+
+==> marketplace/admin/__init__.py <==
+
+==> marketplace/analytics/__init__.py <==
+
+==> marketplace/commerce/__init__.py <==
+"""shop — a small order service."""
+
+==> marketplace/plugins/__init__.py <==
+Python 3.12.12
+Traceback (most recent call last):
+  File "<stdin>", line 26, in <module>
+AssertionError
+1000
+/mnt/data/Projects/llm-coding-benchmark/results-v3/v2_kimi_k2_7_coding/17-marketplace-app/project/marketplace/commerce/pricing.py
+1000
+Traceback (most recent call last):
+  File "<stdin>", line 114, in <module>
+AssertionError: ['abs.txt', 'dot.txt', 'ok.txt']
+['abs.txt', 'deep/nest/file.txt', 'dirlink', 'dot.txt', 'ok.txt']
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+AssertionError: ['abs.txt', 'deep/nest/file.txt', 'dirlink', 'dot.txt', 'ok.txt']
+Traceback (most recent call last):
+  File "<stdin>", line 18, in <module>
+  File "/mnt/data/Projects/llm-coding-benchmark/results-v3/v2_kimi_k2_7_coding/17-marketplace-app/project/marketplace/admin/restore.py", line 44, in restore_backup
+    tar.extractall(dest_dir, members=members, filter="data")
+  File "/home/akitaonrails/.local/share/mise/installs/python/3.12.12/lib/python3.12/tarfile.py", line 2314, in extractall
+    tarinfo, unfiltered = self._get_extract_tarinfo(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akitaonrails/.local/share/mise/installs/python/3.12.12/lib/python3.12/tarfile.py", line 2403, in _get_extract_tarinfo
+    self._handle_fatal_error(e)
+  File "/home/akitaonrails/.local/share/mise/installs/python/3.12.12/lib/python3.12/tarfile.py", line 2401, in _get_extract_tarinfo
+    filtered = filter_function(unfiltered, path)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akitaonrails/.local/share/mise/installs/python/3.12.12/lib/python3.12/tarfile.py", line 845, in data_filter
+    new_attrs = _get_filtered_attrs(member, dest_path, True)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akitaonrails/.local/share/mise/installs/python/3.12.12/lib/python3.12/tarfile.py", line 818, in _get_filtered_attrs
+    raise AbsoluteLinkError(member)
+tarfile.AbsoluteLinkError: 'link' is a link to an absolute path
+RESTORE OK
+no raise: {'cart': [{'sku': 'A', 'qty': 1}]}
+commerce edge OK
+Traceback (most recent call last):
+  File "<stdin>", line 57, in <module>
+AssertionError: satisfies('0.9.9', '^0') = False, want True
+Traceback (most recent call last):
+  File "<stdin>", line 35, in <module>
+AssertionError: satisfies('1.0.0-rc.1', '<1.0.0') = False, want True
+compat OK
+Traceback (most recent call last):
+  File "<stdin>", line 90, in <module>
+AssertionError
+Traceback (most recent call last):
+  File "<stdin>", line 21, in <module>
+AssertionError
+no mismatch found??
+Traceback (most recent call last):
+  File "/tmp/atest.py", line 2, in <module>
+    from marketplace.analytics.queries import customer_summary, find_customer
+ModuleNotFoundError: No module named 'marketplace'
+Traceback (most recent call last):
+  File "/tmp/atest.py", line 2, in <module>
+    from marketplace.analytics.queries import customer_summary, find_customer
+ModuleNotFoundError: No module named 'marketplace'
+Traceback (most recent call last):
+  File "/mnt/data/Projects/llm-coding-benchmark/results-v3/v2_kimi_k2_7_coding/17-marketplace-app/project/atest_tmp.py", line 20, in <module>
+    assert customer_summary(conn, "2024-01-01'; DROP TABLE orders;--") == []
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+"""queries.py — reporting queries over a small SQLite schema.
+
+Schema (already created by the caller):
+
+    customers(id INTEGER PRIMARY KEY, name TEXT, country TEXT)
+    orders(id INTEGER PRIMARY KEY, customer_id INTEGER, created_at TEXT)  -- ISO date
+    line_items(id INTEGER PRIMARY KEY, order_id INTEGER, qty INTEGER, unit_price INTEGER)
+                                                                       -- price in cents
+
+The revenue of a line item is qty * unit_price (cents). The revenue of an order is
+the sum of its line items. Implement the two functions per their docstrings.
+"""
+
+
+def customer_summary(conn, since_iso):
+    """Return [(customer_name, num_orders, total_revenue_cents), ...] for every
+    customer with at least one order created ON OR AFTER `since_iso` (ISO
+    'YYYY-MM-DD'). `num_orders` is the number of DISTINCT qualifying orders;
+    `total_revenue_cents` sums qty*unit_price over those orders' line items. Sort by
+    total_revenue descending, then customer_name ascending. Omit customers with no
+    qualifying orders.
+    """
+    cur = conn.execute(
+        "SELECT c.name, COUNT(DISTINCT o.id), "
+        "COALESCE(SUM(li.qty * li.unit_price), 0) AS total_revenue_cents "
+        "FROM customers c "
+        "JOIN orders o ON o.customer_id = c.id "
+        "LEFT JOIN line_items li ON li.order_id = o.id "
+        "WHERE o.created_at >= ? "
+        "GROUP BY c.id, c.name "
+        "ORDER BY total_revenue_cents DESC, c.name ASC",
+        (since_iso,),
+    )
+    return cur.fetchall()
+
+
+def find_customer(conn, name):
+    """Return the list of (id, name, country) rows for customers with exactly this
+    name (there may be duplicates). Return [] if none."""
+    cur = conn.execute(
+        "SELECT id, name, country FROM customers WHERE name = ?", (name,)
+    )
+    return cur.fetchall()
+
+result: [('Alice', 1, 1000)]
+normal: [('Alice', 1, 1000)]
+injection-neutralized OK
+customer_summary large OK (0.05s)
+order_report large OK (0.01s)
+ALL FINAL CHECKS PASSED

@@ -1,0 +1,29 @@
+case1: {'a': '1.0.0', 'b': '1.0.0', 'c': '1.0.0'}
+case2 ok
+case3: {'a': '2.0.0', 'b': '2.0.0'}
+Traceback (most recent call last):
+  File "<stdin>", line 41, in <module>
+AssertionError
+case4: {'a': '1.0.0', 'b': '2.0.0'}
+case4b ok
+case7: {'a': '1.0.0', 'b': '2.0.0', 'c': '1.0.0'}
+Traceback (most recent call last):
+  File "<stdin>", line 35, in <module>
+AssertionError
+valid cases pass
+unsat cases pass
+stress pass
+Traceback (most recent call last):
+  File "<stdin>", line 110, in <module>
+  File "<stdin>", line 66, in brute
+NameError: name '_parse' is not defined
+MISMATCH 65 got {'e': '1.0.0', 'a': '3.0.0', 'c': '3.0.0', 'd': '3.0.0'} want None
+{'a': {'1.0.0': [['b', '>=1.0.0'], ['c', '*'], ['d', '1.0.0']], '2.0.0': [], '3.0.0': [['d', '*']]}, 'b': {'1.0.0': [['a', '1.0.0']]}, 'c': {'1.0.0': [['b', '2.0.0'], ['d', '*']], '2.0.0': [], '3.0.0': [['d', '*']]}, 'd': {'1.0.0': [['a', '3.0.0'], ['b', '*'], ['e', '*']], '2.0.0': [['b', '>=2.0.0'], ['e', '2.0.0']], '3.0.0': []}, 'e': {'1.0.0': [['c', '*']]}} [['a', '*'], ['c', '*'], ['e', '*']]
+MISMATCH 72 got {'c': '2.0.0', 'a': '3.0.0'} want None
+{'a': {'1.0.0': [['c', '*']], '2.0.0': [['b', '>=3.0.0']], '3.0.0': []}, 'b': {'1.0.0': [['c', '1.0.0']]}, 'c': {'1.0.0': [['a', '^1.0.0'], ['b', '2.0.0']], '2.0.0': []}} [['a', '*'], ['c', '*']]
+MISMATCH 424 got {'b': '1.0.0', 'c': '3.0.0'} want None
+{'a': {'1.0.0': [['b', '^1.0.0'], ['c', '^1.0.0']]}, 'b': {'1.0.0': []}, 'c': {'1.0.0': [['a', '^3.0.0'], ['b', '1.0.0']], '2.0.0': [['a', '>=3.0.0']], '3.0.0': [['b', '*']]}} [['b', '*'], ['c', '*']]
+fuzz done, mismatches: 3
+fuzz done, mismatches: 0
+wide 40x5: ok 0.00s
+chain backtrack: ok 0.00s
