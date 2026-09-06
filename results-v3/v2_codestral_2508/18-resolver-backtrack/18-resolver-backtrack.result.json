@@ -1,0 +1,24 @@
+{
+  "command_kind": "opencode",
+  "cost_usd": 0.0042,
+  "elapsed_seconds": 7.2,
+  "ended_at": "2026-09-06T10:56:30+00:00",
+  "exit_code": 0,
+  "file_count_after": 2,
+  "harness": "opencode",
+  "phase": "18-resolver-backtrack",
+  "session_id": "ses_f89a34525ffe6q10moqto13VzW",
+  "stall_aborted": false,
+  "started_at": "2026-09-06T10:56:23+00:00",
+  "timed_out": false,
+  "tokens": {
+    "cache": {
+      "read": 32896,
+      "write": 0
+    },
+    "input": 9397,
+    "output": 388,
+    "reasoning": 0,
+    "total": 42681
+  }
+}
