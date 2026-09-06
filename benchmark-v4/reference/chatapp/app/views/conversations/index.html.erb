@@ -1,0 +1,9 @@
+<div class="max-w-2xl mx-auto p-6">
+  <h1 class="text-2xl font-bold mb-4">Conversations</h1>
+  <%= button_to "New chat", conversations_path, class: "bg-blue-600 text-white px-4 py-2 rounded" %>
+  <ul class="mt-6 space-y-2">
+    <% @conversations.each do |c| %>
+      <li><%= link_to c.title, conversation_path(c), class: "text-blue-700 underline" %></li>
+    <% end %>
+  </ul>
+</div>

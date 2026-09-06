@@ -1,0 +1,16 @@
+<div class="max-w-2xl mx-auto p-6">
+  <%= link_to "← All conversations", conversations_path, class: "text-sm text-gray-500" %>
+  <h1 class="text-xl font-bold my-4"><%= @conversation.title %></h1>
+  <div class="space-y-3 mb-6">
+    <% @conversation.messages.each do |m| %>
+      <div class="p-3 rounded <%= m.role == "user" ? "bg-gray-100" : "bg-blue-50" %>">
+        <span class="text-xs uppercase text-gray-500"><%= m.role %></span>
+        <p><%= m.content %></p>
+      </div>
+    <% end %>
+  </div>
+  <%= form_with url: conversation_messages_path(@conversation), method: :post do |f| %>
+    <%= f.text_area :"message[content]", class: "w-full border rounded p-2", rows: 3 %>
+    <%= f.submit "Send", class: "mt-2 bg-blue-600 text-white px-4 py-2 rounded" %>
+  <% end %>
+</div>
