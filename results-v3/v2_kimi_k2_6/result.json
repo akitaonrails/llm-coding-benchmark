@@ -1,0 +1,51 @@
+{
+  "slug": "v2_kimi_k2_6",
+  "label": "Kimi K2.6 (opencode/OpenRouter fallback)",
+  "harness": "opencode",
+  "v3_score": 93.8,
+  "tasks": [
+    {
+      "task": "17-marketplace-app",
+      "category": "app-simulation",
+      "language": "python",
+      "correctness": 87.6,
+      "by_tag": {
+        "commerce": "56/57",
+        "accounts": "14/16",
+        "admin": "17/17",
+        "plugins": "22/37",
+        "analytics": "18/18"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 576.88,
+      "stall_aborted": false,
+      "cost_usd": 1.3415,
+      "tokens_total": 2677838,
+      "run_failed": false,
+      "exit_code": 0
+    },
+    {
+      "task": "18-resolver-backtrack",
+      "category": "algorithm-observation",
+      "language": "python",
+      "correctness": 100.0,
+      "by_tag": {
+        "simple": "2/2",
+        "diamond": "2/2",
+        "backtrack": "12/12",
+        "unsat": "7/7"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 152.51,
+      "stall_aborted": false,
+      "cost_usd": 0.0679,
+      "tokens_total": 87992,
+      "run_failed": false,
+      "exit_code": 0
+    }
+  ],
+  "elapsed_seconds_total": 729.4,
+  "cost_usd_total": 1.4094
+}
