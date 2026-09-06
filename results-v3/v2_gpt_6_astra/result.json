@@ -5,6 +5,27 @@
   "v3_score": 100.0,
   "tasks": [
     {
+      "task": "17-marketplace-app",
+      "category": "app-simulation",
+      "language": "python",
+      "correctness": 100.0,
+      "by_tag": {
+        "commerce": "57/57",
+        "accounts": "16/16",
+        "admin": "17/17",
+        "plugins": "37/37",
+        "analytics": "18/18"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 782.91,
+      "stall_aborted": false,
+      "cost_usd": 2.7251,
+      "tokens_total": 656170,
+      "run_failed": false,
+      "exit_code": 0
+    },
+    {
       "task": "18-resolver-backtrack",
       "category": "algorithm-observation",
       "language": "python",
@@ -17,14 +38,14 @@
       },
       "capped_by": null,
       "load_error": null,
-      "elapsed_seconds": 114.85,
+      "elapsed_seconds": 126.66,
       "stall_aborted": false,
-      "cost_usd": 0.4407,
-      "tokens_total": 100582,
+      "cost_usd": 0.4097,
+      "tokens_total": 101370,
       "run_failed": false,
       "exit_code": 0
     }
   ],
-  "elapsed_seconds_total": 114.8,
-  "cost_usd_total": 0.4407
+  "elapsed_seconds_total": 909.6,
+  "cost_usd_total": 3.1348
 }
