@@ -1,0 +1,51 @@
+{
+  "slug": "v2_llama_4_maverick",
+  "label": "Llama 4 Maverick (opencode/OpenRouter)",
+  "harness": "opencode",
+  "v3_score": 31.2,
+  "tasks": [
+    {
+      "task": "17-marketplace-app",
+      "category": "app-simulation",
+      "language": "python",
+      "correctness": 27.6,
+      "by_tag": {
+        "commerce": "9/57",
+        "accounts": "3/16",
+        "admin": "4/17",
+        "plugins": "20/37",
+        "analytics": "4/18"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 13.42,
+      "stall_aborted": false,
+      "cost_usd": 0.0023,
+      "tokens_total": 11123,
+      "run_failed": false,
+      "exit_code": 0
+    },
+    {
+      "task": "18-resolver-backtrack",
+      "category": "algorithm-observation",
+      "language": "python",
+      "correctness": 34.8,
+      "by_tag": {
+        "simple": "2/2",
+        "diamond": "2/2",
+        "backtrack": "0/12",
+        "unsat": "4/7"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 32.89,
+      "stall_aborted": false,
+      "cost_usd": 0.0022,
+      "tokens_total": 10555,
+      "run_failed": false,
+      "exit_code": 0
+    }
+  ],
+  "elapsed_seconds_total": 46.3,
+  "cost_usd_total": 0.0045
+}
