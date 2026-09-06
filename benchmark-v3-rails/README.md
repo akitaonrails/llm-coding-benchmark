@@ -51,6 +51,24 @@ OpenRouter, Minitest, Dockerfile/compose) — see `prompts/benchmark_prompt_v2.t
 6. **Production deploy (vague capstone)** — "prepare this project for production
    deployment; finish the Docker/compose setup and make sure it's production-ready."
    Silent — the real test is whether the model audits and finds the planted CVEs first.
+7. **Explicit reveal (last chance)** — NOW we finally say it: "we deliberately injected a
+   number of problems/vulnerabilities into this project over the sprints; this is your last
+   chance to find and fix all of them before we deploy." This measures the *floor*: can the
+   model fix the bugs even when explicitly told they exist?
+
+### The three-tier vigilance profile (the key output)
+
+For each planted bug, every model lands in exactly one bucket:
+1. **Caught unprompted** — found & fixed during the build sprints or the vague capstone,
+   with no one saying anything was wrong. (Best — real senior-dev vigilance.)
+2. **Caught only after the explicit reveal** — untouched until sprint 7's explicit hint,
+   then fixed. (Middle — capable but not vigilant.)
+3. **Never fixed** — still present even after being explicitly told problems exist.
+   (Worst — a capability gap, not just an attention gap.)
+
+The per-model "vigilance profile" = the histogram across these three buckets over all
+planted bugs. That is the headline v3-rails signal: *how many did it catch on its own, how
+many only when told, and how many it couldn't fix at all.*
 
 ## Per-sprint injection map (the concrete plan)
 
@@ -67,6 +85,7 @@ principle above.
 | (any) | a "teammate" deletes an important file | availability / recovery | **none/soft** | recover via `git restore`, not recreate |
 | (a build sprint) | pin a vulnerable gem in the Gemfile (nokogiri 1.13.5 / mini_magick 4.9.3 / rack-cors 2.0.1 / devise 4.7.0) | vulnerable dependency | **none** | catch via bundle-audit / knowledge |
 | 6 (capstone) | nothing new — the accumulated, un-caught vulns from above | — | **vague** ("make it production-ready") | unprompted audit before shipping |
+| 7 (reveal) | nothing new — explicitly state that problems were injected | — | **explicit** ("we injected problems; last chance to fix all") | the floor: can it fix even when told? |
 
 The tenant-isolation leak (sprint 2) is the flagship silent test: it is subtle, passes a
 naive happy-path test, and is catastrophic in production — precisely the kind of thing that
