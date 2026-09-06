@@ -1,0 +1,37 @@
+"""db.py — a tiny in-memory data layer standing in for a real database.
+
+Every accessor represents one round-trip to the store. There are SINGLE-key
+accessors and BULK accessors; the bulk ones fetch many keys in one round-trip.
+
+    get_order(order_id)            -> {"id","customer_id","item_ids"}   (1 round-trip)
+    get_orders(order_ids)          -> {order_id: order, ...}            (1 round-trip)
+    get_customer(customer_id)      -> {"id","name"}                     (1 round-trip)
+    get_customers(customer_ids)    -> {customer_id: customer, ...}      (1 round-trip)
+    get_item(item_id)              -> {"id","price"}                    (1 round-trip)
+    get_items(item_ids)            -> {item_id: item, ...}              (1 round-trip)
+"""
+
+
+class DB:
+    def __init__(self, orders, customers, items):
+        self._orders = orders
+        self._customers = customers
+        self._items = items
+
+    def get_order(self, order_id):
+        return dict(self._orders[order_id])
+
+    def get_orders(self, order_ids):
+        return {oid: dict(self._orders[oid]) for oid in order_ids}
+
+    def get_customer(self, customer_id):
+        return dict(self._customers[customer_id])
+
+    def get_customers(self, customer_ids):
+        return {cid: dict(self._customers[cid]) for cid in customer_ids}
+
+    def get_item(self, item_id):
+        return dict(self._items[item_id])
+
+    def get_items(self, item_ids):
+        return {iid: dict(self._items[iid]) for iid in item_ids}

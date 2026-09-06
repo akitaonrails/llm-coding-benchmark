@@ -1,0 +1,13 @@
+{
+  "category": "app-simulation",
+  "language": "python",
+  "continuous": true,
+  "entrypoint": "marketplace/commerce/service.py",
+  "hidden_runner": ["python3", "hidden/run.py"],
+  "validation": {
+    "reference_entrypoint": "reference/marketplace/commerce/service.py",
+    "naive_entrypoint": "workspace/marketplace/commerce/service.py",
+    "reference_min": 95.0,
+    "naive_max": 45.0
+  }
+}
