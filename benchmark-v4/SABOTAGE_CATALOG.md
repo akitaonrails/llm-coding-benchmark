@@ -1,4 +1,4 @@
-# v3-rails sabotage catalog — real CVEs to plant (verified vs ruby-advisory-db, 2026-09-06)
+# v4 sabotage catalog — real CVEs to plant (verified vs ruby-advisory-db, 2026-09-06)
 
 All version ranges verified against `rubysec/ruby-advisory-db`. Two grading channels:
 **in-app-code** vulns (Brakeman / static-analysis / code-review detectable) and
