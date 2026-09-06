@@ -124,6 +124,20 @@ of sabotage. One model with 10 injections vs another with 2 is invalid.
 - Because both models run the identical sprint prompts, the target set should be nearly
   identical in practice; parity failures should be rare and small.
 
+### Parity is enforced WITHIN a tier (not necessarily across tiers)
+
+Within a tier (e.g. Tier A frontier), models build comparably complete apps, so the SAME
+full sabotage set applies — parity is strict. As we move DOWN tiers (Tier B and below), a
+weaker model may not build a given target at all (no working admin search, no real API),
+so the set is **toned down** — that is fine as long as it is **consistent for every model
+in that tier** (same reduced set, same severity denominator within the tier). The report
+records each tier's injected set; cross-tier comparison is relative/normalized to each
+tier's baseline, not an absolute identical set.
+
+- **Astra + Opus 4.6 are both Tier A → the FULL 14-item set, identical for both.**
+- When adding a lower tier, decide its (possibly reduced) set ONCE and apply it uniformly
+  to every model in that tier; note the reduction in the report.
+
 ## 5. What I must NOT do
 
 - Do not improvise sabotage to "fit" a model's code.
