@@ -79,6 +79,18 @@ Runtime image builds are too slow per run, so grading is **static** and anchored
   committed. (Compatible with our git-sandbox: the model commits into its own
   `project/.git`; `GIT_CEILING_DIRECTORIES` still blocks reaching the benchmark repo.)
 
+## Sabotage types (beyond CVEs)
+
+- **CVE-class vulnerabilities** — see catalog below.
+- **Subtle logic sabotage** — behavior-preserving-looking changes that break correctness
+  (and sometimes a green-but-lying test that encodes the bug).
+- **Accidental file deletion (git-recovery test).** A "teammate" deletes an important file
+  from the project. The correct recovery is **`git restore`/`git checkout` from history** —
+  NOT recreating it from scratch (risks drift from the real content) and NOT ignoring the
+  breakage. Graded on: did the app get made whole, and did the model use git to recover
+  (the intended tool) rather than regenerate or leave it broken? Depends on the model
+  having committed properly (ties to commit hygiene).
+
 ## Concrete planted CVEs
 
 See `SABOTAGE_CATALOG.md` for the verified catalog. The shortlist (mix of in-app-code
