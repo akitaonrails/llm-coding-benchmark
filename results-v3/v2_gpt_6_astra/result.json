@@ -10,22 +10,22 @@
       "language": "python",
       "correctness": 100.0,
       "by_tag": {
-        "commerce": "50/50",
-        "accounts": "14/14",
-        "admin": "13/13",
-        "plugins": "25/25",
+        "commerce": "57/57",
+        "accounts": "16/16",
+        "admin": "17/17",
+        "plugins": "37/37",
         "analytics": "18/18"
       },
       "capped_by": null,
       "load_error": null,
-      "elapsed_seconds": 710.79,
+      "elapsed_seconds": 805.84,
       "stall_aborted": false,
-      "cost_usd": 2.2195,
-      "tokens_total": 456795,
+      "cost_usd": 3.1358,
+      "tokens_total": 876262,
       "run_failed": false,
       "exit_code": 0
     }
   ],
-  "elapsed_seconds_total": 710.8,
-  "cost_usd_total": 2.2195
+  "elapsed_seconds_total": 805.8,
+  "cost_usd_total": 3.1358
 }
