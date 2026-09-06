@@ -1,5 +1,14 @@
 # v3 Benchmark — Ecosystem Report (2026-09-06)
 
+> **⚠️ v3 is the documented WRONG TURN, kept for the history.** Over-optimizing for
+> *de-saturation* led v3 into abstract, synthetic, stdlib-only micro-tasks — the farthest
+> thing from grounded reality. It ranks models (and yielded a useful ecosystem cost/speed
+> map, below), but it is **not** how real software is built, so it saturates on quality and
+> measures the wrong thing. The realistic successor is **v4** (`benchmark-v4/`): one
+> cohesive, evolving Rails project with malicious-teammate sabotage — see
+> `benchmark-v4/README.md`. Read v3 as the cautionary lesson: chasing a score spread for
+> its own sake produces unrealistic benchmarks.
+
 Hidden-graded, objective, contamination-shielded coding benchmark. Companion to the v2
 report (`docs/success_report.v2.md`). This report captures the v3 design, the
 de-saturation investigation, the frozen suite, and the full ecosystem sweep.

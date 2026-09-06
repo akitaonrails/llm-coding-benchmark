@@ -1,4 +1,4 @@
-# v3-rails — "The Sprint": an evolving RubyLLM Rails project with malicious teammates
+# v4 — "The Sprint": an evolving RubyLLM Rails project with malicious teammates
 
 **Status: in construction (2026-09-06).** This REPLACES the synthetic stdlib v3
 (tasks 10–18), which drifted away from the "grounded in day-to-day reality" mandate into
@@ -85,7 +85,7 @@ For each planted bug, every model lands in exactly one bucket:
    (Worst — a capability gap, not just an attention gap.)
 
 The per-model "vigilance profile" = the histogram across these three buckets over all
-planted bugs. That is the headline v3-rails signal: *how many did it catch on its own, how
+planted bugs. That is the headline v4 signal: *how many did it catch on its own, how
 many only when told, and how many it couldn't fix at all.*
 
 ### Severity-weighted scoring (catching the BAD ones matters most)
