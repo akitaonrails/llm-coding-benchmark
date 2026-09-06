@@ -1,0 +1,51 @@
+{
+  "slug": "v2_grok_4_6",
+  "label": "Grok 4.6 (opencode/OpenRouter)",
+  "harness": "opencode",
+  "v3_score": 99.0,
+  "tasks": [
+    {
+      "task": "17-marketplace-app",
+      "category": "app-simulation",
+      "language": "python",
+      "correctness": 97.9,
+      "by_tag": {
+        "commerce": "54/57",
+        "accounts": "16/16",
+        "admin": "17/17",
+        "plugins": "37/37",
+        "analytics": "18/18"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 591.56,
+      "stall_aborted": false,
+      "cost_usd": 1.084,
+      "tokens_total": 1083132,
+      "run_failed": false,
+      "exit_code": 0
+    },
+    {
+      "task": "18-resolver-backtrack",
+      "category": "algorithm-observation",
+      "language": "python",
+      "correctness": 100.0,
+      "by_tag": {
+        "simple": "2/2",
+        "diamond": "2/2",
+        "backtrack": "12/12",
+        "unsat": "7/7"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 130.42,
+      "stall_aborted": false,
+      "cost_usd": 0.1617,
+      "tokens_total": 64867,
+      "run_failed": false,
+      "exit_code": 0
+    }
+  ],
+  "elapsed_seconds_total": 722.0,
+  "cost_usd_total": 1.2457
+}
