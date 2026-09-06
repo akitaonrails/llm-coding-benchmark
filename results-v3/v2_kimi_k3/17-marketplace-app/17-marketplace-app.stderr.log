@@ -1,0 +1,191 @@
+    1 marketplace/commerce/__init__.py
+   17 marketplace/commerce/errors.py
+   22 marketplace/commerce/inventory.py
+   35 marketplace/commerce/models.py
+   34 marketplace/commerce/pricing.py
+   42 marketplace/commerce/service.py
+   18 marketplace/commerce/store.py
+   17 marketplace/commerce/validation.py
+    0 marketplace/accounts/__init__.py
+   41 marketplace/accounts/directory.py
+    0 marketplace/admin/__init__.py
+   20 marketplace/admin/restore.py
+    0 marketplace/plugins/__init__.py
+   58 marketplace/plugins/compat.py
+    0 marketplace/analytics/__init__.py
+   39 marketplace/analytics/queries.py
+   17 marketplace/analytics/report.py
+   37 marketplace/analytics/db.py
+    0 marketplace/__init__.py
+  398 total
+PASS semver satisfies('3.0.0', '1.2.3 - 2') == False
+PASS semver satisfies('2.0.0', '1.x || >=2.0.0') == True
+PASS semver satisfies('1.5.0', '1.x || >=2.0.0') == True
+PASS semver satisfies('0.5.0', '1.x || >=2.0.0') == False
+FAIL semver satisfies('1.0.0-alpha', '<1.0.0') == True
+PASS semver satisfies('1.0.0-alpha', '*') == False
+PASS semver satisfies('1.2.3-alpha', '^1.2.3') == False
+PASS semver satisfies('1.2.3-alpha', '>=1.2.3-alpha') == True
+PASS semver satisfies('1.2.3-beta', '>=1.2.3-alpha') == True
+PASS semver satisfies('1.2.4-alpha', '^1.2.3-alpha') == False
+PASS semver satisfies('1.2.3-alpha', '^1.2.3-alpha') == True
+PASS semver satisfies('1.0.0-alpha.1', '1.0.0-alpha') == False
+PASS semver satisfies('1.0.0-alpha.1', '>1.0.0-alpha') == True
+PASS semver satisfies('1.0.0-alpha.beta', '>1.0.0-alpha.1') == True
+PASS semver satisfies('1.0.0-beta', '>1.0.0-alpha.beta') == True
+PASS semver satisfies('1.0.0-beta.2', '>1.0.0-beta') == True
+PASS semver satisfies('1.0.0-beta.11', '>1.0.0-beta.2') == True
+PASS semver satisfies('1.0.0-rc.1', '>1.0.0-beta.11') == True
+PASS semver satisfies('1.0.0', '>1.0.0-rc.1') == True
+PASS semver satisfies('1.2.3+build.5', '1.2.3') == True
+PASS semver satisfies('1.2.3+build.5', '1.2.3+other') == True
+PASS semver satisfies('bad', '1.x') == False
+PASS semver satisfies('1.2.3', 'not-a-range') == False
+PASS semver satisfies('1.2', '1.2.3') == False
+PASS semver satisfies('1.2.3.4', '*') == False
+PASS semver satisfies('2.0.0-alpha', '^1.2.3') == False
+PASS semver satisfies('1.0.0', '^0.0.3') == False
+PASS semver satisfies('0.0.2', '^0.0.3') == False
+PASS semver satisfies('1.2.3', '~x') == True
+PASS semver satisfies('1.2.3', '^0.x') == False
+PASS semver satisfies('0.0.9', '^0.0.x') == True
+PASS semver satisfies('0.1.0', '^0.0.x') == False
+PASS semver satisfies('1.2.3', '1.2.3 || 2.x') == True
+PASS semver satisfies('2.5.0', '1.2.3 || 2.x') == True
+PASS semver satisfies('1.0.0', 'garbage || 1.x') == False
+PASS summary rows
+PASS summary before all
+PASS summary date boundary inclusive
+PASS summary future empty
+FAIL summary injection safe
+PASS find_customer exact
+PASS find_customer none
+PASS find_customer injection
+PASS report order & dupes
+PASS report constant round-trips
+PASS report empty
+Traceback (most recent call last):
+  File "/tmp/verify_marketplace.py", line 402, in <module>
+    bigrep = order_report(big, list(range(1, 5001)))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/data/Projects/llm-coding-benchmark/results-v3/v2_kimi_k3/17-marketplace-app/project/marketplace/analytics/report.py", line 26, in order_report
+    items = db.get_items(item_ids)
+            ^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/verify_marketplace.py", line 389, in get_items
+    def get_items(self, x): self.calls += 1; return super().get_items(x)
+                                                    ^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/data/Projects/llm-coding-benchmark/results-v3/v2_kimi_k3/17-marketplace-app/project/marketplace/analytics/db.py", line 37, in get_items
+    return {iid: dict(self._items[iid]) for iid in item_ids}
+                      ~~~~~~~~~~~^^^^^
+KeyError: 15000
+PASS line no discount
+PASS line 10% at qty 10
+PASS line 10% at qty 49
+PASS line 10% rounds half-up
+PASS line 20% at qty 50
+PASS line 20% rounds half-up
+PASS line 10% fractional
+PASS line rounding .5 up
+PASS coupon none
+PASS coupon pct
+PASS coupon pct min_spend unmet
+PASS coupon pct capped
+PASS coupon fixed
+PASS coupon fixed capped
+PASS coupon fixed min_spend boundary
+PASS coupon pct rounding
+PASS coupon pct rounding half up
+PASS coupon bad type
+PASS tax basic
+PASS tax half-up
+PASS tax half-up tie
+PASS tax tie .5
+PASS tax float artifact
+PASS tax none rate
+PASS tax zero
+PASS checkout subtotal
+PASS checkout merged qty
+PASS checkout tax
+PASS checkout total
+PASS stock decremented
+PASS no coupon
+PASS idempotent same receipt
+PASS idempotent no double decrement
+PASS store has one order
+PASS oversell
+PASS atomic: A untouched
+PASS atomic: B untouched
+PASS atomic: nothing persisted
+PASS empty cart
+PASS unknown sku
+PASS zero qty
+PASS neg qty
+PASS float qty
+PASS bool qty
+PASS missing request_id
+PASS validation atomic
+PASS bulk line
+PASS bulk subtotal
+PASS bulk coupon
+PASS bulk coupon applied
+PASS bulk tax
+PASS bulk total
+PASS min spend no discount
+PASS reserve exact
+PASS reserve past zero
+PASS reserve unknown sku
+PASS release
+PASS inventory copies input dict
+PASS store get missing
+PASS store all is copy
+PASS dir instances isolated
+PASS dir case-insensitive find
+PASS dir find upper query
+PASS dir count
+PASS dir find missing
+PASS dir find none
+PASS dir dup email
+PASS dir no @
+PASS dir empty email
+PASS dir empty name
+PASS dir blank name
+PASS dir missing key
+PASS dir non-dict
+PASS dir non-str email
+PASS dir count after junk
+PASS dir does not mutate caller rec
+PASS dir find returns copy
+PASS dir all_users copies
+PASS restore returns sorted files
+PASS restore file contents
+PASS restore file contents
+PASS restore dest created
+PASS traversal blocked (raise or no-escape)
+PASS traversal nothing written outside
+PASS absolute path blocked
+PASS symlink escape blocked
+PASS internal symlink ok
+PASS semver satisfies('1.2.3', '1.2.3') == True
+PASS semver satisfies('1.2.3', '1.2.4') == False
+PASS semver satisfies('v1.2.3', '=1.2.3') == True
+PASS semver satisfies('1.2.3', '= 1.2.3') == True
+PASS semver satisfies('1.2.3', '^1.2.0') == True
+PASS semver satisfies('2.0.0', '^1.2.0') == False
+PASS semver satisfies('1.9.9', '^1.2.0') == True
+PASS semver satisfies('0.2.5', '^0.2.3') == True
+PASS semver satisfies('0.3.0', '^0.2.3') == False
+PASS semver satisfies('0.0.3', '^0.0.3') == True
+PASS semver satisfies('0.0.4', '^0.0.3') == False
+PASS semver satisfies('1.2.4', '~1.2.3') == True
+PASS semver satisfies('1.3.0', '~1.2.3') == False
+PASS semver satisfies('1.2.0', '~1.2.3') == False
+ALL CHECKS PASSED
+exit=0
+concurrency no oversell OK
+idempotency under race OK
+CartItem input OK
+save-failure rollback OK
+semver junk-safe OK
+restore ./ normalization OK
+ALL EXTRA CHECKS PASSED
+all modules import cleanly
