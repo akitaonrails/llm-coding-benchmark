@@ -1,0 +1,102 @@
+544f714 Build Rails 8 chat foundation with RubyLLM and OpenRouter
+ .dockerignore                                      |  50 ++
+ .env.example                                       |   6 +
+ .github/dependabot.yml                             |  12 +
+ .github/workflows/ci.yml                           |  20 +
+ .gitignore                                         |  21 +
+ .rubocop.yml                                       |   8 +
+ .ruby-version                                      |   1 +
+ Dockerfile                                         |  33 ++
+ Gemfile                                            |  31 ++
+ Gemfile.lock                                       | 529 +++++++++++++++++++++
+ Procfile.dev                                       |   2 +
+ README.md                                          |  93 ++++
+ Rakefile                                           |   6 +
+ app/assets/builds/.keep                            |   0
+ app/assets/images/.keep                            |   0
+ app/assets/stylesheets/application.css             |  10 +
+ app/assets/tailwind/application.css                |  18 +
+ app/controllers/application_controller.rb          |  19 +
+ app/controllers/concerns/.keep                     |   0
+ app/controllers/conversations_controller.rb        |  36 ++
+ app/controllers/messages_controller.rb             |  29 ++
+ app/helpers/application_helper.rb                  |   2 +
+ app/javascript/application.js                      |   3 +
+ app/javascript/controllers/application.js          |   9 +
+ app/javascript/controllers/composer_controller.js  |  26 +
+ app/javascript/controllers/index.js                |   4 +
+ .../controllers/navigation_controller.js           |  10 +
+ .../controllers/transcript_controller.js           |   7 +
+ app/models/application_record.rb                   |   3 +
+ app/models/concerns/.keep                          |   0
+ app/models/conversation.rb                         |  11 +
+ app/models/message.rb                              |   9 +
+ app/models/visitor.rb                              |   3 +
+ app/services/conversation_reply.rb                 |  50 ++
+ app/views/conversations/_workspace.html.erb        |  92 ++++
+ app/views/conversations/index.html.erb             |   1 +
+ app/views/conversations/show.html.erb              |   2 +
+ app/views/layouts/application.html.erb             |  15 +
+ app/views/messages/_message.html.erb               |   7 +
+ bin/brakeman                                       |   7 +
+ bin/bundler-audit                                  |   6 +
+ bin/ci                                             |   6 +
+ bin/dev                                            |  16 +
+ bin/docker-entrypoint                              |   8 +
+ bin/importmap                                      |   4 +
+ bin/rails                                          |   4 +
+ bin/rake                                           |   4 +
+ bin/rubocop                                        |   8 +
+ bin/setup                                          |  35 ++
+ compose.yaml                                       |  22 +
+ config.ru                                          |   6 +
+ config/application.rb                              |  39 ++
+ config/boot.rb                                     |   4 +
+ config/bundler-audit.yml                           |   1 +
+ config/ci.rb                                       |   9 +
+ config/database.yml                                |  31 ++
+ config/environment.rb                              |   5 +
+ config/environments/development.rb                 |  60 +++
+ config/environments/production.rb                  |  67 +++
+ config/environments/test.rb                        |  42 ++
+ config/importmap.rb                                |   7 +
+ config/initializers/assets.rb                      |   7 +
+ config/initializers/content_security_policy.rb     |  16 +
+ config/initializers/filter_parameter_logging.rb    |   9 +
+ config/initializers/inflections.rb                 |  16 +
+ config/initializers/ruby_llm.rb                    |  10 +
+ config/initializers/session_store.rb               |   3 +
+ config/locales/en.yml                              |  31 ++
+ config/puma.rb                                     |  39 ++
+ config/routes.rb                                   |   7 +
+ db/migrate/20260906000001_create_chat_history.rb   |  25 +
+ db/schema.rb                                       |  43 ++
+ db/seeds.rb                                        |   9 +
+ lib/tasks/.keep                                    |   0
+ log/.keep                                          |   0
+ public/400.html                                    | 135 ++++++
+ public/404.html                                    | 135 ++++++
+ public/406-unsupported-browser.html                | 135 ++++++
+ public/422.html                                    | 135 ++++++
+ public/500.html                                    | 135 ++++++
+ public/robots.txt                                  |   1 +
+ script/.keep                                       |   0
+ storage/.keep                                      |   0
+ test/application_system_test_case.rb               |  13 +
+ test/controllers/.keep                             |   0
+ test/fixtures/files/.keep                          |   0
+ test/helpers/.keep                                 |   0
+ test/integration/.keep                             |   0
+ test/integration/chat_test.rb                      | 124 +++++
+ test/models/.keep                                  |   0
+ test/models/conversation_test.rb                   |  31 ++
+ test/models/message_test.rb                        |  32 ++
+ test/services/conversation_reply_test.rb           | 111 +++++
+ test/support/openrouter_stub.rb                    |  26 +
+ test/system/conversations_test.rb                  |  66 +++
+ test/test_helper.rb                                |  18 +
+ tmp/.keep                                          |   0
+ tmp/pids/.keep                                     |   0
+ vendor/.keep                                       |   0
+ vendor/javascript/.keep                            |   0
+ 100 files changed, 2881 insertions(+)
