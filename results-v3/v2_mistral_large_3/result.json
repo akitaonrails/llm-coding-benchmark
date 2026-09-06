@@ -1,0 +1,51 @@
+{
+  "slug": "v2_mistral_large_3",
+  "label": "Mistral Large 3 (opencode/OpenRouter)",
+  "harness": "opencode",
+  "v3_score": 55.0,
+  "tasks": [
+    {
+      "task": "17-marketplace-app",
+      "category": "app-simulation",
+      "language": "python",
+      "correctness": 62.1,
+      "by_tag": {
+        "commerce": "24/57",
+        "accounts": "14/16",
+        "admin": "14/17",
+        "plugins": "24/37",
+        "analytics": "14/18"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 111.85,
+      "stall_aborted": false,
+      "cost_usd": 0.0535,
+      "tokens_total": 332563,
+      "run_failed": false,
+      "exit_code": 0
+    },
+    {
+      "task": "18-resolver-backtrack",
+      "category": "algorithm-observation",
+      "language": "python",
+      "correctness": 47.8,
+      "by_tag": {
+        "simple": "2/2",
+        "diamond": "2/2",
+        "backtrack": "3/12",
+        "unsat": "4/7"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 14.73,
+      "stall_aborted": false,
+      "cost_usd": 0.0181,
+      "tokens_total": 78268,
+      "run_failed": false,
+      "exit_code": 0
+    }
+  ],
+  "elapsed_seconds_total": 126.6,
+  "cost_usd_total": 0.0716
+}
