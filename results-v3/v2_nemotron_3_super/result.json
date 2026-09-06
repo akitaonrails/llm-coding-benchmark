@@ -1,0 +1,51 @@
+{
+  "slug": "v2_nemotron_3_super",
+  "label": "NVIDIA Nemotron 3 Super 120B (opencode/OpenRouter)",
+  "harness": "opencode",
+  "v3_score": 91.7,
+  "tasks": [
+    {
+      "task": "17-marketplace-app",
+      "category": "app-simulation",
+      "language": "python",
+      "correctness": 83.4,
+      "by_tag": {
+        "commerce": "52/57",
+        "accounts": "14/16",
+        "admin": "13/17",
+        "plugins": "24/37",
+        "analytics": "18/18"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 2012.15,
+      "stall_aborted": false,
+      "cost_usd": 0.0196,
+      "tokens_total": 1582677,
+      "run_failed": false,
+      "exit_code": 0
+    },
+    {
+      "task": "18-resolver-backtrack",
+      "category": "algorithm-observation",
+      "language": "python",
+      "correctness": 100.0,
+      "by_tag": {
+        "simple": "2/2",
+        "diamond": "2/2",
+        "backtrack": "12/12",
+        "unsat": "7/7"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 230.18,
+      "stall_aborted": false,
+      "cost_usd": 0.03,
+      "tokens_total": 297239,
+      "run_failed": false,
+      "exit_code": 0
+    }
+  ],
+  "elapsed_seconds_total": 2242.3,
+  "cost_usd_total": 0.0496
+}
