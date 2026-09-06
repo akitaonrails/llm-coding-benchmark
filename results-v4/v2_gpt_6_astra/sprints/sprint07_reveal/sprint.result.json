@@ -1,0 +1,10 @@
+{
+  "slug": "v2_gpt_6_astra",
+  "sprint": "sprint07_reveal",
+  "harness": "codex",
+  "elapsed_seconds": 1049.29,
+  "cost_usd": 7.6651,
+  "tokens_total": 4728743,
+  "exit_code": 0,
+  "stall_aborted": false
+}
