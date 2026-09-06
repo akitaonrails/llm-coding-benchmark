@@ -1,0 +1,15 @@
+{
+  "command_kind": "opencode",
+  "cost_usd": null,
+  "elapsed_seconds": 73.81,
+  "ended_at": "2026-09-06T07:20:37+00:00",
+  "exit_code": 1,
+  "file_count_after": 37,
+  "harness": "opencode",
+  "phase": "17-marketplace-app",
+  "session_id": "ses_f8a69ec92ffed5CxYYzQ0x9lhq",
+  "stall_aborted": false,
+  "started_at": "2026-09-06T07:19:24+00:00",
+  "timed_out": false,
+  "tokens": {}
+}
