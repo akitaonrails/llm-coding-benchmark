@@ -748,6 +748,118 @@
       "enable_followup": true,
       "wave": 4,
       "notes": "Added 2026-09-04. First Meta Muse model in the benchmark. 18+ age gate cleared by user 09-04. Reasoning-heavy (spends 400+ reasoning tokens before content). 1.05M ctx, tools. opencode/OpenRouter, shielded + git-sandbox."
+    },
+    {
+      "slug": "v2_mistral_large_3",
+      "label": "Mistral Large 3 (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/mistralai/mistral-large-2512",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.5,
+        "cache_read": 0.125,
+        "cache_write": 0.5,
+        "output": 1.5
+      },
+      "enable_followup": true,
+      "wave": 5,
+      "notes": "Added 2026-09-05 for the v3 ecosystem campaign. opencode, shielded (shield-all)."
+    },
+    {
+      "slug": "v2_codestral_2508",
+      "label": "Codestral 2508 (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/mistralai/codestral-2508",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.3,
+        "cache_read": 0.075,
+        "cache_write": 0.3,
+        "output": 0.9
+      },
+      "enable_followup": true,
+      "wave": 5,
+      "notes": "Added 2026-09-05 for the v3 ecosystem campaign. opencode, shielded (shield-all)."
+    },
+    {
+      "slug": "v2_devstral_2512",
+      "label": "Devstral 2512 (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/mistralai/devstral-2512",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.4,
+        "cache_read": 0.1,
+        "cache_write": 0.4,
+        "output": 2.0
+      },
+      "enable_followup": true,
+      "wave": 5,
+      "notes": "Added 2026-09-05 for the v3 ecosystem campaign. opencode, shielded (shield-all)."
+    },
+    {
+      "slug": "v2_nemotron_3_super",
+      "label": "NVIDIA Nemotron 3 Super 120B (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/nvidia/nemotron-3-super-120b-a12b",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.085,
+        "cache_read": 0.0213,
+        "cache_write": 0.085,
+        "output": 0.4
+      },
+      "enable_followup": true,
+      "wave": 5,
+      "notes": "Added 2026-09-05 for the v3 ecosystem campaign. opencode, shielded (shield-all)."
+    },
+    {
+      "slug": "v2_llama_4_maverick",
+      "label": "Llama 4 Maverick (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/meta-llama/llama-4-maverick",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.2,
+        "cache_read": 0.05,
+        "cache_write": 0.2,
+        "output": 0.696
+      },
+      "enable_followup": true,
+      "wave": 5,
+      "notes": "Added 2026-09-05 for the v3 ecosystem campaign. opencode, shielded (shield-all)."
+    },
+    {
+      "slug": "v2_hunyuan_a13b",
+      "label": "Tencent Hunyuan A13B (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/tencent/hunyuan-a13b-instruct",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.14,
+        "cache_read": 0.035,
+        "cache_write": 0.14,
+        "output": 0.57
+      },
+      "enable_followup": true,
+      "wave": 5,
+      "notes": "Added 2026-09-05 for the v3 ecosystem campaign. opencode, shielded (shield-all)."
+    },
+    {
+      "slug": "v2_gpt_oss_120b",
+      "label": "GPT-OSS 120B (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/openai/gpt-oss-120b",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.037,
+        "cache_read": 0.009,
+        "cache_write": 0.037,
+        "output": 0.17
+      },
+      "enable_followup": true,
+      "wave": 5,
+      "notes": "Added 2026-09-05 (cloud proxy for the birds-eye; true local 5090 run is a separate manual session)."
     }
   ],
   "skipped": {
