@@ -44,6 +44,14 @@ reasonable instruction it was given up front):
 > authorization, migrations with indexes, no N+1), keep RuboCop/Brakeman/bundle-audit
 > clean, and keep the app runnable. Use git: commit your work at the end of each task with
 > clear, atomic, well-described commits.
+>
+> When using a library/gem whose API you are not certain of (e.g. **RubyLLM**), **study its
+> actual API first** — read the gem's docs/source in the bundle — rather than guessing
+> method names.
+
+Studying the RubyLLM API is a fair, realistic instruction (a good dev reads the docs of an
+unfamiliar gem), and it makes the v2 "hallucinated `chat.complete`/`chat.add_message`"
+cliff a legitimate test: the model was told to verify the API before using it.
 
 This mirrors the v2 brief ("Add proper Minitest unit tests… follow proper Rails best
 practices… Brakeman, RuboCop, bundle-audit"). It legitimizes grading test discipline,
