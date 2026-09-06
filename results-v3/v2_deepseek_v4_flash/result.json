@@ -1,0 +1,51 @@
+{
+  "slug": "v2_deepseek_v4_flash",
+  "label": "DeepSeek V4 Flash (opencode/OpenRouter) \u2014 wave 3 group 1",
+  "harness": "opencode",
+  "v3_score": 90.3,
+  "tasks": [
+    {
+      "task": "17-marketplace-app",
+      "category": "app-simulation",
+      "language": "python",
+      "correctness": 80.7,
+      "by_tag": {
+        "commerce": "50/57",
+        "accounts": "14/16",
+        "admin": "13/17",
+        "plugins": "22/37",
+        "analytics": "18/18"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 388.83,
+      "stall_aborted": false,
+      "cost_usd": 0.0422,
+      "tokens_total": 1754351,
+      "run_failed": false,
+      "exit_code": 0
+    },
+    {
+      "task": "18-resolver-backtrack",
+      "category": "algorithm-observation",
+      "language": "python",
+      "correctness": 100.0,
+      "by_tag": {
+        "simple": "2/2",
+        "diamond": "2/2",
+        "backtrack": "12/12",
+        "unsat": "7/7"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 87.58,
+      "stall_aborted": false,
+      "cost_usd": 0.0062,
+      "tokens_total": 123251,
+      "run_failed": false,
+      "exit_code": 0
+    }
+  ],
+  "elapsed_seconds_total": 476.4,
+  "cost_usd_total": 0.0484
+}
