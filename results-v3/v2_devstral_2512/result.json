@@ -1,0 +1,51 @@
+{
+  "slug": "v2_devstral_2512",
+  "label": "Devstral 2512 (opencode/OpenRouter)",
+  "harness": "opencode",
+  "v3_score": 93.1,
+  "tasks": [
+    {
+      "task": "17-marketplace-app",
+      "category": "app-simulation",
+      "language": "python",
+      "correctness": 86.2,
+      "by_tag": {
+        "commerce": "55/57",
+        "accounts": "14/16",
+        "admin": "17/17",
+        "plugins": "21/37",
+        "analytics": "18/18"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 212.78,
+      "stall_aborted": false,
+      "cost_usd": 0.1896,
+      "tokens_total": 1072909,
+      "run_failed": false,
+      "exit_code": 0
+    },
+    {
+      "task": "18-resolver-backtrack",
+      "category": "algorithm-observation",
+      "language": "python",
+      "correctness": 100.0,
+      "by_tag": {
+        "simple": "2/2",
+        "diamond": "2/2",
+        "backtrack": "12/12",
+        "unsat": "7/7"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 92.7,
+      "stall_aborted": false,
+      "cost_usd": 0.049,
+      "tokens_total": 281092,
+      "run_failed": false,
+      "exit_code": 0
+    }
+  ],
+  "elapsed_seconds_total": 305.5,
+  "cost_usd_total": 0.2386
+}
