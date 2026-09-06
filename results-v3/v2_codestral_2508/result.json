@@ -1,0 +1,46 @@
+{
+  "slug": "v2_codestral_2508",
+  "label": "Codestral 2508 (opencode/OpenRouter)",
+  "harness": "opencode",
+  "v3_score": 15.8,
+  "tasks": [
+    {
+      "task": "17-marketplace-app",
+      "category": "app-simulation",
+      "language": "python",
+      "correctness": 31.7,
+      "by_tag": {
+        "commerce": "15/57",
+        "accounts": "3/16",
+        "admin": "4/17",
+        "plugins": "20/37",
+        "analytics": "4/18"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 11.76,
+      "stall_aborted": false,
+      "cost_usd": 0.0059,
+      "tokens_total": 51779,
+      "run_failed": false,
+      "exit_code": 0
+    },
+    {
+      "task": "18-resolver-backtrack",
+      "category": "algorithm-observation",
+      "language": "python",
+      "correctness": 0.0,
+      "by_tag": {},
+      "capped_by": null,
+      "load_error": "runner crashed: unexpected indent (resolver.py, line 70)",
+      "elapsed_seconds": 7.2,
+      "stall_aborted": false,
+      "cost_usd": 0.0042,
+      "tokens_total": 42681,
+      "run_failed": false,
+      "exit_code": 0
+    }
+  ],
+  "elapsed_seconds_total": 19.0,
+  "cost_usd_total": 0.0101
+}
