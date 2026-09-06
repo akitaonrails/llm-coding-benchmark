@@ -1,0 +1,24 @@
+{
+  "command_kind": "opencode",
+  "cost_usd": 0.256,
+  "elapsed_seconds": 828.37,
+  "ended_at": "2026-09-06T09:59:58+00:00",
+  "exit_code": 0,
+  "file_count_after": 38,
+  "harness": "opencode",
+  "phase": "17-marketplace-app",
+  "session_id": "ses_f89e38e1dffeOr77YUlfUruh7v",
+  "stall_aborted": false,
+  "started_at": "2026-09-06T09:46:10+00:00",
+  "timed_out": false,
+  "tokens": {
+    "cache": {
+      "read": 1624395,
+      "write": 0
+    },
+    "input": 149126,
+    "output": 21740,
+    "reasoning": 16878,
+    "total": 1812139
+  }
+}

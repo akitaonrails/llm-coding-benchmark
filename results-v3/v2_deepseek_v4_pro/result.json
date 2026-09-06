@@ -1,0 +1,51 @@
+{
+  "slug": "v2_deepseek_v4_pro",
+  "label": "DeepSeek V4 Pro (opencode/OpenRouter) \u2014 wave 3 addendum",
+  "harness": "opencode",
+  "v3_score": 96.2,
+  "tasks": [
+    {
+      "task": "17-marketplace-app",
+      "category": "app-simulation",
+      "language": "python",
+      "correctness": 92.4,
+      "by_tag": {
+        "commerce": "55/57",
+        "accounts": "16/16",
+        "admin": "17/17",
+        "plugins": "28/37",
+        "analytics": "18/18"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 828.37,
+      "stall_aborted": false,
+      "cost_usd": 0.256,
+      "tokens_total": 1812139,
+      "run_failed": false,
+      "exit_code": 0
+    },
+    {
+      "task": "18-resolver-backtrack",
+      "category": "algorithm-observation",
+      "language": "python",
+      "correctness": 100.0,
+      "by_tag": {
+        "simple": "2/2",
+        "diamond": "2/2",
+        "backtrack": "12/12",
+        "unsat": "7/7"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 129.49,
+      "stall_aborted": false,
+      "cost_usd": 0.0365,
+      "tokens_total": 88755,
+      "run_failed": false,
+      "exit_code": 0
+    }
+  ],
+  "elapsed_seconds_total": 957.9,
+  "cost_usd_total": 0.2925
+}
