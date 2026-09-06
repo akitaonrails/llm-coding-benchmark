@@ -78,3 +78,17 @@ results-v3/**/.cargo/
 results-v3/**/.rustup/
 results-v3/**/.npm/
 results-v3/**/.bundle/
+
+# results-v4 (v4 "Sprint" — evolving Rails app; project + isolated-HOME junk are local-only)
+results-v4/*/project/
+results-v4/**/.claude/
+results-v4/**/.claude.json
+results-v4/**/.bundle/
+results-v4/**/.cache/
+results-v4/**/.config/
+results-v4/**/.local/
+results-v4/**/.npm/
+results-v4/**/.gem/
+results-v4/**/*.ndjson
+results-v4/**/*.stderr.log
+results-v4/**/*.prompt.txt

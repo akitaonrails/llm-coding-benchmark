@@ -1,0 +1,10 @@
+{
+  "slug": "v2_claude_opus_4_6",
+  "sprint": "sprint02_multiuser",
+  "harness": "claude",
+  "elapsed_seconds": 1374.17,
+  "cost_usd": 5.254076,
+  "tokens_total": 5520765,
+  "exit_code": 0,
+  "stall_aborted": false
+}
