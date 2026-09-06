@@ -1,0 +1,15 @@
+{
+  "command_kind": "bash -lc",
+  "cost_usd": null,
+  "elapsed_seconds": 579.53,
+  "ended_at": "2026-09-06T09:02:35+00:00",
+  "exit_code": 0,
+  "file_count_after": 2,
+  "harness": "grok",
+  "phase": "18-resolver-backtrack",
+  "session_id": null,
+  "stall_aborted": false,
+  "started_at": "2026-09-06T08:52:56+00:00",
+  "timed_out": false,
+  "tokens": {}
+}
