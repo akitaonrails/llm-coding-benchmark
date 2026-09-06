@@ -1,0 +1,73 @@
+{
+  "slug": "v2_kimi_k3",
+  "label": "Kimi K3 (Kimi Code CLI)",
+  "harness": "kimi",
+  "v3_score": 99.2,
+  "tasks": [
+    {
+      "task": "16-repo-order-service",
+      "category": "repository-scale",
+      "language": "python",
+      "correctness": 98.3,
+      "by_tag": {
+        "pricing": "20/20",
+        "inventory": "10/11",
+        "validation": "12/12",
+        "idempotency": "6/6",
+        "atomicity": "5/5",
+        "receipt": "5/5"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 209.57,
+      "stall_aborted": false,
+      "cost_usd": 0.2794,
+      "tokens_total": 157794,
+      "run_failed": false,
+      "exit_code": 0
+    },
+    {
+      "task": "17-marketplace-app",
+      "category": "app-simulation",
+      "language": "python",
+      "correctness": 99.3,
+      "by_tag": {
+        "commerce": "56/57",
+        "accounts": "16/16",
+        "admin": "17/17",
+        "plugins": "37/37",
+        "analytics": "18/18"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 811.56,
+      "stall_aborted": false,
+      "cost_usd": 1.1108,
+      "tokens_total": 1250430,
+      "run_failed": false,
+      "exit_code": 0
+    },
+    {
+      "task": "18-resolver-backtrack",
+      "category": "algorithm-observation",
+      "language": "python",
+      "correctness": 100.0,
+      "by_tag": {
+        "simple": "2/2",
+        "diamond": "2/2",
+        "backtrack": "12/12",
+        "unsat": "7/7"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 147.03,
+      "stall_aborted": false,
+      "cost_usd": 0.1922,
+      "tokens_total": 206838,
+      "run_failed": false,
+      "exit_code": 0
+    }
+  ],
+  "elapsed_seconds_total": 1168.2,
+  "cost_usd_total": 1.5824
+}
