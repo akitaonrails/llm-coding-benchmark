@@ -1,0 +1,3 @@
+2026-09-06T05:20:10.186229Z ERROR codex_core::tools::router: error=apply_patch verification failed: invalid patch: multiple operations target /mnt/data/Projects/llm-coding-benchmark/results-v3/v2_gpt_5_6_sol/17-marketplace-app/project/marketplace/plugins/compat.py
+2026-09-06T05:27:33.850724Z ERROR codex_core::tools::router: error=apply_patch verification failed: Failed to find expected lines in /mnt/data/Projects/llm-coding-benchmark/results-v3/v2_gpt_5_6_sol/17-marketplace-app/project/marketplace/commerce/pricing.py:
+    def save(self, receipt):
