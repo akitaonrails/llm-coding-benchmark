@@ -1,0 +1,51 @@
+{
+  "slug": "v2_gemini_3_1_pro",
+  "label": "Gemini 3.1 Pro (opencode/OpenRouter) \u2014 wave 3 group 1",
+  "harness": "opencode",
+  "v3_score": 95.5,
+  "tasks": [
+    {
+      "task": "17-marketplace-app",
+      "category": "app-simulation",
+      "language": "python",
+      "correctness": 91.0,
+      "by_tag": {
+        "commerce": "53/57",
+        "accounts": "14/16",
+        "admin": "14/17",
+        "plugins": "33/37",
+        "analytics": "18/18"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 254.4,
+      "stall_aborted": false,
+      "cost_usd": 0.7921,
+      "tokens_total": 631238,
+      "run_failed": false,
+      "exit_code": 0
+    },
+    {
+      "task": "18-resolver-backtrack",
+      "category": "algorithm-observation",
+      "language": "python",
+      "correctness": 100.0,
+      "by_tag": {
+        "simple": "2/2",
+        "diamond": "2/2",
+        "backtrack": "12/12",
+        "unsat": "7/7"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 146.09,
+      "stall_aborted": false,
+      "cost_usd": 0.3728,
+      "tokens_total": 341823,
+      "run_failed": false,
+      "exit_code": 0
+    }
+  ],
+  "elapsed_seconds_total": 400.5,
+  "cost_usd_total": 1.1649
+}
