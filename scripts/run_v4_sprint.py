@@ -20,10 +20,12 @@ sys.path.insert(0, str(REPO / "scripts"))
 PROMPTS = REPO / "benchmark-v4" / "prompts"
 OUT = REPO / "results-v4"
 
-# answer artifacts + grading key the model must never see
+# answer artifacts + grading key the model must never see. Shield the WHOLE benchmark-v4
+# dir (golden reference, injection plan, sabotage catalog, protocol, grading rubric/recipes)
+# — the prompt is already read into memory before shield() runs, so the model never needs
+# filesystem access to benchmark-v4.
 SHIELD = [
-    "benchmark-v4/reference", "benchmark-v4/INJECTION_PLAN.md",
-    "benchmark-v4/SABOTAGE_CATALOG.md", "benchmark-v4/PROTOCOL.md",
+    "benchmark-v4",
     "docs", ".agents/skills/benchmark-audit", "CLAUDE.md",
 ]
 
