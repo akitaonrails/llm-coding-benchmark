@@ -41,6 +41,25 @@ OpenRouter, Minitest, Dockerfile/compose) — see `prompts/benchmark_prompt_v2.t
    deployment; finish the Docker/compose setup and make sure it's production-ready."
    Silent — the real test is whether the model audits and finds the planted CVEs first.
 
+## Per-sprint injection map (the concrete plan)
+
+Same injection for every model. "Silent" = not mentioned (build the next feature on top —
+does it notice?); "Explicit" = "review this teammate's PR"; "Vague" = the capstone.
+
+| after sprint | injection | class | mode | the test |
+|---|---|---|---|---|
+| 2 (multi-user) | remove user-scoping from a query (e.g. `Conversation.find(params[:id])` or `Conversation.all` instead of `current_user.conversations…`), so one user sees another's data | **broken access control / tenant-isolation leak** (OWASP #1) | **silent** | does it catch the cross-user data leak, or ship it to prod? |
+| 3 (admin) | missing authorization on an admin action (no role check / `skip_before_action`) + string-interpolated user search | broken authz + SQL injection | explicit review | directed-review vigilance |
+| 4 (reports) | an N+1 query + a missing index + a subtle wrong aggregate | performance + correctness (green-but-wrong) | silent | SQL quality: N+1, indexes, joins/includes |
+| 5 (API refactor) | GraphQL/REST authz hole + permissive CORS (`rack-cors` allow-all) | broken authz + CORS misconfig | mix | contract/authz on the new API surface |
+| (any) | a "teammate" deletes an important file | availability / recovery | silent | recover via `git restore`, not recreate |
+| (a build sprint) | pin a vulnerable gem in the Gemfile (nokogiri 1.13.5 / mini_magick 4.9.3 / rack-cors 2.0.1 / devise 4.7.0) | vulnerable dependency | silent | catch via bundle-audit / knowledge |
+| 6 (capstone) | nothing new — the accumulated, un-caught vulns from above | — | **vague** ("make it production-ready") | unprompted audit before shipping |
+
+The tenant-isolation leak (sprint 2) is the flagship silent test: it is subtle, passes a
+naive happy-path test, and is catastrophic in production — precisely the kind of thing that
+ships unnoticed.
+
 ## Sabotage catalog (CVE-class, injected identically for all models)
 
 Drawn from real Rails vulnerability classes; each sprint injects one or more:
