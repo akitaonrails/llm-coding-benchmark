@@ -50,7 +50,6 @@ def main() -> int:
     print("-" * 90)
     for t in task_dirs:
         meta = json.loads((t / "meta.json").read_text())
-        ep_name = Path(meta["entrypoint"]).name
         v = meta["validation"]
 
         # build a candidate dir = workspace + reference file overlaid
@@ -61,7 +60,12 @@ def main() -> int:
             with tempfile.TemporaryDirectory() as d:
                 proj = Path(d) / "project"
                 shutil.copytree(t / "workspace", proj)
-                shutil.copy(t / "reference" / ep_name, proj / meta["entrypoint"])
+                # overlay the ENTIRE reference tree (handles single-file AND package refs)
+                for rf in (t / "reference").rglob("*"):
+                    if rf.is_file():
+                        tgt = proj / rf.relative_to(t / "reference")
+                        tgt.parent.mkdir(parents=True, exist_ok=True)
+                        shutil.copy(rf, tgt)
                 ref_scores.append(grade(t, proj, a.timeout))
         # naive = workspace as-is
         naive = grade(t, t / "workspace", a.timeout)
