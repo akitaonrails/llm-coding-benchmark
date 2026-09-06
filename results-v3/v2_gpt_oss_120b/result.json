@@ -1,0 +1,51 @@
+{
+  "slug": "v2_gpt_oss_120b",
+  "label": "GPT-OSS 120B (opencode/OpenRouter)",
+  "harness": "opencode",
+  "v3_score": 63.8,
+  "tasks": [
+    {
+      "task": "17-marketplace-app",
+      "category": "app-simulation",
+      "language": "python",
+      "correctness": 27.6,
+      "by_tag": {
+        "commerce": "9/57",
+        "accounts": "3/16",
+        "admin": "4/17",
+        "plugins": "20/37",
+        "analytics": "4/18"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 7.42,
+      "stall_aborted": false,
+      "cost_usd": 0.0008,
+      "tokens_total": 20539,
+      "run_failed": false,
+      "exit_code": 0
+    },
+    {
+      "task": "18-resolver-backtrack",
+      "category": "algorithm-observation",
+      "language": "python",
+      "correctness": 100.0,
+      "by_tag": {
+        "simple": "2/2",
+        "diamond": "2/2",
+        "backtrack": "12/12",
+        "unsat": "7/7"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 68.33,
+      "stall_aborted": false,
+      "cost_usd": 0.0021,
+      "tokens_total": 68718,
+      "run_failed": false,
+      "exit_code": 0
+    }
+  ],
+  "elapsed_seconds_total": 75.8,
+  "cost_usd_total": 0.0029
+}
