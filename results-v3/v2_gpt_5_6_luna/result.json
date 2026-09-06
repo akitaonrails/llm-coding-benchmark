@@ -1,0 +1,51 @@
+{
+  "slug": "v2_gpt_5_6_luna",
+  "label": "GPT 5.6 Luna xHigh (Codex)",
+  "harness": "codex",
+  "v3_score": 99.7,
+  "tasks": [
+    {
+      "task": "17-marketplace-app",
+      "category": "app-simulation",
+      "language": "python",
+      "correctness": 99.3,
+      "by_tag": {
+        "commerce": "56/57",
+        "accounts": "16/16",
+        "admin": "17/17",
+        "plugins": "37/37",
+        "analytics": "18/18"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 806.98,
+      "stall_aborted": false,
+      "cost_usd": 0.5845,
+      "tokens_total": 1506386,
+      "run_failed": false,
+      "exit_code": 0
+    },
+    {
+      "task": "18-resolver-backtrack",
+      "category": "algorithm-observation",
+      "language": "python",
+      "correctness": 100.0,
+      "by_tag": {
+        "simple": "2/2",
+        "diamond": "2/2",
+        "backtrack": "12/12",
+        "unsat": "7/7"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 195.44,
+      "stall_aborted": false,
+      "cost_usd": 0.1359,
+      "tokens_total": 208082,
+      "run_failed": false,
+      "exit_code": 0
+    }
+  ],
+  "elapsed_seconds_total": 1002.4,
+  "cost_usd_total": 0.7204
+}
