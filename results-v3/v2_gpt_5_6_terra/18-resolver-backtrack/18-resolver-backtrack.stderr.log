@@ -1,0 +1,1 @@
+2026-09-06T04:54:52.253178Z ERROR codex_core::tools::router: error=apply_patch verification failed: invalid patch: multiple operations target /mnt/data/Projects/llm-coding-benchmark/results-v3/v2_gpt_5_6_terra/18-resolver-backtrack/project/resolver.py

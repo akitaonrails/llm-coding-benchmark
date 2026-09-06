@@ -1,0 +1,2 @@
+2026-09-06T04:42:44.231655Z ERROR codex_core::tools::router: error=apply_patch verification failed: invalid patch: multiple operations target /mnt/data/Projects/llm-coding-benchmark/results-v3/v2_gpt_5_6_terra/17-marketplace-app/project/marketplace/accounts/directory.py
+2026-09-06T04:47:14.953685Z ERROR codex_core::tools::router: error=apply_patch verification failed: invalid patch: multiple operations target /mnt/data/Projects/llm-coding-benchmark/results-v3/v2_gpt_5_6_terra/17-marketplace-app/project/marketplace/plugins/compat.py
