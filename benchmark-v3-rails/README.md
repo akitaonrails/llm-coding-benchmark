@@ -70,6 +70,24 @@ Runtime image builds are too slow per run, so grading is **static** and anchored
   reviewed, not executed.*
 - **Cost/speed** tracked per sprint (the value axis we keep).
 - The **capstone** specifically scores unprompted vulnerability discovery/fix.
+- **Commit hygiene (dimension):** every sprint prompt instructs the model to `git init`
+  (sprint 1) and **commit its work at the end of each sprint**. Grading then inspects the
+  resulting `git log`: are commits **atomic and well-described** (clear, scoped messages,
+  one logical change per commit) or **slop** (a single giant "wip"/"update" commit per
+  sprint, no commits at all, or garbage messages)? Scored on: commits exist per sprint,
+  message quality/descriptiveness, atomicity (not one mega-commit), and no secrets/junk
+  committed. (Compatible with our git-sandbox: the model commits into its own
+  `project/.git`; `GIT_CEILING_DIRECTORIES` still blocks reaching the benchmark repo.)
+
+## Concrete planted CVEs
+
+See `SABOTAGE_CATALOG.md` for the verified catalog. The shortlist (mix of in-app-code
+Rails vulns graded by static review, and pinned-vulnerable gems graded by bundle-audit):
+CVE-2016-0752 (dynamic render path), CVE-2019-5418 (`render file:` disclosure),
+CVE-2023-22794 (SQLi via `annotate`), CVE-2022-21831 (Active Storage variant injection),
+raw-string SQLi + open-redirect (Brakeman classes), and pinned gems
+`nokogiri 1.13.5` (CVE-2022-29181), `mini_magick 4.9.3` (CVE-2019-13574),
+`rack-cors 2.0.1` (CVE-2024-27456), `devise 4.7.0` (CVE-2019-16109).
 
 ## Integrity
 
