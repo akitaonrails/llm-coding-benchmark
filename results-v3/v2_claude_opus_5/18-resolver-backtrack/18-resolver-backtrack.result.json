@@ -1,0 +1,23 @@
+{
+  "command_kind": "claude",
+  "cost_usd": 1.5579405000000002,
+  "elapsed_seconds": 418.6,
+  "ended_at": "2026-09-06T03:29:23+00:00",
+  "exit_code": 0,
+  "file_count_after": 2,
+  "harness": "claude",
+  "phase": "18-resolver-backtrack",
+  "session_id": "f28a9fb2-9340-4d66-b704-f15e48ff8201",
+  "stall_aborted": false,
+  "started_at": "2026-09-06T03:22:25+00:00",
+  "timed_out": false,
+  "tokens": {
+    "cache": {
+      "read": 485607,
+      "write": 45520
+    },
+    "input": 24,
+    "output": 34334,
+    "total": 565485
+  }
+}
