@@ -1,0 +1,24 @@
+{
+  "command_kind": "bash -lc",
+  "cost_usd": 2.2195,
+  "elapsed_seconds": 710.79,
+  "ended_at": "2026-09-06T00:36:20+00:00",
+  "exit_code": 0,
+  "file_count_after": 38,
+  "harness": "codex",
+  "phase": "17-marketplace-app",
+  "session_id": null,
+  "stall_aborted": false,
+  "started_at": "2026-09-06T00:24:29+00:00",
+  "timed_out": false,
+  "tokens": {
+    "cache": {
+      "read": 382976,
+      "write": 0
+    },
+    "input": 46361,
+    "output": 21818,
+    "reasoning": 5640,
+    "total": 456795
+  }
+}

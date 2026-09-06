@@ -5,28 +5,27 @@
   "v3_score": 100.0,
   "tasks": [
     {
-      "task": "16-repo-order-service",
-      "category": "repository-scale",
+      "task": "17-marketplace-app",
+      "category": "app-simulation",
       "language": "python",
       "correctness": 100.0,
       "by_tag": {
-        "pricing": "20/20",
-        "inventory": "11/11",
-        "validation": "12/12",
-        "idempotency": "6/6",
-        "atomicity": "5/5",
-        "receipt": "5/5"
+        "commerce": "50/50",
+        "accounts": "14/14",
+        "admin": "13/13",
+        "plugins": "25/25",
+        "analytics": "18/18"
       },
       "capped_by": null,
       "load_error": null,
-      "elapsed_seconds": 327.66,
+      "elapsed_seconds": 710.79,
       "stall_aborted": false,
-      "cost_usd": 1.189,
-      "tokens_total": 252684,
+      "cost_usd": 2.2195,
+      "tokens_total": 456795,
       "run_failed": false,
       "exit_code": 0
     }
   ],
-  "elapsed_seconds_total": 327.7,
-  "cost_usd_total": 1.189
+  "elapsed_seconds_total": 710.8,
+  "cost_usd_total": 2.2195
 }

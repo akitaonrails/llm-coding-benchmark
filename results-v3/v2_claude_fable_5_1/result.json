@@ -2,31 +2,30 @@
   "slug": "v2_claude_fable_5_1",
   "label": "Claude Fable 5.1 (Claude Code)",
   "harness": "claude",
-  "v3_score": 98.3,
+  "v3_score": 97.5,
   "tasks": [
     {
-      "task": "16-repo-order-service",
-      "category": "repository-scale",
+      "task": "17-marketplace-app",
+      "category": "app-simulation",
       "language": "python",
-      "correctness": 98.3,
+      "correctness": 97.5,
       "by_tag": {
-        "pricing": "20/20",
-        "inventory": "10/11",
-        "validation": "12/12",
-        "idempotency": "6/6",
-        "atomicity": "5/5",
-        "receipt": "5/5"
+        "commerce": "47/50",
+        "accounts": "14/14",
+        "admin": "13/13",
+        "plugins": "25/25",
+        "analytics": "18/18"
       },
       "capped_by": null,
       "load_error": null,
-      "elapsed_seconds": 247.55,
+      "elapsed_seconds": 679.35,
       "stall_aborted": false,
-      "cost_usd": 1.0254435,
-      "tokens_total": 357473,
+      "cost_usd": 3.080501499999999,
+      "tokens_total": 1834862,
       "run_failed": false,
       "exit_code": 0
     }
   ],
-  "elapsed_seconds_total": 247.6,
-  "cost_usd_total": 1.0254
+  "elapsed_seconds_total": 679.4,
+  "cost_usd_total": 3.0805
 }
