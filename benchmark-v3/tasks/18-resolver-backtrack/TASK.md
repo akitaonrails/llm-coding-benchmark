@@ -1,0 +1,26 @@
+# Task 18 — Dependency resolver
+
+**Category:** algorithm · **Language:** Python · **Scoring:** continuous (0–100)
+
+Implement `resolve(registry, root)` — pick a set of package versions that satisfies a
+set of dependency constraints (what a package manager does).
+
+- `registry`: `{name: {version: [[dep_name, spec], ...]}}` — each available version of
+  each package and the dependencies that version introduces.
+- `root`: `[[name, spec], ...]` — the top-level requirements.
+- Return a dict `{name: version}` that satisfies **every constraint, transitively**, or
+  `None` if no such assignment exists.
+
+`spec` grammar: `"*"` (any), `">=x.y.z"`, `"^x.y.z"` (caret / compatible), or `"x.y.z"`
+(exact). Versions are `major.minor.patch`.
+
+The catch: greedily taking the newest satisfying version of each package **does not
+work** — the newest version of one package can introduce a constraint that makes another
+package unsatisfiable, when an older version would have resolved cleanly. A correct
+resolver must reconsider earlier choices. It must also correctly return `None` when the
+constraints are genuinely unsatisfiable.
+
+Standard library only. Keep the signature. Edit `resolver.py` in place. Graded on a
+spectrum by a hidden suite of resolution instances (satisfiable — including cases that
+require reconsidering choices — and unsatisfiable); your returned assignment is
+validated against all transitive constraints.
