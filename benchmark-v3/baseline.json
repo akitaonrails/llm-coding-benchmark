@@ -1,0 +1,26 @@
+{
+  "baseline_slug": "v2_claude_opus_4_6",
+  "baseline_label": "Claude Opus 4.6 (Claude Code)",
+  "frozen_on": "2026-09-06",
+  "harness": "claude",
+  "tasks": {
+    "17-marketplace-app": {
+      "quality": 95.2,
+      "cost_usd": 1.2470415,
+      "time_s": 376.21,
+      "manifest_hash": "035e5f17cb8f8205fe9e9aa32eabc1d3270c265a02ccb0a4f101427a8fdfe3ea"
+    },
+    "18-resolver-backtrack": {
+      "quality": 100.0,
+      "cost_usd": 0.3128065,
+      "time_s": 89.73,
+      "manifest_hash": "0f732d4398760b7260e146fd77af4d20b9ce740f00cc6f1db7119b5118dfe64f"
+    }
+  },
+  "aggregate": {
+    "quality": 97.6,
+    "cost_usd": 1.5598,
+    "time_s": 465.9,
+    "n_tasks": 2
+  }
+}
