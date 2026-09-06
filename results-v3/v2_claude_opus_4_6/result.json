@@ -2,31 +2,30 @@
   "slug": "v2_claude_opus_4_6",
   "label": "Claude Opus 4.6 (Claude Code)",
   "harness": "claude",
-  "v3_score": 96.6,
+  "v3_score": 95.0,
   "tasks": [
     {
-      "task": "16-repo-order-service",
-      "category": "repository-scale",
+      "task": "17-marketplace-app",
+      "category": "app-simulation",
       "language": "python",
-      "correctness": 96.6,
+      "correctness": 95.0,
       "by_tag": {
-        "pricing": "20/20",
-        "inventory": "10/11",
-        "validation": "12/12",
-        "idempotency": "6/6",
-        "atomicity": "5/5",
-        "receipt": "4/5"
+        "commerce": "48/50",
+        "accounts": "14/14",
+        "admin": "13/13",
+        "plugins": "21/25",
+        "analytics": "18/18"
       },
       "capped_by": null,
       "load_error": null,
-      "elapsed_seconds": 237.89,
+      "elapsed_seconds": 153.56,
       "stall_aborted": false,
-      "cost_usd": 0.7122135,
-      "tokens_total": 230389,
+      "cost_usd": 0.5404065,
+      "tokens_total": 157980,
       "run_failed": false,
       "exit_code": 0
     }
   ],
-  "elapsed_seconds_total": 237.9,
-  "cost_usd_total": 0.7122
+  "elapsed_seconds_total": 153.6,
+  "cost_usd_total": 0.5404
 }
