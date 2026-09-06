@@ -1,0 +1,51 @@
+{
+  "slug": "v2_step_3_7_flash",
+  "label": "Step 3.7 Flash (opencode/OpenRouter) \u2014 wave 3 group 1",
+  "harness": "opencode",
+  "v3_score": 93.5,
+  "tasks": [
+    {
+      "task": "17-marketplace-app",
+      "category": "app-simulation",
+      "language": "python",
+      "correctness": 86.9,
+      "by_tag": {
+        "commerce": "55/57",
+        "accounts": "16/16",
+        "admin": "17/17",
+        "plugins": "24/37",
+        "analytics": "14/18"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 247.17,
+      "stall_aborted": false,
+      "cost_usd": 0.1059,
+      "tokens_total": 1338966,
+      "run_failed": false,
+      "exit_code": 0
+    },
+    {
+      "task": "18-resolver-backtrack",
+      "category": "algorithm-observation",
+      "language": "python",
+      "correctness": 100.0,
+      "by_tag": {
+        "simple": "2/2",
+        "diamond": "2/2",
+        "backtrack": "12/12",
+        "unsat": "7/7"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 63.03,
+      "stall_aborted": false,
+      "cost_usd": 0.0189,
+      "tokens_total": 150906,
+      "run_failed": false,
+      "exit_code": 0
+    }
+  ],
+  "elapsed_seconds_total": 310.2,
+  "cost_usd_total": 0.1248
+}
