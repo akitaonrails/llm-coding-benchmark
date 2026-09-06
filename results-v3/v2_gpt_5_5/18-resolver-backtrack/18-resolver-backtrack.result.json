@@ -1,0 +1,24 @@
+{
+  "command_kind": "bash -lc",
+  "cost_usd": 0.767,
+  "elapsed_seconds": 186.9,
+  "ended_at": "2026-09-06T05:59:36+00:00",
+  "exit_code": 0,
+  "file_count_after": 2,
+  "harness": "codex",
+  "phase": "18-resolver-backtrack",
+  "session_id": null,
+  "stall_aborted": false,
+  "started_at": "2026-09-06T05:56:29+00:00",
+  "timed_out": false,
+  "tokens": {
+    "cache": {
+      "read": 287872,
+      "write": 0
+    },
+    "input": 37238,
+    "output": 9406,
+    "reasoning": 5156,
+    "total": 339672
+  }
+}
