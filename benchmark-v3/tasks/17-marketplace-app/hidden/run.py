@@ -192,6 +192,35 @@ def c_missing_rid():
 chk("commerce", 1, c_missing_rid)
 
 
+# --- subtle, un-telegraphed edges (differentiators) ---
+def c_coupon_fractional():
+    svc, _, _, _ = commerce_build({"A": 100})
+    r = svc.checkout({"request_id": "r", "cart": [{"sku": "A", "qty": 3}],
+                      "coupon": {"type": "pct", "value": 12.5, "min_spend": 0}})
+    return r.discount_cents == rc(Decimal(300) * Decimal("12.5") / 100)  # 37.5 -> 38 half-up
+chk("commerce", 2, c_coupon_fractional)
+
+
+def c_idem_diff_cart():
+    # a replayed request_id must return the ORIGINAL receipt even if the cart differs
+    svc, inv, store, _ = commerce_build({"A": 100})
+    a = svc.checkout({"request_id": "x", "cart": [{"sku": "A", "qty": 2}], "tax_rate": 0})
+    b = svc.checkout({"request_id": "x", "cart": [{"sku": "A", "qty": 9}], "tax_rate": 0})
+    return a.total_cents == b.total_cents and inv.available("A") == 98 and len(store.all()) == 1
+chk("commerce", 3, c_idem_diff_cart)
+
+
+def c_qty_float_rejected():
+    svc, _, _, errors = commerce_build({"A": 100})
+    try:
+        svc.checkout({"request_id": "r", "cart": [{"sku": "A", "qty": 2.0}]}); return False
+    except errors.ValidationError:
+        return True
+    except Exception:
+        return False
+chk("commerce", 2, c_qty_float_rejected)
+
+
 # =================== ACCOUNTS ===================
 def _Dir():
     return imp("accounts.directory").Directory
@@ -236,6 +265,11 @@ def a_no_leak():
         pass
     return d.count() == 1 and d.find_by_email("l@x.com")["name"] == "Leak"
 
+
+def a_trim_email():
+    D = _Dir(); d = D(); d.add_user({"email": "  Trim@X.com  ", "name": "T"})
+    return d.find_by_email("trim@x.com") is not None and d.count() == 1
+chk("accounts", 2, a_trim_email)
 
 chk("accounts", 3, a_basic)
 chk("accounts", 3, a_reject_invalid)
@@ -297,10 +331,37 @@ def ad_symlink():
         return not os.path.exists(os.path.join(outside, "leak.txt"))
 
 
+def ad_abspath():
+    rb = _restore()
+    with tempfile.TemporaryDirectory() as w:
+        canary = os.path.join(w, "abs_canary.txt")
+        arc = os.path.join(w, "a.tar.gz"); _mk_targz(arc, [(canary.lstrip("/"), b"pwn")])
+        # craft a truly-absolute member name
+        arc2 = os.path.join(w, "b.tar.gz"); _mk_targz(arc2, [("/" + os.path.relpath(canary, "/"), b"pwn")])
+        dest = os.path.join(w, "d"); os.makedirs(dest)
+        try:
+            rb(arc2, dest)
+        except Exception:
+            pass
+        return not os.path.exists(canary)
+
+
+def ad_empty():
+    rb = _restore()
+    with tempfile.TemporaryDirectory() as w:
+        arc = os.path.join(w, "e.tar.gz"); _mk_targz(arc, [])
+        try:
+            return rb(arc, os.path.join(w, "d")) == []
+        except Exception:
+            return False
+
+
 chk("admin", 3, ad_legit)
 chk("admin", 3, lambda: ad_no_escape([("../esc.txt", b"pwn")], "../esc.txt"))
 chk("admin", 3, lambda: ad_no_escape([("../../esc2.txt", b"pwn")], "../../esc2.txt"))
 chk("admin", 4, ad_symlink)
+chk("admin", 3, ad_abspath)
+chk("admin", 1, ad_empty)
 
 
 # =================== PLUGINS (semver) ===================
@@ -317,6 +378,12 @@ PLUGIN_CASES = [
     ("1.0.0-alpha.1", ">1.0.0-alpha", True, 2), ("1.0.0-rc.1", ">1.0.0-beta.11", True, 2),
     ("1.2.4-alpha", "^1.2.3", False, 3), ("1.0.0-alpha", "<1.0.0", False, 3),
     ("1.2.3-beta.2", ">=1.2.3-beta.1 <1.2.4", True, 3),
+    # subtle, un-telegraphed edges (differentiators):
+    ("1.2.3+build", "1.2.3", True, 2),                 # build metadata ignored
+    ("1.2.3", "^1.2.3-0", True, 2),                     # release satisfies a pre-release floor
+    ("2.0.0-alpha", "1.x", False, 3),                   # x-range excludes a prerelease of a diff core
+    ("0.0.4", "^0.0.3", False, 2),                      # caret on 0.0.x pins the patch
+    ("1.2.3-alpha.2", ">=1.2.3-alpha.1 <1.2.4", True, 3),
 ]
 for _v, _r, _e, _w in PLUGIN_CASES:
     chk("plugins", _w, (lambda v, r, e: (lambda: bool(_sat()(v, r)) == e))(_v, _r, _e))
