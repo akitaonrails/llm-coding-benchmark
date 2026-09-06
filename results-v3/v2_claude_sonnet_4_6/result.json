@@ -1,0 +1,51 @@
+{
+  "slug": "v2_claude_sonnet_4_6",
+  "label": "Claude Sonnet 4.6 (Claude Code) \u2014 wave 3 group 1",
+  "harness": "claude",
+  "v3_score": 95.5,
+  "tasks": [
+    {
+      "task": "17-marketplace-app",
+      "category": "app-simulation",
+      "language": "python",
+      "correctness": 91.0,
+      "by_tag": {
+        "commerce": "55/57",
+        "accounts": "14/16",
+        "admin": "17/17",
+        "plugins": "28/37",
+        "analytics": "18/18"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 528.11,
+      "stall_aborted": false,
+      "cost_usd": 1.0781721999999998,
+      "tokens_total": 1064245,
+      "run_failed": false,
+      "exit_code": 0
+    },
+    {
+      "task": "18-resolver-backtrack",
+      "category": "algorithm-observation",
+      "language": "python",
+      "correctness": 100.0,
+      "by_tag": {
+        "simple": "2/2",
+        "diamond": "2/2",
+        "backtrack": "12/12",
+        "unsat": "7/7"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 61.18,
+      "stall_aborted": false,
+      "cost_usd": 0.1556409,
+      "tokens_total": 95871,
+      "run_failed": false,
+      "exit_code": 0
+    }
+  ],
+  "elapsed_seconds_total": 589.3,
+  "cost_usd_total": 1.2338
+}
