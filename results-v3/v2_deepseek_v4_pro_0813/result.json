@@ -1,0 +1,73 @@
+{
+  "slug": "v2_deepseek_v4_pro_0813",
+  "label": "DeepSeek V4 Pro 0813 (opencode/OpenRouter)",
+  "harness": "opencode",
+  "v3_score": 97.6,
+  "tasks": [
+    {
+      "task": "16-repo-order-service",
+      "category": "repository-scale",
+      "language": "python",
+      "correctness": 94.9,
+      "by_tag": {
+        "pricing": "20/20",
+        "inventory": "8/11",
+        "validation": "12/12",
+        "idempotency": "6/6",
+        "atomicity": "5/5",
+        "receipt": "5/5"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 350.69,
+      "stall_aborted": false,
+      "cost_usd": 0.1596,
+      "tokens_total": 285008,
+      "run_failed": false,
+      "exit_code": 0
+    },
+    {
+      "task": "17-marketplace-app",
+      "category": "app-simulation",
+      "language": "python",
+      "correctness": 97.9,
+      "by_tag": {
+        "commerce": "54/57",
+        "accounts": "16/16",
+        "admin": "17/17",
+        "plugins": "37/37",
+        "analytics": "18/18"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 1872.15,
+      "stall_aborted": false,
+      "cost_usd": 0.9572,
+      "tokens_total": 6841276,
+      "run_failed": false,
+      "exit_code": 0
+    },
+    {
+      "task": "18-resolver-backtrack",
+      "category": "algorithm-observation",
+      "language": "python",
+      "correctness": 100.0,
+      "by_tag": {
+        "simple": "2/2",
+        "diamond": "2/2",
+        "backtrack": "12/12",
+        "unsat": "7/7"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 346.99,
+      "stall_aborted": false,
+      "cost_usd": 0.1226,
+      "tokens_total": 233597,
+      "run_failed": false,
+      "exit_code": 0
+    }
+  ],
+  "elapsed_seconds_total": 2569.8,
+  "cost_usd_total": 1.2394
+}
