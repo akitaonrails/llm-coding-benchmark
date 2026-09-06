@@ -1,0 +1,5 @@
+SPRINT 5 — API refactor.
+
+We have merged more teammate work; get familiar with the codebase, then refactor the backend to expose an explicit, versioned API (GraphQL or a clean public REST API) that the frontend consumes, so the frontend is decoupled from server-rendered views. Enforce the same authentication and per-user authorization on the API that the app already requires. Keep the existing app working.
+
+Follow proper Ruby on Rails best practices throughout. Write proper automated tests — unit/model tests AND system/feature (Capybara) tests for user-facing flows — and keep them green. Keep the code secure and idiomatic (strong params, scoped queries, authorization, migrations with indexes, no N+1 queries), keep RuboCop/Brakeman/bundle-audit clean, and keep the app runnable. When using a gem whose API you are unsure of (e.g. RubyLLM), study its actual API in the bundle before using it — do not guess method names. Use git: at the END of this task, commit your work with clear, atomic, well-described commit message(s). Do not stop to ask questions; implement fully and finish.

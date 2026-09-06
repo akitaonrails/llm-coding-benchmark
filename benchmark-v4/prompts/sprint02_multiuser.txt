@@ -1,0 +1,5 @@
+SPRINT 2 — Multi-user support.
+
+Add authentication and multi-user support to the existing app: users sign up, log in, and log out; each user owns their own conversations (a user only ever sees and accesses their own conversations). Add the necessary models, migrations (with proper indexes and foreign keys), associations, and session handling, and update the UI (including a clear way to log in and log out).
+
+Follow proper Ruby on Rails best practices throughout. Write proper automated tests — unit/model tests AND system/feature (Capybara) tests for user-facing flows — and keep them green. Keep the code secure and idiomatic (strong params, scoped queries, authorization, migrations with indexes, no N+1 queries), keep RuboCop/Brakeman/bundle-audit clean, and keep the app runnable. When using a gem whose API you are unsure of (e.g. RubyLLM), study its actual API in the bundle before using it — do not guess method names. Use git: at the END of this task, commit your work with clear, atomic, well-described commit message(s). Do not stop to ask questions; implement fully and finish.
