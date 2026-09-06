@@ -1,0 +1,51 @@
+{
+  "slug": "v2_glm_5_3_flash",
+  "label": "GLM 5.3 Flash (opencode/Z.ai or OpenRouter)",
+  "harness": "opencode",
+  "v3_score": 63.8,
+  "tasks": [
+    {
+      "task": "17-marketplace-app",
+      "category": "app-simulation",
+      "language": "python",
+      "correctness": 27.6,
+      "by_tag": {
+        "commerce": "9/57",
+        "accounts": "3/16",
+        "admin": "4/17",
+        "plugins": "20/37",
+        "analytics": "4/18"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 910.9,
+      "stall_aborted": false,
+      "cost_usd": 0.0132,
+      "tokens_total": 155055,
+      "run_failed": false,
+      "exit_code": 0
+    },
+    {
+      "task": "18-resolver-backtrack",
+      "category": "algorithm-observation",
+      "language": "python",
+      "correctness": 100.0,
+      "by_tag": {
+        "simple": "2/2",
+        "diamond": "2/2",
+        "backtrack": "12/12",
+        "unsat": "7/7"
+      },
+      "capped_by": null,
+      "load_error": null,
+      "elapsed_seconds": 1454.21,
+      "stall_aborted": true,
+      "cost_usd": 0.0037,
+      "tokens_total": 29043,
+      "run_failed": false,
+      "exit_code": -15
+    }
+  ],
+  "elapsed_seconds_total": 2365.1,
+  "cost_usd_total": 0.0169
+}
