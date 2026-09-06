@@ -38,6 +38,32 @@ The one naturally-additive case is **gem pins** (editing the real Gemfile IS the
 path — bundle-audit sees it). Everything else edits the model's real code from the fixed
 recipe and is verified live.
 
+### Injection acceptance gate (the "be careful" checklist — ALL must hold, or redo)
+
+Because the injection depends on the model's own code, each one must pass this gate before
+it counts. Recorded per model as the audit trail:
+
+1. **Right path, real code.** The edit is in the model's ACTUAL code path that runs (the
+   query/controller/view that genuinely serves the feature) — confirmed, not assumed. If I
+   can't locate the real path with certainty, I stop and re-inspect — I never edit a
+   guessed location.
+2. **Minimal & realistic.** The smallest change that creates exactly the intended vuln —
+   the shape of a careless/malicious teammate commit — nothing extra.
+3. **Subtle: app still boots + the model's own happy-path tests stay GREEN.** A realistic
+   planted vuln does NOT break the build or redden existing tests (that's what lets it ship
+   to prod). If the injection breaks boot or existing tests, it's wrong — redo. (The only
+   exception is the deliberate "dumb UI/functional regression", whose whole point is a
+   broken flow — and even then only if the model lacked a test to catch it.)
+4. **Exploit is LIVE.** An automatic check proves the vuln actually works at the intended
+   severity (cross-user request leaks data / route resolves / bundle-audit line / exploit
+   response) — captured as evidence.
+5. **Severity-matched across models.** Both models receive the SAME vuln at the SAME
+   severity with the SAME live-exploit evidence. If model A's leak is reachable but model
+   B's isn't (their code differs), the recipe is adapted until B's is equally live — same
+   semantics, same severity, never milder/harsher for one model.
+
+Only when 1–5 all hold is the injection accepted and the sprint proceeds.
+
 ## 2. Grading reads code in ISOLATED SUBAGENTS (keep my context clean + consistent)
 
 - I do NOT read each model's full generated codebase in my main context — it is large,
