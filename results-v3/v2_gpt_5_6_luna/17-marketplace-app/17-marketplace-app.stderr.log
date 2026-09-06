@@ -1,0 +1,9 @@
+2026-09-06T05:00:21.843342Z ERROR codex_core::tools::router: error=apply_patch verification failed: Failed to find expected lines in /mnt/data/Projects/llm-coding-benchmark/results-v3/v2_gpt_5_6_luna/17-marketplace-app/project/marketplace/commerce/pricing.py:
+"""
+
+def line_total_cents(unit_price_cents, qty):
+    total = unit_price_cents * qty
+    if qty > 10:
+        total = int(total * 0.9)
+    return total
+2026-09-06T05:01:22.063677Z ERROR codex_core::tools::router: error=apply_patch verification failed: invalid patch: multiple operations target /mnt/data/Projects/llm-coding-benchmark/results-v3/v2_gpt_5_6_luna/17-marketplace-app/project/marketplace/commerce/pricing.py
