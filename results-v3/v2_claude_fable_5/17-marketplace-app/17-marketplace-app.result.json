@@ -1,0 +1,23 @@
+{
+  "command_kind": "claude",
+  "cost_usd": 4.82183,
+  "elapsed_seconds": 546.05,
+  "ended_at": "2026-09-06T04:05:24+00:00",
+  "exit_code": 0,
+  "file_count_after": 38,
+  "harness": "claude",
+  "phase": "17-marketplace-app",
+  "session_id": "f60099db-f907-4ac6-bc1a-b8499ef6a378",
+  "stall_aborted": false,
+  "started_at": "2026-09-06T03:56:18+00:00",
+  "timed_out": false,
+  "tokens": {
+    "cache": {
+      "read": 991456,
+      "write": 66155
+    },
+    "input": 36,
+    "output": 50092,
+    "total": 1107739
+  }
+}
