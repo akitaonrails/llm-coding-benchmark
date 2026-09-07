@@ -1,0 +1,10 @@
+{
+  "slug": "v2_kimi_k3",
+  "sprint": "sprint01_foundation",
+  "harness": "kimi",
+  "elapsed_seconds": 1494.63,
+  "cost_usd": 2.9223,
+  "tokens_total": 7058348,
+  "exit_code": -15,
+  "stall_aborted": false
+}
