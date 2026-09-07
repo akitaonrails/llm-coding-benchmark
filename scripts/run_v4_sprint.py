@@ -19,6 +19,12 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "scripts"))
 PROMPTS = REPO / "benchmark-v4" / "prompts"
 OUT = REPO / "results-v4"
+# Shield lives on the SAME filesystem as the repo (REPO.parent) so shield/unshield are
+# ATOMIC renames, never interruptible cross-filesystem copies. (~/.cache is a different
+# mount than /mnt/data — a kill mid cross-fs move once destroyed a model's project. Same-fs
+# rename is atomic: a kill either leaves the dir fully at src or fully at dst, never partial.)
+# Matches the .bench_shield precedent; outside the repo tree, hidden dotdir.
+SHIELD_BASE = REPO.parent
 
 # answer artifacts + grading key the model must never see. Shield the WHOLE benchmark-v4
 # dir (golden reference, injection plan, sabotage catalog, protocol, grading rubric/recipes)
@@ -31,7 +37,7 @@ SHIELD = [
 
 
 def shield(out_root: Path) -> Path:
-    sh = Path.home() / ".cache" / f".v4shield_{uuid.uuid4().hex[:8]}"
+    sh = SHIELD_BASE / f".v4shield_{uuid.uuid4().hex[:8]}"
     (sh / "misc").mkdir(parents=True)
     (sh / "results").mkdir(parents=True)
     for rel in SHIELD:
@@ -73,10 +79,12 @@ def restore_stranded_shields() -> None:
     is active, so any existing shield dir belongs to a dead process. Restores conservatively:
     a shielded item is moved back ONLY if its repo target is currently missing (never clobbers
     live state). Called before this process creates its own shield."""
-    cache = Path.home() / ".cache"
-    if not cache.exists():
-        return
-    for sh in sorted(cache.glob(".v4shield_*")):
+    bases = [SHIELD_BASE, Path.home() / ".cache"]  # new location + legacy ~/.cache sweep
+    shields = []
+    for base in bases:
+        if base.exists():
+            shields += sorted(base.glob(".v4shield_*"))
+    for sh in shields:
         if not sh.is_dir():
             continue
         # never touch a shield an actively-running run_v4_sprint owns
@@ -88,20 +96,40 @@ def restore_stranded_shields() -> None:
                 continue
         except Exception:
             pass
+        conflicts = []  # shielded items whose target already exists — NEVER auto-delete these
         misc = sh / "misc"
         for rel in SHIELD:
             src = misc / rel
-            if src.exists() and not (REPO / rel).exists():
+            if not src.exists():
+                continue
+            if (REPO / rel).exists():
+                conflicts.append(f"misc/{rel}")
+            else:
                 (REPO / rel).parent.mkdir(parents=True, exist_ok=True)
                 shutil.move(str(src), str(REPO / rel))
         res = sh / "results"
         if res.exists():
             for d in res.iterdir():
-                if not (OUT / d.name).exists():
+                if (OUT / d.name).exists():
+                    # target exists: keep the LARGER (more-complete) copy; a partial/empty
+                    # OUT dir (e.g. only sprints/, project lost) must NOT shadow a full shield copy.
+                    def _files(p): return sum(1 for _ in p.rglob("*") if _.is_file())
+                    if _files(d) > _files(OUT / d.name):
+                        bad = OUT / (d.name + ".partial-" + uuid.uuid4().hex[:6])
+                        shutil.move(str(OUT / d.name), str(bad))
+                        shutil.move(str(d), str(OUT / d.name))
+                        print(f"[shield-recover] {d.name}: shield copy fuller — swapped in; partial saved {bad.name}")
+                    else:
+                        conflicts.append(f"results/{d.name}")
+                else:
                     OUT.mkdir(parents=True, exist_ok=True)
                     shutil.move(str(d), str(OUT / d.name))
-        shutil.rmtree(sh, ignore_errors=True)
-        print(f"[shield-recover] restored stranded shield {sh.name}")
+        # only delete the shield if NOTHING is left unrestored — otherwise preserve it for manual review
+        if conflicts:
+            print(f"[shield-recover] {sh.name}: LEFT IN PLACE — unresolved conflicts (target exists): {conflicts}")
+        else:
+            shutil.rmtree(sh, ignore_errors=True)
+            print(f"[shield-recover] restored stranded shield {sh.name}")
 
 
 def main() -> int:
