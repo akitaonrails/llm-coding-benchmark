@@ -12,7 +12,7 @@ model can't read the benchmark repo history. Captures cost/time/tokens per sprin
 Usage: run_v4_sprint.py --model <slug> --sprint <NN_name> [--config config/models_v2.json]
 """
 from __future__ import annotations
-import argparse, json, shutil, subprocess, sys, uuid
+import argparse, json, shutil, signal, subprocess, sys, uuid
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
@@ -65,6 +65,45 @@ def unshield(sh: Path) -> None:
     shutil.rmtree(sh, ignore_errors=True)
 
 
+def restore_stranded_shields() -> None:
+    """Self-heal from a prior KILLED run whose `finally: unshield` never ran, leaving
+    answer-key + sibling-results dirs stranded in ~/.cache/.v4shield_*.
+
+    Safe because waves run run_v4_sprint STRICTLY SEQUENTIALLY — at startup no other run
+    is active, so any existing shield dir belongs to a dead process. Restores conservatively:
+    a shielded item is moved back ONLY if its repo target is currently missing (never clobbers
+    live state). Called before this process creates its own shield."""
+    cache = Path.home() / ".cache"
+    if not cache.exists():
+        return
+    for sh in sorted(cache.glob(".v4shield_*")):
+        if not sh.is_dir():
+            continue
+        # never touch a shield an actively-running run_v4_sprint owns
+        try:
+            others = subprocess.run(["pgrep", "-fc", "run_v4_sprint.py"],
+                                    capture_output=True, text=True).stdout.strip()
+            if others and int(others) > 1:  # >1 means another run besides this one
+                print(f"[shield-recover] another run_v4 active — skipping {sh.name}")
+                continue
+        except Exception:
+            pass
+        misc = sh / "misc"
+        for rel in SHIELD:
+            src = misc / rel
+            if src.exists() and not (REPO / rel).exists():
+                (REPO / rel).parent.mkdir(parents=True, exist_ok=True)
+                shutil.move(str(src), str(REPO / rel))
+        res = sh / "results"
+        if res.exists():
+            for d in res.iterdir():
+                if not (OUT / d.name).exists():
+                    OUT.mkdir(parents=True, exist_ok=True)
+                    shutil.move(str(d), str(OUT / d.name))
+        shutil.rmtree(sh, ignore_errors=True)
+        print(f"[shield-recover] restored stranded shield {sh.name}")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", required=True)
@@ -100,10 +139,18 @@ def main() -> int:
         subprocess.run(["git", "config", "user.email", "sprinter@example.com"], cwd=proj)
         subprocess.run(["git", "config", "user.name", "Sprinter"], cwd=proj)
 
+    restore_stranded_shields()  # self-heal from any prior killed run before shielding
     sh = shield(out_root)
+    # unshield on SIGTERM/SIGINT too (a killed batch otherwise strands the answer key)
+    def _on_signal(signum, _frame):
+        unshield(sh)
+        raise SystemExit(128 + signum)
+    prev = {s: signal.signal(s, _on_signal) for s in (signal.SIGTERM, signal.SIGINT)}
     try:
         rec = run_phase(model, sprint_tag, prompt, proj, out_dir)
     finally:
+        for s, h in prev.items():
+            signal.signal(s, h)
         unshield(sh)
 
     # record git log for commit-hygiene dimension
