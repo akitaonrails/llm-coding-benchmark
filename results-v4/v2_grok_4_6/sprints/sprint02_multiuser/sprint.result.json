@@ -1,0 +1,10 @@
+{
+  "slug": "v2_grok_4_6",
+  "sprint": "sprint02_multiuser",
+  "harness": "opencode",
+  "elapsed_seconds": 562.87,
+  "cost_usd": 1.726,
+  "tokens_total": 2035984,
+  "exit_code": 0,
+  "stall_aborted": false
+}
