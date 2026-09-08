@@ -1,0 +1,19 @@
+00:29:11 === WAVE sprint 05_api : 5 models ===
+00:29:11 SKIP v2_claude_opus_5 (sprint 05_api already done)
+00:29:11 RUN  v2_claude_opus_4_8 sprint 05_api ...
+[v2_claude_opus_4_8/sprint05_api] done elapsed=1620.21s exit=0 tokens=9974362 cost=$8.971651999999997
+[v2_claude_opus_4_8] sprint sprint05_api done elapsed=1620.21s cost=$8.971651999999997 exit=0
+00:56:11 DONE v2_claude_opus_4_8 — ok exit=0 tokens=9974362 cost=$8.971651999999997
+00:56:11 RUN  v2_claude_fable_5_1 sprint 05_api ...
+[v2_claude_fable_5_1/sprint05_api] done elapsed=1660.57s exit=0 tokens=9508161 cost=$10.798370500000003
+[v2_claude_fable_5_1] sprint sprint05_api done elapsed=1660.57s cost=$10.798370500000003 exit=0
+01:23:52 DONE v2_claude_fable_5_1 — ok exit=0 tokens=9508161 cost=$10.798370500000003
+01:23:52 RUN  v2_claude_fable_5 sprint 05_api ...
+[v2_claude_fable_5/sprint05_api] done elapsed=552.67s exit=0 tokens=3119171 cost=$6.797431999999999
+[v2_claude_fable_5] sprint sprint05_api done elapsed=552.67s cost=$6.797431999999999 exit=0
+01:33:05 DONE v2_claude_fable_5 — ok exit=0 tokens=3119171 cost=$6.797431999999999
+01:33:05 RUN  v2_claude_sonnet_5 sprint 05_api ...
+[v2_claude_sonnet_5/sprint05_api] done elapsed=1309.13s exit=0 tokens=15529795 cost=$5.150918300000001
+[v2_claude_sonnet_5] sprint sprint05_api done elapsed=1309.13s cost=$5.150918300000001 exit=0
+01:54:54 DONE v2_claude_sonnet_5 — ok exit=0 tokens=15529795 cost=$5.150918300000001
+01:54:54 === WAVE sprint 05_api complete ===

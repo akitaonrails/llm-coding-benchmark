@@ -1,0 +1,22 @@
+02:06:36 === WAVE sprint 06_production : 5 models ===
+02:06:36 RUN  v2_claude_opus_5 sprint 06_production ...
+[v2_claude_opus_5/sprint06_production] done elapsed=1666.61s exit=0 tokens=16211329 cost=$12.501821000000001
+[v2_claude_opus_5] sprint sprint06_production done elapsed=1666.61s cost=$12.501821000000001 exit=0
+02:34:23 DONE v2_claude_opus_5 — ok exit=0 tokens=16211329 cost=$12.501821000000001
+02:34:23 RUN  v2_claude_opus_4_8 sprint 06_production ...
+[v2_claude_opus_4_8/sprint06_production] done elapsed=544.25s exit=1 tokens=3848783 cost=$3.544447
+[v2_claude_opus_4_8] sprint sprint06_production done elapsed=544.25s cost=$3.544447 exit=1
+02:43:27 DONE v2_claude_opus_4_8 — ok exit=1 tokens=3848783 cost=$3.544447
+02:43:27 RUN  v2_claude_fable_5_1 sprint 06_production ...
+[v2_claude_fable_5_1/sprint06_production] done elapsed=1942.09s exit=0 tokens=11452316 cost=$10.479130000000003
+[v2_claude_fable_5_1] sprint sprint06_production done elapsed=1942.09s cost=$10.479130000000003 exit=0
+03:15:49 DONE v2_claude_fable_5_1 — ok exit=0 tokens=11452316 cost=$10.479130000000003
+03:15:49 RUN  v2_claude_fable_5 sprint 06_production ...
+[v2_claude_fable_5/sprint06_production] done elapsed=672.09s exit=0 tokens=4749227 cost=$8.622855000000001
+[v2_claude_fable_5] sprint sprint06_production done elapsed=672.09s cost=$8.622855000000001 exit=0
+03:27:01 DONE v2_claude_fable_5 — ok exit=0 tokens=4749227 cost=$8.622855000000001
+03:27:01 RUN  v2_claude_sonnet_5 sprint 06_production ...
+[v2_claude_sonnet_5/sprint06_production] done elapsed=835.52s exit=0 tokens=12291686 cost=$3.5606316000000002
+[v2_claude_sonnet_5] sprint sprint06_production done elapsed=835.52s cost=$3.5606316000000002 exit=0
+03:40:57 DONE v2_claude_sonnet_5 — ok exit=0 tokens=12291686 cost=$3.5606316000000002
+03:40:57 === WAVE sprint 06_production complete ===
