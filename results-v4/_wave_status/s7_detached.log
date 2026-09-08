@@ -1,0 +1,14 @@
+04:44:15 === WAVE sprint 07_reveal : 3 models ===
+04:44:15 RUN  v2_claude_fable_5_1 sprint 07_reveal ...
+[v2_claude_fable_5_1/sprint07_reveal] done elapsed=483.48s exit=0 tokens=4552129 cost=$5.178195750000001
+[v2_claude_fable_5_1] sprint sprint07_reveal done elapsed=483.48s cost=$5.178195750000001 exit=0
+04:52:18 DONE v2_claude_fable_5_1 — ok exit=0 tokens=4552129 cost=$5.178195750000001
+04:52:18 RUN  v2_claude_sonnet_5 sprint 07_reveal ...
+[v2_claude_sonnet_5/sprint07_reveal] done elapsed=927.55s exit=0 tokens=8430715 cost=$2.7272036000000006
+[v2_claude_sonnet_5] sprint sprint07_reveal done elapsed=927.55s cost=$2.7272036000000006 exit=0
+05:07:46 DONE v2_claude_sonnet_5 — ok exit=0 tokens=8430715 cost=$2.7272036000000006
+05:07:46 RUN  v2_claude_opus_4_8 sprint 07_reveal ...
+[v2_claude_opus_4_8/sprint07_reveal] done elapsed=514.35s exit=0 tokens=2455286 cost=$2.62313
+[v2_claude_opus_4_8] sprint sprint07_reveal done elapsed=514.35s cost=$2.62313 exit=0
+05:16:20 DONE v2_claude_opus_4_8 — ok exit=0 tokens=2455286 cost=$2.62313
+05:16:20 === WAVE sprint 07_reveal complete ===
