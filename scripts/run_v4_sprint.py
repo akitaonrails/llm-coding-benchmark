@@ -153,6 +153,20 @@ def main() -> int:
     if not model:
         ap.error(f"model {a.model} not in {a.config}")
 
+    # Route any browser a model's system tests launch to an offscreen virtual display,
+    # so non-headless Selenium/Chrome can't steal the user's real X session (DISPLAY=:0).
+    # Auto-start Xvfb :99 if it isn't already up; if Xvfb is unavailable, non-headless tests
+    # just fail red rather than grabbing focus. run_phase copies os.environ into the subprocess.
+    import os as _os, shutil as _sh
+    if not _os.path.exists("/tmp/.X11-unix/X99"):
+        xvfb = _sh.which("Xvfb")
+        if xvfb:
+            subprocess.Popen([xvfb, ":99", "-screen", "0", "1400x900x24", "-nolisten", "tcp"],
+                             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                             start_new_session=True)
+            import time as _t; _t.sleep(2)
+    _os.environ["DISPLAY"] = ":99"
+
     from run_benchmark_v2 import run_phase
     out_root = OUT / model["slug"]
     proj = out_root / "project"
