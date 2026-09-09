@@ -166,6 +166,21 @@ def main() -> int:
                              start_new_session=True)
             import time as _t; _t.sleep(2)
     _os.environ["DISPLAY"] = ":99"
+    # Wayland desktop (Hyprland): /usr/bin/chromium is a LAUNCHER that reads
+    # $XDG_CONFIG_HOME/chromium-flags.conf and re-sets the env (g_setenv), so plain DISPLAY/
+    # OZONE overrides get wiped and the user's ~/.config/chromium-flags.conf forces
+    # `--ozone-platform=wayland` → any model system-test browser grabs the real compositor.
+    # Confirmed fix: point XDG_CONFIG_HOME at our own flags conf that forces `--headless=new`
+    # (headless never opens a window, regardless of Wayland/X). The launcher honors it.
+    # (Backups also applied: OZONE_PLATFORM=x11 + Xvfb :99 above, in case a build ignores the conf.)
+    _os.environ["OZONE_PLATFORM"] = "x11"
+    _os.environ["XDG_SESSION_TYPE"] = "x11"
+    _os.environ.pop("WAYLAND_DISPLAY", None)
+    # MUST live outside the SHIELD paths (benchmark-v4/ is moved aside during the run) — use
+    # config/, which is never shielded (that's also where opencode's isolated XDG lives).
+    _os.environ["XDG_CONFIG_HOME"] = str((REPO / "config" / "chrome-headless-xdg").resolve())
+    # NOTE: the opencode harness overrides XDG_CONFIG_HOME to config/opencode.xdg-isolated/, which
+    # also carries a copy of chromium-flags.conf so the headless flag still applies there.
 
     from run_benchmark_v2 import run_phase
     out_root = OUT / model["slug"]
