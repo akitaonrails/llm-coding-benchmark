@@ -70,6 +70,15 @@ def main() -> int:
     ap.add_argument("--redo", action="store_true", help="re-run even if sprint dir exists")
     a = ap.parse_args()
     models = [m.strip() for m in a.models.split(",") if m.strip()]
+    # Guard: a bad --sprint (prompt file missing) must ABORT the wave up front — never
+    # let run_v4_sprint's argparse error be misread as a per-model "no sprint dir" DNF
+    # (that once stamped bogus DNF on all 9 models when 06_capstone vs 06_production).
+    prompts = REPO / "benchmark-v4" / "prompts"
+    if not (list(prompts.glob(f"sprint{a.sprint}.txt")) or list(prompts.glob(f"sprint{a.sprint}*.txt"))
+            or list(prompts.glob(f"*{a.sprint}*.txt"))):
+        avail = ", ".join(sorted(p.stem for p in prompts.glob("sprint*.txt")))
+        print(f"FATAL: no prompt for sprint '{a.sprint}'. Available: {avail}", file=sys.stderr)
+        return 2
     statusdir = OUT / "_wave_status"; statusdir.mkdir(parents=True, exist_ok=True)
     log = statusdir / f"{a.sprint}.log"
 
