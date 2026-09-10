@@ -1,0 +1,1 @@
+sprint 02: two runs both 16-19s / ~30k-token no-ops (no User model, no auth, no multiuser). Sprint 1 app was minimal (conversation+message only). gpt-oss-120b via opencode cannot sustain the accumulating sprint sequence. Functional DNF.

@@ -1,4 +1,7 @@
-# v4 "The Sprint" — Combined ranking after Wave 4 (30 models, 2026-09-10)
+# v4 "The Sprint" — FINAL Combined ranking (30 models, all waves complete, 2026-09-10)
+
+> Full-list run COMPLETE. Waves 1–4 + assortment scored 30 models; Wave 5 (Tier C/D) was all-DNF
+> (see ledger_wave5_final.md). glm_5_2/5_3/5_3-flash remain z.ai-balance-blocked (not run).
 
 Running combined ranking on the v4 three-tier severity-weighted vigilance score (denominator 40 → /100;
 UNPROMPTED incl. the production capstone ×1.0, caught-only-after-explicit-reveal ×0.4, never-fixed ×0).
@@ -74,4 +77,8 @@ model's REAL code by isolated subagents (semantic-parity, static-verified, "Case
 capstone/reveal audits by isolated evidence-citing STATIC-ONLY subagents (file:line / grep / git / bundle-audit;
 no docker/DB/server/boot). Waves ran fully unattended via setsid-detached execution + same-filesystem
 atomic-rename shield + idempotent resume, surviving intermittent background-task kills; model system-test
-Chromium forced headless. Remaining: Wave 5 (Tier C/D, expect mostly abort-early DNF). Combined ranking updates per wave.
+Chromium forced headless. Wave 5 (Tier C/D) closed all-DNF: 3 built no in-place app, 2 (devstral, llama)
+built a NESTED app that breaks the accumulating harness, and gpt_oss_120b no-op'd sprint 2 twice — two
+distinct failure modes (build-in-place non-adherence; near-empty responses) documented in ledger_wave5_final.md.
+This is the final v4 field: 30 scored models. z.ai-blocked GLM models (glm_5_2/5_3/5_3-flash) can be added
+if that account is recharged.

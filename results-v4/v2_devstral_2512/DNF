@@ -1,0 +1,1 @@
+sprint 01: built app in NESTED subdir project/rubyllm_chat_app/ not in working dir (8.3M tokens) -> breaks accumulating-sprint harness. Functional DNF (build-in-place contract).
