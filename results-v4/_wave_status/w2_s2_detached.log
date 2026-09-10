@@ -1,0 +1,26 @@
+08:38:35 === WAVE sprint 02_multiuser : 6 models ===
+08:38:35 RUN  v2_gpt_5_6_sol sprint 02_multiuser ...
+[v2_gpt_5_6_sol/sprint02_multiuser] done elapsed=1559.68s exit=0 tokens=5305384 cost=$5.0939
+[v2_gpt_5_6_sol] sprint sprint02_multiuser done elapsed=1559.68s cost=$5.0939 exit=0
+09:04:35 DONE v2_gpt_5_6_sol — ok exit=0 tokens=5305384 cost=$5.0939
+09:04:35 RUN  v2_gpt_5_6_terra sprint 02_multiuser ...
+[v2_gpt_5_6_terra/sprint02_multiuser] done elapsed=577.81s exit=0 tokens=1770229 cost=$1.001
+[v2_gpt_5_6_terra] sprint sprint02_multiuser done elapsed=577.81s cost=$1.001 exit=0
+09:14:13 DONE v2_gpt_5_6_terra — ok exit=0 tokens=1770229 cost=$1.001
+09:14:13 RUN  v2_gpt_5_6_luna sprint 02_multiuser ...
+[v2_gpt_5_6_luna/sprint02_multiuser] done elapsed=836.18s exit=0 tokens=3462955 cost=$0.7474
+[v2_gpt_5_6_luna] sprint sprint02_multiuser done elapsed=836.18s cost=$0.7474 exit=0
+09:28:09 DONE v2_gpt_5_6_luna — ok exit=0 tokens=3462955 cost=$0.7474
+09:28:09 RUN  v2_gpt_5_5 sprint 02_multiuser ...
+[v2_gpt_5_5/sprint02_multiuser] done elapsed=636.29s exit=0 tokens=2736532 cost=$3.0271
+[v2_gpt_5_5] sprint sprint02_multiuser done elapsed=636.29s cost=$3.0271 exit=0
+09:38:46 DONE v2_gpt_5_5 — ok exit=0 tokens=2736532 cost=$3.0271
+09:38:46 RUN  v2_gemini_3_7_flash_high sprint 02_multiuser ...
+[v2_gemini_3_7_flash_high/sprint02_multiuser] done elapsed=492.97s exit=0 tokens=10444423 cost=$1.4529
+[v2_gemini_3_7_flash_high] sprint sprint02_multiuser done elapsed=492.97s cost=$1.4529 exit=0
+09:46:59 DONE v2_gemini_3_7_flash_high — ok exit=0 tokens=10444423 cost=$1.4529
+09:46:59 RUN  v2_grok_4_5 sprint 02_multiuser ...
+[v2_grok_4_5/sprint02_multiuser] done elapsed=341.0s exit=0 tokens=913703 cost=$0.6537
+[v2_grok_4_5] sprint sprint02_multiuser done elapsed=341.0s cost=$0.6537 exit=0
+09:52:40 DONE v2_grok_4_5 — ok exit=0 tokens=913703 cost=$0.6537
+09:52:40 === WAVE sprint 02_multiuser complete ===

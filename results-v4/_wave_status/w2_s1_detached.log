@@ -1,0 +1,26 @@
+05:44:21 === WAVE sprint 01_foundation : 6 models ===
+05:44:21 RUN  v2_gpt_5_6_sol sprint 01_foundation ...
+[v2_gpt_5_6_sol/sprint01_foundation] done elapsed=4587.16s exit=0 tokens=14039115 cost=$9.3958
+[v2_gpt_5_6_sol] sprint sprint01_foundation done elapsed=4587.16s cost=$9.3958 exit=0
+07:00:49 DONE v2_gpt_5_6_sol — ok exit=0 tokens=14039115 cost=$9.3958
+07:00:49 RUN  v2_gpt_5_6_terra sprint 01_foundation ...
+[v2_gpt_5_6_terra/sprint01_foundation] done elapsed=1310.18s exit=0 tokens=8449206 cost=$3.082
+[v2_gpt_5_6_terra] sprint sprint01_foundation done elapsed=1310.18s cost=$3.082 exit=0
+07:22:39 DONE v2_gpt_5_6_terra — ok exit=0 tokens=8449206 cost=$3.082
+07:22:39 RUN  v2_gpt_5_6_luna sprint 01_foundation ...
+[v2_gpt_5_6_luna/sprint01_foundation] done elapsed=1235.52s exit=0 tokens=12154041 cost=$1.8338
+[v2_gpt_5_6_luna] sprint sprint01_foundation done elapsed=1235.52s cost=$1.8338 exit=0
+07:43:15 DONE v2_gpt_5_6_luna — ok exit=0 tokens=12154041 cost=$1.8338
+07:43:15 RUN  v2_gpt_5_5 sprint 01_foundation ...
+[v2_gpt_5_5/sprint01_foundation] done elapsed=1674.09s exit=0 tokens=12973520 cost=$9.6791
+[v2_gpt_5_5] sprint sprint01_foundation done elapsed=1674.09s cost=$9.6791 exit=0
+08:11:09 DONE v2_gpt_5_5 — ok exit=0 tokens=12973520 cost=$9.6791
+08:11:09 RUN  v2_gemini_3_7_flash_high sprint 01_foundation ...
+[v2_gemini_3_7_flash_high/sprint01_foundation] done elapsed=776.1s exit=0 tokens=19984945 cost=$2.4123
+[v2_gemini_3_7_flash_high] sprint sprint01_foundation done elapsed=776.1s cost=$2.4123 exit=0
+08:24:05 DONE v2_gemini_3_7_flash_high — ok exit=0 tokens=19984945 cost=$2.4123
+08:24:05 RUN  v2_grok_4_5 sprint 01_foundation ...
+[v2_grok_4_5/sprint01_foundation] done elapsed=457.82s exit=0 tokens=1824047 cost=$0.9431
+[v2_grok_4_5] sprint sprint01_foundation done elapsed=457.82s cost=$0.9431 exit=0
+08:31:43 DONE v2_grok_4_5 — ok exit=0 tokens=1824047 cost=$0.9431
+08:31:43 === WAVE sprint 01_foundation complete ===

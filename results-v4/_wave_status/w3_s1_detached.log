@@ -1,0 +1,55 @@
+02:38:21 === WAVE sprint 01_foundation : 13 models ===
+02:38:21 RUN  v2_claude_sonnet_4_6 sprint 01_foundation ...
+[v2_claude_sonnet_4_6/sprint01_foundation] done elapsed=833.77s exit=0 tokens=9884331 cost=$4.1911904999999985
+[v2_claude_sonnet_4_6] sprint sprint01_foundation done elapsed=833.77s cost=$4.1911904999999985 exit=0
+02:52:15 DONE v2_claude_sonnet_4_6 — ok exit=0 tokens=9884331 cost=$4.1911904999999985
+02:52:15 RUN  v2_deepseek_v4_pro sprint 01_foundation ...
+[v2_deepseek_v4_pro/sprint01_foundation] done elapsed=1475.08s exit=0 tokens=9564072 cost=$1.5245
+[v2_deepseek_v4_pro] sprint sprint01_foundation done elapsed=1475.08s cost=$1.5245 exit=0
+03:16:50 DONE v2_deepseek_v4_pro — ok exit=0 tokens=9564072 cost=$1.5245
+03:16:50 RUN  v2_deepseek_v4_flash_0731 sprint 01_foundation ...
+[v2_deepseek_v4_flash_0731/sprint01_foundation] STALL: no output for 1200s (>1200s) — aborting (provider hang?)
+[v2_deepseek_v4_flash_0731/sprint01_foundation] done elapsed=2054.31s exit=-15 tokens=705483 cost=$0.0219
+[v2_deepseek_v4_flash_0731] sprint sprint01_foundation done elapsed=2054.31s cost=$0.0219 exit=-15
+03:51:04 DNF  v2_deepseek_v4_flash_0731 — stall_aborted (dropped from remaining sprints)
+03:51:04 RUN  v2_deepseek_v4_flash sprint 01_foundation ...
+[v2_deepseek_v4_flash/sprint01_foundation] done elapsed=2622.52s exit=0 tokens=19103882 cost=$0.4321
+[v2_deepseek_v4_flash] sprint sprint01_foundation done elapsed=2622.52s cost=$0.4321 exit=0
+04:34:47 DONE v2_deepseek_v4_flash — ok exit=0 tokens=19103882 cost=$0.4321
+04:34:47 RUN  v2_glm_5_3 sprint 01_foundation ...
+[v2_glm_5_3/sprint01_foundation] done elapsed=77.56s exit=1 tokens=- cost=$-
+[v2_glm_5_3] sprint sprint01_foundation done elapsed=77.56s cost=$None exit=1
+04:36:05 DNF  v2_glm_5_3 — exit=1 tokens=0 (crash/auth, no real work) (dropped from remaining sprints)
+04:36:05 RUN  v2_glm_5_2 sprint 01_foundation ...
+[v2_glm_5_2/sprint01_foundation] done elapsed=75.12s exit=1 tokens=- cost=$-
+[v2_glm_5_2] sprint sprint01_foundation done elapsed=75.12s cost=$None exit=1
+04:37:20 DNF  v2_glm_5_2 — exit=1 tokens=0 (crash/auth, no real work) (dropped from remaining sprints)
+04:37:20 RUN  v2_qwen3_8_max sprint 01_foundation ...
+[v2_qwen3_8_max/sprint01_foundation] done elapsed=1.01s exit=1 tokens=- cost=$-
+[v2_qwen3_8_max] sprint sprint01_foundation done elapsed=1.01s cost=$None exit=1
+04:37:21 DNF  v2_qwen3_8_max — exit=1 tokens=0 (crash/auth, no real work) (dropped from remaining sprints)
+04:37:21 RUN  v2_qwen3_7_max sprint 01_foundation ...
+[v2_qwen3_7_max/sprint01_foundation] done elapsed=1155.31s exit=0 tokens=5422195 cost=$2.3063
+[v2_qwen3_7_max] sprint sprint01_foundation done elapsed=1155.31s cost=$2.3063 exit=0
+04:56:36 DONE v2_qwen3_7_max — ok exit=0 tokens=5422195 cost=$2.3063
+04:56:36 RUN  v2_kimi_k2_7_coding sprint 01_foundation ...
+[v2_kimi_k2_7_coding/sprint01_foundation] done elapsed=3702.65s exit=-15 tokens=18440665 cost=$3.2051
+[v2_kimi_k2_7_coding] sprint sprint01_foundation done elapsed=3702.65s cost=$3.2051 exit=-15
+05:58:21 DONE v2_kimi_k2_7_coding — ok exit=-15 tokens=18440665 cost=$3.2051
+05:58:21 RUN  v2_kimi_k2_6 sprint 01_foundation ...
+[v2_kimi_k2_6/sprint01_foundation] done elapsed=2443.85s exit=0 tokens=4495567 cost=$3.1144
+[v2_kimi_k2_6] sprint sprint01_foundation done elapsed=2443.85s cost=$3.1144 exit=0
+06:39:05 DONE v2_kimi_k2_6 — ok exit=0 tokens=4495567 cost=$3.1144
+06:39:05 RUN  v2_mistral_large_3 sprint 01_foundation ...
+[v2_mistral_large_3/sprint01_foundation] done elapsed=277.98s exit=0 tokens=2464445 cost=$0.291
+[v2_mistral_large_3] sprint sprint01_foundation done elapsed=277.98s cost=$0.291 exit=0
+06:43:43 DONE v2_mistral_large_3 — ok exit=0 tokens=2464445 cost=$0.291
+06:43:43 RUN  v2_minimax_m3 sprint 01_foundation ...
+[v2_minimax_m3/sprint01_foundation] done elapsed=2131.96s exit=0 tokens=34405450 cost=$2.2975
+[v2_minimax_m3] sprint sprint01_foundation done elapsed=2131.96s cost=$2.2975 exit=0
+07:19:15 DONE v2_minimax_m3 — ok exit=0 tokens=34405450 cost=$2.2975
+07:19:15 RUN  v2_gemini_3_1_pro sprint 01_foundation ...
+[v2_gemini_3_1_pro/sprint01_foundation] done elapsed=306.28s exit=1 tokens=1380260 cost=$0.9453
+[v2_gemini_3_1_pro] sprint sprint01_foundation done elapsed=306.28s cost=$0.9453 exit=1
+07:24:21 DONE v2_gemini_3_1_pro — ok exit=1 tokens=1380260 cost=$0.9453
+07:24:21 === WAVE sprint 01_foundation complete ===

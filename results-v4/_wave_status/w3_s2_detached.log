@@ -1,0 +1,38 @@
+09:41:28 === WAVE sprint 02_multiuser : 9 models ===
+09:41:28 RUN  v2_claude_sonnet_4_6 sprint 02_multiuser ...
+[v2_claude_sonnet_4_6/sprint02_multiuser] done elapsed=2084.94s exit=0 tokens=9007779 cost=$5.313418600000001
+[v2_claude_sonnet_4_6] sprint sprint02_multiuser done elapsed=2084.94s cost=$5.313418600000001 exit=0
+10:16:13 DONE v2_claude_sonnet_4_6 — ok exit=0 tokens=9007779 cost=$5.313418600000001
+10:16:13 RUN  v2_deepseek_v4_pro sprint 02_multiuser ...
+[v2_deepseek_v4_pro/sprint02_multiuser] done elapsed=857.14s exit=0 tokens=4615395 cost=$0.6407
+[v2_deepseek_v4_pro] sprint sprint02_multiuser done elapsed=857.14s cost=$0.6407 exit=0
+10:30:30 DONE v2_deepseek_v4_pro — ok exit=0 tokens=4615395 cost=$0.6407
+10:30:30 RUN  v2_deepseek_v4_flash sprint 02_multiuser ...
+[v2_deepseek_v4_flash/sprint02_multiuser] done elapsed=363.85s exit=0 tokens=3541896 cost=$0.0804
+[v2_deepseek_v4_flash] sprint sprint02_multiuser done elapsed=363.85s cost=$0.0804 exit=0
+10:36:34 DONE v2_deepseek_v4_flash — ok exit=0 tokens=3541896 cost=$0.0804
+10:36:34 RUN  v2_deepseek_v4_flash_0731 sprint 02_multiuser ...
+[v2_deepseek_v4_flash_0731/sprint02_multiuser] done elapsed=1401.17s exit=0 tokens=7427774 cost=$0.2219
+[v2_deepseek_v4_flash_0731] sprint sprint02_multiuser done elapsed=1401.17s cost=$0.2219 exit=0
+10:59:55 DONE v2_deepseek_v4_flash_0731 — ok exit=0 tokens=7427774 cost=$0.2219
+10:59:55 RUN  v2_qwen3_7_max sprint 02_multiuser ...
+[v2_qwen3_7_max/sprint02_multiuser] done elapsed=756.74s exit=0 tokens=1830008 cost=$0.9869
+[v2_qwen3_7_max] sprint sprint02_multiuser done elapsed=756.74s cost=$0.9869 exit=0
+11:12:32 DONE v2_qwen3_7_max — ok exit=0 tokens=1830008 cost=$0.9869
+11:12:32 RUN  v2_kimi_k2_7_coding sprint 02_multiuser ...
+[v2_kimi_k2_7_coding/sprint02_multiuser] done elapsed=1680.06s exit=-15 tokens=6487543 cost=$1.162
+[v2_kimi_k2_7_coding] sprint sprint02_multiuser done elapsed=1680.06s cost=$1.162 exit=-15
+11:40:34 DONE v2_kimi_k2_7_coding — ok exit=-15 tokens=6487543 cost=$1.162
+11:40:34 RUN  v2_mistral_large_3 sprint 02_multiuser ...
+[v2_mistral_large_3/sprint02_multiuser] done elapsed=256.06s exit=0 tokens=1895785 cost=$0.1975
+[v2_mistral_large_3] sprint sprint02_multiuser done elapsed=256.06s cost=$0.1975 exit=0
+11:44:50 DONE v2_mistral_large_3 — ok exit=0 tokens=1895785 cost=$0.1975
+11:44:50 RUN  v2_minimax_m3 sprint 02_multiuser ...
+[v2_minimax_m3/sprint02_multiuser] done elapsed=1384.84s exit=0 tokens=17019521 cost=$1.3799
+[v2_minimax_m3] sprint sprint02_multiuser done elapsed=1384.84s cost=$1.3799 exit=0
+12:07:55 DONE v2_minimax_m3 — ok exit=0 tokens=17019521 cost=$1.3799
+12:07:55 RUN  v2_gemini_3_1_pro sprint 02_multiuser ...
+[v2_gemini_3_1_pro/sprint02_multiuser] done elapsed=1235.32s exit=0 tokens=6316496 cost=$3.9496
+[v2_gemini_3_1_pro] sprint sprint02_multiuser done elapsed=1235.32s cost=$3.9496 exit=0
+12:28:30 DONE v2_gemini_3_1_pro — ok exit=0 tokens=6316496 cost=$3.9496
+12:28:30 === WAVE sprint 02_multiuser complete ===

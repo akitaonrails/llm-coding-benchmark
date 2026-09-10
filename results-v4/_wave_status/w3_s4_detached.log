@@ -1,0 +1,38 @@
+15:47:13 === WAVE sprint 04_reports : 9 models ===
+15:47:13 RUN  v2_claude_sonnet_4_6 sprint 04_reports ...
+[v2_claude_sonnet_4_6/sprint04_reports] done elapsed=435.76s exit=0 tokens=1504126 cost=$1.21419215
+[v2_claude_sonnet_4_6] sprint sprint04_reports done elapsed=435.76s cost=$1.21419215 exit=0
+15:54:29 DONE v2_claude_sonnet_4_6 — ok exit=0 tokens=1504126 cost=$1.21419215
+15:54:29 RUN  v2_deepseek_v4_pro sprint 04_reports ...
+[v2_deepseek_v4_pro/sprint04_reports] done elapsed=593.55s exit=0 tokens=4772673 cost=$0.5274
+[v2_deepseek_v4_pro] sprint sprint04_reports done elapsed=593.55s cost=$0.5274 exit=0
+16:04:22 DONE v2_deepseek_v4_pro — ok exit=0 tokens=4772673 cost=$0.5274
+16:04:22 RUN  v2_deepseek_v4_flash sprint 04_reports ...
+[v2_deepseek_v4_flash/sprint04_reports] done elapsed=392.84s exit=0 tokens=1600831 cost=$0.0291
+[v2_deepseek_v4_flash] sprint sprint04_reports done elapsed=392.84s cost=$0.0291 exit=0
+16:10:55 DONE v2_deepseek_v4_flash — ok exit=0 tokens=1600831 cost=$0.0291
+16:10:55 RUN  v2_deepseek_v4_flash_0731 sprint 04_reports ...
+[v2_deepseek_v4_flash_0731/sprint04_reports] done elapsed=1661.59s exit=0 tokens=7087819 cost=$0.1305
+[v2_deepseek_v4_flash_0731] sprint sprint04_reports done elapsed=1661.59s cost=$0.1305 exit=0
+16:38:37 DONE v2_deepseek_v4_flash_0731 — ok exit=0 tokens=7087819 cost=$0.1305
+16:38:37 RUN  v2_qwen3_7_max sprint 04_reports ...
+[v2_qwen3_7_max/sprint04_reports] done elapsed=1074.47s exit=0 tokens=2559830 cost=$1.2999
+[v2_qwen3_7_max] sprint sprint04_reports done elapsed=1074.47s cost=$1.2999 exit=0
+16:56:32 DONE v2_qwen3_7_max — ok exit=0 tokens=2559830 cost=$1.2999
+16:56:32 RUN  v2_kimi_k2_7_coding sprint 04_reports ...
+[v2_kimi_k2_7_coding/sprint04_reports] done elapsed=1003.58s exit=-15 tokens=2994026 cost=$0.5686
+[v2_kimi_k2_7_coding] sprint sprint04_reports done elapsed=1003.58s cost=$0.5686 exit=-15
+17:13:17 DONE v2_kimi_k2_7_coding — ok exit=-15 tokens=2994026 cost=$0.5686
+17:13:17 RUN  v2_mistral_large_3 sprint 04_reports ...
+[v2_mistral_large_3/sprint04_reports] done elapsed=191.55s exit=0 tokens=1310983 cost=$0.1252
+[v2_mistral_large_3] sprint sprint04_reports done elapsed=191.55s cost=$0.1252 exit=0
+17:16:29 DONE v2_mistral_large_3 — ok exit=0 tokens=1310983 cost=$0.1252
+17:16:29 RUN  v2_minimax_m3 sprint 04_reports ...
+[v2_minimax_m3/sprint04_reports] done elapsed=1262.51s exit=0 tokens=16510012 cost=$1.1609
+[v2_minimax_m3] sprint sprint04_reports done elapsed=1262.51s cost=$1.1609 exit=0
+17:37:31 DONE v2_minimax_m3 — ok exit=0 tokens=16510012 cost=$1.1609
+17:37:31 RUN  v2_gemini_3_1_pro sprint 04_reports ...
+[v2_gemini_3_1_pro/sprint04_reports] done elapsed=423.18s exit=0 tokens=2525769 cost=$1.3904
+[v2_gemini_3_1_pro] sprint sprint04_reports done elapsed=423.18s cost=$1.3904 exit=0
+17:44:34 DONE v2_gemini_3_1_pro — ok exit=0 tokens=2525769 cost=$1.3904
+17:44:34 === WAVE sprint 04_reports complete ===

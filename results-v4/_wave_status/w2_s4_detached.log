@@ -1,0 +1,26 @@
+14:59:25 === WAVE sprint 04_reports : 6 models ===
+14:59:25 RUN  v2_gpt_5_6_sol sprint 04_reports ...
+[v2_gpt_5_6_sol/sprint04_reports] done elapsed=1065.28s exit=0 tokens=2872194 cost=$2.9973
+[v2_gpt_5_6_sol] sprint sprint04_reports done elapsed=1065.28s cost=$2.9973 exit=0
+15:17:11 DONE v2_gpt_5_6_sol — ok exit=0 tokens=2872194 cost=$2.9973
+15:17:11 RUN  v2_gpt_5_6_terra sprint 04_reports ...
+[v2_gpt_5_6_terra/sprint04_reports] done elapsed=422.31s exit=0 tokens=922671 cost=$0.6333
+[v2_gpt_5_6_terra] sprint sprint04_reports done elapsed=422.31s cost=$0.6333 exit=0
+15:24:13 DONE v2_gpt_5_6_terra — ok exit=0 tokens=922671 cost=$0.6333
+15:24:13 RUN  v2_gpt_5_6_luna sprint 04_reports ...
+[v2_gpt_5_6_luna/sprint04_reports] done elapsed=758.73s exit=0 tokens=5247940 cost=$0.9452
+[v2_gpt_5_6_luna] sprint sprint04_reports done elapsed=758.73s cost=$0.9452 exit=0
+15:36:52 DONE v2_gpt_5_6_luna — ok exit=0 tokens=5247940 cost=$0.9452
+15:36:52 RUN  v2_gpt_5_5 sprint 04_reports ...
+[v2_gpt_5_5/sprint04_reports] done elapsed=584.62s exit=0 tokens=2114941 cost=$2.6759
+[v2_gpt_5_5] sprint sprint04_reports done elapsed=584.62s cost=$2.6759 exit=0
+15:46:37 DONE v2_gpt_5_5 — ok exit=0 tokens=2114941 cost=$2.6759
+15:46:37 RUN  v2_gemini_3_7_flash_high sprint 04_reports ...
+[v2_gemini_3_7_flash_high/sprint04_reports] done elapsed=681.2s exit=0 tokens=9437199 cost=$1.552
+[v2_gemini_3_7_flash_high] sprint sprint04_reports done elapsed=681.2s cost=$1.552 exit=0
+15:57:58 DONE v2_gemini_3_7_flash_high — ok exit=0 tokens=9437199 cost=$1.552
+15:57:58 RUN  v2_grok_4_5 sprint 04_reports ...
+[v2_grok_4_5/sprint04_reports] done elapsed=239.95s exit=0 tokens=506600 cost=$0.4252
+[v2_grok_4_5] sprint sprint04_reports done elapsed=239.95s cost=$0.4252 exit=0
+16:01:58 DONE v2_grok_4_5 — ok exit=0 tokens=506600 cost=$0.4252
+16:01:58 === WAVE sprint 04_reports complete ===
