@@ -92,3 +92,9 @@ results-v4/**/.gem/
 results-v4/**/*.ndjson
 results-v4/**/*.stderr.log
 results-v4/**/*.prompt.txt
+
+# v4 run artifacts (generated; not results)
+*.runlog
+config/chrome-headless-xdg/chromium/
+config/chrome-headless-xdg/chromium-headless/
+results-4/

@@ -1,0 +1,26 @@
+12:44:06 === WAVE sprint 03_admin : 6 models ===
+12:44:06 RUN  v2_gpt_5_6_sol sprint 03_admin ...
+[v2_gpt_5_6_sol/sprint03_admin] done elapsed=1017.77s exit=0 tokens=2640646 cost=$2.8799
+[v2_gpt_5_6_sol] sprint sprint03_admin done elapsed=1017.77s cost=$2.8799 exit=0
+13:01:04 DONE v2_gpt_5_6_sol — ok exit=0 tokens=2640646 cost=$2.8799
+13:01:04 RUN  v2_gpt_5_6_terra sprint 03_admin ...
+[v2_gpt_5_6_terra/sprint03_admin] done elapsed=504.2s exit=0 tokens=1390751 cost=$0.8224
+[v2_gpt_5_6_terra] sprint sprint03_admin done elapsed=504.2s cost=$0.8224 exit=0
+13:09:28 DONE v2_gpt_5_6_terra — ok exit=0 tokens=1390751 cost=$0.8224
+13:09:28 RUN  v2_gpt_5_6_luna sprint 03_admin ...
+[v2_gpt_5_6_luna/sprint03_admin] done elapsed=755.04s exit=0 tokens=3005086 cost=$0.7012
+[v2_gpt_5_6_luna] sprint sprint03_admin done elapsed=755.04s cost=$0.7012 exit=0
+13:22:04 DONE v2_gpt_5_6_luna — ok exit=0 tokens=3005086 cost=$0.7012
+13:22:04 RUN  v2_gpt_5_5 sprint 03_admin ...
+[v2_gpt_5_5/sprint03_admin] done elapsed=729.82s exit=0 tokens=3936015 cost=$3.8848
+[v2_gpt_5_5] sprint sprint03_admin done elapsed=729.82s cost=$3.8848 exit=0
+13:34:14 DONE v2_gpt_5_5 — ok exit=0 tokens=3936015 cost=$3.8848
+13:34:14 RUN  v2_gemini_3_7_flash_high sprint 03_admin ...
+[v2_gemini_3_7_flash_high/sprint03_admin] done elapsed=684.05s exit=0 tokens=8761993 cost=$1.2511
+[v2_gemini_3_7_flash_high] sprint sprint03_admin done elapsed=684.05s cost=$1.2511 exit=0
+13:45:38 DONE v2_gemini_3_7_flash_high — ok exit=0 tokens=8761993 cost=$1.2511
+13:45:38 RUN  v2_grok_4_5 sprint 03_admin ...
+[v2_grok_4_5/sprint03_admin] done elapsed=350.14s exit=0 tokens=1023995 cost=$0.77
+[v2_grok_4_5] sprint sprint03_admin done elapsed=350.14s cost=$0.77 exit=0
+13:51:28 DONE v2_grok_4_5 — ok exit=0 tokens=1023995 cost=$0.77
+13:51:28 === WAVE sprint 03_admin complete ===
