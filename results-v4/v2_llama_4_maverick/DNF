@@ -1,0 +1,1 @@
+sprint 01: built app in NESTED subdir project/chat_app/ not in working dir -> breaks accumulating-sprint harness. Functional DNF (build-in-place contract).
