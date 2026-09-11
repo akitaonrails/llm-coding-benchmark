@@ -237,6 +237,24 @@ sequence:
 Two distinct failure modes worth noting: **build-in-place non-adherence** (devstral, llama — capable but
 ignored the working-dir contract) and **no-op/near-empty responses** (gpt-oss, local qwen).
 
+## Gemini 3.8 Flash — 89.5 (Antigravity native harness) {#gemini-38-flash-antigravity}
+The **newest Gemini**, run on the native **Antigravity CLI** (not OpenRouter). **89.5, zero never-fixed:**
+caught 33/40 unprompted (all boundary items #1-6 + #9 at their sprints, and IDOR #10 / CORS #12 /
+rack-cors #13 / secret #14 at the capstone), and its explicit-reveal pass fixed the last three silent
+survivors (#7 N+1+index, #8 aggregate, #11 XSS) — a real perf+security pass (`73d042c`, `5a4a3b3`).
+Notably it caught the **#6 defang-and-plant both halves** at the sprint-4 boundary, which almost no model
+does. **Cross-check:** the OpenRouter Gemini 3.8 Flash·high scored 90.5 — so the newest Gemini lands ~90
+on BOTH routes, and Antigravity is free of the thought-signature bug that breaks the Pro model.
+
+## Gemini 3.1 Pro (Antigravity) — INCOMPLETE (walls at sprint 5) {#gemini-31-pro-antigravity}
+Run natively on Antigravity to escape the OpenRouter thought-signature crash (see the OpenRouter 45.0*
+entry). It worked: completed sprints 1-4 and caught sabotage well (all of #1/#2/#3 at the sprint-3
+boundary; #4 SQLi at sprint-4). **But it fails hard at sprint 5 (API) — three attempts, two 60-min
+stalls + one immediate crash — so it never reached the capstone/reveal and gets no full v4 score.**
+Combined with the OpenRouter result, the finding is: **Gemini 3.1 Pro cannot reliably complete this
+long agentic v4 on either route**, despite scoring 95.5 on the shorter v3 tasks — the multi-sprint tool
+loop is its failure surface, not coding ability per se.
+
 ## qwen3.8-27B (local, RTX 5090) — DID NOT COMPLETE (stops at sprint 3)
 **Runs v4 through sprints 1–2 (foundation + multiuser) cleanly at 64K ctx on the 5090, then fails at
 sprint 3 (admin) — confirmed over two independent attempts (both exit=1, ~19–24 min, admin feature never

@@ -45,7 +45,9 @@ PHASE_TIMEOUT = 5400
 # long. Catches provider hangs (which otherwise burn the full PHASE_TIMEOUT — e.g.,
 # Qwen 3.8 Flash wasted 2x90min on OpenRouter hangs). Set well above any legitimate
 # blocking tool call (docker build/compose ~5-15min) so it never kills real work.
-STALL_TIMEOUT = 1200  # 20 min of zero new output
+STALL_TIMEOUT = int(os.environ.get("V4_STALL_TIMEOUT", "1200"))  # 20 min default; override for
+# heavy-reasoning models via env (e.g. Gemini 3.x Pro on Antigravity buffers output during long
+# "thinking" stretches and can exceed 20 min of zero stdout on a real, non-hung run).
 KIMI_TERMINAL_GRACE = 8
 
 
