@@ -377,6 +377,36 @@
       "notes": "v1 Tier B (69)."
     },
     {
+      "slug": "v2_sakana_fugu_ultra_v2",
+      "label": "Sakana Fugu Ultra v2 (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/sakana/fugu-ultra-v2",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 5.0,
+        "cache_read": 0.5,
+        "cache_write": 5.0,
+        "output": 30.0
+      },
+      "wave": 6,
+      "notes": "Added per user 2026-09-11. Newest Sakana Fugu Ultra (released 2026-09-11), 1M ctx. PREMIUM pricing ($5/$30 per Mtok, flagship-tier) — expect ~$15-40 for a full v4 run."
+    },
+    {
+      "slug": "v2_nex_n2_5_pro",
+      "label": "Nex N2.5 Pro (opencode/OpenRouter, free tier)",
+      "harness": "opencode",
+      "model_id": "openrouter/nex-agi/nex-n2.5-pro:free",
+      "billing": "OpenRouter API (free tier — may rate-limit long agentic runs)",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 6,
+      "notes": "Added per user 2026-09-11 ('nex-n2-pro'). Closest available = nex-n2.5-pro (2026-09-08), 262K ctx; only a :free variant on OpenRouter (watch for rate limits across 7 sprints)."
+    },
+    {
       "slug": "v2_mimo_v2_5_pro",
       "label": "Xiaomi MiMo V2.5 Pro (opencode/OpenRouter) \u2014 wave 3 group 1",
       "harness": "opencode",
