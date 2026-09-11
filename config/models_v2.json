@@ -498,6 +498,15 @@
       "notes": "The scaffold-dependency test: 57 orchestrator / 18 vanilla \u2014 does the vendor harness rescue it?"
     },
     {
+      "slug": "v2_gemini_3_8_flash_high_agy",
+      "label": "Gemini 3.8 Flash @ high (Antigravity CLI)",
+      "harness": "agy",
+      "model_id": "gemini-3.8-flash-high",
+      "billing": "Antigravity OAuth (Google account)",
+      "wave": 4,
+      "notes": "NEWEST Gemini on Antigravity (agy 1.1.26 model list, 2026-09-10). Native harness avoids the OpenRouter thought-signature crash that truncated gemini-3.1-pro-preview's v4 reveal. Prepared per user 2026-09-10."
+    },
+    {
       "slug": "v2_gemini_3_6_flash_high",
       "label": "Gemini 3.6 Flash @ high (Antigravity CLI)",
       "harness": "agy",
