@@ -389,14 +389,14 @@
         "output": 30.0
       },
       "wave": 6,
-      "notes": "Added per user 2026-09-11. Newest Sakana Fugu Ultra (released 2026-09-11), 1M ctx. PREMIUM pricing ($5/$30 per Mtok, flagship-tier) — expect ~$15-40 for a full v4 run."
+      "notes": "Added per user 2026-09-11. Newest Sakana Fugu Ultra (released 2026-09-11), 1M ctx. PREMIUM pricing ($5/$30 per Mtok, flagship-tier) \u2014 expect ~$15-40 for a full v4 run."
     },
     {
       "slug": "v2_nex_n2_5_pro",
       "label": "Nex N2.5 Pro (opencode/OpenRouter, free tier)",
       "harness": "opencode",
       "model_id": "openrouter/nex-agi/nex-n2.5-pro:free",
-      "billing": "OpenRouter API (free tier — may rate-limit long agentic runs)",
+      "billing": "OpenRouter API (free tier \u2014 may rate-limit long agentic runs)",
       "rates_per_m": {
         "input": 0.0,
         "cache_read": 0.0,
@@ -405,6 +405,21 @@
       },
       "wave": 6,
       "notes": "Added per user 2026-09-11 ('nex-n2-pro'). Closest available = nex-n2.5-pro (2026-09-08), 262K ctx; only a :free variant on OpenRouter (watch for rate limits across 7 sprints)."
+    },
+    {
+      "slug": "v2_mistral_medium_3_5",
+      "label": "Mistral Medium 3.5 (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/mistralai/mistral-medium-3-5",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 1.5,
+        "cache_read": 1.5,
+        "cache_write": 1.5,
+        "output": 7.5
+      },
+      "wave": 6,
+      "notes": "Added per user 2026-09-12. Newest Mistral RELEASE (2026-04-30), 262K ctx, medium tier. v4 already has Mistral Large 3 (mistral-large-2512, Dec 2025) = 39.0; this is the newer (medium-tier) release. Queue for v4."
     },
     {
       "slug": "v2_mimo_v2_5_pro",
@@ -599,6 +614,21 @@
       },
       "wave": 4,
       "notes": "Added per user 2026-08-14. Offline dense 27B counterpart to online qwen3.8-max (92). llama-swap Q5_K_M on the 5090, --jinja --reasoning-format none, 64K ctx. The FIRST local model in v2 (locals were dropped in wave 3) \u2014 tests whether the small offline model holds the API-correctness 3.8-max showed. Local, so cost=$0; report wall time + tok/s."
+    },
+    {
+      "slug": "v2_glm_4_7_flash_local",
+      "label": "GLM 4.7 Flash 30B-A3B Q5_K_M (LOCAL, RTX 5090 llama-swap)",
+      "harness": "opencode",
+      "model_id": "llamaswap/glm4.7:flash",
+      "billing": "Local (RTX 5090, free)",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 6,
+      "notes": "Added per user 2026-09-11. GLM-4.7-Flash MoE (30B-A3B) Q5_K_M on the 5090 via llama-swap (:11436), --jinja --reasoning-format none, 64K ctx. Tool-use-focused MoE; test whether it sustains the v4 agentic loop better than the dense Qwen3.8 (which walled at sprint 3 on coherence). Local, cost=$0."
     },
     {
       "slug": "v2_glm_5_3",
