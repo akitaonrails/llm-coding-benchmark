@@ -1,0 +1,9 @@
+DNF — nested-app non-adherence (2026-09-12).
+Sprint 1 succeeded (exit 0, $0.31, 6.5m) but built the Rails app in a NESTED subdirectory
+(project/rubyllm_chat_app/, with its own nested .git) instead of in-place at project/ root.
+This breaks the accumulating build-in-place harness: injection recipes and grading target
+project/app|config|db|..., and subsequent sprints assume the app at project/ root.
+Same failure class as devstral-2512 (rubyllm_chat_app/) and llama-4-maverick (chat_app/),
+both DNF'd for this in Wave 5. Verdict kept consistent: no reparent (others got none).
+Note: the earlier 18:47 attempt stalled on a transient OpenRouter hiccup (0 tokens/1200s);
+this retry ran fine — the nested-app is a model-behavior choice, not the infra stall.
