@@ -67,8 +67,12 @@ agy (Antigravity) = Google OAuth, no per-token cost. Compare cost within-harness
   reasoning-loop coherence (NOT context — no OOM/overflow; the strix's 96 GB wouldn't help).
 - **Wave 5 Tier C/D (6)** — codestral/hunyuan/qwen-local (no in-place app), devstral/llama (nested app
   breaks the accumulating harness), gpt-oss-120b (sprint-2 no-op ×2). All DNF.
-- **Blocked (not run):** glm_5_2 / glm_5_3 / glm_5_3-flash (z.ai balance). **Queued (todo):** Mistral
-  Medium 3.5 (newest Mistral release).
+- **Mistral Medium 3.5 — DNF (nested-app non-adherence).** Its sprint 1 ran fine (exit 0, $0.31, 6.5m; an
+  earlier attempt stalled on a transient OpenRouter hiccup, retried clean) but it built the app in a nested
+  `rubyllm_chat_app/` subdir instead of in-place at project root — the **same failure as devstral-2512 and
+  llama-4-Maverick**. Kept consistent: no reparent (they got none). The nested-app pattern now spans **three**
+  models, a recurring trait on this build-in-place harness.
+- **Blocked (not run):** glm_5_2 / glm_5_3 / glm_5_3-flash (z.ai balance).
 
 ## Headline reads
 - **Six-way tie at the top (100):** Astra, Opus 5, Fable 5, GPT 5.6 sol/terra, GPT 5.5 — perfect unprompted
