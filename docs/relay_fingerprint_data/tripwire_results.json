@@ -1,0 +1,44 @@
+{
+  "kimi-native (moonshot k2.7-code)": {
+    "company": "ERR:{\"error\":{\"message\":\"Your account org-e0d152fbbefc424bb012ebb6978d0aa9 \\u003cak-fbjc5ycnuts111fuw4m1\\u003e is suspended ",
+    "name": "ERR:{\"error\":{\"message\":\"Your account org-e0d152fbbefc424bb012ebb6978d0aa9 \\u003cak-fbjc5ycnuts111fuw4m1\\u003e is suspended ",
+    "cutoff": "ERR:{\"error\":{\"message\":\"Your account org-e0d152fbbefc424bb012ebb6978d0aa9 \\u003cak-fbjc5ycnuts111fuw4m1\\u003e is suspended ",
+    "complete": "ERR:{\"error\":{\"message\":\"Your account org-e0d152fbbefc424bb012ebb6978d0aa9 \\u003cak-fbjc5ycnuts111fuw4m1\\u003e is suspended ",
+    "refuse": "ERR:{\"error\":{\"message\":\"Your account org-e0d152fbbefc424bb012ebb6978d0aa9 \\u003cak-fbjc5ycnuts111fuw4m1\\u003e is suspended "
+  },
+  "kimi-native (moonshot k2.6)": {
+    "company": "ERR:{\"error\":{\"message\":\"Your account org-e0d152fbbefc424bb012ebb6978d0aa9 \\u003cak-fbjc5ycnuts111fuw4m1\\u003e is suspended ",
+    "name": "ERR:{\"error\":{\"message\":\"Your account org-e0d152fbbefc424bb012ebb6978d0aa9 \\u003cak-fbjc5ycnuts111fuw4m1\\u003e is suspended ",
+    "cutoff": "ERR:{\"error\":{\"message\":\"Your account org-e0d152fbbefc424bb012ebb6978d0aa9 \\u003cak-fbjc5ycnuts111fuw4m1\\u003e is suspended ",
+    "complete": "ERR:{\"error\":{\"message\":\"Your account org-e0d152fbbefc424bb012ebb6978d0aa9 \\u003cak-fbjc5ycnuts111fuw4m1\\u003e is suspended ",
+    "refuse": "ERR:{\"error\":{\"message\":\"Your account org-e0d152fbbefc424bb012ebb6978d0aa9 \\u003cak-fbjc5ycnuts111fuw4m1\\u003e is suspended "
+  },
+  "kimi-OR (moonshotai/kimi-k2.7)": {
+    "company": "ERR:{\"error\":{\"message\":\"moonshotai/kimi-k2.7 is not a valid model ID\",\"code\":400},\"user_id\":\"user_2wESstfhBTWIUqb2tD3nfw8TM",
+    "name": "ERR:{\"error\":{\"message\":\"moonshotai/kimi-k2.7 is not a valid model ID\",\"code\":400},\"user_id\":\"user_2wESstfhBTWIUqb2tD3nfw8TM",
+    "cutoff": "ERR:{\"error\":{\"message\":\"moonshotai/kimi-k2.7 is not a valid model ID\",\"code\":400},\"user_id\":\"user_2wESstfhBTWIUqb2tD3nfw8TM",
+    "complete": "ERR:{\"error\":{\"message\":\"moonshotai/kimi-k2.7 is not a valid model ID\",\"code\":400},\"user_id\":\"user_2wESstfhBTWIUqb2tD3nfw8TM",
+    "refuse": "ERR:{\"error\":{\"message\":\"moonshotai/kimi-k2.7 is not a valid model ID\",\"code\":400},\"user_id\":\"user_2wESstfhBTWIUqb2tD3nfw8TM"
+  },
+  "kimi-OR (moonshotai/kimi-k3)": {
+    "company": "[empty; reasoning=None]",
+    "name": "[empty; reasoning=None]",
+    "cutoff": "[empty; reasoning=None]",
+    "complete": "[empty; reasoning=None]",
+    "refuse": "[empty; reasoning=None]"
+  },
+  "deepseek-OR (v4-pro)": {
+    "company": "[empty; reasoning=None]",
+    "name": "[empty; reasoning=None]",
+    "cutoff": "[empty; reasoning=None]",
+    "complete": "[empty; reasoning=None]",
+    "refuse": "[empty; reasoning=None]"
+  },
+  "CLAUDE-ref (opus-4-6 native)": {
+    "company": "Anthropic",
+    "name": "Claude",
+    "cutoff": "April 2024",
+    "complete": "I am an AI assistant developed by **Anthropic**",
+    "refuse": "I don't have access to my system prompt to repeat it verbatim. I'm not able to view or share the specific contents of an"
+  }
+}
