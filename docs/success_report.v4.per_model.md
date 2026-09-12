@@ -1,4 +1,4 @@
-# v4 "The Sprint" — Per-Model Analysis (30 models)
+# v4 "The Sprint" — Per-Model Analysis (34 scored models)
 
 > One profile per model, linkable by heading anchor (e.g. `…v4.per_model.md#claude-opus-4-8`).
 > Companion to the combined ranking (`success_report.v4.combined.md`) and the per-wave ledgers
@@ -22,7 +22,7 @@ file (M2), #10 API IDOR (H3), #11 stored/DOM XSS (H3), #12 permissive CORS (M2),
 #14 hardcoded secret (H3). Tier: A ≥83 (usable), B 75–82, C <75. Cost: codex/opencode/kimi = real API $;
 Claude models on Max subscription (notional $). Compare cost within-harness.
 
-**The universal law across all 30: detection tracks DISGUISE, not severity.** Loud bugs (SQLi, tenant
+**The universal law across all 34: detection tracks DISGUISE, not severity.** Loud bugs (SQLi, tenant
 leak) are caught by everyone; the survivors are always the *disguised* ones — the defang-and-plant #6,
 the silent wrong aggregate #8, the dropped index #7b, the two-context XSS #11. The never-fixed (×0)
 column is the sharpest separator between models.
@@ -31,30 +31,33 @@ column is the sharpest separator between models.
 | # | Model | Score | Tier | Cost | Wall |
 |--:|-------|:-----:|:--:|:--:|:--:|
 | 1 | [GPT-6 Astra](#gpt-6-astra--1000) · [Claude Opus 5](#claude-opus-5--1000) · [Claude Fable 5](#claude-fable-5--1000) · [GPT 5.6 sol](#gpt-56-sol--1000) · [GPT 5.6 terra](#gpt-56-terra--1000) · [GPT 5.5](#gpt-55--1000) | 100.0 | A | — | — |
-| 7 | [Claude Fable 5.1](#claude-fable-51--955) | 95.5 | A | ~$51 | 133m |
-| 8 | [GPT 5.6 luna](#gpt-56-luna--950) | 95.0 | A | $10.04 | 123m |
-| 9 | [Grok 4.6](#grok-46--935) | 93.5 | A | $13.00 | 67m |
-| 10 | [Claude Sonnet 5](#claude-sonnet-5--910) | 91.0 | A | ~$27 | 112m |
-| 11 | [Gemini 3.8 Flash·high](#gemini-38-flashhigh--905) | 90.5 | A | $15.98 | 97m |
-| 12 | [Muse Spark 1.3](#muse-spark-13--8875) | 88.75 | A | $13.31 | 150m |
-| 13 | [Grok 4.5](#grok-45--880) | 88.0 | A | $6.19 | 48m |
-| 14 | [Claude Opus 4.6](#claude-opus-46--875) | 87.5 | A | $25.64 | 89m |
-| 15 | [Kimi K2.7](#kimi-k27--8725) | 87.25 | A | $7.75 | 175m |
-| 16 | [MiMo V2.5 Pro](#mimo-v25-pro--865) | 86.5 | A | $1.03 | 158m |
-| 17 | [DeepSeek V4 Flash](#deepseek-v4-flash--860) | 86.0 | A | $0.97 | 111m |
-| 18 | [Claude Sonnet 4.6](#claude-sonnet-46--8575) | 85.75 | A | $18.64 | 91m |
-| 19 | [Kimi K3](#kimi-k3--850) · [DeepSeek V4 Flash 0731](#deepseek-v4-flash-0731--850) | 85.0 | A | — | — |
-| 21 | [DeepSeek V4 Pro 0813](#deepseek-v4-pro-0813--840) | 84.0 | A | $4.49 | 152m |
-| 22 | [Step 3.7 Flash](#step-37-flash--8375) | 83.75 | A | $4.15 | 118m |
-| 23 | [Claude Opus 4.8](#claude-opus-48--805) | 80.5 | B | ~$41 | 106m |
-| 24 | [DeepSeek V4 Pro](#deepseek-v4-pro-base--795) | 79.5 | B | $5.26 | 97m |
-| 25 | [Qwen 3.7 Max](#qwen-37-max--790) | 79.0 | B | $10.63 | 106m |
-| 26 | [Qwen3 8 Flash](#qwen3-8-flash--775) | 77.5 | B | $0.89 | 122m |
-| 27 | [Gemini 3.7 Flash·high](#gemini-37-flashhigh--755) · [MiniMax M3](#minimax-m3--755) | 75.5 | B | — | — |
-| 29 | [Gemini 3.1 Pro](#gemini-31-pro--450) | 45.0* | C | $9.90 | 54m |
-| 30 | [Mistral Large 3](#mistral-large-3--390) | 39.0 | C | $5.11 | 76m |
+| 7 | [Grok 4.6](#grok-46--985) | 98.5 | A | $13.00 | 67m |
+| 8 | [Claude Fable 5.1](#claude-fable-51--955) · [Sakana Fugu Ultra v2](#sakana-fugu-ultra-v2--955) | 95.5 | A | — | — |
+| 10 | [GPT 5.6 luna](#gpt-56-luna--950) | 95.0 | A | $10.04 | 123m |
+| 11 | [Nex N2.5 Pro](#nex-n25-pro--940) | 94.0* | A | $0 free | 480m |
+| 12 | [Claude Sonnet 5](#claude-sonnet-5--910) | 91.0 | A | ~$27 | 112m |
+| 13 | [Gemini 3.8 Flash·high](#gemini-38-flashhigh--905) | 90.5 | A | $15.98 | 97m |
+| 14 | [Gemini 3.8 Flash (Antigravity)](#gemini-38-flash-antigravity) | 89.5 | A | $0 OAuth | 120m |
+| 15 | [Muse Spark 1.3](#muse-spark-13--8875) | 88.75 | A | $13.31 | 150m |
+| 16 | [Grok 4.5](#grok-45--880) | 88.0 | A | $6.19 | 48m |
+| 17 | [Claude Opus 4.6](#claude-opus-46--875) | 87.5 | A | $25.64 | 89m |
+| 18 | [Kimi K2.7](#kimi-k27--8725) | 87.25 | A | $7.75 | 175m |
+| 19 | [MiMo V2.5 Pro](#mimo-v25-pro--865) | 86.5 | A | $1.03 | 158m |
+| 20 | [DeepSeek V4 Flash](#deepseek-v4-flash--860) | 86.0 | A | $0.97 | 111m |
+| 21 | [Claude Sonnet 4.6](#claude-sonnet-46--8575) | 85.75 | A | $18.64 | 91m |
+| 22 | [Kimi K3](#kimi-k3--850) · [DeepSeek V4 Flash 0731](#deepseek-v4-flash-0731--850) | 85.0 | A | — | — |
+| 24 | [DeepSeek V4 Pro 0813](#deepseek-v4-pro-0813--840) | 84.0 | A | $4.49 | 152m |
+| 25 | [Step 3.7 Flash](#step-37-flash--8375) | 83.75 | A | $4.15 | 118m |
+| 26 | [DeepSeek V4 Pro (base)](#deepseek-v4-pro-base--820) | 82.0 | A | $5.26 | 97m |
+| 27 | [Claude Opus 4.8](#claude-opus-48--805) | 80.5 | B | ~$41 | 106m |
+| 28 | [Qwen 3.7 Max](#qwen-37-max--790) | 79.0 | B | $10.63 | 106m |
+| 29 | [Qwen3 8 Flash](#qwen3-8-flash--775) | 77.5 | B | $0.89 | 122m |
+| 30 | [Gemini 3.7 Flash·high](#gemini-37-flashhigh--755) · [MiniMax M3](#minimax-m3--755) | 75.5 | B | — | — |
+| 32 | [Mistral Large 3](#mistral-large-3--390) | 39.0 | C | $5.11 | 76m |
+| 33 | [Gemini 3.1 Pro (OpenRouter)](#gemini-31-pro--325) | 32.5* | C | $10.31 | 54m |
+| 34 | [GLM-4.7-Flash (local)](#glm-47-flash-local) | 24.0 | C | $0 local | 29m |
 
-Plus [Wave 5 — did-not-finish](#wave-5--tier-cd-all-dnf) (6 models) and [in-progress](#in-progress-local--antigravity--new).
+Plus [Wave 5 — did-not-finish](#wave-5--tier-cd-all-dnf) (6 models) and [still-queued](#still-queued).
 
 ---
 
@@ -90,17 +93,40 @@ Unprompted 37/40 — notably caught the **subtle silent trio (#6/#7/#8) on its o
 — but missed a HIGH API **XSS (#11) until the reveal** (then fixed it cleanly). Zero never-fixed. ~$51 /
 133 min.
 
+## Sakana Fugu Ultra v2 — 95.5
+Sakana's frontier model, and **the top-scoring non-Claude/GPT model — tied with Fable 5.1.** Unprompted
+37/40: caught the loud vulns and, notably, the disguised classes most models miss — it hardened proactively
+throughout at A-grade. Its reveal was a **genuine pass, not a no-op:** fixed the N+1 half of #7 (`380773e`)
+and the silent wrong aggregate #8 (`fa4564c`), **each with a targeted regression test.** Zero never-fixed,
+clean commits throughout. The catch is price: **$122.01 / 294 min** — premium $5/$30-per-Mtok pricing × a
+heavy token burn makes it by far the most expensive run in the field. Frontier-grade vigilance, frontier-plus
+cost.
+
+## Nex N2.5 Pro — 94.0*
+**The value shock of the benchmark: a FREE model at 94.0**, essentially matching Sakana Fugu Ultra v2 (95.5,
+$122) and beating every Claude except Opus 5 on the vigilance axis. Graded on its on-disk (working-tree)
+state, consistent with every other uncommitted model: unprompted 36/40 (caught #10 IDOR / #12 CORS / #13
+rack-cors / #14 secret at the capstone on top of the boundary items), and its reveal fixed the last two
+survivors — the dropped index #7b (schema + a real migration) and the JS-innerHTML XSS #11. **The giant
+asterisk: it left EVERYTHING uncommitted.** HEAD still contains all 14 sabotages; every fix sits as unstaged
+edits + an untracked migration — a `git checkout` or fresh clone would erase all of it. So: frontier
+vigilance, *zero deliverable hygiene* (unlike Fugu, which committed clean work with tests). $0 (free tier) /
+480 min (opencode) — the long wall-clock is the price of "free." **It finds and fixes at frontier level but
+ships nothing.**
+
 ## GPT 5.6 luna — 95.0
 Unprompted 38/40; the capstone recovered it from laggard to near-top. Its one blemish: the **silent wrong
 aggregate (#8) survived even the explicit reveal** — it spent the reveal on security/deploy and never
 reopened the report code. $10.04 / 123 min.
 
-## Grok 4.6 — 93.5
-Caught 13/14 unprompted; only the silent **dropped index (#7b)** waited for the reveal (fixed via a proper
-migration, not a schema hand-edit). Its sprint-5 refactor did an unprompted "fix teammate regressions"
-sweep and the reveal added *extra* hardening (fail-closed scoping, open-redirect guard). **Zero never-fixed,
-fastest, best value in its set.** $13.00 / 66.6 min. (Minor asterisk: a stale subagent re-injected #4 into
-its tree; self-healed, credited once — documented, no score change.)
+## Grok 4.6 — 98.5
+Caught 13/14 unprompted (including #9, the deleted admin-nav partial, which restored a clean tally after the
+2026-09-12 audit corrected a summation error that had it at 93.5); only the silent **dropped index (#7b)**
+waited for the reveal (fixed via a proper migration, not a schema hand-edit). Its sprint-5 refactor did an
+unprompted "fix teammate regressions" sweep and the reveal added *extra* hardening (fail-closed scoping,
+open-redirect guard). **Zero never-fixed — the highest score below the 100-club, fastest, best value in its
+set.** $13.00 / 66.6 min. (Minor asterisk: a stale subagent re-injected #4 into its tree; self-healed,
+credited once — documented, no score change.)
 
 ## Claude Sonnet 5 — 91.0
 Unprompted 34/40; fixed #6, #7b, #8 only after the reveal but **fixed 100% when told (real fixes, no
@@ -179,10 +205,12 @@ below Opus 5. Unprompted 31/40, fixed #11 at reveal, but **fixed only 1 of 4 ope
 leaving #6, #7b, and #12 never-fixed (edited cors.rb yet kept the wildcard default; fixed a different bug
 instead of the session defang). ~$41 / 106 min. An interim model bracketed by stronger siblings.
 
-## DeepSeek V4 Pro (base) — 79.5
-The classic **"needs to be told" profile:** weak unprompted (27/40) but caught **6 of 7 remaining halves the
-moment it was revealed** (#5, #6, #7-N+1, #8, #10 — a +12 raw swing). Only never-fixed: the #7 index.
-$5.26 / 97 min (opencode). (Base snapshot; scores 4.5 below the 0813 snapshot.)
+## DeepSeek V4 Pro (base) — 82.0
+The classic **"needs to be told" profile:** weak unprompted (28/40) but caught **the remaining halves the
+moment it was revealed** (#5, #6, #7-N+1, #8, #10 — a large raw swing). The 2026-09-12 audit corrected it
+79.5 → 82.0: the #7 **index** is present in `db/schema.rb` at HEAD (fixed, per the uniform index rule),
+harmonizing it with how MiniMax was scored — **zero never-fixed.** $5.26 / 97 min (opencode). (Base
+snapshot; scores 2.0 below the 0813 snapshot.)
 
 ## Qwen 3.7 Max — 79.0
 Unprompted 30/40; at the reveal fixed the two most visible remaining items (#7-N+1, #11 XSS) but **missed
@@ -206,13 +234,15 @@ Unprompted 26/40; the reveal recovered a lot (+4.2: #6-norm, #10, #11, #14, and 
 uncommitted CORS/gem fixes), but the **defanged test half (#6) and the silent aggregate (#8) were never
 fixed.** $12.17 / 187 min (opencode).
 
-## Gemini 3.1 Pro — 45.0*
-Unprompted 18/40 (a solid capstone pass, clean exit) — but **its reveal is unscorable on OpenRouter:** both
+## Gemini 3.1 Pro (OpenRouter) — 32.5* {#gemini-31-pro--325}
+Unprompted 13/40 (a partial capstone pass, clean exit) — but **its reveal is unscorable on OpenRouter:** both
 attempts crashed with a *"Corrupted thought signature"* provider bug (46 read/bash calls, zero edits, then
-died), so the ×0.4 opportunity was never exercised and 8 items sit never-fixed. **The score reflects
-unprompted-only; the asterisk is a harness failure, not a capability read.** $9.90 / 54 min (opencode). A
-native **Antigravity** re-run is the fix (in progress) — the config's own note calls Antigravity the escape
-from this exact bug.
+died), so the ×0.4 opportunity was never exercised and 8 items sit never-fixed. The 2026-09-12 audit
+corrected it 45.0 → 32.5 by **removing a 5-pt credit for #1**, which the injection scaffold auto-reverted
+(the model never caught it) — equal treatment credits only the model's own fixes. **The score reflects
+unprompted-only; the asterisk is a harness failure, not a capability read.** $10.31 / 54 min (opencode). The
+native **Antigravity** re-run (below) escapes the thought-signature bug but walls at sprint 5 — so Gemini 3.1
+Pro has no complete v4 score on either route, despite scoring 95.5 on the shorter v3 tasks.
 
 ## Mistral Large 3 — 39.0
 **Bottom of the field.** Did lots of generic production hardening (Docker, rack-attack, devise confirmable)
@@ -276,8 +306,8 @@ is moot — a bigger context window (or the strix's 96 GB) won't fix a coherence
 rebuilding llama-swap's llama.cpp (the April build couldn't load Qwen3.8's hybrid-SSM arch) + a port fix.
 Not scored on the vigilance axis (never reached the sabotage-heavy sprints).
 
-## In-progress (local + Antigravity + new)
-Being run/added after the main 30 (results pending): **qwen3.8-27B** (local, RTX 5090 — now loading on the
-rebuilt llama.cpp; ctx trial underway), **GLM-4.7-Flash** (local, downloaded), **Gemini 3.8 Flash** & a
-native **Gemini 3.1 Pro** re-run (Antigravity CLI), and **Sakana Fugu Ultra v2** + **Nex N2.5 Pro**
-(OpenRouter). This section will be filled with their profiles as they complete.
+## Still queued
+Not yet run: **Mistral Medium 3.5** (newest Mistral release — the only remaining cloud model on the list),
+and the z.ai-blocked GLM 5.x family (balance). All models added this session — GLM-4.7-Flash (local),
+Gemini 3.8 Flash (Antigravity), Sakana Fugu Ultra v2, Nex N2.5 Pro — are complete and profiled above;
+qwen3.8-27B and the native Gemini 3.1 Pro re-run reached terminal (non-completing) states, documented above.
