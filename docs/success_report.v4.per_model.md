@@ -319,9 +319,12 @@ is moot — a bigger context window (or the strix's 96 GB) won't fix a coherence
 rebuilding llama-swap's llama.cpp (the April build couldn't load Qwen3.8's hybrid-SSM arch) + a port fix.
 Not scored on the vigilance axis (never reached the sabotage-heavy sprints).
 
-## Still queued
-Only the z.ai-blocked GLM 5.x family remains (glm_5_2 / glm_5_3 / glm_5_3-flash — balance). Every other
-model on the list is resolved: the models added this session — GLM-4.7-Flash (local, 24.0), Gemini 3.8 Flash
-(Antigravity, 89.5), Sakana Fugu Ultra v2 (95.5), Nex N2.5 Pro (94.0*) — are complete and profiled above;
-Mistral Medium 3.5 DNF'd (nested-app, above); qwen3.8-27B and the native Gemini 3.1 Pro re-run reached
-terminal (non-completing) states, documented above. Next up: the Claude-relay fingerprinting probe.
+## Runnable on demand (held)
+The **GLM 5.x cloud family** (glm-5.3 / glm-5.3-flash / glm-5.2) is the only unrun item — and it is *not*
+actually blocked: though the z.ai coding plan is out of balance (429/1113), the whole family is on
+**OpenRouter** (`z-ai/glm-5.3`, etc.) and probes clean. Held at the user's choice (2026-09-12), runnable on
+demand via OpenRouter. Everything else is resolved: models added this session — GLM-4.7-Flash (local, 24.0),
+Gemini 3.8 Flash (Antigravity, 89.5), Sakana Fugu Ultra v2 (95.5), Nex N2.5 Pro (94.0*) — complete and
+profiled above; Mistral Medium 3.5 DNF'd (nested-app, above); qwen3.8-27B and the native Gemini 3.1 Pro
+re-run reached terminal (non-completing) states. The Claude-relay fingerprinting probe is done
+(`docs/relay_fingerprint_findings.md`): no detectable Claude routing on Kimi or DeepSeek.

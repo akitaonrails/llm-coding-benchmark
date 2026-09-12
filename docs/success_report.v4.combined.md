@@ -72,7 +72,10 @@ agy (Antigravity) = Google OAuth, no per-token cost. Compare cost within-harness
   `rubyllm_chat_app/` subdir instead of in-place at project root — the **same failure as devstral-2512 and
   llama-4-Maverick**. Kept consistent: no reparent (they got none). The nested-app pattern now spans **three**
   models, a recurring trait on this build-in-place harness.
-- **Blocked (not run):** glm_5_2 / glm_5_3 / glm_5_3-flash (z.ai balance).
+- **GLM 5.x cloud (glm-5.3 / glm-5.3-flash / glm-5.2) — runnable, held.** Originally treated as blocked
+  (z.ai coding plan out of balance, 429/1113), but the whole family is available on **OpenRouter**
+  (`z-ai/glm-5.3`, etc.) and probes clean — the z.ai block is provider-specific, not a capability block. Held
+  at the user's choice (2026-09-12); runnable on demand via OpenRouter. (GLM-4.7-Flash already ran locally = 24.0.)
 
 ## Headline reads
 - **Six-way tie at the top (100):** Astra, Opus 5, Fable 5, GPT 5.6 sol/terra, GPT 5.5 — perfect unprompted
