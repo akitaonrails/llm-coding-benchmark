@@ -40,7 +40,7 @@ from benchmark.runner import (  # noqa: E402
 )
 from benchmark.util import save_json, utc_now  # noqa: E402
 
-PHASE_TIMEOUT = 5400
+PHASE_TIMEOUT = int(os.environ.get("V4_PHASE_TIMEOUT", "5400"))
 # Stall/idle-output timeout: abort a phase if the model produces NO output for this
 # long. Catches provider hangs (which otherwise burn the full PHASE_TIMEOUT — e.g.,
 # Qwen 3.8 Flash wasted 2x90min on OpenRouter hangs). Set well above any legitimate
@@ -96,6 +96,22 @@ def build_agy_command(model_id: str, prompt: str, project_dir: Path) -> list[str
         "--dangerously-skip-permissions",
         "--add-dir", str(project_dir.resolve()),
         "--print-timeout", "100m",
+    ]
+
+
+def build_zcode_command(prompt: str, project_dir: Path) -> list[str]:
+    # zcode CLI (ZCode agent runtime, z.ai GLM Coding Plan). Headless single prompt via
+    # --prompt=<text> (the '=' form is required; space-form and the --print/--model flags
+    # are rejected by the headless parser). Agentic in --mode=yolo; --json prints a final
+    # machine-readable object (usage tokens, sessionId) to stdout; --verbose streams
+    # progress to stderr so the stall detector sees output during long builds. The MODEL is
+    # selected via ~/.zcode/cli/config.json model.main (set per-run in run_phase), and auth
+    # (z.ai coding-plan API key) lives in that same config.
+    return [
+        "zcode",
+        f"--prompt={prompt}",
+        f"--cwd={project_dir.resolve()}",
+        "--mode=yolo", "--json", "--verbose",
     ]
 
 
@@ -155,6 +171,14 @@ def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
         preamble = (f"Your workspace directory is {project_dir.resolve()}. Do ALL work inside it; "
                     f"create and edit every file under that absolute path, never in any other scratch area.\n\n")
         command = build_agy_command(model["model_id"], preamble + prompt, project_dir)
+    elif harness == "zcode":
+        # zcode selects the model via config model.main (the --model flag is rejected).
+        # Shielded v4 runs serialize, so mutating the global CLI config per-run is safe.
+        zc_cfg = Path.home() / ".zcode" / "cli" / "config.json"
+        _c = json.loads(zc_cfg.read_text())
+        _c.setdefault("model", {})["main"] = model["model_id"]  # e.g. "zai/glm-5.3"
+        zc_cfg.write_text(json.dumps(_c, indent=1))
+        command = build_zcode_command(prompt, project_dir)
     elif harness == "opencode":
         # v2 phases are session-independent: fresh `opencode run` per phase
         # in the same workspace, model selected via -m each time.
@@ -214,7 +238,10 @@ def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
                 timed_out = True
                 os.killpg(process.pid, signal.SIGTERM)
                 break
-            if now - last_output > STALL_TIMEOUT:
+            # zcode buffers ALL output until clean exit (never streams, even with --verbose),
+            # so the no-output stall detector would false-kill every long build. Skip it for
+            # zcode and rely on the hard PHASE_TIMEOUT wall-clock cap instead.
+            if harness != "zcode" and now - last_output > STALL_TIMEOUT:
                 stalled = True
                 print(f"[{model['slug']}/{phase_name}] STALL: no output for "
                       f"{int(now - last_output)}s (>{STALL_TIMEOUT}s) — aborting (provider hang?)")
@@ -284,6 +311,23 @@ def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
         tokens = metrics.get("tokens") or {}
         session_id = metrics.get("session_id")
         cost_usd = round(metrics["cost"], 4) if metrics.get("cost") else None
+    elif harness == "zcode":
+        # zcode --json emits a single final JSON object on stdout (usage tokens + sessionId).
+        # --verbose progress goes to stderr, so stdout stays clean JSON. Cost stays None
+        # (z.ai GLM Coding Plan is flat-rate — notional $, like the Claude Max runs) unless
+        # rates_per_m is set in the model config.
+        try:
+            d = json.loads(stdout_text)
+            u = d.get("usage") or {}
+            tokens = {
+                "input": u.get("inputTokens", 0),
+                "output": u.get("outputTokens", 0),
+                "cache": {"read": u.get("cacheReadTokens", 0) or 0, "write": 0},
+                "total": u.get("totalTokens", 0),
+            }
+            session_id = d.get("sessionId")
+        except Exception:
+            pass
 
     if cost_usd is None and tokens and rates:
         cost_usd = round(

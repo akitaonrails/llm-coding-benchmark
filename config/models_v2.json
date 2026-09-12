@@ -929,6 +929,33 @@
       "enable_followup": true,
       "wave": 5,
       "notes": "Added 2026-09-05 (cloud proxy for the birds-eye; true local 5090 run is a separate manual session)."
+    },
+    {
+      "slug": "v2_glm_5_3_zcode",
+      "label": "GLM 5.3 (zcode CLI / z.ai GLM Coding Plan Lite)",
+      "harness": "zcode",
+      "model_id": "zai/glm-5.3",
+      "billing": "z.ai GLM Coding Plan (Lite, flat-rate; notional $0 marginal)",
+      "wave": 6,
+      "notes": "Added 2026-09-12. Runs via the zcode CLI (ZCode agent runtime) on the z.ai coding endpoint (Anthropic-compatible), bypassing the z.ai pay-as-you-go balance block. Auth in ~/.zcode/cli/config.json; model via config model.main (set per-run). Harness-effect data point vs the opencode/OpenRouter GLM 5.3 entries."
+    },
+    {
+      "slug": "v2_glm_5_3_flash_zcode",
+      "label": "GLM 5.3 Flash (zcode CLI / z.ai GLM Coding Plan Lite)",
+      "harness": "zcode",
+      "model_id": "zai/glm-5.3-flash",
+      "billing": "z.ai GLM Coding Plan (Lite, flat-rate; notional $0 marginal)",
+      "wave": 6,
+      "notes": "Added 2026-09-12. zcode CLI harness, z.ai coding endpoint. Cheap/fast GLM tier."
+    },
+    {
+      "slug": "v2_glm_5_2_zcode",
+      "label": "GLM 5.2 (zcode CLI / z.ai GLM Coding Plan Lite)",
+      "harness": "zcode",
+      "model_id": "zai/glm-5.2",
+      "billing": "z.ai GLM Coding Plan (Lite, flat-rate; notional $0 marginal)",
+      "wave": 6,
+      "notes": "Added 2026-09-12. zcode CLI harness. Superseded by 5.3 but completes the family."
     }
   ],
   "skipped": {
