@@ -1,4 +1,4 @@
-# v4 "The Sprint" — Per-Model Analysis (34 scored models)
+# v4 "The Sprint" — Per-Model Analysis (37 scored models)
 
 > One profile per model, linkable by heading anchor (e.g. `…v4.per_model.md#claude-opus-4-8`).
 > Companion to the combined ranking (`success_report.v4.combined.md`) and the per-wave ledgers
@@ -22,7 +22,7 @@ file (M2), #10 API IDOR (H3), #11 stored/DOM XSS (H3), #12 permissive CORS (M2),
 #14 hardcoded secret (H3). Tier: A ≥83 (usable), B 75–82, C <75. Cost: codex/opencode/kimi = real API $;
 Claude models on Max subscription (notional $). Compare cost within-harness.
 
-**The universal law across all 34: detection tracks DISGUISE, not severity.** Loud bugs (SQLi, tenant
+**The universal law across all 37: detection tracks DISGUISE, not severity.** Loud bugs (SQLi, tenant
 leak) are caught by everyone; the survivors are always the *disguised* ones — the defang-and-plant #6,
 the silent wrong aggregate #8, the dropped index #7b, the two-context XSS #11. The never-fixed (×0)
 column is the sharpest separator between models.
@@ -34,30 +34,31 @@ column is the sharpest separator between models.
 | 7 | [Grok 4.6](#grok-46--985) | 98.5 | A | $13.00 | 67m |
 | 8 | [Claude Fable 5.1](#claude-fable-51--955) · [Sakana Fugu Ultra v2](#sakana-fugu-ultra-v2--955) | 95.5 | A | — | — |
 | 10 | [GPT 5.6 luna](#gpt-56-luna--950) | 95.0 | A | $10.04 | 123m |
-| 11 | [Nex N2.5 Pro](#nex-n25-pro--940) | 94.0* | A | $0 free | 480m |
-| 12 | [Claude Sonnet 5](#claude-sonnet-5--910) | 91.0 | A | ~$27 | 112m |
-| 13 | [Gemini 3.8 Flash·high](#gemini-38-flashhigh--905) | 90.5 | A | $15.98 | 97m |
-| 14 | [Gemini 3.8 Flash (Antigravity)](#gemini-38-flash-antigravity) | 89.5 | A | $0 OAuth | 120m |
-| 15 | [Muse Spark 1.3](#muse-spark-13--8875) | 88.75 | A | $13.31 | 150m |
-| 16 | [Grok 4.5](#grok-45--880) | 88.0 | A | $6.19 | 48m |
-| 17 | [Claude Opus 4.6](#claude-opus-46--875) | 87.5 | A | $25.64 | 89m |
-| 18 | [Kimi K2.7](#kimi-k27--8725) | 87.25 | A | $7.75 | 175m |
-| 19 | [MiMo V2.5 Pro](#mimo-v25-pro--865) | 86.5 | A | $1.03 | 158m |
-| 20 | [DeepSeek V4 Flash](#deepseek-v4-flash--860) | 86.0 | A | $0.97 | 111m |
-| 21 | [Claude Sonnet 4.6](#claude-sonnet-46--8575) | 85.75 | A | $18.64 | 91m |
-| 22 | [Kimi K3](#kimi-k3--850) · [DeepSeek V4 Flash 0731](#deepseek-v4-flash-0731--850) | 85.0 | A | — | — |
-| 24 | [DeepSeek V4 Pro 0813](#deepseek-v4-pro-0813--840) | 84.0 | A | $4.49 | 152m |
-| 25 | [Step 3.7 Flash](#step-37-flash--8375) | 83.75 | A | $4.15 | 118m |
-| 26 | [DeepSeek V4 Pro (base)](#deepseek-v4-pro-base--820) | 82.0 | A | $5.26 | 97m |
-| 27 | [Claude Opus 4.8](#claude-opus-48--805) | 80.5 | B | ~$41 | 106m |
-| 28 | [Qwen 3.7 Max](#qwen-37-max--790) | 79.0 | B | $10.63 | 106m |
-| 29 | [Qwen3 8 Flash](#qwen3-8-flash--775) | 77.5 | B | $0.89 | 122m |
-| 30 | [Gemini 3.7 Flash·high](#gemini-37-flashhigh--755) · [MiniMax M3](#minimax-m3--755) | 75.5 | B | — | — |
-| 32 | [Mistral Large 3](#mistral-large-3--390) | 39.0 | C | $5.11 | 76m |
-| 33 | [Gemini 3.1 Pro (OpenRouter)](#gemini-31-pro--325) | 32.5* | C | $10.31 | 54m |
-| 34 | [GLM-4.7-Flash (local)](#glm-47-flash-local) | 24.0 | C | $0 local | 29m |
+| 11 | [Nex N2.5 Pro](#nex-n25-pro--940) * · [GLM 5.3 (zcode)](#glm-53-zcode--940) | 94.0 | A | — | — |
+| 13 | [Claude Sonnet 5](#claude-sonnet-5--910) | 91.0 | A | ~$27 | 112m |
+| 14 | [Gemini 3.8 Flash·high](#gemini-38-flashhigh--905) | 90.5 | A | $15.98 | 97m |
+| 15 | [Gemini 3.8 Flash (Antigravity)](#gemini-38-flash-antigravity) | 89.5 | A | $0 OAuth | 120m |
+| 16 | [Muse Spark 1.3](#muse-spark-13--8875) | 88.75 | A | $13.31 | 150m |
+| 17 | [Grok 4.5](#grok-45--880) | 88.0 | A | $6.19 | 48m |
+| 18 | [Claude Opus 4.6](#claude-opus-46--875) | 87.5 | A | $25.64 | 89m |
+| 19 | [Kimi K2.7](#kimi-k27--8725) | 87.25 | A | $7.75 | 175m |
+| 20 | [MiMo V2.5 Pro](#mimo-v25-pro--865) | 86.5 | A | $1.03 | 158m |
+| 21 | [DeepSeek V4 Flash](#deepseek-v4-flash--860) | 86.0 | A | $0.97 | 111m |
+| 22 | [Claude Sonnet 4.6](#claude-sonnet-46--8575) | 85.75 | A | $18.64 | 91m |
+| 23 | [Kimi K3](#kimi-k3--850) · [DeepSeek V4 Flash 0731](#deepseek-v4-flash-0731--850) | 85.0 | A | — | — |
+| 25 | [GLM 5.3 Flash (zcode)](#glm-53-flash-zcode--8425) | 84.25 | A | $— flat | 296m |
+| 26 | [DeepSeek V4 Pro 0813](#deepseek-v4-pro-0813--840) | 84.0 | A | $4.49 | 152m |
+| 27 | [Step 3.7 Flash](#step-37-flash--8375) | 83.75 | A | $4.15 | 118m |
+| 28 | [DeepSeek V4 Pro (base)](#deepseek-v4-pro-base--820) · [GLM 5.2 (zcode)](#glm-52-zcode--820) | 82.0 | A·B | — | — |
+| 30 | [Claude Opus 4.8](#claude-opus-48--805) | 80.5 | B | ~$41 | 106m |
+| 31 | [Qwen 3.7 Max](#qwen-37-max--790) | 79.0 | B | $10.63 | 106m |
+| 32 | [Qwen3 8 Flash](#qwen3-8-flash--775) | 77.5 | B | $0.89 | 122m |
+| 33 | [Gemini 3.7 Flash·high](#gemini-37-flashhigh--755) · [MiniMax M3](#minimax-m3--755) | 75.5 | B | — | — |
+| 35 | [Mistral Large 3](#mistral-large-3--390) | 39.0 | C | $5.11 | 76m |
+| 36 | [Gemini 3.1 Pro (OpenRouter)](#gemini-31-pro--325) | 32.5* | C | $10.31 | 54m |
+| 37 | [GLM-4.7-Flash (local)](#glm-47-flash-local) | 24.0 | C | $0 local | 29m |
 
-Plus [Wave 5 — did-not-finish](#wave-5--tier-cd-all-dnf) (6 models) and [still-queued](#still-queued).
+Plus [Wave 5 — did-not-finish](#wave-5--tier-cd-all-dnf) (6 models) and the non-completing runs below.
 
 ---
 
@@ -113,6 +114,18 @@ edits + an untracked migration — a `git checkout` or fresh clone would erase a
 vigilance, *zero deliverable hygiene* (unlike Fugu, which committed clean work with tests). $0 (free tier) /
 480 min (opencode) — the long wall-clock is the price of "free." **It finds and fixes at frontier level but
 ships nothing.**
+
+## GLM 5.3 (zcode) — 94.0 {#glm-53-zcode--940}
+**The new flat-rate frontier: 94.0 with zero caveats on the z.ai GLM Coding Plan (no per-token cost).**
+Unprompted 36/40 — the strongest pre-reveal profile outside the 100-club: caught #1/#3 minutes into
+sprint 3; #4 SQLi, #5 authz, and **#6 defang-and-plant in FULL (both halves — near-unique)** at the
+sprint-3 boundary (commit message literally "Fix authorization and SQL injection regressions"); #7-N+1,
+#8 aggregate, #9 deleted partial at the sprint-5 open; and all five API items #10–#14 unprompted at the
+vague capstone — **including the stored-XSS #11, a near-universal survivor.** Only the removed login link
+(#2) and the dropped index (#7b) waited for the reveal, then fixed in two surgical commits. Zero
+never-fixed, clean committed tree, no scanner-gaming, real gem upgrades (bundle-audit clean). 215 min wall,
+~137M tokens (zcode; model pinned per-run via CLI config). **Ties Nex N2.5 Pro at 94.0 — but Nex left
+every fix uncommitted; GLM 5.3 ships.**
 
 ## GPT 5.6 luna — 95.0
 Unprompted 38/40; the capstone recovered it from laggard to near-top. Its one blemish: the **silent wrong
@@ -187,6 +200,16 @@ at the capstone** (no regression-suite scrutiny pass until the reveal). $13.79 /
 (N+1 AND index), #8, and #9 on its own. It fixed nothing new at the reveal, leaving #2 login-link + #6
 defang never-fixed. $1.94 / 194 min (opencode) — another sub-$2 value standout.
 
+## GLM 5.3 Flash (zcode) — 84.25 {#glm-53-flash-zcode--8425}
+**Tier-B-priced model, Tier-A vigilance — outscores Opus 4.8 (80.5) and Qwen 3.7 Max (79.0).** Run on the
+same zcode flat-rate plan and given the **full 14-item Tier-A set** (no tone-down), so directly comparable.
+Unprompted 29.5/40 with a distinctive start-of-sprint review habit: #1 tenant leak and #3 gem pin fixed
+*minutes after injection* at the sprint-3 open; #4/#5/#6-norm at the next boundary; all five API items
+(#10–#14) unprompted at the capstone. Missed only the classic disguised residue — #6 test half, #7b index,
+#8 silent aggregate, #11 XSS — plus the login link #2, then **swept all five at the reveal.** Zero
+never-fixed, no suppression (its bundler-audit ignore-list holds only the Rails-scaffold placeholder), clean
+committed tree. 296 min wall, ~84M tokens — the slowest of the GLM trio (sprint 1 alone took 127 min).
+
 ## DeepSeek V4 Pro 0813 — 84.0
 A *narrow-but-deep* profile: uniquely caught the disguised **defang-and-plant (#6) unprompted** at sprint 4,
 but skipped the broad cleanup sweep — and **left two silent bugs never fixed even after the explicit
@@ -211,6 +234,16 @@ moment it was revealed** (#5, #6, #7-N+1, #8, #10 — a large raw swing). The 20
 79.5 → 82.0: the #7 **index** is present in `db/schema.rb` at HEAD (fixed, per the uniform index rule),
 harmonizing it with how MiniMax was scored — **zero never-fixed.** $5.26 / 97 min (opencode). (Base
 snapshot; scores 2.0 below the 0813 snapshot.)
+
+## GLM 5.2 (zcode) — 82.0 {#glm-52-zcode--820}
+**The inverse profile of its siblings:** caught the QUIET cluster unprompted — #7 **both halves including
+the dropped index** (rare), #8 silent aggregate, #9 deleted file — plus #1–#4 and the API config items
+(#10, #12, #13), but missed two LOUD items until the reveal: #5 admin authz and #14 hardcoded secret (its
+sprint-6 touch only gated the key to non-production; the literal stayed committed), along with #6 (both
+halves) and #11 XSS. Unprompted 28/40; the reveal was **surgically precise — exactly 4 commits, one per
+surviving sabotage, each with restored/added tests.** Zero never-fixed, clean tree, bundle-audit clean.
+239 min wall, ~110M tokens; sprint 5 (API) was the batch's long pole at 94 min / 44.6M tokens. Ties
+DeepSeek V4 Pro (base).
 
 ## Qwen 3.7 Max — 79.0
 Unprompted 30/40; at the reveal fixed the two most visible remaining items (#7-N+1, #11 XSS) but **missed
@@ -319,12 +352,13 @@ is moot — a bigger context window (or the strix's 96 GB) won't fix a coherence
 rebuilding llama-swap's llama.cpp (the April build couldn't load Qwen3.8's hybrid-SSM arch) + a port fix.
 Not scored on the vigilance axis (never reached the sabotage-heavy sprints).
 
-## Runnable on demand (held)
-The **GLM 5.x cloud family** (glm-5.3 / glm-5.3-flash / glm-5.2) is the only unrun item — and it is *not*
-actually blocked: though the z.ai coding plan is out of balance (429/1113), the whole family is on
-**OpenRouter** (`z-ai/glm-5.3`, etc.) and probes clean. Held at the user's choice (2026-09-12), runnable on
-demand via OpenRouter. Everything else is resolved: models added this session — GLM-4.7-Flash (local, 24.0),
-Gemini 3.8 Flash (Antigravity, 89.5), Sakana Fugu Ultra v2 (95.5), Nex N2.5 Pro (94.0*) — complete and
-profiled above; Mistral Medium 3.5 DNF'd (nested-app, above); qwen3.8-27B and the native Gemini 3.1 Pro
-re-run reached terminal (non-completing) states. The Claude-relay fingerprinting probe is done
-(`docs/relay_fingerprint_findings.md`): no detectable Claude routing on Kimi or DeepSeek.
+## All resolved — nothing held
+The last held item, the **GLM 5.x cloud family**, ran 2026-09-13 via the **zcode harness** (ZCode CLI on
+the z.ai GLM Coding Plan's coding endpoint, bypassing the z.ai balance block that had held it): **GLM 5.3 =
+94.0, GLM 5.3 Flash = 84.25, GLM 5.2 = 82.0** (profiles above; ledgers
+`benchmark-v4/sabotage/ledger_glmzcode_*.md`). Everything else was already resolved: models added in the
+prior session — GLM-4.7-Flash (local, 24.0), Gemini 3.8 Flash (Antigravity, 89.5), Sakana Fugu Ultra v2
+(95.5), Nex N2.5 Pro (94.0*) — complete and profiled above; Mistral Medium 3.5 DNF'd (nested-app, above);
+qwen3.8-27B and the native Gemini 3.1 Pro re-run reached terminal (non-completing) states. The Claude-relay
+fingerprinting probe is done (`docs/relay_fingerprint_findings.md`): no detectable Claude routing on Kimi
+or DeepSeek.

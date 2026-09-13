@@ -58,3 +58,27 @@
 07:47:09 RUN  v2_muse_spark_1_3 sprint 03_admin ...
 08:11:52 DONE v2_muse_spark_1_3 — ok exit=0 tokens=9733104 cost=$1.9595
 08:11:52 === WAVE sprint 03_admin complete ===
+13:34:01 === WAVE sprint 03_admin : 1 models ===
+13:34:01 RUN  v2_qwen3_8_27b_local sprint 03_admin ...
+13:57:53 DONE v2_qwen3_8_27b_local — ok exit=1 tokens=2221242 cost=$0.0
+13:57:53 === WAVE sprint 03_admin complete ===
+15:25:22 === WAVE sprint 03_admin : 1 models ===
+15:25:22 RUN  v2_qwen3_8_27b_local sprint 03_admin ...
+15:44:07 DONE v2_qwen3_8_27b_local — ok exit=1 tokens=2221242 cost=$0.0
+15:44:07 === WAVE sprint 03_admin complete ===
+16:39:20 === WAVE sprint 03_admin : 2 models ===
+16:39:20 RUN  v2_gemini_3_8_flash_high_agy sprint 03_admin ...
+16:51:25 DONE v2_gemini_3_8_flash_high_agy — ok exit=0 tokens=0 cost=$None
+16:51:25 RUN  v2_gemini_3_1_pro_agy sprint 03_admin ...
+17:01:46 DONE v2_gemini_3_1_pro_agy — ok exit=0 tokens=0 cost=$None
+17:01:46 === WAVE sprint 03_admin complete ===
+20:15:53 === WAVE sprint 03_admin : 1 models ===
+20:15:53 RUN  v2_glm_4_7_flash_local sprint 03_admin ...
+20:18:09 DONE v2_glm_4_7_flash_local — ok exit=0 tokens=1483682 cost=$0.0
+20:18:09 === WAVE sprint 03_admin complete ===
+05:55:30 === WAVE sprint 03_admin : 2 models ===
+05:55:30 RUN  v2_sakana_fugu_ultra_v2 sprint 03_admin ...
+06:26:05 DONE v2_sakana_fugu_ultra_v2 — ok exit=0 tokens=14139136 cost=$11.7542
+06:26:05 RUN  v2_nex_n2_5_pro sprint 03_admin ...
+07:46:02 DONE v2_nex_n2_5_pro — ok exit=1 tokens=15615767 cost=$0.0
+07:46:02 === WAVE sprint 03_admin complete ===

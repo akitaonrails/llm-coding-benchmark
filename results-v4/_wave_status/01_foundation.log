@@ -92,3 +92,34 @@
 15:59:53 RUN  v2_qwen3_8_27b_local sprint 01_foundation ...
 16:00:58 DNF  v2_qwen3_8_27b_local — exit=1 tokens=0 (crash/auth, no real work) (dropped from remaining sprints)
 16:00:58 === WAVE sprint 01_foundation complete ===
+11:33:05 === WAVE sprint 01_foundation : 2 models ===
+11:33:05 RUN  v2_gemini_3_8_flash_high_agy sprint 01_foundation ...
+11:55:32 DONE v2_gemini_3_8_flash_high_agy — ok exit=0 tokens=0 cost=$None
+11:55:32 RUN  v2_gemini_3_1_pro_agy sprint 01_foundation ...
+12:15:33 DNF  v2_gemini_3_1_pro_agy — stall_aborted (dropped from remaining sprints)
+12:15:33 === WAVE sprint 01_foundation complete ===
+12:40:09 === WAVE sprint 01_foundation : 1 models ===
+12:40:09 SKIP v2_qwen3_8_27b_local (sprint 01_foundation already done)
+12:40:09 === WAVE sprint 01_foundation complete ===
+12:41:28 === WAVE sprint 01_foundation : 1 models ===
+12:41:28 RUN  v2_qwen3_8_27b_local sprint 01_foundation ...
+12:48:46 DONE v2_qwen3_8_27b_local — ok exit=0 tokens=1167005 cost=$0.0
+12:48:46 === WAVE sprint 01_foundation complete ===
+16:12:20 === WAVE sprint 01_foundation : 1 models ===
+16:12:20 RUN  v2_gemini_3_1_pro_agy sprint 01_foundation ...
+16:24:10 DONE v2_gemini_3_1_pro_agy — ok exit=0 tokens=0 cost=$None
+16:24:10 === WAVE sprint 01_foundation complete ===
+19:55:10 === WAVE sprint 01_foundation : 1 models ===
+19:55:10 RUN  v2_glm_4_7_flash_local sprint 01_foundation ...
+19:58:58 DONE v2_glm_4_7_flash_local — ok exit=0 tokens=2810721 cost=$0.0
+19:58:58 === WAVE sprint 01_foundation complete ===
+20:00:21 === WAVE sprint 01_foundation : 1 models ===
+20:00:21 RUN  v2_glm_4_7_flash_local sprint 01_foundation ...
+20:07:58 DONE v2_glm_4_7_flash_local — ok exit=1 tokens=7761437 cost=$0.0
+20:07:58 === WAVE sprint 01_foundation complete ===
+21:04:15 === WAVE sprint 01_foundation : 2 models ===
+21:04:15 RUN  v2_sakana_fugu_ultra_v2 sprint 01_foundation ...
+21:39:00 DONE v2_sakana_fugu_ultra_v2 — ok exit=0 tokens=22422947 cost=$17.9924
+21:39:00 RUN  v2_nex_n2_5_pro sprint 01_foundation ...
+23:09:00 DONE v2_nex_n2_5_pro — ok exit=-15 tokens=17479590 cost=$0.0
+23:09:00 === WAVE sprint 01_foundation complete ===
