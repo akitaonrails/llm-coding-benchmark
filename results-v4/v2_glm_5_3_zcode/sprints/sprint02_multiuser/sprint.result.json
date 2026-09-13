@@ -1,0 +1,10 @@
+{
+  "slug": "v2_glm_5_3_zcode",
+  "sprint": "sprint02_multiuser",
+  "harness": "zcode",
+  "elapsed_seconds": 356.31,
+  "cost_usd": null,
+  "tokens_total": 1106199,
+  "exit_code": 0,
+  "stall_aborted": false
+}

@@ -68,3 +68,26 @@
 17:38:31 RUN  v2_gpt_oss_120b sprint 02_multiuser ...
 17:38:51 DONE v2_gpt_oss_120b — ok exit=0 tokens=28114 cost=$0.0011
 17:38:51 === WAVE sprint 02_multiuser complete ===
+12:50:01 === WAVE sprint 02_multiuser : 1 models ===
+12:50:01 RUN  v2_qwen3_8_27b_local sprint 02_multiuser ...
+13:28:26 DONE v2_qwen3_8_27b_local — ok exit=1 tokens=6071655 cost=$0.0
+13:28:26 === WAVE sprint 02_multiuser complete ===
+15:45:30 === WAVE sprint 02_multiuser : 2 models ===
+15:45:30 RUN  v2_gemini_3_8_flash_high_agy sprint 02_multiuser ...
+16:05:24 DONE v2_gemini_3_8_flash_high_agy — ok exit=0 tokens=0 cost=$None
+16:05:24 SKIP v2_gemini_3_1_pro_agy (already DNF)
+16:05:24 === WAVE sprint 02_multiuser complete ===
+16:25:41 === WAVE sprint 02_multiuser : 1 models ===
+16:25:41 RUN  v2_gemini_3_1_pro_agy sprint 02_multiuser ...
+16:35:00 DONE v2_gemini_3_1_pro_agy — ok exit=0 tokens=0 cost=$None
+16:35:00 === WAVE sprint 02_multiuser complete ===
+20:08:19 === WAVE sprint 02_multiuser : 1 models ===
+20:08:19 RUN  v2_glm_4_7_flash_local sprint 02_multiuser ...
+20:11:56 DONE v2_glm_4_7_flash_local — ok exit=0 tokens=3328696 cost=$0.0
+20:11:56 === WAVE sprint 02_multiuser complete ===
+04:06:00 === WAVE sprint 02_multiuser : 2 models ===
+04:06:00 RUN  v2_sakana_fugu_ultra_v2 sprint 02_multiuser ...
+04:51:00 DONE v2_sakana_fugu_ultra_v2 — ok exit=0 tokens=26768914 cost=$20.9764
+04:51:00 RUN  v2_nex_n2_5_pro sprint 02_multiuser ...
+05:51:07 DONE v2_nex_n2_5_pro — ok exit=0 tokens=7750138 cost=$0.0
+05:51:07 === WAVE sprint 02_multiuser complete ===

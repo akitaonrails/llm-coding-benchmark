@@ -1,0 +1,10 @@
+{
+  "slug": "v2_glm_5_3_zcode",
+  "sprint": "sprint07_reveal",
+  "harness": "zcode",
+  "elapsed_seconds": 907.89,
+  "cost_usd": null,
+  "tokens_total": 10262502,
+  "exit_code": 0,
+  "stall_aborted": false
+}

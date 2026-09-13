@@ -1,0 +1,186 @@
+1b473f8 test: prove multi-user conversation isolation at the browser level
+ test/system/multi_user_test.rb | 65 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
+3926000 chore: track the ApplicationRecord base class missed in the scaffold commit
+ app/models/application_record.rb | 3 +++
+ 1 file changed, 3 insertions(+)
+1ef12d9 docs: dockerize and document local setup
+ README.md                         | 123 ++++++++++++++++++++++++++++++++++++++
+ config/environments/production.rb |  92 ++++++++++++++++++++++++++++
+ docker-compose.yml                |  45 ++++++++++++++
+ 3 files changed, 260 insertions(+)
+b00e791 feat: build the chat UI with Turbo Streams, Stimulus and Tailwind
+ app/assets/tailwind/application.css                | 81 +++++++++++++++++++
+ app/helpers/messages_helper.rb                     | 19 +++++
+ app/javascript/controllers/chat_controller.js      | 55 +++++++++++++
+ app/javascript/controllers/composer_controller.js  | 46 +++++++++++
+ app/javascript/controllers/removal_controller.js   | 14 ++++
+ app/views/conversations/_sidebar_item.html.erb     | 13 ++++
+ app/views/conversations/_status.html.erb           |  3 +
+ app/views/conversations/index.html.erb             |  8 ++
+ app/views/conversations/new.html.erb               | 32 ++++++++
+ app/views/conversations/show.html.erb              | 19 +++++
+ app/views/layouts/_flash.html.erb                  |  6 ++
+ app/views/layouts/_sidebar.html.erb                | 29 +++++++
+ app/views/layouts/application.html.erb             | 34 ++++++++
+ .../messages/_completion_state.turbo_stream.erb    |  5 ++
+ app/views/messages/_composer.html.erb              | 13 ++++
+ app/views/messages/_message.html.erb               | 33 ++++++++
+ app/views/messages/create.turbo_stream.erb         |  3 +
+ test/application_system_test_case.rb               | 62 +++++++++++++++
+ test/system/authentication_test.rb                 | 32 ++++++++
+ test/system/chat_test.rb                           | 90 ++++++++++++++++++++++
+ test/system/conversations_test.rb                  | 43 +++++++++++
+ 21 files changed, 640 insertions(+)
+9afda55 feat: stream assistant replies through RubyLLM and OpenRouter
+ .../conversations/completions_controller.rb        |  31 +++++++
+ app/controllers/conversations_controller.rb        |  42 +++++++++
+ app/controllers/messages_controller.rb             |  28 ++++++
+ app/jobs/messages/completion_job.rb                |  16 ++++
+ app/models/chat_models.rb                          |  19 ++++
+ app/models/conversation.rb                         |  30 ++++++
+ app/models/message.rb                              |  44 +++++++++
+ app/services/chats/completion.rb                   | 103 +++++++++++++++++++++
+ config/initializers/ruby_llm.rb                    |  15 +++
+ ...0912080001_create_conversations_and_messages.rb |  30 ++++++
+ db/schema.rb                                       |  57 ++++++++++++
+ .../conversations/completions_controller_test.rb   |  59 ++++++++++++
+ test/controllers/conversations_controller_test.rb  |  84 +++++++++++++++++
+ test/controllers/messages_controller_test.rb       |  50 ++++++++++
+ test/jobs/messages/completion_job_test.rb          |  45 +++++++++
+ test/models/conversation_test.rb                   |  67 ++++++++++++++
+ test/models/message_test.rb                        |  67 ++++++++++++++
+ test/services/chats/completion_test.rb             |  92 ++++++++++++++++++
+ test/support/fake_llm.rb                           |  59 ++++++++++++
+ test/test_helper.rb                                |  19 ++++
+ 20 files changed, 957 insertions(+)
+6ae721c feat: add authentication with secure database-backed sessions
+ app/controllers/application_controller.rb          | 25 +++++++++++
+ app/controllers/concerns/authentication.rb         | 50 ++++++++++++++++++++++
+ app/controllers/registrations_controller.rb        | 24 +++++++++++
+ app/controllers/sessions_controller.rb             | 23 ++++++++++
+ app/models/current.rb                              |  4 ++
+ app/models/session.rb                              |  3 ++
+ app/models/user.rb                                 | 14 ++++++
+ app/views/registrations/new.html.erb               | 36 ++++++++++++++++
+ app/views/sessions/new.html.erb                    | 21 +++++++++
+ .../20260912080000_create_users_and_sessions.rb    | 20 +++++++++
+ test/controllers/registrations_controller_test.rb  | 32 ++++++++++++++
+ test/controllers/sessions_controller_test.rb       | 44 +++++++++++++++++++
+ test/fixtures/users.yml                            |  7 +++
+ test/models/user_test.rb                           | 50 ++++++++++++++++++++++
+ 14 files changed, 353 insertions(+)
+5349208 chore: scaffold Rails 8.1 app with Tailwind and the solid trifecta
+ .dockerignore                                      |    44 +
+ .gitignore                                         |    35 +
+ .rubocop.yml                                       |     8 +
+ .ruby-version                                      |     1 +
+ Dockerfile                                         |    77 +
+ Gemfile                                            |    72 +
+ Gemfile.lock                                       |   619 +
+ Procfile.dev                                       |     3 +
+ Rakefile                                           |     6 +
+ app/assets/builds/.keep                            |     0
+ app/assets/images/.keep                            |     0
+ app/assets/stylesheets/application.css             |    10 +
+ app/controllers/concerns/.keep                     |     0
+ app/helpers/application_helper.rb                  |     2 +
+ app/javascript/application.js                      |     3 +
+ app/javascript/controllers/application.js          |     9 +
+ app/javascript/controllers/index.js                |     4 +
+ app/jobs/application_job.rb                        |     7 +
+ app/mailers/application_mailer.rb                  |     4 +
+ app/views/layouts/mailer.html.erb                  |    13 +
+ app/views/layouts/mailer.text.erb                  |     1 +
+ app/views/pwa/manifest.json.erb                    |    22 +
+ app/views/pwa/service-worker.js                    |    26 +
+ bin/brakeman                                       |     7 +
+ bin/bundler-audit                                  |     6 +
+ bin/ci                                             |     6 +
+ bin/dev                                            |    16 +
+ bin/docker-entrypoint                              |     8 +
+ bin/importmap                                      |     4 +
+ bin/jobs                                           |     6 +
+ bin/rails                                          |     4 +
+ bin/rake                                           |     4 +
+ bin/rubocop                                        |     8 +
+ bin/setup                                          |    35 +
+ bin/thrust                                         |     5 +
+ config.ru                                          |     6 +
+ config/application.rb                              |    27 +
+ config/boot.rb                                     |     4 +
+ config/bundler-audit.yml                           |     5 +
+ config/cable.yml                                   |    27 +
+ config/cache.yml                                   |    16 +
+ config/ci.rb                                       |    24 +
+ config/credentials.yml.enc                         |     1 +
+ config/database.yml                                |    53 +
+ config/environment.rb                              |     5 +
+ config/environments/development.rb                 |    82 +
+ config/environments/test.rb                        |    55 +
+ config/importmap.rb                                |     7 +
+ config/initializers/assets.rb                      |     7 +
+ config/initializers/content_security_policy.rb     |    29 +
+ config/initializers/filter_parameter_logging.rb    |     8 +
+ config/initializers/inflections.rb                 |    16 +
+ config/locales/en.yml                              |    31 +
+ config/puma.rb                                     |    42 +
+ config/queue.yml                                   |    18 +
+ config/recurring.yml                               |    15 +
+ config/routes.rb                                   |    22 +
+ config/storage.yml                                 |    27 +
+ db/cable_schema.rb                                 |    11 +
+ db/cache_schema.rb                                 |    12 +
+ db/queue_schema.rb                                 |   160 +
+ db/seeds.rb                                        |     9 +
+ lib/tasks/.keep                                    |     0
+ log/.keep                                          |     0
+ public/400.html                                    |   135 +
+ public/404.html                                    |   135 +
+ public/406-unsupported-browser.html                |   135 +
+ public/422.html                                    |   135 +
+ public/500.html                                    |   135 +
+ public/assets/.manifest.json                       |     1 +
+ public/assets/action_cable-5212cfee.js             |   511 +
+ public/assets/actioncable-ac25813f.js              |   510 +
+ public/assets/actioncable.esm-e0ec9819.js          |   512 +
+ public/assets/actiontext-c9c6c481.js               |   965 ++
+ public/assets/actiontext.esm-c376325e.js           |   989 ++
+ public/assets/activestorage-f9e46063.js            |   866 ++
+ public/assets/activestorage.esm-81bb34bc.js        |   884 ++
+ public/assets/application-8b441ae0.css             |    10 +
+ public/assets/application-bfcdf840.js              |     3 +
+ public/assets/controllers/application-3affb389.js  |     9 +
+ .../assets/controllers/chat_controller-badd2e4d.js |    55 +
+ .../controllers/composer_controller-3e50be49.js    |    46 +
+ public/assets/controllers/index-ee64e1f1.js        |     4 +
+ .../controllers/removal_controller-a3013556.js     |    14 +
+ public/assets/rails-ujs-20eaf715.js                |   630 +
+ public/assets/rails-ujs.esm-e925103b.js            |   686 +
+ public/assets/stimulus-autoloader-9d447422.js      |    54 +
+ public/assets/stimulus-d59b3b7f.js                 |  2567 ++++
+ .../stimulus-importmap-autoloader-64cc03e1.js      |    27 +
+ public/assets/stimulus-loading-1fc53fe7.js         |    87 +
+ public/assets/stimulus.min-2395e199.js.map         |     1 +
+ public/assets/stimulus.min-4b1e420e.js             |     5 +
+ public/assets/tailwind-950be93d.css                |     2 +
+ public/assets/trix-4bf79781.js                     | 14001 +++++++++++++++++++
+ public/assets/trix-65afdb1d.css                    |   470 +
+ public/assets/turbo-736fb387.js                    |  6060 ++++++++
+ public/assets/turbo.min-5eb167c2.js.map            |     1 +
+ public/assets/turbo.min-9fd88cd5.js                |    29 +
+ public/icon.png                                    |   Bin 0 -> 4166 bytes
+ public/icon.svg                                    |     3 +
+ public/robots.txt                                  |     1 +
+ script/.keep                                       |     0
+ storage/.keep                                      |     0
+ test/controllers/.keep                             |     0
+ test/fixtures/files/.keep                          |     0
+ test/helpers/.keep                                 |     0
+ test/integration/.keep                             |     0
+ test/mailers/.keep                                 |     0
+ test/models/.keep                                  |     0
+ tmp/.keep                                          |     0
+ vendor/.keep                                       |     0
+ vendor/javascript/.keep                            |     0
+ 112 files changed, 32472 insertions(+)

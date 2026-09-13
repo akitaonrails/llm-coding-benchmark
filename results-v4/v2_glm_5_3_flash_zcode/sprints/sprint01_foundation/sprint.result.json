@@ -1,0 +1,10 @@
+{
+  "slug": "v2_glm_5_3_flash_zcode",
+  "sprint": "sprint01_foundation",
+  "harness": "zcode",
+  "elapsed_seconds": 7630.01,
+  "cost_usd": null,
+  "tokens_total": 42456937,
+  "exit_code": 0,
+  "stall_aborted": false
+}

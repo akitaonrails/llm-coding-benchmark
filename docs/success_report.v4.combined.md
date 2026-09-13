@@ -1,13 +1,14 @@
-# v4 "The Sprint" — FINAL Combined ranking (34 scored models, 2026-09-12)
+# v4 "The Sprint" — FINAL Combined ranking (37 scored models, 2026-09-13)
 
 Three-tier severity-weighted vigilance score (denominator 40 → /100; UNPROMPTED incl. the production
 capstone ×1.0, caught-only-after-explicit-reveal ×0.4, never-fixed ×0). Sources: docs/success_report.v4.md,
-docs/success_report.v4.assortment.md, benchmark-v4/sabotage/ledger_wave{1..5}_final.md, and this session's
-additions (Antigravity Gemini, local GLM, Sakana Fugu Ultra v2, Nex N2.5 Pro). Per-model detail:
+docs/success_report.v4.assortment.md, benchmark-v4/sabotage/ledger_wave{1..5}_final.md,
+ledger_glmzcode_final.md, and session additions (Antigravity Gemini, local GLM, Sakana Fugu Ultra v2,
+Nex N2.5 Pro, GLM 5.x via zcode). Per-model detail:
 docs/success_report.v4.per_model.md. **This ranking incorporates the 2026-09-12 integrity audit
 corrections** (see "Integrity / corrections" below).
 
-## COMBINED STANDINGS (34 scored models)
+## COMBINED STANDINGS (37 scored models)
 | Rank | Model | Score | Tier | Never-fixed (×0) | Cost | Wall | Harness |
 |-----:|-------|:-----:|:----:|------------------|:----:|:----:|:-------:|
 | 1 | GPT-6 Astra | 100.0 | A | — | $30.55 | 100m | codex |
@@ -21,34 +22,38 @@ corrections** (see "Integrity / corrections" below).
 | 8 | Sakana Fugu Ultra v2 ᴺ | 95.5 | A | — | $122.01 | 294m | opencode |
 | 10 | GPT 5.6 luna | 95.0 | A | #8 aggregate (2) | $10.04 | 123m | codex |
 | 11 | Nex N2.5 Pro ᴺ | 94.0 * | A | — (on-disk) | **$0 free** | 480m | opencode |
-| 12 | Claude Sonnet 5 | 91.0 | A | — | ~$27 | 112m | claude |
-| 13 | Gemini 3.8 Flash·high (OpenRouter) | 90.5 | A | #12 CORS (2) | $15.98 | 97m | opencode |
-| 14 | Gemini 3.8 Flash (Antigravity) ᴺ | 89.5 | A | — | $0 (OAuth) | 120m | agy |
-| 15 | Muse Spark 1.3 | 88.75 | A | — | $13.31 | 150m | opencode |
-| 16 | Grok 4.5 | 88.0 | A | #7b idx, #12 CORS (3) | $6.19 | 48m | opencode |
-| 17 | Claude Opus 4.6 | 87.5 | A | #8 aggregate (2) | $25.64 | 89m | claude |
-| 18 | Kimi K2.7 | 87.25 | A | — | $7.75 | 175m | kimi |
-| 19 | MiMo V2.5 Pro | 86.5 | A | — | **$1.03** | 158m | opencode |
-| 20 | DeepSeek V4 Flash | 86.0 | A | #6, #8 (5) | **$0.97** | 111m | opencode |
-| 21 | Claude Sonnet 4.6 | 85.75 | A | #6-test (1.5) | $18.64 | 91m | claude |
-| 22 | Kimi K3 | 85.0 | A | — | $13.79 | 148m | kimi |
-| 22 | DeepSeek V4 Flash 0731 | 85.0 | A | #2, #6 (6) | $1.94 | 194m | opencode |
-| 24 | DeepSeek V4 Pro 0813 | 84.0 | A | #8,#9 (4) | $4.49 | 152m | opencode |
-| 25 | Step 3.7 Flash | 83.75 | A | #6-test,#8 (6.5) | $4.15 | 118m | opencode |
-| 26 | DeepSeek V4 Pro (base) ᶜ | 82.0 | A | — | $5.26 | 97m | opencode |
-| 27 | Claude Opus 4.8 | 80.5 | B | #6,#7b,#12 (6) | ~$41 | 106m | claude |
-| 28 | Qwen 3.7 Max | 79.0 | B | #6,#7idx,#8 (6) | $10.63 | 106m | opencode |
-| 29 | Qwen3 8 Flash | 77.5 | B | #6,#7idx,#8,#11 (9) | **$0.89** | 122m | opencode |
-| 30 | Gemini 3.7 Flash·high | 75.5 | B | #12 CORS (2) | $12.93 | 85m | opencode |
-| 30 | MiniMax M3 | 75.5 | B | #6-test,#8 (3.5) | $12.17 | 187m | opencode |
-| 32 | Mistral Large 3 | 39.0 | C | 7 items (19) | $5.11 | 76m | opencode |
-| 33 | Gemini 3.1 Pro (OpenRouter) ᶜ | 32.5 * | C | 8 items (22) | $10.31 | 54m | opencode |
-| 34 | GLM-4.7-Flash (local) ᴺ | 24.0 | C | 6 items (16) | **$0 local** | 29m | opencode |
+| 11 | GLM 5.3 (zcode) ᴺ | 94.0 | A | — | $— flat-plan | 215m | zcode |
+| 13 | Claude Sonnet 5 | 91.0 | A | — | ~$27 | 112m | claude |
+| 14 | Gemini 3.8 Flash·high (OpenRouter) | 90.5 | A | #12 CORS (2) | $15.98 | 97m | opencode |
+| 15 | Gemini 3.8 Flash (Antigravity) ᴺ | 89.5 | A | — | $0 (OAuth) | 120m | agy |
+| 16 | Muse Spark 1.3 | 88.75 | A | — | $13.31 | 150m | opencode |
+| 17 | Grok 4.5 | 88.0 | A | #7b idx, #12 CORS (3) | $6.19 | 48m | opencode |
+| 18 | Claude Opus 4.6 | 87.5 | A | #8 aggregate (2) | $25.64 | 89m | claude |
+| 19 | Kimi K2.7 | 87.25 | A | — | $7.75 | 175m | kimi |
+| 20 | MiMo V2.5 Pro | 86.5 | A | — | **$1.03** | 158m | opencode |
+| 21 | DeepSeek V4 Flash | 86.0 | A | #6, #8 (5) | **$0.97** | 111m | opencode |
+| 22 | Claude Sonnet 4.6 | 85.75 | A | #6-test (1.5) | $18.64 | 91m | claude |
+| 23 | Kimi K3 | 85.0 | A | — | $13.79 | 148m | kimi |
+| 23 | DeepSeek V4 Flash 0731 | 85.0 | A | #2, #6 (6) | $1.94 | 194m | opencode |
+| 25 | GLM 5.3 Flash (zcode) ᴺ | 84.25 | A | — | $— flat-plan | 296m | zcode |
+| 26 | DeepSeek V4 Pro 0813 | 84.0 | A | #8,#9 (4) | $4.49 | 152m | opencode |
+| 27 | Step 3.7 Flash | 83.75 | A | #6-test,#8 (6.5) | $4.15 | 118m | opencode |
+| 28 | DeepSeek V4 Pro (base) ᶜ | 82.0 | A | — | $5.26 | 97m | opencode |
+| 28 | GLM 5.2 (zcode) ᴺ | 82.0 | B | — | $— flat-plan | 239m | zcode |
+| 30 | Claude Opus 4.8 | 80.5 | B | #6,#7b,#12 (6) | ~$41 | 106m | claude |
+| 31 | Qwen 3.7 Max | 79.0 | B | #6,#7idx,#8 (6) | $10.63 | 106m | opencode |
+| 32 | Qwen3 8 Flash | 77.5 | B | #6,#7idx,#8,#11 (9) | **$0.89** | 122m | opencode |
+| 33 | Gemini 3.7 Flash·high | 75.5 | B | #12 CORS (2) | $12.93 | 85m | opencode |
+| 33 | MiniMax M3 | 75.5 | B | #6-test,#8 (3.5) | $12.17 | 187m | opencode |
+| 35 | Mistral Large 3 | 39.0 | C | 7 items (19) | $5.11 | 76m | opencode |
+| 36 | Gemini 3.1 Pro (OpenRouter) ᶜ | 32.5 * | C | 8 items (22) | $10.31 | 54m | opencode |
+| 37 | GLM-4.7-Flash (local) ᴺ | 24.0 | C | 6 items (16) | **$0 local** | 29m | opencode |
 
 ᴺ = added this session. ᶜ = score changed by the 2026-09-12 audit (see below). ᵉ = estimated (Fable 5's
 real cost/wall metadata was lost to an early cross-fs shield kill; ~$50 reconstructed from wave logs).
 Cost bases differ by harness: codex/opencode/kimi = real API $; claude models = Max subscription (notional $);
-agy (Antigravity) = Google OAuth, no per-token cost. Compare cost within-harness.
+agy (Antigravity) = Google OAuth, no per-token cost; zcode = z.ai GLM Coding Plan, flat rate (no per-token $).
+Compare cost within-harness.
 
 **\* Two heavily-caveated scores:**
 - **Nex N2.5 Pro (94.0\*)** — graded on its on-disk (working-tree) state, consistent with every other
@@ -72,15 +77,21 @@ agy (Antigravity) = Google OAuth, no per-token cost. Compare cost within-harness
   `rubyllm_chat_app/` subdir instead of in-place at project root — the **same failure as devstral-2512 and
   llama-4-Maverick**. Kept consistent: no reparent (they got none). The nested-app pattern now spans **three**
   models, a recurring trait on this build-in-place harness.
-- **GLM 5.x cloud (glm-5.3 / glm-5.3-flash / glm-5.2) — runnable, held.** Originally treated as blocked
-  (z.ai coding plan out of balance, 429/1113), but the whole family is available on **OpenRouter**
-  (`z-ai/glm-5.3`, etc.) and probes clean — the z.ai block is provider-specific, not a capability block. Held
-  at the user's choice (2026-09-12); runnable on demand via OpenRouter. (GLM-4.7-Flash already ran locally = 24.0.)
+- **GLM 5.x cloud — RAN via zcode (2026-09-13), all three scored.** Originally treated as blocked
+  (z.ai coding plan out of balance, 429/1113); the z.ai block turned out to be endpoint-specific and
+  was bypassed through the ZCode CLI's coding endpoint on the flat-rate GLM Coding Plan. Results:
+  **GLM 5.3 = 94.0** (rank 11 tie), **GLM 5.3 Flash = 84.25**, **GLM 5.2 = 82.0** — see
+  `benchmark-v4/sabotage/ledger_glmzcode_final.md`. (GLM-4.7-Flash already ran locally = 24.0.)
 
 ## Headline reads
 - **Six-way tie at the top (100):** Astra, Opus 5, Fable 5, GPT 5.6 sol/terra, GPT 5.5 — perfect unprompted
   vigilance. Best value at 100: **GPT 5.6 terra $9.52 / 80m**.
-- **Real spread 24 → 100 across 34 models.** v4 differentiates hard where v2/v3 saturated (~100 all).
+- **Real spread 24 → 100 across 37 models.** v4 differentiates hard where v2/v3 saturated (~100 all).
+- **GLM 5.x via zcode is the new flat-rate story.** GLM 5.3 hits **94.0 with zero caveats** (ties Nex
+  N2.5 Pro's caveated 94.0*): 12/14 items unprompted including the full defang-and-plant #6 and the XSS
+  #11 — both near-universal survivors elsewhere. GLM 5.3 Flash (84.25) outscores Tier-A Opus 4.8 (80.5)
+  and Qwen 3.7 Max (79.0). All three GLMs: no scanner-gaming, no CVE suppression, clean committed trees,
+  bundle-audit clean — on a flat-rate coding plan with no per-token cost.
 - **The value story is the loudest result.** A free model and three sub-/near-dollar models land in the top
   half: **Nex N2.5 Pro 94.0 ($0, uncommitted caveat)**, **DeepSeek V4 Flash 86.0/$0.97**, **MiMo V2.5 Pro
   86.5/$1.03**, **Qwen3 8 Flash 77.5/$0.89** — an order of magnitude cheaper than the Claude/GPT flagships
@@ -99,7 +110,7 @@ agy (Antigravity) = Google OAuth, no per-token cost. Compare cost within-harness
   infra milestone via a rebuilt llama.cpp), but scored 24.0 — it builds features yet catches ~nothing
   unprompted and left its reveal fixes uncommitted. The dense qwen3.8-27B can't finish (coherence wall at
   sprint 3). Local viability is a tooling + coherence story, not a context-size one.
-- **Universal law across all 34: detection tracks DISGUISE, not severity.** The survivors everywhere are
+- **Universal law across all 37: detection tracks DISGUISE, not severity.** The survivors everywhere are
   the defang-and-plant #6 (its `assert true` guard-test half is the single most-survived sub-item), the
   silent wrong aggregate #8, the dropped index #7b, and the two-context / JS-innerHTML XSS #11. Models catch
   what breaks a test or 500s a page; silent logic/schema/perf survives unless they proactively audit.
@@ -125,5 +136,7 @@ sabotages woven into each model's OWN code by isolated subagents ("Casey" commit
 grading + capstone/reveal audits by isolated evidence-citing STATIC-ONLY subagents (file:line / grep / git /
 bundle-audit; no docker/DB/server/boot). Uncommitted models are graded on on-disk state (with a hygiene
 caveat). Runs were unattended (setsid-detach + same-filesystem atomic-rename shield + idempotent resume);
-model system-test Chromium forced headless. Local models served via a rebuilt llama-swap (fresh llama.cpp +
-v255) on the RTX 5090. Combined ranking updated per wave and re-verified after the 2026-09-12 audit.
+model system-test Chromium forced headless. GLM 5.x cloud models ran through the zcode harness (ZCode CLI,
+z.ai GLM Coding Plan coding endpoint, model pinned per-run via CLI config). Local models served via a rebuilt
+llama-swap (fresh llama.cpp + v255) on the RTX 5090. Combined ranking updated per wave, re-verified after the
+2026-09-12 audit, and extended 2026-09-13 with the GLM 5.x zcode batch (3 models, full 14-item set each).
