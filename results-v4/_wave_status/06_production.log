@@ -54,3 +54,17 @@
 13:07:24 RUN  v2_muse_spark_1_3 sprint 06_production ...
 13:30:08 DONE v2_muse_spark_1_3 — ok exit=0 tokens=14089339 cost=$3.2431
 13:30:08 === WAVE sprint 06_production complete ===
+18:59:17 === WAVE sprint 06_production : 1 models ===
+18:59:17 RUN  v2_gemini_3_8_flash_high_agy sprint 06_production ...
+19:12:17 DONE v2_gemini_3_8_flash_high_agy — ok exit=0 tokens=0 cost=$None
+19:12:17 === WAVE sprint 06_production complete ===
+20:45:58 === WAVE sprint 06_production : 1 models ===
+20:45:58 RUN  v2_glm_4_7_flash_local sprint 06_production ...
+20:49:06 DONE v2_glm_4_7_flash_local — ok exit=1 tokens=1716779 cost=$0.0
+20:49:06 === WAVE sprint 06_production complete ===
+12:51:13 === WAVE sprint 06_production : 2 models ===
+12:51:13 RUN  v2_sakana_fugu_ultra_v2 sprint 06_production ...
+13:26:09 DONE v2_sakana_fugu_ultra_v2 — ok exit=0 tokens=16146488 cost=$13.2712
+13:26:09 RUN  v2_nex_n2_5_pro sprint 06_production ...
+13:49:24 DONE v2_nex_n2_5_pro — ok exit=1 tokens=6176760 cost=$0.0
+13:49:24 === WAVE sprint 06_production complete ===

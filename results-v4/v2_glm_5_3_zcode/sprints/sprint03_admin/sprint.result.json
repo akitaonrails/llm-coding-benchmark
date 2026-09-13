@@ -1,0 +1,10 @@
+{
+  "slug": "v2_glm_5_3_zcode",
+  "sprint": "sprint03_admin",
+  "harness": "zcode",
+  "elapsed_seconds": 999.45,
+  "cost_usd": null,
+  "tokens_total": 6796247,
+  "exit_code": 0,
+  "stall_aborted": false
+}

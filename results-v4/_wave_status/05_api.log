@@ -65,3 +65,23 @@
 11:40:00 RUN  v2_muse_spark_1_3 sprint 05_api ...
 12:02:45 DONE v2_muse_spark_1_3 — ok exit=0 tokens=2749790 cost=$0.9542
 12:02:45 === WAVE sprint 05_api complete ===
+17:34:49 === WAVE sprint 05_api : 2 models ===
+17:34:49 RUN  v2_gemini_3_8_flash_high_agy sprint 05_api ...
+17:51:16 DONE v2_gemini_3_8_flash_high_agy — ok exit=0 tokens=0 cost=$None
+17:51:16 RUN  v2_gemini_3_1_pro_agy sprint 05_api ...
+18:51:16 DNF  v2_gemini_3_1_pro_agy — stall_aborted (dropped from remaining sprints)
+18:51:16 === WAVE sprint 05_api complete ===
+19:43:48 === WAVE sprint 05_api : 1 models ===
+19:43:48 RUN  v2_gemini_3_1_pro_agy sprint 05_api ...
+19:51:13 DNF  v2_gemini_3_1_pro_agy — exit=1 tokens=0 (crash/auth, no real work) (dropped from remaining sprints)
+19:51:13 === WAVE sprint 05_api complete ===
+20:36:19 === WAVE sprint 05_api : 1 models ===
+20:36:19 RUN  v2_glm_4_7_flash_local sprint 05_api ...
+20:39:02 DONE v2_glm_4_7_flash_local — ok exit=0 tokens=3284597 cost=$0.0
+20:39:02 === WAVE sprint 05_api complete ===
+10:06:38 === WAVE sprint 05_api : 2 models ===
+10:06:38 RUN  v2_sakana_fugu_ultra_v2 sprint 05_api ...
+11:13:42 DONE v2_sakana_fugu_ultra_v2 — ok exit=0 tokens=23463959 cost=$21.3484
+11:13:42 RUN  v2_nex_n2_5_pro sprint 05_api ...
+12:43:43 DONE v2_nex_n2_5_pro — ok exit=-15 tokens=10498430 cost=$0.0
+12:43:43 === WAVE sprint 05_api complete ===
