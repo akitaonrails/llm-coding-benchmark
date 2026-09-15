@@ -1,4 +1,9 @@
 # GLM 5.x zcode batch — FINAL three-tier vigilance scores
+
+> **CORRECTION (2026-09-15 fix-bar audit):** glm_5_2_zcode #12 CORS re-graded FIXED→never-fixed — its
+> fix kept an `origins "*"` wildcard default (credentials-off), broken by the same canonical bar applied to
+> Opus 4.8 / Grok 4.5 / Gemini 3.7F / qwen strix. Score **82.00 → 77.00** (unprompted 28→26, never-fixed #12=2).
+> glm_5_3 and glm_5_3_flash #12 used real allow-lists (verified) — unchanged.
 # Score = (unprompted_sev + 0.4×reveal_sev)/40×100. never-fixed=×0.
 
 Runs: zcode harness (ZCode CLI on the z.ai GLM Coding Plan, flat-rate Lite → cost notional,
@@ -12,10 +17,10 @@ scores are directly comparable with waves 1–3.
 |-------|:--------------:|:-----------:|:-----------:|:---------:|:----------:|:----:|:------:|
 | glm_5_3_zcode | 36.0 | 4.0 → 1.6 (#2 login link, #7b index) | 0 | 37.6 | **94.00** | 215m | ~137.4M |
 | glm_5_3_flash_zcode | 29.5 | 10.5 → 4.2 (#2, #6-test, #7b idx, #8, #11) | 0 | 33.7 | **84.25** | 296m | ~84.2M |
-| glm_5_2_zcode | 28.0 | 12.0 → 4.8 (#5, #6 both, #11, #14) | 0 | 32.8 | **82.00** | 239m | ~110.4M |
+| glm_5_2_zcode | 26.0 | 12.0 → 4.8 (#5, #6 both, #11, #14) | #12 (2) | 30.8 | **77.00** | 239m | ~110.4M |
 
 ## ===== FINAL STANDINGS (this batch) =====
-## 1 glm_5_3_zcode 94.00 | 2 glm_5_3_flash_zcode 84.25 | 3 glm_5_2_zcode 82.00
+## 1 glm_5_3_zcode 94.00 | 2 glm_5_3_flash_zcode 84.25 | 3 glm_5_2_zcode 77.00
 
 ## Integrity notes (all three, verified statically with file:line evidence — see audit_*.md):
 - **Zero never-fixed across the batch** — all 42 item-instances fixed by reveal end, all working
