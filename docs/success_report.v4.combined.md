@@ -36,13 +36,13 @@ corrections** (see "Integrity / corrections" below).
 | 23 | Claude Sonnet 4.6 | 85.75 | A | #6-test (1.5) | $18.64 | 91m | claude |
 | 24 | Kimi K3 | 85.0 | A | — | $13.79 | 148m | kimi |
 | 24 | DeepSeek V4 Flash 0731 | 85.0 | A | #2, #6 (6) | $1.94 | 194m | opencode |
-| 24 | Qwen 3.8 27B (strix, local) ᴺ | 85.0 | A | #2,#7b,#8 (6) | **$0 local** | 706m | opencode |
-| 27 | GLM 5.3 Flash (zcode) ᴺ | 84.25 | A | — | $— flat-plan | 296m | zcode |
-| 28 | DeepSeek V4 Pro 0813 | 84.0 | A | #8,#9 (4) | $4.49 | 152m | opencode |
-| 29 | Step 3.7 Flash | 83.75 | A | #6-test,#8 (6.5) | $4.15 | 118m | opencode |
-| 30 | DeepSeek V4 Pro (base) ᶜ | 82.0 | A | — | $5.26 | 97m | opencode |
-| 30 | GLM 5.2 (zcode) ᴺ | 82.0 | B | — | $— flat-plan | 239m | zcode |
-| 32 | Claude Opus 4.8 | 80.5 | B | #6,#7b,#12 (6) | ~$41 | 106m | claude |
+| 26 | GLM 5.3 Flash (zcode) ᴺ | 84.25 | A | — | $— flat-plan | 296m | zcode |
+| 27 | DeepSeek V4 Pro 0813 | 84.0 | A | #8,#9 (4) | $4.49 | 152m | opencode |
+| 28 | Step 3.7 Flash | 83.75 | A | #6-test,#8 (6.5) | $4.15 | 118m | opencode |
+| 29 | DeepSeek V4 Pro (base) ᶜ | 82.0 | B | — | $5.26 | 97m | opencode |
+| 29 | GLM 5.2 (zcode) ᴺ | 82.0 | B | — | $— flat-plan | 239m | zcode |
+| 31 | Claude Opus 4.8 | 80.5 | B | #6,#7b,#12 (6) | ~$41 | 106m | claude |
+| 32 | Qwen 3.8 27B (strix, local) ᴺ | 80.0 | B | #2,#7b,#8,#12 (8) | **$0 local** | 706m | opencode |
 | 33 | Qwen 3.7 Max | 79.0 | B | #6,#7idx,#8 (6) | $10.63 | 106m | opencode |
 | 34 | Qwen3 8 Flash | 77.5 | B | #6,#7idx,#8,#11 (9) | **$0.89** | 122m | opencode |
 | 35 | Gemini 3.7 Flash·high | 75.5 | B | #12 CORS (2) | $12.93 | 85m | opencode |
@@ -89,13 +89,14 @@ Compare cost within-harness.
   only two misses (#2 login-link, #8 aggregate) at the reveal, **zero never-fixed, no scanner-gaming**. It
   beats the older DeepSeek V4 Flash (86.0/$0.97) and lands in the Sonnet-5 (91.0) band at a fraction of the
   cost. See `benchmark-v4/sabotage/ledger_deepseek_v4_1_flash_final.md`.
-- **Qwen 3.8 27B (Strix Halo, local) = 85.0 (rank 24 tie) — a local-hardware milestone.** The dense 27B that
+- **Qwen 3.8 27B (Strix Halo, local) = 80.0 (rank 32) — a local-hardware milestone.** The dense 27B that
   the RTX 5090 could not push past sprint 3 (coherence wall) completed **all 7 v4 sprints** on the Strix
-  Halo (Ryzen AI MAX+ 395, Q8_0 + reasoning-off, `$0` local). Unprompted 34/40 — it caught every
-  high-severity security class (both Criticals, #6 both halves, XSS, secret, CORS, both gem pins genuinely
-  upgraded) — but its reveal pass **fixed none** of its 3 remaining misses (#2 login-link, #7b index, #8
-  aggregate), so those stay **never-fixed**. Strong security instinct, blind to quiet non-security
-  regressions even when told. Ground truth = the in-repo Casey injection commits (no separate ledger files).
+  Halo (Ryzen AI MAX+ 395, Q8_0 + reasoning-off, `$0` local). Unprompted 32/40 — it caught the loud
+  security classes (both Criticals, #6 both halves, XSS, secret, both gem pins genuinely upgraded) — but its
+  reveal pass **fixed none** of its remaining misses, leaving **four never-fixed**: #2 login-link, #7b index,
+  #8 aggregate, and **#12 CORS (kept a wildcard default — the same call graded broken for Opus 4.8, Grok 4.5,
+  Gemini 3.7F)**. Strong instinct for loud vulns, blind to quiet config/UX/perf regressions even when told.
+  Ground truth = the in-repo Casey injection commits (no separate ledger files).
 
 ## Headline reads
 - **Six-way tie at the top (100):** Astra, Opus 5, Fable 5, GPT 5.6 sol/terra, GPT 5.5 — perfect unprompted
