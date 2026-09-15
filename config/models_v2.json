@@ -589,23 +589,23 @@
       "slug": "v2_qwen3_8_max",
       "label": "Qwen 3.8 Max (opencode/OpenRouter)",
       "harness": "opencode",
-      "model_id": "openrouter/qwen/qwen3.8-max",
+      "model_id": "openrouter/qwen/qwen3.8-max-0902",
       "billing": "OpenRouter API",
       "rates_per_m": {
         "input": 2.0,
-        "cache_read": 0.4,
+        "cache_read": 0.5,
         "cache_write": 2.0,
         "output": 6.0
       },
       "wave": 4,
-      "notes": "Added per user 2026-08-11. Highest-effort online Qwen 3.8 (the 27B is local-only). Successor to Qwen3.7 Max (51/C, hallucinated RubyLLM). opencode harness, XDG-isolated, cumulative-metered (post issue #14 fix)."
+      "notes": "Added per user 2026-08-11. Highest-effort online Qwen 3.8 (the 27B is local-only). Successor to Qwen3.7 Max (51/C, hallucinated RubyLLM). opencode harness, XDG-isolated, cumulative-metered (post issue #14 fix). 2026-09-13: model_id fixed to dated qwen3.8-max-0902 (bare alias returns OpenRouter UnknownError/0 tokens); retry after INFRA_BLOCKED."
     },
     {
       "slug": "v2_qwen3_8_27b_local",
-      "label": "Qwen 3.8 27B dense Q5_K_M (LOCAL, RTX 5090 llama-swap)",
+      "label": "Qwen 3.8 27B dense Q8_0 (LOCAL, Strix Halo llama-swap)",
       "harness": "opencode",
-      "model_id": "llamaswap/qwen3.8:27b",
-      "billing": "Local (RTX 5090, free)",
+      "model_id": "llamaswap-strix/qwen3.8:27b",
+      "billing": "Local (Strix Halo 192.168.0.90, free)",
       "rates_per_m": {
         "input": 0.0,
         "cache_read": 0.0,
@@ -613,7 +613,7 @@
         "output": 0.0
       },
       "wave": 4,
-      "notes": "Added per user 2026-08-14. Offline dense 27B counterpart to online qwen3.8-max (92). llama-swap Q5_K_M on the 5090, --jinja --reasoning-format none, 64K ctx. The FIRST local model in v2 (locals were dropped in wave 3) \u2014 tests whether the small offline model holds the API-correctness 3.8-max showed. Local, so cost=$0; report wall time + tok/s."
+      "notes": "Added per user 2026-08-14. Offline dense 27B counterpart to online qwen3.8-max (92). llama-swap Q5_K_M on the 5090, --jinja --reasoning-format none, 64K ctx. The FIRST local model in v2 (locals were dropped in wave 3) \u2014 tests whether the small offline model holds the API-correctness 3.8-max showed. Local, so cost=$0; report wall time + tok/s. 2026-09-13 RETRY: moved to Strix Halo (Ryzen AI MAX+ 395, 61GB unified) llama-swap 192.168.0.90:11435, unsloth Q8_0 (up from Q5_K_M) + --reasoning off (the actual think-leak fix; 5090 build only had --reasoning-format none). Resume from sprint 3 (sprints 1-2 clean on the 5090)."
     },
     {
       "slug": "v2_glm_4_7_flash_local",
@@ -956,6 +956,83 @@
       "billing": "z.ai GLM Coding Plan (Lite, flat-rate; notional $0 marginal)",
       "wave": 6,
       "notes": "Added 2026-09-12. zcode CLI harness. Superseded by 5.3 but completes the family."
+    },
+    {
+      "slug": "v2_deepseek_v4_1_flash",
+      "label": "DeepSeek V4.1 Flash (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/deepseek/deepseek-v4.1-flash",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.15,
+        "cache_read": 0.0375,
+        "cache_write": 0.15,
+        "output": 0.6
+      },
+      "wave": 6,
+      "notes": "Added 2026-09-13. Sep-10 agentic-efficiency refresh (4x KV-cache cut); successors V4 Flash 86.0 / 0731 85.0. Tier A full set."
+    },
+    {
+      "slug": "v2_tencent_hy4",
+      "label": "Tencent Hy4 preview (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/tencent/hy4-preview",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.834,
+        "cache_read": 0.21,
+        "cache_write": 0.834,
+        "output": 2.501
+      },
+      "wave": 6,
+      "notes": "Added 2026-09-13. 770B/49B open MoE (Apache 2.0), 1M ctx. Tencent's flagship; Hunyuan A13B DNF'd in wave 5. Tier A full set."
+    },
+    {
+      "slug": "v2_nemotron_3_5_lightning",
+      "label": "NVIDIA Nemotron 3.5 Lightning 30B-A3B (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/nvidia/nemotron-3.5-lightning",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.08,
+        "cache_read": 0.02,
+        "cache_write": 0.08,
+        "output": 0.2
+      },
+      "wave": 6,
+      "notes": "Added 2026-09-13. 30B/3B-active small MoE; Nemotron 3 Super DNF'd (sprint-2 provider crash). Tier C/D expectation: abort-early, loud set if it completes."
+    },
+    {
+      "slug": "v2_gpt_5_6_sol_low",
+      "label": "GPT 5.6 Sol Low (Codex)",
+      "harness": "codex",
+      "model_id": "gpt-5.6-sol",
+      "codex_reasoning_effort": "low",
+      "billing": "ChatGPT subscription credits",
+      "rates_per_m": {
+        "input": 5.0,
+        "cache_read": 0.5,
+        "cache_write": 0.0,
+        "output": 30.0
+      },
+      "wave": 1,
+      "notes": "Added 2026-09-15 for the effort-comparison study: same gpt-5.6-sol model as the xHigh run (100.0), at low codex reasoning effort. Isolates effort's effect on the v4 vigilance score."
+    },
+    {
+      "slug": "v2_gpt_5_6_sol_medium",
+      "label": "GPT 5.6 Sol Medium (Codex)",
+      "harness": "codex",
+      "model_id": "gpt-5.6-sol",
+      "codex_reasoning_effort": "medium",
+      "billing": "ChatGPT subscription credits",
+      "rates_per_m": {
+        "input": 5.0,
+        "cache_read": 0.5,
+        "cache_write": 0.0,
+        "output": 30.0
+      },
+      "wave": 1,
+      "notes": "Added 2026-09-15 for the effort-comparison study: same gpt-5.6-sol model as the xHigh run (100.0), at medium codex reasoning effort. Isolates effort's effect on the v4 vigilance score."
     }
   ],
   "skipped": {
