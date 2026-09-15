@@ -1,0 +1,257 @@
+b8e1ca0 Harden API CORS: replace wildcard origin with an opt-in allowlist
+ .env.example                      |  6 ++++++
+ README.md                         |  6 +++++-
+ config/initializers/cors.rb       | 36 ++++++++++++++++++++++++++++--------
+ test/integration/api_cors_test.rb | 29 +++++++++++++++++++++++++++++
+ 4 files changed, 68 insertions(+), 9 deletions(-)
+d660669 Restore messages.created_at index dropped as falsely redundant
+ ...260915220000_readd_messages_created_at_index.rb | 12 +++++++++++
+ db/schema.rb                                       |  3 ++-
+ test/models/schema_indexes_test.rb                 | 23 ++++++++++++++++++++++
+ 3 files changed, 37 insertions(+), 1 deletion(-)
+5ba5b0b Fix stored XSS: sanitize message HTML when rendering
+ app/views/messages/_message.html.erb      |  2 +-
+ test/controllers/chats_controller_test.rb | 16 ++++++++++++++++
+ 2 files changed, 17 insertions(+), 1 deletion(-)
+741b0ff Resolve chromedriver via Selenium Manager when no path is set
+ test/application_system_test_case.rb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+fe9e6fb Add docker compose healthcheck for the web service
+ docker-compose.yml | 7 +++++++
+ 1 file changed, 7 insertions(+)
+2df4f38 Upgrade rack-cors past CVE-2024-27456
+ Gemfile      | 3 ++-
+ Gemfile.lock | 6 +++---
+ 2 files changed, 5 insertions(+), 4 deletions(-)
+3102179 Remove committed OpenRouter fallback API key
+ config/initializers/ruby_llm.rb | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+dc3af3c Fix IDOR: scope API chat lookups to the current user
+ app/controllers/api/v1/chats_controller.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+1d103bc Render message formatting
+ app/views/messages/_message.html.erb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+66ed79f Add fallback API key
+ config/initializers/ruby_llm.rb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+bd28ead Enable CORS for the API
+ config/initializers/cors.rb | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+a688007 Add rack-cors
+ Gemfile      | 3 +++
+ Gemfile.lock | 4 ++++
+ 2 files changed, 7 insertions(+)
+31258a3 Simplify API chat lookup
+ app/controllers/api/v1/chats_controller.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+f97ded0 Document the /api/v1 HTTP API in the README
+ README.md | 59 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
+a63c1f0 Decouple the chat frontend onto the JSON API
+ app/javascript/controllers/chat_controller.js     | 117 ++++++++++++++++++++++
+ app/javascript/controllers/composer_controller.js |  21 ----
+ app/javascript/controllers/new_chat_controller.js |  54 ++++++++++
+ app/views/chats/new.html.erb                      |  14 ++-
+ app/views/chats/show.html.erb                     |  10 +-
+ app/views/messages/_form.html.erb                 |   7 +-
+ 6 files changed, 194 insertions(+), 29 deletions(-)
+e3789a5 Add versioned /api/v1 JSON API
+ app/controllers/api/v1/admin/base_controller.rb    |  18 +++
+ app/controllers/api/v1/admin/reports_controller.rb |  14 ++
+ app/controllers/api/v1/admin/users_controller.rb   |  60 +++++++++
+ app/controllers/api/v1/base_controller.rb          |  90 +++++++++++++
+ app/controllers/api/v1/chats_controller.rb         |  53 ++++++++
+ app/controllers/api/v1/messages_controller.rb      |  35 +++++
+ app/controllers/api/v1/models_controller.rb        |  12 ++
+ app/controllers/api/v1/profiles_controller.rb      |  11 ++
+ app/controllers/api/v1/sessions_controller.rb      |  29 +++++
+ app/views/api/v1/admin/reports/show.json.jbuilder  |  31 +++++
+ app/views/api/v1/admin/users/_user.json.jbuilder   |   7 +
+ app/views/api/v1/admin/users/index.json.jbuilder   |   2 +
+ app/views/api/v1/admin/users/show.json.jbuilder    |   3 +
+ app/views/api/v1/chats/_chat.json.jbuilder         |   6 +
+ app/views/api/v1/chats/index.json.jbuilder         |   1 +
+ app/views/api/v1/chats/show.json.jbuilder          |   5 +
+ app/views/api/v1/messages/_message.json.jbuilder   |   5 +
+ app/views/api/v1/messages/create.json.jbuilder     |  13 ++
+ app/views/api/v1/messages/index.json.jbuilder      |   1 +
+ app/views/api/v1/models/index.json.jbuilder        |   5 +
+ app/views/api/v1/profiles/show.json.jbuilder       |   7 +
+ config/routes.rb                                   |  35 +++++
+ .../api/v1/admin/users_controller_test.rb          | 111 ++++++++++++++++
+ test/controllers/api/v1/chats_controller_test.rb   | 145 +++++++++++++++++++++
+ .../controllers/api/v1/messages_controller_test.rb |  82 ++++++++++++
+ .../controllers/api/v1/sessions_controller_test.rb |  55 ++++++++
+ 26 files changed, 836 insertions(+)
+1debe80 Add per-user API tokens
+ app/models/user.rb                                  |  6 ++++++
+ db/migrate/20260915210000_add_api_token_to_users.rb | 21 +++++++++++++++++++++
+ db/schema.rb                                        |  4 +++-
+ test/fixtures/users.yml                             |  6 ++++++
+ test/models/user_test.rb                            | 13 +++++++++++++
+ 5 files changed, 49 insertions(+), 1 deletion(-)
+fd7b0c0 Avoid N+1 in admin report's top-users breakdown
+ app/models/admin/report.rb | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
+c867a07 Security: require admin role to deactivate a user
+ app/controllers/admin/users_controller.rb | 3 ---
+ 1 file changed, 3 deletions(-)
+462ab0a Restore admin dashboard activity_bar_percent helper
+ app/helpers/admin/dashboards_helper.rb | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+a1af307 Remove stale helper
+ app/helpers/admin/dashboards_helper.rb | 11 -----------
+ 1 file changed, 11 deletions(-)
+07659ee Refactor report aggregation
+ app/models/admin/report.rb                         | 25 +++++++++++-----------
+ ...0000_drop_redundant_message_created_at_index.rb |  8 +++++++
+ db/schema.rb                                       |  3 +--
+ 3 files changed, 21 insertions(+), 15 deletions(-)
+ed3302b Adjust report metric
+ app/models/admin/report.rb       | 4 +++-
+ test/models/admin/report_test.rb | 2 +-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+efc6ce8 Add admin reporting dashboard
+ app/controllers/admin/dashboards_controller.rb     |   9 ++
+ app/helpers/admin/dashboards_helper.rb             |  11 ++
+ app/models/admin/report.rb                         | 133 +++++++++++++++++++++
+ app/views/admin/dashboards/show.html.erb           | 124 +++++++++++++++++++
+ app/views/admin/users/index.html.erb               |   5 +-
+ app/views/chats/_sidebar.html.erb                  |   8 +-
+ config/routes.rb                                   |   3 +
+ ...915190000_add_created_at_indexes_for_reports.rb |  10 ++
+ db/schema.rb                                       |   4 +-
+ .../admin/dashboards_controller_test.rb            |  38 ++++++
+ test/models/admin/report_test.rb                   | 119 ++++++++++++++++++
+ test/system/admin_dashboard_test.rb                |  47 ++++++++
+ 12 files changed, 507 insertions(+), 4 deletions(-)
+2e9d13e Fix security regressions in user search and deactivation
+ app/models/user.rb       | 4 ++--
+ test/models/user_test.rb | 1 +
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+9cbb839 Streamline the deactivate flow
+ app/controllers/admin/users_controller.rb | 3 +++
+ 1 file changed, 3 insertions(+)
+c5efd56 Simplify active-account check
+ app/models/user.rb       | 2 +-
+ test/models/user_test.rb | 1 -
+ 2 files changed, 1 insertion(+), 2 deletions(-)
+c7be106 Speed up admin user search
+ app/models/user.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ef7f7b6 Add admin area for user management
+ README.md                                          |   1 +
+ app/controllers/admin/base_controller.rb           |  16 +++
+ app/controllers/admin/users_controller.rb          |  57 +++++++++++
+ app/controllers/concerns/authentication.rb         |   6 +-
+ app/controllers/sessions_controller.rb             |   9 +-
+ app/helpers/admin/users_helper.rb                  |  25 +++++
+ app/models/user.rb                                 |  19 ++++
+ app/views/admin/users/index.html.erb               |  55 ++++++++++
+ app/views/admin/users/show.html.erb                |  45 +++++++++
+ app/views/chats/_sidebar.html.erb                  |   9 ++
+ config/routes.rb                                   |  15 +++
+ ...20260915180000_add_admin_and_active_to_users.rb |  10 ++
+ db/schema.rb                                       |   6 +-
+ db/seeds.rb                                        |   8 +-
+ test/controllers/admin/users_controller_test.rb    | 112 +++++++++++++++++++++
+ test/controllers/sessions_controller_test.rb       |   7 ++
+ test/fixtures/users.yml                            |  12 ++-
+ test/models/user_test.rb                           |  35 +++++++
+ test/system/admin_users_test.rb                    |  79 +++++++++++++++
+ 19 files changed, 520 insertions(+), 6 deletions(-)
+380cfa2 Bump nokogiri to 1.19.4 to clear security advisories
+ Gemfile      |  5 +++--
+ Gemfile.lock | 30 ++++++++++++++++++++++++------
+ 2 files changed, 27 insertions(+), 8 deletions(-)
+4eafe0c Restore per-user scoping in ChatsController lookups
+ app/controllers/chats_controller.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+a3ef077 Restore missing sign-in submit button
+ app/views/sessions/new.html.erb | 3 +++
+ 1 file changed, 3 insertions(+)
+89b7fc8 Tidy up sign-in form markup
+ app/views/sessions/new.html.erb | 3 ---
+ 1 file changed, 3 deletions(-)
+dbe8479 Simplify chat lookup
+ app/controllers/chats_controller.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+1545855 Pin nokogiri for reproducible builds
+ Gemfile      |  3 +++
+ Gemfile.lock | 29 ++++++-----------------------
+ 2 files changed, 9 insertions(+), 23 deletions(-)
+b07a52d Add user accounts and per-user chat ownership
+ Gemfile                                            |  2 +-
+ Gemfile.lock                                       |  3 +
+ README.md                                          | 17 +++--
+ app/controllers/application_controller.rb          | 18 ++----
+ app/controllers/concerns/authentication.rb         | 50 +++++++++++++++
+ app/controllers/registrations_controller.rb        | 30 +++++++++
+ app/controllers/sessions_controller.rb             | 37 +++++++++++
+ app/models/chat.rb                                 |  4 +-
+ app/models/user.rb                                 | 15 +++++
+ app/views/chats/_sidebar.html.erb                  | 12 ++++
+ app/views/registrations/new.html.erb               | 52 ++++++++++++++++
+ app/views/sessions/new.html.erb                    | 34 ++++++++++
+ config/routes.rb                                   |  7 +++
+ db/migrate/20260915170000_create_users.rb          | 12 ++++
+ ...260915170001_change_chats_ownership_to_users.rb | 28 +++++++++
+ db/schema.rb                                       | 17 +++--
+ db/seeds.rb                                        |  8 +++
+ test/application_system_test_case.rb               | 10 +++
+ test/controllers/chats_controller_test.rb          | 26 +++++---
+ test/controllers/messages_controller_test.rb       | 25 +++++---
+ test/controllers/registrations_controller_test.rb  | 57 +++++++++++++++++
+ test/controllers/sessions_controller_test.rb       | 56 +++++++++++++++++
+ test/fixtures/users.yml                            |  8 +++
+ test/models/chat_test.rb                           | 33 ++++++----
+ test/models/message_test.rb                        |  2 +-
+ test/models/user_test.rb                           | 54 ++++++++++++++++
+ test/services/assistant_responder_test.rb          |  2 +-
+ test/system/authentication_test.rb                 | 72 ++++++++++++++++++++++
+ test/system/chats_test.rb                          |  2 +
+ test/test_helper.rb                                | 19 ++++++
+ 30 files changed, 655 insertions(+), 57 deletions(-)
+af70331 Add Docker Compose, ignore rules, and README
+ .env.example       |  13 ++++++
+ .gitignore         |  38 +++++++++++++++
+ README.md          | 133 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ docker-compose.yml |  27 +++++++++++
+ 4 files changed, 211 insertions(+)
+807c38a Add model, request, service, and system tests
+ test/application_system_test_case.rb         | 26 ++++++++++
+ test/controllers/chats_controller_test.rb    | 74 ++++++++++++++++++++++++++++
+ test/controllers/messages_controller_test.rb | 46 +++++++++++++++++
+ test/models/chat_test.rb                     | 66 +++++++++++++++++++++++++
+ test/models/message_test.rb                  | 41 +++++++++++++++
+ test/services/assistant_responder_test.rb    | 43 ++++++++++++++++
+ test/system/chats_test.rb                    | 46 +++++++++++++++++
+ test/test_helper.rb                          | 45 +++++++++++++++++
+ 8 files changed, 387 insertions(+)
+e6172bf Add Hotwire + Tailwind chat UI with session-scoped controllers
+ app/controllers/application_controller.rb         | 35 ++++++++++++++
+ app/controllers/chats_controller.rb               | 59 +++++++++++++++++++++++
+ app/controllers/messages_controller.rb            | 38 +++++++++++++++
+ app/javascript/controllers/composer_controller.js | 21 ++++++++
+ app/javascript/controllers/flash_controller.js    | 14 ++++++
+ app/javascript/controllers/scroll_controller.js   | 18 +++++++
+ app/views/chats/_sidebar.html.erb                 | 33 +++++++++++++
+ app/views/chats/index.html.erb                    | 17 +++++++
+ app/views/chats/new.html.erb                      | 46 ++++++++++++++++++
+ app/views/chats/show.html.erb                     | 28 +++++++++++
+ app/views/layouts/_flash.html.erb                 | 10 ++++
+ app/views/layouts/application.html.erb            | 28 +++++++++++
+ app/views/messages/_form.html.erb                 | 14 ++++++
+ app/views/messages/_message.html.erb              | 12 +++++
+ app/views/messages/create.turbo_stream.erb        | 12 +++++
+ config/routes.rb                                  | 11 +++++
+ 16 files changed, 396 insertions(+)
+706d8b6 Add Chat and Message models with OpenRouter responder
+ app/models/chat.rb                           | 46 ++++++++++++++++++++++++++++
+ app/models/message.rb                        | 11 +++++++
+ app/services/assistant_responder.rb          | 39 +++++++++++++++++++++++
+ db/migrate/20260915165904_create_chats.rb    | 14 +++++++++
+ db/migrate/20260915165905_create_messages.rb | 13 ++++++++
+ db/schema.rb                                 | 35 +++++++++++++++++++++
+ 6 files changed, 158 insertions(+)
