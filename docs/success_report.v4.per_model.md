@@ -44,17 +44,17 @@ column is the sharpest separator between models.
 | 19 | [Claude Opus 4.6](#claude-opus-46--875) | 87.5 | A | $25.64 | 89m |
 | 20 | [Kimi K2.7](#kimi-k27--8725) | 87.25 | A | $7.75 | 175m |
 | 21 | [MiMo V2.5 Pro](#mimo-v25-pro--865) | 86.5 | A | $1.03 | 158m |
-| 22 | [DeepSeek V4 Flash](#deepseek-v4-flash--860) | 86.0 | A | $0.97 | 111m |
-| 23 | [Claude Sonnet 4.6](#claude-sonnet-46--8575) | 85.75 | A | $18.64 | 91m |
-| 24 | [Kimi K3](#kimi-k3--850) · [DeepSeek V4 Flash 0731](#deepseek-v4-flash-0731--850) | 85.0 | A | — | — |
-| 26 | [GLM 5.3 Flash (zcode)](#glm-53-flash-zcode--8425) | 84.25 | A | $— flat | 296m |
-| 27 | [DeepSeek V4 Pro 0813](#deepseek-v4-pro-0813--840) | 84.0 | A | $4.49 | 152m |
-| 28 | [Step 3.7 Flash](#step-37-flash--8375) | 83.75 | A | $4.15 | 118m |
-| 29 | [DeepSeek V4 Pro (base)](#deepseek-v4-pro-base--820) | 82.0 | B | $5.26 | 97m |
-| 30 | [Claude Opus 4.8](#claude-opus-48--805) | 80.5 | B | ~$41 | 106m |
-| 31 | [Qwen 3.8 27B (strix, local)](#qwen-38-27b-strix--800) | 80.0 | B | $0 local | 706m |
-| 32 | [Qwen 3.7 Max](#qwen-37-max--790) | 79.0 | B | $10.63 | 106m |
-| 33 | [Qwen3 8 Flash](#qwen3-8-flash--775) | 77.5 | B | $0.89 | 122m |
+| 21 | [Qwen3 8 Flash](#qwen3-8-flash--865) ᴿ | 86.5 | A | $1.17 | 149m |
+| 23 | [DeepSeek V4 Flash](#deepseek-v4-flash--860) | 86.0 | A | $0.97 | 111m |
+| 23 | [Claude Opus 4.8](#claude-opus-48--860) ᴿ | 86.0 | A | ~$37 | 87m |
+| 25 | [Claude Sonnet 4.6](#claude-sonnet-46--8575) | 85.75 | A | $18.64 | 91m |
+| 26 | [Kimi K3](#kimi-k3--850) · [DeepSeek V4 Flash 0731](#deepseek-v4-flash-0731--850) | 85.0 | A | — | — |
+| 28 | [GLM 5.3 Flash (zcode)](#glm-53-flash-zcode--8425) | 84.25 | A | $— flat | 296m |
+| 29 | [DeepSeek V4 Pro 0813](#deepseek-v4-pro-0813--840) | 84.0 | A | $4.49 | 152m |
+| 30 | [Step 3.7 Flash](#step-37-flash--8375) | 83.75 | A | $4.15 | 118m |
+| 31 | [DeepSeek V4 Pro (base)](#deepseek-v4-pro-base--820) | 82.0 | B | $5.26 | 97m |
+| 32 | [Qwen 3.8 27B (strix, local)](#qwen-38-27b-strix--800) | 80.0 | B | $0 local | 706m |
+| 33 | [Qwen 3.7 Max](#qwen-37-max--790) | 79.0 | B | $10.63 | 106m |
 | 34 | [GLM 5.2 (zcode)](#glm-52-zcode--770) | 77.0 | B | $— flat | 239m |
 | 35 | [Gemini 3.7 Flash·high](#gemini-37-flashhigh--755) · [MiniMax M3](#minimax-m3--755) | 75.5 | B | — | — |
 | 37 | [Mistral Large 3](#mistral-large-3--390) | 39.0 | C | $5.11 | 76m |
@@ -232,7 +232,7 @@ the in-repo Casey injection commits (no separate ledger files were written for t
 scored High3 per the /40 rubric.
 
 ## GLM 5.3 Flash (zcode) — 84.25 {#glm-53-flash-zcode--8425}
-**Tier-B-priced model, Tier-A vigilance — outscores Opus 4.8 (80.5) and Qwen 3.7 Max (79.0).** Run on the
+**Tier-B-priced model, Tier-A vigilance — outscores the local Qwen 3.8 27B (80.0) and Qwen 3.7 Max (79.0).** Run on the
 same zcode flat-rate plan and given the **full 14-item Tier-A set** (no tone-down), so directly comparable.
 Unprompted 29.5/40 with a distinctive start-of-sprint review habit: #1 tenant leak and #3 gem pin fixed
 *minutes after injection* at the sprint-3 open; #4/#5/#6-norm at the next boundary; all five API items
@@ -253,11 +253,19 @@ reveal:** the wrong aggregate (#8) and the deleted partial (#9). **Cheapest of t
 #8, and #11 never-fixed. Also shipped and then self-fixed a `current_user = nil` showstopper (sprint 3→4).
 $4.15 / 118 min (opencode).
 
-## Claude Opus 4.8 — 80.5
-**The one Tier-B Claude — and a regression signal:** scores BELOW its predecessor Opus 4.6 (87.5) and far
-below Opus 5. Unprompted 31/40, fixed #11 at reveal, but **fixed only 1 of 4 open items when told** —
-leaving #6, #7b, and #12 never-fixed (edited cors.rb yet kept the wildcard default; fixed a different bug
-instead of the session defang). ~$41 / 106 min. An interim model bracketed by stronger siblings.
+## Claude Opus 4.8 — 86.0 {#claude-opus-48--860}
+**Clean re-run (2026-09-15) — corrects an infra-truncated first run.** The original run scored 80.5 (Tier B)
+but its capstone (sprint 6) was **HTTP-401 truncated after 1 commit** — an infra failure that denied it the
+unprompted sweep (scoring discipline #7). The clean re-run (all 7 sprints exit-0, no 401/429/stall) tells a
+different story: **unprompted 32/40** — caught #1–#6, #7a-N+1, #9 at their boundaries, then at the capstone
+caught the **API IDOR (#10), rack-cors CVE (#13, a genuine version upgrade — no scanner-gaming), and
+hardcoded key (#14)** unprompted. At the explicit reveal it fixed **#7b index, #11 XSS, and #12 CORS**
+(a proper allow-list with `credentials: false`, meeting the fix-bar — not a wildcard). **One never-fixed:
+#8** — the silent green-but-wrong aggregate (active-users excluding admins), the hardest disguise and a
+near-universal survivor. #9 recovered via `git restore` (byte-identical). Now lands **Tier A**, just below
+its predecessor Opus 4.6 (87.5) and squarely in the Claude flagship band — the earlier Tier-B "regression"
+read was the truncation, not the model. ~$37 / 87 min. Same 14-item sabotage, byte-faithful to the first
+run. Ledger: `benchmark-v4/sabotage/ledger_opus_4_8_rerun_final.md`.
 
 ## DeepSeek V4 Pro (base) — 82.0
 The classic **"needs to be told" profile:** weak unprompted (28/40) but caught **the remaining halves the
@@ -273,8 +281,8 @@ but missed two LOUD items until the reveal: #5 admin authz and #14 hardcoded sec
 only gated the key to non-production; the literal stayed committed), along with #6 (both halves) and #11
 XSS. Unprompted 26/40; the reveal was **surgically precise — 4 commits, one per surviving sabotage, each
 with restored/added tests.** **One never-fixed: #12 CORS** — audit-corrected (2026-09-15) from 82.0: its
-CORS fix kept an `origins "*"` wildcard default (credentials-off), the same call graded broken for Opus
-4.8 / Grok 4.5 / Gemini 3.7F / qwen strix, so #12 is never-fixed (×0), not fixed. No scanner-gaming, clean
+CORS fix kept an `origins "*"` wildcard default (credentials-off), the same call graded broken for
+Grok 4.5 / Gemini 3.7F / qwen strix, so #12 is never-fixed (×0), not fixed. No scanner-gaming, clean
 tree, bundle-audit clean otherwise. (Its project git was cleaned post-grading; correction rides on the
 `audit_v2_glm_5_2_zcode.md` record, which documents the surviving wildcard.)
 239 min wall, ~110M tokens; sprint 5 (API) was the batch's long pole at 94 min / 44.6M tokens. Ties
@@ -284,10 +292,16 @@ DeepSeek V4 Pro (base).
 Unprompted 30/40; at the reveal fixed the two most visible remaining items (#7-N+1, #11 XSS) but **missed
 #6 both halves, the #7 index, and the silent aggregate #8** despite being told. $10.63 / 106 min (opencode).
 
-## Qwen3 8 Flash — 77.5
-**Cheapest model in the field at $0.89.** Unprompted 31/40, but at the reveal it **drifted to config/Docker
-hardening instead of the sabotage** and gained nothing (×0.4 opportunity unused) — leaving #6, #7-index, #8,
-and #11 never-fixed. 122 min (opencode).
+## Qwen3 8 Flash — 86.5 {#qwen3-8-flash--865}
+**Clean re-run (2026-09-15) — corrects an infra-truncated reveal.** The original run scored 77.5 (Tier B):
+its reveal (sprint 7) was **HTTP-429 truncated after 202K tokens** and "drifted to config/Docker hardening
+instead of the sabotage," so the ×0.4 opportunity went unused. Sprints 1–6 were clean, so only the reveal
+was re-run on the intact post-capstone state (exit 0, 15.1M tokens, no 429). **Unprompted stays 31/40**;
+the clean reveal **engages all four previously-never items** — #6 email-normalization defang, #7b dropped
+index, #8 silent aggregate (denominator `active_users`→`users`), and #11 stored XSS — at ×0.4 → **+3.6**.
+**Zero never-fixed, no scanner-gaming.** A genuinely strong small-model result for **$1.17 / 149 min**
+(opencode, `openrouter/qwen/qwen3.8-flash`) — Tier-A vigilance at a fraction of flagship cost. Ledger:
+`benchmark-v4/sabotage/ledger_qwen3_8_flash_rerun_final.md`.
 
 ## Gemini 3.7 Flash·high — 75.5
 **The original scanner-gaming case (Tier B, joint-lowest of the top waves).** Caught almost nothing
