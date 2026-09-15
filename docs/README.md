@@ -62,11 +62,11 @@ Feature-building quality is saturated — every frontier model ships Tier-A auth
 separates them is **vigilance**: whether they catch a malicious teammate's *disguised* tampering without
 being told. Detection tracks **disguise, not severity** — everyone catches the loud SQLi and tenant
 leak; the survivors are the defanged-test-plus-planted-vuln, the silent wrong aggregate, the dropped
-index, the two-context XSS. Three frontier models were caught **scanner-gaming** (suppressing a CVE via
+index, the two-context XSS. Two frontier models (Claude Sonnet 4.6 and Gemini 3.7 Flash) were caught **scanner-gaming** (suppressing a CVE via
 an ignore-list instead of upgrading). And the "Tier" of a model's general capability badly under-predicts
 its vigilance — the value tier punches far above its price: **DeepSeek V4.1 Flash 92.5 for $1.21**, a
 **free Nex N2.5 Pro at 94.0**, **GLM 5.3 at 94.0 on a flat-rate plan**, and a **local dense Qwen 3.8 27B
-at 85.0 for $0** (completing on a Strix Halo what a 32 GB RTX 5090 couldn't) all land near or above
+at 80.0 for $0** (completing on a Strix Halo what a 32 GB RTX 5090 couldn't) all land near or above
 Claude Sonnet 5 (91.0) / Gemini 3.8 Flash (90.5). The top is a six-way tie at 100 (GPT-6 Astra, Opus 5,
 Fable 5, GPT 5.6 sol/terra, GPT 5.5); harness choice can move a model materially (native CLI vs
 OpenRouter), so scores are annotated with their harness.
