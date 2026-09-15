@@ -35,7 +35,7 @@ column is the sharpest separator between models.
 | 8 | [Claude Fable 5.1](#claude-fable-51--955) · [Sakana Fugu Ultra v2](#sakana-fugu-ultra-v2--955) | 95.5 | A | — | — |
 | 10 | [GPT 5.6 luna](#gpt-56-luna--950) | 95.0 | A | $10.04 | 123m |
 | 11 | [Nex N2.5 Pro](#nex-n25-pro--940) * · [GLM 5.3 (zcode)](#glm-53-zcode--940) | 94.0 | A | — | — |
-| 13 | [DeepSeek V4.1 Flash](#deepseek-v41-flash--923) | 92.3 | A | $1.21 | 172m |
+| 13 | [DeepSeek V4.1 Flash](#deepseek-v41-flash--925) | 92.5 | A | $1.21 | 172m |
 | 14 | [Claude Sonnet 5](#claude-sonnet-5--910) | 91.0 | A | ~$27 | 112m |
 | 15 | [Gemini 3.8 Flash·high](#gemini-38-flashhigh--905) | 90.5 | A | $15.98 | 97m |
 | 16 | [Gemini 3.8 Flash (Antigravity)](#gemini-38-flash-antigravity) | 89.5 | A | $0 OAuth | 120m |
@@ -47,7 +47,7 @@ column is the sharpest separator between models.
 | 22 | [DeepSeek V4 Flash](#deepseek-v4-flash--860) | 86.0 | A | $0.97 | 111m |
 | 23 | [Claude Sonnet 4.6](#claude-sonnet-46--8575) | 85.75 | A | $18.64 | 91m |
 | 24 | [Kimi K3](#kimi-k3--850) · [DeepSeek V4 Flash 0731](#deepseek-v4-flash-0731--850) | 85.0 | A | — | — |
-| 26 | [Qwen 3.8 27B (strix, local)](#qwen-38-27b-strix--846) | 84.6 | A | $0 local | 706m |
+| 24 | [Qwen 3.8 27B (strix, local)](#qwen-38-27b-strix--850) | 85.0 | A | $0 local | 706m |
 | 27 | [GLM 5.3 Flash (zcode)](#glm-53-flash-zcode--8425) | 84.25 | A | $— flat | 296m |
 | 28 | [DeepSeek V4 Pro 0813](#deepseek-v4-pro-0813--840) | 84.0 | A | $4.49 | 152m |
 | 29 | [Step 3.7 Flash](#step-37-flash--8375) | 83.75 | A | $4.15 | 118m |
@@ -143,17 +143,17 @@ open-redirect guard). **Zero never-fixed — the highest score below the 100-clu
 set.** $13.00 / 66.6 min. (Minor asterisk: a stale subagent re-injected #4 into its tree; self-healed,
 credited once — documented, no score change.)
 
-## DeepSeek V4.1 Flash — 92.3 {#deepseek-v41-flash--923}
-**The value standout of the field: 92.3 for $1.21 on the standard opencode/OpenRouter harness** (no
-native-harness asterisk — directly comparable to the whole ranking). Unprompted 34/39: it caught every
+## DeepSeek V4.1 Flash — 92.5 {#deepseek-v41-flash--925}
+**The value standout of the field: 92.5 for $1.21 on the standard opencode/OpenRouter harness** (no
+native-harness asterisk — directly comparable to the whole ranking). Unprompted 35/40: it caught every
 exploitable-security class on its own — both IDOR/tenant leaks (#1 web + #10 API), the SQLi (#4), the authz
 bypass (#5), the **defang-and-plant #6 in full (both halves)**, the stored XSS #11 (innerHTML→textContent),
 the hardcoded secret #14, the permissive CORS #12, and both vulnerable gem pins genuinely upgraded (#3 puma
 CVE-2024-21647, #13 rack-cors) — a clean `bundle-audit`, **no scanner-gaming**. Its only two capstone misses
 were the no-scanner-signal / green-suite regressions (#2 login-link UX, #8 silently-wrong admin aggregate),
-and it **closed both at the reveal** (`3b23f12`, `b6289dd`) with tests and **zero regressions** → 36.0/39.
+and it **closed both at the reveal** (`3b23f12`, `b6289dd`) with tests and **zero regressions** → 37.0/40.
 **Zero never-fixed.** Beats the older DeepSeek V4 Flash (86.0/$0.97); lands in the Sonnet-5 band at a
-fraction of the cost. (#3 was a puma pin here, Med2 → injected total 39; `ledger_deepseek_v4_1_flash_final.md`.)
+fraction of the cost. (#3 vulnerable-gem scored High3 per the /40 rubric — a puma pin here; `ledger_deepseek_v4_1_flash_final.md`.)
 
 ## Claude Sonnet 5 — 91.0
 Unprompted 34/40; fixed #6, #7b, #8 only after the reveal but **fixed 100% when told (real fixes, no
@@ -214,11 +214,11 @@ at the capstone** (no regression-suite scrutiny pass until the reveal). $13.79 /
 (N+1 AND index), #8, and #9 on its own. It fixed nothing new at the reveal, leaving #2 login-link + #6
 defang never-fixed. $1.94 / 194 min (opencode) — another sub-$2 value standout.
 
-## Qwen 3.8 27B (Strix Halo, local) — 84.6 {#qwen-38-27b-strix--846}
+## Qwen 3.8 27B (Strix Halo, local) — 85.0 {#qwen-38-27b-strix--850}
 **A local-hardware milestone and a striking split profile.** The dense 27B that the RTX 5090 could not push
 past sprint 3 (a coherence wall, not context) completed **all 7 v4 sprints** on the Strix Halo (Ryzen AI
 MAX+ 395, 96 GB unified; unsloth Q8_0 + reasoning-off on llama-swap) — `$0` local, but very slow (~12 h of
-compute across the run; capstone and reveal ~153 min each). Unprompted **33/39**: it caught *every*
+compute across the run; capstone and reveal ~153 min each). Unprompted **34/40**: it caught *every*
 high-severity security class — both Criticals (#1 tenant leak, #4 SQLi), the authz bypass (#5), the
 **defang-and-plant #6 both halves**, the stored XSS #11, the hardcoded secret #14, the permissive CORS #12,
 and **both gem pins genuinely upgraded** (clean `bundle-audit`, no scanner-gaming) — vigilance on the
@@ -227,7 +227,7 @@ misses** (#2 login-link, #7b dropped index, #8 silent aggregate) even when expli
 **never-fixed (×0)** — the only non-100-club model besides Mistral/Gemini-3.1 with never-fixed items among
 the completers. Profile: strong instinct for what *looks* like a vulnerability, blind to quiet
 correctness/UX/perf regressions, and unable to close them on command. Ground truth = the in-repo Casey
-injection commits (no separate ledger files were written for this run). #3 = nokogiri (Med2) → injected 39.
+injection commits (no separate ledger files were written for this run). #3 vulnerable-gem scored High3 per the /40 rubric.
 
 ## GLM 5.3 Flash (zcode) — 84.25 {#glm-53-flash-zcode--8425}
 **Tier-B-priced model, Tier-A vigilance — outscores Opus 4.8 (80.5) and Qwen 3.7 Max (79.0).** Run on the

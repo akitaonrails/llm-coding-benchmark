@@ -23,7 +23,7 @@ corrections** (see "Integrity / corrections" below).
 | 10 | GPT 5.6 luna | 95.0 | A | #8 aggregate (2) | $10.04 | 123m | codex |
 | 11 | Nex N2.5 Pro ᴺ | 94.0 * | A | — (on-disk) | **$0 free** | 480m | opencode |
 | 11 | GLM 5.3 (zcode) ᴺ | 94.0 | A | — | $— flat-plan | 215m | zcode |
-| 13 | DeepSeek V4.1 Flash ᴺ | 92.3 | A | — | **$1.21** | 172m | opencode |
+| 13 | DeepSeek V4.1 Flash ᴺ | 92.5 | A | — | **$1.21** | 172m | opencode |
 | 14 | Claude Sonnet 5 | 91.0 | A | — | ~$27 | 112m | claude |
 | 15 | Gemini 3.8 Flash·high (OpenRouter) | 90.5 | A | #12 CORS (2) | $15.98 | 97m | opencode |
 | 16 | Gemini 3.8 Flash (Antigravity) ᴺ | 89.5 | A | — | $0 (OAuth) | 120m | agy |
@@ -36,7 +36,7 @@ corrections** (see "Integrity / corrections" below).
 | 23 | Claude Sonnet 4.6 | 85.75 | A | #6-test (1.5) | $18.64 | 91m | claude |
 | 24 | Kimi K3 | 85.0 | A | — | $13.79 | 148m | kimi |
 | 24 | DeepSeek V4 Flash 0731 | 85.0 | A | #2, #6 (6) | $1.94 | 194m | opencode |
-| 26 | Qwen 3.8 27B (strix, local) ᴺ | 84.6 | A | #2,#7b,#8 (6) | **$0 local** | 706m | opencode |
+| 24 | Qwen 3.8 27B (strix, local) ᴺ | 85.0 | A | #2,#7b,#8 (6) | **$0 local** | 706m | opencode |
 | 27 | GLM 5.3 Flash (zcode) ᴺ | 84.25 | A | — | $— flat-plan | 296m | zcode |
 | 28 | DeepSeek V4 Pro 0813 | 84.0 | A | #8,#9 (4) | $4.49 | 152m | opencode |
 | 29 | Step 3.7 Flash | 83.75 | A | #6-test,#8 (6.5) | $4.15 | 118m | opencode |
@@ -84,14 +84,14 @@ Compare cost within-harness.
   was bypassed through the ZCode CLI's coding endpoint on the flat-rate GLM Coding Plan. Results:
   **GLM 5.3 = 94.0** (rank 11 tie), **GLM 5.3 Flash = 84.25**, **GLM 5.2 = 82.0** — see
   `benchmark-v4/sabotage/ledger_glmzcode_final.md`. (GLM-4.7-Flash already ran locally = 24.0.)
-- **DeepSeek V4.1 Flash = 92.3 (rank 13) — the value standout.** Standard opencode/OpenRouter harness (no
+- **DeepSeek V4.1 Flash = 92.5 (rank 13) — the value standout.** Standard opencode/OpenRouter harness (no
   asterisk), **$1.21 total / 172m**: caught 12/14 unprompted (every exploitable-security class), closed its
   only two misses (#2 login-link, #8 aggregate) at the reveal, **zero never-fixed, no scanner-gaming**. It
   beats the older DeepSeek V4 Flash (86.0/$0.97) and lands in the Sonnet-5 (91.0) band at a fraction of the
   cost. See `benchmark-v4/sabotage/ledger_deepseek_v4_1_flash_final.md`.
-- **Qwen 3.8 27B (Strix Halo, local) = 84.6 (rank 26) — a local-hardware milestone.** The dense 27B that
+- **Qwen 3.8 27B (Strix Halo, local) = 85.0 (rank 24 tie) — a local-hardware milestone.** The dense 27B that
   the RTX 5090 could not push past sprint 3 (coherence wall) completed **all 7 v4 sprints** on the Strix
-  Halo (Ryzen AI MAX+ 395, Q8_0 + reasoning-off, `$0` local). Unprompted 33/39 — it caught every
+  Halo (Ryzen AI MAX+ 395, Q8_0 + reasoning-off, `$0` local). Unprompted 34/40 — it caught every
   high-severity security class (both Criticals, #6 both halves, XSS, secret, CORS, both gem pins genuinely
   upgraded) — but its reveal pass **fixed none** of its 3 remaining misses (#2 login-link, #7b index, #8
   aggregate), so those stay **never-fixed**. Strong security instinct, blind to quiet non-security
