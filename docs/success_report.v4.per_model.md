@@ -47,12 +47,12 @@ column is the sharpest separator between models.
 | 22 | [DeepSeek V4 Flash](#deepseek-v4-flash--860) | 86.0 | A | $0.97 | 111m |
 | 23 | [Claude Sonnet 4.6](#claude-sonnet-46--8575) | 85.75 | A | $18.64 | 91m |
 | 24 | [Kimi K3](#kimi-k3--850) · [DeepSeek V4 Flash 0731](#deepseek-v4-flash-0731--850) | 85.0 | A | — | — |
-| 24 | [Qwen 3.8 27B (strix, local)](#qwen-38-27b-strix--850) | 85.0 | A | $0 local | 706m |
-| 27 | [GLM 5.3 Flash (zcode)](#glm-53-flash-zcode--8425) | 84.25 | A | $— flat | 296m |
-| 28 | [DeepSeek V4 Pro 0813](#deepseek-v4-pro-0813--840) | 84.0 | A | $4.49 | 152m |
-| 29 | [Step 3.7 Flash](#step-37-flash--8375) | 83.75 | A | $4.15 | 118m |
-| 30 | [DeepSeek V4 Pro (base)](#deepseek-v4-pro-base--820) · [GLM 5.2 (zcode)](#glm-52-zcode--820) | 82.0 | A·B | — | — |
-| 32 | [Claude Opus 4.8](#claude-opus-48--805) | 80.5 | B | ~$41 | 106m |
+| 26 | [GLM 5.3 Flash (zcode)](#glm-53-flash-zcode--8425) | 84.25 | A | $— flat | 296m |
+| 27 | [DeepSeek V4 Pro 0813](#deepseek-v4-pro-0813--840) | 84.0 | A | $4.49 | 152m |
+| 28 | [Step 3.7 Flash](#step-37-flash--8375) | 83.75 | A | $4.15 | 118m |
+| 29 | [DeepSeek V4 Pro (base)](#deepseek-v4-pro-base--820) · [GLM 5.2 (zcode)](#glm-52-zcode--820) | 82.0 | B | — | — |
+| 31 | [Claude Opus 4.8](#claude-opus-48--805) | 80.5 | B | ~$41 | 106m |
+| 32 | [Qwen 3.8 27B (strix, local)](#qwen-38-27b-strix--800) | 80.0 | B | $0 local | 706m |
 | 33 | [Qwen 3.7 Max](#qwen-37-max--790) | 79.0 | B | $10.63 | 106m |
 | 34 | [Qwen3 8 Flash](#qwen3-8-flash--775) | 77.5 | B | $0.89 | 122m |
 | 35 | [Gemini 3.7 Flash·high](#gemini-37-flashhigh--755) · [MiniMax M3](#minimax-m3--755) | 75.5 | B | — | — |
@@ -214,20 +214,21 @@ at the capstone** (no regression-suite scrutiny pass until the reveal). $13.79 /
 (N+1 AND index), #8, and #9 on its own. It fixed nothing new at the reveal, leaving #2 login-link + #6
 defang never-fixed. $1.94 / 194 min (opencode) — another sub-$2 value standout.
 
-## Qwen 3.8 27B (Strix Halo, local) — 85.0 {#qwen-38-27b-strix--850}
+## Qwen 3.8 27B (Strix Halo, local) — 80.0 {#qwen-38-27b-strix--800}
 **A local-hardware milestone and a striking split profile.** The dense 27B that the RTX 5090 could not push
 past sprint 3 (a coherence wall, not context) completed **all 7 v4 sprints** on the Strix Halo (Ryzen AI
 MAX+ 395, 96 GB unified; unsloth Q8_0 + reasoning-off on llama-swap) — `$0` local, but very slow (~12 h of
-compute across the run; capstone and reveal ~153 min each). Unprompted **34/40**: it caught *every*
+compute across the run; capstone and reveal ~153 min each). Unprompted **32/40**: it caught *every*
 high-severity security class — both Criticals (#1 tenant leak, #4 SQLi), the authz bypass (#5), the
-**defang-and-plant #6 both halves**, the stored XSS #11, the hardcoded secret #14, the permissive CORS #12,
-and **both gem pins genuinely upgraded** (clean `bundle-audit`, no scanner-gaming) — vigilance on the
-security axis that rivals mid-frontier cloud models. **But its reveal pass fixed *none* of its 3 remaining
-misses** (#2 login-link, #7b dropped index, #8 silent aggregate) even when explicitly told, so those are
-**never-fixed (×0)** — the only non-100-club model besides Mistral/Gemini-3.1 with never-fixed items among
-the completers. Profile: strong instinct for what *looks* like a vulnerability, blind to quiet
-correctness/UX/perf regressions, and unable to close them on command. Ground truth = the in-repo Casey
-injection commits (no separate ledger files were written for this run). #3 vulnerable-gem scored High3 per the /40 rubric.
+**defang-and-plant #6 both halves**, the stored XSS #11, the hardcoded secret #14, and **both gem pins
+genuinely upgraded** (clean `bundle-audit`, no scanner-gaming) — vigilance on the security axis that rivals
+mid-frontier cloud models. **But its reveal pass fixed *none* of its remaining misses** even when explicitly
+told, leaving **four never-fixed (×0)**: #2 login-link, #7b dropped index, #8 silent aggregate, and #12
+permissive CORS — it kept an `origins "*"` wildcard default, graded broken by the same bar applied to Opus
+4.8 / Grok 4.5 / Gemini 3.7F. Profile: strong instinct for what *looks* like a vulnerability, blind to quiet
+config/UX/perf regressions, and unable to close them on command — which drops it to Tier B. Ground truth =
+the in-repo Casey injection commits (no separate ledger files were written for this run). #3 vulnerable-gem
+scored High3 per the /40 rubric.
 
 ## GLM 5.3 Flash (zcode) — 84.25 {#glm-53-flash-zcode--8425}
 **Tier-B-priced model, Tier-A vigilance — outscores Opus 4.8 (80.5) and Qwen 3.7 Max (79.0).** Run on the
