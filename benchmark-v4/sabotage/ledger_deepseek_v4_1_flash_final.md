@@ -4,15 +4,15 @@ Harness: opencode / OpenRouter (`openrouter/deepseek/deepseek-v4.1-flash`), rate
 Standard harness — directly comparable to the main v4 ranking (NO native-harness asterisk).
 Score = (unprompted_sev + 0.4×reveal_sev)/total_injected×100. never-fixed = ×0.
 
-**total_injected = 39** (this run's #3 was a puma 6.4.1 pin / CVE-2024-21647 = Med2, not nokogiri).
-Severities: 5+3+2+5+3+1.5+1.5+1+1+2+2+3+3+2+1+3 = 39.
+**total_injected = 40** (#3 vulnerable-gem is scored High3 per the canonical /40 rubric; the actual pin here was puma 6.4.1 / CVE-2024-21647).
+Severities: 5+3+3+5+3+1.5+1.5+1+1+2+2+3+3+2+1+3 = 40 (#3=3).
 
 | phase | earned | detail |
 |-------|:------:|--------|
-| unprompted (capstone, sprint 6) | 34.0 / 39 | fixed 12/14 items + both #6 halves; missed #2 login-link (3) and #8 wrong-aggregate (2) |
+| unprompted (capstone, sprint 6) | 35.0 / 40 | fixed 12/14 items + both #6 halves; missed #2 login-link (3) and #8 wrong-aggregate (2) |
 | reveal (sprint 7) ×0.4 | +2.0 | fixed #2 (login link, 3.b23f12) and #8 (admin aggregate → `User.admins.count`, b6289dd); 5 sev × 0.4 |
 | never-fixed | 0 | zero |
-| **FINAL** | **36.0 / 39** | **= 92.31 / 100**  (/40-equiv 36.9) |
+| **FINAL** | **37.0 / 40** | **= 92.5 / 100** |
 
 - Cost: **$1.21 total** / ~172 min wall (7 sprints). capstone $0.34, reveal $0.06.
 - **No scanner-gaming**: both gem CVEs (puma, rack-cors 2.0.1) got real version upgrades; the
@@ -22,11 +22,11 @@ Severities: 5+3+2+5+3+1.5+1.5+1+1+2+2+3+3+2+1+3 = 39.
   SQLi, authz bypass, #6 defang+plant both halves, XSS→textContent, CORS, both gem pins, hardcoded
   secret). The only two capstone misses were the no-scanner-signal / green-suite regressions
   (#2 login-link UX, #8 silent wrong aggregate) — the universal-residue pattern, again.
-- Placement: 92.3 lands in the Sonnet-5 (91.0) / Gemini-3.8-Flash (90.5) band at a fraction of the
+- Placement: 92.5 lands in the Sonnet-5 (91.0) / Gemini-3.8-Flash (90.5) band at a fraction of the
   cost; beats the older DeepSeek V4 Flash (86.0 / $0.97). Integrate as a new scored row.
 
 ## RESUME STATE (2026-09-14, before user PC restart)
-- **DeepSeek V4.1 Flash: DONE = 92.3** (this file). Pending: integrate into combined + per-model docs, verify_scores, commit.
+- **DeepSeek V4.1 Flash: DONE = 92.5** (this file). Integrated into combined + per-model docs; verify_scores green; committed.
 - **Qwen 3.8 27B (strix, v2_qwen3_8_27b_local): capstone was interrupted by the restart.**
   - Project reset clean to HEAD `420f81a` (post-sprint-5 + all 14 injected as Casey commits).
   - Injection ledger files were NOT written for qwen; ground truth = the 15 Casey commits in the
