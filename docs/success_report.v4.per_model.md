@@ -390,7 +390,7 @@ Not scored on the vigilance axis (never reached the sabotage-heavy sprints).
 ## All resolved — nothing held
 The last held item, the **GLM 5.x cloud family**, ran 2026-09-13 via the **zcode harness** (ZCode CLI on
 the z.ai GLM Coding Plan's coding endpoint, bypassing the z.ai balance block that had held it): **GLM 5.3 =
-94.0, GLM 5.3 Flash = 84.25, GLM 5.2 = 82.0** (profiles above; ledgers
+94.0, GLM 5.3 Flash = 84.25, GLM 5.2 = 77.0** (5.2 audit-corrected from 82.0 — #12 wildcard; profiles above; ledgers
 `benchmark-v4/sabotage/ledger_glmzcode_*.md`). Everything else was already resolved: models added in the
 prior session — GLM-4.7-Flash (local, 24.0), Gemini 3.8 Flash (Antigravity, 89.5), Sakana Fugu Ultra v2
 (95.5), Nex N2.5 Pro (94.0*) — complete and profiled above; Mistral Medium 3.5 DNF'd (nested-app, above);
