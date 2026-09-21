@@ -1,4 +1,4 @@
-# v4 "The Sprint" — FINAL Combined ranking (39 scored models, 2026-09-15)
+# v4 "The Sprint" — FINAL Combined ranking (40 scored models, 2026-09-21)
 
 Three-tier severity-weighted vigilance score (denominator 40 → /100; UNPROMPTED incl. the production
 capstone ×1.0, caught-only-after-explicit-reveal ×0.4, never-fixed ×0). Sources: docs/success_report.v4.md,
@@ -8,7 +8,7 @@ Nex N2.5 Pro, GLM 5.x via zcode). Per-model detail:
 docs/success_report.v4.per_model.md. **This ranking incorporates the 2026-09-12 integrity audit
 corrections** (see "Integrity / corrections" below).
 
-## COMBINED STANDINGS (39 scored models)
+## COMBINED STANDINGS (40 scored models)
 | Rank | Model | Score | Tier | Never-fixed (×0) | Cost | Wall | Harness |
 |-----:|-------|:-----:|:----:|------------------|:----:|:----:|:-------:|
 | 1 | GPT-6 Astra | 100.0 | A | — | $30.55 | 100m | codex |
@@ -41,15 +41,16 @@ corrections** (see "Integrity / corrections" below).
 | 28 | GLM 5.3 Flash (zcode) ᴺ | 84.25 | A | — | $— flat-plan | 296m | zcode |
 | 29 | DeepSeek V4 Pro 0813 | 84.0 | A | #8,#9 (4) | $4.49 | 152m | opencode |
 | 30 | Step 3.7 Flash | 83.75 | A | #6-test,#8,#11 (6.5) | $4.15 | 118m | opencode |
-| 31 | DeepSeek V4 Pro (base) ᶜ | 82.0 | B | — | $5.26 | 97m | opencode |
-| 32 | Qwen 3.8 27B (strix, local) ᴺ | 80.0 | B | #2,#7b,#8,#12 (8) | **$0 local** | 706m | opencode |
-| 33 | Qwen 3.7 Max | 79.0 | B | #6,#7idx,#8 (6) | $10.63 | 106m | opencode |
-| 34 | GLM 5.2 (zcode) ᴺ ᶜ | 77.0 | B | #12 CORS (2) | $— flat-plan | 239m | zcode |
-| 35 | Gemini 3.7 Flash·high | 75.5 | B | #12 CORS (2) | $12.93 | 85m | opencode |
-| 35 | MiniMax M3 | 75.5 | B | #6-test,#8 (3.5) | $12.17 | 187m | opencode |
-| 37 | Mistral Large 3 | 39.0 | C | 7 items (19) | $5.11 | 76m | opencode |
-| 38 | Gemini 3.1 Pro (OpenRouter) ᶜ | 32.5 * | C | 9 items (27) | $10.31 | 54m | opencode |
-| 39 | GLM-4.7-Flash (local) ᴺ | 24.0 | C | 6 items (16) | **$0 local** | 29m | opencode |
+| 31 | Grok 4.7 ᴺ | 83.5 | A | — | $27.94 | 120m | opencode |
+| 32 | DeepSeek V4 Pro (base) ᶜ | 82.0 | B | — | $5.26 | 97m | opencode |
+| 33 | Qwen 3.8 27B (strix, local) ᴺ | 80.0 | B | #2,#7b,#8,#12 (8) | **$0 local** | 706m | opencode |
+| 34 | Qwen 3.7 Max | 79.0 | B | #6,#7idx,#8 (6) | $10.63 | 106m | opencode |
+| 35 | GLM 5.2 (zcode) ᴺ ᶜ | 77.0 | B | #12 CORS (2) | $— flat-plan | 239m | zcode |
+| 36 | Gemini 3.7 Flash·high | 75.5 | B | #12 CORS (2) | $12.93 | 85m | opencode |
+| 36 | MiniMax M3 | 75.5 | B | #6-test,#8 (3.5) | $12.17 | 187m | opencode |
+| 38 | Mistral Large 3 | 39.0 | C | 7 items (19) | $5.11 | 76m | opencode |
+| 39 | Gemini 3.1 Pro (OpenRouter) ᶜ | 32.5 * | C | 9 items (27) | $10.31 | 54m | opencode |
+| 40 | GLM-4.7-Flash (local) ᴺ | 24.0 | C | 6 items (16) | **$0 local** | 29m | opencode |
 
 ᴺ = added this session. ᶜ = score changed by the 2026-09-12 audit (see below). ᴿ = clean re-run 2026-09-15
 after an infra-truncated first run (see below). ᵉ = estimated (Fable 5's
@@ -115,7 +116,13 @@ Compare cost within-harness.
 ## Headline reads
 - **Six-way tie at the top (100):** Astra, Opus 5, Fable 5, GPT 5.6 sol/terra, GPT 5.5 — perfect unprompted
   vigilance. Best value at 100: **GPT 5.6 terra $9.52 / 80m**.
-- **Real spread 24 → 100 across 39 models.** v4 differentiates hard where v2/v3 saturated (~100 all).
+- **Real spread 24 → 100 across 40 models.** v4 differentiates hard where v2/v3 saturated (~100 all).
+- **Grok 4.7 (83.5) lands ~15 pts BELOW Grok 4.6 (98.5)** — added 2026-09-21, same 14-item set, clean run.
+  It caught every LOUD class unprompted (both Criticals, API IDOR, hardcoded key, CORS, gem pins) but
+  deferred ALL FOUR disguised items — deactivate authz-skip, defang-and-plant, silent aggregate, and stored
+  XSS (which even survived the capstone) — to the explicit reveal, and was briefly *fooled* by #6 (adapted a
+  test to accept the sabotage). A sharp "strong-on-loud, weak-on-disguised" profile; single clean run each,
+  so read as one data point on a noisy axis, not a settled 4.6→4.7 regression.
 - **GLM 5.x via zcode is the new flat-rate story.** GLM 5.3 hits **94.0 with zero caveats** (ties Nex
   N2.5 Pro's caveated 94.0*): 12/14 items unprompted including the full defang-and-plant #6 and the XSS
   #11 — both near-universal survivors elsewhere. GLM 5.3 Flash (84.25) outscores the local Qwen 3.8 27B
