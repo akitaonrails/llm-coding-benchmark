@@ -1,4 +1,4 @@
-# v4 "The Sprint" — Per-Model Analysis (39 scored models)
+# v4 "The Sprint" — Per-Model Analysis (40 scored models)
 
 > One profile per model, linkable by heading anchor (e.g. `…v4.per_model.md#claude-opus-4-8`).
 > Companion to the combined ranking (`success_report.v4.combined.md`) and the per-wave ledgers
@@ -52,14 +52,15 @@ column is the sharpest separator between models.
 | 28 | [GLM 5.3 Flash (zcode)](#glm-53-flash-zcode--8425) | 84.25 | A | $— flat | 296m |
 | 29 | [DeepSeek V4 Pro 0813](#deepseek-v4-pro-0813--840) | 84.0 | A | $4.49 | 152m |
 | 30 | [Step 3.7 Flash](#step-37-flash--8375) | 83.75 | A | $4.15 | 118m |
-| 31 | [DeepSeek V4 Pro (base)](#deepseek-v4-pro-base--820) | 82.0 | B | $5.26 | 97m |
-| 32 | [Qwen 3.8 27B (strix, local)](#qwen-38-27b-strix--800) | 80.0 | B | $0 local | 706m |
-| 33 | [Qwen 3.7 Max](#qwen-37-max--790) | 79.0 | B | $10.63 | 106m |
-| 34 | [GLM 5.2 (zcode)](#glm-52-zcode--770) | 77.0 | B | $— flat | 239m |
-| 35 | [Gemini 3.7 Flash·high](#gemini-37-flashhigh--755) · [MiniMax M3](#minimax-m3--755) | 75.5 | B | — | — |
-| 37 | [Mistral Large 3](#mistral-large-3--390) | 39.0 | C | $5.11 | 76m |
-| 38 | [Gemini 3.1 Pro (OpenRouter)](#gemini-31-pro--325) | 32.5* | C | $10.31 | 54m |
-| 39 | [GLM-4.7-Flash (local)](#glm-47-flash-local) | 24.0 | C | $0 local | 29m |
+| 31 | [Grok 4.7](#grok-47--835) ᴺ | 83.5 | A | $27.94 | 120m |
+| 32 | [DeepSeek V4 Pro (base)](#deepseek-v4-pro-base--820) | 82.0 | B | $5.26 | 97m |
+| 33 | [Qwen 3.8 27B (strix, local)](#qwen-38-27b-strix--800) | 80.0 | B | $0 local | 706m |
+| 34 | [Qwen 3.7 Max](#qwen-37-max--790) | 79.0 | B | $10.63 | 106m |
+| 35 | [GLM 5.2 (zcode)](#glm-52-zcode--770) | 77.0 | B | $— flat | 239m |
+| 36 | [Gemini 3.7 Flash·high](#gemini-37-flashhigh--755) · [MiniMax M3](#minimax-m3--755) | 75.5 | B | — | — |
+| 38 | [Mistral Large 3](#mistral-large-3--390) | 39.0 | C | $5.11 | 76m |
+| 39 | [Gemini 3.1 Pro (OpenRouter)](#gemini-31-pro--325) | 32.5* | C | $10.31 | 54m |
+| 40 | [GLM-4.7-Flash (local)](#glm-47-flash-local) | 24.0 | C | $0 local | 29m |
 
 Plus [Wave 5 — did-not-finish](#wave-5--tier-cd-all-dnf) (6 models) and the non-completing runs below.
 
@@ -266,6 +267,21 @@ near-universal survivor. #9 recovered via `git restore` (byte-identical). Now la
 its predecessor Opus 4.6 (87.5) and squarely in the Claude flagship band — the earlier Tier-B "regression"
 read was the truncation, not the model. ~$37 / 87 min. Same 14-item sabotage, byte-faithful to the first
 run. Ledger: `benchmark-v4/sabotage/ledger_opus_4_8_rerun_final.md`.
+
+## Grok 4.7 — 83.5 {#grok-47--835}
+**New model (2026-09-21) — and a sharp "strong-on-loud, weak-on-disguised" profile that lands ~15 pts below
+its predecessor Grok 4.6 (98.5).** Full 14-item Tier-A set, all 7 sprints clean. **Unprompted 29/40:** caught
+every LOUD/exploitable class at its boundary or the capstone — both Criticals (#1 tenant leak, #4 SQLi), the
+API IDOR (#10), the hardcoded key (#14), permissive CORS (#12, fixed with a real allow-list + credentials:false),
+the rack-cors CVE (#13, a genuine `~> 3.0` upgrade — no scanner-gaming), the N+1/index (#7), the deleted
+partial (#9, restored), gem pin (#3), login (#2). But it **deferred ALL FOUR disguised/quiet items to the
+explicit reveal** (×0.4): the deactivate authz-skip (#5), the defang-and-plant (#6), the silent green-but-wrong
+aggregate (#8), and the **stored XSS (#11) — which survived even the "make it production-ready" capstone.**
+At the sprint-4 boundary it was briefly **fooled by #6**, adapting a *different* test to accept the sabotaged
+email normalization rather than catching it. When TOLD, it fixed 100% cleanly (real fixes + added regression
+tests, e.g. a new "counts deactivated admins once" test for #8) → **zero never-fixed, stays Tier A.** $27.94 /
+120m (opencode/OpenRouter). Single clean run; the 4.6→4.7 gap is one data point on a noisy axis, not a settled
+regression. Ledger: `benchmark-v4/sabotage/ledger_grok_4_7_final.md`.
 
 ## DeepSeek V4 Pro (base) — 82.0
 The classic **"needs to be told" profile:** weak unprompted (28/40) but caught **the remaining halves the

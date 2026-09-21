@@ -1,5 +1,5 @@
 {
-  "description": "Benchmark v2 (production-hardening, 3 phases) \u2014 Tier A models only, native harness + user subscriptions preferred. v1 remains the intake benchmark for everything else.",
+  "description": "Benchmark v2 (production-hardening, 3 phases) — Tier A models only, native harness + user subscriptions preferred. v1 remains the intake benchmark for everything else.",
   "prompts": {
     "phase1": "prompts/benchmark_prompt_v2.txt",
     "phase2": "prompts/benchmark_followup_v2.txt",
@@ -62,7 +62,7 @@
         "output": 15.0
       },
       "wave": 1,
-      "notes": "5h quota windows \u2014 a 3-phase run may need the quota watcher pattern"
+      "notes": "5h quota windows — a 3-phase run may need the quota watcher pattern"
     },
     {
       "slug": "v2_gemini_pro",
@@ -165,7 +165,7 @@
       "label": "Kimi K2.6 (opencode/OpenRouter fallback)",
       "harness": "opencode",
       "model_id": "openrouter/moonshotai/kimi-k2.6",
-      "billing": "OpenRouter API \u2014 K2.6 NOT exposed by the Kimi subscription",
+      "billing": "OpenRouter API — K2.6 NOT exposed by the Kimi subscription",
       "rates_per_m": {
         "input": 0.95,
         "cache_read": 0.16,
@@ -187,7 +187,7 @@
       "label": "Grok 4.5 (opencode/OpenRouter fallback)",
       "harness": "opencode",
       "model_id": "openrouter/x-ai/grok-4.5",
-      "billing": "OpenRouter API \u2014 no xAI subscription harness",
+      "billing": "OpenRouter API — no xAI subscription harness",
       "rates_per_m": {
         "input": 2.0,
         "cache_read": 2.0,
@@ -201,7 +201,7 @@
       "label": "Nex-N2-Pro (opencode/OpenRouter fallback)",
       "harness": "opencode",
       "model_id": "openrouter/nex-agi/nex-n2-pro",
-      "billing": "OpenRouter API \u2014 no vendor harness",
+      "billing": "OpenRouter API — no vendor harness",
       "rates_per_m": {
         "input": 0.25,
         "cache_read": 0.25,
@@ -227,7 +227,7 @@
     },
     {
       "slug": "v2_gemini_3_1_pro",
-      "label": "Gemini 3.1 Pro (opencode/OpenRouter) \u2014 wave 3 group 1",
+      "label": "Gemini 3.1 Pro (opencode/OpenRouter) — wave 3 group 1",
       "harness": "opencode",
       "model_id": "openrouter/google/gemini-3.1-pro-preview",
       "billing": "OpenRouter API",
@@ -242,7 +242,7 @@
     },
     {
       "slug": "v2_sakana_fugu_ultra",
-      "label": "Sakana Fugu Ultra (opencode/Sakana API) \u2014 wave 3 group 1",
+      "label": "Sakana Fugu Ultra (opencode/Sakana API) — wave 3 group 1",
       "harness": "opencode",
       "model_id": "sakana/fugu-ultra",
       "billing": "Sakana pay-as-you-go API",
@@ -258,7 +258,7 @@
     },
     {
       "slug": "v2_claude_sonnet_4_6",
-      "label": "Claude Sonnet 4.6 (Claude Code) \u2014 wave 3 group 1",
+      "label": "Claude Sonnet 4.6 (Claude Code) — wave 3 group 1",
       "harness": "claude",
       "model_id": "claude-sonnet-4-6",
       "billing": "Claude Max subscription",
@@ -273,7 +273,7 @@
     },
     {
       "slug": "v2_deepseek_v4_flash",
-      "label": "DeepSeek V4 Flash (opencode/OpenRouter) \u2014 wave 3 group 1",
+      "label": "DeepSeek V4 Flash (opencode/OpenRouter) — wave 3 group 1",
       "harness": "opencode",
       "model_id": "openrouter/deepseek/deepseek-v4-flash",
       "billing": "OpenRouter API",
@@ -288,7 +288,7 @@
     },
     {
       "slug": "v2_minimax_m3",
-      "label": "MiniMax M3 (opencode/OpenRouter) \u2014 wave 3 group 1",
+      "label": "MiniMax M3 (opencode/OpenRouter) — wave 3 group 1",
       "harness": "opencode",
       "model_id": "openrouter/minimax/minimax-m3",
       "billing": "OpenRouter API",
@@ -299,11 +299,11 @@
         "output": 1.2
       },
       "wave": 3,
-      "notes": "v1 Tier B (78) with a phase-2 DNF \u2014 watch the 90-min phase timeout."
+      "notes": "v1 Tier B (78) with a phase-2 DNF — watch the 90-min phase timeout."
     },
     {
       "slug": "v2_qwen3_7_max",
-      "label": "Qwen3.7 Max (opencode/OpenRouter) \u2014 wave 3 group 1",
+      "label": "Qwen3.7 Max (opencode/OpenRouter) — wave 3 group 1",
       "harness": "opencode",
       "model_id": "openrouter/qwen/qwen3.7-max",
       "billing": "OpenRouter API",
@@ -318,7 +318,7 @@
     },
     {
       "slug": "v2_grok_4_3",
-      "label": "Grok 4.3 (opencode/OpenRouter) \u2014 wave 3 group 1",
+      "label": "Grok 4.3 (opencode/OpenRouter) — wave 3 group 1",
       "harness": "opencode",
       "model_id": "openrouter/x-ai/grok-4.3",
       "billing": "OpenRouter API",
@@ -333,7 +333,7 @@
     },
     {
       "slug": "v2_qwen3_6_plus",
-      "label": "Qwen 3.6 Plus (opencode/OpenRouter) \u2014 wave 3 group 1",
+      "label": "Qwen 3.6 Plus (opencode/OpenRouter) — wave 3 group 1",
       "harness": "opencode",
       "model_id": "openrouter/qwen/qwen3.6-plus",
       "billing": "OpenRouter API",
@@ -348,10 +348,10 @@
     },
     {
       "slug": "v2_kimi_k2_5",
-      "label": "Kimi K2.5 (opencode/OpenRouter) \u2014 wave 3 group 1",
+      "label": "Kimi K2.5 (opencode/OpenRouter) — wave 3 group 1",
       "harness": "opencode",
       "model_id": "openrouter/moonshotai/kimi-k2.5",
-      "billing": "OpenRouter API \u2014 K2.5 not exposed by Kimi subscription",
+      "billing": "OpenRouter API — K2.5 not exposed by Kimi subscription",
       "rates_per_m": {
         "input": 0.6,
         "cache_read": 0.1,
@@ -363,7 +363,7 @@
     },
     {
       "slug": "v2_step_3_7_flash",
-      "label": "Step 3.7 Flash (opencode/OpenRouter) \u2014 wave 3 group 1",
+      "label": "Step 3.7 Flash (opencode/OpenRouter) — wave 3 group 1",
       "harness": "opencode",
       "model_id": "openrouter/stepfun/step-3.7-flash",
       "billing": "OpenRouter API",
@@ -389,14 +389,14 @@
         "output": 30.0
       },
       "wave": 6,
-      "notes": "Added per user 2026-09-11. Newest Sakana Fugu Ultra (released 2026-09-11), 1M ctx. PREMIUM pricing ($5/$30 per Mtok, flagship-tier) \u2014 expect ~$15-40 for a full v4 run."
+      "notes": "Added per user 2026-09-11. Newest Sakana Fugu Ultra (released 2026-09-11), 1M ctx. PREMIUM pricing ($5/$30 per Mtok, flagship-tier) — expect ~$15-40 for a full v4 run."
     },
     {
       "slug": "v2_nex_n2_5_pro",
       "label": "Nex N2.5 Pro (opencode/OpenRouter, free tier)",
       "harness": "opencode",
       "model_id": "openrouter/nex-agi/nex-n2.5-pro:free",
-      "billing": "OpenRouter API (free tier \u2014 may rate-limit long agentic runs)",
+      "billing": "OpenRouter API (free tier — may rate-limit long agentic runs)",
       "rates_per_m": {
         "input": 0.0,
         "cache_read": 0.0,
@@ -423,7 +423,7 @@
     },
     {
       "slug": "v2_mimo_v2_5_pro",
-      "label": "Xiaomi MiMo V2.5 Pro (opencode/OpenRouter) \u2014 wave 3 group 1",
+      "label": "Xiaomi MiMo V2.5 Pro (opencode/OpenRouter) — wave 3 group 1",
       "harness": "opencode",
       "model_id": "openrouter/xiaomi/mimo-v2.5-pro",
       "billing": "OpenRouter API",
@@ -438,7 +438,7 @@
     },
     {
       "slug": "v2_glm_5",
-      "label": "GLM 5 (opencode/OpenRouter) \u2014 wave 3 group 1",
+      "label": "GLM 5 (opencode/OpenRouter) — wave 3 group 1",
       "harness": "opencode",
       "model_id": "openrouter/z-ai/glm-5",
       "billing": "OpenRouter API",
@@ -453,7 +453,7 @@
     },
     {
       "slug": "v2_claude_sonnet_5",
-      "label": "Claude Sonnet 5 (Claude Code) \u2014 wave 3 group 2 (C/D)",
+      "label": "Claude Sonnet 5 (Claude Code) — wave 3 group 2 (C/D)",
       "harness": "claude",
       "model_id": "claude-sonnet-5",
       "billing": "Claude Max subscription",
@@ -468,7 +468,7 @@
     },
     {
       "slug": "v2_step_3_5_flash",
-      "label": "Step 3.5 Flash (opencode/OpenRouter) \u2014 wave 3 group 2 (C/D)",
+      "label": "Step 3.5 Flash (opencode/OpenRouter) — wave 3 group 2 (C/D)",
       "harness": "opencode",
       "model_id": "openrouter/stepfun/step-3.5-flash",
       "billing": "OpenRouter API",
@@ -499,7 +499,7 @@
     },
     {
       "slug": "v2_deepseek_v4_pro",
-      "label": "DeepSeek V4 Pro (opencode/OpenRouter) \u2014 wave 3 addendum",
+      "label": "DeepSeek V4 Pro (opencode/OpenRouter) — wave 3 addendum",
       "harness": "opencode",
       "model_id": "openrouter/deepseek/deepseek-v4-pro",
       "billing": "OpenRouter API",
@@ -510,7 +510,7 @@
         "output": 0.42
       },
       "wave": 3,
-      "notes": "v1 Tier B (69, via deepclaude workaround). The opencode reasoning_content multi-turn bug is FIXED as of opencode 1.18.4 (probe-verified 2026-07-30: 3-turn tool flow clean) \u2014 runs on the standard harness, deepclaude retired."
+      "notes": "v1 Tier B (69, via deepclaude workaround). The opencode reasoning_content multi-turn bug is FIXED as of opencode 1.18.4 (probe-verified 2026-07-30: 3-turn tool flow clean) — runs on the standard harness, deepclaude retired."
     },
     {
       "slug": "v2_grok_4_5_cli",
@@ -540,7 +540,7 @@
         "output": 6.0
       },
       "wave": 4,
-      "notes": "The scaffold-dependency test: 57 orchestrator / 18 vanilla \u2014 does the vendor harness rescue it?"
+      "notes": "The scaffold-dependency test: 57 orchestrator / 18 vanilla — does the vendor harness rescue it?"
     },
     {
       "slug": "v2_gemini_3_8_flash_high_agy",
@@ -558,7 +558,7 @@
       "model_id": "gemini-3.6-flash-high",
       "billing": "Antigravity OAuth (Google account)",
       "wave": 4,
-      "notes": "NEW generation \u2014 newer than anything tested. Discovered in agy model list 2026-07-30; no 3.5 Pro exists there."
+      "notes": "NEW generation — newer than anything tested. Discovered in agy model list 2026-07-30; no 3.5 Pro exists there."
     },
     {
       "slug": "v2_gemini_3_1_pro_agy",
@@ -613,7 +613,7 @@
         "output": 0.0
       },
       "wave": 4,
-      "notes": "Added per user 2026-08-14. Offline dense 27B counterpart to online qwen3.8-max (92). llama-swap Q5_K_M on the 5090, --jinja --reasoning-format none, 64K ctx. The FIRST local model in v2 (locals were dropped in wave 3) \u2014 tests whether the small offline model holds the API-correctness 3.8-max showed. Local, so cost=$0; report wall time + tok/s. 2026-09-13 RETRY: moved to Strix Halo (Ryzen AI MAX+ 395, 61GB unified) llama-swap 192.168.0.90:11435, unsloth Q8_0 (up from Q5_K_M) + --reasoning off (the actual think-leak fix; 5090 build only had --reasoning-format none). Resume from sprint 3 (sprints 1-2 clean on the 5090)."
+      "notes": "Added per user 2026-08-14. Offline dense 27B counterpart to online qwen3.8-max (92). llama-swap Q5_K_M on the 5090, --jinja --reasoning-format none, 64K ctx. The FIRST local model in v2 (locals were dropped in wave 3) — tests whether the small offline model holds the API-correctness 3.8-max showed. Local, so cost=$0; report wall time + tok/s. 2026-09-13 RETRY: moved to Strix Halo (Ryzen AI MAX+ 395, 61GB unified) llama-swap 192.168.0.90:11435, unsloth Q8_0 (up from Q5_K_M) + --reasoning off (the actual think-leak fix; 5090 build only had --reasoning-format none). Resume from sprint 3 (sprints 1-2 clean on the 5090)."
     },
     {
       "slug": "v2_glm_4_7_flash_local",
@@ -643,7 +643,7 @@
         "output": 2.2
       },
       "wave": 4,
-      "notes": "Added 2026-08-15. Successor to GLM 5.2 (92). z.ai coding endpoint, cumulative-metered. Frontier cloud \u2014 unshielded, spot-checked post-run."
+      "notes": "Added 2026-08-15. Successor to GLM 5.2 (92). z.ai coding endpoint, cumulative-metered. Frontier cloud — unshielded, spot-checked post-run."
     },
     {
       "slug": "v2_gemini_3_7_flash_high",
@@ -659,14 +659,14 @@
       },
       "enable_followup": true,
       "wave": 4,
-      "notes": "Added 2026-08-15. Newest Gemini Flash (untested). DIRECT Gemini API key path (GEMINI_API_KEY) via opencode built-in google provider, NOT OpenRouter \u2014 deliberately bypasses the thought-signature bug that capped 3.1 Pro at 62 (3 failed phase-2 attempts). Effort forced via reasoning.effort=high in home-config model options. Rates approximate (2.5-Flash-class $0.30/$2.50) \u2014 reconcile against the Google AI Studio console."
+      "notes": "Added 2026-08-15. Newest Gemini Flash (untested). DIRECT Gemini API key path (GEMINI_API_KEY) via opencode built-in google provider, NOT OpenRouter — deliberately bypasses the thought-signature bug that capped 3.1 Pro at 62 (3 failed phase-2 attempts). Effort forced via reasoning.effort=high in home-config model options. Rates approximate (2.5-Flash-class $0.30/$2.50) — reconcile against the Google AI Studio console."
     },
     {
       "slug": "v2_grok_4_6",
       "label": "Grok 4.6 (opencode/OpenRouter)",
       "harness": "opencode",
       "model_id": "openrouter/x-ai/grok-4.6",
-      "billing": "OpenRouter API \u2014 no xAI subscription harness",
+      "billing": "OpenRouter API — no xAI subscription harness",
       "rates_per_m": {
         "input": 2.0,
         "cache_read": 0.5,
@@ -689,7 +689,22 @@
         "output": 6.0
       },
       "wave": 4,
-      "notes": "Added 2026-08-16. Native-harness A/B for the 92-scoring opencode Grok 4.6 run. Official @xai-official/grok CLI (v1.0.4) \u2014 reports native usage + total_cost_usd; no Live Search patch needed. --disable-web-search for parity. Run SHIELDED per shield-all policy."
+      "notes": "Added 2026-08-16. Native-harness A/B for the 92-scoring opencode Grok 4.6 run. Official @xai-official/grok CLI (v1.0.4) — reports native usage + total_cost_usd; no Live Search patch needed. --disable-web-search for parity. Run SHIELDED per shield-all policy."
+    },
+    {
+      "slug": "v2_grok_4_7",
+      "label": "Grok 4.7 (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/x-ai/grok-4.7",
+      "billing": "OpenRouter API — no xAI subscription harness",
+      "rates_per_m": {
+        "input": 1.6,
+        "cache_read": 0.4,
+        "cache_write": 1.6,
+        "output": 4.8
+      },
+      "wave": 5,
+      "notes": "Added 2026-09-21. Successor to Grok 4.6 (98.5). opencode/OpenRouter, run SHIELDED per shield-all policy. 500K ctx. Full 14-item Tier-A set."
     },
     {
       "slug": "v2_deepseek_v4_flash_0731",
@@ -721,7 +736,7 @@
       },
       "enable_followup": true,
       "wave": 4,
-      "notes": "Added 2026-08-22. Newer snapshot of deepseek-v4-pro (base tested 07-28 @ 82). WATCH the reasoning_content multi-turn bug (opencode ai-sdk strips it; breaks phase 2) \u2014 if it recurs, route via Claude Code deepclaude env-swap. opencode, shielded."
+      "notes": "Added 2026-08-22. Newer snapshot of deepseek-v4-pro (base tested 07-28 @ 82). WATCH the reasoning_content multi-turn bug (opencode ai-sdk strips it; breaks phase 2) — if it recurs, route via Claude Code deepclaude env-swap. opencode, shielded."
     },
     {
       "slug": "v2_claude_fable_5_1",
@@ -800,7 +815,7 @@
         "output": 50.0
       },
       "wave": 4,
-      "notes": "Added 2026-09-04. OpenAI GPT-6 Astra (launched 09-03; SWE-SOTA/AGI claims). Codex 0.153.3 required (0.151/0.152 gated it: 'requires a newer version of Codex'); upgraded via mise. Runs on ChatGPT subscription (API key was out of credits \u2014 codex uses OAuth). Rates ESTIMATED (flagship placeholder) \u2014 reconcile against OpenAI pricing. Codex path is independent of today's OpenRouter degradation."
+      "notes": "Added 2026-09-04. OpenAI GPT-6 Astra (launched 09-03; SWE-SOTA/AGI claims). Codex 0.153.3 required (0.151/0.152 gated it: 'requires a newer version of Codex'); upgraded via mise. Runs on ChatGPT subscription (API key was out of credits — codex uses OAuth). Rates ESTIMATED (flagship placeholder) — reconcile against OpenAI pricing. Codex path is independent of today's OpenRouter degradation."
     },
     {
       "slug": "v2_muse_spark_1_3",
@@ -1036,7 +1051,7 @@
     }
   ],
   "skipped": {
-    "claude_fable_5_rerelease": "same model ID as v2_claude_fable_5 (claude-fable-5); the June original-vs-rerelease snapshot distinction no longer exists \u2014 one run covers it",
+    "claude_fable_5_rerelease": "same model ID as v2_claude_fable_5 (claude-fable-5); the June original-vs-rerelease snapshot distinction no longer exists — one run covers it",
     "gemini_3_5_flash": "replaced by Gemini 3.5 Pro in the Tier A cohort per user decision; Pro not yet released (v2_gemini_pro, blocked)"
   }
 }
