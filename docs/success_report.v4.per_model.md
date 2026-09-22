@@ -1,4 +1,4 @@
-# v4 "The Sprint" — Per-Model Analysis (40 scored models)
+# v4 "The Sprint" — Per-Model Analysis (41 scored models)
 
 > One profile per model, linkable by heading anchor (e.g. `…v4.per_model.md#claude-opus-4-8`).
 > Companion to the combined ranking (`success_report.v4.combined.md`) and the per-wave ledgers
@@ -22,7 +22,7 @@ file (M2), #10 API IDOR (H3), #11 stored/DOM XSS (H3), #12 permissive CORS (M2),
 #14 hardcoded secret (H3). Tier: A ≥83 (usable), B 75–82, C <75. Cost: codex/opencode/kimi = real API $;
 Claude models on Max subscription (notional $). Compare cost within-harness.
 
-**The universal law across all 39: detection tracks DISGUISE, not severity.** Loud bugs (SQLi, tenant
+**The universal law across all 41: detection tracks DISGUISE, not severity.** Loud bugs (SQLi, tenant
 leak) are caught by everyone; the survivors are always the *disguised* ones — the defang-and-plant #6,
 the silent wrong aggregate #8, the dropped index #7b, the two-context XSS #11. The never-fixed (×0)
 column is the sharpest separator between models.
@@ -30,37 +30,37 @@ column is the sharpest separator between models.
 ## Ranking (click a model)
 | # | Model | Score | Tier | Cost | Wall |
 |--:|-------|:-----:|:--:|:--:|:--:|
-| 1 | [GPT-6 Astra](#gpt-6-astra--1000) · [Claude Opus 5](#claude-opus-5--1000) · [Claude Fable 5](#claude-fable-5--1000) · [GPT 5.6 sol](#gpt-56-sol--1000) · [GPT 5.6 terra](#gpt-56-terra--1000) · [GPT 5.5](#gpt-55--1000) | 100.0 | A | — | — |
-| 7 | [Grok 4.6](#grok-46--985) | 98.5 | A | $13.00 | 67m |
-| 8 | [Claude Fable 5.1](#claude-fable-51--955) · [Sakana Fugu Ultra v2](#sakana-fugu-ultra-v2--955) | 95.5 | A | — | — |
-| 10 | [GPT 5.6 luna](#gpt-56-luna--950) | 95.0 | A | $10.04 | 123m |
-| 11 | [Nex N2.5 Pro](#nex-n25-pro--940) * · [GLM 5.3 (zcode)](#glm-53-zcode--940) | 94.0 | A | — | — |
-| 13 | [DeepSeek V4.1 Flash](#deepseek-v41-flash--925) | 92.5 | A | $1.21 | 172m |
-| 14 | [Claude Sonnet 5](#claude-sonnet-5--910) | 91.0 | A | ~$27 | 112m |
-| 15 | [Gemini 3.8 Flash·high](#gemini-38-flashhigh--905) | 90.5 | A | $15.98 | 97m |
-| 16 | [Gemini 3.8 Flash (Antigravity)](#gemini-38-flash-antigravity) | 89.5 | A | $0 OAuth | 120m |
-| 17 | [Muse Spark 1.3](#muse-spark-13--8875) | 88.75 | A | $13.31 | 150m |
-| 18 | [Grok 4.5](#grok-45--880) | 88.0 | A | $6.19 | 48m |
-| 19 | [Claude Opus 4.6](#claude-opus-46--875) | 87.5 | A | $25.64 | 89m |
-| 20 | [Kimi K2.7](#kimi-k27--8725) | 87.25 | A | $7.75 | 175m |
-| 21 | [MiMo V2.5 Pro](#mimo-v25-pro--865) | 86.5 | A | $1.03 | 158m |
-| 21 | [Qwen3 8 Flash](#qwen3-8-flash--865) ᴿ | 86.5 | A | $1.17 | 149m |
-| 23 | [DeepSeek V4 Flash](#deepseek-v4-flash--860) | 86.0 | A | $0.97 | 111m |
-| 23 | [Claude Opus 4.8](#claude-opus-48--860) ᴿ | 86.0 | A | ~$37 | 87m |
-| 25 | [Claude Sonnet 4.6](#claude-sonnet-46--8575) | 85.75 | A | $18.64 | 91m |
-| 26 | [Kimi K3](#kimi-k3--850) · [DeepSeek V4 Flash 0731](#deepseek-v4-flash-0731--850) | 85.0 | A | — | — |
-| 28 | [GLM 5.3 Flash (zcode)](#glm-53-flash-zcode--8425) | 84.25 | A | $— flat | 296m |
-| 29 | [DeepSeek V4 Pro 0813](#deepseek-v4-pro-0813--840) | 84.0 | A | $4.49 | 152m |
-| 30 | [Step 3.7 Flash](#step-37-flash--8375) | 83.75 | A | $4.15 | 118m |
-| 31 | [Grok 4.7](#grok-47--835) ᴺ | 83.5 | A | $27.94 | 120m |
-| 32 | [DeepSeek V4 Pro (base)](#deepseek-v4-pro-base--820) | 82.0 | B | $5.26 | 97m |
-| 33 | [Qwen 3.8 27B (strix, local)](#qwen-38-27b-strix--800) | 80.0 | B | $0 local | 706m |
-| 34 | [Qwen 3.7 Max](#qwen-37-max--790) | 79.0 | B | $10.63 | 106m |
-| 35 | [GLM 5.2 (zcode)](#glm-52-zcode--770) | 77.0 | B | $— flat | 239m |
-| 36 | [Gemini 3.7 Flash·high](#gemini-37-flashhigh--755) · [MiniMax M3](#minimax-m3--755) | 75.5 | B | — | — |
-| 38 | [Mistral Large 3](#mistral-large-3--390) | 39.0 | C | $5.11 | 76m |
-| 39 | [Gemini 3.1 Pro (OpenRouter)](#gemini-31-pro--325) | 32.5* | C | $10.31 | 54m |
-| 40 | [GLM-4.7-Flash (local)](#glm-47-flash-local) | 24.0 | C | $0 local | 29m |
+| 1 | [GPT-6 Astra](#gpt-6-astra--1000) · [Claude Opus 5](#claude-opus-5--1000) · [Claude Fable 5](#claude-fable-5--1000) · [Claude Opus 5.5](#claude-opus-55--1000) ᴺ · [GPT 5.6 sol](#gpt-56-sol--1000) · [GPT 5.6 terra](#gpt-56-terra--1000) · [GPT 5.5](#gpt-55--1000) | 100.0 | A | — | — |
+| 2 | [Grok 4.6](#grok-46--985) | 98.5 | A | $13.00 | 67m |
+| 3 | [Claude Fable 5.1](#claude-fable-51--955) · [Sakana Fugu Ultra v2](#sakana-fugu-ultra-v2--955) | 95.5 | A | — | — |
+| 4 | [GPT 5.6 luna](#gpt-56-luna--950) | 95.0 | A | $10.04 | 123m |
+| 5 | [Nex N2.5 Pro](#nex-n25-pro--940) * · [GLM 5.3 (zcode)](#glm-53-zcode--940) | 94.0 | A | — | — |
+| 6 | [DeepSeek V4.1 Flash](#deepseek-v41-flash--925) | 92.5 | A | $1.21 | 172m |
+| 7 | [Claude Sonnet 5](#claude-sonnet-5--910) | 91.0 | A | ~$27 | 112m |
+| 8 | [Gemini 3.8 Flash·high](#gemini-38-flashhigh--905) | 90.5 | A | $15.98 | 97m |
+| 9 | [Gemini 3.8 Flash (Antigravity)](#gemini-38-flash-antigravity) | 89.5 | A | $0 OAuth | 120m |
+| 10 | [Muse Spark 1.3](#muse-spark-13--8875) | 88.75 | A | $13.31 | 150m |
+| 11 | [Grok 4.5](#grok-45--880) | 88.0 | A | $6.19 | 48m |
+| 12 | [Claude Opus 4.6](#claude-opus-46--875) | 87.5 | A | $25.64 | 89m |
+| 13 | [Kimi K2.7](#kimi-k27--8725) | 87.25 | A | $7.75 | 175m |
+| 14 | [MiMo V2.5 Pro](#mimo-v25-pro--865) | 86.5 | A | $1.03 | 158m |
+| 14 | [Qwen3 8 Flash](#qwen3-8-flash--865) ᴿ | 86.5 | A | $1.17 | 149m |
+| 16 | [DeepSeek V4 Flash](#deepseek-v4-flash--860) | 86.0 | A | $0.97 | 111m |
+| 16 | [Claude Opus 4.8](#claude-opus-48--860) ᴿ | 86.0 | A | ~$37 | 87m |
+| 18 | [Claude Sonnet 4.6](#claude-sonnet-46--8575) | 85.75 | A | $18.64 | 91m |
+| 19 | [Kimi K3](#kimi-k3--850) · [DeepSeek V4 Flash 0731](#deepseek-v4-flash-0731--850) | 85.0 | A | — | — |
+| 20 | [GLM 5.3 Flash (zcode)](#glm-53-flash-zcode--8425) | 84.25 | A | $— flat | 296m |
+| 21 | [DeepSeek V4 Pro 0813](#deepseek-v4-pro-0813--840) | 84.0 | A | $4.49 | 152m |
+| 22 | [Step 3.7 Flash](#step-37-flash--8375) | 83.75 | A | $4.15 | 118m |
+| 23 | [Grok 4.7](#grok-47--835) ᴺ | 83.5 | A | $27.94 | 120m |
+| 24 | [DeepSeek V4 Pro (base)](#deepseek-v4-pro-base--820) | 82.0 | B | $5.26 | 97m |
+| 25 | [Qwen 3.8 27B (strix, local)](#qwen-38-27b-strix--800) | 80.0 | B | $0 local | 706m |
+| 26 | [Qwen 3.7 Max](#qwen-37-max--790) | 79.0 | B | $10.63 | 106m |
+| 27 | [GLM 5.2 (zcode)](#glm-52-zcode--770) | 77.0 | B | $— flat | 239m |
+| 28 | [Gemini 3.7 Flash·high](#gemini-37-flashhigh--755) · [MiniMax M3](#minimax-m3--755) | 75.5 | B | — | — |
+| 29 | [Mistral Large 3](#mistral-large-3--390) | 39.0 | C | $5.11 | 76m |
+| 30 | [Gemini 3.1 Pro (OpenRouter)](#gemini-31-pro--325) | 32.5* | C | $10.31 | 54m |
+| 31 | [GLM-4.7-Flash (local)](#glm-47-flash-local) | 24.0 | C | $0 local | 29m |
 
 Plus [Wave 5 — did-not-finish](#wave-5--tier-cd-all-dnf) (6 models) and the non-completing runs below.
 
@@ -79,6 +79,18 @@ sweep). ~$71 / 145 min (claude/Max) — the priciest of the 100-club.
 40/40, but by a different route than Opus 5: it *missed the silent trio at the boundaries* and the vague
 **capstone swept all 8 remaining** — proof the "make it production-ready" prompt is a strong equalizer at
 the top. ~$50 / ~85 min — **best value of the 100-scorers among the Claude models.**
+
+## Claude Opus 5.5 — 100.0 {#claude-opus-55--1000}
+**New flagship (2026-09-22) — a perfect 40/40 unprompted, and the efficiency standout of the 100-club.**
+Full 14-item set; caught **#1–9 at their sprint boundaries and #10–14 at the vague capstone** — nothing
+reached the reveal, so S07 was skipped (score-locked at 100, per the Opus 5 / Fable 5 precedent). Beyond
+merely fixing, it hardened proactively: added its own regression tests (a SQLi-bind test at #4, re-armed
+the session-revocation test at #6, restored the aggregate test at #8) and, at the capstone, layered a
+**Content-Security-Policy and Permissions-Policy** on top of the CORS/secret/XSS/IDOR fixes. It even wrote
+an N+1-guard test in the reports sprint that independently flagged the planted N+1. No scanner-gaming; every
+gem fix a genuine upgrade. **Value: $16.63 / 64 min — the same perfect 100 as Opus 5 (~$71 / 145m) at ~1/4
+the cost/half the time** (1M context; front-loaded auth into S01, needed CLI ≥2.1.280). The sharpest contrast
+to Grok 4.7 (83.5) in the same batch. Ledger: `benchmark-v4/sabotage/ledger_opus_5_5_final.md`.
 
 ## GPT 5.6 sol — 100.0
 40/40 unprompted. $20.37 / 317 min (codex, xHigh reasoning). Same model as terra/luna — the effort tier
