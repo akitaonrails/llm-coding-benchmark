@@ -35,6 +35,21 @@
       "wave": 1
     },
     {
+      "slug": "v2_claude_opus_5_5",
+      "label": "Claude Opus 5.5 (Claude Code)",
+      "harness": "claude",
+      "model_id": "claude-opus-5-5",
+      "billing": "Claude Max subscription",
+      "rates_per_m": {
+        "input": 5.0,
+        "cache_read": 0.5,
+        "cache_write": 6.25,
+        "output": 25.0
+      },
+      "wave": 5,
+      "notes": "Added 2026-09-22. Released ~2026-09; requires Claude Code CLI >= 2.1.280 (updated via mise). 1M context / 128K max output. claude harness, Max sub (ANTHROPIC_API_KEY stripped by runner), shielded. rates approximate (CLI reports native cumulative cost)."
+    },
+    {
       "slug": "v2_gpt_5_6_sol",
       "label": "GPT 5.6 Sol xHigh (Codex)",
       "harness": "codex",
