@@ -1,0 +1,10 @@
+{
+  "slug": "v2_qwen3_8_27b_local",
+  "sprint": "sprint04_reports",
+  "harness": "opencode",
+  "elapsed_seconds": 7404.01,
+  "cost_usd": 0.0,
+  "tokens_total": 11304019,
+  "exit_code": 0,
+  "stall_aborted": false
+}

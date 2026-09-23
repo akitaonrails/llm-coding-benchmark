@@ -1,0 +1,90 @@
+9546829 Initial commit: Ruby on Rails 8 chat app with Hotwire, Tailwind, and RubyLLM integration
+ .gitattributes                                    |   9 +
+ .gitignore                                        |  31 ++
+ .ruby-version                                     |   1 +
+ Dockerfile                                        |  25 ++
+ Gemfile                                           |  34 ++
+ Gemfile.lock                                      | 466 ++++++++++++++++++++++
+ Procfile.dev                                      |   2 +
+ README.md                                         |  62 +++
+ Rakefile                                          |   6 +
+ app/assets/builds/.keep                           |   0
+ app/assets/images/.keep                           |   0
+ app/assets/stylesheets/application.css            |  10 +
+ app/assets/tailwind/application.css               |   1 +
+ app/controllers/application_controller.rb         |   4 +
+ app/controllers/concerns/.keep                    |   0
+ app/controllers/conversations_controller.rb       |  36 ++
+ app/controllers/messages_controller.rb            |  43 ++
+ app/helpers/application_helper.rb                 |   2 +
+ app/helpers/conversations_helper.rb               |   2 +
+ app/helpers/messages_helper.rb                    |   2 +
+ app/javascript/application.js                     |   3 +
+ app/javascript/controllers/application.js         |   9 +
+ app/javascript/controllers/hello_controller.js    |   7 +
+ app/javascript/controllers/index.js               |   4 +
+ app/models/application_record.rb                  |   3 +
+ app/models/concerns/.keep                         |   0
+ app/models/conversation.rb                        |   5 +
+ app/models/message.rb                             |   8 +
+ app/views/conversations/create.html.erb           |   4 +
+ app/views/conversations/index.html.erb            |  20 +
+ app/views/conversations/new.html.erb              |  26 ++
+ app/views/conversations/show.html.erb             |  17 +
+ app/views/layouts/application.html.erb            |  31 ++
+ app/views/messages/_message.html.erb              |  13 +
+ app/views/messages/create.html.erb                |   4 +
+ app/views/messages/create.turbo_stream.erb        |   5 +
+ app/views/pwa/manifest.json.erb                   |  22 +
+ app/views/pwa/service-worker.js                   |  26 ++
+ bin/ci                                            |   6 +
+ bin/dev                                           |  16 +
+ bin/importmap                                     |   4 +
+ bin/rails                                         |   4 +
+ bin/rake                                          |   4 +
+ bin/setup                                         |  35 ++
+ config.ru                                         |   6 +
+ config/application.rb                             |  47 +++
+ config/boot.rb                                    |   3 +
+ config/ci.rb                                      |  13 +
+ config/credentials.yml.enc                        |   1 +
+ config/database.yml                               |  85 ++++
+ config/environment.rb                             |   5 +
+ config/environments/development.rb                |  57 +++
+ config/environments/production.rb                 |  67 ++++
+ config/environments/test.rb                       |  42 ++
+ config/importmap.rb                               |   7 +
+ config/initializers/assets.rb                     |   7 +
+ config/initializers/content_security_policy.rb    |  29 ++
+ config/initializers/filter_parameter_logging.rb   |   8 +
+ config/initializers/inflections.rb                |  16 +
+ config/initializers/llm.rb                        |   6 +
+ config/locales/en.yml                             |  31 ++
+ config/puma.rb                                    |  39 ++
+ config/routes.rb                                  |  10 +
+ db/migrate/20260909094031_create_conversations.rb |  10 +
+ db/migrate/20260909094033_create_messages.rb      |  13 +
+ db/seeds.rb                                       |   9 +
+ docker-compose.yml                                |  31 ++
+ lib/tasks/.keep                                   |   0
+ log/.keep                                         |   0
+ public/400.html                                   | 135 +++++++
+ public/404.html                                   | 135 +++++++
+ public/406-unsupported-browser.html               | 135 +++++++
+ public/422.html                                   | 135 +++++++
+ public/500.html                                   | 135 +++++++
+ public/icon.png                                   | Bin 0 -> 4166 bytes
+ public/icon.svg                                   |   3 +
+ public/robots.txt                                 |   1 +
+ script/.keep                                      |   0
+ test/application_system_test_case.rb              |   6 +
+ test/fixtures/conversations.yml                   |   4 +
+ test/fixtures/messages.yml                        |   6 +
+ test/models/conversation_test.rb                  |  26 ++
+ test/models/message_test.rb                       |  28 ++
+ test/system/conversations_test.rb                 |  30 ++
+ tmp/.keep                                         |   0
+ tmp/pids/.keep                                    |   0
+ vendor/.keep                                      |   0
+ vendor/javascript/.keep                           |   0
+ 88 files changed, 2333 insertions(+)

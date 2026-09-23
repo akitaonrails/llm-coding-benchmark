@@ -1,0 +1,209 @@
+ce25419 Catch URL-safe OpenRouter keys in the committed-credential scan
+ test/integration/docker_deployment_test.rb        |  2 +-
+ test/integration/production_configuration_test.rb | 38 ++++++++++++++++++++++-
+ 2 files changed, 38 insertions(+), 2 deletions(-)
+fa4564c Report messages per user as a lifetime average again
+ app/models/reports/totals.rb       |  6 +++++-
+ test/models/reports/totals_test.rb | 40 ++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 43 insertions(+), 3 deletions(-)
+380773e Aggregate the activity series in one query per metric
+ app/models/reports/activity_series.rb              | 21 +++++++++--------
+ .../admin/dashboards_controller_test.rb            | 26 ++++++++++++++++++++++
+ test/models/reports/activity_series_test.rb        | 26 ++++++++++++++++++++--
+ 3 files changed, 62 insertions(+), 11 deletions(-)
+5f6e49a Enforce browser and edge security controls
+ .env.example                                      | 10 +++++
+ README.md                                         |  8 +++-
+ config/initializers/content_security_policy.rb    | 45 +++++++++--------------
+ docker-compose.yml                                |  8 ++++
+ test/controllers/conversations_controller_test.rb | 14 +++++++
+ test/integration/docker_deployment_test.rb        | 23 ++++++++++++
+ 6 files changed, 79 insertions(+), 29 deletions(-)
+3e5d324 Document the production deployment configuration
+ .env.example | 23 +++++++++++++++++++++++
+ README.md    | 52 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 75 insertions(+)
+42bae5e Harden the compose deployment
+ docker-compose.yml                         |  31 +++++++
+ test/integration/docker_deployment_test.rb | 137 +++++++++++++++++++++++++++++
+ 2 files changed, 168 insertions(+)
+7816181 Enable DNS-rebinding protection from APP_HOST
+ config/environments/production.rb                 |  22 +++--
+ test/integration/production_configuration_test.rb | 100 ++++++++++++++++++++++
+ 2 files changed, 115 insertions(+), 7 deletions(-)
+d75a227 Require explicit CORS origins and patch rack-cors
+ Gemfile                           |  3 +-
+ Gemfile.lock                      |  8 ++--
+ config/initializers/cors.rb       | 36 ++++++++++------
+ lib/deployment.rb                 | 52 +++++++++++++++++++++++
+ test/integration/api/cors_test.rb | 87 +++++++++++++++++++++++++++++++++++++++
+ test/lib/deployment_test.rb       | 69 +++++++++++++++++++++++++++++++
+ 6 files changed, 239 insertions(+), 16 deletions(-)
+b3c918d Insert message text as text, never as markup
+ app/javascript/controllers/conversation_controller.js | 10 ++++++----
+ test/system/api_driven_chat_test.rb                   |  7 +++++++
+ 2 files changed, 13 insertions(+), 4 deletions(-)
+437ef28 Scope API conversation lookups to their owner again
+ app/controllers/api/v1/conversations_controller.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ef32f16 Read the OpenRouter key from the environment again
+ config/initializers/ruby_llm.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+827a19a Set the OpenRouter API key in the initializer
+ config/initializers/ruby_llm.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+5640d7e Add rack-cors for the API's cross-origin support
+ Gemfile      | 2 ++
+ Gemfile.lock | 3 +++
+ 2 files changed, 5 insertions(+)
+75cdaf4 Allow cross-origin browser clients to reach the API
+ config/initializers/cors.rb | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+e7ea3cb Render assistant message formatting as HTML
+ app/javascript/controllers/conversation_controller.js | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+680db87 Look up conversations by id directly
+ app/controllers/api/v1/conversations_controller.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+8dbe709 Harden API request boundary handling
+ app/controllers/api/base_controller.rb             | 17 ++++++++++----
+ app/controllers/api/v1/api_tokens_controller.rb    | 10 ++++++--
+ app/controllers/api/v1/conversations_controller.rb |  6 ++++-
+ app/controllers/concerns/api/authentication.rb     | 22 +++++++++++-------
+ test/integration/api/v1/account_test.rb            |  9 ++++++++
+ test/integration/api/v1/authentication_test.rb     | 10 ++++++++
+ test/integration/api/v1/conversations_test.rb      | 27 ++++++++++++++++++++++
+ 7 files changed, 86 insertions(+), 15 deletions(-)
+4b63d49 Document the JSON API
+ README.md | 98 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 97 insertions(+), 1 deletion(-)
+106d95f Drive the chat transcript from the JSON API
+ app/javascript/api/client.js                       | 106 ++++++++++++++
+ .../controllers/conversation_controller.js         | 137 ++++++++++++++++++
+ app/views/conversations/show.html.erb              |  23 ++-
+ app/views/messages/_form.html.erb                  |  22 ++-
+ config/importmap.rb                                |   3 +
+ test/system/api_driven_chat_test.rb                | 160 +++++++++++++++++++++
+ 6 files changed, 443 insertions(+), 8 deletions(-)
+bf5a471 Expose an explicit, versioned JSON API at /api/v1
+ app/controllers/api/base_controller.rb             | 124 +++++++++
+ app/controllers/api/v1/api_tokens_controller.rb    |  62 +++++
+ app/controllers/api/v1/base_controller.rb          |  24 ++
+ app/controllers/api/v1/conversations_controller.rb |  87 +++++++
+ app/controllers/api/v1/me_controller.rb            |  14 ++
+ app/controllers/api/v1/messages_controller.rb      |  72 ++++++
+ app/controllers/api/v1/models_controller.rb        |  19 ++
+ app/controllers/concerns/api/authentication.rb     | 102 ++++++++
+ app/serializers/api/v1/serializers.rb              |  95 +++++++
+ config/routes.rb                                   |  21 ++
+ test/integration/api/csrf_protection_test.rb       | 123 +++++++++
+ test/integration/api/v1/account_test.rb            | 203 +++++++++++++++
+ test/integration/api/v1/authentication_test.rb     | 208 +++++++++++++++
+ test/integration/api/v1/conversations_test.rb      | 280 +++++++++++++++++++++
+ test/integration/api/v1/messages_test.rb           | 202 +++++++++++++++
+ test/serializers/api/v1/serializers_test.rb        | 106 ++++++++
+ test/test_helper.rb                                |  31 +++
+ 17 files changed, 1773 insertions(+)
+15a2b3d Add revocable, hashed API tokens as an API credential
+ app/models/api_token.rb                        | 102 +++++++++++
+ app/models/current.rb                          |  17 +-
+ app/models/user.rb                             |  10 +-
+ db/migrate/20260912100100_create_api_tokens.rb |  26 +++
+ test/models/api_token_test.rb                  | 227 +++++++++++++++++++++++++
+ 5 files changed, 375 insertions(+), 7 deletions(-)
+e679365 Restore the messages.created_at index the activity series needs
+ ...20260912100000_restore_messages_created_at_index.rb | 14 ++++++++++++++
+ db/schema.rb                                           | 18 +++++++++++++++++-
+ 2 files changed, 31 insertions(+), 1 deletion(-)
+1dde0b7 Restore the activity chart partial the dashboard renders
+ app/views/admin/dashboards/_activity.html.erb | 52 +++++++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
+9394a3a Drop the unused activity chart partial
+ app/views/admin/dashboards/_activity.html.erb | 52 ---------------------------
+ 1 file changed, 52 deletions(-)
+41519ef Average messages per user over the reporting window
+ app/models/reports/totals.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+a00f3d7 Count activity per day and index message volume by role
+ app/models/reports/activity_series.rb              | 12 +++++++++---
+ db/migrate/20260912070000_add_reporting_indexes.rb |  7 +++----
+ db/schema.rb                                       |  1 -
+ 3 files changed, 12 insertions(+), 8 deletions(-)
+cc635de Harden reporting boundary cases
+ app/models/reports/activity_series.rb       |  5 +++--
+ app/models/reports/period.rb                | 13 +++++++++----
+ app/models/reports/totals.rb                | 24 ++++++++++++++----------
+ app/models/reports/user_breakdown.rb        |  2 +-
+ test/models/reports/activity_series_test.rb |  3 ++-
+ test/models/reports/period_test.rb          | 19 ++++++++++++++++---
+ test/models/reports/totals_test.rb          |  3 ++-
+ test/models/reports/user_breakdown_test.rb  | 25 ++++++++++++++++++++++++-
+ 8 files changed, 71 insertions(+), 23 deletions(-)
+6ca9ff5 Document the reporting dashboard and seed sample activity
+ README.md   | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
+ db/seeds.rb | 39 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 88 insertions(+)
+0bb775a Add the admin reporting dashboard
+ app/controllers/admin/dashboards_controller.rb     |  29 ++
+ app/helpers/application_helper.rb                  |  23 ++
+ app/views/admin/dashboards/_activity.html.erb      |  52 ++++
+ app/views/admin/dashboards/_metric.html.erb        |  10 +
+ app/views/admin/dashboards/_pagination.html.erb    |  25 ++
+ app/views/admin/dashboards/_row.html.erb           |  43 +++
+ app/views/admin/dashboards/show.html.erb           | 125 ++++++++
+ app/views/admin/shared/_header.html.erb            |   3 +
+ config/routes.rb                                   |   4 +
+ .../admin/dashboards_controller_test.rb            | 335 +++++++++++++++++++++
+ test/system/admin_reporting_test.rb                | 164 ++++++++++
+ 11 files changed, 813 insertions(+)
+1b16c05 Add the reporting domain objects
+ app/models/reports/activity_series.rb       | 103 +++++++++
+ app/models/reports/dashboard.rb             |  66 ++++++
+ app/models/reports/period.rb                |  93 ++++++++
+ app/models/reports/totals.rb                | 110 ++++++++++
+ app/models/reports/user_breakdown.rb        | 219 +++++++++++++++++++
+ test/models/reports/activity_series_test.rb | 171 +++++++++++++++
+ test/models/reports/dashboard_test.rb       |  82 +++++++
+ test/models/reports/period_test.rb          | 104 +++++++++
+ test/models/reports/totals_test.rb          | 165 +++++++++++++++
+ test/models/reports/user_breakdown_test.rb  | 317 ++++++++++++++++++++++++++++
+ 10 files changed, 1430 insertions(+)
+da0ac6b Index the columns the reports aggregate on
+ db/migrate/20260912070000_add_reporting_indexes.rb | 22 ++++++++++++++
+ db/schema.rb                                       |  6 +++-
+ test/migrations/reporting_indexes_test.rb          | 35 ++++++++++++++++++++++
+ 3 files changed, 62 insertions(+), 1 deletion(-)
+dfa2109 Require the admin role for deactivation again
+ app/controllers/admin/users_controller.rb | 4 ----
+ 1 file changed, 4 deletions(-)
+479fe9e Restore email address downcasing on normalization
+ app/models/user.rb       | 2 +-
+ test/models/user_test.rb | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+a732ad9 Restore the parameterized admin roster search
+ app/models/user.rb | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+7ee0569 Preserve original email casing on normalization
+ app/models/user.rb       | 2 +-
+ test/models/user_test.rb | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+94f2557 Allow account owners to deactivate their own account
+ app/controllers/admin/users_controller.rb | 4 ++++
+ 1 file changed, 4 insertions(+)
+cad58e8 Simplify admin roster search query
+ app/models/user.rb | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+54f51a8 Harden admin roster filters against non-scalar params
+ app/controllers/admin/users_controller.rb       | 24 +++++++++++----
+ test/controllers/admin/users_controller_test.rb | 39 +++++++++++++++++++++++++
+ 2 files changed, 58 insertions(+), 5 deletions(-)
+e91eb46 Eliminate admin action N+1 queries
+ app/controllers/admin/users_controller.rb       | 7 +++++++
+ app/views/admin/users/_actions.html.erb         | 9 +++++----
+ app/views/admin/users/show.html.erb             | 2 +-
+ test/controllers/admin/users_controller_test.rb | 2 +-
+ 4 files changed, 14 insertions(+), 6 deletions(-)
+4409a6a Seed an administrator and document the admin area
+ README.md   | 50 ++++++++++++++++++++++++++++++++++++++++++++++++--
+ db/seeds.rb | 13 +++++++++++++
+ 2 files changed, 61 insertions(+), 2 deletions(-)

@@ -1,0 +1,10 @@
+{
+  "slug": "v2_muse_spark_1_3",
+  "sprint": "sprint01_foundation",
+  "harness": "opencode",
+  "elapsed_seconds": 1400.57,
+  "cost_usd": 2.3939,
+  "tokens_total": 10679532,
+  "exit_code": 0,
+  "stall_aborted": false
+}

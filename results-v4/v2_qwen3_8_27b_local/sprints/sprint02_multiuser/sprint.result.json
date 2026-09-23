@@ -1,0 +1,10 @@
+{
+  "slug": "v2_qwen3_8_27b_local",
+  "sprint": "sprint02_multiuser",
+  "harness": "opencode",
+  "elapsed_seconds": 2304.72,
+  "cost_usd": 0.0,
+  "tokens_total": 6071655,
+  "exit_code": 1,
+  "stall_aborted": false
+}

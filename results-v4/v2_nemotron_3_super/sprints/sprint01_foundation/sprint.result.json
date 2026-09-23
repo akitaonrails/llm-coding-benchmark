@@ -1,0 +1,10 @@
+{
+  "slug": "v2_nemotron_3_super",
+  "sprint": "sprint01_foundation",
+  "harness": "opencode",
+  "elapsed_seconds": 229.45,
+  "cost_usd": 0.0128,
+  "tokens_total": 130725,
+  "exit_code": 1,
+  "stall_aborted": false
+}

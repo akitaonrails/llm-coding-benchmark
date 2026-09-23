@@ -1,0 +1,10 @@
+{
+  "slug": "v2_gpt_5_6_luna",
+  "sprint": "sprint01_foundation",
+  "harness": "codex",
+  "elapsed_seconds": 1235.52,
+  "cost_usd": 1.8338,
+  "tokens_total": 12154041,
+  "exit_code": 0,
+  "stall_aborted": false
+}

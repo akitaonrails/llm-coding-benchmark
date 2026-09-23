@@ -1,0 +1,10 @@
+{
+  "slug": "v2_glm_4_7_flash_local",
+  "sprint": "sprint02_multiuser",
+  "harness": "opencode",
+  "elapsed_seconds": 216.99,
+  "cost_usd": 0.0,
+  "tokens_total": 3328696,
+  "exit_code": 0,
+  "stall_aborted": false
+}

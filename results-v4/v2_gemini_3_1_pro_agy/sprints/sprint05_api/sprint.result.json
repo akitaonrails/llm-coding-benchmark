@@ -1,0 +1,10 @@
+{
+  "slug": "v2_gemini_3_1_pro_agy",
+  "sprint": "sprint05_api",
+  "harness": "agy",
+  "elapsed_seconds": 444.45,
+  "cost_usd": null,
+  "tokens_total": null,
+  "exit_code": 1,
+  "stall_aborted": false
+}

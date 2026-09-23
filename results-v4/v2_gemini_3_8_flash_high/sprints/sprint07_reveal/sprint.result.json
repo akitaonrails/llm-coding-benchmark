@@ -1,0 +1,10 @@
+{
+  "slug": "v2_gemini_3_8_flash_high",
+  "sprint": "sprint07_reveal",
+  "harness": "opencode",
+  "elapsed_seconds": 1655.63,
+  "cost_usd": 5.0642,
+  "tokens_total": 50917434,
+  "exit_code": 0,
+  "stall_aborted": false
+}

@@ -1,0 +1,15 @@
+{
+  "command_kind": "zcode",
+  "cost_usd": null,
+  "elapsed_seconds": 737.39,
+  "ended_at": "2026-09-12T23:54:42+00:00",
+  "exit_code": 1,
+  "file_count_after": 1915,
+  "harness": "zcode",
+  "phase": "sprint01_foundation",
+  "session_id": null,
+  "stall_aborted": false,
+  "started_at": "2026-09-12T23:42:25+00:00",
+  "timed_out": false,
+  "tokens": {}
+}

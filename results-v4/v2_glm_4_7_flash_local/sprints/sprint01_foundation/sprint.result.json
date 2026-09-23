@@ -1,0 +1,10 @@
+{
+  "slug": "v2_glm_4_7_flash_local",
+  "sprint": "sprint01_foundation",
+  "harness": "opencode",
+  "elapsed_seconds": 457.05,
+  "cost_usd": 0.0,
+  "tokens_total": 7761437,
+  "exit_code": 1,
+  "stall_aborted": false
+}

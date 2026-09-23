@@ -1,0 +1,254 @@
+8dbe709 Harden API request boundary handling
+ app/controllers/api/base_controller.rb             | 17 ++++++++++----
+ app/controllers/api/v1/api_tokens_controller.rb    | 10 ++++++--
+ app/controllers/api/v1/conversations_controller.rb |  6 ++++-
+ app/controllers/concerns/api/authentication.rb     | 22 +++++++++++-------
+ test/integration/api/v1/account_test.rb            |  9 ++++++++
+ test/integration/api/v1/authentication_test.rb     | 10 ++++++++
+ test/integration/api/v1/conversations_test.rb      | 27 ++++++++++++++++++++++
+ 7 files changed, 86 insertions(+), 15 deletions(-)
+4b63d49 Document the JSON API
+ README.md | 98 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 97 insertions(+), 1 deletion(-)
+106d95f Drive the chat transcript from the JSON API
+ app/javascript/api/client.js                       | 106 ++++++++++++++
+ .../controllers/conversation_controller.js         | 137 ++++++++++++++++++
+ app/views/conversations/show.html.erb              |  23 ++-
+ app/views/messages/_form.html.erb                  |  22 ++-
+ config/importmap.rb                                |   3 +
+ test/system/api_driven_chat_test.rb                | 160 +++++++++++++++++++++
+ 6 files changed, 443 insertions(+), 8 deletions(-)
+bf5a471 Expose an explicit, versioned JSON API at /api/v1
+ app/controllers/api/base_controller.rb             | 124 +++++++++
+ app/controllers/api/v1/api_tokens_controller.rb    |  62 +++++
+ app/controllers/api/v1/base_controller.rb          |  24 ++
+ app/controllers/api/v1/conversations_controller.rb |  87 +++++++
+ app/controllers/api/v1/me_controller.rb            |  14 ++
+ app/controllers/api/v1/messages_controller.rb      |  72 ++++++
+ app/controllers/api/v1/models_controller.rb        |  19 ++
+ app/controllers/concerns/api/authentication.rb     | 102 ++++++++
+ app/serializers/api/v1/serializers.rb              |  95 +++++++
+ config/routes.rb                                   |  21 ++
+ test/integration/api/csrf_protection_test.rb       | 123 +++++++++
+ test/integration/api/v1/account_test.rb            | 203 +++++++++++++++
+ test/integration/api/v1/authentication_test.rb     | 208 +++++++++++++++
+ test/integration/api/v1/conversations_test.rb      | 280 +++++++++++++++++++++
+ test/integration/api/v1/messages_test.rb           | 202 +++++++++++++++
+ test/serializers/api/v1/serializers_test.rb        | 106 ++++++++
+ test/test_helper.rb                                |  31 +++
+ 17 files changed, 1773 insertions(+)
+15a2b3d Add revocable, hashed API tokens as an API credential
+ app/models/api_token.rb                        | 102 +++++++++++
+ app/models/current.rb                          |  17 +-
+ app/models/user.rb                             |  10 +-
+ db/migrate/20260912100100_create_api_tokens.rb |  26 +++
+ test/models/api_token_test.rb                  | 227 +++++++++++++++++++++++++
+ 5 files changed, 375 insertions(+), 7 deletions(-)
+e679365 Restore the messages.created_at index the activity series needs
+ ...20260912100000_restore_messages_created_at_index.rb | 14 ++++++++++++++
+ db/schema.rb                                           | 18 +++++++++++++++++-
+ 2 files changed, 31 insertions(+), 1 deletion(-)
+1dde0b7 Restore the activity chart partial the dashboard renders
+ app/views/admin/dashboards/_activity.html.erb | 52 +++++++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
+9394a3a Drop the unused activity chart partial
+ app/views/admin/dashboards/_activity.html.erb | 52 ---------------------------
+ 1 file changed, 52 deletions(-)
+41519ef Average messages per user over the reporting window
+ app/models/reports/totals.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+a00f3d7 Count activity per day and index message volume by role
+ app/models/reports/activity_series.rb              | 12 +++++++++---
+ db/migrate/20260912070000_add_reporting_indexes.rb |  7 +++----
+ db/schema.rb                                       |  1 -
+ 3 files changed, 12 insertions(+), 8 deletions(-)
+cc635de Harden reporting boundary cases
+ app/models/reports/activity_series.rb       |  5 +++--
+ app/models/reports/period.rb                | 13 +++++++++----
+ app/models/reports/totals.rb                | 24 ++++++++++++++----------
+ app/models/reports/user_breakdown.rb        |  2 +-
+ test/models/reports/activity_series_test.rb |  3 ++-
+ test/models/reports/period_test.rb          | 19 ++++++++++++++++---
+ test/models/reports/totals_test.rb          |  3 ++-
+ test/models/reports/user_breakdown_test.rb  | 25 ++++++++++++++++++++++++-
+ 8 files changed, 71 insertions(+), 23 deletions(-)
+6ca9ff5 Document the reporting dashboard and seed sample activity
+ README.md   | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
+ db/seeds.rb | 39 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 88 insertions(+)
+0bb775a Add the admin reporting dashboard
+ app/controllers/admin/dashboards_controller.rb     |  29 ++
+ app/helpers/application_helper.rb                  |  23 ++
+ app/views/admin/dashboards/_activity.html.erb      |  52 ++++
+ app/views/admin/dashboards/_metric.html.erb        |  10 +
+ app/views/admin/dashboards/_pagination.html.erb    |  25 ++
+ app/views/admin/dashboards/_row.html.erb           |  43 +++
+ app/views/admin/dashboards/show.html.erb           | 125 ++++++++
+ app/views/admin/shared/_header.html.erb            |   3 +
+ config/routes.rb                                   |   4 +
+ .../admin/dashboards_controller_test.rb            | 335 +++++++++++++++++++++
+ test/system/admin_reporting_test.rb                | 164 ++++++++++
+ 11 files changed, 813 insertions(+)
+1b16c05 Add the reporting domain objects
+ app/models/reports/activity_series.rb       | 103 +++++++++
+ app/models/reports/dashboard.rb             |  66 ++++++
+ app/models/reports/period.rb                |  93 ++++++++
+ app/models/reports/totals.rb                | 110 ++++++++++
+ app/models/reports/user_breakdown.rb        | 219 +++++++++++++++++++
+ test/models/reports/activity_series_test.rb | 171 +++++++++++++++
+ test/models/reports/dashboard_test.rb       |  82 +++++++
+ test/models/reports/period_test.rb          | 104 +++++++++
+ test/models/reports/totals_test.rb          | 165 +++++++++++++++
+ test/models/reports/user_breakdown_test.rb  | 317 ++++++++++++++++++++++++++++
+ 10 files changed, 1430 insertions(+)
+da0ac6b Index the columns the reports aggregate on
+ db/migrate/20260912070000_add_reporting_indexes.rb | 22 ++++++++++++++
+ db/schema.rb                                       |  6 +++-
+ test/migrations/reporting_indexes_test.rb          | 35 ++++++++++++++++++++++
+ 3 files changed, 62 insertions(+), 1 deletion(-)
+dfa2109 Require the admin role for deactivation again
+ app/controllers/admin/users_controller.rb | 4 ----
+ 1 file changed, 4 deletions(-)
+479fe9e Restore email address downcasing on normalization
+ app/models/user.rb       | 2 +-
+ test/models/user_test.rb | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+a732ad9 Restore the parameterized admin roster search
+ app/models/user.rb | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+7ee0569 Preserve original email casing on normalization
+ app/models/user.rb       | 2 +-
+ test/models/user_test.rb | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+94f2557 Allow account owners to deactivate their own account
+ app/controllers/admin/users_controller.rb | 4 ++++
+ 1 file changed, 4 insertions(+)
+cad58e8 Simplify admin roster search query
+ app/models/user.rb | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+54f51a8 Harden admin roster filters against non-scalar params
+ app/controllers/admin/users_controller.rb       | 24 +++++++++++----
+ test/controllers/admin/users_controller_test.rb | 39 +++++++++++++++++++++++++
+ 2 files changed, 58 insertions(+), 5 deletions(-)
+e91eb46 Eliminate admin action N+1 queries
+ app/controllers/admin/users_controller.rb       | 7 +++++++
+ app/views/admin/users/_actions.html.erb         | 9 +++++----
+ app/views/admin/users/show.html.erb             | 2 +-
+ test/controllers/admin/users_controller_test.rb | 2 +-
+ 4 files changed, 14 insertions(+), 6 deletions(-)
+4409a6a Seed an administrator and document the admin area
+ README.md   | 50 ++++++++++++++++++++++++++++++++++++++++++++++++--
+ db/seeds.rb | 13 +++++++++++++
+ 2 files changed, 61 insertions(+), 2 deletions(-)
+382079a Test the admin role, user management, and deactivation
+ test/controllers/admin/users_controller_test.rb | 490 ++++++++++++++++++++++++
+ test/fixtures/users.yml                         |  18 +
+ test/integration/deactivated_access_test.rb     |  98 +++++
+ test/models/user_admin_test.rb                  | 282 ++++++++++++++
+ test/system/admin_user_management_test.rb       | 210 ++++++++++
+ 5 files changed, 1098 insertions(+)
+4ca90e6 Add the admin-only user management area
+ app/controllers/admin/base_controller.rb     | 22 +++++++
+ app/controllers/admin/users_controller.rb    | 91 ++++++++++++++++++++++++++++
+ app/helpers/application_helper.rb            | 14 +++++
+ app/views/admin/shared/_header.html.erb      | 19 ++++++
+ app/views/admin/users/_actions.html.erb      | 33 ++++++++++
+ app/views/admin/users/_pagination.html.erb   | 24 ++++++++
+ app/views/admin/users/_role_badge.html.erb   |  4 ++
+ app/views/admin/users/_status_badge.html.erb |  4 ++
+ app/views/admin/users/_user.html.erb         | 31 ++++++++++
+ app/views/admin/users/index.html.erb         | 65 ++++++++++++++++++++
+ app/views/admin/users/show.html.erb          | 80 ++++++++++++++++++++++++
+ app/views/conversations/_sidebar.html.erb    |  7 +++
+ config/routes.rb                             | 15 +++++
+ 13 files changed, 409 insertions(+)
+bc37c2c Refuse authentication for deactivated accounts
+ app/controllers/concerns/authentication.rb | 18 ++++++++++++++----
+ app/controllers/sessions_controller.rb     | 11 +++++++++--
+ 2 files changed, 23 insertions(+), 6 deletions(-)
+ed24c0d Add admin and active flags to users
+ app/models/user.rb                                 | 113 +++++++++++++++++++++
+ ...20260912060000_add_admin_and_active_to_users.rb |  15 +++
+ db/schema.rb                                       |   6 +-
+ 3 files changed, 133 insertions(+), 1 deletion(-)
+078d12b Restore the submit button on the sign-in form
+ app/views/sessions/new.html.erb | 3 +++
+ 1 file changed, 3 insertions(+)
+4e745cc Restore ownership scoping on conversation lookup
+ app/controllers/conversations_controller.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+25a1eee Unpin Nokogiri to restore a bootable bundle
+ Gemfile      |  3 ---
+ Gemfile.lock | 33 ++++++++++++++++-----------------
+ 2 files changed, 16 insertions(+), 20 deletions(-)
+e847d94 Pin Nokogiri for cross-platform stability
+ Gemfile      |  3 +++
+ Gemfile.lock | 33 +++++++++++++++++----------------
+ 2 files changed, 20 insertions(+), 16 deletions(-)
+696d07d Streamline the sign-in card
+ app/views/sessions/new.html.erb | 3 ---
+ 1 file changed, 3 deletions(-)
+0b234b4 Simplify conversation lookup
+ app/controllers/conversations_controller.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+0905de0 Make signup conflicts index-backed and fail gracefully
+ app/controllers/registrations_controller.rb       | 12 +++++-
+ app/models/user.rb                                |  6 ++-
+ test/controllers/registrations_controller_test.rb | 52 +++++++++++++++++++++++
+ test/models/user_test.rb                          | 24 +++++++++++
+ 4 files changed, 92 insertions(+), 2 deletions(-)
+56d7e7e Preserve legacy chats during account migration
+ README.md                                          |  10 +-
+ app/controllers/concerns/authentication.rb         |  12 +--
+ app/controllers/conversations_controller.rb        |   1 -
+ app/controllers/sessions_controller.rb             |   1 -
+ .../20260912041302_add_user_to_conversations.rb    |  39 ++++----
+ test/controllers/sessions_controller_test.rb       |  12 +++
+ .../add_user_to_conversations_migration_test.rb    | 104 +++++++++++++++++++++
+ 7 files changed, 143 insertions(+), 36 deletions(-)
+bc22754 Document authentication and the destructive ownership migration
+ README.md | 55 +++++++++++++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 49 insertions(+), 6 deletions(-)
+d924b17 Test authentication and cross-account isolation
+ test/application_system_test_case.rb              |  22 +++
+ test/controllers/conversations_controller_test.rb |  16 ++-
+ test/controllers/messages_controller_test.rb      |   1 +
+ test/controllers/registrations_controller_test.rb | 162 +++++++++++++++++++++
+ test/controllers/sessions_controller_test.rb      | 167 ++++++++++++++++++++++
+ test/fixtures/conversations.yml                   |   6 +-
+ test/fixtures/users.yml                           |  12 ++
+ test/integration/conversation_ownership_test.rb   | 151 +++++++++++++++++++
+ test/models/conversation_test.rb                  |  17 ++-
+ test/models/session_test.rb                       |  22 +++
+ test/models/user_test.rb                          | 132 +++++++++++++++++
+ test/system/authentication_flow_test.rb           | 123 ++++++++++++++++
+ test/system/chat_flow_test.rb                     |   4 +
+ test/system/multi_user_chat_test.rb               |  60 ++++++++
+ test/test_helper.rb                               |  18 ++-
+ 15 files changed, 897 insertions(+), 16 deletions(-)
+e3c308a Add sign-in, sign-up, and sign-out to the UI
+ app/views/conversations/_sidebar.html.erb | 12 +++++++++-
+ app/views/conversations/index.html.erb    |  2 +-
+ app/views/registrations/new.html.erb      | 40 +++++++++++++++++++++++++++++++
+ app/views/sessions/new.html.erb           | 31 ++++++++++++++++++++++++
+ app/views/shared/_auth_card.html.erb      | 12 ++++++++++
+ 5 files changed, 95 insertions(+), 2 deletions(-)
+6d06ea7 Add user accounts and scope conversations to their owner
+ Gemfile                                            |  2 +-
+ Gemfile.lock                                       |  3 +
+ app/controllers/application_controller.rb          | 14 ++--
+ app/controllers/concerns/authentication.rb         | 88 ++++++++++++++++++++++
+ app/controllers/conversations_controller.rb        |  5 +-
+ app/controllers/registrations_controller.rb        | 35 +++++++++
+ app/controllers/sessions_controller.rb             | 41 ++++++++++
+ app/models/conversation.rb                         | 12 +--
+ app/models/current.rb                              |  7 ++
+ app/models/session.rb                              |  6 ++
+ app/models/user.rb                                 | 19 +++++
+ config/routes.rb                                   |  5 ++
+ db/migrate/20260912041300_create_users.rb          | 12 +++
+ db/migrate/20260912041301_create_sessions.rb       | 11 +++
+ .../20260912041302_add_user_to_conversations.rb    | 41 ++++++++++
+ db/schema.rb                                       | 27 ++++++-
+ db/seeds.rb                                        | 19 +++--
+ 17 files changed, 319 insertions(+), 28 deletions(-)

@@ -1,0 +1,10 @@
+{
+  "slug": "v2_mistral_large_3",
+  "sprint": "sprint02_multiuser",
+  "harness": "opencode",
+  "elapsed_seconds": 256.06,
+  "cost_usd": 0.1975,
+  "tokens_total": 1895785,
+  "exit_code": 0,
+  "stall_aborted": false
+}

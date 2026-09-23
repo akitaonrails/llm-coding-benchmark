@@ -1,0 +1,1 @@
+PERSISTENT PROVIDER ERROR: OpenRouter qwen3.8-max UnknownError 'Unexpected server error' — 2 attempts, 0 tokens both. Infra/provider, NOT model capability. Excluded pending a working provider (try dashscope or later).

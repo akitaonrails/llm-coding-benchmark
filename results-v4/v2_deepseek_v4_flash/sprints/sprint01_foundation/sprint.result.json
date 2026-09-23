@@ -1,0 +1,10 @@
+{
+  "slug": "v2_deepseek_v4_flash",
+  "sprint": "sprint01_foundation",
+  "harness": "opencode",
+  "elapsed_seconds": 2622.52,
+  "cost_usd": 0.4321,
+  "tokens_total": 19103882,
+  "exit_code": 0,
+  "stall_aborted": false
+}
