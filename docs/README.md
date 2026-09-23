@@ -6,7 +6,7 @@ for the full story, or jump to a specific model's analysis.
 
 > **v4 "The Sprint" is the current, preferred test suite** (v2/v3 are kept for the narrative arc — see
 > below). If you just want results, jump to **[v4 results — start here](#v4-results--start-here)**:
-> the [master ranking](success_report.v4.combined.md) (41 scored models) and the
+> the [master ranking](success_report.v4.combined.md) (42 scored models) and the
 > [per-model profiles](success_report.v4.per_model.md).
 
 ## The evolution (v2 → v3 → v4) — the narrative arc for a write-up
@@ -33,7 +33,7 @@ for the full story, or jump to a specific model's analysis.
    production-ready"* capstone, then an explicit *"find and fix everything"* reveal. Scored on a
    **three-tier vigilance score** (caught unprompted ×1.0 / only-after-reveal ×0.4 / never ×0). This
    **does** rank the frontier — on a realistic, security-relevant axis (catching a colleague's tampering)
-   — where v2/v3 could not. **Real spread: 24 → 100 across 41 scored models** (cloud, local, and native
+   — where v2/v3 could not. **Real spread: 24 → 100 across 42 scored models** (cloud, local, and native
    harnesses).
 
 ## v4 results — start here

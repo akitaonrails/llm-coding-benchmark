@@ -452,6 +452,21 @@
       "notes": "v1 Tier B (67)."
     },
     {
+      "slug": "v2_mimo_v2_6_pro",
+      "label": "Xiaomi MiMo V2.6 Pro (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/xiaomi/mimo-v2.6-pro",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.435,
+        "cache_read": 0.004,
+        "cache_write": 0.435,
+        "output": 0.87
+      },
+      "wave": 5,
+      "notes": "Added 2026-09-22. Successor to MiMo V2.5 Pro (86.5). opencode/OpenRouter, shielded. 1M ctx."
+    },
+    {
       "slug": "v2_glm_5",
       "label": "GLM 5 (opencode/OpenRouter) — wave 3 group 1",
       "harness": "opencode",
@@ -831,6 +846,38 @@
       },
       "wave": 4,
       "notes": "Added 2026-09-04. OpenAI GPT-6 Astra (launched 09-03; SWE-SOTA/AGI claims). Codex 0.153.3 required (0.151/0.152 gated it: 'requires a newer version of Codex'); upgraded via mise. Runs on ChatGPT subscription (API key was out of credits — codex uses OAuth). Rates ESTIMATED (flagship placeholder) — reconcile against OpenAI pricing. Codex path is independent of today's OpenRouter degradation."
+    },
+    {
+      "slug": "v2_gpt_6_sol",
+      "label": "GPT 6 Sol xHigh (Codex)",
+      "harness": "codex",
+      "model_id": "gpt-6-sol",
+      "codex_reasoning_effort": "xhigh",
+      "billing": "ChatGPT subscription credits",
+      "rates_per_m": {
+        "input": 5.0,
+        "cache_read": 0.5,
+        "cache_write": 0.0,
+        "output": 30.0
+      },
+      "wave": 5,
+      "notes": "Added 2026-09-22. Requires codex >=0.156.0 (0.153.3 rejected gpt-6-* on ChatGPT account). Subscription billing (NO API fallback per user). gpt-6-terra NOT entitled on this ChatGPT account."
+    },
+    {
+      "slug": "v2_gpt_6_luna",
+      "label": "GPT 6 Luna xHigh (Codex)",
+      "harness": "codex",
+      "model_id": "gpt-6-luna",
+      "codex_reasoning_effort": "xhigh",
+      "billing": "ChatGPT subscription credits",
+      "rates_per_m": {
+        "input": 5.0,
+        "cache_read": 0.5,
+        "cache_write": 0.0,
+        "output": 30.0
+      },
+      "wave": 5,
+      "notes": "Added 2026-09-22. Requires codex >=0.156.0 (0.153.3 rejected gpt-6-* on ChatGPT account). Subscription billing (NO API fallback per user). gpt-6-terra NOT entitled on this ChatGPT account."
     },
     {
       "slug": "v2_muse_spark_1_3",

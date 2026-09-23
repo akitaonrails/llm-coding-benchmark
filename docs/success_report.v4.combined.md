@@ -1,4 +1,4 @@
-# v4 "The Sprint" — FINAL Combined ranking (41 scored models, 2026-09-22)
+# v4 "The Sprint" — FINAL Combined ranking (42 scored models, 2026-09-22)
 
 Three-tier severity-weighted vigilance score (denominator 40 → /100; UNPROMPTED incl. the production
 capstone ×1.0, caught-only-after-explicit-reveal ×0.4, never-fixed ×0). Sources: docs/success_report.v4.md,
@@ -8,7 +8,7 @@ Nex N2.5 Pro, GLM 5.x via zcode). Per-model detail:
 docs/success_report.v4.per_model.md. **This ranking incorporates the 2026-09-12 integrity audit
 corrections** (see "Integrity / corrections" below).
 
-## COMBINED STANDINGS (41 scored models)
+## COMBINED STANDINGS (42 scored models)
 | Rank | Model | Score | Tier | Never-fixed (×0) | Cost | Wall | Harness |
 |-----:|-------|:-----:|:----:|------------------|:----:|:----:|:-------:|
 | 1 | GPT-6 Astra | 100.0 | A | — | $30.55 | 100m | codex |
@@ -25,33 +25,34 @@ corrections** (see "Integrity / corrections" below).
 | 12 | Nex N2.5 Pro ᴺ | 94.0 * | A | — (on-disk) | **$0 free** | 480m | opencode |
 | 12 | GLM 5.3 (zcode) ᴺ | 94.0 | A | — | $— flat-plan | 215m | zcode |
 | 14 | DeepSeek V4.1 Flash ᴺ | 92.5 | A | — | **$1.21** | 172m | opencode |
-| 15 | Claude Sonnet 5 | 91.0 | A | — | ~$27 | 112m | claude |
-| 16 | Gemini 3.8 Flash·high (OpenRouter) | 90.5 | A | #12 CORS (2) | $15.98 | 97m | opencode |
-| 17 | Gemini 3.8 Flash (Antigravity) ᴺ | 89.5 | A | — | $0 (OAuth) | 120m | agy |
-| 18 | Muse Spark 1.3 | 88.75 | A | — | $13.31 | 150m | opencode |
-| 19 | Grok 4.5 | 88.0 | A | #7b idx, #12 CORS (3) | $6.19 | 48m | opencode |
-| 20 | Claude Opus 4.6 | 87.5 | A | #8 aggregate (2) | $25.64 | 89m | claude |
-| 21 | Kimi K2.7 | 87.25 | A | — | $7.75 | 175m | kimi |
-| 22 | MiMo V2.5 Pro | 86.5 | A | — | **$1.03** | 158m | opencode |
-| 22 | Qwen3 8 Flash ᴿ | 86.5 | A | — | **$1.17** | 149m | opencode |
-| 24 | DeepSeek V4 Flash | 86.0 | A | #6, #8 (5) | **$0.97** | 111m | opencode |
-| 24 | Claude Opus 4.8 ᴿ | 86.0 | A | #8 aggregate (2) | ~$37 | 87m | claude |
-| 26 | Claude Sonnet 4.6 | 85.75 | A | #6-test (1.5) | $18.64 | 91m | claude |
-| 27 | Kimi K3 | 85.0 | A | — | $13.79 | 148m | kimi |
-| 27 | DeepSeek V4 Flash 0731 | 85.0 | A | #2, #6 (6) | $1.94 | 194m | opencode |
-| 29 | GLM 5.3 Flash (zcode) ᴺ | 84.25 | A | — | $— flat-plan | 296m | zcode |
-| 30 | DeepSeek V4 Pro 0813 | 84.0 | A | #8,#9 (4) | $4.49 | 152m | opencode |
-| 31 | Step 3.7 Flash | 83.75 | A | #6-test,#8,#11 (6.5) | $4.15 | 118m | opencode |
-| 32 | Grok 4.7 ᴺ | 83.5 | A | — | $27.94 | 120m | opencode |
-| 33 | DeepSeek V4 Pro (base) ᶜ | 82.0 | B | — | $5.26 | 97m | opencode |
-| 34 | Qwen 3.8 27B (strix, local) ᴺ | 80.0 | B | #2,#7b,#8,#12 (8) | **$0 local** | 706m | opencode |
-| 35 | Qwen 3.7 Max | 79.0 | B | #6,#7idx,#8 (6) | $10.63 | 106m | opencode |
-| 36 | GLM 5.2 (zcode) ᴺ ᶜ | 77.0 | B | #12 CORS (2) | $— flat-plan | 239m | zcode |
-| 37 | Gemini 3.7 Flash·high | 75.5 | B | #12 CORS (2) | $12.93 | 85m | opencode |
-| 37 | MiniMax M3 | 75.5 | B | #6-test,#8 (3.5) | $12.17 | 187m | opencode |
-| 39 | Mistral Large 3 | 39.0 | C | 7 items (19) | $5.11 | 76m | opencode |
-| 40 | Gemini 3.1 Pro (OpenRouter) ᶜ | 32.5 * | C | 9 items (27) | $10.31 | 54m | opencode |
-| 41 | GLM-4.7-Flash (local) ᴺ | 24.0 | C | 6 items (16) | **$0 local** | 29m | opencode |
+| 15 | Xiaomi MiMo V2.6 Pro ᴺ | 92.0 | A | #12 CORS (2) | **$1.22** | 308m | opencode |
+| 16 | Claude Sonnet 5 | 91.0 | A | — | ~$27 | 112m | claude |
+| 17 | Gemini 3.8 Flash·high (OpenRouter) | 90.5 | A | #12 CORS (2) | $15.98 | 97m | opencode |
+| 18 | Gemini 3.8 Flash (Antigravity) ᴺ | 89.5 | A | — | $0 (OAuth) | 120m | agy |
+| 19 | Muse Spark 1.3 | 88.75 | A | — | $13.31 | 150m | opencode |
+| 20 | Grok 4.5 | 88.0 | A | #7b idx, #12 CORS (3) | $6.19 | 48m | opencode |
+| 21 | Claude Opus 4.6 | 87.5 | A | #8 aggregate (2) | $25.64 | 89m | claude |
+| 22 | Kimi K2.7 | 87.25 | A | — | $7.75 | 175m | kimi |
+| 23 | MiMo V2.5 Pro | 86.5 | A | — | **$1.03** | 158m | opencode |
+| 23 | Qwen3 8 Flash ᴿ | 86.5 | A | — | **$1.17** | 149m | opencode |
+| 25 | DeepSeek V4 Flash | 86.0 | A | #6, #8 (5) | **$0.97** | 111m | opencode |
+| 25 | Claude Opus 4.8 ᴿ | 86.0 | A | #8 aggregate (2) | ~$37 | 87m | claude |
+| 27 | Claude Sonnet 4.6 | 85.75 | A | #6-test (1.5) | $18.64 | 91m | claude |
+| 28 | Kimi K3 | 85.0 | A | — | $13.79 | 148m | kimi |
+| 28 | DeepSeek V4 Flash 0731 | 85.0 | A | #2, #6 (6) | $1.94 | 194m | opencode |
+| 30 | GLM 5.3 Flash (zcode) ᴺ | 84.25 | A | — | $— flat-plan | 296m | zcode |
+| 31 | DeepSeek V4 Pro 0813 | 84.0 | A | #8,#9 (4) | $4.49 | 152m | opencode |
+| 32 | Step 3.7 Flash | 83.75 | A | #6-test,#8,#11 (6.5) | $4.15 | 118m | opencode |
+| 33 | Grok 4.7 ᴺ | 83.5 | A | — | $27.94 | 120m | opencode |
+| 34 | DeepSeek V4 Pro (base) ᶜ | 82.0 | B | — | $5.26 | 97m | opencode |
+| 35 | Qwen 3.8 27B (strix, local) ᴺ | 80.0 | B | #2,#7b,#8,#12 (8) | **$0 local** | 706m | opencode |
+| 36 | Qwen 3.7 Max | 79.0 | B | #6,#7idx,#8 (6) | $10.63 | 106m | opencode |
+| 37 | GLM 5.2 (zcode) ᴺ ᶜ | 77.0 | B | #12 CORS (2) | $— flat-plan | 239m | zcode |
+| 38 | Gemini 3.7 Flash·high | 75.5 | B | #12 CORS (2) | $12.93 | 85m | opencode |
+| 38 | MiniMax M3 | 75.5 | B | #6-test,#8 (3.5) | $12.17 | 187m | opencode |
+| 40 | Mistral Large 3 | 39.0 | C | 7 items (19) | $5.11 | 76m | opencode |
+| 41 | Gemini 3.1 Pro (OpenRouter) ᶜ | 32.5 * | C | 9 items (27) | $10.31 | 54m | opencode |
+| 42 | GLM-4.7-Flash (local) ᴺ | 24.0 | C | 6 items (16) | **$0 local** | 29m | opencode |
 
 ᴺ = added this session. ᶜ = score changed by the 2026-09-12 audit (see below). ᴿ = clean re-run 2026-09-15
 after an infra-truncated first run (see below). ᵉ = estimated (Fable 5's
@@ -123,7 +124,7 @@ Compare cost within-harness.
   session-revocation) and layered CSP + Permissions-Policy at the capstone. **$16.63 / 64m vs Opus 5's
   ~$71 / 145m for the same 100** (1M context; front-loaded auth into S01). The sharpest contrast to Grok 4.7
   (83.5) in the same batch: perfect-on-disguised vs weak-on-disguised.
-- **Real spread 24 → 100 across 41 models.** v4 differentiates hard where v2/v3 saturated (~100 all).
+- **Real spread 24 → 100 across 42 models.** v4 differentiates hard where v2/v3 saturated (~100 all).
 - **Grok 4.7 (83.5) lands ~15 pts BELOW Grok 4.6 (98.5)** — added 2026-09-21, same 14-item set, clean run.
   It caught every LOUD class unprompted (both Criticals, API IDOR, hardcoded key, CORS, gem pins) but
   deferred ALL FOUR disguised items — deactivate authz-skip, defang-and-plant, silent aggregate, and stored

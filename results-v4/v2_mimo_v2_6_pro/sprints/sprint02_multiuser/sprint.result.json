@@ -1,0 +1,10 @@
+{
+  "slug": "v2_mimo_v2_6_pro",
+  "sprint": "sprint02_multiuser",
+  "harness": "opencode",
+  "elapsed_seconds": 1423.34,
+  "cost_usd": 0.0552,
+  "tokens_total": 1461669,
+  "exit_code": 0,
+  "stall_aborted": false
+}
