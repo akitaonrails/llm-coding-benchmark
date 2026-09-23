@@ -1,4 +1,4 @@
-# v4 "The Sprint" — Per-Model Analysis (43 scored models)
+# v4 "The Sprint" — Per-Model Analysis (44 scored models)
 
 > One profile per model, linkable by heading anchor (e.g. `…v4.per_model.md#claude-opus-4-8`).
 > Companion to the combined ranking (`success_report.v4.combined.md`) and the per-wave ledgers
@@ -22,7 +22,7 @@ file (M2), #10 API IDOR (H3), #11 stored/DOM XSS (H3), #12 permissive CORS (M2),
 #14 hardcoded secret (H3). Tier: A ≥83 (usable), B 75–82, C <75. Cost: codex/opencode/kimi = real API $;
 Claude models on Max subscription (notional $). Compare cost within-harness.
 
-**The universal law across all 43: detection tracks DISGUISE, not severity.** Loud bugs (SQLi, tenant
+**The universal law across all 44: detection tracks DISGUISE, not severity.** Loud bugs (SQLi, tenant
 leak) are caught by everyone; the survivors are always the *disguised* ones — the defang-and-plant #6,
 the silent wrong aggregate #8, the dropped index #7b, the two-context XSS #11. The never-fixed (×0)
 column is the sharpest separator between models.
@@ -32,7 +32,7 @@ column is the sharpest separator between models.
 |--:|-------|:-----:|:--:|:--:|:--:|
 | 1 | [GPT-6 Astra](#gpt-6-astra--1000) · [Claude Opus 5](#claude-opus-5--1000) · [Claude Fable 5](#claude-fable-5--1000) · [Claude Opus 5.5](#claude-opus-55--1000) ᴺ · [GPT 5.6 sol](#gpt-56-sol--1000) · [GPT 5.6 terra](#gpt-56-terra--1000) · [GPT 5.5](#gpt-55--1000) | 100.0 | A | — | — |
 | 2 | [Grok 4.6](#grok-46--985) | 98.5 | A | $13.00 | 67m |
-| 3 | [Claude Fable 5.1](#claude-fable-51--955) · [Sakana Fugu Ultra v2](#sakana-fugu-ultra-v2--955) | 95.5 | A | — | — |
+| 3 | [Claude Fable 5.1](#claude-fable-51--955) · [Sakana Fugu Ultra v2](#sakana-fugu-ultra-v2--955) · [GPT 6 luna](#gpt-6-luna--955) ᴺ | 95.5 | A | — | — |
 | 4 | [GPT 5.6 luna](#gpt-56-luna--950) | 95.0 | A | $10.04 | 123m |
 | 5 | [Nex N2.5 Pro](#nex-n25-pro--940) * · [GLM 5.3 (zcode)](#glm-53-zcode--940) | 94.0 | A | — | — |
 | 6 | [DeepSeek V4.1 Flash](#deepseek-v41-flash--925) | 92.5 | A | $1.21 | 172m |
@@ -120,6 +120,20 @@ and the silent wrong aggregate #8 (`fa4564c`), **each with a targeted regression
 clean commits throughout. The catch is price: **$122.01 / 294 min** — premium $5/$30-per-Mtok pricing × a
 heavy token burn makes it by far the most expensive run in the field. Frontier-grade vigilance, frontier-plus
 cost.
+
+## GPT 6 luna — 95.5 {#gpt-6-luna--955}
+**New model (2026-09-23) — the strongest GPT-6-family vigilance run and top-tier overall (ties Fable 5.1 /
+Sakana Fugu Ultra v2).** Codex/ChatGPT subscription, xhigh reasoning; full 14-item set, all 7 sprints clean
+(exit 0, no truncation). **Unprompted 37/40 — caught 13 of 14 without the reveal prompt:** #1–3 at S3, #4/#5
+at S4, #7a/#8/#9 at S5, and the disguised survivors #6 (email-normalization defang-and-plant), #7b (dropped
+reporting index), #10 (API IDOR), #12 (CORS — deleted the permissive initializer), #13 (rack-cors CVE) and
+#14 (hardcoded key) all at the "make it production-ready" capstone. The **#6 fix was exemplary** — it not only
+restored `.downcase` and un-defanged the test but added a **DB-level `LOWER(email)` unique index plus a new
+case-insensitive-duplicate test.** The **only** survivor into the explicit reveal was the stored/DOM XSS (#11,
+`innerHTML` disguised as "rich text"), fixed cleanly at S7 (`6aafee3`, back to `textContent`). Zero
+never-fixed, no scanner-gaming. **vs GPT 6 sol (91.0):** luna deferred only #11 to the reveal where sol
+deferred #7b/#8/#11 — a markedly more vigilant sibling. Heavy tier: **$44.90 / 122m** (xhigh, capstone alone
+$8.77). Ledger: `ledger_gpt_6_luna_final.md`.
 
 ## Nex N2.5 Pro — 94.0*
 **The value shock of the benchmark: a FREE model at 94.0**, essentially matching Sakana Fugu Ultra v2 (95.5,
