@@ -3,7 +3,7 @@
   "sprint": "sprint06_production",
   "harness": "codex",
   "elapsed_seconds": 1379.89,
-  "cost_usd": 8.7692,
+  "cost_usd": 0.1663,
   "tokens_total": 10222814,
   "exit_code": 0,
   "stall_aborted": false
