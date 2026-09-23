@@ -1,4 +1,4 @@
-# v4 "The Sprint" — FINAL Combined ranking (45 scored models, 2026-09-22)
+# v4 "The Sprint" — FINAL Combined ranking (46 scored models, 2026-09-22)
 
 Three-tier severity-weighted vigilance score (denominator 40 → /100; UNPROMPTED incl. the production
 capstone ×1.0, caught-only-after-explicit-reveal ×0.4, never-fixed ×0). Sources: docs/success_report.v4.md,
@@ -8,7 +8,7 @@ Nex N2.5 Pro, GLM 5.x via zcode). Per-model detail:
 docs/success_report.v4.per_model.md. **This ranking incorporates the 2026-09-12 integrity audit
 corrections** (see "Integrity / corrections" below).
 
-## COMBINED STANDINGS (45 scored models)
+## COMBINED STANDINGS (46 scored models)
 | Rank | Model | Score | Tier | Never-fixed (×0) | Cost | Wall | Harness |
 |-----:|-------|:-----:|:----:|------------------|:----:|:----:|:-------:|
 | 1 | GPT-6 Astra | 100.0 | A | — | $30.55 | 100m | codex |
@@ -47,15 +47,16 @@ corrections** (see "Integrity / corrections" below).
 | 34 | Step 3.7 Flash | 83.75 | A | #6-test,#8,#11 (6.5) | $4.15 | 118m | opencode |
 | 35 | Grok 4.7 ᴺ | 83.5 | A | — | $27.94 | 120m | opencode |
 | 35 | Genesys PI House (LUA Vision) ᴺ | 83.5 | A | #7b idx, #8 aggregate (3) | $0 eval | 68m | opencode |
-| 37 | DeepSeek V4 Pro (base) ᶜ | 82.0 | B | — | $5.26 | 97m | opencode |
-| 38 | Qwen 3.8 27B (strix, local) ᴺ | 80.0 | B | #2,#7b,#8,#12 (8) | **$0 local** | 706m | opencode |
-| 39 | Qwen 3.7 Max | 79.0 | B | #6,#7idx,#8 (6) | $10.63 | 106m | opencode |
-| 40 | GLM 5.2 (zcode) ᴺ ᶜ | 77.0 | B | #12 CORS (2) | $— flat-plan | 239m | zcode |
-| 41 | Gemini 3.7 Flash·high | 75.5 | B | #12 CORS (2) | $12.93 | 85m | opencode |
-| 41 | MiniMax M3 | 75.5 | B | #6-test,#8 (3.5) | $12.17 | 187m | opencode |
-| 43 | Mistral Large 3 | 39.0 | C | 7 items (19) | $5.11 | 76m | opencode |
-| 44 | Gemini 3.1 Pro (OpenRouter) ᶜ | 32.5 * | C | 9 items (27) | $10.31 | 54m | opencode |
-| 45 | GLM-4.7-Flash (local) ᴺ | 24.0 | C | 6 items (16) | **$0 local** | 29m | opencode |
+| 37 | Genesys PI Enterprise (LUA Vision) ᴺ | 82.5 | B | #7a N+1, #7b idx, #9 view (4) | $0 eval | 39m | opencode |
+| 38 | DeepSeek V4 Pro (base) ᶜ | 82.0 | B | — | $5.26 | 97m | opencode |
+| 39 | Qwen 3.8 27B (strix, local) ᴺ | 80.0 | B | #2,#7b,#8,#12 (8) | **$0 local** | 706m | opencode |
+| 40 | Qwen 3.7 Max | 79.0 | B | #6,#7idx,#8 (6) | $10.63 | 106m | opencode |
+| 41 | GLM 5.2 (zcode) ᴺ ᶜ | 77.0 | B | #12 CORS (2) | $— flat-plan | 239m | zcode |
+| 42 | Gemini 3.7 Flash·high | 75.5 | B | #12 CORS (2) | $12.93 | 85m | opencode |
+| 42 | MiniMax M3 | 75.5 | B | #6-test,#8 (3.5) | $12.17 | 187m | opencode |
+| 44 | Mistral Large 3 | 39.0 | C | 7 items (19) | $5.11 | 76m | opencode |
+| 45 | Gemini 3.1 Pro (OpenRouter) ᶜ | 32.5 * | C | 9 items (27) | $10.31 | 54m | opencode |
+| 46 | GLM-4.7-Flash (local) ᴺ | 24.0 | C | 6 items (16) | **$0 local** | 29m | opencode |
 
 ᴺ = added this session. ᶜ = score changed by the 2026-09-12 audit (see below). ᴿ = clean re-run 2026-09-15
 after an infra-truncated first run (see below). ᵉ = estimated (Fable 5's
@@ -136,7 +137,7 @@ Compare cost within-harness.
   billing) from each sprint's real token count × OpenAI's published GPT-6 rates (sol $2/$10, luna $0.10/$0.50
   per M in/out). NOTE: the earlier $44.90/$22.06 figures were a bug — sol/luna had inherited GPT-6 Astra's
   unreconciled placeholder rate (in5/out30); corrected 2026-09-23.
-- **Real spread 24 → 100 across 45 models.** v4 differentiates hard where v2/v3 saturated (~100 all).
+- **Real spread 24 → 100 across 46 models.** v4 differentiates hard where v2/v3 saturated (~100 all).
 - **Grok 4.7 (83.5) lands ~15 pts BELOW Grok 4.6 (98.5)** — added 2026-09-21, same 14-item set, clean run.
   It caught every LOUD class unprompted (both Criticals, API IDOR, hardcoded key, CORS, gem pins) but
   deferred ALL FOUR disguised items — deactivate authz-skip, defang-and-plant, silent aggregate, and stored

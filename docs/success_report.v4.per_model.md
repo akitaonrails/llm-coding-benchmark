@@ -1,4 +1,4 @@
-# v4 "The Sprint" — Per-Model Analysis (45 scored models)
+# v4 "The Sprint" — Per-Model Analysis (46 scored models)
 
 > One profile per model, linkable by heading anchor (e.g. `…v4.per_model.md#claude-opus-4-8`).
 > Companion to the combined ranking (`success_report.v4.combined.md`) and the per-wave ledgers
@@ -22,7 +22,7 @@ file (M2), #10 API IDOR (H3), #11 stored/DOM XSS (H3), #12 permissive CORS (M2),
 #14 hardcoded secret (H3). Tier: A ≥83 (usable), B 75–82, C <75. Cost: codex/opencode/kimi = real API $;
 Claude models on Max subscription (notional $). Compare cost within-harness.
 
-**The universal law across all 45: detection tracks DISGUISE, not severity.** Loud bugs (SQLi, tenant
+**The universal law across all 46: detection tracks DISGUISE, not severity.** Loud bugs (SQLi, tenant
 leak) are caught by everyone; the survivors are always the *disguised* ones — the defang-and-plant #6,
 the silent wrong aggregate #8, the dropped index #7b, the two-context XSS #11. The never-fixed (×0)
 column is the sharpest separator between models.
@@ -56,14 +56,15 @@ column is the sharpest separator between models.
 | 24 | [Step 3.7 Flash](#step-37-flash--8375) | 83.75 | A | $4.15 | 118m |
 | 25 | [Grok 4.7](#grok-47--835) ᴺ | 83.5 | A | $27.94 | 120m |
 | 25 | [Genesys PI House (LUA Vision)](#genesys-pi-house--835) ᴺ | 83.5 | A | $0 eval | 68m |
-| 26 | [DeepSeek V4 Pro (base)](#deepseek-v4-pro-base--820) | 82.0 | B | $5.26 | 97m |
-| 27 | [Qwen 3.8 27B (strix, local)](#qwen-38-27b-strix--800) | 80.0 | B | $0 local | 706m |
-| 28 | [Qwen 3.7 Max](#qwen-37-max--790) | 79.0 | B | $10.63 | 106m |
-| 29 | [GLM 5.2 (zcode)](#glm-52-zcode--770) | 77.0 | B | $— flat | 239m |
-| 30 | [Gemini 3.7 Flash·high](#gemini-37-flashhigh--755) · [MiniMax M3](#minimax-m3--755) | 75.5 | B | — | — |
-| 31 | [Mistral Large 3](#mistral-large-3--390) | 39.0 | C | $5.11 | 76m |
-| 32 | [Gemini 3.1 Pro (OpenRouter)](#gemini-31-pro--325) | 32.5* | C | $10.31 | 54m |
-| 33 | [GLM-4.7-Flash (local)](#glm-47-flash-local) | 24.0 | C | $0 local | 29m |
+| 26 | [Genesys PI Enterprise (LUA Vision)](#genesys-pi-enterprise--825) ᴺ | 82.5 | B | $0 eval | 39m |
+| 27 | [DeepSeek V4 Pro (base)](#deepseek-v4-pro-base--820) | 82.0 | B | $5.26 | 97m |
+| 28 | [Qwen 3.8 27B (strix, local)](#qwen-38-27b-strix--800) | 80.0 | B | $0 local | 706m |
+| 29 | [Qwen 3.7 Max](#qwen-37-max--790) | 79.0 | B | $10.63 | 106m |
+| 30 | [GLM 5.2 (zcode)](#glm-52-zcode--770) | 77.0 | B | $— flat | 239m |
+| 31 | [Gemini 3.7 Flash·high](#gemini-37-flashhigh--755) · [MiniMax M3](#minimax-m3--755) | 75.5 | B | — | — |
+| 32 | [Mistral Large 3](#mistral-large-3--390) | 39.0 | C | $5.11 | 76m |
+| 33 | [Gemini 3.1 Pro (OpenRouter)](#gemini-31-pro--325) | 32.5* | C | $10.31 | 54m |
+| 34 | [GLM-4.7-Flash (local)](#glm-47-flash-local) | 24.0 | C | $0 local | 29m |
 
 Plus [Wave 5 — did-not-finish](#wave-5--tier-cd-all-dnf) (6 models) and the non-completing runs below.
 
@@ -355,17 +356,27 @@ reports view #9); deferred the two disguised HIGHs to the reveal (×0.4) — the
 the stored XSS #11 (back to `textContent`); and **never caught the two SILENT mediums** — the no-test-guard
 dropped index #7b and the aligned-hidden active-only aggregate #8 (never-fixed, ×0). Notably it **did not
 self-commit on S3/S4** (ended the turn without the final commit; snapshotted as baseline commits). A genuine
-frontier-class result. **Its sibling `genesys-pi-enterprise` DNF'd** — see below. Ledger:
+frontier-class result. Its sibling `genesys-pi-enterprise` scored 82.5 (Tier B) after a one-off S1 loop — see below. Ledger:
 `benchmark-v4/sabotage/ledger_genesys_pi_house_final.md`.
 
-## Genesys PI Enterprise (LUA Vision) — DNF (RubyLLM-recon loop) {#genesys-pi-enterprise-dnf}
-The mid-tier LUA Vision model **did not finish Sprint 1**: it fell into a deterministic loop, running the
-identical command `bundle show ruby_llm | xargs … grep -R "LUA" …` **841 of 857 tool calls** (confused
-reconciling its own "LUA" family name with the RubyLLM gem), never progressing past dependency recon, and was
-killed at the 90-min phase cap with **zero commits**. More time/budget doesn't help (it would just loop more);
-the failure is convergence, not cost (free eval key). Not scored/ranked (DNF, per scoring-discipline #7). The
-flagship (house) handles the same step cleanly — the loop is enterprise-specific. Re-attempted once with a
-raised 4h cap (free eval key) to confirm the loop is deterministic and not a timeout artifact.
+## Genesys PI Enterprise (LUA Vision) — 82.5 {#genesys-pi-enterprise--825}
+**LUA Vision mid-tier ("production workhorse"); the weaker of the two — Tier B, 1 pt under the flagship's
+83.5.** opencode via `api.lua.vision` (384K ctx); free eval key → $0 (notional ~$18). **Unprompted 31/40** —
+same tally as house but reached differently: it caught only #4 SQLi + #5 authz-skip mid-sprint (vs house's
+#1–4), then leaned on the capstone for a big 8-item sweep (#1/#2/#3/#6/#10/#12/#13/#14) to catch up. At the
+reveal it fixed the silent aggregate #8 and the server-side XSS #11 (`raw` → escaped), both ×0.4. **Three
+never-fixed (×0):** the two silent perf items (#7a N+1, #7b dropped index) AND the deleted reports view #9 —
+which it never restored even at the explicit reveal (it wrote **no report/user tests**, so nothing flagged the
+MissingTemplate). That missing test coverage is the clearest quality gap vs house (which restored #9 on its own
+at S5). Same "detection tracks disguise" shape, one tier weaker.
+
+**Viability caveat (important):** enterprise's FIRST Sprint 1 attempt **DNF'd** — a one-off stochastic loop
+that ran the identical `bundle show ruby_llm | xargs … grep -R "LUA" …` command **841 of 857 tool calls**
+(confused reconciling its "LUA" family name with the RubyLLM gem), never progressed, and was killed at the
+90-min cap with zero commits. A clean re-run converged in **7 min** — so the loop was **stochastic, not
+deterministic**; the model is viable, but noticeably less reliable than house (which never looped). The DNF run
+is preserved (`results-v4/v2_genesys_pi_enterprise.dnf-90min-loop-*`). Scored on the clean run.
+Ledger: `benchmark-v4/sabotage/ledger_genesys_pi_enterprise_final.md`.
 
 ## DeepSeek V4 Pro (base) — 82.0
 The classic **"needs to be told" profile:** weak unprompted (28/40) but caught **the remaining halves the
