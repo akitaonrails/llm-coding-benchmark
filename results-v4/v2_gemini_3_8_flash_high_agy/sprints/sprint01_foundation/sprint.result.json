@@ -1,0 +1,10 @@
+{
+  "slug": "v2_gemini_3_8_flash_high_agy",
+  "sprint": "sprint01_foundation",
+  "harness": "agy",
+  "elapsed_seconds": 1346.77,
+  "cost_usd": null,
+  "tokens_total": null,
+  "exit_code": 0,
+  "stall_aborted": false
+}

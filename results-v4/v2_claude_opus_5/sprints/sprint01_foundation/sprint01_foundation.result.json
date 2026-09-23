@@ -1,0 +1,23 @@
+{
+  "command_kind": "claude",
+  "cost_usd": 25.287852,
+  "elapsed_seconds": 2703.59,
+  "ended_at": "2026-09-07T19:14:31+00:00",
+  "exit_code": 0,
+  "file_count_after": 3043,
+  "harness": "claude",
+  "phase": "sprint01_foundation",
+  "session_id": "8d28579e-dc14-4f9f-849f-ec69aaf47053",
+  "stall_aborted": false,
+  "started_at": "2026-09-07T18:29:27+00:00",
+  "timed_out": false,
+  "tokens": {
+    "cache": {
+      "read": 35380768,
+      "write": 314545
+    },
+    "input": 388,
+    "output": 177952,
+    "total": 35873653
+  }
+}

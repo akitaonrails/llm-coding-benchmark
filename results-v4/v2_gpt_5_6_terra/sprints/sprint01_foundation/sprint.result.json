@@ -1,0 +1,10 @@
+{
+  "slug": "v2_gpt_5_6_terra",
+  "sprint": "sprint01_foundation",
+  "harness": "codex",
+  "elapsed_seconds": 1310.18,
+  "cost_usd": 3.082,
+  "tokens_total": 8449206,
+  "exit_code": 0,
+  "stall_aborted": false
+}

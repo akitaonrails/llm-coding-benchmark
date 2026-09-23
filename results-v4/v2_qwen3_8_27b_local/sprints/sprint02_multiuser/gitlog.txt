@@ -1,0 +1,98 @@
+5b958d9 Initial import of Ruby Llm Chat Rails 8 application
+ .gitattributes                                    |   7 +
+ .gitignore                                        |  38 ++
+ .rubocop.yml                                      |   8 +
+ .ruby-version                                     |   1 +
+ Gemfile                                           |  59 +++
+ Gemfile.lock                                      | 547 ++++++++++++++++++++++
+ Procfile.dev                                      |   2 +
+ README.md                                         |  24 +
+ Rakefile                                          |   6 +
+ app/assets/builds/.keep                           |   0
+ app/assets/images/.keep                           |   0
+ app/assets/stylesheets/application.css            |  10 +
+ app/assets/tailwind/application.css               |   1 +
+ app/controllers/application_controller.rb         |   7 +
+ app/controllers/concerns/.keep                    |   0
+ app/helpers/application_helper.rb                 |   2 +
+ app/javascript/application.js                     |   3 +
+ app/javascript/controllers/application.js         |   9 +
+ app/javascript/controllers/hello_controller.js    |   7 +
+ app/javascript/controllers/index.js               |   4 +
+ app/jobs/application_job.rb                       |   7 +
+ app/mailers/application_mailer.rb                 |   4 +
+ app/models/application_record.rb                  |   3 +
+ app/models/concerns/.keep                         |   0
+ app/models/conversation.rb                        |   3 +
+ app/models/message.rb                             |   3 +
+ app/models/user.rb                                |   2 +
+ app/views/layouts/application.html.erb            |  31 ++
+ app/views/layouts/mailer.html.erb                 |  13 +
+ app/views/layouts/mailer.text.erb                 |   1 +
+ app/views/pwa/manifest.json.erb                   |  22 +
+ app/views/pwa/service-worker.js                   |  26 +
+ bin/brakeman                                      |   7 +
+ bin/bundler-audit                                 |   6 +
+ bin/ci                                            |   6 +
+ bin/dev                                           |  16 +
+ bin/importmap                                     |   4 +
+ bin/rails                                         |   4 +
+ bin/rake                                          |   4 +
+ bin/rubocop                                       |   8 +
+ bin/setup                                         |  35 ++
+ config.ru                                         |   6 +
+ config/application.rb                             |  27 ++
+ config/boot.rb                                    |   4 +
+ config/bundler-audit.yml                          |   5 +
+ config/cable.yml                                  |  10 +
+ config/ci.rb                                      |  24 +
+ config/credentials.yml.enc                        |   1 +
+ config/database.yml                               |  31 ++
+ config/environment.rb                             |   5 +
+ config/environments/development.rb                |  78 +++
+ config/environments/production.rb                 |  89 ++++
+ config/environments/test.rb                       |  53 +++
+ config/importmap.rb                               |   7 +
+ config/initializers/assets.rb                     |   7 +
+ config/initializers/content_security_policy.rb    |  29 ++
+ config/initializers/filter_parameter_logging.rb   |   8 +
+ config/initializers/inflections.rb                |  16 +
+ config/locales/en.yml                             |  31 ++
+ config/puma.rb                                    |  39 ++
+ config/routes.rb                                  |  14 +
+ config/storage.yml                                |  27 ++
+ db/migrate/20260911154604_create_users.rb         |  13 +
+ db/migrate/20260911154605_create_conversations.rb |  13 +
+ db/migrate/20260911154606_create_messages.rb      |  13 +
+ db/seeds.rb                                       |   9 +
+ lib/tasks/.keep                                   |   0
+ log/.keep                                         |   0
+ public/400.html                                   | 135 ++++++
+ public/404.html                                   | 135 ++++++
+ public/406-unsupported-browser.html               | 135 ++++++
+ public/422.html                                   | 135 ++++++
+ public/500.html                                   | 135 ++++++
+ public/icon.png                                   | Bin 0 -> 4166 bytes
+ public/icon.svg                                   |   3 +
+ public/robots.txt                                 |   1 +
+ script/.keep                                      |   0
+ storage/.keep                                     |   0
+ test/controllers/.keep                            |   0
+ test/fixtures/conversations.yml                   |  11 +
+ test/fixtures/files/.keep                         |   0
+ test/fixtures/messages.yml                        |  11 +
+ test/fixtures/users.yml                           |  11 +
+ test/helpers/.keep                                |   0
+ test/integration/.keep                            |   0
+ test/mailers/.keep                                |   0
+ test/models/.keep                                 |   0
+ test/models/conversation_test.rb                  |   7 +
+ test/models/message_test.rb                       |   7 +
+ test/models/user_test.rb                          |   7 +
+ test/test_helper.rb                               |  15 +
+ tmp/.keep                                         |   0
+ tmp/pids/.keep                                    |   0
+ tmp/storage/.keep                                 |   0
+ vendor/.keep                                      |   0
+ vendor/javascript/.keep                           |   0
+ 96 files changed, 2247 insertions(+)

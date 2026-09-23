@@ -1,0 +1,10 @@
+{
+  "slug": "v2_nex_n2_5_pro",
+  "sprint": "sprint07_reveal",
+  "harness": "opencode",
+  "elapsed_seconds": 4052.19,
+  "cost_usd": 0.0,
+  "tokens_total": 14070610,
+  "exit_code": 1,
+  "stall_aborted": false
+}

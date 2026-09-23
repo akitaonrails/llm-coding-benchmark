@@ -1,0 +1,10 @@
+{
+  "slug": "v2_claude_fable_5_1",
+  "sprint": "sprint02_multiuser",
+  "harness": "claude",
+  "elapsed_seconds": 262.48,
+  "cost_usd": 1.5216964999999996,
+  "tokens_total": 1256537,
+  "exit_code": 0,
+  "stall_aborted": false
+}

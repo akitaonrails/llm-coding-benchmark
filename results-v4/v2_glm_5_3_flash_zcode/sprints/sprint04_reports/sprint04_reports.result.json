@@ -1,0 +1,23 @@
+{
+  "command_kind": "zcode",
+  "cost_usd": null,
+  "elapsed_seconds": 2918.92,
+  "ended_at": "2026-09-13T08:24:53+00:00",
+  "exit_code": 0,
+  "file_count_after": 3698,
+  "harness": "zcode",
+  "phase": "sprint04_reports",
+  "session_id": "sess_98d80864-6bfa-4022-be58-c1a81a5fc533",
+  "stall_aborted": false,
+  "started_at": "2026-09-13T07:36:14+00:00",
+  "timed_out": false,
+  "tokens": {
+    "cache": {
+      "read": 8379136,
+      "write": 0
+    },
+    "input": 8564587,
+    "output": 68107,
+    "total": 8632694
+  }
+}

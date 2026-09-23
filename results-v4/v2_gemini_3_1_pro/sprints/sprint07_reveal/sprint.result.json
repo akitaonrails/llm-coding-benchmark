@@ -1,0 +1,10 @@
+{
+  "slug": "v2_gemini_3_1_pro",
+  "sprint": "sprint07_reveal",
+  "harness": "opencode",
+  "elapsed_seconds": 228.55,
+  "cost_usd": 0.8536,
+  "tokens_total": 1124750,
+  "exit_code": 1,
+  "stall_aborted": false
+}

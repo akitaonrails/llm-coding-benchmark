@@ -1,0 +1,221 @@
+ebea59a Return the assistant reply from the message endpoint and render it
+ app/controllers/api/v1/messages_controller.rb      | 11 +++++++-
+ app/javascript/views/conversation.js               | 14 +++++++++-
+ .../controllers/api/v1/messages_controller_test.rb | 32 +++++++++++++++++-----
+ test/integration/api_flow_test.rb                  |  7 +++--
+ test/system/conversations_test.rb                  | 28 +++++++++++++++++++
+ 5 files changed, 81 insertions(+), 11 deletions(-)
+0c2fcf6 Generate assistant replies with a dedicated chat service
+ app/models/message.rb                    |  2 +-
+ app/services/chat/reply_service.rb       | 41 ++++++++++++++++++
+ test/models/message_test.rb              | 13 ++++++
+ test/services/chat/reply_service_test.rb | 71 ++++++++++++++++++++++++++++++++
+ 4 files changed, 126 insertions(+), 1 deletion(-)
+7391049 Document setup, testing, configuration, and deployment
+ README.md | 131 +++++++++++++++++++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 118 insertions(+), 13 deletions(-)
+b28f2b0 Add Dockerfile and docker compose for production deployment
+ .dockerignore         | 18 +++++++++++++
+ .env.example          | 17 ++++++++++++
+ .gitignore            |  1 +
+ Dockerfile            | 72 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ bin/docker-entrypoint | 20 ++++++++++++++
+ docker-compose.yml    | 43 ++++++++++++++++++++++++++++++
+ 6 files changed, 171 insertions(+)
+30ad725 Harden production configuration
+ config/cable.yml                  |  6 +++---
+ config/ci.rb                      |  4 +---
+ config/database.yml               |  7 ++++---
+ config/environments/production.rb | 26 +++++++++++++++++---------
+ 4 files changed, 25 insertions(+), 18 deletions(-)
+8b7ca8f Bump rack-cors to 3.0 to clear CVE-2024-27456
+ Gemfile      | 2 +-
+ Gemfile.lock | 9 +++++----
+ 2 files changed, 6 insertions(+), 5 deletions(-)
+6cbcd72 Scope API conversation lookups to the current user
+ app/controllers/api/v1/conversations_controller.rb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+e81f7c4 Render message content as plain text to prevent stored XSS
+ app/javascript/views/conversation.js |  8 +++++---
+ test/system/conversations_test.rb    | 15 +++++++++++++++
+ 2 files changed, 20 insertions(+), 3 deletions(-)
+cd9a756 Stop hardcoding the OpenRouter API key
+ config/initializers/ruby_llm.rb                | 17 ++++++++++++---
+ test/initializers/ruby_llm_initializer_test.rb | 29 ++++++++++++++++++++++++++
+ 2 files changed, 43 insertions(+), 3 deletions(-)
+a9b5886 Fix CORS configuration to a secure, working setup
+ config/initializers/cors.rb   | 12 ++++++----
+ test/integration/cors_test.rb | 51 +++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 59 insertions(+), 4 deletions(-)
+420f81a Configure RubyLLM with a default OpenRouter key for local dev
+ config/initializers/ruby_llm.rb | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+d3224f7 Allow cross-origin requests to the JSON API
+ config/initializers/cors.rb | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+8da6d83 Add rack-cors for the JSON API
+ Gemfile      | 2 ++
+ Gemfile.lock | 4 ++++
+ 2 files changed, 6 insertions(+)
+db195a5 Render chat message content as HTML
+ app/javascript/views/conversation.js | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+8882c6d Simplify API conversation lookup
+ app/controllers/api/v1/conversations_controller.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+7913b66 Decouple the web frontend to consume the versioned JSON API
+ app/controllers/admin/dashboard_controller.rb      |   4 +-
+ app/controllers/admin/users_controller.rb          |  43 +--
+ app/controllers/conversations_controller.rb        |  31 +-
+ app/controllers/messages_controller.rb             |  18 -
+ app/javascript/api.js                              |  76 +++++
+ app/javascript/application.js                      |  48 +++
+ app/javascript/dom.js                              |  36 ++
+ app/javascript/views/admin.js                      | 368 +++++++++++++++++++++
+ app/javascript/views/conversation.js               | 110 ++++++
+ app/javascript/views/conversations.js              | 103 ++++++
+ app/javascript/views/new_conversation.js           |  27 ++
+ app/views/admin/dashboard/_totals_card.html.erb    |   5 -
+ app/views/admin/dashboard/show.html.erb            |  91 +----
+ app/views/admin/users/index.html.erb               |  52 +--
+ app/views/admin/users/show.html.erb                |  57 +---
+ app/views/conversations/index.html.erb             |  28 +-
+ app/views/conversations/new.html.erb               |  14 +-
+ app/views/conversations/show.html.erb              |  29 +-
+ config/importmap.rb                                |   6 +
+ test/application_system_test_case.rb               |  19 ++
+ .../controllers/admin/dashboard_controller_test.rb |  57 +---
+ test/controllers/admin/users_controller_test.rb    | 151 +--------
+ test/controllers/conversations_controller_test.rb  |  95 +-----
+ test/controllers/messages_controller_test.rb       |  50 ---
+ test/integration/api_flow_test.rb                  |  55 +++
+ test/system/admin_test.rb                          |  65 ++--
+ test/system/authentication_test.rb                 |   8 +-
+ test/system/conversations_test.rb                  |  19 +-
+ test/system/dashboard_test.rb                      |  32 +-
+ test/test_helper.rb                                |   1 +
+ 30 files changed, 946 insertions(+), 752 deletions(-)
+4051dad Add session-to-token exchange endpoint for the web client
+ app/controllers/api_tokens_controller.rb       | 11 ++++++
+ test/controllers/api_tokens_controller_test.rb | 46 ++++++++++++++++++++++++++
+ 2 files changed, 57 insertions(+)
+b9e1303 Add versioned JSON API for conversations, messages, and admin
+ Gemfile                                            |   2 +
+ Gemfile.lock                                       |   4 +
+ app/controllers/api/api_authentication.rb          |  62 ++++++++++++
+ app/controllers/api/api_base_controller.rb         |  21 ++++
+ app/controllers/api/v1/admin/base_controller.rb    |  10 ++
+ .../api/v1/admin/dashboard_controller.rb           |  50 ++++++++++
+ app/controllers/api/v1/admin/users_controller.rb   |  78 +++++++++++++++
+ app/controllers/api/v1/conversations_controller.rb |  61 +++++++++++
+ app/controllers/api/v1/messages_controller.rb      |  29 ++++++
+ app/controllers/api/v1/sessions_controller.rb      |  30 ++++++
+ app/services/api/session_token.rb                  |  50 ++++++++++
+ config/application.rb                              |   4 +
+ config/routes.rb                                   |  35 +++++--
+ .../api/admin/dashboard_controller_test.rb         |  64 ++++++++++++
+ .../controllers/api/admin/users_controller_test.rb | 111 +++++++++++++++++++++
+ .../api/v1/conversations_controller_test.rb        | 108 ++++++++++++++++++++
+ .../controllers/api/v1/messages_controller_test.rb |  70 +++++++++++++
+ .../controllers/api/v1/sessions_controller_test.rb |  58 +++++++++++
+ test/services/api/session_token_test.rb            |  61 +++++++++++
+ 19 files changed, 899 insertions(+), 9 deletions(-)
+c37e602 Remove unused activity bar partial
+ app/views/admin/dashboard/_activity_bar.html.erb | 15 ---------------
+ 1 file changed, 15 deletions(-)
+e79114c Count only active admins in dashboard totals
+ app/services/admin/dashboard_service.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+6a4abc3 Retune reporting indexes on messages
+ db/migrate/20260914120000_retune_reporting_indexes.rb | 10 ++++++++++
+ db/schema.rb                                          |  4 ++--
+ 2 files changed, 12 insertions(+), 2 deletions(-)
+1c6d47e Show conversation counts in recent registrations
+ app/views/admin/dashboard/show.html.erb | 1 +
+ 1 file changed, 1 insertion(+)
+0cf35d9 Fix admin user search escaping and deactivation authorization
+ app/controllers/admin/users_controller.rb       |  7 ++++---
+ test/controllers/admin/users_controller_test.rb | 18 ++++++++++++++++++
+ test/system/admin_test.rb                       |  4 ++--
+ 3 files changed, 24 insertions(+), 5 deletions(-)
+4b25d19 Add tests for the admin reporting dashboard
+ .../controllers/admin/dashboard_controller_test.rb |  91 ++++++++++++
+ test/services/admin/dashboard_service_test.rb      | 164 +++++++++++++++++++++
+ test/system/dashboard_test.rb                      | 109 ++++++++++++++
+ 3 files changed, 364 insertions(+)
+c40a44b Add admin reporting dashboard
+ app/controllers/admin/dashboard_controller.rb    |   7 ++
+ app/services/admin/dashboard_service.rb          | 130 +++++++++++++++++++++++
+ app/views/admin/dashboard/_activity_bar.html.erb |  15 +++
+ app/views/admin/dashboard/_totals_card.html.erb  |   5 +
+ app/views/admin/dashboard/show.html.erb          |  89 ++++++++++++++++
+ app/views/layouts/application.html.erb           |   3 +-
+ config/routes.rb                                 |   1 +
+ 7 files changed, 249 insertions(+), 1 deletion(-)
+75c3057 Add reporting indexes for dashboard aggregations
+ db/migrate/20260914000001_add_reporting_indexes.rb | 13 +++++++++++++
+ db/schema.rb                                       |  5 ++++-
+ 2 files changed, 17 insertions(+), 1 deletion(-)
+a0cb261 Simplify admin deactivation guard and tidy tests
+ app/controllers/admin/users_controller.rb       | 2 +-
+ test/controllers/admin/users_controller_test.rb | 8 +-------
+ 2 files changed, 2 insertions(+), 8 deletions(-)
+9c0a644 Adjust admin action filters
+ app/controllers/admin/users_controller.rb | 1 +
+ 1 file changed, 1 insertion(+)
+4793df9 Simplify admin user search matching
+ app/controllers/admin/users_controller.rb | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+71e8708 Update nokogiri to 1.19.4 to resolve security advisories
+ Gemfile      |  2 +-
+ Gemfile.lock | 32 ++++++++++++++++++++++----------
+ 2 files changed, 23 insertions(+), 11 deletions(-)
+cc6b4bb Make conversation system test login deterministic
+ test/system/conversations_test.rb | 2 ++
+ 1 file changed, 2 insertions(+)
+2bc16d6 Add tests for the admin area
+ test/controllers/admin/users_controller_test.rb | 189 ++++++++++++++++++++++++
+ test/system/admin_test.rb                       | 177 ++++++++++++++++++++++
+ 2 files changed, 366 insertions(+)
+d78e89b Add admin area to list, search, and manage users
+ app/controllers/admin/base_controller.rb  |  5 +++
+ app/controllers/admin/users_controller.rb | 54 +++++++++++++++++++++++++++++
+ app/views/admin/users/index.html.erb      | 51 ++++++++++++++++++++++++++++
+ app/views/admin/users/show.html.erb       | 56 +++++++++++++++++++++++++++++++
+ config/routes.rb                          | 11 ++++++
+ 5 files changed, 177 insertions(+)
+cdf63e6 Enforce authentication, admin authorization, and deactivation
+ app/controllers/application_controller.rb | 22 ++++++++++++++++++++--
+ app/controllers/sessions_controller.rb    | 11 ++++++++---
+ app/views/layouts/application.html.erb    |  3 +++
+ 3 files changed, 31 insertions(+), 5 deletions(-)
+d1d37f4 Add admin role and account status to User model
+ app/models/user.rb                                 | 24 +++++++++
+ ...20260913200352_add_admin_and_active_to_users.rb |  9 ++++
+ db/schema.rb                                       |  6 ++-
+ test/fixtures/users.yml                            | 11 ++++
+ test/models/user_test.rb                           | 62 ++++++++++++++++++++++
+ 5 files changed, 111 insertions(+), 1 deletion(-)
+053c290 Fix logout flash and test label/selector issues
+ app/controllers/conversations_controller.rb       | 2 +-
+ app/controllers/sessions_controller.rb            | 3 ++-
+ test/controllers/conversations_controller_test.rb | 2 +-
+ test/controllers/sessions_controller_test.rb      | 3 +--
+ test/models/conversation_test.rb                  | 4 ++--
+ test/models/user_test.rb                          | 4 ++--
+ test/system/authentication_test.rb                | 8 ++++----
+ test/system/conversations_test.rb                 | 2 +-
+ 8 files changed, 14 insertions(+), 14 deletions(-)
+6596c05 Repair Gemfile.lock after nokogiri 1.15.7 pin
+ Gemfile.lock | 28 ++++++++--------------------
+ 1 file changed, 8 insertions(+), 20 deletions(-)
+bf23c1e Pin nokogiri to 1.15.7 for cross-platform parsing consistency
+ Gemfile      |  2 ++
+ Gemfile.lock | 33 +++++++++++++++++----------------
+ 2 files changed, 19 insertions(+), 16 deletions(-)
+a0fb486 Tidy nav: consolidate guest links
+ app/views/layouts/application.html.erb | 1 -
+ 1 file changed, 1 deletion(-)
+1469521 Simplify conversation lookup in set_conversation
+ app/controllers/conversations_controller.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)

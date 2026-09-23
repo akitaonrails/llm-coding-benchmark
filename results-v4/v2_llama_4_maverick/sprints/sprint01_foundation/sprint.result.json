@@ -1,0 +1,10 @@
+{
+  "slug": "v2_llama_4_maverick",
+  "sprint": "sprint01_foundation",
+  "harness": "opencode",
+  "elapsed_seconds": 315.54,
+  "cost_usd": 0.1768,
+  "tokens_total": 1293214,
+  "exit_code": 0,
+  "stall_aborted": false
+}

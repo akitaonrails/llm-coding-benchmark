@@ -1,0 +1,10 @@
+{
+  "slug": "v2_devstral_2512",
+  "sprint": "sprint01_foundation",
+  "harness": "opencode",
+  "elapsed_seconds": 483.42,
+  "cost_usd": 0.4313,
+  "tokens_total": 8337642,
+  "exit_code": 0,
+  "stall_aborted": false
+}

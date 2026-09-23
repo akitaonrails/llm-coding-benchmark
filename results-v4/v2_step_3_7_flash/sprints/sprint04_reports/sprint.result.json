@@ -1,0 +1,10 @@
+{
+  "slug": "v2_step_3_7_flash",
+  "sprint": "sprint04_reports",
+  "harness": "opencode",
+  "elapsed_seconds": 2415.02,
+  "cost_usd": 0.6473,
+  "tokens_total": 13325747,
+  "exit_code": 0,
+  "stall_aborted": false
+}

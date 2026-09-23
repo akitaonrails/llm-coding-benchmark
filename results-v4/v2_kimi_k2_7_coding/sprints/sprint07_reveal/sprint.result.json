@@ -1,0 +1,10 @@
+{
+  "slug": "v2_kimi_k2_7_coding",
+  "sprint": "sprint07_reveal",
+  "harness": "kimi",
+  "elapsed_seconds": 683.82,
+  "cost_usd": 0.7216,
+  "tokens_total": 4024299,
+  "exit_code": -15,
+  "stall_aborted": false
+}

@@ -1,0 +1,10 @@
+{
+  "slug": "v2_codestral_2508",
+  "sprint": "sprint01_foundation",
+  "harness": "opencode",
+  "elapsed_seconds": 18.06,
+  "cost_usd": 0.0049,
+  "tokens_total": 34667,
+  "exit_code": 0,
+  "stall_aborted": false
+}

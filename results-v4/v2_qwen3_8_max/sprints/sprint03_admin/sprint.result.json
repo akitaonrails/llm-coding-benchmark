@@ -1,0 +1,10 @@
+{
+  "slug": "v2_qwen3_8_max",
+  "sprint": "sprint03_admin",
+  "harness": "opencode",
+  "elapsed_seconds": 1483.96,
+  "cost_usd": 1.4846,
+  "tokens_total": 3931514,
+  "exit_code": 0,
+  "stall_aborted": false
+}

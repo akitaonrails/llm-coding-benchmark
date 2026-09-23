@@ -1,0 +1,297 @@
+9fb6354 Treat a non-scalar page parameter as the first page
+ app/controllers/api/v1/base_controller.rb              | 5 +++--
+ test/controllers/api/v1/admin/users_controller_test.rb | 8 ++++++++
+ 2 files changed, 11 insertions(+), 2 deletions(-)
+4bf640d Escape message content in the conversation page (stored XSS)
+ .../controllers/conversation_controller.js         |  4 ++--
+ test/system/chat_test.rb                           | 24 ++++++++++++++++++++++
+ 2 files changed, 26 insertions(+), 2 deletions(-)
+ef042b0 Wait for the cleared reports page before re-filtering
+ test/system/admin_reports_test.rb | 1 +
+ 1 file changed, 1 insertion(+)
+b829e64 Document production deployment
+ README.md    | 80 ++++++++++++++++++++++++++++++++++++++++++++++++++++++------
+ config/ci.rb |  3 +--
+ 2 files changed, 74 insertions(+), 9 deletions(-)
+bada0f3 Add db:backup for the SQLite database
+ lib/database_backup.rb       | 49 ++++++++++++++++++++++++++++++++++++++++
+ lib/tasks/db_backup.rake     |  9 ++++++++
+ test/tasks/db_backup_test.rb | 54 ++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 112 insertions(+)
+3328f0c Pass the OpenRouter key through Kamal
+ .kamal/secrets    |  3 +++
+ config/deploy.yml | 14 +++++++++++++-
+ 2 files changed, 16 insertions(+), 1 deletion(-)
+73420fd Harden the Docker image and compose setup
+ .env.example        |  7 +++++--
+ Dockerfile          |  8 +++++++-
+ config/database.yml |  3 +++
+ config/queue.yml    |  2 +-
+ docker-compose.yml  | 26 +++++++++++++++++++++++---
+ 5 files changed, 39 insertions(+), 7 deletions(-)
+b482af2 Let API clients sign in without a CSRF token
+ app/controllers/api/v1/base_controller.rb          | 11 ++++++----
+ app/controllers/concerns/api/authentication.rb     |  6 ++++++
+ .../controllers/api/v1/sessions_controller_test.rb | 25 ++++++++++++++++++++++
+ 3 files changed, 38 insertions(+), 4 deletions(-)
+5170fb2 Keep internal errors out of assistant reply broadcasts
+ app/jobs/application_job.rb                  |  5 +++--
+ app/jobs/assistant_reply_job.rb              | 12 ++++++++++-
+ test/jobs/assistant_reply_job_test.rb        | 31 ++++++++++++++++++++++++++++
+ test/test_helpers/open_router_test_helper.rb |  5 +++++
+ 4 files changed, 50 insertions(+), 3 deletions(-)
+c7cbd26 Force SSL and configure host authorization in production
+ .env.example                      | 33 ++++++++++++++++++++++++++++++++-
+ config/environments/production.rb | 33 +++++++++++++++++++--------------
+ 2 files changed, 51 insertions(+), 15 deletions(-)
+44566ce Add a Content Security Policy
+ config/initializers/content_security_policy.rb   | 58 ++++++++++++++----------
+ test/application_system_test_case.rb             | 13 ++++++
+ test/integration/content_security_policy_test.rb | 37 +++++++++++++++
+ 3 files changed, 85 insertions(+), 23 deletions(-)
+d9b1212 Upgrade rack-cors and restrict CORS to configured origins
+ Gemfile                       |  2 +-
+ Gemfile.lock                  |  9 +++++----
+ config/initializers/cors.rb   | 29 +++++++++++++++++++++--------
+ test/integration/cors_test.rb | 23 +++++++++++++++++++++++
+ 4 files changed, 50 insertions(+), 13 deletions(-)
+0a74707 Remove the hard-coded OpenRouter key and refuse to boot without one
+ config/initializers/ruby_llm.rb | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+0e75129 Scope API conversation lookup to the current user
+ app/controllers/api/v1/conversations_controller.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+b897986 Add fallback API key
+ config/initializers/ruby_llm.rb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+32004a0 Enable CORS for the API
+ config/initializers/cors.rb | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+8909ad4 Add rack-cors
+ Gemfile      | 3 +++
+ Gemfile.lock | 4 ++++
+ 2 files changed, 7 insertions(+)
+31d59f7 Render message formatting
+ app/javascript/controllers/conversation_controller.js | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+d90af10 Simplify API conversation lookup
+ app/controllers/api/v1/conversations_controller.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+fb56ae6 Render the pages from the API instead of server-side views
+ README.md                                          | 176 ++++++++++++---
+ app/assets/tailwind/application.css                |   2 +-
+ app/controllers/admin/base_controller.rb           |  12 +-
+ app/controllers/admin/reports_controller.rb        |  22 --
+ .../admin/users/deactivations_controller.rb        |  27 ---
+ app/controllers/admin/users_controller.rb          |  46 ----
+ app/controllers/application_controller.rb          |   8 -
+ app/controllers/conversations_controller.rb        |  33 +--
+ app/controllers/messages_controller.rb             |  30 ---
+ app/controllers/registrations_controller.rb        |   2 +-
+ app/helpers/admin/reports_helper.rb                | 134 ------------
+ app/helpers/admin/users_helper.rb                  |  27 ---
+ app/javascript/application.js                      |   4 +-
+ .../controllers/admin/reports_controller.js        | 182 ++++++++++++++++
+ .../controllers/admin/user_controller.js           |  90 ++++++++
+ .../controllers/admin/users_controller.js          |  63 ++++++
+ app/javascript/controllers/composer_controller.js  |  10 +-
+ .../controllers/conversation_controller.js         | 150 +++++++++++++
+ app/javascript/controllers/flash_controller.js     |   9 +
+ .../controllers/new_conversation_controller.js     |  41 ++++
+ app/javascript/controllers/sidebar_controller.js   |  57 +++++
+ app/javascript/lib/admin.js                        | 114 ++++++++++
+ app/javascript/lib/api.js                          |  61 ++++++
+ app/javascript/lib/cable.js                        |   9 +
+ app/javascript/lib/column_chart.js                 |  81 +++++++
+ app/javascript/lib/flash.js                        |  39 ++++
+ app/javascript/lib/format.js                       |  72 +++++++
+ app/javascript/lib/html.js                         |  42 ++++
+ app/javascript/message_stream_actions.js           |  45 ----
+ app/views/admin/reports/_stat.html.erb             |  17 --
+ app/views/admin/reports/_user.html.erb             |  17 --
+ app/views/admin/reports/show.html.erb              | 213 ++++++------------
+ app/views/admin/users/_actions.html.erb            |  22 --
+ app/views/admin/users/_user.html.erb               |  22 --
+ app/views/admin/users/index.html.erb               | 102 ++++-----
+ app/views/admin/users/show.html.erb                |  79 ++-----
+ app/views/conversations/_conversation.html.erb     |  10 -
+ app/views/conversations/index.html.erb             |  32 +--
+ app/views/conversations/show.html.erb              |  39 ++--
+ app/views/layouts/_flash.html.erb                  |  15 +-
+ app/views/layouts/_head.html.erb                   |   7 +
+ app/views/layouts/_sidebar.html.erb                |  11 +-
+ app/views/messages/_error.html.erb                 |   6 -
+ app/views/messages/_form.html.erb                  |  14 --
+ app/views/messages/_message.html.erb               |   9 -
+ app/views/messages/create.turbo_stream.erb         |   6 -
+ config/importmap.rb                                |   3 +-
+ config/routes.rb                                   |  17 +-
+ test/controllers/admin/reports_controller_test.rb  | 209 +-----------------
+ .../admin/users/deactivations_controller_test.rb   |  96 ---------
+ test/controllers/admin/users_controller_test.rb    | 240 +--------------------
+ test/controllers/conversations_controller_test.rb  |  90 ++------
+ test/controllers/messages_controller_test.rb       |  54 -----
+ test/controllers/registrations_controller_test.rb  |   4 +-
+ test/helpers/admin/reports_helper_test.rb          |  80 -------
+ 55 files changed, 1390 insertions(+), 1612 deletions(-)
+7e75e47 Stream conversation updates as JSON events over ConversationChannel
+ app/channels/application_cable/channel.rb  |  4 +++
+ app/channels/conversation_channel.rb       | 35 +++++++++++++++++++++
+ app/jobs/assistant_reply_job.rb            | 12 ++++----
+ app/models/message.rb                      | 35 +++++----------------
+ test/channels/conversation_channel_test.rb | 49 ++++++++++++++++++++++++++++++
+ test/jobs/assistant_reply_job_test.rb      | 28 ++++++++++++++++-
+ test/models/message_test.rb                | 41 +++++++++++++++++++++++--
+ 7 files changed, 168 insertions(+), 36 deletions(-)
+9a82920 Add the versioned JSON API under /api/v1
+ app/controllers/api/v1/admin/base_controller.rb    |  20 ++
+ app/controllers/api/v1/admin/reports_controller.rb |  36 ++++
+ .../api/v1/admin/users/deactivations_controller.rb |  27 +++
+ app/controllers/api/v1/admin/users_controller.rb   |  63 ++++++
+ app/controllers/api/v1/base_controller.rb          |  70 +++++++
+ app/controllers/api/v1/conversations_controller.rb |  56 +++++
+ app/controllers/api/v1/messages_controller.rb      |  34 +++
+ app/controllers/api/v1/models_controller.rb        |  11 +
+ app/controllers/api/v1/registrations_controller.rb |  25 +++
+ app/controllers/api/v1/sessions_controller.rb      |  39 ++++
+ app/controllers/concerns/api/authentication.rb     |  68 ++++++
+ app/serializers/api/v1/conversation_serializer.rb  |  16 ++
+ app/serializers/api/v1/message_serializer.rb       |  19 ++
+ app/serializers/api/v1/model_serializer.rb         |  17 ++
+ app/serializers/api/v1/report_serializer.rb        |  25 +++
+ app/serializers/api/v1/serializer.rb               |  25 +++
+ app/serializers/api/v1/session_serializer.rb       |  16 ++
+ app/serializers/api/v1/user_serializer.rb          |  22 ++
+ config/routes.rb                                   |  22 ++
+ .../api/v1/admin/reports_controller_test.rb        | 173 ++++++++++++++++
+ .../admin/users/deactivations_controller_test.rb   |  97 +++++++++
+ .../api/v1/admin/users_controller_test.rb          | 230 +++++++++++++++++++++
+ .../api/v1/conversations_controller_test.rb        | 157 ++++++++++++++
+ .../controllers/api/v1/messages_controller_test.rb |  73 +++++++
+ test/controllers/api/v1/models_controller_test.rb  |  22 ++
+ .../api/v1/registrations_controller_test.rb        |  48 +++++
+ .../controllers/api/v1/sessions_controller_test.rb | 166 +++++++++++++++
+ test/test_helper.rb                                |   1 +
+ test/test_helpers/api_test_helper.rb               |  20 ++
+ 29 files changed, 1598 insertions(+)
+13ba780 Give sessions a bearer token for API clients
+ app/models/session.rb                              |  5 +++++
+ db/migrate/20260908030000_add_token_to_sessions.rb | 22 ++++++++++++++++++++++
+ db/schema.rb                                       |  4 +++-
+ test/models/session_test.rb                        |  8 ++++++++
+ 4 files changed, 38 insertions(+), 1 deletion(-)
+7745b1c Fix the report regressions from the last merge
+ app/models/admin/report.rb                              |  9 ++++-----
+ app/views/admin/reports/_stat.html.erb                  | 17 +++++++++++++++++
+ .../20260908020000_restore_messages_created_at_index.rb |  8 ++++++++
+ db/schema.rb                                            |  3 ++-
+ 4 files changed, 31 insertions(+), 6 deletions(-)
+a1ea35a Remove stale file
+ app/views/admin/reports/_stat.html.erb | 17 -----------------
+ 1 file changed, 17 deletions(-)
+35e3f93 Adjust report metric
+ app/models/admin/report.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+e5b251f Refactor report aggregation
+ app/models/admin/report.rb                                  | 6 ++++--
+ db/migrate/20260908010000_drop_messages_created_at_index.rb | 7 +++++++
+ db/schema.rb                                                | 3 +--
+ 3 files changed, 12 insertions(+), 4 deletions(-)
+afc32fe Add the admin reports dashboard
+ README.md                                         |  31 ++-
+ app/assets/tailwind/application.css               |  33 ++++
+ app/controllers/admin/reports_controller.rb       |  28 +++
+ app/helpers/admin/reports_helper.rb               | 134 +++++++++++++
+ app/models/admin/report.rb                        | 100 ++++++++++
+ app/views/admin/reports/_stat.html.erb            |  17 ++
+ app/views/admin/reports/_user.html.erb            |  17 ++
+ app/views/admin/reports/show.html.erb             | 170 +++++++++++++++++
+ app/views/layouts/admin.html.erb                  |   1 +
+ config/locales/en.yml                             |   4 +
+ config/routes.rb                                  |   2 +
+ test/controllers/admin/reports_controller_test.rb | 221 ++++++++++++++++++++++
+ test/helpers/admin/reports_helper_test.rb         |  80 ++++++++
+ test/models/admin/report_test.rb                  | 130 +++++++++++++
+ test/system/admin_reports_test.rb                 |  76 ++++++++
+ 15 files changed, 1041 insertions(+), 3 deletions(-)
+276595a Move admin pagination into Admin::BaseController
+ app/controllers/admin/base_controller.rb  | 10 ++++++++++
+ app/controllers/admin/users_controller.rb |  8 +-------
+ 2 files changed, 11 insertions(+), 7 deletions(-)
+733a774 Add conversation and message counter caches on users
+ app/controllers/admin/users_controller.rb          |  4 +--
+ app/models/conversation.rb                         |  2 +-
+ app/models/message.rb                              | 10 +++++++
+ app/views/admin/users/_user.html.erb               |  2 +-
+ app/views/admin/users/index.html.erb               |  3 +-
+ app/views/admin/users/show.html.erb                |  2 +-
+ ...dd_activity_counters_and_indexes_for_reports.rb | 32 ++++++++++++++++++++++
+ db/schema.rb                                       | 10 ++++++-
+ test/fixtures/users.yml                            |  5 ++++
+ test/models/user_test.rb                           | 28 +++++++++++++++++++
+ 10 files changed, 89 insertions(+), 9 deletions(-)
+7866dba Fix three admin regressions: SQL injection, auth bypass, last-admin safeguard
+ app/controllers/admin/users/deactivations_controller.rb |  4 ----
+ app/controllers/admin/users_controller.rb               |  6 +-----
+ app/models/user.rb                                      |  2 +-
+ test/controllers/admin/users_controller_test.rb         | 13 +++++++++++++
+ test/models/user_test.rb                                |  6 +++++-
+ 5 files changed, 20 insertions(+), 11 deletions(-)
+616bae5 Simplify the active-admin safeguard
+ app/models/user.rb       | 2 +-
+ test/models/user_test.rb | 6 +-----
+ 2 files changed, 2 insertions(+), 6 deletions(-)
+e71a1e2 Streamline the deactivate flow
+ app/controllers/admin/users/deactivations_controller.rb | 4 ++++
+ 1 file changed, 4 insertions(+)
+952ac88 Speed up admin user search
+ app/controllers/admin/users_controller.rb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+720e304 Add admin:promote task and document the admin area
+ README.md                        | 32 +++++++++++++++++++++++++++++---
+ lib/tasks/admin.rake             | 11 +++++++++++
+ test/tasks/admin_promote_test.rb | 35 +++++++++++++++++++++++++++++++++++
+ 3 files changed, 75 insertions(+), 3 deletions(-)
+6e52873 Add an admin area to list, search and manage users
+ app/controllers/admin/base_controller.rb           |  14 ++
+ .../admin/users/deactivations_controller.rb        |  27 +++
+ app/controllers/admin/users_controller.rb          |  63 +++++
+ app/helpers/admin/users_helper.rb                  |  27 +++
+ app/views/admin/users/_actions.html.erb            |  22 ++
+ app/views/admin/users/_user.html.erb               |  22 ++
+ app/views/admin/users/index.html.erb               |  73 ++++++
+ app/views/admin/users/show.html.erb                |  72 ++++++
+ app/views/layouts/_head.html.erb                   |  19 ++
+ app/views/layouts/_sidebar.html.erb                |   7 +-
+ app/views/layouts/admin.html.erb                   |  30 +++
+ app/views/layouts/application.html.erb             |  20 +-
+ config/routes.rb                                   |   9 +
+ test/application_system_test_case.rb               |   2 +
+ .../admin/users/deactivations_controller_test.rb   |  96 ++++++++
+ test/controllers/admin/users_controller_test.rb    | 268 +++++++++++++++++++++
+ test/system/admin_users_test.rb                    | 145 +++++++++++
+ 17 files changed, 896 insertions(+), 20 deletions(-)
+1b956f2 Add user roles and account deactivation
+ app/channels/application_cable/connection.rb       |   2 +-
+ app/controllers/concerns/authentication.rb         |   2 +-
+ app/controllers/sessions_controller.rb             |  10 +-
+ app/models/session.rb                              |   4 +
+ app/models/user.rb                                 |  39 ++++++++
+ ...7235239_add_role_and_deactivated_at_to_users.rb |  10 ++
+ db/schema.rb                                       |   6 +-
+ test/channels/application_cable/connection_test.rb |   7 ++
+ test/controllers/sessions_controller_test.rb       |  18 ++++
+ test/fixtures/users.yml                            |  10 ++
+ test/models/session_test.rb                        |   8 ++
+ test/models/user_test.rb                           | 111 +++++++++++++++++++++
+ 12 files changed, 221 insertions(+), 6 deletions(-)
+e549059 Unpin nokogiri to clear known vulnerabilities
+ Gemfile      |  3 ---
+ Gemfile.lock | 23 +++++++++++++++++------
+ 2 files changed, 17 insertions(+), 9 deletions(-)
+37b1907 Restore the sign in submit button
+ app/views/sessions/new.html.erb | 1 +
+ 1 file changed, 1 insertion(+)
+a43cbd2 Scope conversation lookup to the current user again
+ app/controllers/conversations_controller.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)

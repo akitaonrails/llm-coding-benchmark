@@ -1,0 +1,15 @@
+{
+  "command_kind": "agy",
+  "cost_usd": null,
+  "elapsed_seconds": 868.28,
+  "ended_at": "2026-09-11T20:21:00+00:00",
+  "exit_code": 0,
+  "file_count_after": 3056,
+  "harness": "agy",
+  "phase": "sprint04_reports",
+  "session_id": null,
+  "stall_aborted": false,
+  "started_at": "2026-09-11T20:06:32+00:00",
+  "timed_out": false,
+  "tokens": {}
+}

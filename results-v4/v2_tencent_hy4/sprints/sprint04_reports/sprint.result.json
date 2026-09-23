@@ -1,0 +1,10 @@
+{
+  "slug": "v2_tencent_hy4",
+  "sprint": "sprint04_reports",
+  "harness": "opencode",
+  "elapsed_seconds": 977.81,
+  "cost_usd": 0.3817,
+  "tokens_total": 4625844,
+  "exit_code": 0,
+  "stall_aborted": false
+}

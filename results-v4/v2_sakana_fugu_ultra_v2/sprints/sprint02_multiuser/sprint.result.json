@@ -1,0 +1,10 @@
+{
+  "slug": "v2_sakana_fugu_ultra_v2",
+  "sprint": "sprint02_multiuser",
+  "harness": "opencode",
+  "elapsed_seconds": 2699.46,
+  "cost_usd": 20.9764,
+  "tokens_total": 26768914,
+  "exit_code": 0,
+  "stall_aborted": false
+}

@@ -1,0 +1,10 @@
+{
+  "slug": "v2_nemotron_3_5_lightning",
+  "sprint": "sprint01_foundation",
+  "harness": "opencode",
+  "elapsed_seconds": 754.2,
+  "cost_usd": 0.6625,
+  "tokens_total": 16209025,
+  "exit_code": 0,
+  "stall_aborted": false
+}

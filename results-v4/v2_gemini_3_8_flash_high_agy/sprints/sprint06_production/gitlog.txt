@@ -1,0 +1,251 @@
+33fa11a feat(docker): harden Docker, docker-compose, and entrypoint for production
+ .dockerignore         |  3 +++
+ .env.example          | 36 ++++++++++++++++++++++++++++++++++
+ Dockerfile            | 14 +++++++++-----
+ README.md             | 53 +++++++++++++++++++++++++++++++++++++++++++--------
+ bin/docker-entrypoint |  2 +-
+ docker-compose.yml    | 12 ++++++++++--
+ 6 files changed, 104 insertions(+), 16 deletions(-)
+aba76f3 feat(config): harden production environment and LLM configuration
+ config/environments/production.rb          | 31 ++++++++++++++++--------------
+ config/initializers/ruby_llm.rb            |  2 +-
+ test/integration/health_check_test.rb      | 12 ++++++++++++
+ test/integration/production_config_test.rb | 18 +++++++++++++++++
+ 4 files changed, 48 insertions(+), 15 deletions(-)
+a754ee3 fix(api): restore user-scoped chat lookup and eliminate N+1 queries
+ app/controllers/api/v1/chats_controller.rb    | 2 +-
+ app/controllers/api/v1/messages_controller.rb | 2 +-
+ app/controllers/chats_controller.rb           | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+d2e5c59 fix(security): update rack-cors and fix CORS credentials configuration
+ Gemfile                       |  2 +-
+ Gemfile.lock                  |  6 +++---
+ config/initializers/cors.rb   |  4 ++--
+ test/integration/cors_test.rb | 34 ++++++++++++++++++++++++++++++++++
+ 4 files changed, 40 insertions(+), 6 deletions(-)
+1f148fd chore: set default openrouter api key for local development
+ config/initializers/ruby_llm.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+e0b60d4 build: add rack-cors dependency for API CORS support
+ Gemfile      | 2 ++
+ Gemfile.lock | 4 ++++
+ 2 files changed, 6 insertions(+)
+3988107 feat: allow cross-origin API access for external clients
+ config/initializers/cors.rb | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+ca551e0 fix: preserve inline formatting in rendered user messages
+ app/views/messages/_user.html.erb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+688e7fe perf: simplify api chat lookup for show/update/destroy
+ app/controllers/api/v1/chats_controller.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+f864e86 feat: decouple frontend to consume versioned API and add system tests
+ README.md                                          |   9 +-
+ .../controllers/chat_input_controller.js           | 135 +++++++++++++++++++++
+ app/javascript/controllers/prompt_controller.js    |   2 +-
+ app/views/messages/_form.html.erb                  |   2 +-
+ test/system/api_decoupled_frontend_test.rb         |  56 +++++++++
+ 5 files changed, 201 insertions(+), 3 deletions(-)
+297c00a feat: add versioned REST API (v1) with authentication, authorization, and admin endpoints
+ app/controllers/api/v1/admin/base_controller.rb    |  19 +++
+ .../api/v1/admin/dashboard_controller.rb           |  81 +++++++++++
+ app/controllers/api/v1/admin/users_controller.rb   | 157 +++++++++++++++++++++
+ app/controllers/api/v1/base_controller.rb          |  81 +++++++++++
+ app/controllers/api/v1/chats_controller.rb         | 110 +++++++++++++++
+ app/controllers/api/v1/messages_controller.rb      |  68 +++++++++
+ app/controllers/api/v1/models_controller.rb        |  50 +++++++
+ app/controllers/api/v1/registrations_controller.rb |  44 ++++++
+ app/controllers/api/v1/sessions_controller.rb      |  62 ++++++++
+ app/controllers/api/v1/users_controller.rb         |  20 +++
+ config/routes.rb                                   |  35 +++++
+ .../api/v1/admin/dashboard_controller_test.rb      |  57 ++++++++
+ .../api/v1/admin/users_controller_test.rb          | 113 +++++++++++++++
+ test/controllers/api/v1/chats_controller_test.rb   | 106 ++++++++++++++
+ .../controllers/api/v1/messages_controller_test.rb |  84 +++++++++++
+ test/controllers/api/v1/models_controller_test.rb  |  42 ++++++
+ .../api/v1/registrations_controller_test.rb        |  43 ++++++
+ .../controllers/api/v1/sessions_controller_test.rb |  76 ++++++++++
+ test/controllers/api/v1/users_controller_test.rb   |  28 ++++
+ 19 files changed, 1276 insertions(+)
+54834d5 feat: add api_token to users with unique index and model token generation
+ app/models/current.rb                               |  7 +++++--
+ app/models/user.rb                                  |  1 +
+ db/migrate/20260911203911_add_api_token_to_users.rb |  6 ++++++
+ db/schema.rb                                        |  5 ++++-
+ test/fixtures/users.yml                             |  4 ++++
+ test/models/user_test.rb                            | 13 +++++++++++++
+ 6 files changed, 33 insertions(+), 3 deletions(-)
+7425b37 fix: restore admin dashboard activity chart partial
+ app/views/admin/dashboard/_activity_chart.html.erb | 84 ++++++++++++++++++++++
+ 1 file changed, 84 insertions(+)
+944f743 chore: drop unused dashboard activity chart template
+ app/views/admin/dashboard/_activity_chart.html.erb | 84 ----------------------
+ 1 file changed, 84 deletions(-)
+00947bb refactor: extract activity-over-time chart into a dashboard partial
+ app/views/admin/dashboard/_activity_chart.html.erb | 84 +++++++++++++++++++++
+ app/views/admin/dashboard/index.html.erb           | 85 +---------------------
+ 2 files changed, 85 insertions(+), 84 deletions(-)
+ba93ccf fix: count new users against full roster for period activity tile
+ app/models/admin/dashboard_report.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+be269cf perf: compute activity trend per-day and trim redundant messages created_at index
+ app/models/admin/dashboard_report.rb               | 13 ++++---------
+ db/migrate/20260911201023_add_reporting_indexes.rb |  1 -
+ db/schema.rb                                       |  1 -
+ 3 files changed, 4 insertions(+), 11 deletions(-)
+bef40df docs: update documentation for admin reports and dashboard
+ README.md | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
+480f48c feat: add admin reporting dashboard with activity trends and per-user breakdown
+ app/assets/builds/tailwind.css                     |   2 +-
+ app/controllers/admin/dashboard_controller.rb      |  33 ++
+ app/views/admin/dashboard/index.html.erb           | 578 +++++++++++++++++++++
+ app/views/admin/users/index.html.erb               |  24 +
+ app/views/admin/users/show.html.erb                |   6 +
+ app/views/shared/_sidebar.html.erb                 |  18 +-
+ config/routes.rb                                   |   4 +-
+ .../controllers/admin/dashboard_controller_test.rb | 131 +++++
+ test/system/admin_dashboard_test.rb                | 157 ++++++
+ 9 files changed, 947 insertions(+), 6 deletions(-)
+6a313da feat: add Admin::DashboardReport model for aggregate KPIs and per-user metrics
+ app/models/admin/dashboard_report.rb       | 352 +++++++++++++++++++++++++++++
+ test/models/admin/dashboard_report_test.rb | 169 ++++++++++++++
+ 2 files changed, 521 insertions(+)
+8185772 perf: add database indexes on created_at for users, chats, and messages
+ db/migrate/20260911201023_add_reporting_indexes.rb | 9 +++++++++
+ db/schema.rb                                       | 7 ++++++-
+ 2 files changed, 15 insertions(+), 1 deletion(-)
+60a219c Revert "perf: inline admin user search filter to avoid escaping overhead"
+ app/models/user.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+0018a5b Revert "fix: allow team invite promotion flow to reach admin users#promote"
+ app/controllers/admin/users_controller.rb | 4 ----
+ 1 file changed, 4 deletions(-)
+f724d1a Revert "refactor: simplify email normalization to preserve user-entered form"
+ app/models/user.rb       | 2 +-
+ test/models/user_test.rb | 3 +--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+92ce397 refactor: simplify email normalization to preserve user-entered form
+ app/models/user.rb       | 2 +-
+ test/models/user_test.rb | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+4f86979 fix: allow team invite promotion flow to reach admin users#promote
+ app/controllers/admin/users_controller.rb | 4 ++++
+ 1 file changed, 4 insertions(+)
+984e3d5 perf: inline admin user search filter to avoid escaping overhead
+ app/models/user.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+b841f70 docs: update documentation for admin area and user management
+ README.md | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
+7baac25 feat: add admin area for user listing, search, promotion, and deactivation
+ app/assets/builds/tailwind.css                  |   2 +-
+ app/controllers/admin/base_controller.rb        |  18 ++
+ app/controllers/admin/users_controller.rb       |  98 +++++++++++
+ app/views/admin/users/index.html.erb            | 171 ++++++++++++++++++
+ app/views/admin/users/show.html.erb             | 199 +++++++++++++++++++++
+ app/views/shared/_sidebar.html.erb              |  17 +-
+ config/routes.rb                                |  12 ++
+ test/controllers/admin/users_controller_test.rb | 224 ++++++++++++++++++++++++
+ test/system/admin_test.rb                       | 122 +++++++++++++
+ 9 files changed, 861 insertions(+), 2 deletions(-)
+47d9ae1 feat: add admin role, deactivation, and session invalidation to User model
+ app/controllers/concerns/authentication.rb         | 12 ++-
+ app/controllers/sessions_controller.rb             | 10 ++-
+ app/models/user.rb                                 | 43 ++++++++++
+ ...0911194255_add_role_and_deactivated_to_users.rb | 10 +++
+ db/schema.rb                                       |  7 +-
+ test/controllers/sessions_controller_test.rb       | 11 ++-
+ test/fixtures/users.yml                            | 17 ++++
+ test/models/user_test.rb                           | 93 ++++++++++++++++++++++
+ 8 files changed, 197 insertions(+), 6 deletions(-)
+07e2fda fix: revert regressions in chat scoping, sign-in form, and nokogiri dependency
+ Gemfile                             |  3 ---
+ Gemfile.lock                        | 25 ++++++++++++-------------
+ app/controllers/chats_controller.rb |  2 +-
+ app/views/sessions/new.html.erb     |  3 +++
+ 4 files changed, 16 insertions(+), 17 deletions(-)
+239d3b9 build: pin nokogiri for reproducible parsing
+ Gemfile      |  3 +++
+ Gemfile.lock | 25 +++++++++++++------------
+ 2 files changed, 16 insertions(+), 12 deletions(-)
+6ce4c47 style: tidy up sign-in form markup
+ app/views/sessions/new.html.erb | 3 ---
+ 1 file changed, 3 deletions(-)
+d1e2e18 fix: simplify chat lookup in show action
+ app/controllers/chats_controller.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+270eb23 docs: update documentation for multi-user authentication and conversation scoping
+ README.md | 38 +++++++++++++++++++++++++++-----------
+ 1 file changed, 27 insertions(+), 11 deletions(-)
+fa0553c test: add unit, integration, and system tests for authentication and multi-user isolation
+ test/application_system_test_case.rb              |  11 ++-
+ test/controllers/chats_controller_test.rb         |  67 ++++++++++++--
+ test/controllers/messages_controller_test.rb      |  26 +++++-
+ test/controllers/passwords_controller_test.rb     |  67 ++++++++++++++
+ test/controllers/registrations_controller_test.rb |  83 +++++++++++++++++
+ test/controllers/sessions_controller_test.rb      |  33 +++++++
+ test/jobs/chat_response_job_test.rb               |   3 +-
+ test/models/chat_test.rb                          |  39 ++++++--
+ test/models/message_test.rb                       |   3 +-
+ test/models/user_test.rb                          |  57 ++++++++++++
+ test/system/authentication_test.rb                | 104 ++++++++++++++++++++++
+ test/system/chats_test.rb                         |   6 +-
+ test/test_helper.rb                               |   1 +
+ 13 files changed, 478 insertions(+), 22 deletions(-)
+105854d feat: add multi-user support with scoped conversations and registration
+ app/assets/builds/tailwind.css                 |  2 +-
+ app/controllers/application_controller.rb      |  3 +-
+ app/controllers/chats_controller.rb            |  6 +--
+ app/controllers/messages_controller.rb         |  2 +-
+ app/controllers/models_controller.rb           |  1 +
+ app/controllers/registrations_controller.rb    | 27 +++++++++++++
+ app/models/chat.rb                             |  2 +
+ app/models/user.rb                             | 13 +++++++
+ app/views/layouts/application.html.erb         | 12 +++---
+ app/views/registrations/new.html.erb           | 54 ++++++++++++++++++++++++++
+ app/views/shared/_sidebar.html.erb             | 31 +++++++++++++++
+ config/routes.rb                               |  5 +++
+ db/migrate/20260911184909_add_user_to_chats.rb | 18 +++++++++
+ db/schema.rb                                   | 24 +++++++++++-
+ 14 files changed, 188 insertions(+), 12 deletions(-)
+f567a78 feat: add Rails 8 authentication with User and Session models
+ Gemfile                                           |  2 +-
+ Gemfile.lock                                      |  3 ++
+ app/channels/application_cable/connection.rb      | 16 +++++++
+ app/controllers/concerns/authentication.rb        | 56 +++++++++++++++++++++++
+ app/controllers/passwords_controller.rb           | 35 ++++++++++++++
+ app/controllers/sessions_controller.rb            | 21 +++++++++
+ app/mailers/passwords_mailer.rb                   |  6 +++
+ app/models/current.rb                             |  4 ++
+ app/models/session.rb                             |  3 ++
+ app/views/passwords/edit.html.erb                 | 31 +++++++++++++
+ app/views/passwords/new.html.erb                  | 31 +++++++++++++
+ app/views/passwords_mailer/reset.html.erb         |  6 +++
+ app/views/passwords_mailer/reset.text.erb         |  4 ++
+ app/views/sessions/new.html.erb                   | 40 ++++++++++++++++
+ db/migrate/20260911184831_create_users.rb         | 11 +++++
+ db/migrate/20260911184832_create_sessions.rb      | 11 +++++
+ test/fixtures/users.yml                           |  9 ++++
+ test/mailers/previews/passwords_mailer_preview.rb |  7 +++
+ test/test_helpers/session_test_helper.rb          | 19 ++++++++
+ 19 files changed, 314 insertions(+), 1 deletion(-)
+1335eda docs: add setup and deployment documentation in README.md
+ README.md | 207 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 207 insertions(+)
+8aeacca test: add comprehensive model, controller, job, and Capybara system tests
+ test/application_system_test_case.rb         | 18 ++++++
+ test/controllers/.keep                       |  0
+ test/controllers/chats_controller_test.rb    | 62 ++++++++++++++++++++
+ test/controllers/messages_controller_test.rb | 40 +++++++++++++
+ test/fixtures/files/.keep                    |  0
+ test/helpers/.keep                           |  0
+ test/integration/.keep                       |  0
+ test/jobs/chat_response_job_test.rb          | 87 ++++++++++++++++++++++++++++
+ test/mailers/.keep                           |  0
+ test/models/.keep                            |  0
+ test/models/chat_test.rb                     | 48 +++++++++++++++
+ test/models/message_test.rb                  | 29 ++++++++++
+ test/system/chats_test.rb                    | 76 ++++++++++++++++++++++++
+ test/test_helper.rb                          | 19 ++++++
+ 14 files changed, 379 insertions(+)
