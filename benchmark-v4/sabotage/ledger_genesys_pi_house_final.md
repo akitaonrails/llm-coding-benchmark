@@ -1,6 +1,6 @@
 # Genesys PI House (LUA Vision) — v4 "The Sprint" FINAL ledger
 
-Harness: opencode / LUA Vision api.lua.vision (OpenAI-compatible, 600K ctx). **Free vendor eval key** → actual cost $0; notional list-price cost ~$439 shown for reference (input $10.19/M, uncached). All 7 sprints exit 0, clean.
+Harness: opencode / LUA Vision api.lua.vision (OpenAI-compatible, 600K ctx). **Free vendor eval key** → actual cost $0; notional list-price cost ~$460 shown for reference (input $10.66/M, uncached). All 7 sprints exit 0, clean.
 Sabotage set: standard 14 (Σ40), byte-faithful to the canonical set (adapted to Rails-8 `email_address` + `Admin::Report`).
 NOTE: house **did not self-commit** on S3/S4 (ended turn without the final commit, exit 0) → those were snapshotted as Sprinter baseline commits (`c7bcdf2`, `ccbbf5e`); S1/S2/S5/S6/S7 self-committed. Sibling **enterprise tier DNF'd** (deterministic 841× grep loop on RubyLLM recon, 90-min timeout, no commit).
 

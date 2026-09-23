@@ -1,6 +1,6 @@
 # Genesys PI Enterprise (LUA Vision) — v4 "The Sprint" FINAL ledger
 
-Harness: opencode / api.lua.vision (OpenAI-compatible, 384K ctx). **Free vendor eval key** → actual cost $0; notional list-price ~$18 (input $0.74/M). 
+Harness: opencode / api.lua.vision (OpenAI-compatible, 384K ctx). **Free vendor eval key** → actual cost $0; notional list-price ~$19 (input $0.78/M). 
 **Viability note:** first S01 attempt DNF'd (stochastic 841× `grep "LUA"` loop on RubyLLM recon, 90-min timeout, no commit — preserved as `results-v4/v2_genesys_pi_enterprise.dnf-90min-loop-*`). Clean re-run S01 committed in 7 min; all 7 sprints then completed clean. The loop was a one-off, NOT deterministic. Scored on the clean run.
 Enterprise shipped **no user model tests/fixtures** (quality gap vs house).
 
