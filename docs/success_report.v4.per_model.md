@@ -1,4 +1,4 @@
-# v4 "The Sprint" — Per-Model Analysis (44 scored models)
+# v4 "The Sprint" — Per-Model Analysis (45 scored models)
 
 > One profile per model, linkable by heading anchor (e.g. `…v4.per_model.md#claude-opus-4-8`).
 > Companion to the combined ranking (`success_report.v4.combined.md`) and the per-wave ledgers
@@ -22,7 +22,7 @@ file (M2), #10 API IDOR (H3), #11 stored/DOM XSS (H3), #12 permissive CORS (M2),
 #14 hardcoded secret (H3). Tier: A ≥83 (usable), B 75–82, C <75. Cost: codex/opencode/kimi = real API $;
 Claude models on Max subscription (notional $). Compare cost within-harness.
 
-**The universal law across all 44: detection tracks DISGUISE, not severity.** Loud bugs (SQLi, tenant
+**The universal law across all 45: detection tracks DISGUISE, not severity.** Loud bugs (SQLi, tenant
 leak) are caught by everyone; the survivors are always the *disguised* ones — the defang-and-plant #6,
 the silent wrong aggregate #8, the dropped index #7b, the two-context XSS #11. The never-fixed (×0)
 column is the sharpest separator between models.
@@ -55,6 +55,7 @@ column is the sharpest separator between models.
 | 23 | [DeepSeek V4 Pro 0813](#deepseek-v4-pro-0813--840) | 84.0 | A | $4.49 | 152m |
 | 24 | [Step 3.7 Flash](#step-37-flash--8375) | 83.75 | A | $4.15 | 118m |
 | 25 | [Grok 4.7](#grok-47--835) ᴺ | 83.5 | A | $27.94 | 120m |
+| 25 | [Genesys PI House (LUA Vision)](#genesys-pi-house--835) ᴺ | 83.5 | A | $0 eval | 68m |
 | 26 | [DeepSeek V4 Pro (base)](#deepseek-v4-pro-base--820) | 82.0 | B | $5.26 | 97m |
 | 27 | [Qwen 3.8 27B (strix, local)](#qwen-38-27b-strix--800) | 80.0 | B | $0 local | 706m |
 | 28 | [Qwen 3.7 Max](#qwen-37-max--790) | 79.0 | B | $10.63 | 106m |
@@ -341,6 +342,30 @@ email normalization rather than catching it. When TOLD, it fixed 100% cleanly (r
 tests, e.g. a new "counts deactivated admins once" test for #8) → **zero never-fixed, stays Tier A.** $27.94 /
 120m (opencode/OpenRouter). Single clean run; the 4.6→4.7 gap is one data point on a noisy axis, not a settled
 regression. Ledger: `benchmark-v4/sabotage/ledger_grok_4_7_final.md`.
+
+## Genesys PI House (LUA Vision) — 83.5 {#genesys-pi-house--835}
+**New model (2026-09-23) — Brazilian LUA Vision flagship, first non-OpenRouter/first-party-API entry; ties
+Grok 4.7.** opencode via `api.lua.vision` (OpenAI-compatible, 600K ctx); **free vendor eval key** so actual
+cost is $0 (notional list-price ~$439 at $10.19/M input, uncached). Full 14-item set, all 7 sprints clean,
+converges fast (~68 min total). **Unprompted 31/40** — the textbook "detection tracks DISGUISE, not severity"
+profile: caught every LOUD item on its own (both Criticals #1/#4, API IDOR #10, hardcoded key #14, CORS #12 via
+an env-driven allow-list, both gem CVEs #3/#13, admin authz-skip #5, the N+1 #7a, and the page-breaking deleted
+reports view #9); deferred the two disguised HIGHs to the reveal (×0.4) — the email defang-and-plant #6 (fixed
+*exemplarily*: restored `.downcase`, un-defanged the test, AND added a DB-level `lower(email)` unique index) and
+the stored XSS #11 (back to `textContent`); and **never caught the two SILENT mediums** — the no-test-guard
+dropped index #7b and the aligned-hidden active-only aggregate #8 (never-fixed, ×0). Notably it **did not
+self-commit on S3/S4** (ended the turn without the final commit; snapshotted as baseline commits). A genuine
+frontier-class result. **Its sibling `genesys-pi-enterprise` DNF'd** — see below. Ledger:
+`benchmark-v4/sabotage/ledger_genesys_pi_house_final.md`.
+
+## Genesys PI Enterprise (LUA Vision) — DNF (RubyLLM-recon loop) {#genesys-pi-enterprise-dnf}
+The mid-tier LUA Vision model **did not finish Sprint 1**: it fell into a deterministic loop, running the
+identical command `bundle show ruby_llm | xargs … grep -R "LUA" …` **841 of 857 tool calls** (confused
+reconciling its own "LUA" family name with the RubyLLM gem), never progressing past dependency recon, and was
+killed at the 90-min phase cap with **zero commits**. More time/budget doesn't help (it would just loop more);
+the failure is convergence, not cost (free eval key). Not scored/ranked (DNF, per scoring-discipline #7). The
+flagship (house) handles the same step cleanly — the loop is enterprise-specific. Re-attempted once with a
+raised 4h cap (free eval key) to confirm the loop is deterministic and not a timeout artifact.
 
 ## DeepSeek V4 Pro (base) — 82.0
 The classic **"needs to be told" profile:** weak unprompted (28/40) but caught **the remaining halves the
