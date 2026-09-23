@@ -1,0 +1,10 @@
+{
+  "slug": "v2_genesys_pi_house",
+  "sprint": "sprint06_production",
+  "harness": "opencode",
+  "elapsed_seconds": 820.24,
+  "cost_usd": 71.7846,
+  "tokens_total": 6970529,
+  "exit_code": 0,
+  "stall_aborted": false
+}
