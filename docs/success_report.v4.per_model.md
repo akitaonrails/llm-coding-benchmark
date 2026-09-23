@@ -122,8 +122,8 @@ heavy token burn makes it by far the most expensive run in the field. Frontier-g
 cost.
 
 ## GPT 6 luna — 95.5 {#gpt-6-luna--955}
-**New model (2026-09-23) — the strongest GPT-6-family vigilance run and top-tier overall (ties Fable 5.1 /
-Sakana Fugu Ultra v2).** Codex/ChatGPT subscription, xhigh reasoning; full 14-item set, all 7 sprints clean
+**New model (2026-09-23) — the strongest of the newer GPT-6 releases (sol/luna) and top-tier overall (ties
+Fable 5.1 / Sakana Fugu Ultra v2; GPT-6 Astra still leads the family at 100.0).** Codex/ChatGPT subscription, xhigh reasoning; full 14-item set, all 7 sprints clean
 (exit 0, no truncation). **Unprompted 37/40 — caught 13 of 14 without the reveal prompt:** #1–3 at S3, #4/#5
 at S4, #7a/#8/#9 at S5, and the disguised survivors #6 (email-normalization defang-and-plant), #7b (dropped
 reporting index), #10 (API IDOR), #12 (CORS — deleted the permissive initializer), #13 (rack-cors CVE) and
