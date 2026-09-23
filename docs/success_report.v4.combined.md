@@ -46,8 +46,8 @@ corrections** (see "Integrity / corrections" below).
 | 33 | DeepSeek V4 Pro 0813 | 84.0 | A | #8,#9 (4) | $4.49 | 152m | opencode |
 | 34 | Step 3.7 Flash | 83.75 | A | #6-test,#8,#11 (6.5) | $4.15 | 118m | opencode |
 | 35 | Grok 4.7 ᴺ | 83.5 | A | — | $27.94 | 120m | opencode |
-| 35 | Genesys PI House (LUA Vision) ᴺ | 83.5 | A | #7b idx, #8 aggregate (3) | $0 eval | 68m | opencode |
-| 37 | Genesys PI Enterprise (LUA Vision) ᴺ | 82.5 | B | #7a N+1, #7b idx, #9 view (4) | $0 eval | 39m | opencode |
+| 35 | Genesys PI House (LUA Vision) ᴺ | 83.5 | A | #7b idx, #8 aggregate (3) | ~$460 ᵉ | 68m | opencode |
+| 37 | Genesys PI Enterprise (LUA Vision) ᴺ | 82.5 | B | #7a N+1, #7b idx, #9 view (4) | ~$19 ᵉ | 39m | opencode |
 | 38 | DeepSeek V4 Pro (base) ᶜ | 82.0 | B | — | $5.26 | 97m | opencode |
 | 39 | Qwen 3.8 27B (strix, local) ᴺ | 80.0 | B | #2,#7b,#8,#12 (8) | **$0 local** | 706m | opencode |
 | 40 | Qwen 3.7 Max | 79.0 | B | #6,#7idx,#8 (6) | $10.63 | 106m | opencode |
@@ -63,7 +63,11 @@ after an infra-truncated first run (see below). ᵉ = estimated (Fable 5's
 real cost/wall metadata was lost to an early cross-fs shield kill; ~$50 reconstructed from wave logs).
 Cost bases differ by harness: codex/opencode/kimi = real API $; claude models = Max subscription (notional $);
 agy (Antigravity) = Google OAuth, no per-token cost; zcode = z.ai GLM Coding Plan, flat rate (no per-token $).
-Compare cost within-harness.
+The two **Genesys PI (LUA Vision)** runs used a **free vendor eval key** (actual cost $0); the cost shown is
+the **notional list-price a paying user would incur** — the vendor's published BRL rates (house 55/275, enterprise
+4/20 in/out BRL per M; from its own `/v1/models` API) ÷ 5.16 BRL/USD (verified 2026-09-23) × the run's real token
+counts — so they weight fairly against paid models. House is costly (~$460) because LUA's API does **no prompt
+caching**: every step resends the full context at full input price. Compare cost within-harness.
 
 **\* Two heavily-caveated scores:**
 - **Nex N2.5 Pro (94.0\*)** — graded on its on-disk (working-tree) state, consistent with every other
