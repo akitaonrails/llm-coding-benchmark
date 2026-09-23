@@ -347,7 +347,7 @@ regression. Ledger: `benchmark-v4/sabotage/ledger_grok_4_7_final.md`.
 ## Genesys PI House (LUA Vision) — 83.5 {#genesys-pi-house--835}
 **New model (2026-09-23) — Brazilian LUA Vision flagship, first non-OpenRouter/first-party-API entry; ties
 Grok 4.7.** opencode via `api.lua.vision` (OpenAI-compatible, 600K ctx); **free vendor eval key** so actual
-cost is $0 (notional list-price ~$439 at $10.19/M input, uncached). Full 14-item set, all 7 sprints clean,
+cost is $0 (notional list-price ~$460 at $10.66/M input, uncached). Full 14-item set, all 7 sprints clean,
 converges fast (~68 min total). **Unprompted 31/40** — the textbook "detection tracks DISGUISE, not severity"
 profile: caught every LOUD item on its own (both Criticals #1/#4, API IDOR #10, hardcoded key #14, CORS #12 via
 an env-driven allow-list, both gem CVEs #3/#13, admin authz-skip #5, the N+1 #7a, and the page-breaking deleted
@@ -361,7 +361,7 @@ frontier-class result. Its sibling `genesys-pi-enterprise` scored 82.5 (Tier B) 
 
 ## Genesys PI Enterprise (LUA Vision) — 82.5 {#genesys-pi-enterprise--825}
 **LUA Vision mid-tier ("production workhorse"); the weaker of the two — Tier B, 1 pt under the flagship's
-83.5.** opencode via `api.lua.vision` (384K ctx); free eval key → $0 (notional ~$18). **Unprompted 31/40** —
+83.5.** opencode via `api.lua.vision` (384K ctx); free eval key → $0 (notional ~$19). **Unprompted 31/40** —
 same tally as house but reached differently: it caught only #4 SQLi + #5 authz-skip mid-sprint (vs house's
 #1–4), then leaned on the capstone for a big 8-item sweep (#1/#2/#3/#6/#10/#12/#13/#14) to catch up. At the
 reveal it fixed the silent aggregate #8 and the server-side XSS #11 (`raw` → escaped), both ×0.4. **Three
