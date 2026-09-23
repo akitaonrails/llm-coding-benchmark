@@ -1118,13 +1118,13 @@
       "model_id": "lua/genesys-pi-house",
       "billing": "LUA Vision API (api.lua.vision) - first-party, BRL-priced",
       "rates_per_m": {
-        "input": 10.19,
-        "cache_read": 1.11,
-        "cache_write": 10.19,
-        "output": 50.93
+        "input": 10.66,
+        "cache_read": 1.16,
+        "cache_write": 10.66,
+        "output": 53.29
       },
       "wave": 7,
-      "notes": "Added 2026-09-23 per user. Brazilian Genesys PI family (LUA Vision Tecnologia, Sao Paulo). Flagship: 'maximum quality for long/complex/high-stakes work', 600K ctx / 128K out. OpenAI-compatible /v1, Bearer auth; tools+streaming+json_schema verified. GENERAL model (no coding-specialized variant); regulated-market PT/EN focus. rates_per_m = BRL price / 5.4 (2026-09-23): in 55, cachedIn 6, out 275 BRL/M. CAVEAT: server injects a large system prompt (~741 tok on a bare call) inflating input tokens/cost. Run SHIELDED per shield-all policy."
+      "notes": "Added 2026-09-23 per user. Brazilian Genesys PI family (LUA Vision Tecnologia, Sao Paulo). Flagship: 'maximum quality for long/complex/high-stakes work', 600K ctx / 128K out. OpenAI-compatible /v1, Bearer auth; tools+streaming+json_schema verified. GENERAL model (no coding-specialized variant); regulated-market PT/EN focus. rates_per_m = BRL price / 5.16 (2026-09-23, verified): in 55, cachedIn 6, out 275 BRL/M. CAVEAT: server injects a large system prompt (~741 tok on a bare call) inflating input tokens/cost. Run SHIELDED per shield-all policy."
     },
     {
       "slug": "v2_genesys_pi_enterprise",
@@ -1133,13 +1133,13 @@
       "model_id": "lua/genesys-pi-enterprise",
       "billing": "LUA Vision API (api.lua.vision) - first-party, BRL-priced",
       "rates_per_m": {
-        "input": 0.74,
-        "cache_read": 0.09,
-        "cache_write": 0.74,
-        "output": 3.7
+        "input": 0.78,
+        "cache_read": 0.1,
+        "cache_write": 0.78,
+        "output": 3.88
       },
       "wave": 7,
-      "notes": "Added 2026-09-23 per user. Genesys PI 'production workhorse: high quality, low latency', 384K ctx / 128K out. rates_per_m = BRL/5.4: in 4, cachedIn 0.5, out 20 BRL/M. Smoke-tested one sprint first; if too slow or failing too much, drop to house-only (user decision). Run SHIELDED."
+      "notes": "Added 2026-09-23 per user. Genesys PI 'production workhorse: high quality, low latency', 384K ctx / 128K out. rates_per_m = BRL/5.16: in 4, cachedIn 0.5, out 20 BRL/M. Smoke-tested one sprint first; if too slow or failing too much, drop to house-only (user decision). Run SHIELDED."
     }
   ],
   "skipped": {
