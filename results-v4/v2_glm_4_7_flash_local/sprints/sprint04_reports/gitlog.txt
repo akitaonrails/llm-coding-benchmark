@@ -1,0 +1,171 @@
+e7a1fef Add admin reporting dashboard with efficient queries
+ Gemfile                                            |   3 +
+ Gemfile.lock                                       |  15 +-
+ app/controllers/admin/dashboard_controller.rb      |  61 +++
+ app/services/dashboard_service.rb                  | 178 +++++++
+ app/views/admin/dashboard/activity.json.jbuilder   |   8 +
+ .../admin/dashboard/conversations.json.jbuilder    |  13 +
+ app/views/admin/dashboard/index.html.erb           | 515 +++++++++++++++++++++
+ .../admin/dashboard/recent_activity.json.jbuilder  |  14 +
+ app/views/admin/dashboard/stats.json.jbuilder      |  10 +
+ app/views/admin/dashboard/user.json.jbuilder       |  13 +
+ app/views/admin/dashboard/users.json.jbuilder      |  13 +
+ config/routes.rb                                   |   8 +
+ db/migrate/20260911230001_add_reporting_indexes.rb |  11 +
+ run_dashboard_tests.rb                             |  20 +
+ .../controllers/admin/dashboard_controller_test.rb | 258 +++++++++++
+ test/fixtures/users.yml                            |  15 +
+ test/integration/admin_dashboard_flow_test.rb      | 225 +++++++++
+ test/services/dashboard_service_test.rb            | 204 ++++++++
+ test/test_helper.rb                                |   4 +
+ 19 files changed, 1584 insertions(+), 4 deletions(-)
+14d2e1a Refine admin? predicate and simplify its spec
+ app/models/user.rb             | 2 +-
+ test/models/user_test_admin.rb | 3 +--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+89aa589 Streamline admin before_action filters
+ app/controllers/admin/users_controller.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+6eb1acc Implement admin user search filter
+ app/controllers/admin/users_controller.rb | 4 ++++
+ 1 file changed, 4 insertions(+)
+2583ece Add admin area with user management capabilities
+ app/controllers/admin/users_controller.rb       |  37 ++++++
+ app/controllers/application_controller.rb       |   4 +
+ app/models/user.rb                              |  15 ++-
+ app/views/admin/users/index.html.erb            |  87 ++++++++++++++
+ app/views/admin/users/show.html.erb             |  82 +++++++++++++
+ config/routes.rb                                |  12 ++
+ db/add_admin_columns.rb                         |  21 ++++
+ db/migrate/20260911231100_add_admin_to_users.rb |   8 ++
+ db/schema.rb                                    |   4 +
+ db/seeds.rb                                     |  22 +++-
+ test/controllers/admin/users_controller_test.rb | 112 ++++++++++++++++++
+ test/integration/admin_users_flow_test.rb       | 151 ++++++++++++++++++++++++
+ test/models/user_test_admin.rb                  | 107 +++++++++++++++++
+ test/test_helper.rb                             |   4 +-
+ 14 files changed, 660 insertions(+), 6 deletions(-)
+661f57c Pin nokogiri version for reproducible builds
+ Gemfile      |  1 +
+ Gemfile.lock | 24 ++++++++++++------------
+ 2 files changed, 13 insertions(+), 12 deletions(-)
+1d1f036 Tidy sign-in form markup
+ app/views/sessions/new.html.erb | 1 -
+ 1 file changed, 1 deletion(-)
+ee97e0b Simplify conversation lookup in show/update
+ app/controllers/conversations_controller.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+3579b1e sprint 2 multiuser (committed by harness)
+ .dockerignore                                      |  39 ++
+ .github/dependabot.yml                             |  12 +
+ .github/workflows/ci.yml                           |  76 ++++
+ .gitignore                                         |  61 +++
+ .ignore                                            |   5 +
+ .kamal/hooks/docker-setup.sample                   |   3 +
+ .kamal/hooks/post-app-boot.sample                  |   3 +
+ .kamal/hooks/post-deploy.sample                    |  14 +
+ .kamal/hooks/post-proxy-reboot.sample              |   3 +
+ .kamal/hooks/pre-app-boot.sample                   |   3 +
+ .kamal/hooks/pre-build.sample                      |  51 +++
+ .kamal/hooks/pre-connect.sample                    |  47 ++
+ .kamal/hooks/pre-deploy.sample                     | 122 +++++
+ .kamal/hooks/pre-proxy-reboot.sample               |   3 +
+ .kamal/secrets                                     |  20 +
+ .rubocop.yml                                       |   8 +
+ .ruby-version                                      |   1 +
+ Dockerfile                                         |  74 +++
+ Gemfile                                            |  56 +++
+ Gemfile.lock                                       | 497 +++++++++++++++++++++
+ README.md                                          |  24 +
+ Rakefile                                           |   6 +
+ app/agents/.gitkeep                                |   0
+ app/controllers/accounts_controller.rb             |  24 +
+ app/controllers/application_controller.rb          |  18 +
+ app/controllers/concerns/.keep                     |   0
+ app/controllers/conversations_controller.rb        |  47 ++
+ app/controllers/messages_controller.rb             |  33 ++
+ app/controllers/sessions_controller.rb             |  30 ++
+ app/javascript/application.js                      |   3 +
+ app/javascript/controllers/application.js          |   9 +
+ app/javascript/controllers/hello_controller.js     |   7 +
+ app/javascript/controllers/index.js                |   4 +
+ app/jobs/application_job.rb                        |   7 +
+ app/models/application_record.rb                   |   9 +
+ app/models/concerns/.keep                          |   0
+ app/models/conversation.rb                         |  25 ++
+ app/models/message.rb                              |  19 +
+ app/models/message.rb.bak                          |   4 +
+ app/models/model.rb                                |  17 +
+ app/models/user.rb                                 |  15 +
+ app/prompts/.gitkeep                               |   0
+ app/schemas/.gitkeep                               |   0
+ app/serializers/conversation_serializer.rb         |   5 +
+ app/tools/.gitkeep                                 |   0
+ app/views/conversations/index.html.erb             |  78 ++++
+ app/views/conversations/show.html.erb              |  55 +++
+ app/views/layouts/application.html.erb             |  11 +
+ app/views/sessions/new.html.erb                    |  22 +
+ app/views/shared/_message.html.erb                 |  10 +
+ app/workers/chat_worker.rb                         |  27 ++
+ bin/brakeman                                       |   7 +
+ bin/bundler-audit                                  |   6 +
+ bin/ci                                             |   6 +
+ bin/dev                                            |   2 +
+ bin/docker-entrypoint                              |   3 +
+ bin/importmap                                      |   4 +
+ bin/kamal                                          |  16 +
+ bin/rails                                          |   4 +
+ bin/rake                                           |   4 +
+ bin/rubocop                                        |   8 +
+ bin/setup                                          |  26 ++
+ bin/thrust                                         |   5 +
+ config.ru                                          |   6 +
+ config/application.rb                              |  44 ++
+ config/boot.rb                                     |   4 +
+ config/bundler-audit.yml                           |   5 +
+ config/ci.rb                                       |  22 +
+ config/credentials.yml.enc                         |   1 +
+ config/database.yml                                |  40 ++
+ config/deploy.yml                                  | 102 +++++
+ config/environment.rb                              |   5 +
+ config/environments/development.rb                 |  49 ++
+ config/environments/production.rb                  |  61 +++
+ config/environments/test.rb                        |  46 ++
+ config/importmap.rb                                |   7 +
+ config/initializers/cors.rb                        |  16 +
+ config/initializers/filter_parameter_logging.rb    |   8 +
+ config/initializers/inflections.rb                 |  16 +
+ config/initializers/ruby_llm.rb                    |   8 +
+ config/locales/en.yml                              |  31 ++
+ config/puma.rb                                     |  39 ++
+ config/routes.rb                                   |  25 ++
+ config/sidekiq.yml                                 |   8 +
+ db/create_tables.rb                                |  22 +
+ db/migrate/20260911230207_create_conversations.rb  |  12 +
+ db/migrate/20260911230211_create_models.rb         |  14 +
+ db/migrate/20260911230212_create_messages.rb       |  19 +
+ ...ces_to_conversations_tool_calls_and_messages.rb |   9 +
+ db/migrate/20260911230214_create_users.rb          |  10 +
+ .../20260911230847_add_user_id_to_conversations.rb |   5 +
+ .../20260911230848_add_user_id_to_messages.rb      |   5 +
+ db/migrate/20260911230939_add_email_to_users.rb    |   6 +
+ .../20260911230951_add_password_digest_to_users.rb |   5 +
+ ...20260911231022_add_model_id_to_conversations.rb |   6 +
+ db/schema.rb                                       |  71 +++
+ db/seeds.rb                                        |   7 +
+ lib/tasks/.keep                                    |   0
+ log/.keep                                          |   0
+ public/robots.txt                                  |   1 +
+ script/.keep                                       |   0
+ test/controllers/.keep                             |   0
+ test/controllers/accounts_controller_test.rb       |  13 +
+ test/controllers/conversations_controller_test.rb  |  93 ++++
+ test/integration/.keep                             |   0
+ test/models/.keep                                  |   0
+ test/models/conversation_test.rb                   |  68 +++
+ test/models/message_test.rb                        |  80 ++++
+ test/models/user_test.rb                           |  56 +++
+ test/test_helper.rb                                |  16 +
+ vendor/.keep                                       |   0
+ vendor/javascript/.keep                            |   0
+ 112 files changed, 2759 insertions(+)

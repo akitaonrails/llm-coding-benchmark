@@ -1,0 +1,230 @@
+29bd1dd Document the admin area and seed an admin account
+ README.md   | 28 +++++++++++++++++++++++++---
+ db/seeds.rb |  9 ++++++++-
+ 2 files changed, 33 insertions(+), 4 deletions(-)
+8acc42f Cover the admin area with model, controller, helper and system tests
+ test/controllers/admin/users_controller_test.rb | 204 ++++++++++++++++++++++++
+ test/helpers/admin/users_helper_test.rb         |  23 +++
+ test/models/user_test.rb                        | 134 ++++++++++++++++
+ test/system/admin_test.rb                       |  94 +++++++++++
+ 4 files changed, 455 insertions(+)
+f2274dc Add an admin area at /admin/users
+ app/controllers/admin/base_controller.rb     | 14 +++++
+ app/controllers/admin/users_controller.rb    | 62 +++++++++++++++++++
+ app/controllers/concerns/authentication.rb   |  4 +-
+ app/helpers/admin/users_helper.rb            | 18 ++++++
+ app/models/session.rb                        |  5 ++
+ app/views/admin/users/_conversation.html.erb |  4 ++
+ app/views/admin/users/_user.html.erb         | 25 ++++++++
+ app/views/admin/users/index.html.erb         | 70 ++++++++++++++++++++++
+ app/views/admin/users/show.html.erb          | 89 ++++++++++++++++++++++++++++
+ app/views/shared/_account_bar.html.erb       |  6 ++
+ config/routes.rb                             |  5 ++
+ 11 files changed, 301 insertions(+), 1 deletion(-)
+4b61869 Give accounts a role, an active status and a conversation counter
+ app/models/conversation.rb                         |  3 +-
+ app/models/user.rb                                 | 70 ++++++++++++++++++++++
+ .../20260914010000_add_role_and_status_to_users.rb | 26 ++++++++
+ db/schema.rb                                       |  7 ++-
+ test/controllers/sessions_controller_test.rb       |  4 +-
+ test/fixtures/users.yml                            | 20 +++++++
+ 6 files changed, 126 insertions(+), 4 deletions(-)
+51721bf Scope the conversation lookup to the signed-in user again
+ app/controllers/conversations_controller.rb | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+3a43282 Pin nokogiri 1.19.4 instead of 1.13.5 so the bundle resolves
+ Gemfile      |  5 +++--
+ Gemfile.lock | 27 ++++++++++++++++++++++++---
+ 2 files changed, 27 insertions(+), 5 deletions(-)
+45ae861 Pin nokogiri for reproducible builds
+ Gemfile      |  2 ++
+ Gemfile.lock | 26 +++-----------------------
+ 2 files changed, 5 insertions(+), 23 deletions(-)
+0726b3f Tidy up the sign-up page
+ app/views/registrations/new.html.erb | 5 -----
+ 1 file changed, 5 deletions(-)
+a568290 Extract conversation member lookup into a before_action
+ app/controllers/conversations_controller.rb | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+37daf26 Cover the sign up, sign in and sign out flows with system tests
+ test/system/authentication_test.rb | 94 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 94 insertions(+)
+6f165b0 Cover accounts, sessions and per-user ownership with model and controller tests
+ app/models/user.rb                                |  1 +
+ test/controllers/registrations_controller_test.rb | 12 +++++
+ test/controllers/sessions_controller_test.rb      | 40 +++++++++++++++-
+ test/models/session_test.rb                       | 31 ++++++++++++
+ test/models/user_test.rb                          | 58 +++++++++++++++++++++++
+ 5 files changed, 140 insertions(+), 2 deletions(-)
+de29aa4 Show the signed-in account and a sign out button on every chat page
+ README.md                                  |  6 ++++--
+ app/controllers/concerns/authentication.rb |  7 +++++--
+ app/controllers/sessions_controller.rb     |  2 +-
+ app/views/conversations/_sidebar.html.erb  |  6 ------
+ app/views/conversations/index.html.erb     | 12 ++++++++----
+ app/views/conversations/show.html.erb      |  2 ++
+ app/views/shared/_account_bar.html.erb     | 11 +++++++++++
+ 7 files changed, 31 insertions(+), 15 deletions(-)
+ed7dfb6 Add Docker setup, README and the remaining generated config
+ .dockerignore              |  48 +++++++++++++++++++
+ .env.example               |   9 ++++
+ Dockerfile                 |  48 +++++++++++++++++++
+ README.md                  | 117 +++++++++++++++++++++++++++++++++++++++++++++
+ config/bundler-audit.yml   |   5 ++
+ config/ci.rb               |  23 +++++++++
+ config/credentials.yml.enc |   1 +
+ config/database.yml        |  40 ++++++++++++++++
+ docker-compose.yml         |  44 +++++++++++++++++
+ log/.keep                  |   0
+ storage/.keep              |   0
+ tmp/.keep                  |   0
+ tmp/pids/.keep             |   0
+ tmp/storage/.keep          |   0
+ 14 files changed, 335 insertions(+)
+5a8249b Cover models, services, jobs, controllers and user flows with tests
+ test/application_system_test_case.rb              |  25 ++++++
+ test/controllers/.keep                            |   0
+ test/controllers/conversations_controller_test.rb |  87 +++++++++++++++++++
+ test/controllers/messages_controller_test.rb      |  70 +++++++++++++++
+ test/controllers/passwords_controller_test.rb     |  67 +++++++++++++++
+ test/controllers/registrations_controller_test.rb |  36 ++++++++
+ test/controllers/sessions_controller_test.rb      |  33 +++++++
+ test/fixtures/conversations.yml                   |  16 ++++
+ test/fixtures/files/.keep                         |   0
+ test/fixtures/messages.yml                        |  22 +++++
+ test/fixtures/users.yml                           |   9 ++
+ test/helpers/.keep                                |   0
+ test/helpers/messages_helper_test.rb              |  31 +++++++
+ test/integration/.keep                            |   0
+ test/jobs/assistant_reply_job_test.rb             |  57 ++++++++++++
+ test/mailers/.keep                                |   0
+ test/mailers/previews/passwords_mailer_preview.rb |   7 ++
+ test/models/.keep                                 |   0
+ test/models/conversation_test.rb                  |  86 +++++++++++++++++++
+ test/models/message_test.rb                       |  73 ++++++++++++++++
+ test/models/user_test.rb                          |   8 ++
+ test/services/llm/chat_client_test.rb             |  79 +++++++++++++++++
+ test/system/chat_test.rb                          | 100 ++++++++++++++++++++++
+ test/test_helper.rb                               |  25 ++++++
+ test/test_helpers/fake_chat_client.rb             |  45 ++++++++++
+ test/test_helpers/session_test_helper.rb          |  19 ++++
+ 26 files changed, 895 insertions(+)
+68a516f Build the chat UI with Turbo Frames, Stimulus and Tailwind
+ app/helpers/messages_helper.rb                 | 16 ++++++++++
+ app/views/conversations/_conversation.html.erb |  8 +++++
+ app/views/conversations/_sidebar.html.erb      | 25 +++++++++++++++
+ app/views/conversations/_title.html.erb        |  1 +
+ app/views/conversations/index.html.erb         | 27 ++++++++++++++++
+ app/views/conversations/show.html.erb          | 44 ++++++++++++++++++++++++++
+ app/views/messages/_form.html.erb              | 18 +++++++++++
+ app/views/messages/_message.html.erb           | 16 ++++++++++
+ app/views/messages/create.turbo_stream.erb     | 16 ++++++++++
+ app/views/shared/_flash.html.erb               | 11 +++++++
+ config/importmap.rb                            |  7 ++++
+ 11 files changed, 189 insertions(+)
+532b39d Stream OpenRouter replies with RubyLLM, a job and Turbo Streams
+ app/controllers/concerns/.keep              |   0
+ app/controllers/conversations_controller.rb |  42 ++++++++
+ app/controllers/messages_controller.rb      |  36 +++++++
+ app/jobs/assistant_reply_job.rb             |  90 ++++++++++++++++
+ app/services/llm/chat_client.rb             |  45 ++++++++
+ config/cable.yml                            |  12 +++
+ config/queue.yml                            |  18 ++++
+ config/recurring.yml                        |  15 +++
+ db/queue_schema.rb                          | 160 ++++++++++++++++++++++++++++
+ 9 files changed, 418 insertions(+)
+3b11988 Add accounts and persist conversations and messages
+ app/channels/application_cable/connection.rb       | 16 +++++
+ app/controllers/concerns/authentication.rb         | 52 ++++++++++++++++
+ app/controllers/passwords_controller.rb            | 35 +++++++++++
+ app/controllers/registrations_controller.rb        | 25 ++++++++
+ app/controllers/sessions_controller.rb             | 21 +++++++
+ app/models/conversation.rb                         | 53 +++++++++++++++++
+ app/models/current.rb                              |  4 ++
+ app/models/message.rb                              | 31 ++++++++++
+ app/models/session.rb                              |  3 +
+ app/models/user.rb                                 | 10 ++++
+ app/views/passwords/edit.html.erb                  | 21 +++++++
+ app/views/passwords/new.html.erb                   | 17 ++++++
+ app/views/passwords_mailer/reset.html.erb          |  6 ++
+ app/views/passwords_mailer/reset.text.erb          |  4 ++
+ app/views/registrations/new.html.erb               | 40 +++++++++++++
+ app/views/sessions/new.html.erb                    | 33 +++++++++++
+ config/routes.rb                                   | 23 ++++++++
+ db/migrate/20260913175133_create_users.rb          | 11 ++++
+ db/migrate/20260913175134_create_sessions.rb       | 11 ++++
+ db/migrate/20260913175343_create_conversations.rb  | 13 ++++
+ db/migrate/20260913175344_create_messages.rb       | 18 ++++++
+ .../20260913181206_create_solid_cable_messages.rb  | 16 +++++
+ db/schema.rb                                       | 69 ++++++++++++++++++++++
+ db/seeds.rb                                        | 19 ++++++
+ 24 files changed, 551 insertions(+)
+5a36053 Bootstrap Rails 8.1 application with Hotwire, Tailwind and RubyLLM
+ .gitignore                                         |  49 ++
+ .rubocop.yml                                       |   8 +
+ .ruby-version                                      |   1 +
+ Gemfile                                            |  75 +++
+ Gemfile.lock                                       | 595 +++++++++++++++++++++
+ Procfile.dev                                       |   2 +
+ Rakefile                                           |   6 +
+ app/assets/builds/.keep                            |   0
+ app/assets/images/.keep                            |   0
+ app/assets/tailwind/application.css                |  69 +++
+ app/controllers/application_controller.rb          |  15 +
+ app/helpers/application_helper.rb                  |   2 +
+ app/javascript/application.js                      |   3 +
+ app/javascript/controllers/application.js          |   9 +
+ .../controllers/auto_submit_controller.js          |  13 +
+ app/javascript/controllers/composer_controller.js  |  27 +
+ app/javascript/controllers/index.js                |   4 +
+ app/javascript/controllers/scroll_controller.js    |  19 +
+ app/javascript/controllers/sidebar_controller.js   |  33 ++
+ app/jobs/application_job.rb                        |   7 +
+ app/mailers/application_mailer.rb                  |   4 +
+ app/mailers/passwords_mailer.rb                    |   6 +
+ app/models/application_record.rb                   |   3 +
+ app/models/concerns/.keep                          |   0
+ app/views/layouts/application.html.erb             |  28 +
+ app/views/layouts/mailer.html.erb                  |  13 +
+ app/views/layouts/mailer.text.erb                  |   1 +
+ app/views/pwa/manifest.json.erb                    |  22 +
+ app/views/pwa/service-worker.js                    |  26 +
+ bin/brakeman                                       |   7 +
+ bin/bundler-audit                                  |   6 +
+ bin/ci                                             |   6 +
+ bin/dev                                            |  16 +
+ bin/docker-entrypoint                              |   8 +
+ bin/importmap                                      |   4 +
+ bin/jobs                                           |   6 +
+ bin/rails                                          |   4 +
+ bin/rake                                           |   4 +
+ bin/rubocop                                        |   8 +
+ bin/setup                                          |  38 ++
+ bin/thrust                                         |   5 +
+ config.ru                                          |   6 +
+ config/application.rb                              |  47 ++
+ config/boot.rb                                     |   4 +
+ config/environment.rb                              |   5 +
+ config/environments/development.rb                 |  75 +++
+ config/environments/production.rb                  |  90 ++++
+ config/environments/test.rb                        |  55 ++
+ config/initializers/assets.rb                      |   7 +
+ config/initializers/content_security_policy.rb     |  29 +
+ config/initializers/filter_parameter_logging.rb    |   8 +
+ config/initializers/inflections.rb                 |  16 +
+ config/initializers/ruby_llm.rb                    |  19 +
+ config/locales/en.yml                              |  31 ++
+ config/puma.rb                                     |  42 ++
+ lib/tasks/.keep                                    |   0
+ public/400.html                                    | 135 +++++
+ public/404.html                                    | 135 +++++
+ public/406-unsupported-browser.html                | 135 +++++
+ public/422.html                                    | 135 +++++
+ public/500.html                                    | 135 +++++
+ public/icon.png                                    | Bin 0 -> 4166 bytes
+ public/icon.svg                                    |   3 +
+ public/robots.txt                                  |   1 +
+ script/.keep                                       |   0
+ vendor/.keep                                       |   0
+ vendor/javascript/.keep                            |   0
+ 67 files changed, 2265 insertions(+)

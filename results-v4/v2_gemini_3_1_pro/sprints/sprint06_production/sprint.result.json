@@ -1,0 +1,10 @@
+{
+  "slug": "v2_gemini_3_1_pro",
+  "sprint": "sprint06_production",
+  "harness": "opencode",
+  "elapsed_seconds": 573.99,
+  "cost_usd": 1.9303,
+  "tokens_total": 3928706,
+  "exit_code": 0,
+  "stall_aborted": false
+}

@@ -1,0 +1,176 @@
+ba50503 Add admin area: role column, admin model methods, admin controller, routes, and views
+ Gemfile                                          |  5 ++
+ Gemfile.lock                                     | 28 +++++++++
+ app/controllers/admin/users_controller.rb        | 36 +++++++++++
+ app/helpers/admin/users_helper.rb                |  2 +
+ app/models/user.rb                               | 26 ++++++++
+ app/views/admin/users/index.html.erb             |  2 +
+ app/views/layouts/application.html.erb           |  3 +
+ config/routes.rb                                 | 14 ++++-
+ db/migrate/20260914035817_add_role_to_users.rb   |  5 ++
+ db/schema.rb                                     | 77 ++++++++++++------------
+ test/controllers/admin/users_controller_test.rb  | 23 +++++++
+ test/models/user_test.rb                         | 59 ++++++++++++++++--
+ test/system/admin_user_management_system_test.rb | 75 +++++++++++++++++++++++
+ 13 files changed, 311 insertions(+), 44 deletions(-)
+511b02b Trim duplicated auth links from guest views
+ app/views/devise/shared/_links.html.erb | 4 ----
+ app/views/layouts/application.html.erb  | 1 -
+ 2 files changed, 5 deletions(-)
+e974060 Remove duplicate conversation query on member actions
+ app/controllers/conversations_controller.rb | 7 -------
+ 1 file changed, 7 deletions(-)
+af53bb2 feat: add authentication and multi-user support with Devise
+ .gitattributes                                     |   9 +
+ .gitignore                                         |  38 +++
+ .ruby-version                                      |   1 +
+ Gemfile                                            |  21 +-
+ Gemfile.lock                                       | 350 +++++++++++++++++++++
+ Procfile.dev                                       |   2 +
+ Rakefile                                           |   8 +
+ app/controllers/application_controller.rb          |   3 +
+ app/controllers/conversations_controller.rb        |  20 +-
+ app/helpers/application_helper.rb                  |   3 +
+ app/helpers/conversations_helper.rb                |   3 +
+ app/models/application_record.rb                   |   3 +
+ app/models/conversation.rb                         |   8 +-
+ app/models/message.rb                              |   7 +-
+ app/models/user.rb                                 |   9 +
+ app/models/view.rb                                 |   9 +
+ app/views/devise/confirmations/new.html.erb        |  16 +
+ .../mailer/confirmation_instructions.html.erb      |   5 +
+ app/views/devise/mailer/email_changed.html.erb     |   7 +
+ app/views/devise/mailer/password_change.html.erb   |   3 +
+ .../mailer/reset_password_instructions.html.erb    |   8 +
+ .../devise/mailer/unlock_instructions.html.erb     |   7 +
+ app/views/devise/passwords/edit.html.erb           |  25 ++
+ app/views/devise/passwords/new.html.erb            |  16 +
+ app/views/devise/registrations/edit.html.erb       |  42 +++
+ app/views/devise/registrations/new.html.erb        |  29 ++
+ app/views/devise/sessions/new.html.erb             |  26 ++
+ app/views/devise/shared/_error_messages.html.erb   |  15 +
+ app/views/devise/shared/_links.html.erb            |  25 ++
+ app/views/devise/unlocks/new.html.erb              |  16 +
+ app/views/layouts/application.html.erb             |  16 +
+ bin/ci                                             |   8 +-
+ bin/rails                                          |   8 +-
+ bin/rake                                           |   6 +-
+ bin/setup                                          |  20 +-
+ config.ru                                          |   8 +
+ config/application.rb                              |  17 +-
+ config/boot.rb                                     |   4 +-
+ config/ci.rb                                       |   6 +-
+ config/environment.rb                              |   2 +-
+ config/environments/development.rb                 |   6 +-
+ config/environments/production.rb                  |  12 +-
+ config/environments/test.rb                        |   4 +-
+ config/initializers/assets.rb                      |   2 +-
+ config/initializers/devise.rb                      | 316 +++++++++++++++++++
+ config/initializers/filter_parameter_logging.rb    |   4 +-
+ config/initializers/ruby_llm.rb                    |   4 +-
+ config/locales/devise.en.yml                       |  65 ++++
+ config/puma.rb                                     |   6 +-
+ config/routes.rb                                   |   6 +-
+ db/migrate/20260913185730_create_conversations.rb  |   2 +-
+ db/migrate/20260913185732_create_messages.rb       |   4 +-
+ db/migrate/20260914023622_devise_create_users.rb   |  43 +++
+ .../20260914023627_add_user_to_conversations.rb    |   5 +
+ ...sign_user_to_conversations_and_make_non_null.rb |   3 +
+ db/migrate/20260914023713_make_user_id_non_null.rb |   5 +
+ db/migrate/20260914024247_devise_create_views.rb   |  43 +++
+ db/schema.rb                                       |  57 +++-
+ log/.keep                                          |   0
+ public/400.html                                    | 135 ++++++++
+ public/404.html                                    | 135 ++++++++
+ public/406-unsupported-browser.html                | 135 ++++++++
+ public/422.html                                    | 135 ++++++++
+ public/500.html                                    | 135 ++++++++
+ public/icon.png                                    | Bin 0 -> 4166 bytes
+ public/icon.svg                                    |   3 +
+ public/robots.txt                                  |   1 +
+ test/controllers/conversations_controller_test.rb  |  20 --
+ test/fixtures/conversations.yml                    |   2 +
+ test/fixtures/users.yml                            |  13 +
+ test/models/conversation_test.rb                   |  39 +--
+ test/models/message_test.rb                        |  24 +-
+ test/models/user_test.rb                           |   7 +
+ test/models/view_test.rb                           |   7 +
+ test/system/application_system_test_case.rb        |   4 +-
+ test/system/conversation_system_test.rb            |  89 +++++-
+ test/test_helper.rb                                |  10 +-
+ tmp/.keep                                          |   0
+ tmp/pids/.keep                                     |   0
+ tmp/storage/.keep                                  |   0
+ vendor/.keep                                       |   0
+ 81 files changed, 2156 insertions(+), 154 deletions(-)
+34fe14c feat: models, controller, views, and tests - Conversation/Message ActiveRecord, RubyLLM integration, ConversationsController, Hotwire/Tailwind views, model and system tests
+ app/assets/builds/.keep                           |  0
+ app/assets/images/.keep                           |  0
+ app/assets/javascripts/application.js             |  4 ++
+ app/assets/stylesheets/application.css            | 10 ++++
+ app/assets/tailwind/application.css               |  1 +
+ app/controllers/application_controller.rb         |  4 ++
+ app/controllers/concerns/.keep                    |  0
+ app/controllers/conversations_controller.rb       | 42 ++++++++++++++
+ app/helpers/application_helper.rb                 |  2 +
+ app/helpers/conversations_helper.rb               |  2 +
+ app/models/application_record.rb                  |  3 +
+ app/models/concerns/.keep                         |  0
+ app/models/conversation.rb                        | 26 +++++++++
+ app/models/message.rb                             | 21 +++++++
+ app/views/conversations/create.html.erb           |  4 ++
+ app/views/conversations/index.html.erb            | 34 ++++++++++++
+ app/views/conversations/new.html.erb              | 34 ++++++++++++
+ app/views/conversations/show.html.erb             | 35 ++++++++++++
+ app/views/layouts/application.html.erb            | 32 +++++++++++
+ app/views/pwa/manifest.json.erb                   | 22 ++++++++
+ app/views/pwa/service-worker.js                   | 26 +++++++++
+ bin/ci                                            |  6 ++
+ bin/dev                                           | 16 ++++++
+ bin/rails                                         |  4 ++
+ bin/rake                                          |  4 ++
+ bin/setup                                         | 35 ++++++++++++
+ config/application.rb                             | 42 ++++++++++++++
+ config/boot.rb                                    |  3 +
+ config/ci.rb                                      | 19 +++++++
+ config/credentials.yml.enc                        |  1 +
+ config/database.yml                               | 31 +++++++++++
+ config/environment.rb                             |  5 ++
+ config/environments/development.rb                | 57 +++++++++++++++++++
+ config/environments/production.rb                 | 67 +++++++++++++++++++++++
+ config/environments/test.rb                       | 42 ++++++++++++++
+ config/importmap.rb                               |  1 +
+ config/initializers/assets.rb                     |  7 +++
+ config/initializers/content_security_policy.rb    | 29 ++++++++++
+ config/initializers/filter_parameter_logging.rb   |  8 +++
+ config/initializers/inflections.rb                | 16 ++++++
+ config/locales/en.yml                             | 31 +++++++++++
+ config/puma.rb                                    | 39 +++++++++++++
+ db/migrate/20260913185730_create_conversations.rb | 11 ++++
+ db/migrate/20260913185732_create_messages.rb      | 11 ++++
+ db/schema.rb                                      | 32 +++++++++++
+ lib/tasks/.keep                                   |  0
+ script/.keep                                      |  0
+ storage/.keep                                     |  0
+ test/controllers/.keep                            |  0
+ test/controllers/conversations_controller_test.rb | 20 +++++++
+ test/fixtures/conversations.yml                   |  9 +++
+ test/fixtures/files/.keep                         |  0
+ test/fixtures/messages.yml                        | 11 ++++
+ test/helpers/.keep                                |  0
+ test/integration/.keep                            |  0
+ test/models/.keep                                 |  0
+ test/models/conversation_test.rb                  | 54 ++++++++++++++++++
+ test/models/message_test.rb                       | 38 +++++++++++++
+ test/system/application_system_test_case.rb       |  5 ++
+ test/system/conversation_system_test.rb           | 11 ++++
+ test/test_helper.rb                               | 15 +++++
+ 61 files changed, 982 insertions(+)
+167ae63 feat: initial Rails 8 app setup with RubyLLM, routes, Docker and README
+ Dockerfile                      |  33 +++++++++++
+ Gemfile                         |  22 ++++++++
+ README.md                       | 121 ++++++++++++++++++++++++++++++++++++++++
+ config/initializers/ruby_llm.rb |   5 ++
+ config/routes.rb                |  17 ++++++
+ docker-compose.yml              |  12 ++++
+ 6 files changed, 210 insertions(+)

@@ -1,0 +1,10 @@
+{
+  "slug": "v2_nemotron_3_5_lightning",
+  "sprint": "sprint02_multiuser",
+  "harness": "opencode",
+  "elapsed_seconds": 502.98,
+  "cost_usd": 0.4792,
+  "tokens_total": 11522060,
+  "exit_code": 0,
+  "stall_aborted": false
+}

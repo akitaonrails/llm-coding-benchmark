@@ -1,0 +1,23 @@
+{
+  "command_kind": "bash -lc",
+  "cost_usd": 3.6657,
+  "elapsed_seconds": 1441.03,
+  "ended_at": "2026-09-07T16:54:25+00:00",
+  "exit_code": -15,
+  "file_count_after": 3530,
+  "harness": "kimi",
+  "phase": "sprint07_reveal",
+  "session_id": "session_a0766018-a331-4cd7-b893-b51b5841190b",
+  "stall_aborted": false,
+  "started_at": "2026-09-07T16:30:21+00:00",
+  "timed_out": false,
+  "tokens": {
+    "cache": {
+      "read": 9274368,
+      "write": 0
+    },
+    "input": 131734,
+    "output": 32543,
+    "total": 9438645
+  }
+}

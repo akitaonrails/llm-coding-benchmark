@@ -1,0 +1,10 @@
+{
+  "slug": "v2_deepseek_v4_pro",
+  "sprint": "sprint04_reports",
+  "harness": "opencode",
+  "elapsed_seconds": 593.55,
+  "cost_usd": 0.5274,
+  "tokens_total": 4772673,
+  "exit_code": 0,
+  "stall_aborted": false
+}
