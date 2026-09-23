@@ -126,7 +126,7 @@ Compare cost within-harness.
   session-revocation) and layered CSP + Permissions-Policy at the capstone. **$16.63 / 64m vs Opus 5's
   ~$71 / 145m for the same 100** (1M context; front-loaded auth into S01). The sharpest contrast to Grok 4.7
   (83.5) in the same batch: perfect-on-disguised vs weak-on-disguised.
-- **GPT 6 luna (95.5) is the strongest GPT-6-family run and top-tier overall** — added 2026-09-23, full
+- **GPT 6 luna (95.5) is the strongest of the newer GPT-6 releases (sol/luna) and top-tier overall** (GPT-6 Astra still leads the family at 100.0) — added 2026-09-23, full
   14-item set, all 7 sprints clean. Caught **13/14 unprompted** (only the stored XSS reached the reveal); its
   #6 fix even added a DB-level `LOWER(email)` unique index + a new dup test. It deferred far less than its
   sibling **GPT 6 sol (91.0)** (which deferred #7b/#8/#11), a markedly more vigilant profile at a heavier
