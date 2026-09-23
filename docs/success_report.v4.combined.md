@@ -21,14 +21,14 @@ corrections** (see "Integrity / corrections" below).
 | 8 | Grok 4.6 ᶜ | 98.5 | A | — | $13.00 | 67m | opencode |
 | 9 | Claude Fable 5.1 | 95.5 | A | — | ~$51 | 133m | claude |
 | 9 | Sakana Fugu Ultra v2 ᴺ | 95.5 | A | — | $122.01 | 294m | opencode |
-| 9 | GPT 6 luna ᴺ | 95.5 | A | — | $44.90 | 122m | codex |
+| 9 | GPT 6 luna ᴺ | 95.5 | A | — | ~$0.84 ᵉ | 122m | codex |
 | 12 | GPT 5.6 luna | 95.0 | A | #8 aggregate (2) | $10.04 | 123m | codex |
 | 13 | Nex N2.5 Pro ᴺ | 94.0 * | A | — (on-disk) | **$0 free** | 480m | opencode |
 | 13 | GLM 5.3 (zcode) ᴺ | 94.0 | A | — | $— flat-plan | 215m | zcode |
 | 15 | DeepSeek V4.1 Flash ᴺ | 92.5 | A | — | **$1.21** | 172m | opencode |
 | 16 | Xiaomi MiMo V2.6 Pro ᴺ | 92.0 | A | #12 CORS (2) | **$1.22** | 308m | opencode |
 | 17 | Claude Sonnet 5 | 91.0 | A | — | ~$27 | 112m | claude |
-| 17 | GPT 6 sol ᴺ | 91.0 | A | — | $22.06 | 73m | codex |
+| 17 | GPT 6 sol ᴺ | 91.0 | A | — | ~$8.35 ᵉ | 73m | codex |
 | 19 | Gemini 3.8 Flash·high (OpenRouter) | 90.5 | A | #12 CORS (2) | $15.98 | 97m | opencode |
 | 20 | Gemini 3.8 Flash (Antigravity) ᴺ | 89.5 | A | — | $0 (OAuth) | 120m | agy |
 | 21 | Muse Spark 1.3 | 88.75 | A | — | $13.31 | 150m | opencode |
@@ -129,8 +129,12 @@ Compare cost within-harness.
 - **GPT 6 luna (95.5) is the strongest of the newer GPT-6 releases (sol/luna) and top-tier overall** (GPT-6 Astra still leads the family at 100.0) — added 2026-09-23, full
   14-item set, all 7 sprints clean. Caught **13/14 unprompted** (only the stored XSS reached the reveal); its
   #6 fix even added a DB-level `LOWER(email)` unique index + a new dup test. It deferred far less than its
-  sibling **GPT 6 sol (91.0)** (which deferred #7b/#8/#11), a markedly more vigilant profile at a heavier
-  cost ($44.90 / 122m, xhigh).
+  sibling **GPT 6 sol (91.0)** (which deferred #7b/#8/#11), a markedly more vigilant profile — and, on
+  corrected pricing, a *far cheaper* one: **~$0.84** vs GPT 5.6 luna's $10.04 (~12× cheaper for an equal-or-
+  better score, the Opus-5.5-class result). ᵉ Cost is estimated (ChatGPT-subscription harness, no per-token
+  billing) from each sprint's real token count × OpenAI's published GPT-6 rates (sol $2/$10, luna $0.10/$0.50
+  per M in/out). NOTE: the earlier $44.90/$22.06 figures were a bug — sol/luna had inherited GPT-6 Astra's
+  unreconciled placeholder rate (in5/out30); corrected 2026-09-23.
 - **Real spread 24 → 100 across 44 models.** v4 differentiates hard where v2/v3 saturated (~100 all).
 - **Grok 4.7 (83.5) lands ~15 pts BELOW Grok 4.6 (98.5)** — added 2026-09-21, same 14-item set, clean run.
   It caught every LOUD class unprompted (both Criticals, API IDOR, hardcoded key, CORS, gem pins) but

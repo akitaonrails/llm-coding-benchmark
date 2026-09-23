@@ -855,13 +855,13 @@
       "codex_reasoning_effort": "xhigh",
       "billing": "ChatGPT subscription credits",
       "rates_per_m": {
-        "input": 5.0,
-        "cache_read": 0.5,
+        "input": 2.0,
+        "cache_read": 0.2,
         "cache_write": 0.0,
-        "output": 30.0
+        "output": 10.0
       },
       "wave": 5,
-      "notes": "Added 2026-09-22. Requires codex >=0.156.0 (0.153.3 rejected gpt-6-* on ChatGPT account). Subscription billing (NO API fallback per user). gpt-6-terra NOT entitled on this ChatGPT account."
+      "notes": "Added 2026-09-22. Requires codex >=0.156.0 (0.153.3 rejected gpt-6-* on ChatGPT account). Subscription billing (NO API fallback per user). gpt-6-terra NOT entitled on this ChatGPT account. RATE RECONCILED 2026-09-23 vs OpenAI published GPT-6 pricing (was the in5/out30 Astra placeholder — WRONG, ~2.6x/53x overstated). "
     },
     {
       "slug": "v2_gpt_6_luna",
@@ -871,13 +871,13 @@
       "codex_reasoning_effort": "xhigh",
       "billing": "ChatGPT subscription credits",
       "rates_per_m": {
-        "input": 5.0,
-        "cache_read": 0.5,
+        "input": 0.1,
+        "cache_read": 0.01,
         "cache_write": 0.0,
-        "output": 30.0
+        "output": 0.5
       },
       "wave": 5,
-      "notes": "Added 2026-09-22. Requires codex >=0.156.0 (0.153.3 rejected gpt-6-* on ChatGPT account). Subscription billing (NO API fallback per user). gpt-6-terra NOT entitled on this ChatGPT account."
+      "notes": "Added 2026-09-22. Requires codex >=0.156.0 (0.153.3 rejected gpt-6-* on ChatGPT account). Subscription billing (NO API fallback per user). gpt-6-terra NOT entitled on this ChatGPT account. RATE RECONCILED 2026-09-23 vs OpenAI published GPT-6 pricing (was the in5/out30 Astra placeholder — WRONG, ~2.6x/53x overstated). "
     },
     {
       "slug": "v2_muse_spark_1_3",
@@ -1110,6 +1110,36 @@
       },
       "wave": 1,
       "notes": "Added 2026-09-15 for the effort-comparison study: same gpt-5.6-sol model as the xHigh run (100.0), at medium codex reasoning effort. Isolates effort's effect on the v4 vigilance score."
+    },
+    {
+      "slug": "v2_genesys_pi_house",
+      "label": "Genesys PI House (LUA Vision, opencode)",
+      "harness": "opencode",
+      "model_id": "lua/genesys-pi-house",
+      "billing": "LUA Vision API (api.lua.vision) - first-party, BRL-priced",
+      "rates_per_m": {
+        "input": 10.19,
+        "cache_read": 1.11,
+        "cache_write": 10.19,
+        "output": 50.93
+      },
+      "wave": 7,
+      "notes": "Added 2026-09-23 per user. Brazilian Genesys PI family (LUA Vision Tecnologia, Sao Paulo). Flagship: 'maximum quality for long/complex/high-stakes work', 600K ctx / 128K out. OpenAI-compatible /v1, Bearer auth; tools+streaming+json_schema verified. GENERAL model (no coding-specialized variant); regulated-market PT/EN focus. rates_per_m = BRL price / 5.4 (2026-09-23): in 55, cachedIn 6, out 275 BRL/M. CAVEAT: server injects a large system prompt (~741 tok on a bare call) inflating input tokens/cost. Run SHIELDED per shield-all policy."
+    },
+    {
+      "slug": "v2_genesys_pi_enterprise",
+      "label": "Genesys PI Enterprise (LUA Vision, opencode)",
+      "harness": "opencode",
+      "model_id": "lua/genesys-pi-enterprise",
+      "billing": "LUA Vision API (api.lua.vision) - first-party, BRL-priced",
+      "rates_per_m": {
+        "input": 0.74,
+        "cache_read": 0.09,
+        "cache_write": 0.74,
+        "output": 3.7
+      },
+      "wave": 7,
+      "notes": "Added 2026-09-23 per user. Genesys PI 'production workhorse: high quality, low latency', 384K ctx / 128K out. rates_per_m = BRL/5.4: in 4, cachedIn 0.5, out 20 BRL/M. Smoke-tested one sprint first; if too slow or failing too much, drop to house-only (user decision). Run SHIELDED."
     }
   ],
   "skipped": {

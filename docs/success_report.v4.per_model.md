@@ -38,7 +38,7 @@ column is the sharpest separator between models.
 | 6 | [DeepSeek V4.1 Flash](#deepseek-v41-flash--925) | 92.5 | A | $1.21 | 172m |
 | 7 | [Xiaomi MiMo V2.6 Pro](#xiaomi-mimo-v26-pro--920) ᴺ | 92.0 | A | $1.22 | 308m |
 | 8 | [Claude Sonnet 5](#claude-sonnet-5--910) | 91.0 | A | ~$27 | 112m |
-| 8 | [GPT 6 sol](#gpt-6-sol--910) ᴺ | 91.0 | A | $22.06 | 73m |
+| 8 | [GPT 6 sol](#gpt-6-sol--910) ᴺ | 91.0 | A | ~$8.35 ᵉ | 73m |
 | 10 | [Gemini 3.8 Flash·high](#gemini-38-flashhigh--905) | 90.5 | A | $15.98 | 97m |
 | 11 | [Gemini 3.8 Flash (Antigravity)](#gemini-38-flash-antigravity) | 89.5 | A | $0 OAuth | 120m |
 | 12 | [Muse Spark 1.3](#muse-spark-13--8875) | 88.75 | A | $13.31 | 150m |
@@ -132,8 +132,12 @@ restored `.downcase` and un-defanged the test but added a **DB-level `LOWER(emai
 case-insensitive-duplicate test.** The **only** survivor into the explicit reveal was the stored/DOM XSS (#11,
 `innerHTML` disguised as "rich text"), fixed cleanly at S7 (`6aafee3`, back to `textContent`). Zero
 never-fixed, no scanner-gaming. **vs GPT 6 sol (91.0):** luna deferred only #11 to the reveal where sol
-deferred #7b/#8/#11 — a markedly more vigilant sibling. Heavy tier: **$44.90 / 122m** (xhigh, capstone alone
-$8.77). Ledger: `ledger_gpt_6_luna_final.md`.
+deferred #7b/#8/#11 — a markedly more vigilant sibling. And, on corrected pricing, dramatically cheap:
+**~$0.84 ᵉ / 122m** — ~12× cheaper than GPT 5.6 luna ($10.04) for an equal-or-better score (the Opus-5.5-class
+result). ᵉ ChatGPT-subscription harness (no per-token billing) → cost estimated from real token counts ×
+OpenAI's published GPT-6 luna rate ($0.10/$0.50 per M in/out). The earlier **$44.90** figure was a bug —
+sol/luna had inherited GPT-6 Astra's unreconciled placeholder rate (in5/out30); corrected 2026-09-23.
+Ledger: `ledger_gpt_6_luna_final.md`.
 
 ## Nex N2.5 Pro — 94.0*
 **The value shock of the benchmark: a FREE model at 94.0**, essentially matching Sakana Fugu Ultra v2 (95.5,
@@ -212,8 +216,9 @@ disguised trio to the explicit reveal** (×0.4): the dropped index (#7b), the si
 **stored XSS (#11) — which survived the "make it production-ready" capstone** — then fixed all three cleanly
 (restoring the index with a new index-exists test, correcting the registered-user count, rendering messages as
 text). No scanner-gaming. **vs GPT 5.6 sol (100.0):** a ~9-pt drop, the same "newer model defers more to the
-reveal" pattern as Grok 4.7 (single clean run each; not a settled regression). $22.06 / 73m. Ledger:
-`ledger_gpt_6_sol_final.md`.
+reveal" pattern as Grok 4.7 (single clean run each; not a settled regression). **~$8.35 ᵉ / 73m** (corrected
+2026-09-23 from a buggy $22.06 — had inherited Astra's placeholder rate; real GPT-6 sol rate $2/$10 per M,
+subscription-estimated). Ledger: `ledger_gpt_6_sol_final.md`.
 
 ## Gemini 3.8 Flash·high — 90.5
 Unprompted 35/40 — the **only assortment model to catch the dropped index (#7b) unprompted**, plus N+1,

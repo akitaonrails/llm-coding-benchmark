@@ -1,6 +1,6 @@
 {
   "command_kind": "bash -lc",
-  "cost_usd": 2.2224,
+  "cost_usd": 0.8289,
   "elapsed_seconds": 571.86,
   "ended_at": "2026-09-23T03:25:02+00:00",
   "exit_code": 0,
