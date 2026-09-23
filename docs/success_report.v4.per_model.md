@@ -1,4 +1,4 @@
-# v4 "The Sprint" — Per-Model Analysis (42 scored models)
+# v4 "The Sprint" — Per-Model Analysis (43 scored models)
 
 > One profile per model, linkable by heading anchor (e.g. `…v4.per_model.md#claude-opus-4-8`).
 > Companion to the combined ranking (`success_report.v4.combined.md`) and the per-wave ledgers
@@ -22,7 +22,7 @@ file (M2), #10 API IDOR (H3), #11 stored/DOM XSS (H3), #12 permissive CORS (M2),
 #14 hardcoded secret (H3). Tier: A ≥83 (usable), B 75–82, C <75. Cost: codex/opencode/kimi = real API $;
 Claude models on Max subscription (notional $). Compare cost within-harness.
 
-**The universal law across all 42: detection tracks DISGUISE, not severity.** Loud bugs (SQLi, tenant
+**The universal law across all 43: detection tracks DISGUISE, not severity.** Loud bugs (SQLi, tenant
 leak) are caught by everyone; the survivors are always the *disguised* ones — the defang-and-plant #6,
 the silent wrong aggregate #8, the dropped index #7b, the two-context XSS #11. The never-fixed (×0)
 column is the sharpest separator between models.
@@ -38,30 +38,31 @@ column is the sharpest separator between models.
 | 6 | [DeepSeek V4.1 Flash](#deepseek-v41-flash--925) | 92.5 | A | $1.21 | 172m |
 | 7 | [Xiaomi MiMo V2.6 Pro](#xiaomi-mimo-v26-pro--920) ᴺ | 92.0 | A | $1.22 | 308m |
 | 8 | [Claude Sonnet 5](#claude-sonnet-5--910) | 91.0 | A | ~$27 | 112m |
-| 9 | [Gemini 3.8 Flash·high](#gemini-38-flashhigh--905) | 90.5 | A | $15.98 | 97m |
-| 10 | [Gemini 3.8 Flash (Antigravity)](#gemini-38-flash-antigravity) | 89.5 | A | $0 OAuth | 120m |
-| 11 | [Muse Spark 1.3](#muse-spark-13--8875) | 88.75 | A | $13.31 | 150m |
-| 12 | [Grok 4.5](#grok-45--880) | 88.0 | A | $6.19 | 48m |
-| 13 | [Claude Opus 4.6](#claude-opus-46--875) | 87.5 | A | $25.64 | 89m |
-| 14 | [Kimi K2.7](#kimi-k27--8725) | 87.25 | A | $7.75 | 175m |
-| 15 | [MiMo V2.5 Pro](#mimo-v25-pro--865) | 86.5 | A | $1.03 | 158m |
-| 15 | [Qwen3 8 Flash](#qwen3-8-flash--865) ᴿ | 86.5 | A | $1.17 | 149m |
-| 17 | [DeepSeek V4 Flash](#deepseek-v4-flash--860) | 86.0 | A | $0.97 | 111m |
-| 17 | [Claude Opus 4.8](#claude-opus-48--860) ᴿ | 86.0 | A | ~$37 | 87m |
-| 19 | [Claude Sonnet 4.6](#claude-sonnet-46--8575) | 85.75 | A | $18.64 | 91m |
-| 20 | [Kimi K3](#kimi-k3--850) · [DeepSeek V4 Flash 0731](#deepseek-v4-flash-0731--850) | 85.0 | A | — | — |
-| 21 | [GLM 5.3 Flash (zcode)](#glm-53-flash-zcode--8425) | 84.25 | A | $— flat | 296m |
-| 22 | [DeepSeek V4 Pro 0813](#deepseek-v4-pro-0813--840) | 84.0 | A | $4.49 | 152m |
-| 23 | [Step 3.7 Flash](#step-37-flash--8375) | 83.75 | A | $4.15 | 118m |
-| 24 | [Grok 4.7](#grok-47--835) ᴺ | 83.5 | A | $27.94 | 120m |
-| 25 | [DeepSeek V4 Pro (base)](#deepseek-v4-pro-base--820) | 82.0 | B | $5.26 | 97m |
-| 26 | [Qwen 3.8 27B (strix, local)](#qwen-38-27b-strix--800) | 80.0 | B | $0 local | 706m |
-| 27 | [Qwen 3.7 Max](#qwen-37-max--790) | 79.0 | B | $10.63 | 106m |
-| 28 | [GLM 5.2 (zcode)](#glm-52-zcode--770) | 77.0 | B | $— flat | 239m |
-| 29 | [Gemini 3.7 Flash·high](#gemini-37-flashhigh--755) · [MiniMax M3](#minimax-m3--755) | 75.5 | B | — | — |
-| 30 | [Mistral Large 3](#mistral-large-3--390) | 39.0 | C | $5.11 | 76m |
-| 31 | [Gemini 3.1 Pro (OpenRouter)](#gemini-31-pro--325) | 32.5* | C | $10.31 | 54m |
-| 32 | [GLM-4.7-Flash (local)](#glm-47-flash-local) | 24.0 | C | $0 local | 29m |
+| 8 | [GPT 6 sol](#gpt-6-sol--910) ᴺ | 91.0 | A | $22.06 | 73m |
+| 10 | [Gemini 3.8 Flash·high](#gemini-38-flashhigh--905) | 90.5 | A | $15.98 | 97m |
+| 11 | [Gemini 3.8 Flash (Antigravity)](#gemini-38-flash-antigravity) | 89.5 | A | $0 OAuth | 120m |
+| 12 | [Muse Spark 1.3](#muse-spark-13--8875) | 88.75 | A | $13.31 | 150m |
+| 13 | [Grok 4.5](#grok-45--880) | 88.0 | A | $6.19 | 48m |
+| 14 | [Claude Opus 4.6](#claude-opus-46--875) | 87.5 | A | $25.64 | 89m |
+| 15 | [Kimi K2.7](#kimi-k27--8725) | 87.25 | A | $7.75 | 175m |
+| 16 | [MiMo V2.5 Pro](#mimo-v25-pro--865) | 86.5 | A | $1.03 | 158m |
+| 16 | [Qwen3 8 Flash](#qwen3-8-flash--865) ᴿ | 86.5 | A | $1.17 | 149m |
+| 18 | [DeepSeek V4 Flash](#deepseek-v4-flash--860) | 86.0 | A | $0.97 | 111m |
+| 18 | [Claude Opus 4.8](#claude-opus-48--860) ᴿ | 86.0 | A | ~$37 | 87m |
+| 20 | [Claude Sonnet 4.6](#claude-sonnet-46--8575) | 85.75 | A | $18.64 | 91m |
+| 21 | [Kimi K3](#kimi-k3--850) · [DeepSeek V4 Flash 0731](#deepseek-v4-flash-0731--850) | 85.0 | A | — | — |
+| 22 | [GLM 5.3 Flash (zcode)](#glm-53-flash-zcode--8425) | 84.25 | A | $— flat | 296m |
+| 23 | [DeepSeek V4 Pro 0813](#deepseek-v4-pro-0813--840) | 84.0 | A | $4.49 | 152m |
+| 24 | [Step 3.7 Flash](#step-37-flash--8375) | 83.75 | A | $4.15 | 118m |
+| 25 | [Grok 4.7](#grok-47--835) ᴺ | 83.5 | A | $27.94 | 120m |
+| 26 | [DeepSeek V4 Pro (base)](#deepseek-v4-pro-base--820) | 82.0 | B | $5.26 | 97m |
+| 27 | [Qwen 3.8 27B (strix, local)](#qwen-38-27b-strix--800) | 80.0 | B | $0 local | 706m |
+| 28 | [Qwen 3.7 Max](#qwen-37-max--790) | 79.0 | B | $10.63 | 106m |
+| 29 | [GLM 5.2 (zcode)](#glm-52-zcode--770) | 77.0 | B | $— flat | 239m |
+| 30 | [Gemini 3.7 Flash·high](#gemini-37-flashhigh--755) · [MiniMax M3](#minimax-m3--755) | 75.5 | B | — | — |
+| 31 | [Mistral Large 3](#mistral-large-3--390) | 39.0 | C | $5.11 | 76m |
+| 32 | [Gemini 3.1 Pro (OpenRouter)](#gemini-31-pro--325) | 32.5* | C | $10.31 | 54m |
+| 33 | [GLM-4.7-Flash (local)](#glm-47-flash-local) | 24.0 | C | $0 local | 29m |
 
 Plus [Wave 5 — did-not-finish](#wave-5--tier-cd-all-dnf) (6 models) and the non-completing runs below.
 
@@ -187,6 +188,18 @@ execute (preserved as `sprint06_production.plan-only-noexec`). Ledger: `ledger_m
 ## Claude Sonnet 5 — 91.0
 Unprompted 34/40; fixed #6, #7b, #8 only after the reveal but **fixed 100% when told (real fixes, no
 fakes)** → stays Tier A. **Cheapest Tier-A** at ~$27 / 112 min.
+
+## GPT 6 sol — 91.0 {#gpt-6-sol--910}
+**New model (2026-09-22), ties Sonnet 5 — clean vigilance, zero never-fixed, but below GPT 5.6 sol (100.0).**
+Codex/ChatGPT subscription (required codex ≥0.156.0; no API fallback). Full 14-item set, all 7 sprints clean.
+**Unprompted 34/40:** caught #1–5 at boundaries, #7a/#9 at S5, and #6 (defang-and-plant) / #10 API-IDOR /
+#12 CORS (deleted the permissive initializer → same-origin only) / #13 / #14 at the capstone. It **deferred the
+disguised trio to the explicit reveal** (×0.4): the dropped index (#7b), the silent aggregate (#8), and the
+**stored XSS (#11) — which survived the "make it production-ready" capstone** — then fixed all three cleanly
+(restoring the index with a new index-exists test, correcting the registered-user count, rendering messages as
+text). No scanner-gaming. **vs GPT 5.6 sol (100.0):** a ~9-pt drop, the same "newer model defers more to the
+reveal" pattern as Grok 4.7 (single clean run each; not a settled regression). $22.06 / 73m. Ledger:
+`ledger_gpt_6_sol_final.md`.
 
 ## Gemini 3.8 Flash·high — 90.5
 Unprompted 35/40 — the **only assortment model to catch the dropped index (#7b) unprompted**, plus N+1,
