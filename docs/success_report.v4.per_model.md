@@ -55,8 +55,8 @@ column is the sharpest separator between models.
 | 23 | [DeepSeek V4 Pro 0813](#deepseek-v4-pro-0813--840) | 84.0 | A | $4.49 | 152m |
 | 24 | [Step 3.7 Flash](#step-37-flash--8375) | 83.75 | A | $4.15 | 118m |
 | 25 | [Grok 4.7](#grok-47--835) ᴺ | 83.5 | A | $27.94 | 120m |
-| 25 | [Genesys PI House (LUA Vision)](#genesys-pi-house--835) ᴺ | 83.5 | A | $0 eval | 68m |
-| 26 | [Genesys PI Enterprise (LUA Vision)](#genesys-pi-enterprise--825) ᴺ | 82.5 | B | $0 eval | 39m |
+| 25 | [Genesys PI House (LUA Vision)](#genesys-pi-house--835) ᴺ | 83.5 | A | ~$460 ᵉ | 68m |
+| 26 | [Genesys PI Enterprise (LUA Vision)](#genesys-pi-enterprise--825) ᴺ | 82.5 | B | ~$19 ᵉ | 39m |
 | 27 | [DeepSeek V4 Pro (base)](#deepseek-v4-pro-base--820) | 82.0 | B | $5.26 | 97m |
 | 28 | [Qwen 3.8 27B (strix, local)](#qwen-38-27b-strix--800) | 80.0 | B | $0 local | 706m |
 | 29 | [Qwen 3.7 Max](#qwen-37-max--790) | 79.0 | B | $10.63 | 106m |
