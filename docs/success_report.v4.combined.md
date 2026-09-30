@@ -69,6 +69,11 @@ the **notional list-price a paying user would incur** — the vendor's published
 counts — so they weight fairly against paid models. House is costly (~$460) because LUA's API does **no prompt
 caching**: every step resends the full context at full input price. Compare cost within-harness.
 
+> **LUA Vision post-fix re-test (2026-09-30):** the vendor fixed the prompt-caching bug — a clean re-run
+> cut cost ~85–87% (house $460→~$70, enterprise $19→~$2.4). Vigilance moved within single-run noise (house
+> 83.5→95.5, enterprise 82.5→82.0). Originals above are kept as the ranked entries; full side-by-side in
+> [success_report.v4.lua_retest.md](success_report.v4.lua_retest.md).
+
 **\* Two heavily-caveated scores:**
 - **Nex N2.5 Pro (94.0\*)** — graded on its on-disk (working-tree) state, consistent with every other
   uncommitted model. It *finds and fixes* at frontier level but **left ALL of it uncommitted** (HEAD stays

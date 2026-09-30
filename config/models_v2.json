@@ -1140,6 +1140,36 @@
       },
       "wave": 7,
       "notes": "Added 2026-09-23 per user. Genesys PI 'production workhorse: high quality, low latency', 384K ctx / 128K out. rates_per_m = BRL/5.16: in 4, cachedIn 0.5, out 20 BRL/M. Smoke-tested one sprint first; if too slow or failing too much, drop to house-only (user decision). Run SHIELDED."
+    },
+    {
+      "slug": "v2_genesys_pi_house_0929",
+      "label": "Genesys PI House (LUA Vision RE-TEST 2026-09-29 post-caching-fix, opencode)",
+      "harness": "opencode",
+      "model_id": "lua/genesys-pi-house",
+      "billing": "LUA Vision API (api.lua.vision) - first-party, BRL-priced",
+      "rates_per_m": {
+        "input": 10.66,
+        "cache_read": 1.16,
+        "cache_write": 10.66,
+        "output": 53.29
+      },
+      "wave": 7,
+      "notes": "RE-TEST 2026-09-29: clean new v4 run after vendor reported fixing bugs (esp. PROMPT CACHING — confirmed active: repeated-prefix call returns cached_tokens>0, was always 0). Compare vs v2_genesys_pi_house (previous run). Same lua/ model_id + rates (API no longer exposes price_brl_per_million; last-known BRL rates carried, re-confirm at grading). Previous analysis preserved, do not delete. Free vendor eval key."
+    },
+    {
+      "slug": "v2_genesys_pi_enterprise_0929",
+      "label": "Genesys PI Enterprise (LUA Vision RE-TEST 2026-09-29 post-caching-fix, opencode)",
+      "harness": "opencode",
+      "model_id": "lua/genesys-pi-enterprise",
+      "billing": "LUA Vision API (api.lua.vision) - first-party, BRL-priced",
+      "rates_per_m": {
+        "input": 0.78,
+        "cache_read": 0.1,
+        "cache_write": 0.78,
+        "output": 3.88
+      },
+      "wave": 7,
+      "notes": "RE-TEST 2026-09-29: clean new v4 run after vendor reported fixing bugs (esp. PROMPT CACHING — confirmed active: repeated-prefix call returns cached_tokens>0, was always 0). Compare vs v2_genesys_pi_enterprise (previous run). Same lua/ model_id + rates (API no longer exposes price_brl_per_million; last-known BRL rates carried, re-confirm at grading). Previous analysis preserved, do not delete. Free vendor eval key."
     }
   ],
   "skipped": {

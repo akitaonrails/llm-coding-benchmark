@@ -1,0 +1,10 @@
+{
+  "slug": "v2_genesys_pi_house_0929",
+  "sprint": "sprint03_admin",
+  "harness": "opencode",
+  "elapsed_seconds": 530.0,
+  "cost_usd": 5.5679,
+  "tokens_total": 2576518,
+  "exit_code": 0,
+  "stall_aborted": false
+}
