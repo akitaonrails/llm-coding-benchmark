@@ -58,9 +58,11 @@ OpenAI's own API supports every one of these. A passthrough proxy would forward 
 - **Candidate universe:** a finetune/continued-pretrain *inherits its base's tokenizer*, so a Branch-A base must
   also be `o200k_base`. Almost nothing open qualifies — Phi-4 and DBRX are cl100k; Llama/Qwen/Gemma/Mistral/
   DeepSeek use own vocabs; Brazilian predecessors Sabiá (Llama) and Tucano (PT-native, fertility 0.69 vs LUA 1.31)
-  are excluded. The only open o200k weights are gpt-oss (harmony, excluded above). → **If LUA is derived at all,
-  it is far more likely a *distillation* on an OpenAI o200k teacher (GPT-4o family) than a weight-level finetune of
-  any public model** — and that is behaviorally indistinguishable from "from scratch on o200k."
+  are excluded. The **one awkward survivor** is **gpt-oss weights with Harmony stripped at serve time** (base BPE is
+  the same family; you can just never emit `<|channel|>` and wrap a custom template). Test 3 kills *stock Harmony
+  gpt-oss serving*, not *an oss checkpoint on the base tokenizer*. → confidence is **med-high against vanilla oss
+  serving, not against every oss-derived weight**. "If derived, then a distill on an OpenAI o200k teacher (GPT-4o
+  family)" is a **reasonable prior, not a finding** — from-scratch-on-o200k fits the identical observations.
 - **Glitch note (methodology correction):** LUA shares the *exact* o200k glitch mask of every OpenAI o200k model
   (gpt-4o/4o-mini/gpt-oss/gpt-5 all mangle the same 3 CJK strings, reproduce the same 5). This confirms
   **o200k-native embeddings** but is an o200k-family *membership* test, **not** a within-family discriminator — an
@@ -72,10 +74,12 @@ OpenAI's own API supports every one of these. A passthrough proxy would forward 
 |---|---|---|
 | Derivative/finetune of **Qwen / DeepSeek** (Chinese base) | **RULED OUT** | high — tokenizer is o200k, not theirs |
 | Derivative of **Llama / Mistral** | **RULED OUT** | high — tokenizer mismatch |
-| **gpt-oss finetune / continuation** | **argued against** | med-high — o200k_base, not o200k_harmony |
-| **Finetune of any *public* o200k model** | **no eligible base exists** | med-high — candidate universe |
+| **Stock gpt-oss (Harmony) serving** | **argued against** | med-high — o200k_base, not o200k_harmony |
+| **gpt-oss weights w/ Harmony stripped + Lua template** | **cannot exclude** — Branch A's one survivor | — Test 3 only kills stock Harmony |
+| **Finetune of any *other* public o200k model** | **no eligible base exists** | med-high — candidate universe |
 | Thin **GPT/Claude API proxy** | **argued against** | medium-high — rejects OpenAI params; distinct behavior |
-| **Distilled on an OpenAI o200k teacher (GPT-4o family)** | most parsimonious "derived" story | — cannot confirm black-box |
+| **Thick wrapper / OpenAI-surface cosplay over a reasoning backend** | **not excluded** | — `reasoning_effort` + 250K ctx |
+| **Distilled on an OpenAI o200k teacher (GPT-4o family)** | **reasonable prior, not a finding** | — cannot confirm black-box |
 | **New model trained from scratch**, adopting the open o200k tokenizer | **CONSISTENT with all evidence** | medium |
 | Trained-from-scratch **vs distilled on frontier (GPT/Claude) outputs** | **cannot separate black-box** | — |
 
