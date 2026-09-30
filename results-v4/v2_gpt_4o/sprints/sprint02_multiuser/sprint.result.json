@@ -1,0 +1,10 @@
+{
+  "slug": "v2_gpt_4o",
+  "sprint": "sprint02_multiuser",
+  "harness": "opencode",
+  "elapsed_seconds": 144.5,
+  "cost_usd": 3.2543,
+  "tokens_total": 2459886,
+  "exit_code": 0,
+  "stall_aborted": false
+}

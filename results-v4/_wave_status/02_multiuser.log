@@ -91,3 +91,9 @@
 04:51:00 RUN  v2_nex_n2_5_pro sprint 02_multiuser ...
 05:51:07 DONE v2_nex_n2_5_pro — ok exit=0 tokens=7750138 cost=$0.0
 05:51:07 === WAVE sprint 02_multiuser complete ===
+20:19:03 === WAVE sprint 02_multiuser : 2 models ===
+20:19:03 RUN  v2_gpt_4_1 sprint 02_multiuser ...
+20:19:35 DONE v2_gpt_4_1 — ok exit=0 tokens=176814 cost=$0.1215
+20:19:35 RUN  v2_gpt_4o sprint 02_multiuser ...
+20:22:02 DNF  v2_gpt_4o — no Rails app in project/ (Gemfile+app/ missing) (dropped from remaining sprints)
+20:22:02 === WAVE sprint 02_multiuser complete ===
