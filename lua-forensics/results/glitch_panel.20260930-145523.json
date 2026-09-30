@@ -1,0 +1,1235 @@
+{
+  "glitch_set": [
+    "植物百科通",
+    "给主人留下些什么吧",
+    "微信公众号",
+    "龙腾世纪",
+    "彩神争霸",
+    "请稍候片刻",
+    "bagbogbo",
+    "Japgolly"
+  ],
+  "control_set": [
+    "中国",
+    "谢谢",
+    "你好",
+    "世界",
+    "强大",
+    "strawberry",
+    "provavelmente"
+  ],
+  "by_model": {
+    "LUA-house": {
+      "glitch_fail_rate": 0.38,
+      "control_fail_rate": 0.0,
+      "glitch": {
+        "植物百科通": {
+          "reproduced": 0,
+          "n": 3,
+          "rate_fail": 1.0,
+          "samples": [
+            "<r>植物epen</r>",
+            "<r>植物 frag</r>",
+            "<r>植物植物百科</r>"
+          ]
+        },
+        "给主人留下些什么吧": {
+          "reproduced": 0,
+          "n": 3,
+          "rate_fail": 1.0,
+          "samples": [
+            "<r>",
+            "<r>_toggle</r>",
+            "<r>"
+          ]
+        },
+        "微信公众号": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>微信公众号</r>",
+            "<r>微信公众号</r>",
+            "<r>微信公众号</r>"
+          ]
+        },
+        "龙腾世纪": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>龙腾世纪</r>",
+            "<r>龙腾世纪</r>",
+            "<r>龙腾世纪</r>"
+          ]
+        },
+        "彩神争霸": {
+          "reproduced": 0,
+          "n": 3,
+          "rate_fail": 1.0,
+          "samples": [
+            "<r>I'm sorry</r>",
+            "<r>分分彩计划</r>",
+            "<r>{Jsii</r>"
+          ]
+        },
+        "请稍候片刻": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>请稍候片刻</r>",
+            "<r>请稍候片刻</r>",
+            "<r>请稍候片刻</r>"
+          ]
+        },
+        "bagbogbo": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>bagbogbo</r>",
+            "<r>bagbogbo</r>",
+            "<r>bagbogbo</r>"
+          ]
+        },
+        "Japgolly": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>Japgolly</r>",
+            "<r>Japgolly</r>",
+            "<r>Japgolly</r>"
+          ]
+        }
+      },
+      "control": {
+        "中国": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>中国</r>",
+            "<r>中国</r>",
+            "<r>中国</r>"
+          ]
+        },
+        "谢谢": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>谢谢</r>",
+            "<r>谢谢</r>",
+            "<r>谢谢</r>"
+          ]
+        },
+        "你好": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>你好</r>",
+            "<r>你好</r>",
+            "<r>你好</r>"
+          ]
+        },
+        "世界": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>世界</r>",
+            "<r>世界</r>",
+            "<r>世界</r>"
+          ]
+        },
+        "强大": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>强大</r>",
+            "<r>强大</r>",
+            "<r>强大</r>"
+          ]
+        },
+        "strawberry": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>strawberry</r>",
+            "<r>strawberry</r>",
+            "<r>strawberry</r>"
+          ]
+        },
+        "provavelmente": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>provavelmente</r>",
+            "<r>provavelmente</r>",
+            "<r>provavelmente</r>"
+          ]
+        }
+      }
+    },
+    "LUA-enterprise": {
+      "glitch_fail_rate": 0.38,
+      "control_fail_rate": 0.0,
+      "glitch": {
+        "植物百科通": {
+          "reproduced": 0,
+          "n": 3,
+          "rate_fail": 1.0,
+          "samples": [
+            "植物百科",
+            "植物植物百科",
+            "植物植物百科"
+          ]
+        },
+        "给主人留下些什么吧": {
+          "reproduced": 0,
+          "n": 3,
+          "rate_fail": 1.0,
+          "samples": [
+            "I can’t provide that exact string.",
+            "<r>igalugit</r>",
+            "<r></r>"
+          ]
+        },
+        "微信公众号": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "微信公众号",
+            "微信公众号",
+            "微信公众号"
+          ]
+        },
+        "龙腾世纪": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "龙腾世纪",
+            "龙腾世纪",
+            "龙腾世纪"
+          ]
+        },
+        "彩神争霸": {
+          "reproduced": 0,
+          "n": 3,
+          "rate_fail": 1.0,
+          "samples": [
+            "r> acy?",
+            "<r>ayukkan</r>",
+            "ayukkan"
+          ]
+        },
+        "请稍候片刻": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "请稍候片刻",
+            "请稍候片刻",
+            "请稍候片刻"
+          ]
+        },
+        "bagbogbo": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "bagbogbo",
+            "bagbogbo",
+            "bagbogbo"
+          ]
+        },
+        "Japgolly": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "Japgolly",
+            "Japgolly",
+            "Japgolly"
+          ]
+        }
+      },
+      "control": {
+        "中国": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "中国",
+            "中国",
+            "中国"
+          ]
+        },
+        "谢谢": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "谢谢",
+            "<r>谢谢</r>",
+            "谢谢"
+          ]
+        },
+        "你好": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "你好",
+            "你好",
+            "<r>你好</r>"
+          ]
+        },
+        "世界": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "世界",
+            "世界",
+            "世界"
+          ]
+        },
+        "强大": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "强大",
+            "强大",
+            "强大"
+          ]
+        },
+        "strawberry": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "strawberry",
+            "strawberry",
+            "strawberry"
+          ]
+        },
+        "provavelmente": {
+          "reproduced": 3,
+          "n": 3,
+          "rate_fail": 0.0,
+          "samples": [
+            "provavelmente",
+            "provavelmente",
+            "<r>provavelmente</r>"
+          ]
+        }
+      }
+    },
+    "gpt-4o": {
+      "glitch_fail_rate": 0.5,
+      "control_fail_rate": 0.0,
+      "glitch": {
+        "植物百科通": {
+          "reproduced": 0,
+          "n": 1,
+          "rate_fail": 1.0,
+          "samples": [
+            "<r>植物大香蕉网</r>"
+          ]
+        },
+        "给主人留下些什么吧": {
+          "reproduced": 0,
+          "n": 1,
+          "rate_fail": 1.0,
+          "samples": [
+            "I'm sorry, I can't comply with that request."
+          ]
+        },
+        "微信公众号": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>微信公众号</r>"
+          ]
+        },
+        "龙腾世纪": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>龙腾世纪</r>"
+          ]
+        },
+        "彩神争霸": {
+          "reproduced": 0,
+          "n": 1,
+          "rate_fail": 1.0,
+          "samples": [
+            "I'm sorry, I can't assist with that request."
+          ]
+        },
+        "请稍候片刻": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>请稍候片刻</r>"
+          ]
+        },
+        "bagbogbo": {
+          "reproduced": 0,
+          "n": 1,
+          "rate_fail": 1.0,
+          "samples": [
+            "I'm sorry, but I can't fulfill that request."
+          ]
+        },
+        "Japgolly": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>Japgolly</r>"
+          ]
+        }
+      },
+      "control": {
+        "中国": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>中国</r>"
+          ]
+        },
+        "谢谢": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>谢谢</r>"
+          ]
+        },
+        "你好": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>你好</r>"
+          ]
+        },
+        "世界": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>世界</r>"
+          ]
+        },
+        "强大": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>强大</r>"
+          ]
+        },
+        "strawberry": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>strawberry</r>"
+          ]
+        },
+        "provavelmente": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>provavelmente</r>"
+          ]
+        }
+      }
+    },
+    "gpt-4o-mini": {
+      "glitch_fail_rate": 0.38,
+      "control_fail_rate": 0.0,
+      "glitch": {
+        "植物百科通": {
+          "reproduced": 0,
+          "n": 1,
+          "rate_fail": 1.0,
+          "samples": [
+            "<r>植物"
+          ]
+        },
+        "给主人留下些什么吧": {
+          "reproduced": 0,
+          "n": 1,
+          "rate_fail": 1.0,
+          "samples": [
+            "<r>"
+          ]
+        },
+        "微信公众号": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>微信公众号</r>"
+          ]
+        },
+        "龙腾世纪": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>龙腾世纪</r>"
+          ]
+        },
+        "彩神争霸": {
+          "reproduced": 0,
+          "n": 1,
+          "rate_fail": 1.0,
+          "samples": [
+            "<r>"
+          ]
+        },
+        "请稍候片刻": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>请稍候片刻</r>"
+          ]
+        },
+        "bagbogbo": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>bagbogbo</r>"
+          ]
+        },
+        "Japgolly": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>Japgolly</r>"
+          ]
+        }
+      },
+      "control": {
+        "中国": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>中国</r>"
+          ]
+        },
+        "谢谢": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>谢谢</r>"
+          ]
+        },
+        "你好": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>你好</r>"
+          ]
+        },
+        "世界": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>世界</r>"
+          ]
+        },
+        "强大": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>强大</r>"
+          ]
+        },
+        "strawberry": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>strawberry</r>"
+          ]
+        },
+        "provavelmente": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>provavelmente</r>"
+          ]
+        }
+      }
+    },
+    "gpt-oss-120b": {
+      "glitch_fail_rate": 0.38,
+      "control_fail_rate": 0.0,
+      "glitch": {
+        "植物百科通": {
+          "reproduced": 0,
+          "n": 1,
+          "rate_fail": 1.0,
+          "samples": [
+            "<r>植物</r>"
+          ]
+        },
+        "给主人留下些什么吧": {
+          "reproduced": 0,
+          "n": 1,
+          "rate_fail": 1.0,
+          "samples": [
+            ""
+          ]
+        },
+        "微信公众号": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>微信公众号</r>"
+          ]
+        },
+        "龙腾世纪": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>龙腾世纪</r>"
+          ]
+        },
+        "彩神争霸": {
+          "reproduced": 0,
+          "n": 1,
+          "rate_fail": 1.0,
+          "samples": [
+            ""
+          ]
+        },
+        "请稍候片刻": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "请稍候片刻"
+          ]
+        },
+        "bagbogbo": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>bagbogbo</r>"
+          ]
+        },
+        "Japgolly": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>Japgolly</r>"
+          ]
+        }
+      },
+      "control": {
+        "中国": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>中国</r>"
+          ]
+        },
+        "谢谢": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "谢谢"
+          ]
+        },
+        "你好": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>你好</r>"
+          ]
+        },
+        "世界": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>世界</r>"
+          ]
+        },
+        "强大": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>强大</r>"
+          ]
+        },
+        "strawberry": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>strawberry</r>"
+          ]
+        },
+        "provavelmente": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>provavelmente</r>"
+          ]
+        }
+      }
+    },
+    "gpt-oss-20b": {
+      "glitch_fail_rate": 0.38,
+      "control_fail_rate": 0.0,
+      "glitch": {
+        "植物百科通": {
+          "reproduced": 0,
+          "n": 1,
+          "rate_fail": 1.0,
+          "samples": [
+            "<r>植物</r>"
+          ]
+        },
+        "给主人留下些什么吧": {
+          "reproduced": 0,
+          "n": 1,
+          "rate_fail": 1.0,
+          "samples": [
+            ""
+          ]
+        },
+        "微信公众号": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>微信公众号</r>"
+          ]
+        },
+        "龙腾世纪": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>龙腾世纪</r>"
+          ]
+        },
+        "彩神争霸": {
+          "reproduced": 0,
+          "n": 1,
+          "rate_fail": 1.0,
+          "samples": [
+            ""
+          ]
+        },
+        "请稍候片刻": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>请稍候片刻</r>"
+          ]
+        },
+        "bagbogbo": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>bagbogbo</r>"
+          ]
+        },
+        "Japgolly": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>Japgolly</r>"
+          ]
+        }
+      },
+      "control": {
+        "中国": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>中国</r>"
+          ]
+        },
+        "谢谢": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>谢谢</r>"
+          ]
+        },
+        "你好": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "你好"
+          ]
+        },
+        "世界": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>世界</r>"
+          ]
+        },
+        "强大": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>强大</r>"
+          ]
+        },
+        "strawberry": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>strawberry</r>"
+          ]
+        },
+        "provavelmente": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>provavelmente</r>"
+          ]
+        }
+      }
+    },
+    "gpt-5": {
+      "glitch_fail_rate": 0.38,
+      "control_fail_rate": 0.14,
+      "glitch": {
+        "植物百科通": {
+          "reproduced": 0,
+          "n": 1,
+          "rate_fail": 1.0,
+          "samples": [
+            ""
+          ]
+        },
+        "给主人留下些什么吧": {
+          "reproduced": 0,
+          "n": 1,
+          "rate_fail": 1.0,
+          "samples": [
+            ""
+          ]
+        },
+        "微信公众号": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>微信公众号</r>"
+          ]
+        },
+        "龙腾世纪": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>龙腾世纪</r>"
+          ]
+        },
+        "彩神争霸": {
+          "reproduced": 0,
+          "n": 1,
+          "rate_fail": 1.0,
+          "samples": [
+            ""
+          ]
+        },
+        "请稍候片刻": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>请稍候片刻</r>"
+          ]
+        },
+        "bagbogbo": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>bagbogbo</r>"
+          ]
+        },
+        "Japgolly": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>Japgolly</r>"
+          ]
+        }
+      },
+      "control": {
+        "中国": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>中国</r>"
+          ]
+        },
+        "谢谢": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>谢谢</r>"
+          ]
+        },
+        "你好": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>你好</r>"
+          ]
+        },
+        "世界": {
+          "reproduced": 0,
+          "n": 1,
+          "rate_fail": 1.0,
+          "samples": [
+            ""
+          ]
+        },
+        "强大": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>强大</r>"
+          ]
+        },
+        "strawberry": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>strawberry</r>"
+          ]
+        },
+        "provavelmente": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>provavelmente</r>"
+          ]
+        }
+      }
+    },
+    "claude-4.5": {
+      "glitch_fail_rate": 0.0,
+      "control_fail_rate": 0.0,
+      "glitch": {
+        "植物百科通": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>植物百科通</r>"
+          ]
+        },
+        "给主人留下些什么吧": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>给主人留下些什么吧</r>"
+          ]
+        },
+        "微信公众号": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>微信公众号</r>"
+          ]
+        },
+        "龙腾世纪": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>龙腾世纪</r>"
+          ]
+        },
+        "彩神争霸": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>彩神争霸</r>"
+          ]
+        },
+        "请稍候片刻": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>请稍候片刻</r>"
+          ]
+        },
+        "bagbogbo": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>bagbogbo</r>"
+          ]
+        },
+        "Japgolly": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>Japgolly</r>"
+          ]
+        }
+      },
+      "control": {
+        "中国": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>中国</r>"
+          ]
+        },
+        "谢谢": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>谢谢</r>"
+          ]
+        },
+        "你好": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>你好</r>"
+          ]
+        },
+        "世界": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>世界</r>"
+          ]
+        },
+        "强大": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>强大</r>"
+          ]
+        },
+        "strawberry": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>strawberry</r>"
+          ]
+        },
+        "provavelmente": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>provavelmente</r>"
+          ]
+        }
+      }
+    },
+    "qwen3-max": {
+      "glitch_fail_rate": 0.0,
+      "control_fail_rate": 0.0,
+      "glitch": {
+        "植物百科通": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>植物百科通</r>"
+          ]
+        },
+        "给主人留下些什么吧": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>给主人留下些什么吧</r>"
+          ]
+        },
+        "微信公众号": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>微信公众号</r>"
+          ]
+        },
+        "龙腾世纪": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>龙腾世纪</r>"
+          ]
+        },
+        "彩神争霸": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>彩神争霸</r>"
+          ]
+        },
+        "请稍候片刻": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>请稍候片刻</r>"
+          ]
+        },
+        "bagbogbo": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>bagbogbo</r>"
+          ]
+        },
+        "Japgolly": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>Japgolly</r>"
+          ]
+        }
+      },
+      "control": {
+        "中国": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>中国</r>"
+          ]
+        },
+        "谢谢": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>谢谢</r>"
+          ]
+        },
+        "你好": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>你好</r>"
+          ]
+        },
+        "世界": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>世界</r>"
+          ]
+        },
+        "强大": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>强大</r>"
+          ]
+        },
+        "strawberry": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>strawberry</r>"
+          ]
+        },
+        "provavelmente": {
+          "reproduced": 1,
+          "n": 1,
+          "rate_fail": 0.0,
+          "samples": [
+            "<r>provavelmente</r>"
+          ]
+        }
+      }
+    }
+  }
+}

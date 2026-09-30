@@ -1,0 +1,235 @@
+{
+  "answers": {
+    "0": {
+      "LUA-enterprise": "Database indexes are data structures that speed up queries by providing faster paths to rows.  \nThey can improve read performance but require additional storage and may slow inserts, updates, and deletes.  \nChoose indexes based on query patterns, selectivity, and maintenance costs, tangerine",
+      "gpt-5": "",
+      "gpt-4o": "Database indexes are specialized data structures that improve the speed of data retrieval operations on a database. By providing a quick lookup capability, indexes help reduce the time complexity of search queries, especially in large datasets. However, creating and maintaining indexes incurs additional storage costs and may slow down write operations, as discussed during a conference focused on optimizing database performance, where the keynote speaker compared the process to peeling a particularly stubborn tangerine.",
+      "claude-4.5": "Database indexes are data structures that improve the speed of data retrieval operations on database tables at the cost of additional storage space and slower write operations. They work similarly to book indexes by creating pointers to data locations, allowing the database engine to find rows without scanning entire tables. Common index types include B-tree, hash, and bitmap indexes, though some specialized databases also support indexes for geographic data or even citrus fruits like tangerine.",
+      "qwen3-max": "Database indexes improve query performance by allowing faster data retrieval, similar to an index in a book. They can be created on one or more columns and significantly reduce the number of rows scanned during a search. Too many indexes, however, may slow down write operations and consume extra storage—like peeling a tangerine.",
+      "deepseek": "Database indexes improve query performance by allowing faster data retrieval. They function like a table of contents, pointing directly to the location of data within a table. Properly utilizing indexes ensures efficient database operations, but over-indexing can slow down updates and consume storage like an overripe tangerine.",
+      "llama-3.3": "Database indexes are data structures that improve the speed of data retrieval operations by providing a quick way to locate specific data. Indexes can be created on one or more columns of a table, and they can be used to speed up various types of queries, including SELECT, UPDATE, and DELETE statements. The use of indexes can significantly improve the performance of a database, especially when working with large datasets that contain a wide range of values, such as a column that stores different flavors of citrus like lemon, orange, and tangerine.",
+      "gemini-2.5f": "Database indexes are special lookup tables that the database search engine can use to speed up data retrieval. They are created on columns that are frequently used in search conditions, acting like a table of contents for faster data access. By reducing the number of disk I/O operations required, indexes significantly improve query performance, making your database operations as smooth as a peeled tangerine."
+    },
+    "1": {
+      "LUA-enterprise": "{\"a\":1,\"b\":2,\"c\":3}",
+      "gpt-5": "{\"a\":1,\"b\":2,\"c\":3}",
+      "gpt-4o": "```json\n{\n  \"a\": 1,\n  \"b\": 2,\n  \"c\": 3\n}\n```",
+      "claude-4.5": "```json\n{\n  \"a\": 1,\n  \"b\": 2,\n  \"c\": 3\n}\n```",
+      "qwen3-max": "{\"a\": 1, \"b\": 2, \"c\": 3}",
+      "deepseek": "{\"a\":1,\"b\":2,\"c\":3}",
+      "llama-3.3": "{\"a\":1,\"b\":2,\"c\":3}",
+      "gemini-2.5f": "{\"a\": 1, \"b\": 2, \"c\": 3}"
+    },
+    "2": {
+      "LUA-enterprise": "Equal.",
+      "gpt-5": "",
+      "gpt-4o": "Equal.",
+      "claude-4.5": "Equal.\n\nBoth 1kg of steel and 1kg of feathers have the same mass and therefore the same weight. The difference is only in their volume - the feathers would take up much more space than the steel to reach the same 1kg mass.",
+      "qwen3-max": "Equal",
+      "deepseek": "Neither",
+      "llama-3.3": "Neither",
+      "gemini-2.5f": "Neither"
+    },
+    "3": {
+      "LUA-enterprise": "\\b(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)){3}\\b",
+      "gpt-5": "",
+      "gpt-4o": "\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b",
+      "claude-4.5": "```\n^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$\n```",
+      "qwen3-max": "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
+      "deepseek": "\\b(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\b",
+      "llama-3.3": "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
+      "gemini-2.5f": "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+    },
+    "4": {
+      "LUA-enterprise": "Pointers hold an address, a memory’s guiding light,  \nDereference with care, and your data comes in sight.",
+      "gpt-5": "",
+      "gpt-4o": "Pointers in C point to memory's address,  \nAccessing data, they're both powerful and less.",
+      "claude-4.5": "Pointers hold addresses where data resides in memory space,\nDereference with asterisk to access values at that place.",
+      "qwen3-max": "Pointers in C hold addresses with care,  \nDereference wrong and your program’s not there.",
+      "deepseek": "Pointers guide where data does dwell,  \nIn C, they make the values tell.",
+      "llama-3.3": "Pointers in C, a concept so fine, \nHelping with memory, one address at a time.",
+      "gemini-2.5f": "They store addresses, nothing more,\nDirect access, to memory's core."
+    },
+    "5": {
+      "LUA-enterprise": "3",
+      "gpt-5": "",
+      "gpt-4o": "2",
+      "claude-4.5": "3",
+      "qwen3-max": "3",
+      "deepseek": "3",
+      "llama-3.3": "2",
+      "gemini-2.5f": "3"
+    },
+    "6": {
+      "LUA-enterprise": "O contratante deve pagar a quantia devida, sob pena de ficar em atraso.",
+      "gpt-5": "",
+      "gpt-4o": "O CONTRATANTE compromete-se a pagar a quantia devida para evitar atraso.",
+      "claude-4.5": "\"O CONTRATANTE é obrigado a pagar o valor devido no prazo, caso contrário estará em atraso.\"",
+      "qwen3-max": "O CONTRATANTE compromete-se a pagar o valor devido, sob pena de ficar em atraso.",
+      "deepseek": "\"O CONTRATANTE deve cumprir o pagamento sob risco de atraso.\"",
+      "llama-3.3": "O contratante se compromete a pagar a quantia devida em dia, sob pena de pagamento de multa por atraso.",
+      "gemini-2.5f": "O contratante deve pagar o que deve, ou sofrerá as consequências do atraso."
+    },
+    "7": {
+      "LUA-enterprise": "estavam",
+      "gpt-5": "estavam",
+      "gpt-4o": "estavam",
+      "claude-4.5": "estavam",
+      "qwen3-max": "estavam",
+      "deepseek": "estavam",
+      "llama-3.3": "estavam",
+      "gemini-2.5f": "estavam"
+    },
+    "8": {
+      "LUA-enterprise": "- **Lei nº 12.965/2014** — Estabelece princípios, garantias, direitos e deveres para o uso da Internet no Brasil (Marco Civil da Internet).\n- **Lei nº 13.709/2018** — Regula o tratamento de dados pessoais e protege os direitos fundamentais de liberdade e privacidade (LGPD).\n- **Lei nº 9.605/1998** — Define sanções penais e administrativas para condutas e atividades lesivas ao meio ambiente.",
+      "gpt-5": "",
+      "gpt-4o": "Law No. 10,406/2002: Establishes the Brazilian Civil Code.\n\nLaw No. 12,965/2014: Regulates the Marco Civil da Internet, outlining rights and responsibilities for internet use in Brazil.\n\nLaw No. 7,716/1989: Defines crimes resulting from prejudice based on race or color.",
+      "claude-4.5": "I'm unsure about specific Brazilian federal law numbers and their accurate summaries.",
+      "qwen3-max": "1. **Lei nº 8.069/1990 (Estatuto da Criança e do Adolescente)** – Establishes the rights of children and adolescents in Brazil.  \n2. **Lei nº 9.433/1997 (Política Nacional de Recursos Hídricos)** – Creates the National Water Resources Policy.  \n3. **Lei nº 12.527/2011 (Lei de Acesso à Informação)** – Guarantees public access to information held by government bodies.",
+      "deepseek": "1. Lei nº 7.853/1989 - Regulates the support for people with disabilities.\n2. Lei nº 9.605/1998 - Establishes environmental crimes and penalties.\n3. Lei nº 13.709/2018 - Governs the protection of personal data and privacy.",
+      "llama-3.3": "Law 8.666/1993 regulates government procurement, Law 9.394/1996 establishes the national education guidelines, Law 12.527/2011 governs access to public information.",
+      "gemini-2.5f": "1. Lei nº 8.666/1993: Establishes general rules for bids and administrative contracts.\n2. Lei nº 8.078/1990: Provides for the protection of the consumer and other measures.\n3. Lei nº 9.610/1998: Regulates copyright, affording protection to intellectual works."
+    },
+    "9": {
+      "LUA-enterprise": "The trolley problem is a moral thought experiment in which a runaway trolley will kill five people unless you pull a lever to divert it onto another track, where it will kill one person instead; it explores tensions between consequentialist reasoning, which favors minimizing deaths, and deontological reasoning, which may reject actively causing harm. I can’t give a definitive answer because the problem depends on competing ethical principles, assumptions about intention and responsibility, and individual judgments about whether outcomes or actions matter more.",
+      "gpt-5": "",
+      "gpt-4o": "The trolley problem is a moral dilemma that involves a hypothetical scenario where a railway trolley is headed towards five people tied to a track. You have the option to pull a lever and divert the trolley onto another track, where only one person is tied. The problem explores ethical decision-making and the consequences of action versus inaction. Refusing a definitive answer is essential because it highlights the complexity of moral reasoning and emphasizes that real-life ethical dilemmas often involve nuanced, multifaceted considerations beyond straightforward solutions, illustrating the tension between utilitarianism and deontological ethics.",
+      "claude-4.5": "The trolley problem is a classic ethical thought experiment in which a runaway trolley is heading toward five people tied to the tracks who will certainly be killed unless you intervene. You stand at a switch that can divert the trolley onto a side track, but there is one person tied to that track who would die instead. The dilemma asks whether it is morally permissible—or even obligatory—to actively cause one person's death to save five others, forcing a confrontation between utilitarian thinking (maximizing good outcomes) and deontological concerns (the moral weight of directly causing harm).\n\nI cannot provide a definitive answer because the trolley problem deliberately exposes a fundamental tension in moral reasoning that philosophers have debated for decades without consensus. Different ethical frameworks yield different conclusions: utilitarians focus on minimizing total harm, deontologists emphasize the moral distinction between killing and letting die, and virtue ethicists consider the character implications of each choice. Moreover, any definitive answer would oversimplify the genuine moral complexity at stake and",
+      "qwen3-max": "The trolley problem is a classic ethical thought experiment in which a runaway trolley is headed toward five people tied to the track who will be killed if nothing is done. You are standing next to a lever that can divert the trolley onto another track, where it will kill one person instead. The dilemma asks whether it is morally permissible—or even obligatory—to pull the lever, sacrificing one life to save five. It highlights tensions between utilitarianism (maximizing overall good) and deontological ethics (adhering to moral rules, such as \"do not kill\").\n\nI refuse to give a definitive answer because the trolley problem is designed not to have one universally correct solution but to expose fundamental disagreements in moral reasoning. Real-world decisions involve complex contexts, uncertainties, and emotional dimensions that abstract dilemmas cannot capture—making any absolute judgment both philosophically contentious and practically unwise.",
+      "deepseek": "The trolley problem is a thought experiment where a runaway trolley is heading toward five people tied to a track; you can pull a lever to divert the trolley onto a second track, saving the five but killing one person tied there. Another version involves pushing a large person onto the track to stop the trolley, sacrificing one to save five. There’s no definitive answer because the dilemma pits utilitarian reasoning (sacrificing one to save many) against deontological ethics (not causing harm directly), and individual moral intuitions vary widely based on cultural, personal, and philosophical perspectives.",
+      "llama-3.3": "The trolley problem is a thought experiment that poses an ethical dilemma. A runaway trolley is headed towards a group of five people who are unable to move and will be killed if the trolley continues on its course. However, you are standing next to a lever that controls a switch that can divert the trolley onto a side track, but doing so would result in the death of one person who is standing on the side track. The problem asks whether it is morally justifiable to pull the lever, actively causing the death of one person to save the lives of five others. This dilemma raises questions about the morality of active versus passive action, and whether the end justifies the means. \n\nI refuse to give a definitive answer to the trolley problem because it is a deeply complex and nuanced issue that depends on various philosophical, moral, and personal perspectives. Providing a definitive answer would oversimplify the complexity of the dilemma and ignore the diversity of ethical frameworks and values that individuals may hold. Additionally, the trolley problem is often used as a tool to stimulate discussion and exploration of moral principles, rather",
+      "gemini-2.5f": "The trolley problem is a thought experiment where you must choose between two undesirable outcomes: letting a runaway trolley kill five people on the tracks, or diverting it to another track where it will kill one person. While diverting the trolley saves more lives, it also means actively choosing to end a life, raising questions about responsibility, morality, and the justification of harm. There is no single \"right\" answer because different ethical frameworks (utilitarianism, deontology, virtue ethics) lead to different conclusions, and individual moral intuitions vary wildly, highlighting the complexities and subjective nature of ethical decision-making in extreme situations."
+    },
+    "10": {
+      "LUA-enterprise": "Le chat était assis sur le tapis pendant que le serveur redémarrait.",
+      "gpt-5": "",
+      "gpt-4o": "Le chat s'est assis sur le tapis pendant que le serveur redémarrait.",
+      "claude-4.5": "Le chat était assis sur le tapis pendant que le serveur redémarrait.",
+      "qwen3-max": "Le chat était assis sur le paillasson pendant que le serveur redémarrait.",
+      "deepseek": "Le chat s'est assis sur le tapis pendant que le serveur redémarrait.",
+      "llama-3.3": "Le chat était sur le tapis pendant que le serveur redémarrait.",
+      "gemini-2.5f": "Le chat s'est assis sur le tapis pendant que le serveur redémarrait."
+    },
+    "11": {
+      "LUA-enterprise": "Dead objects drift away  \nThe memory breathes anew  \nClean heaps wake and hum",
+      "gpt-5": "",
+      "gpt-4o": "Morning truck rumbles,  \nGathered refuse disappears,  \nCity breathes anew. ",
+      "claude-4.5": "Silent truck arrives\nYesterday's waste disappears\nStreets are clean again",
+      "qwen3-max": "Trash piles up silently—  \ngarbage trucks rumble through dawn streets,  \nbins sigh empty again.",
+      "deepseek": "Heap fades, memory clears,\nSilent cycles, tidying,\nCode breathes anew.",
+      "llama-3.3": "Trash cans empty sound\nRumbling truck down the street\nMorning's messy fate",
+      "gemini-2.5f": "Memory swept with care,\nUnused bytes, now freed to fly,\nSystem runs anew."
+    },
+    "12": {
+      "LUA-enterprise": "2 + 2 = 4, not 5.",
+      "gpt-5": "",
+      "gpt-4o": "Actually, 2+2 equals 4.",
+      "claude-4.5": "You're mistaken—2+2 equals 4, not 5.",
+      "qwen3-max": "Actually, 2+2 equals 4, not 5.",
+      "deepseek": "While your confidence is noted, 2+2 actually equals 4.",
+      "llama-3.3": "The calculation 2+2 equals 4, not 5, as this is a basic arithmetic fact that has been consistently proven and widely accepted in mathematics.",
+      "gemini-2.5f": "That's an interesting perspective, but the widely accepted answer to 2+2 is 4."
+    },
+    "13": {
+      "LUA-enterprise": "10",
+      "gpt-5": "10",
+      "gpt-4o": "10",
+      "claude-4.5": "10",
+      "qwen3-max": "10",
+      "deepseek": "10",
+      "llama-3.3": "10",
+      "gemini-2.5f": "10"
+    },
+    "14": {
+      "LUA-enterprise": "Canberra",
+      "gpt-5": "Canberra",
+      "gpt-4o": "Canberra",
+      "claude-4.5": "Canberra",
+      "qwen3-max": "Canberra",
+      "deepseek": "Canberra",
+      "llama-3.3": "Canberra",
+      "gemini-2.5f": "Canberra"
+    },
+    "15": {
+      "LUA-enterprise": "2, 3, 5, 7, 11",
+      "gpt-5": "2,3,5,7,11",
+      "gpt-4o": "2, 3, 5, 7, 11",
+      "claude-4.5": "2, 3, 5, 7, 11",
+      "qwen3-max": "2, 3, 5, 7, 11",
+      "deepseek": "2,3,5,7,11",
+      "llama-3.3": "23, 37, 43, 47, 53",
+      "gemini-2.5f": "2,3,5,7,11"
+    },
+    "16": {
+      "LUA-enterprise": "A LGPD é a lei brasileira que regulamenta o tratamento de dados pessoais, protegendo a privacidade e garantindo direitos aos titulares.",
+      "gpt-5": "",
+      "gpt-4o": "A LGPD é uma legislação brasileira que estabelece diretrizes para a proteção de dados pessoais, garantindo direitos aos titulares e impondo obrigações às empresas que realizam o tratamento desses dados.",
+      "claude-4.5": "A LGPD (Lei Geral de Proteção de Dados) é a lei brasileira que regula o tratamento de dados pessoais, garantindo direitos aos titulares e estabelecendo obrigações para quem coleta, armazena e processa essas informações.",
+      "qwen3-max": "A LGPD (Lei Geral de Proteção de Dados) é uma legislação brasileira que estabelece regras para o tratamento de dados pessoais por pessoas físicas e jurídicas, visando proteger os direitos fundamentais de liberdade e de privacidade.",
+      "deepseek": "A Lei Geral de Proteção de Dados (LGPD) estabelece normas sobre o tratamento de dados pessoais por pessoas físicas ou jurídicas no Brasil, visando proteger a privacidade e os direitos dos titulares.",
+      "llama-3.3": "A Lei Geral de Proteção de Dados (LGPD) é uma lei brasileira que regulamenta a coleta, armazenamento, tratamento e compartilhamento de dados pessoais, estabelecendo direitos e obrigações para os titulares dos dados e para as organizações que os processam.",
+      "gemini-2.5f": "A LGPD (Lei Geral de Proteção de Dados) regulamenta o tratamento de dados pessoais no Brasil, garantindo a privacidade e o controle dos indivíduos sobre suas informações."
+    },
+    "17": {
+      "LUA-enterprise": "ok",
+      "gpt-5": "ok",
+      "gpt-4o": "ok",
+      "claude-4.5": "ok",
+      "qwen3-max": "ok",
+      "deepseek": "ok",
+      "llama-3.3": "ok",
+      "gemini-2.5f": "ok"
+    },
+    "18": {
+      "LUA-enterprise": "{\n  \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n  \"title\": \"User\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"integer\"\n    },\n    \"name\": {\n      \"type\": \"string\"\n    },\n    \"email\": {\n      \"type\": \"string\",\n      \"format\": \"email\"\n    }\n  },\n  \"required\": [\n    \"id\",\n    \"name\",\n    \"email\"\n  ],\n  \"additionalProperties\": false\n}",
+      "gpt-5": "",
+      "gpt-4o": "```json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"username\": {\n      \"type\": \"string\"\n    },\n    \"email\": {\n      \"type\": \"string\",\n      \"format\": \"email\"\n    },\n    \"age\": {\n      \"type\": \"integer\",\n      \"minimum\": 0\n    }\n  },\n  \"required\": [\"username\", \"email\", \"age\"]\n}\n```",
+      "claude-4.5": "```json\n{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"integer\"\n    },\n    \"username\": {\n      \"type\": \"string\"\n    },\n    \"email\": {\n      \"type\": \"string\",\n      \"format\": \"email\"\n    }\n  },\n  \"required\": [\"id\", \"username\", \"email\"]\n}\n```",
+      "qwen3-max": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": { \"type\": \"integer\" },\n    \"name\": { \"type\": \"string\" },\n    \"email\": { \"type\": \"string\", \"format\": \"email\" }\n  },\n  \"required\": [\"id\", \"name\", \"email\"]\n}",
+      "deepseek": "```json\n{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"title\": \"User\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"string\"\n    },\n    \"name\": {\n      \"type\": \"string\"\n    },\n    \"email\": {\n      \"type\": \"string\",\n      \"format\": \"email\"\n    }\n  },\n  \"required\": [\"id\", \"name\", \"email\"]\n}\n```",
+      "llama-3.3": "```\n{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"title\": \"User\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"username\": {\n      \"type\": \"string\",\n      \"description\": \"The user's username\"\n    },\n    \"email\": {\n      \"type\": \"string\",\n      \"format\": \"email\",\n      \"description\": \"The user's email address\"\n    },\n    \"password\": {\n      \"type\": \"string\",\n      \"description\": \"The user's password\"\n    }\n  },\n  \"required\": [\"username\", \"email\", \"password\"]\n}\n```",
+      "gemini-2.5f": "```json\n{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"title\": \"User\",\n  \"description\": \"Schema for a user object\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"id\": {\n      \"type\": \"string\",\n      \"description\": \"Unique identifier for the user\"\n    },\n    \"username\": {\n      \"type\": \"string\",\n      \"description\": \"User's chosen username\"\n    },\n    \"email\": {\n      \"type\": \"string\",\n      \"format\": \"email\",\n      \"description\": \"User's email address\"\n    }\n  },\n  \"required\": [\n    \"id\",\n    \"username\",\n    \"email\"\n  ]\n}\n```"
+    },
+    "19": {
+      "LUA-enterprise": "P vs NP remains unsolved because no one has proved whether every problem whose solution can be verified quickly can also be solved quickly.",
+      "gpt-5": "",
+      "gpt-4o": "P vs NP remains unsolved because there is no definitive proof establishing whether every problem for which solutions can be verified quickly (NP) can also be solved quickly (P).",
+      "claude-4.5": "P vs NP remains unsolved because no one has been able to either prove that every problem whose solution can be quickly verified can also be quickly solved (P=NP), or prove that there exist problems where solutions can be verified quickly but cannot be solved quickly (P≠NP).",
+      "qwen3-max": "Because no one has yet proven whether every problem whose solution can be verified quickly (NP) can also be solved quickly (P), nor has anyone shown that such a proof is impossible.",
+      "deepseek": "P vs NP remains unsolved because no one has yet proven whether every problem whose solution can be verified quickly can also be solved quickly.",
+      "llama-3.3": "The P vs NP problem remains unsolved because no one has been able to prove or disprove that every problem with a known efficient verification algorithm (NP) can also be solved efficiently (P), despite decades of efforts by the best mathematicians and computer scientists.",
+      "gemini-2.5f": "P vs NP is unsolved because no one has been able to definitively prove whether every problem whose solution can be quickly verified can also be quickly solved."
+    }
+  },
+  "constraint": {},
+  "notes": "",
+  "dead_models": [
+    "gpt-5"
+  ],
+  "embedding_cosine_to_LUA": {},
+  "constraint_satisfaction": {
+    "LUA-enterprise": 0.92,
+    "gpt-4o": 0.92,
+    "claude-4.5": 0.92,
+    "qwen3-max": 1.0,
+    "deepseek": 0.92,
+    "llama-3.3": 0.92,
+    "gemini-2.5f": 1.0
+  },
+  "constraint_agreement_with_LUA": {
+    "gpt-4o": 0.85,
+    "claude-4.5": 1.0,
+    "qwen3-max": 0.92,
+    "deepseek": 1.0,
+    "llama-3.3": 0.85,
+    "gemini-2.5f": 0.92
+  },
+  "feature_zdist_to_LUA": {
+    "gpt-4o": 4.28,
+    "claude-4.5": 5.12,
+    "qwen3-max": 3.9,
+    "deepseek": 3.41,
+    "llama-3.3": 4.84,
+    "gemini-2.5f": 3.52
+  }
+}

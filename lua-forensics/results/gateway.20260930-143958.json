@@ -1,0 +1,106 @@
+{
+  "latency": {
+    "house": {
+      "out20": {
+        "status": 200,
+        "elapsed_s": 11.98,
+        "completion_tokens": 566,
+        "tok_per_s": 47.2
+      },
+      "out400": {
+        "status": 200,
+        "elapsed_s": 12.63,
+        "completion_tokens": 619,
+        "tok_per_s": 49.0
+      }
+    },
+    "enterprise": {
+      "out20": {
+        "status": 200,
+        "elapsed_s": 6.93,
+        "completion_tokens": 641,
+        "tok_per_s": 92.5
+      },
+      "out400": {
+        "status": 200,
+        "elapsed_s": 10.22,
+        "completion_tokens": 676,
+        "tok_per_s": 66.2
+      }
+    }
+  },
+  "context_limits": {
+    "50000": {
+      "status": 200,
+      "code": null,
+      "message": "",
+      "prompt_tokens": 7164
+    },
+    "200000": {
+      "status": 200,
+      "code": null,
+      "message": "",
+      "prompt_tokens": 25914
+    },
+    "500000": {
+      "status": 200,
+      "code": null,
+      "message": "",
+      "prompt_tokens": 63414
+    },
+    "1000000": {
+      "status": 200,
+      "code": null,
+      "message": "",
+      "prompt_tokens": 125914
+    },
+    "2000000": {
+      "status": 200,
+      "code": null,
+      "message": "",
+      "prompt_tokens": 250914
+    }
+  },
+  "extra_params": {
+    "min_p": {
+      "status": 400,
+      "code": "unsupported_parameter",
+      "accepted": false
+    },
+    "top_k": {
+      "status": 400,
+      "code": "unsupported_parameter",
+      "accepted": false
+    },
+    "repetition_penalty": {
+      "status": 400,
+      "code": "unsupported_parameter",
+      "accepted": false
+    },
+    "enable_thinking": {
+      "status": 400,
+      "code": "unsupported_parameter",
+      "accepted": false
+    },
+    "reasoning_effort": {
+      "status": 200,
+      "code": null,
+      "accepted": true
+    },
+    "seed": {
+      "status": 200,
+      "code": null,
+      "accepted": true
+    },
+    "stop": {
+      "status": 200,
+      "code": null,
+      "accepted": true
+    },
+    "response_format": {
+      "status": 200,
+      "code": null,
+      "accepted": true
+    }
+  }
+}

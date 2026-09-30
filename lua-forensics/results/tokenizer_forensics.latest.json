@@ -1,0 +1,146 @@
+{
+  "harmony_encoding_available": true,
+  "text_table": {
+    "digits20": {
+      "o200k_base": 67,
+      "cl100k": 67,
+      "Qwen2.5": 200,
+      "Qwen3": 200,
+      "DeepSeek": 200,
+      "Llama3": 67,
+      "Mistral": 201,
+      "LUA": 67
+    },
+    "cjk": {
+      "o200k_base": 42,
+      "cl100k": 82,
+      "Qwen2.5": 30,
+      "Qwen3": 30,
+      "DeepSeek": 34,
+      "Llama3": 46,
+      "Mistral": 73,
+      "LUA": 42
+    },
+    "pt_accents": {
+      "o200k_base": 46,
+      "cl100k": 59,
+      "Qwen2.5": 57,
+      "Qwen3": 57,
+      "DeepSeek": 78,
+      "Llama3": 59,
+      "Mistral": 65,
+      "LUA": 46
+    },
+    "english": {
+      "o200k_base": 31,
+      "cl100k": 31,
+      "Qwen2.5": 31,
+      "Qwen3": 31,
+      "DeepSeek": 32,
+      "Llama3": 31,
+      "Mistral": 38,
+      "LUA": 30
+    },
+    "emoji_zwj": {
+      "o200k_base": 169,
+      "cl100k": 248,
+      "Qwen2.5": 132,
+      "Qwen3": 132,
+      "DeepSeek": 248,
+      "Llama3": 218,
+      "Mistral": 265,
+      "LUA": 168
+    },
+    "base64": {
+      "o200k_base": 79,
+      "cl100k": 87,
+      "Qwen2.5": 91,
+      "Qwen3": 91,
+      "DeepSeek": 91,
+      "Llama3": 87,
+      "Mistral": 95,
+      "LUA": 78
+    },
+    "regex": {
+      "o200k_base": 114,
+      "cl100k": 114,
+      "Qwen2.5": 114,
+      "Qwen3": 114,
+      "DeepSeek": 136,
+      "Llama3": 114,
+      "Mistral": 138,
+      "LUA": 114
+    }
+  },
+  "distance": {
+    "o200k_base": 3,
+    "cl100k": 143,
+    "Qwen2.5": 206,
+    "Qwen3": 206,
+    "DeepSeek": 290,
+    "Llama3": 77,
+    "Mistral": 330
+  },
+  "specials": {
+    "chatml_im_start": {
+      "string": "<|im_start|>",
+      "LUA": null,
+      "o200k_text": 6,
+      "native_1tok": false
+    },
+    "endoftext": {
+      "string": "<|endoftext|>",
+      "LUA": 6,
+      "o200k_text": 7,
+      "native_1tok": false
+    },
+    "harmony_start": {
+      "string": "<|start|>",
+      "LUA": 4,
+      "o200k_text": 5,
+      "native_1tok": false
+    },
+    "harmony_channel": {
+      "string": "<|channel|>",
+      "LUA": 4,
+      "o200k_text": 5,
+      "native_1tok": false
+    },
+    "harmony_message": {
+      "string": "<|message|>",
+      "LUA": 4,
+      "o200k_text": 5,
+      "native_1tok": false
+    },
+    "harmony_end": {
+      "string": "<|end|>",
+      "LUA": 4,
+      "o200k_text": 5,
+      "native_1tok": false
+    },
+    "llama_bot": {
+      "string": "<|begin_of_text|>",
+      "LUA": null,
+      "o200k_text": 7,
+      "native_1tok": false
+    },
+    "llama_hdr": {
+      "string": "<|start_header_id|>",
+      "LUA": 6,
+      "o200k_text": 7,
+      "native_1tok": false
+    },
+    "deepseek_bos": {
+      "string": "<｜begin▁of▁sentence｜>",
+      "LUA": 10,
+      "o200k_text": 11,
+      "native_1tok": false
+    },
+    "gemma_turn": {
+      "string": "<start_of_turn>",
+      "LUA": 4,
+      "o200k_text": 5,
+      "native_1tok": false
+    }
+  }
+}
