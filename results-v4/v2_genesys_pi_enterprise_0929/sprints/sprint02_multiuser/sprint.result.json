@@ -1,0 +1,10 @@
+{
+  "slug": "v2_genesys_pi_enterprise_0929",
+  "sprint": "sprint02_multiuser",
+  "harness": "opencode",
+  "elapsed_seconds": 253.98,
+  "cost_usd": 0.2668,
+  "tokens_total": 1972481,
+  "exit_code": 0,
+  "stall_aborted": false
+}

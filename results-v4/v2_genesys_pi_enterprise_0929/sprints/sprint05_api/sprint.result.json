@@ -1,0 +1,10 @@
+{
+  "slug": "v2_genesys_pi_enterprise_0929",
+  "sprint": "sprint05_api",
+  "harness": "opencode",
+  "elapsed_seconds": 255.01,
+  "cost_usd": 0.2291,
+  "tokens_total": 1617497,
+  "exit_code": 0,
+  "stall_aborted": false
+}
