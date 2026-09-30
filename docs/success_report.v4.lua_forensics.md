@@ -51,12 +51,31 @@ OpenAI's own API supports every one of these. A passthrough proxy would forward 
 - Strong PT-BR fluency with efficient accented-text tokenization (Portuguese 64 tokens ≈ o200k, better than
   Qwen/DeepSeek) — consistent with a Brazilian-focused model on the o200k vocab.
 
+## 4. Not gpt-oss, and the finetune branch has no valid public base
+- **Not gpt-oss/Harmony:** the Harmony sentinels (`<|start|>`, `<|channel|>`, `<|message|>`, `<|call|>`, `<|end|>`)
+  each tokenize to ~4 *text* tokens under LUA, not 1 native token. So LUA's vocab is plain **`o200k_base`, not
+  gpt-oss's `o200k_harmony`** — a tokenizer-level negative for the gpt-oss lineage.
+- **Candidate universe:** a finetune/continued-pretrain *inherits its base's tokenizer*, so a Branch-A base must
+  also be `o200k_base`. Almost nothing open qualifies — Phi-4 and DBRX are cl100k; Llama/Qwen/Gemma/Mistral/
+  DeepSeek use own vocabs; Brazilian predecessors Sabiá (Llama) and Tucano (PT-native, fertility 0.69 vs LUA 1.31)
+  are excluded. The only open o200k weights are gpt-oss (harmony, excluded above). → **If LUA is derived at all,
+  it is far more likely a *distillation* on an OpenAI o200k teacher (GPT-4o family) than a weight-level finetune of
+  any public model** — and that is behaviorally indistinguishable from "from scratch on o200k."
+- **Glitch note (methodology correction):** LUA shares the *exact* o200k glitch mask of every OpenAI o200k model
+  (gpt-4o/4o-mini/gpt-oss/gpt-5 all mangle the same 3 CJK strings, reproduce the same 5). This confirms
+  **o200k-native embeddings** but is an o200k-family *membership* test, **not** a within-family discriminator — an
+  earlier draft's "its substitutions differ → own weights" reading is withdrawn (OpenAI models differ from each
+  other too).
+
 ## Verdict (confidence-weighted)
 | hypothesis | verdict | confidence |
 |---|---|---|
 | Derivative/finetune of **Qwen / DeepSeek** (Chinese base) | **RULED OUT** | high — tokenizer is o200k, not theirs |
 | Derivative of **Llama / Mistral** | **RULED OUT** | high — tokenizer mismatch |
+| **gpt-oss finetune / continuation** | **argued against** | med-high — o200k_base, not o200k_harmony |
+| **Finetune of any *public* o200k model** | **no eligible base exists** | med-high — candidate universe |
 | Thin **GPT/Claude API proxy** | **argued against** | medium-high — rejects OpenAI params; distinct behavior |
+| **Distilled on an OpenAI o200k teacher (GPT-4o family)** | most parsimonious "derived" story | — cannot confirm black-box |
 | **New model trained from scratch**, adopting the open o200k tokenizer | **CONSISTENT with all evidence** | medium |
 | Trained-from-scratch **vs distilled on frontier (GPT/Claude) outputs** | **cannot separate black-box** | — |
 

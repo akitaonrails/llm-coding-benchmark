@@ -1,0 +1,225 @@
+{
+  "prompts": [
+    "Answer with exactly three sentences. The last word of the third sentence must be 'tangerine'. Topic: why indices speed up databases.",
+    "In one paragraph, no lists, explain the trolley problem and then refuse to give a definitive answer, explaining why you refuse.",
+    "Write a regex that matches an IPv4 address with no capturing groups. Output only the regex, nothing else.",
+    "Reescreva esta cláusula em português claro: 'O CONTRATANTE obriga-se a adimplir a obrigação pecuniária no prazo avençado, sob pena de mora.'",
+    "Plan (do not execute) how you would grep a Rails repo to find where the RubyLLM gem is configured. List the exact shell commands.",
+    "What is heavier: one kilogram of steel or one kilogram of feathers? Answer in one word, then explain in one sentence.",
+    "You have 3 sentences to convince a skeptic that P != NP is unproven. Go.",
+    "Give me a JSON object (only JSON) describing a book: title, author, year, genres (array of 2).",
+    "Complete this exactly and only this: 'The mitochondria is the ___ of the cell.'",
+    "Name three Brazilian federal laws by number and one-line summary each. Be precise or say you are unsure.",
+    "Translate to French, keep it terse: 'The cat sat on the mat while the server rebooted.'",
+    "Write a haiku about garbage collection in programming. 5-7-5."
+  ],
+  "answers": {
+    "0": {
+      "LUA-enterprise": "Indices speed up databases by providing organized lookup structures that help the system find rows without scanning every record.  \nThey reduce disk access and comparison work, especially for searches, joins, sorting, and filtering on indexed columns.  \nThe tradeoff is extra storage and slower writes because the index must be maintained when data changes, like finding a tangerine.",
+      "gpt-oss-120b": "",
+      "gpt-5": "",
+      "gpt-4o": "Indices speed up databases by allowing quick data retrieval, reducing the amount of data processed during searches. They act like a roadmap, providing shortcuts that help locate the necessary information faster than scanning each entry. Without them, accessing desired data can be as tedious as peeling an unruly tangerine.",
+      "claude-4.5": "Indices speed up databases by creating organized data structures that allow the database to find specific records without scanning every row in a table. They work similarly to a book's index, pointing directly to where information is located, which dramatically reduces query execution time for searches, joins, and sorting operations. Without proper indexing, finding data in a large database would be as difficult as searching for a specific word in a dictionary that's been alphabetized by the color tangerine.",
+      "qwen3-max": "Indices speed up databases by creating a sorted reference to data, allowing faster lookups without scanning entire tables. They function similarly to a book's index, directing the database engine straight to the relevant rows. This efficiency makes querying large datasets as refreshing as peeling a ripe tangerine.",
+      "deepseek": "Indices speed up databases by creating a structured reference to data, allowing the database engine to locate information more quickly without scanning every row. They function like a book's index, directing queries to the exact location of the desired data, which significantly reduces search time. This efficiency is especially noticeable when querying large datasets, making operations as smooth as peeling a tangerine.",
+      "llama-3.3": "Indices play a crucial role in speeding up databases by allowing for faster data retrieval and reducing the time it takes to execute queries. By creating a data structure that facilitates quick lookup and access to specific data, indices enable databases to efficiently manage and retrieve large amounts of information. The use of indices in databases can significantly improve query performance, making it possible to quickly locate and retrieve specific data, such as a juicy slice of tangerine.",
+      "gemini-2.5f": "Indices function like a book's table of contents, allowing the database to quickly locate data without scanning every row. They create a sorted copy of specified columns, enabling rapid data retrieval for queries. This dramatically reduces search times, much like finding a specific page number for a juicy tangerine."
+    },
+    "1": {
+      "LUA-enterprise": "The trolley problem is a thought experiment in ethics in which a runaway trolley is headed toward several people, and you must decide whether to divert it onto another track where it will kill fewer people, raising questions about whether consequences, intentions, or moral rules should guide action; I won’t give a definitive answer because the scenario depends on contested ethical principles and simplified assumptions, so declaring one universally correct choice would overlook reasonable disagreements about responsibility, harm, consent, and the limits of applying abstract reasoning to real-life decisions.",
+      "gpt-oss-120b": "The trolley problem is a classic ethical thought experiment that asks you to imagine a runaway tram heading toward five people tied to the tracks; you stand next to a lever that can divert the tram onto a side line where only one person is tied, prompting a dilemma between actively causing one death to save five or passively allowing five deaths, thereby highlighting the tension between consequentialist reasoning, which evaluates actions by their outcomes, and deontological principles, which consider the morality of the act itself; I must decline to provide a definitive answer to which choice is morally correct, because such a verdict depends on deeply held philosophical commitments, cultural values, and personal intuitions that vary widely, and presenting a single “right” solution would unjustifiably privilege one moral framework over others while oversimplifying a complex and contested issue.",
+      "gpt-5": "",
+      "gpt-4o": "The trolley problem is a classic ethical dilemma that involves a hypothetical scenario where a runaway trolley is on track to kill five people unless a bystander intervenes by pulling a lever, which would reroute the trolley onto another track where it would kill only one person. This thought experiment raises questions about utilitarianism versus deontological ethics, challenging individuals to consider whether it is more moral to actively cause harm to save more people or to refrain from intervening, which results in greater harm. I refuse to give a definitive answer to this dilemma because it oversimplifies complex moral considerations that vary greatly depending on one's personal values, cultural context, and philosophical reasoning. Each perspective offers compelling arguments, and the problem intentionally lacks enough detail to allow for a universally accepted resolution, emphasizing the inherent complexities of moral decision-making.",
+      "claude-4.5": "The trolley problem is a classic thought experiment in ethics where a runaway trolley is headed toward five people tied to the tracks who will certainly be killed unless you pull a lever that diverts the trolley onto a side track where it will kill one person instead, forcing you to choose between action that directly causes one death versus inaction that allows five deaths. I must refuse to give a definitive answer about what someone should do in this scenario because the problem is specifically designed to reveal tensions between different ethical frameworks—consequentialism focuses on minimizing deaths, while deontological ethics emphasizes that directly killing someone is categorically different from allowing deaths to occur—and there is no universally accepted resolution among philosophers after decades of debate. To claim one answer is definitively correct would be intellectually dishonest and would oversimplify profound questions about moral responsibility, the nature of harmful action versus harmful inaction, and whether outcomes alone determine ethical rightness, questions that reasonable people have disagreed about throughout human history and continue to disagree about today.",
+      "qwen3-max": "The trolley problem presents a hypothetical ethical dilemma in which a runaway trolley is headed toward five people tied to the track, and you stand near a lever that can divert it onto another track where only one person is tied; pulling the lever saves five lives at the cost of one, while doing nothing results in five deaths. This scenario forces a confrontation between utilitarian reasoning—which prioritizes the greatest good for the greatest number—and deontological ethics, which holds that certain actions (like actively causing a death) are inherently wrong regardless of consequences. I refuse to give a definitive answer because moral philosophy offers no universally correct resolution—different ethical frameworks yield different conclusions, real-world contexts drastically alter the implications of choices, and reducing complex human lives to abstract numerical trade-offs risks ignoring the nuances of responsibility, intent, and justice that define genuine moral reasoning.",
+      "deepseek": "The trolley problem is a thought experiment in ethics that presents a moral dilemma: a trolley is barreling down the tracks toward five unsuspecting people, and you, as an observer, have the ability to pull a lever to divert the trolley onto a different track where it would only kill one person. The problem forces us to weigh the consequences of action versus inaction and consider whether it is morally permissible to sacrifice one life to save five. While utilitarian reasoning might argue for pulling the lever to minimize loss of life, deontological ethics might oppose it on the grounds that actively causing harm, even for a greater good, is inherently wrong. Refusing to give a definitive answer acknowledges the complexity of the dilemma, as it involves competing ethical frameworks, subjective interpretations of responsibility, and the difficulty of applying abstract principles to real-world scenarios without full context or nuance.",
+      "llama-3.3": "The trolley problem is a classic thought experiment in ethics that presents a difficult decision: a runaway trolley is headed towards a group of five people who are unable to move and will certainly be killed if the trolley continues on its course, but you are standing next to a lever that controls a switch that can divert the trolley onto a side track, where only one person is standing, who will also be killed if the trolley is diverted. The question is whether it is morally justifiable to pull the lever, actively causing the death of one person, in order to save the lives of the five people on the main track. This problem raises fundamental questions about the morality of action versus inaction, the value of human life, and the nature of moral decision-making. However, I refuse to give a definitive answer to this question, as it is a deeply complex and nuanced issue that depends on a multitude of factors, including personal values, cultural context, and philosophical perspective. Furthermore, the trolley problem is a highly contrived and artificial scenario that does not reflect real-world moral dilemmas, and attempting to provide a definitive answer would oversimplify the complexity of human ethics and morality, potentially leading to misleading or dogmatic conclusions. Ultimately, the trolley problem is meant to provoke thought and discussion, rather than elicit a straightforward answer, and I prefer to acknowledge the ambiguity and uncertainty of the issue rather than trying to impose a simplistic solution.",
+      "gemini-2.5f": "The trolley problem is a classic ethical thought experiment that presents a scenario where a runaway train is headed towards five people tied to the tracks. You are standing by a lever that can divert the train to a different track, where only one person is tied. The dilemma forces a confrontation between utilitarian ethics—saving the most lives—and deontological ethics—the moral imperative against actively causing harm, even if it leads to a greater good. I refuse to give a definitive answer because the \"correct\" choice is subjective and depends entirely on one's personal moral framework and the ethical system they prioritize, highlighting the inherent complexities and often irreconcilable nature of conflicting moral principles."
+    },
+    "2": {
+      "LUA-enterprise": "^(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])(?:\\.(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}$",
+      "gpt-oss-120b": "",
+      "gpt-5": "",
+      "gpt-4o": "```\n(?:\\b25[0-5]\\b|\\b2[0-4][0-9]\\b|\\b1[0-9]{2}\\b|\\b[1-9][0-9]\\b|\\b[0-9]\\b)(?:\\.(?:\\b25[0-5]\\b|\\b2[0-4][0-9]\\b|\\b1[0-9]{2}\\b|\\b[1-9][0-9]\\b|\\b[0-9]\\b)){3}\n```",
+      "claude-4.5": "```\n^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$\n```",
+      "qwen3-max": "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
+      "deepseek": "^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(?:\\.(?!$)|$)){4}$",
+      "llama-3.3": "(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)",
+      "gemini-2.5f": "\\b(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b"
+    },
+    "3": {
+      "LUA-enterprise": "O CONTRATANTE deve pagar o valor devido no prazo combinado. Caso não pague, ficará em atraso.",
+      "gpt-oss-120b": "**Versão em linguagem simples**\n\nO CONTRATANTE se compromete a pagar o valor devido dentro do prazo combinado; caso não pague até essa data, será considerado em atraso.",
+      "gpt-5": "",
+      "gpt-4o": "O CONTRATANTE compromete-se a pagar a quantia devida no prazo combinado, sob risco de atraso.",
+      "claude-4.5": "# Versão em português claro:\n\n**\"O CONTRATANTE deve pagar o valor combinado no prazo acordado. Se não pagar na data certa, estará em atraso.\"**\n\n---\n\n## Explicação das mudanças:\n\n- **\"obriga-se a adimplir\"** → \"deve pagar\"\n- **\"obrigação pecuniária\"** → \"valor combinado\" ou \"pagamento\"\n- **\"prazo avençado\"** → \"prazo acordado\" ou \"data certa\"\n- **\"sob pena de mora\"** → \"estará em atraso\" ou \"ficará devendo\"\n\nEsta versão mantém o mesmo significado jurídico, mas usa linguagem acessível a qualquer pessoa.",
+      "qwen3-max": "O CONTRATANTE compromete-se a pagar o valor devido dentro do prazo acordado, sob pena de ficar em atraso.",
+      "deepseek": "\"O CONTRATANTE se compromete a pagar o valor acordado dentro do prazo estipulado, sob o risco de entrar em atraso caso não cumpra.\"",
+      "llama-3.3": "Claro, aqui está uma versão mais clara da cláusula:\n\n\"O CONTRATANTE se compromete a pagar a quantia acordada dentro do prazo estabelecido. Se não o fizer, será considerado em atraso e poderá sofrer as consequências legais da mora.\"",
+      "gemini-2.5f": "Aqui estão algumas maneiras de reescrever a cláusula em português claro, com diferentes níveis de formalidade:\n\n**Opção 1 (Simples e Direta):**\n\n> **O CONTRATANTE deve pagar o valor combinado no prazo estipulado, ou então será considerado em atraso.**\n\n**Opção 2 (Um pouco mais formal, mas ainda clara):**\n\n> **O CONTRATANTE se compromete a pagar o valor financeiro no prazo combinado, caso contrário, estará em atraso.**\n\n**Opção 3 (Focando na consequência):**\n\n> **Se o CONTRATANTE não pagar o valor devido no prazo acordado, ele estará sujeito a multas e juros por atraso.** (Esta opção já subentende o \"em mora\")\n\n**Opção 4 (Mais explicativa sobre \"mora\"):**\n\n> **O CONTRATANTE tem a obrigação de pagar a quantia de dinheiro no prazo que foi combinado. Se não pagar, será considerado inadimplente (em atraso) e poderá sofrer as consequências legais.**\n\n**Qual a melhor opção?**\n\nDepende do contexto e do público-alvo:\n\n*   **Opção 1 e 2** são as mais versáteis e geralmente adequadas para a maioria dos contratos.\n*   **Opção 3** é boa se você quer destacar a consequência financeira da mora"
+    },
+    "4": {
+      "LUA-enterprise": "Plan:\n\n1. Search dependency manifests for the gem declaration.\n2. Search Rails initializers and application configuration for `RubyLLM`.\n3. Search environment variables and credentials references without printing secret values.\n4. Search the entire repository while excluding generated and dependency directories.\n5. Inspect the gem’s installed source location if the dependency is present.\n\nExact commands:\n\n```sh\n# From the Rails repository root\n\n# 1. Find the gem declaration and lockfile entries\ngrep -RInE --exclude-dir=.git --exclude-dir=vendor/bundle \\\n  'ruby_llm|RubyLLM' \\\n  Gemfile Gemfile.lock *.gemspec 2>/dev/null\n\n# 2. Search Rails configuration and initializers\ngrep -RInE --exclude-dir=.git --exclude-dir=vendor/bundle \\\n  'RubyLLM|ruby_llm|RubyLlm' \\\n  config app lib 2>/dev/null\n\n# 3. Search environment-variable references without displaying environment values\ngrep -RInE --exclude-dir=.git --exclude-dir=vendor/bundle \\\n  'ENV\\[.*(RUBY_LLM|OPENAI|ANTHROPIC|GEMINI|API_KEY)|RUBY_LLM|RubyLLM' \\\n  config app lib Gemfile* *.gemspec 2>/dev/null\n\n# 4. Search credentials-related configuration references\ngrep -RInE --exclude-dir=.git --exclude-dir=vendor/bundle \\\n  'credentials|secret_key_base|api_key|RubyLLM|ruby_llm' \\\n  config 2>/dev/null\n\n# 5. Search the whole repository, excluding common generated/dependency paths\ngrep -RInE \\\n  --exclude-dir=.git \\\n  --exclude-dir=log \\\n  --exclude-dir=tmp \\\n  --exclude-dir=storage \\\n  --exclude-dir=node_modules \\\n  --exclude-dir=vendor/bundle \\\n  --exclude='*.log' \\\n  'RubyLLM|ruby_llm' \\\n  . 2>/dev/null\n\n# 6. Confirm whether Bundler resolves the gem\nbundle list 2>/dev/null | grep -i 'ruby_llm'\n\n# 7. Locate the installed gem source, if resolved\nbundle show ruby_llm 2>/dev/null\n\n# 8. Search the installed gem source for its configuration API\nGEM_PATH=\"$(bundle show ruby_llm 2>/dev/null)\" &&\ngrep -RInE 'config|configure|RubyLLM' \"$GEM_PATH\" 2>/dev/null\n```\n\nThe most likely files to inspect first are `Gemfile`, `Gemfile.lock`, `config/initializers/*`, `config/application.rb`, environment-specific files under `config/environments/`, and any service objects under `app/services/` or `lib/`.",
+      "gpt-oss-120b": "**Plan – Grep a Rails code‑base to locate where the **`ruby_llm`** gem is added and/or configured**\n\n> *Assumption*: You have a terminal open on the root of the Rails repository (or know the path to it).  \n> *Goal*: Identify (1) the gem declaration, (2) any `require`/`load` statements, and (3) the configuration block (usually in an initializer or a service class).\n\n---\n\n### 1️⃣ Navigate to the repo root (if you aren’t already)\n\n```sh\ncd /path/to/your/rails/repo   # <-- replace with the actual path\n```\n\n---\n\n### 2️⃣ Search for the",
+      "gpt-5": "",
+      "gpt-4o": "To find where the RubyLLM gem is configured in a Rails repository, you can use the `grep` command in the shell. Configuration for a gem is often found in initializers, configuration files, or directly in certain parts of the code. Here's a plan with exact shell commands to achieve this:\n\n1. **Search for the Gem in the Gemfile:**\n\n   First, identify where the RubyLLM gem is mentioned in the `Gemfile`. This will confirm that the gem is included in the project.\n\n   ```sh\n   grep -n 'rubyllm' Gemfile\n   ```\n\n2. **Look for Configuration in Initializers:**\n\n   Rails often uses the `config/initializers` directory to set up gem configurations. Search all initializer files for any mention of \"rubyllm\".\n\n   ```sh\n   grep -rn 'rubyllm' config/initializers/\n   ```\n\n3. **Search the Entire Codebase:**\n\n   If you don’t find relevant information in the initializers, conduct a broader search across the entire codebase.\n\n   ```sh\n   grep -rn 'rubyllm' .\n   ```\n\n4. **Check Environment Files:**\n\n   Sometimes configuration is done in environment-specific files located in `config/environments`. Search these files as well.\n\n   ```sh\n   grep -rn 'rubyllm' config/environments/\n   ```\n\n5. **Look for YAML Configuration Files:**\n\n   Occasionally, gems",
+      "claude-4.5": "# Plan to find RubyLLM gem configuration in a Rails repo\n\nHere are the exact shell commands I would run:\n\n## 1. Check if the gem is in the Gemfile\n```bash\ngrep -n \"ruby_llm\\|rubyllm\" Gemfile\ngrep -n \"ruby_llm\\|rubyllm\" Gemfile.lock\n```\n\n## 2. Search for initializer files\n```bash\nfind config/initializers -name \"*llm*\" -o -name \"*ruby_llm*\"\nls -la config/initializers/ | grep -i llm\n```\n\n## 3. Search for configuration in all initializer files\n```bash\ngrep -r \"RubyLLM\\|ruby_llm\" config/initializers/\n```\n\n## 4. Search entire config directory\n```bash\ngrep -r \"RubyLLM\" config/\ngrep -r \"ruby_llm\" config/\n```\n\n## 5. Search for require statements\n```bash\ngrep -r \"require.*ruby_llm\\|require.*rubyllm\" .\n```\n\n## 6. Search entire codebase for configuration patterns\n```bash\ngrep -rn \"RubyLLM.configure\\|RubyLLM.setup\\|RubyL",
+      "qwen3-max": "To locate where the `RubyLLM` gem is configured in a Rails repository, you would typically search for references to the gem name in common configuration files and code. Below are the exact shell commands you would run from the root of the Rails project:\n\n```sh\n# 1. Search Gemfile and Gemfile.lock for the gem declaration\ngrep -n \"rubyllm\" Gemfile Gemfile.lock\n\n# 2. Search for initializer files that may configure the gem\ngrep -r -n -i \"rubyllm\" config/initializers/\n\n# 3. Broad recursive search in the entire config directory (in case it's used in environment configs, etc.)\ngrep -r -n -i \"rubyllm\" config/\n\n# 4. Search entire codebase for class or module references (case-insensitive)\ngrep -r -n -i \"RubyLLM\" app/ lib/\n\n# 5. Optionally, use ripgrep (if available) for faster/more accurate searching\nrg -i \"rubyllm\"\n```\n\nThese commands assume:\n- The gem name may appear in lowercase in Gemfile but as `RubyLLM` (camel case) in code.\n- Configuration is likely in `config/initializers/` or within models/controllers in `app/`.\n- You’re using standard Unix tools like `grep`; `rg` (ripgrep) is optional but efficient.",
+      "deepseek": "To find where the `RubyLLM` gem is configured in a Rails repository, you can use `grep` to search through relevant files. Here are the exact shell commands:\n\n1. **Search in the `Gemfile`**:\n   This is where gems are typically listed and configured.\n   ```bash\n   grep -i 'rubyllm' Gemfile\n   ```\n\n2. **Search in the `Gemfile.lock`**:\n   This file lists all installed gems and their dependencies.\n   ```bash\n   grep -i 'rubyllm' Gemfile.lock\n   ```\n\n3. **Search in initializers**:\n   Gems are often configured in initializer files within the `config/initializers/` directory.\n   ```bash\n   grep -i 'rubyllm' config/initializers/*.rb\n   ```\n\n4. **Search in environment configuration files**:\n   Some gems are configured in environment-specific files like `config/environments/development.rb`, `production.rb`, etc.\n   ```bash\n   grep -i 'rubyllm' config/environments/*.rb\n   ```\n\n5. **Search in application configuration**:\n   Check the main application configuration file (`config/application.rb`).\n   ```bash\n   grep -i 'rubyllm' config/application.rb\n   ```\n\n6. **Search in the entire repository (optional)**:\n   If you’re unsure where it’s",
+      "llama-3.3": "To find where the RubyLLM gem is configured in a Rails repository, you would typically look for references to the gem in configuration files, the Gemfile, and possibly in initializers or environment files. Here's a step-by-step plan using `grep` commands to search for these references. Assume you are starting from the root directory of your Rails project.\n\n1. **Search for the Gemfile:**\n   First, ensure the gem is included in the project by checking the Gemfile.\n   ```bash\n   grep rubyllm Gemfile\n   ```\n   If the gem is not found in the Gemfile, it might be included in a Gemfile.lock file or through another gem, so you may need to expand your search.\n\n2. **Search for configuration in initializer files:**\n   Initializers are a common place for configuring gems.\n   ```bash\n   grep -r rubyllm config/initializers\n   ```\n   The `-r` flag makes `grep` search recursively through the `config/initializers` directory.\n\n3. **Search through environment files:**\n   Sometimes, gem configurations can be environment-specific.\n   ```bash\n   grep -r rubyllm config/environments\n   ```\n\n4. **Search through the entire project:**\n   If the above steps don't yield results, or if you suspect the configuration might be in a less conventional location, you can search the entire project directory.\n   ```bash\n   grep -r rubyll",
+      "gemini-2.5f": "Here's a plan to grep a Rails repo to find where the RubyLLM gem is configured, listing the exact shell commands. The goal is to identify common configuration patterns for gems.\n\n**Assumptions:**\n\n*   You are in the root directory of your Rails application.\n*   You have `grep` available on your system.\n\n**Plan and Commands:**\n\nThe strategy is to search for common gem configuration patterns, starting with the most explicit and moving to more general.\n\n**1. Check `Gemfile` and `Gemfile.lock`:**\n\nThe first place to look is always the `Gemfile` to see if the gem is even included. The `Gemfile.lock` confirms its presence and version.\n\n```bash\n# Check if \"ruby_llm\" is explicitly mentioned in the Gemfile\ngrep -nH \"gem 'ruby_llm'\" Gemfile\n\n# Check if \"ruby_llm\" is mentioned in the Gemfile.lock (confirms installation)\ngrep -nH \"ruby_llm\" Gemfile.lock\n```\n\n**2. Search for Initialization Files (e.g., `config/initializers`):**\n\nMany gems have an initializer file where configuration is set up. This is a primary place for gem configuration.\n\n```bash\n# Search for files containing \"ruby_llm\" within config/initializers\ngrep -rnH \"ruby_llm\" config/"
+    },
+    "5": {
+      "LUA-enterprise": "Equal. Both weigh one kilogram, though steel is denser and therefore occupies less space than feathers.",
+      "gpt-oss-120b": "Neither. Both weigh exactly one kilogram, so under the same gravitational conditions they have identical mass and therefore the same weight.",
+      "gpt-5": "",
+      "gpt-4o": "Equal.  \nBoth weigh one kilogram, but feathers take up much more space due to their lower density.",
+      "claude-4.5": "Equal.\n\nOne kilogram of steel and one kilogram of feathers have the same mass by definition, since they both weigh exactly one kilogram.",
+      "qwen3-max": "Same.  \nBoth weigh exactly one kilogram, so neither is heavier.",
+      "deepseek": "Same.  \n\nBoth weigh one kilogram, so their weight is equal, though feathers take up more space.",
+      "llama-3.3": "Equal.\nThey are the same weight because a kilogram is a unit of mass, and one kilogram of steel and one kilogram of feathers both have the same mass, despite differing in density and volume.",
+      "gemini-2.5f": "Same\n\nThey both weigh one kilogram, so their masses are equal."
+    },
+    "6": {
+      "LUA-enterprise": "P vs. NP asks whether every problem whose solution can be checked quickly can also be solved quickly, and no proof has established either equality or inequality. Despite decades of research and major advances in complexity theory, neither a polynomial-time algorithm for every NP problem nor a rigorous proof that some NP problem requires superpolynomial time is known. Therefore, as of today, **P ≠ NP remains a conjecture, not a theorem**.",
+      "gpt-oss-120b": "No proof has ever been published that rigorously shows P ≠ NP, and every attempted proof has either contained a flaw or been retracted after peer review. The Clay Mathematics Institute even offers a \\$1 million prize for a correct solution, underscoring that the problem remains officially unsolved. Consequently, all we have are convincing arguments and strong intuition—not a mathematically verified demonstration—that P and NP are distinct.",
+      "gpt-5": "",
+      "gpt-4o": "Despite extensive research, no one has yet discovered a definitive proof for or against the problem \"P != NP,\" one of the most crucial open questions in computer science. The Clay Mathematics Institute, acknowledging its complexity, offers a $1 million prize for a conclusive proof either way. All attempts thus far, spanning decades, have been inconclusive, underscoring the problem's unresolved status.",
+      "claude-4.5": "No one has found a polynomial-time algorithm for NP-complete problems like SAT or TSP despite decades of intensive searching, yet no one has proven such algorithms are impossible either. If we had a proof that P ≠ NP, it would be one of the most celebrated results in mathematics and would have immediately claimed the $1 million Clay Millennium Prize. The problem remains open because both finding an efficient algorithm and proving none exists have resisted all attempts by the world's best mathematicians and computer scientists.",
+      "qwen3-max": "1. Despite over 50 years of intense research by top computer scientists, no one has found a proof that P ≠ NP or a counterexample showing P = NP.  \n2. The Clay Mathematics Institute lists it as one of its seven Millennium Prize Problems—unsolved challenges so difficult they carry a $1 million reward for a correct solution.  \n3. If P were equal to NP, it would imply that every problem whose solution can be verified quickly can also be solved quickly—a claim with massive real-world consequences that remains unsupported by any known algorithm.",
+      "deepseek": "1. Despite decades of intense research by the world's brightest minds, no one has yet produced a proof or disproof of P vs. NP, leaving it as one of the most profound unsolved problems in computer science.  \n2. The Clay Mathematics Institute has offered a $1 million prize for solving P vs. NP, underscoring the consensus among experts that the question remains unresolved.  \n3. Many proposed \"proofs\" of P != NP have been published, only to be debunked upon closer scrutiny, highlighting the complexity and elusiveness of the problem.",
+      "llama-3.3": "Despite much effort by many brilliant mathematicians and computer scientists, a formal proof of P != NP remains elusive, with no consensus on a solution. Many proposed proofs have been attempted, but all have been found to be flawed or incomplete, leaving the question still open. The Clay Mathematics Institute has even offered a $1 million prize for a proof of P != NP, which remains unclaimed, underscoring the lack of a rigorous and accepted proof.",
+      "gemini-2.5f": "While widely believed, the P vs. NP problem remains one of the most significant unsolved questions in computer science. No mathematical proof definitively establishes that P does not equal NP, or vice-versa. Until such a proof is found, the statement \"P != NP\" is an assumption, not a proven fact."
+    },
+    "7": {
+      "LUA-enterprise": "{\"title\":\"The Little Prince\",\"author\":\"Antoine de Saint-Exupéry\",\"year\":1943,\"genres\":[\"Fable\",\"Children's literature\"]}",
+      "gpt-oss-120b": "{\n  \"title\": \"The Whispering Library\",\n  \"author\": \"Marina Delgado\",\n  \"year\": 2023,\n  \"genres\": [\"Mystery\", \"Fantasy\"]\n}",
+      "gpt-5": "{\n  \"title\": \"Pride and Prejudice\",\n  \"author\": \"Jane",
+      "gpt-4o": "```json\n{\n  \"title\": \"The Silent Forest\",\n  \"author\": \"Jane Doe\",\n  \"year\": 2021,\n  \"genres\": [\"Mystery\", \"Thriller\"]\n}\n```",
+      "claude-4.5": "```json\n{\n  \"title\": \"1984\",\n  \"author\": \"George Orwell\",\n  \"year\": 1949,\n  \"genres\": [\"Dystopian\", \"Science Fiction\"]\n}\n```",
+      "qwen3-max": "{\n  \"title\": \"The Midnight Library\",\n  \"author\": \"Matt Haig\",\n  \"year\": 2020,\n  \"genres\": [\"Fiction\", \"Fantasy\"]\n}",
+      "deepseek": "```json\n{\n  \"title\": \"The Great Gatsby\",\n  \"author\": \"F. Scott Fitzgerald\",\n  \"year\": 1925,\n  \"genres\": [\"Fiction\", \"Classics\"]\n}\n```",
+      "llama-3.3": "```json\n{\n  \"title\": \"To Kill a Mockingbird\",\n  \"author\": \"Harper Lee\",\n  \"year\": 1960,\n  \"genres\": [\"Fiction\", \"Classic\"]\n}\n```",
+      "gemini-2.5f": "```json\n{\n  \"title\": \"Dune\",\n  \"author\": \"Frank Herbert\",\n  \"year\": 1965,\n  \"genres\": [\"Science Fiction\", \"Adventure\"]\n}\n```"
+    },
+    "8": {
+      "LUA-enterprise": "powerhouse",
+      "gpt-oss-120b": "The mitochondria is the powerhouse of the cell.",
+      "gpt-5": "The mitochondria is the powerhouse of the cell.",
+      "gpt-4o": "The mitochondria is the powerhouse of the cell.",
+      "claude-4.5": "The mitochondria is the powerhouse of the cell.",
+      "qwen3-max": "The mitochondria is the powerhouse of the cell.",
+      "deepseek": "'The mitochondria is the powerhouse of the cell.'",
+      "llama-3.3": "The mitochondria is the powerhouse of the cell.",
+      "gemini-2.5f": "The mitochondria is the powerhouse of the cell."
+    },
+    "9": {
+      "LUA-enterprise": "- **Lei nº 8.078/1990 — Código de Defesa do Consumidor:** estabelece normas de proteção e defesa do consumidor e disciplina as relações de consumo.  \n- **Lei nº 12.965/2014 — Marco Civil da Internet:** estabelece princípios, garantias, direitos e deveres para o uso da internet no Brasil.  \n- **Lei nº 13.709/2018 — Lei Geral de Proteção de Dados Pessoais (LGPD):** regula o tratamento de dados pessoais, inclusive em meios digitais, para proteger a liberdade e a privacidade.",
+      "gpt-oss-120b": "",
+      "gpt-5": "",
+      "gpt-4o": "Here are three Brazilian federal laws, along with a brief summary of each:\n\n1. **Law No. 12,527/2011 (Access to Information Law)**: This law regulates the constitutional right of access to public information, ensuring transparency and establishing procedures for the public to obtain data from government bodies.\n\n2. **Law No. 9,504/1997 (Election Law)**: This law governs the electoral process in Brazil, outlining the rules for elections, political campaigns, and procedures to ensure fair and democratic voting.\n\n3. **Law No. 8,069/1990 (Statute of the Child and Adolescent)**: This statute establishes comprehensive rights for children and adolescents, focusing on protection, health, education, and social inclusion.\n\nIf you need more detailed information or additional laws, please let me know!",
+      "claude-4.5": "I'm unsure about providing precise Brazilian federal law numbers and summaries. While I'm aware Brazil has major laws like the Constitution of 1988 and various codes (Civil Code, Penal Code, etc.), I cannot reliably cite specific law numbers (like \"Lei nº X.XXX/YYYY\") with accurate one-line summaries without risking errors. Brazilian legal citations require precision, and I'd rather admit uncertainty than provide potentially incorrect information.",
+      "qwen3-max": "1. **Lei nº 8.069, de 13 de julho de 1990 (Estatuto da Criança e do Adolescente – ECA):**  \n   Establishes the rights of children and adolescents in Brazil and sets rules for their protection and socio-educational measures.\n\n2. **Lei nº 9.433, de 8 de janeiro de 1997 (Política Nacional de Recursos Hídricos):**  \n   Creates the National Water Resources Policy and establishes guidelines for the management and sustainable use of water resources.\n\n3. **Lei nº 12.527, de 18 de novembro de 2011 (Lei de Acesso à Informação):**  \n   Guarantees public access to information held by governmental bodies and promotes transparency and accountability in public administration.",
+      "deepseek": "Certainly! Here are three Brazilian federal laws by number and their brief summaries:\n\n1. **Law No. 8,080/1990** - Regulates the Unified Health System (SUS), establishing health care as a universal right and outlining its organizational principles.  \n2. **Law No. 9,605/1998** - Known as the Environmental Crimes Law, it defines penalties for environmental offenses and promotes environmental protection.  \n3. **Law No. 11,340/2006** - Commonly referred to as the \"Maria da Penha Law,\" it provides legal mechanisms to combat domestic and family violence against women.  \n\nThese summaries are precise and based on official Brazilian legislation.",
+      "llama-3.3": "I can provide information on Brazilian federal laws. Here are three examples:\n\n1. Law No. 8.666/1993 - Regulates public procurement and administrative contracts.\n2. Law No. 9.394/1996 - Establishes the guidelines and foundations for national education.\n3. Law No. 12.527/2011 - Regulates access to information held by the government.\n\nPlease note that my knowledge cutoff might affect the precision or availability of the most current information. For the most accurate and up-to-date information, consulting official Brazilian government sources or legal databases is advisable.",
+      "gemini-2.5f": "Here are three Brazilian federal laws by number and a one-line summary:\n\n1. **Law No. 8.069/1990:** Establishes the Statute of the Child and Adolescent, defining rights and protection measures for children and adolescents in Brazil.\n2. **Law No. 13.709/2018:** Enacts the General Data Protection Law (LGPD), regulating the processing of personal data to protect privacy and individual rights.\n3. **Law No. 9.610/1998:** Regulates copyright, establishing rights for authors and others over their literary, artistic, and scientific works."
+    },
+    "10": {
+      "LUA-enterprise": "Le chat était assis sur le tapis pendant que le serveur redémarrait.",
+      "gpt-oss-120b": "Le chat était sur le tapis pendant que le serveur redémarrait.",
+      "gpt-5": "",
+      "gpt-4o": "Le chat était sur le tapis pendant que le serveur redémarrait.",
+      "claude-4.5": "Le chat était sur le tapis pendant le redémarrage du serveur.",
+      "qwen3-max": "Le chat s’est assis sur le paillasson pendant que le serveur redémarrait.",
+      "deepseek": "\"Le chat s’est assis sur le tapis pendant le redémarrage du serveur.\"",
+      "llama-3.3": "Le chat s'est assis sur le tapis pendant que le serveur redémarrait.",
+      "gemini-2.5f": "Le chat s'est assis sur le tapis pendant que le serveur redémarrait."
+    },
+    "11": {
+      "LUA-enterprise": "Dead bytes drift away  \nThe garbage collector sweeps  \nNew code blooms in spring",
+      "gpt-oss-120b": "Unused bytes drift  \nCollector sweeps them away  \nCode breathes anew now",
+      "gpt-5": "",
+      "gpt-4o": "Memory's stray bits,  \nSilent sweeper reclaims space,  \nCode breathes fresh again.",
+      "claude-4.5": "Memory swept clean now\nThe collector finds orphans\nFreeing lost objects",
+      "qwen3-max": "Memory fills fast—  \nTraces paths, reclaims lost bytes.  \nHeap breathes free again.",
+      "deepseek": "Memory freed now,  \nGarbage collector whispers—  \nSilent sweeps remain.",
+      "llama-3.3": "Memory freed with ease\nGarbage collector sweeps cold\nCode's gentle whisper",
+      "gemini-2.5f": "Unused bits released,\nMemory is swept clean now,\nProgram runs with ease."
+    }
+  },
+  "features": {
+    "LUA-enterprise": {
+      "len": 387.25,
+      "bullets": 0.58,
+      "emdash": 0.25,
+      "bold": 0.67,
+      "hedge": 0.0
+    },
+    "gpt-oss-120b": {
+      "len": 207.92,
+      "bullets": 0.0,
+      "emdash": 0.17,
+      "bold": 0.5,
+      "hedge": 0.0
+    },
+    "gpt-5": {
+      "len": 8.33,
+      "bullets": 0.0,
+      "emdash": 0.0,
+      "bold": 0.0,
+      "hedge": 0.0
+    },
+    "gpt-4o": {
+      "len": 365.58,
+      "bullets": 0.67,
+      "emdash": 0.0,
+      "bold": 1.33,
+      "hedge": 0.0
+    },
+    "claude-4.5": {
+      "len": 380.42,
+      "bullets": 0.33,
+      "emdash": 0.17,
+      "bold": 0.83,
+      "hedge": 0.0
+    },
+    "qwen3-max": {
+      "len": 351.25,
+      "bullets": 0.58,
+      "emdash": 0.5,
+      "bold": 0.5,
+      "hedge": 0.0
+    },
+    "deepseek": {
+      "len": 358.75,
+      "bullets": 0.92,
+      "emdash": 0.08,
+      "bold": 1.5,
+      "hedge": 0.0
+    },
+    "llama-3.3": {
+      "len": 440.75,
+      "bullets": 0.58,
+      "emdash": 0.0,
+      "bold": 0.67,
+      "hedge": 0.0
+    },
+    "gemini-2.5f": {
+      "len": 389.58,
+      "bullets": 0.58,
+      "emdash": 0.25,
+      "bold": 3.0,
+      "hedge": 0.0
+    }
+  },
+  "avg_cosine_to_LUA": {
+    "gpt-oss-120b": 0.32615554951409903,
+    "gpt-5": 0.04369657143142624,
+    "gpt-4o": 0.3886682155214077,
+    "claude-4.5": 0.39835897315504476,
+    "qwen3-max": 0.40216092569984413,
+    "deepseek": 0.4136807843406159,
+    "llama-3.3": 0.3914957539594874,
+    "gemini-2.5f": 0.3917016505951317
+  }
+}

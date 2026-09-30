@@ -1,0 +1,143 @@
+{
+  "text_table": {
+    "digits20": {
+      "repr": "'01234567890123456789012345678901234567890123456789012345678",
+      "o200k_base": 67,
+      "o200k_harmony_text": 67,
+      "cl100k": 67,
+      "Qwen3": 200,
+      "DeepSeek": 200,
+      "Llama3": 67,
+      "Mistral": 201,
+      "BERTimbau": 1,
+      "Tucano": 100,
+      "LUA_house": 67,
+      "LUA_enterprise": 67
+    },
+    "cjk": {
+      "repr": "'人工智能正在迅速改变世界经济和社会结构，深度学习模型的能力持续增强。人工智能正在迅速改变世界经济和社会结构，深度学习模",
+      "o200k_base": 42,
+      "o200k_harmony_text": 42,
+      "cl100k": 82,
+      "Qwen3": 30,
+      "DeepSeek": 34,
+      "Llama3": 46,
+      "Mistral": 73,
+      "BERTimbau": 68,
+      "Tucano": 17,
+      "LUA_house": 42,
+      "LUA_enterprise": 42
+    },
+    "pt_accents": {
+      "repr": "'não, coração, informações, opções, inconstitucionalidade, v",
+      "o200k_base": 46,
+      "o200k_harmony_text": 46,
+      "cl100k": 59,
+      "Qwen3": 57,
+      "DeepSeek": 78,
+      "Llama3": 59,
+      "Mistral": 65,
+      "BERTimbau": 46,
+      "Tucano": 33,
+      "LUA_house": 46,
+      "LUA_enterprise": 46
+    },
+    "english": {
+      "repr": "'The quick brown fox jumps over the lazy dog and reshapes th",
+      "o200k_base": 31,
+      "o200k_harmony_text": 31,
+      "cl100k": 31,
+      "Qwen3": 31,
+      "DeepSeek": 32,
+      "Llama3": 31,
+      "Mistral": 38,
+      "BERTimbau": 52,
+      "Tucano": 48,
+      "LUA_house": 30,
+      "LUA_enterprise": 30
+    },
+    "emoji_zwj": {
+      "repr": "'👨\\u200d👩\\u200d👧\\u200d👦🇧🇷👩🏽\\u200d💻🧑\\u200d🚀 👨\\u200d👩\\u200d👧\\u",
+      "o200k_base": 169,
+      "o200k_harmony_text": 169,
+      "cl100k": 248,
+      "Qwen3": 132,
+      "DeepSeek": 248,
+      "Llama3": 218,
+      "Mistral": 265,
+      "BERTimbau": 6,
+      "Tucano": 49,
+      "LUA_house": 168,
+      "LUA_enterprise": 168
+    }
+  },
+  "harmony_specials": {
+    "<|start|>": {
+      "o200k_base_text": 5,
+      "o200k_harmony_native": 1,
+      "LUA_enterprise": 4
+    },
+    "<|channel|>": {
+      "o200k_base_text": 5,
+      "o200k_harmony_native": 1,
+      "LUA_enterprise": 4
+    },
+    "<|message|>": {
+      "o200k_base_text": 5,
+      "o200k_harmony_native": 1,
+      "LUA_enterprise": 4
+    },
+    "<|call|>": {
+      "o200k_base_text": 5,
+      "o200k_harmony_native": 1,
+      "LUA_enterprise": 4
+    },
+    "<|end|>": {
+      "o200k_base_text": 5,
+      "o200k_harmony_native": 1,
+      "LUA_enterprise": 4
+    },
+    "_english_sentence": {
+      "repr": "'Please use the channel to start the message and end the call properly.'",
+      "o200k_base": 14,
+      "LUA_E": 13
+    }
+  },
+  "fertility": {
+    "o200k_base": {
+      "PT": 35,
+      "EN": 27,
+      "PT_per_char": 0.189,
+      "EN_per_char": 0.156
+    },
+    "BERTimbau": {
+      "PT": 35,
+      "EN": 49,
+      "PT_per_char": 0.189,
+      "EN_per_char": 0.283
+    },
+    "Tucano": {
+      "PT": 31,
+      "EN": 45,
+      "PT_per_char": 0.168,
+      "EN_per_char": 0.26
+    },
+    "LUA_enterprise": {
+      "PT": 34,
+      "EN": 26,
+      "PT_per_char": 0.184,
+      "EN_per_char": 0.15
+    }
+  },
+  "distance": {
+    "o200k_base": 2,
+    "o200k_harmony_text": 2,
+    "cl100k": 134,
+    "Qwen3": 193,
+    "DeepSeek": 255,
+    "Llama3": 68,
+    "Mistral": 289,
+    "BERTimbau": 276,
+    "Tucano": 208
+  }
+}
