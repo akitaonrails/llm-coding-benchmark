@@ -1,1 +1,9 @@
-sprint 02: two runs both 16-19s / ~30k-token no-ops (no User model, no auth, no multiuser). Sprint 1 app was minimal (conversation+message only). gpt-oss-120b via opencode cannot sustain the accumulating sprint sequence. Functional DNF.
+DNF — harness-incompatibility (opencode), 2026-09-30. NOT an instrumentation bug.
+Verified: (1) raw OpenRouter API tool-calls correctly; (2) our harness builds fine on a
+trivial task; (3) opencode bash cwd == --dir (pwd probe); (4) provider pin honored + OpenRouter
+auto-filters non-tool providers. Root cause is gpt-oss behavior in opencode:
+ - weak agentic persistence: does 1 command (rails new) or a couple writes, then ends the turn
+   (bare scaffold, not a working chat app) — fails sprint01 across DeepInfra pin + workspace preamble.
+ - tool-convention mismatch: reaches for OpenAI-native 'apply_patch' (unavailable in opencode).
+Assisted mitigations tried (non-parity): workspace preamble (fixed /tmp/opencode misdirection) +
+DeepInfra provider pin (reproducibility). Neither fixes persistence. Analogous to kimi_k3.

@@ -182,11 +182,22 @@ def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
     elif harness == "opencode":
         # v2 phases are session-independent: fresh `opencode run` per phase
         # in the same workspace, model selected via -m each time.
+        # Opt-in workspace anchor (parity-safe: only models with the flag get it).
+        # gpt-oss ignores the working dir on complex tasks and writes to an absolute
+        # /tmp/opencode path (diagnosed 2026-09-30: bash cwd IS --dir, model chooses
+        # to write elsewhere), leaving the graded project empty. This nudge is an
+        # ASSISTED, non-parity accommodation — annotate any resulting score.
+        oc_prompt = prompt
+        if model.get("workspace_preamble"):
+            preamble = (f"Your workspace directory is {project_dir.resolve()}. Do ALL work inside it; "
+                        f"create and edit every file under that absolute path (or as paths relative to it), "
+                        f"never in /tmp or any other scratch area.\n\n")
+            oc_prompt = preamble + prompt
         command = [
             "opencode", "run", "--agent", "build", "--format", "json",
             "--dir", str(project_dir.resolve()),
             "-m", model["model_id"],
-            prompt,
+            oc_prompt,
         ]
         opencode_config = REPO_ROOT / "config" / "opencode.benchmark.json"
         if opencode_config.exists():
