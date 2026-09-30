@@ -1,0 +1,108 @@
+1314909 Add RubyLLM-powered Chat App with initial features and tests
+ .dockerignore                                     |  51 ++
+ .gitattributes                                    |   9 +
+ .github/dependabot.yml                            |  12 +
+ .github/workflows/ci.yml                          | 130 +++++
+ .gitignore                                        |  38 ++
+ .rubocop.yml                                      |   8 +
+ .ruby-version                                     |   1 +
+ Dockerfile                                        |  77 +++
+ Gemfile                                           |  72 +++
+ Gemfile.lock                                      | 601 ++++++++++++++++++++++
+ Procfile.dev                                      |   2 +
+ README.md                                         |  45 ++
+ Rakefile                                          |   6 +
+ app/assets/builds/.keep                           |   0
+ app/assets/images/.keep                           |   0
+ app/assets/stylesheets/application.css            |  10 +
+ app/assets/tailwind/application.css               |   1 +
+ app/controllers/application_controller.rb         |   7 +
+ app/controllers/concerns/.keep                    |   0
+ app/controllers/conversations_controller.rb       |  25 +
+ app/controllers/messages_controller.rb            |  17 +
+ app/helpers/application_helper.rb                 |   2 +
+ app/helpers/conversations_helper.rb               |   2 +
+ app/helpers/messages_helper.rb                    |   2 +
+ app/jobs/application_job.rb                       |   7 +
+ app/mailers/application_mailer.rb                 |   4 +
+ app/models/application_record.rb                  |   3 +
+ app/models/concerns/.keep                         |   0
+ app/models/conversation.rb                        |   4 +
+ app/models/message.rb                             |   4 +
+ app/services/ruby_llm_service.rb                  |  11 +
+ app/views/conversations/create.html.erb           |   4 +
+ app/views/conversations/index.html.erb            |   9 +
+ app/views/conversations/new.html.erb              |  26 +
+ app/views/conversations/show.html.erb             |  18 +
+ app/views/layouts/application.html.erb            |  30 ++
+ app/views/layouts/mailer.html.erb                 |  13 +
+ app/views/layouts/mailer.text.erb                 |   1 +
+ app/views/messages/_message.html.erb              |   1 +
+ app/views/messages/create.html.erb                |   4 +
+ app/views/pwa/manifest.json.erb                   |  22 +
+ app/views/pwa/service-worker.js                   |  26 +
+ bin/brakeman                                      |   7 +
+ bin/bundler-audit                                 |   6 +
+ bin/ci                                            |   6 +
+ bin/dev                                           |  16 +
+ bin/docker-entrypoint                             |   8 +
+ bin/rails                                         |   4 +
+ bin/rake                                          |   4 +
+ bin/rubocop                                       |   8 +
+ bin/setup                                         |  35 ++
+ bin/thrust                                        |   5 +
+ config.ru                                         |   6 +
+ config/application.rb                             |  28 +
+ config/boot.rb                                    |   4 +
+ config/bundler-audit.yml                          |   5 +
+ config/cable.yml                                  |  10 +
+ config/ci.rb                                      |  24 +
+ config/credentials.yml.enc                        |   1 +
+ config/database.yml                               |  40 ++
+ config/environment.rb                             |   5 +
+ config/environments/development.rb                |  78 +++
+ config/environments/production.rb                 |  89 ++++
+ config/environments/test.rb                       |  53 ++
+ config/initializers/assets.rb                     |   7 +
+ config/initializers/content_security_policy.rb    |  29 ++
+ config/initializers/filter_parameter_logging.rb   |   8 +
+ config/initializers/inflections.rb                |  16 +
+ config/locales/en.yml                             |  31 ++
+ config/puma.rb                                    |  42 ++
+ config/routes.rb                                  |  19 +
+ config/storage.yml                                |  27 +
+ db/migrate/20260930232419_create_conversations.rb |   9 +
+ db/migrate/20260930232420_create_messages.rb      |  10 +
+ db/schema.rb                                      |  29 ++
+ db/seeds.rb                                       |   9 +
+ docker-compose.yml                                |  26 +
+ lib/tasks/.keep                                   |   0
+ log/.keep                                         |   0
+ public/400.html                                   | 135 +++++
+ public/404.html                                   | 135 +++++
+ public/406-unsupported-browser.html               | 135 +++++
+ public/422.html                                   | 135 +++++
+ public/500.html                                   | 135 +++++
+ public/icon.png                                   | Bin 0 -> 4166 bytes
+ public/icon.svg                                   |   3 +
+ public/robots.txt                                 |   1 +
+ script/.keep                                      |   0
+ storage/.keep                                     |   0
+ test/controllers/.keep                            |   0
+ test/controllers/conversations_controller_test.rb |  22 +
+ test/controllers/messages_controller_test.rb      |   4 +
+ test/fixtures/conversations.yml                   |   7 +
+ test/fixtures/files/.keep                         |   0
+ test/fixtures/messages.yml                        |   9 +
+ test/helpers/.keep                                |   0
+ test/integration/.keep                            |   0
+ test/mailers/.keep                                |   0
+ test/models/.keep                                 |   0
+ test/models/conversation_test.rb                  |   8 +
+ test/models/message_test.rb                       |   8 +
+ test/test_helper.rb                               |  15 +
+ tmp/.keep                                         |   0
+ tmp/pids/.keep                                    |   0
+ tmp/storage/.keep                                 |   0
+ vendor/.keep                                      |   0
+ 106 files changed, 2761 insertions(+)

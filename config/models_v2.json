@@ -1189,6 +1189,42 @@
       },
       "wave": 7,
       "notes": "RE-TEST 2026-09-29: clean new v4 run after vendor reported fixing bugs (esp. PROMPT CACHING — confirmed active: repeated-prefix call returns cached_tokens>0, was always 0). Compare vs v2_genesys_pi_enterprise (previous run). Same lua/ model_id + rates (API no longer exposes price_brl_per_million; last-known BRL rates carried, re-confirm at grading). Previous analysis preserved, do not delete. Free vendor eval key."
+    },
+    {
+      "slug": "v2_gpt_4_1",
+      "label": "GPT-4.1 (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/openai/gpt-4.1",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 2.0,
+        "cache_read": 0.5,
+        "cache_write": 2.0,
+        "output": 8.0
+      },
+      "enable_followup": true,
+      "wave": 6,
+      "notes": "Added 2026-09-30 — GPT-4-generation baseline (best GPT-4-gen coder). Rates verified from OpenRouter 2026-09-30 ($2/$8); cache_read=OpenAI 4.1 cached-input $0.50/M. | 2026-09-30: assisted build-now nudge (research/plan-loop DNF without it).",
+      "workspace_preamble": true,
+      "preamble": "IMPORTANT EXECUTION DIRECTIVE: Do NOT respond with a plan, summary, or web research — you already know Rails 8, Hotwire, Tailwind, and RubyLLM. Immediately use the file tools (write/edit) and bash to CREATE and MODIFY files and complete the task NOW; take concrete build actions every step and NEVER end your turn with only a plan or a summary. Build DIRECTLY in the current working directory (the workspace root) — never create a subdirectory for the app; run `rails new .` or write files at the root. Commit your work with git at the end."
+    },
+    {
+      "slug": "v2_gpt_4o",
+      "label": "GPT-4o (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/openai/gpt-4o",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 2.5,
+        "cache_read": 1.25,
+        "cache_write": 2.5,
+        "output": 10.0
+      },
+      "enable_followup": true,
+      "wave": 6,
+      "notes": "Added 2026-09-30 — GPT-4-generation flagship; o200k tokenizer; SAME opencode harness as LUA (fills the proxy same-harness comparison gap). Rates verified from OpenRouter 2026-09-30 ($2.50/$10); cache_read=OpenAI 4o cached-input $1.25/M. | 2026-09-30: assisted in-place-build nudge (nested-app DNF without it, like devstral/llama/mistral-medium).",
+      "workspace_preamble": true,
+      "preamble": "IMPORTANT EXECUTION DIRECTIVE: Do NOT respond with a plan, summary, or web research — you already know Rails 8, Hotwire, Tailwind, and RubyLLM. Immediately use the file tools (write/edit) and bash to CREATE and MODIFY files and complete the task NOW; take concrete build actions every step and NEVER end your turn with only a plan or a summary. Build DIRECTLY in the current working directory (the workspace root) — never create a subdirectory for the app; run `rails new .` or write files at the root. Commit your work with git at the end."
     }
   ],
   "skipped": {

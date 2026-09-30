@@ -193,6 +193,10 @@ def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
                         f"create and edit every file under that absolute path (or as paths relative to it), "
                         f"never in /tmp or any other scratch area.\n\n")
             oc_prompt = preamble + prompt
+        # Optional custom preamble string (assisted, non-parity). Used for models that
+        # otherwise stall in a research/plan loop instead of executing (e.g. gpt-4.1).
+        if model.get("preamble"):
+            oc_prompt = str(model["preamble"]).rstrip() + "\n\n" + oc_prompt
         command = [
             "opencode", "run", "--agent", "build", "--format", "json",
             "--dir", str(project_dir.resolve()),
