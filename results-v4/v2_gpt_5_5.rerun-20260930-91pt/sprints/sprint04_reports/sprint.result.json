@@ -1,0 +1,10 @@
+{
+  "slug": "v2_gpt_5_5",
+  "sprint": "sprint04_reports",
+  "harness": "codex",
+  "elapsed_seconds": 511.93,
+  "cost_usd": 2.2139,
+  "tokens_total": 1622469,
+  "exit_code": 0,
+  "stall_aborted": false
+}

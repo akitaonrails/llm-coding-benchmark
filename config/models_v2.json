@@ -1005,7 +1005,26 @@
       },
       "enable_followup": true,
       "wave": 5,
-      "notes": "Added 2026-09-05 (cloud proxy for the birds-eye; true local 5090 run is a separate manual session)."
+      "notes": "Added 2026-09-05 (cloud proxy for the birds-eye; true local 5090 run is a separate manual session).",
+      "workspace_preamble": true
+    },
+    {
+      "slug": "v2_gpt_oss_20b",
+      "label": "GPT-OSS 20B (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/openai/gpt-oss-20b",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0,
+        "_VERIFY": "placeholder — re-check OpenRouter gpt-oss-20b rates before any cost analysis"
+      },
+      "enable_followup": true,
+      "wave": 5,
+      "notes": "Added 2026-09-30 for the proxy-hypothesis panel (Branch-A o200k candidate). RATES UNVERIFIED — check before cost.",
+      "workspace_preamble": true
     },
     {
       "slug": "v2_glm_5_3_zcode",

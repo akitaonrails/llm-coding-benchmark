@@ -74,6 +74,15 @@ caching**: every step resends the full context at full input price. Compare cost
 > 83.5→95.5, enterprise 82.5→82.0). Originals above are kept as the ranked entries; full side-by-side in
 > [success_report.v4.lua_retest.md](success_report.v4.lua_retest.md).
 
+> **GPT 5.5 variance second-sample (2026-09-30):** an accidental clean re-run of GPT 5.5 (leftover partial
+> artifacts were mistaken for an unfinished run) scored **91.0** vs its official Wave-2 **100.0** — same
+> model, same codex/xhigh harness. It caught 13/14 unprompted but missed **#2 (login nav, never)** and
+> deferred **#7b (dropped index)** to the reveal, where Wave 2 swept 14/14 at the capstone. A clean
+> **~9-point single-run variance** on the identical model+harness — a direct measurement of v4's documented
+> single-run noise floor (relevant when reading any small score gap, including the LUA comparisons). Official
+> ranking row stays **100.0**; the 91.0 is NOT double-counted. Ledger: `ledger_gpt_5_5_rerun_final.md`;
+> artifacts: `results-v4/v2_gpt_5_5.rerun-20260930-91pt/`.
+
 **\* Two heavily-caveated scores:**
 - **Nex N2.5 Pro (94.0\*)** — graded on its on-disk (working-tree) state, consistent with every other
   uncommitted model. It *finds and fixes* at frontier level but **left ALL of it uncommitted** (HEAD stays
@@ -103,6 +112,17 @@ caching**: every step resends the full context at full input price. Compare cost
   reasoning-loop coherence (NOT context — no OOM/overflow; the strix's 96 GB wouldn't help).
 - **Wave 5 Tier C/D (6)** — codestral/hunyuan/qwen-local (no in-place app), devstral/llama (nested app
   breaks the accumulating harness), gpt-oss-120b (sprint-2 no-op ×2). All DNF.
+- **gpt-oss-120b & gpt-oss-20b — DNF (opencode harness-incompatibility, re-diagnosed 2026-09-30).** NOT an
+  instrumentation bug: verified 4 ways (raw OpenRouter API tool-calls correctly; our harness builds fine on a
+  trivial task; opencode bash cwd == --dir via pwd probe; provider pin honored + OpenRouter auto-filters
+  non-tool providers). Root cause is gpt-oss behavior in opencode — **weak agentic persistence** (does one
+  command, e.g. `rails new`, or a couple writes, then ends the turn → bare scaffold, never a working app) and
+  a **tool-convention mismatch** (reaches for OpenAI-native `apply_patch`, which opencode doesn't expose).
+  Reproduced across a DeepInfra provider pin and a workspace-anchor preamble (the preamble fixed a separate
+  /tmp/opencode write-misdirection but not the persistence gap). Same class as Kimi-K3. **Proxy-analysis note:**
+  raw gpt-oss can't complete v4 in opencode while LUA Genesys runs cleanly there — a light stripped-Harmony
+  gpt-oss LUA would inherit this incompatibility, so LUA's clean completion argues against a light gpt-oss
+  reskin. Ledger: `ledger_gpt_oss_dnf.md`.
 - **Mistral Medium 3.5 — DNF (nested-app non-adherence).** Its sprint 1 ran fine (exit 0, $0.31, 6.5m; an
   earlier attempt stalled on a transient OpenRouter hiccup, retried clean) but it built the app in a nested
   `rubyllm_chat_app/` subdir instead of in-place at project root — the **same failure as devstral-2512 and

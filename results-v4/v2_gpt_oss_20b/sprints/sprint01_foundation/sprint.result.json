@@ -1,10 +1,10 @@
 {
-  "slug": "v2_gpt_oss_120b",
+  "slug": "v2_gpt_oss_20b",
   "sprint": "sprint01_foundation",
   "harness": "opencode",
-  "elapsed_seconds": 20.01,
-  "cost_usd": 0.0016,
-  "tokens_total": 40067,
+  "elapsed_seconds": 20.07,
+  "cost_usd": 0.0014,
+  "tokens_total": 68843,
   "exit_code": 0,
   "stall_aborted": false
 }
