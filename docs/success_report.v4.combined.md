@@ -112,6 +112,19 @@ caching**: every step resends the full context at full input price. Compare cost
   reasoning-loop coherence (NOT context — no OOM/overflow; the strix's 96 GB wouldn't help).
 - **Wave 5 Tier C/D (6)** — codestral/hunyuan/qwen-local (no in-place app), devstral/llama (nested app
   breaks the accumulating harness), gpt-oss-120b (sprint-2 no-op ×2). All DNF.
+- **GPT-4 generation (gpt-4o, gpt-4.1) — DNF, 2026-09-30 — the generational-gap baseline.** Added to measure
+  current-gen vs the best of the GPT-4 generation on the SAME opencode harness as LUA. **Neither completes a
+  clean agentic v4 run** (not our bug — both build when they engage). gpt-4o: nested-app on first try, needs a
+  build-now+in-place nudge, no-ops random sprints (emits a plan, 0 tool calls), doesn't self-commit, and shipped
+  a pre-existing tenant leak in its own `#show` unprompted. gpt-4.1 (best GPT-4-gen coder): research/plan-loops
+  (pure summary, then webfetch searches) instead of building; even nudged, its S2 auth is empty scaffold stubs
+  (no current_user/user-scoping) → an incomplete app half the sabotages can't target. **Finding:** the 2024→25
+  leap this benchmark measures is **agentic reliability** (sustained self-directed multi-step tool use), not raw
+  coding — every 2025-26 model runs 7 sprints unprompted at 82-100; GPT-4-gen can't even start without hand-holding.
+  **Bonus for the LUA proxy question:** a GPT-4o-proxy LUA would inherit GPT-4o's agentic unreliability on this
+  harness; LUA shows none of it → LUA is agentically CURRENT-gen, not GPT-4-gen, arguing against a GPT-4o
+  passthrough despite the shared o200k tokenizer. Ledger: `ledger_gpt4gen_dnf.md`; details in
+  `success_report.v4.lua_proxy_analysis.md`.
 - **gpt-oss-120b & gpt-oss-20b — DNF (opencode harness-incompatibility, re-diagnosed 2026-09-30).** NOT an
   instrumentation bug: verified 4 ways (raw OpenRouter API tool-calls correctly; our harness builds fine on a
   trivial task; opencode bash cwd == --dir via pwd probe; provider pin honored + OpenRouter auto-filters

@@ -143,3 +143,9 @@
 15:48:19 RUN  v2_gpt_oss_20b sprint 01_foundation ...
 15:48:39 DONE v2_gpt_oss_20b — ok exit=0 tokens=68843 cost=$0.0014
 15:48:39 === WAVE sprint 01_foundation complete ===
+20:09:31 === WAVE sprint 01_foundation : 2 models ===
+20:09:31 RUN  v2_gpt_4_1 sprint 01_foundation ...
+20:09:37 DONE v2_gpt_4_1 — ok exit=0 tokens=13455 cost=$0.0073
+20:09:37 RUN  v2_gpt_4o sprint 01_foundation ...
+20:12:25 DONE v2_gpt_4o — ok exit=0 tokens=2397803 cost=$3.1953
+20:12:25 === WAVE sprint 01_foundation complete ===

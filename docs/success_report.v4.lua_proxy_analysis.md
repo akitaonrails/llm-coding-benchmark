@@ -10,9 +10,11 @@ against a tight proxy of the strong OpenAI models.** It contributes exactly thre
    OpenAI lineage but far from proof.
 2. **Clear divergences** (LUA is consistently weak on the silent-medium sabotages where GPT-6 luna /
    GPT-5.5 are strong) — argues against LUA being a passthrough of those models.
-3. **Exclusion of weak backends** — LUA completes v4 at frontier level; a proxy inherits its backend's
-   capability, so the backend (if any) is frontier-class. gpt-oss (the one OpenAI-family model that runs
-   the same opencode harness) **can't complete v4 at all** → LUA is not a light gpt-oss reskin.
+3. **Exclusion of weak/older backends** — LUA completes v4 at frontier level on opencode; a proxy inherits its
+   backend's behavior on that harness. gpt-oss **can't complete v4 at all** on opencode → not a light gpt-oss
+   reskin. And **GPT-4o and gpt-4.1 (run on LUA's own opencode harness) also can't run clean agentic v4**
+   (nested-app, plan-instead-of-build, no self-commit) → LUA is agentically **current-generation, not
+   GPT-4-generation**, arguing against a GPT-4o passthrough *despite* the shared o200k tokenizer.
 The lineage suspicion (OpenAI o200k family) remains anchored on the **tokenizer forensics**, not v4.
 
 ## Method & two hard constraints
@@ -81,7 +83,18 @@ bug — see `ledger_gpt_oss_dnf.md`). So a **light "stripped-Harmony gpt-oss" LU
 raw checkpoint can't even build the app under opencode, whereas LUA sails through. (This does not exclude a
 *thick* re-harnessed gpt-oss with substantial tool-behavior retraining — but that is effectively a new model.)
 
-## Signal 5 — Idiosyncratic failure mode: inconclusive
+## Signal 5 — Agentic generation: LUA is current-gen, GPT-4o is not (added 2026-09-30)
+A GPT-4-generation baseline was run on LUA's **own opencode harness** (gpt-4o, gpt-4.1). **Neither completes a
+clean agentic v4 run:** gpt-4o nested-apps then no-ops sprints and never self-commits; gpt-4.1 research/plan-loops
+and, even nudged, builds an incomplete app (stub auth). This is a decisive same-harness datapoint the cross-harness
+codex runs couldn't give: **a GPT-4o-proxy LUA would inherit GPT-4o's agentic unreliability on opencode**
+(nested-app, plan-instead-of-build, no self-commit). LUA shows **none** of it — it runs 7 sprints, self-commits,
+and builds complete apps at 82.5–95.5. So although GPT-4o is LUA's tokenizer family (o200k) and the leading
+distill-teacher candidate, **LUA is agentically CURRENT-generation, not GPT-4-generation** → consistent with an
+independent current model (or a student trained to current-gen agentic behavior), and **inconsistent with a
+thin/thick GPT-4o passthrough.** (Ledger: `ledger_gpt4gen_dnf.md`.)
+
+## Signal 6 — Idiosyncratic failure mode: inconclusive
 Genesys PI Enterprise's first S1 attempt DNF'd on a **deterministic-looking "841× `grep \"LUA\"` loop during
 RubyLLM recon."** A model repeatedly grepping for its own name/config during library reconnaissance is a
 peculiar signature, but it matches no *known* GPT/Claude/Qwen failure mode on record here, and a clean re-run
