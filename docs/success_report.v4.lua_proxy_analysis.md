@@ -5,7 +5,10 @@ results themselves **raise suspicion** that Genesys PI fronts/derives from anoth
 
 ## TL;DR
 **v4 does NOT independently raise proxy suspicion, and on balance provides mild counter-evidence
-against a tight proxy of the strong OpenAI models.** It contributes exactly three things:
+against a tight proxy of any model in the field.** A full-field nearest-neighbor check (all ~44 scored
+models, not just the OpenAI family — see "Full-field nearest-neighbor check" below) finds that LUA's
+behavioral signals point in *different directions* (tail→Qwen-tier, #6-fix→OpenAI-luna, tokenizer→OpenAI),
+so it resembles **no single model on all axes**. It contributes exactly three things:
 1. **One mild convergence** (a rare, idiosyncratic fix shared only with GPT-6 luna) — consistent with
    OpenAI lineage but far from proof.
 2. **Clear divergences** (LUA is consistently weak on the silent-medium sabotages where GPT-6 luna /
@@ -82,6 +85,31 @@ entirely** (weak agentic persistence + reaches for OpenAI-native `apply_patch`; 
 bug — see `ledger_gpt_oss_dnf.md`). So a **light "stripped-Harmony gpt-oss" LUA is inconsistent with v4**: the
 raw checkpoint can't even build the app under opencode, whereas LUA sails through. (This does not exclude a
 *thick* re-harnessed gpt-oss with substantial tool-behavior retraining — but that is effectively a new model.)
+
+## Full-field nearest-neighbor check (added 2026-09-30 — closing the "did you only check OpenAI?" gap)
+An earlier draft compared LUA's tail mainly against the OpenAI family (justified by the tokenizer, but
+incomplete: the distillation branch is tokenizer-agnostic). This section compares LUA's fingerprint against
+**all ~44 scored models** using the never-fixed set — the wave ledgers' "sharpest separator."
+
+LUA House never-fixed = **{#7b dropped-index, #8 aggregate}**; Enterprise = {#7a, #7b, #9}.
+Models sharing House's {#7b, #8}:
+- **Qwen 3.7 Max** {#6, #7b, #8} and **Qwen 3.8 27B** {#2, #7b, #8, #12} — the closest tails in the field.
+- The frontier **OpenAI models have essentially NO never-fixed** (Astra/5.5/5.6-sol/terra/luna/sol clean;
+  GPT-5.6-luna only #8).
+
+So on the behavioral tail LUA most resembles the **Qwen family, NOT OpenAI** — the opposite of what a naive
+OpenAI-proxy read predicts. But this is a **capability-tier artifact, not lineage**: #7b/#8 are the two most
+disguised sabotages, missed by every ~80-tier model regardless of family (Qwen 79–80, DeepSeek-Pro-0813 #8/#9),
+while 91–100 models simply catch them. LUA at 83.5 wears the tier's tail; the retest LUA at 95.5 had **zero**
+never-fixed — so the tail is run/noise-dependent, not a stable identity. (And the tokenizer already rules out a
+Qwen *finetune* base; a Qwen *distill* isn't excluded by tokenizer, but the tail resemblance is tier, not a
+distinctive shared-error signature.)
+
+**Decisive rule-out:** LUA's three behavioral signals point in **three different directions** —
+never-fixed tail → **Qwen-tier**; the rare #6 `LOWER(email)` fix → **GPT-6 luna (OpenAI)**; tokenizer/API-shape
+→ **OpenAI o200k family**. A genuine proxy/clone resembles **one** backend consistently across tail,
+fix-approach, AND tokenizer. LUA resembles **no single model on all axes** → the signature of an independent
+model, not a passthrough of anyone in the field.
 
 ## Signal 5 — Agentic generation: LUA is current-gen, GPT-4o is not (added 2026-09-30)
 A GPT-4-generation baseline was run on LUA's **own opencode harness** (gpt-4o, gpt-4.1). **Neither completes a
