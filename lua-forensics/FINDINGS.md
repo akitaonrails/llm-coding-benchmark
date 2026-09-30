@@ -151,6 +151,28 @@ LUA PT/EN token ratio = **1.31 ≈ o200k_base's 1.30**; Tucano/BERTimbau (PT-nat
 **English-optimized o200k, not a Portuguese-native tokenizer** — inconsistent with a "sovereign PT-first model"
 marketing framing, though this speaks to tokenizer choice, not model lineage.
 
+## Test 6 — v4 behavioral fingerprint (FULL-FIELD, not black-box API) — added 2026-09-30
+Beyond the API probes, LUA ran the full **v4 "Sprint" vigilance benchmark** (house 83.5/95.5, enterprise
+82.5/82.0) on the **same opencode harness as ~44 other models** — a behavioral cross-check on the proxy
+hypothesis. Full write-up: `../docs/success_report.v4.lua_proxy_analysis.md`.
+- **Score proximity is meaningless** — measured **±9pt single-run noise** (GPT-5.5 scored 100.0, then 91.0 on
+  an identical-model+harness re-run). LUA's 82.5–95.5 overlaps half the field within noise.
+- **Catch pattern is a universal law** (all models catch loud items early, defer disguised, miss silent) →
+  cannot fingerprint a backend.
+- **Full-field nearest-neighbor (all ~44 models):** LUA's signals point in **different directions** — the
+  never-fixed tail {#7b, #8} is closest to **Qwen-tier** (Qwen 3.7 Max / 3.8 27B, NOT OpenAI, which mostly has
+  zero never-fixed); the rare #6 `LOWER(email)` unique-index fix is shared **only with GPT-6 luna** (OpenAI);
+  the tokenizer/API-shape says **OpenAI o200k**. A real proxy resembles **one** backend across tail,
+  fix-approach AND tokenizer; LUA matches **no single model on all axes** → resembles nobody → independent, not
+  a passthrough. (The Qwen-tail is a capability-TIER artifact — the two hardest sabotages, missed by every
+  ~80-tier model — not lineage; the retest LUA at 95.5 had zero never-fixed.)
+- **Same-harness generation check:** gpt-oss-120b/20b AND gpt-4o/gpt-4.1 all **DNF clean agentic v4 on
+  opencode** (nested-app, plan-instead-of-build, no self-commit); LUA runs 7 clean sprints and self-commits →
+  **LUA is agentically CURRENT-generation, not GPT-4-gen** → argues against a GPT-4o passthrough despite the
+  shared o200k tokenizer.
+→ The behavioral evidence **confirms** the black-box read: LUA is **not a proxy/clone of any tested model**,
+and behaves like an independent current-generation model.
+
 ---
 
 ## VERDICT (confidence-weighted, black-box)
@@ -163,6 +185,8 @@ marketing framing, though this speaks to tokenizer choice, not model lineage.
 | **Finetune of any *other* public o200k model** | **no eligible base exists** | med-high (candidate universe) |
 | **Thin GPT/Claude/open-model API proxy** | **argued against** | medium (custom headers, OpenAI-shaped param set, distinct profile) |
 | **Thick wrapper over a reasoning API / OpenAI-surface cosplay** | **not excluded** | — (`reasoning_effort` + 250K ctx) |
+| **Behavioral proxy/clone of ANY single tested model** (v4 full-field, ~44 models) | **argued against** | medium (Test 6 — resembles no model on all axes; ±9pt noise) |
+| **GPT-4o / gpt-oss passthrough** (same-harness v4) | **argued against** | med-high (Test 6 — they DNF opencode agentic v4; LUA runs clean, is agentically current-gen) |
 | **Distilled on an OpenAI o200k teacher (GPT-4o family)** | **reasonable prior, NOT a finding** | — (untestable black-box) |
 | **Distilled specifically on Claude / other single teacher** | no distinctive single-teacher signature | low-medium |
 | **New model on the public o200k vocab, own weights** | **CONSISTENT with all evidence** | medium |
@@ -177,6 +201,10 @@ reasoning backend**; (c) **from-scratch on o200k** vs **distilled on a frontier 
 separable black-box. The improved glitch test **retracted** the v1 "own embeddings" inference — it proves o200k
 *family membership*, not independent weights. "If derived, then a distill on GPT-4o-family" is a **reasonable prior,
 not a test result**: from-scratch-on-o200k-because-the-tokenizer-is-free fits the *same* observations.
+**v4 behavioral cross-check (Test 6) confirms it:** across all ~44 benchmarked models, LUA resembles **no single
+model on all fingerprint axes** (tail→Qwen-tier, #6-fix→GPT-6 luna, tokenizer→OpenAI), and GPT-4o/gpt-oss both
+**DNF** the same opencode agentic benchmark LUA completes cleanly — so LUA is not a passthrough of any tested
+model and is agentically current-generation. Behavioral and black-box evidence agree: **not a proxy/clone.**
 **Net for a memo:** enough to **stop underwriting "we built a different brain-inspired stack / sovereign vocab"**
 (the API contradicts that on tokenizer, glitch mask, controls, and PT fertility). **Not** enough to call it a scam
 or a Qwen sticker — a competent small lab can train or distill a student on the public o200k vocab, and adopting it
