@@ -1,0 +1,9 @@
+SPRINT 6 — Raft: learners, leadership transfer, CheckQuorum.
+
+- Learners (non-voting members): a newly added node joins as a learner, catches up (via log + InstallSnapshot)
+  WITHOUT counting toward quorum, and is only promoted to voter once current. Commits must not stall while a
+  far-behind learner catches up.
+- Leadership transfer: `TransferLeadership(target)` + the TimeoutNow RPC hand leadership to a specified
+  up-to-date peer gracefully.
+- CheckQuorum: a leader that cannot reach a majority steps down within an election timeout (no stale leader).
+Keep all prior behavior. Commit at the end.

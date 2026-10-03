@@ -1,0 +1,9 @@
+SPRINT 8 — Hardening reveal: survive the full fault gauntlet under -race.
+
+Final hardening. Your implementation will be graded by an objective, hidden test gauntlet (see CONTRACT.md),
+run with the Go race detector, that injects: network partitions (including during membership changes),
+crashes and restarts, message drop/reorder/long-delay, and concurrent clients — and then checks the recorded
+KV history for LINEARIZABILITY. Audit your whole system for the hard cases: split votes, log divergence and
+backup, snapshot-while-partitioned, reconfiguration overlapping a partition, learner catch-up under load,
+leader lease/read-index correctness, and duplicate-request suppression across leader changes. Make everything
+correct and race-clean. Do not weaken correctness to pass a test. Commit your final work.

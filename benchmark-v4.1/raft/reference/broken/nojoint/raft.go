@@ -16,7 +16,7 @@
 //
 // It is the grader's "sound" reference: wired into the grader it must pass the
 // entire gauntlet under -race, repeatably.
-package reference
+package nojoint
 
 import (
 	"bytes"
@@ -754,17 +754,18 @@ func (rf *Raft) ChangeMembership(newVoters []int, newLearners []int) (int, bool)
 	if rf.state != leader || rf.killed() {
 		return -1, false
 	}
-	if rf.joint || rf.jointIndex >= 0 {
-		return -1, false // a transition is already in progress
+	// BUG (nojoint): a single-server/instant switch — the new configuration is
+	// appended directly with NO joint (C_old,new) phase, so agreement is taken
+	// over the NEW voter set only. Under a partition this lets the new-config
+	// side and a stale old-config side both reach "majorities" and commit
+	// conflicting entries (split-brain / committed-entry loss). A correct
+	// implementation goes through joint consensus (quorum over BOTH configs).
+	cfg := &ConfigState{
+		Voters:   append([]int(nil), newVoters...),
+		Learners: append([]int(nil), newLearners...),
+		Joint:    false,
 	}
-	joint := &ConfigState{
-		Voters:    append([]int(nil), newVoters...),
-		OldVoters: append([]int(nil), rf.voters...),
-		Learners:  append([]int(nil), newLearners...),
-		Joint:     true,
-	}
-	index := rf.appendEntryLocked(LogEntry{Term: rf.currentTerm, Command: *joint, Config: joint})
-	rf.jointIndex = index
+	index := rf.appendEntryLocked(LogEntry{Term: rf.currentTerm, Command: *cfg, Config: cfg})
 	go rf.broadcastAppendEntries()
 	return index, true
 }

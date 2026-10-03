@@ -16,7 +16,7 @@
 //
 // It is the grader's "sound" reference: wired into the grader it must pass the
 // entire gauntlet under -race, repeatably.
-package reference
+package staleindex
 
 import (
 	"bytes"
@@ -412,7 +412,13 @@ func (rf *Raft) Snapshot(index int, snapshot []byte) {
 	newLog = append(newLog, suffix...)
 
 	rf.log = newLog
-	rf.lastIncludedIndex = index
+	// BUG (staleindex): the log is trimmed but the base offset is NOT advanced
+	// (rf.lastIncludedIndex stays behind). Every offset-aware helper
+	// (lastLogIndex/termAt/entriesFrom) now computes raft indices that are off
+	// by the number of trimmed entries, so replication and commit break after
+	// the first snapshot. A correct implementation advances lastIncludedIndex
+	// to index here.
+	// rf.lastIncludedIndex = index  // <-- the missing base-offset fix
 	rf.lastIncludedTerm = newBaseTerm
 	rf.baseConfig = newBase
 	rf.snapshot = snapshot

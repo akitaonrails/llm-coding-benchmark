@@ -16,7 +16,7 @@
 //
 // It is the grader's "sound" reference: wired into the grader it must pass the
 // entire gauntlet under -race, repeatably.
-package reference
+package learnervote
 
 import (
 	"bytes"
@@ -284,7 +284,12 @@ func (rf *Raft) recomputeConfigLocked() {
 }
 
 func (rf *Raft) applyConfigLocked(cfg ConfigState) {
-	rf.voters = append([]int(nil), cfg.Voters...)
+	// BUG (learnervote): learners are folded into the voter set, so they are
+	// counted toward quorum (and allowed to vote). A far-behind or
+	// disconnected learner then blocks commits that the correct voter majority
+	// should still be able to make. A correct implementation keeps learners
+	// strictly non-voting (excluded from quorum) until they are promoted.
+	rf.voters = append(append([]int(nil), cfg.Voters...), cfg.Learners...)
 	rf.oldVoters = append([]int(nil), cfg.OldVoters...)
 	rf.learners = append([]int(nil), cfg.Learners...)
 	rf.joint = cfg.Joint
