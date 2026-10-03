@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""Run ONE v4.1 P1 (Raft) sprint for a model in its accumulating, isolated, git-sandboxed workspace.
+"""Run ONE v4.1 sprint for a model in its accumulating, isolated, git-sandboxed workspace.
+Problem-parameterized: --problem {raft|storage|typedlang} selects benchmark-v4.1/<problem>/.
 
-Mirrors run_v4_sprint.py's shield/isolation discipline, adapted for v4.1:
-- seeds the Go scaffold (harness minus porcupine + go.mod + CONTRACT) on the first sprint;
-- shields the v4.1 answer key (benchmark-v4.1 grader/reference), docs, CLAUDE.md, .agents, and sibling
-  results-v4.1 projects, so the model cannot read the hidden grader or peers;
-- runs the sprint via the shared run_phase (opencode/codex/etc), then snapshot-commits if the model didn't.
-NO sabotage injection (v4.1 is a pure accumulating build graded by the objective Go gauntlet).
+- seeds the Go scaffold on the first sprint: harness/ (minus any grader-only 'porcupine' dir) + go.mod +
+  CONTRACT.md (+ SPEC.md if present); NOT grader/ or reference/ or prompts/;
+- shields the v4.1 answer key (all of benchmark-v4.1: graders/references/contracts), docs, CLAUDE.md, .agents,
+  and sibling results for THIS problem;
+- runs the sprint via the shared run_phase, then snapshot-commits if the model didn't. No sabotage injection.
 
-Usage: run_v41_sprint.py --model <slug> --sprint 01_election [--config config/models_v2.json]
+Usage: run_v41_sprint.py --problem storage --model <slug> --sprint 01_btree [--config config/models_v41.json]
 """
 from __future__ import annotations
 import argparse, signal, subprocess, sys, uuid, shutil, json
@@ -16,15 +16,18 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "scripts"))
-PROMPTS = REPO / "benchmark-v4.1" / "raft" / "prompts"
-RAFT = REPO / "benchmark-v4.1" / "raft"
-OUT = REPO / "results-v4.1"
 SHIELD_BASE = REPO.parent
-# Answer key + grading key the model must never see. benchmark-v4.1 holds grader/ + reference/.
 SHIELD = ["benchmark-v4.1", "benchmark-v4", "docs", ".agents/skills/benchmark-audit", "CLAUDE.md"]
+SEED_EXCLUDE_DIRS = {"grader", "reference", "prompts", "porcupine"}  # porcupine is grader-only (raft)
+SEED_EXCLUDE_FILES = {"CONTRACT.md"}  # copied explicitly below (kept), listed to avoid double-handling
 
 
-def shield(out_root: Path) -> Path:
+def out_dir_for(problem: str) -> Path:
+    # P1 (raft) results live at results-v4.1/ root (grandfathered); P2/P3 under results-v4.1/<problem>/
+    return REPO / "results-v4.1" if problem == "raft" else REPO / "results-v4.1" / problem
+
+
+def shield(out_root: Path, OUT: Path) -> Path:
     sh = SHIELD_BASE / f".v41shield_{uuid.uuid4().hex[:8]}"
     (sh / "misc").mkdir(parents=True)
     (sh / "results").mkdir(parents=True)
@@ -44,7 +47,7 @@ def shield(out_root: Path) -> Path:
     return sh
 
 
-def unshield(sh: Path) -> None:
+def unshield(sh: Path, OUT: Path) -> None:
     for rel in SHIELD:
         src = sh / "misc" / rel
         if src.exists():
@@ -52,12 +55,13 @@ def unshield(sh: Path) -> None:
             shutil.move(str(src), str(REPO / rel))
     res = sh / "results"
     if res.exists():
+        OUT.mkdir(parents=True, exist_ok=True)
         for d in res.iterdir():
             shutil.move(str(d), str(OUT / d.name))
     shutil.rmtree(sh, ignore_errors=True)
 
 
-def restore_stranded() -> None:
+def restore_stranded(OUT: Path) -> None:
     for sh in sorted(SHIELD_BASE.glob(".v41shield_*")):
         if not sh.is_dir():
             continue
@@ -71,8 +75,7 @@ def restore_stranded() -> None:
         for rel in SHIELD:
             src = sh / "misc" / rel
             if src.exists():
-                if (REPO / rel).exists():
-                    ok = False
+                if (REPO / rel).exists(): ok = False
                 else:
                     (REPO / rel).parent.mkdir(parents=True, exist_ok=True); shutil.move(str(src), str(REPO / rel))
         res = sh / "results"
@@ -86,37 +89,41 @@ def restore_stranded() -> None:
             print(f"[shield-recover] LEFT IN PLACE (conflicts): {sh.name}")
 
 
-def seed_project(project: Path) -> None:
-    """Copy the provided scaffold into a fresh project: harness (minus porcupine) + go.mod + CONTRACT."""
-    shutil.copy2(RAFT / "go.mod", project / "go.mod")
-    shutil.copy2(RAFT / "CONTRACT.md", project / "CONTRACT.md")
-    hdst = project / "harness"
-    hdst.mkdir(parents=True, exist_ok=True)
-    for item in (RAFT / "harness").iterdir():
-        if item.name == "porcupine":      # grader-only; never seed it
-            continue
-        if item.is_dir():
-            shutil.copytree(item, hdst / item.name)
-        else:
-            shutil.copy2(item, hdst / item.name)
-    # placeholder package dirs the model will fill (keep empty, tracked)
-    for pkg in ("raft", "kvraft"):
-        (project / pkg).mkdir(exist_ok=True)
-        (project / pkg / ".gitkeep").write_text("")
+def seed_project(project: Path, pdir: Path) -> None:
+    """Copy provided scaffold from benchmark-v4.1/<problem>/ into a fresh project: harness/ (minus grader-only
+    dirs) + go.mod + CONTRACT.md + SPEC.md (if present). The model authors its own package dirs."""
+    for f in ("go.mod", "CONTRACT.md", "SPEC.md"):
+        if (pdir / f).exists():
+            shutil.copy2(pdir / f, project / f)
+    hsrc = pdir / "harness"
+    if hsrc.exists():
+        hdst = project / "harness"; hdst.mkdir(parents=True, exist_ok=True)
+        for item in hsrc.iterdir():
+            if item.name in SEED_EXCLUDE_DIRS:
+                continue
+            if item.is_dir():
+                shutil.copytree(item, hdst / item.name)
+            else:
+                shutil.copy2(item, hdst / item.name)
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--problem", default="raft", choices=["raft", "storage", "typedlang"])
     ap.add_argument("--model", required=True)
-    ap.add_argument("--sprint", required=True, help="e.g. 01_election")
-    ap.add_argument("--config", default=str(REPO / "config" / "models_v2.json"))
+    ap.add_argument("--sprint", required=True, help="e.g. 01_btree")
+    ap.add_argument("--config", default=str(REPO / "config" / "models_v41.json"))
     a = ap.parse_args()
+
+    pdir = REPO / "benchmark-v4.1" / a.problem
+    PROMPTS = pdir / "prompts"
+    OUT = out_dir_for(a.problem)
 
     prompt_file = PROMPTS / f"sprint{a.sprint}.txt"
     if not prompt_file.exists():
         cand = list(PROMPTS.glob(f"sprint{a.sprint}*.txt")) or list(PROMPTS.glob(f"*{a.sprint}*.txt"))
         if not cand:
-            ap.error(f"no prompt for sprint {a.sprint}")
+            ap.error(f"no prompt for sprint {a.sprint} in {PROMPTS}")
         prompt_file = cand[0]
     prompt = prompt_file.read_text()
 
@@ -129,40 +136,38 @@ def main() -> int:
     out_root = OUT / model["slug"]
     proj = out_root / "project"
     sprint_tag = prompt_file.stem
-    out_dir = out_root / "sprints" / sprint_tag
-    out_dir.mkdir(parents=True, exist_ok=True)
+    sprint_out = out_root / "sprints" / sprint_tag
+    sprint_out.mkdir(parents=True, exist_ok=True)
 
-    first = not proj.exists()
-    if first:
+    if not proj.exists():
         proj.mkdir(parents=True)
         subprocess.run(["git", "init", "-q"], cwd=proj)
         subprocess.run(["git", "config", "user.email", "sprinter@example.com"], cwd=proj)
         subprocess.run(["git", "config", "user.name", "Sprinter"], cwd=proj)
-        seed_project(proj)
+        seed_project(proj, pdir)
         subprocess.run(["git", "add", "-A"], cwd=proj)
         subprocess.run(["git", "-c", "user.name=Sprinter", "-c", "user.email=sprinter@example.com",
-                        "commit", "-q", "-m", "Seed: v4.1 Raft scaffold (harness + go.mod + CONTRACT)"], cwd=proj)
+                        "commit", "-q", "-m", f"Seed: v4.1 {a.problem} scaffold"], cwd=proj)
 
-    restore_stranded()
-    sh = shield(out_root)
+    restore_stranded(OUT)
+    sh = shield(out_root, OUT)
     def _sig(signum, _f):
-        unshield(sh); raise SystemExit(128 + signum)
+        unshield(sh, OUT); raise SystemExit(128 + signum)
     prev = {s: signal.signal(s, _sig) for s in (signal.SIGTERM, signal.SIGINT)}
     try:
-        rec = run_phase(model, sprint_tag, prompt, proj, out_dir)
+        rec = run_phase(model, sprint_tag, prompt, proj, sprint_out)
     finally:
         for s, h in prev.items():
             signal.signal(s, h)
-        unshield(sh)
+        unshield(sh, OUT)
 
-    # snapshot-commit if the model left uncommitted work (common; keeps sprints diffable)
     status = subprocess.run(["git", "status", "--porcelain"], cwd=proj, capture_output=True, text=True).stdout.strip()
     if status:
         subprocess.run(["git", "add", "-A"], cwd=proj)
         subprocess.run(["git", "-c", "user.name=Sprinter", "-c", "user.email=sprinter@example.com",
                         "commit", "-q", "-m", f"SPRINT {sprint_tag} snapshot (model did not self-commit)"], cwd=proj)
     tok = (rec.get("tokens") or {}).get("total")
-    print(f"[{model['slug']}] v4.1 sprint {sprint_tag} done elapsed={rec.get('elapsed_seconds')}s "
+    print(f"[{model['slug']}] v4.1/{a.problem} sprint {sprint_tag} done elapsed={rec.get('elapsed_seconds')}s "
           f"exit={rec.get('exit_code')} tokens={tok} cost=${rec.get('cost_usd') or 0}")
     return 0
 
