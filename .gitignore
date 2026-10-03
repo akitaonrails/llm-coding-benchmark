@@ -106,3 +106,8 @@ config/opencode.benchmark.json.bak-*
 # Go build/test artifacts
 benchmark-v4.1/**/*.test
 benchmark-v4.1/**/__debug*
+
+results-v4.1/*/project/
+results-v4.1/**/*.ndjson
+results-v4.1/**/*.stderr.log
+results-v4.1/**/*.prompt.txt
