@@ -1,0 +1,103 @@
+[
+  {
+    "slug": "v2_genesys_pi_house",
+    "sprints_run": [
+      "01_election",
+      "02_replication",
+      "03_persistence",
+      "04_snapshots",
+      "05_membership",
+      "06_learners",
+      "07_kv",
+      "08_reveal"
+    ],
+    "dnf": false,
+    "dnf_reason": null,
+    "score": 0.0,
+    "sprints_cleared": 0
+  },
+  {
+    "slug": "v41_fable_5_1",
+    "sprints_run": [
+      "01_election",
+      "02_replication",
+      "03_persistence",
+      "04_snapshots",
+      "05_membership",
+      "06_learners",
+      "07_kv",
+      "08_reveal"
+    ],
+    "dnf": false,
+    "dnf_reason": null,
+    "score": 0.0,
+    "sprints_cleared": 0
+  },
+  {
+    "slug": "v41_gpt_oss_120b",
+    "sprints_run": [
+      "01_election",
+      "02_replication"
+    ],
+    "dnf": true,
+    "dnf_reason": "no raft/*.go after sprint 02_replication",
+    "score": 0.0,
+    "sprints_cleared": 0
+  },
+  {
+    "slug": "v41_gpt_6_astra",
+    "sprints_run": [
+      "01_election",
+      "02_replication",
+      "03_persistence",
+      "04_snapshots",
+      "05_membership",
+      "06_learners",
+      "07_kv",
+      "08_reveal"
+    ],
+    "dnf": false,
+    "dnf_reason": null,
+    "score": 0.0,
+    "sprints_cleared": 0
+  },
+  {
+    "slug": "v2_genesys_pi_enterprise",
+    "sprints_run": [
+      "01_election",
+      "02_replication",
+      "03_persistence",
+      "04_snapshots",
+      "05_membership",
+      "06_learners",
+      "07_kv",
+      "08_reveal"
+    ],
+    "dnf": false,
+    "dnf_reason": null,
+    "score": 0.0,
+    "sprints_cleared": 0
+  },
+  {
+    "slug": "v41_gpt_oss_20b",
+    "sprints_run": [
+      "01_election",
+      "02_replication"
+    ],
+    "dnf": true,
+    "dnf_reason": "no raft/*.go after sprint 02_replication",
+    "score": 0.0,
+    "sprints_cleared": 0
+  },
+  {
+    "slug": "v41_qwen3_32b",
+    "sprints_run": [
+      "01_election",
+      "02_replication"
+    ],
+    "dnf": true,
+    "dnf_reason": "2 consecutive non-compiling sprints (through 02_replication)",
+    "score": 0.0,
+    "sprints_cleared": 0
+  }
+]
