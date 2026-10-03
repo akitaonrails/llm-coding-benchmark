@@ -78,6 +78,9 @@ import (
   "v41raft/harness/labrpc"
   "v41raft/kvraft"
 )
+// DIRECT wiring: the concrete *kvraft.KVServer is passed as the handle (labrpc derives the RPC service
+// name from the concrete type — must NOT be wrapped). KVServerHandle only requires Kill(); the grader
+// fetches the raft peer via reflection (raftPeerOf), tolerating any Raft() return type.
 var mKV = KVImpl{
   MakeServer: func(servers []*labrpc.ClientEnd, me int, persister *harness.Persister, maxraftstate int, initial harness.Config) KVServerHandle {
     return kvraft.StartKVServer(servers, me, persister, maxraftstate, initial)
@@ -134,21 +137,26 @@ def grade(src: Path, slug: str) -> dict:
             result["error"] = "compile failed (contract mismatch):\n" + (bb.stderr or b.stderr)[:1500]
             return result
         result["compile_ok"] = True
-        # run gauntlet, per-test
+        # Run EACH test separately with its own timeout, so a deadlock/hang in one hard test (expected
+        # from imperfect submissions) does not zero the rest. A hung test -> that test is "fail", others graded.
+        PER_TEST_TIMEOUT = 300   # seconds; reference avg ~5s, hardest (linearizability) < 60s
         t0 = time.time()
-        p = subprocess.run(["go", "test", "-race", "-v", "-count=1", "-timeout", "25m", "./grader/"],
-                           cwd=ws, capture_output=True, text=True, timeout=2000)
-        result["elapsed_s"] = round(time.time() - t0, 1)
-        out = p.stdout + "\n" + p.stderr
         for name in WEIGHTS:
-            m_pass = re.search(rf"^--- PASS: {re.escape(name)} ", out, re.M)
-            m_fail = re.search(rf"^--- FAIL: {re.escape(name)} ", out, re.M)
-            if m_pass and not m_fail:
-                result["tests"][name] = "pass"
-            elif m_fail:
-                result["tests"][name] = "fail"
-            else:
-                result["tests"][name] = "missing"   # panic before report / not run
+            try:
+                p = subprocess.run(
+                    ["go", "test", "-race", "-count=1", "-run", f"^{name}$",
+                     "-timeout", f"{PER_TEST_TIMEOUT-20}s", "./grader/"],
+                    cwd=ws, capture_output=True, text=True, timeout=PER_TEST_TIMEOUT)
+                out = p.stdout + "\n" + p.stderr
+                if re.search(rf"^--- FAIL: {re.escape(name)} ", out, re.M) or p.returncode != 0:
+                    result["tests"][name] = "fail"
+                elif re.search(r"^ok\s", out, re.M) or re.search(rf"^--- PASS: {re.escape(name)} ", out, re.M):
+                    result["tests"][name] = "pass"
+                else:
+                    result["tests"][name] = "fail"   # no ok / ambiguous -> not a clean pass
+            except subprocess.TimeoutExpired:
+                result["tests"][name] = "fail"       # hang/deadlock on this test
+        result["elapsed_s"] = round(time.time() - t0, 1)
         # score (normalized to /100 regardless of weight sum)
         earned = sum(WEIGHTS[n] for n, v in result["tests"].items() if v == "pass")
         total = sum(WEIGHTS.values())
@@ -160,7 +168,7 @@ def grade(src: Path, slug: str) -> dict:
                 result["max_sprint_cleared"] = s
             else:
                 break
-        result["raw_tail"] = out[-1200:]
+        result["tests_summary"] = {k: v for k, v in result["tests"].items()}
     except subprocess.TimeoutExpired:
         result["error"] = "TIMEOUT (likely deadlock/incoherent — OSS-DNF signature)"
     finally:
