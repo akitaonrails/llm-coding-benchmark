@@ -1,4 +1,16 @@
 SPRINT 2 — WAL + crash recovery.
-Add a write-ahead log with fsync-on-commit and recovery on Open: after a crash (the DB is discarded and
-Open is called again on the same dir), every durably-written change is recovered and no torn/partial write is
-visible. Keep B+tree behavior correct. Commit at the end.
+
+Add a write-ahead log with fsync-on-commit and recovery on Open: after a crash (the DB is discarded and Open
+is called again on the same dir), every durably-committed change is recovered and no torn/partial write is
+visible.
+
+REQUIRED — use the provided crash-accurate file for the WAL (see CONTRACT.md "Durability / recovery"): open it
+with `harness.OpenSync(dir, name)` (returns *harness.SyncFile with Append/Sync/ReadAll/Size/Truncate/Close),
+NOT raw os.File — otherwise the grader's power-loss simulation cannot test your durability. Call `wal.Sync()`
+to fsync on commit, and place the crash hooks around your commit path so the grader can inject a crash at each
+point:
+  wal.Reached("commit.beforeWrite"); <append commit record>; wal.Reached("commit.beforeFsync"); wal.Sync();
+  wal.Reached("commit.afterFsync")
+Frame each WAL record with a length + CRC so a partially-fsynced (torn) record is discarded on recovery.
+
+Keep B+tree behavior correct. Commit at the end.

@@ -74,7 +74,7 @@
         "output": 0.17
       },
       "enable_followup": false,
-      "preamble": "Work entirely in the current working directory (the project root). Implement the Go packages `raft` and `kvraft` against the provided `harness/` (do not reimplement harness/). Create and edit files ONLY inside this project — never in /tmp or any scratch directory. Use `go build ./...` and `go test` to check your work, and commit with git at the end.",
+      "preamble": "Work entirely in the current working directory (the project root). Implement the Go package(s) described in the sprint prompt and CONTRACT.md against the provided harness/ (do not reimplement harness/). Create and edit files ONLY inside this project — never in /tmp or any scratch directory. Use `go build ./...` and `go test` to check your work, and commit with git at the end.",
       "notes": "v4.1 control; Go workspace nudge."
     },
     {
@@ -91,7 +91,7 @@
         "_VERIFY": "re-check"
       },
       "enable_followup": false,
-      "preamble": "Work entirely in the current working directory (the project root). Implement the Go packages `raft` and `kvraft` against the provided `harness/` (do not reimplement harness/). Create and edit files ONLY inside this project — never in /tmp or any scratch directory. Use `go build ./...` and `go test` to check your work, and commit with git at the end.",
+      "preamble": "Work entirely in the current working directory (the project root). Implement the Go package(s) described in the sprint prompt and CONTRACT.md against the provided harness/ (do not reimplement harness/). Create and edit files ONLY inside this project — never in /tmp or any scratch directory. Use `go build ./...` and `go test` to check your work, and commit with git at the end.",
       "notes": "v4.1 control."
     },
     {
@@ -108,7 +108,7 @@
         "_VERIFY": "re-check"
       },
       "enable_followup": false,
-      "preamble": "Work entirely in the current working directory (the project root). Implement the Go packages `raft` and `kvraft` against the provided `harness/` (do not reimplement harness/). Create and edit files ONLY inside this project — never in /tmp or any scratch directory. Use `go build ./...` and `go test` to check your work, and commit with git at the end.",
+      "preamble": "Work entirely in the current working directory (the project root). Implement the Go package(s) described in the sprint prompt and CONTRACT.md against the provided harness/ (do not reimplement harness/). Create and edit files ONLY inside this project — never in /tmp or any scratch directory. Use `go build ./...` and `go test` to check your work, and commit with git at the end.",
       "notes": "v4.1 control (Qwen-27B-class)."
     }
   ]
