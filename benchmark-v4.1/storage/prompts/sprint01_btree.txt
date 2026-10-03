@@ -5,3 +5,5 @@ harness/ gives the crash simulator + maker types; do NOT reimplement harness/.
 This sprint: implement package `engine` with Open(dir)/Close and a persistent, ordered B+tree supporting
 Get/Set/Delete/Scan (no transactions yet, but persist to disk so data survives Close+reopen). Write your own
 Go tests, keep `go build ./...` clean, commit at the end. Do not read grader/ or reference/.
+
+NOTE: in sprint 2 your WAL MUST use harness.OpenSync (not raw os.File) — see CONTRACT.md — so design your file I/O to go through the provided harness.
