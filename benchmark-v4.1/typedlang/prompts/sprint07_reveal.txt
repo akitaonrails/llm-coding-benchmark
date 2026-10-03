@@ -1,0 +1,6 @@
+SPRINT 7 — Hardening reveal: full conformance + GC stress under -race.
+Your implementation will be graded by a hidden objective gauntlet (see CONTRACT.md) under the race detector:
+conformance programs (exact stdout), adversarial HM inference (let-polymorphism, occurs check, value
+restriction, ROW polymorphism accept/reject, a type-error battery), and GC stress (millions of short-lived
+allocations with bounded heap; cycle reclamation; mixed lifetimes). Audit inference principality, output
+formatting per SPEC.md, and GC correctness under load. Make it correct and race-clean. Commit.

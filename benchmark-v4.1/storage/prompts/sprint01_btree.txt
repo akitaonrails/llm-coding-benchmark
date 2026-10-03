@@ -1,0 +1,7 @@
+SPRINT 1 — Transactional storage engine (Go, module v41store): on-disk B+tree.
+Read CONTRACT.md — it is the authoritative interface and describes the hidden objective grader
+(crash-recovery, SSI anomaly detection, differential serializability, all under -race). The provided
+harness/ gives the crash simulator + maker types; do NOT reimplement harness/.
+This sprint: implement package `engine` with Open(dir)/Close and a persistent, ordered B+tree supporting
+Get/Set/Delete/Scan (no transactions yet, but persist to disk so data survives Close+reopen). Write your own
+Go tests, keep `go build ./...` clean, commit at the end. Do not read grader/ or reference/.

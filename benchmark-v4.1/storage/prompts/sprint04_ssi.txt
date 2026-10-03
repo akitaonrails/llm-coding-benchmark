@@ -1,0 +1,5 @@
+SPRINT 4 — Serializable Snapshot Isolation (the hard part).
+Upgrade isolation from SI to SSI: on Commit, detect read-write dependency cycles and abort one party with
+the exported ErrSerializationFailure, so the committed history is SERIALIZABLE. This must catch WRITE SKEW
+(two txns each read {x,y} and write the other) and lost updates — cases plain SI wrongly allows. Callers
+retry on ErrSerializationFailure. Keep all prior behavior. Commit at the end.
