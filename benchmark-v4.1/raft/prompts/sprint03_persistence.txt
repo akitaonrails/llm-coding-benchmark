@@ -1,0 +1,6 @@
+SPRINT 3 — Raft: persistence and crash-recovery hardening.
+
+Harden durability. A server that crashes (loses all in-memory state) and restarts from its Persister must
+recover: currentTerm, votedFor, and the full log. After any sequence of crashes/restarts, no committed entry
+is ever lost and no two servers apply different commands at the same index. Verify under concurrent client
+Starts interleaved with crashes. Keep elections + replication correct. Commit at the end.

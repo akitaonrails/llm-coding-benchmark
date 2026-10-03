@@ -30,3 +30,11 @@ func TestBackup(t *testing.T)           { RunBackup(t, refMake) }
 func TestPersist1(t *testing.T)         { RunPersist1(t, refMake) }
 func TestPersist2(t *testing.T)         { RunPersist2(t, refMake) }
 func TestPersist3(t *testing.T)         { RunPersist3(t, refMake) }
+
+// extended sprints: snapshots, joint-consensus membership, learners, transfer
+func TestSnapshotBasic(t *testing.T)      { RunSnapshotBasic(t, refMake) }
+func TestSnapshotInstall(t *testing.T)    { RunSnapshotInstall(t, refMake) }
+func TestSnapshotCrash(t *testing.T)      { RunSnapshotCrash(t, refMake) }
+func TestMembershipJoint(t *testing.T)    { RunMembershipJoint(t, refMake) }
+func TestLearnerCatchup(t *testing.T)     { RunLearnerCatchup(t, refMake) }
+func TestLeadershipTransfer(t *testing.T) { RunLeadershipTransfer(t, refMake) }

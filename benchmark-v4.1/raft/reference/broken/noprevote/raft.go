@@ -33,8 +33,8 @@ const (
 // Timing. The reference election timeout is a randomized fraction of the
 // harness RaftElectionTimeout so distinct peers rarely time out together.
 const (
-	tickInterval      = 20 * time.Millisecond
-	heartbeatInterval = 100 * time.Millisecond
+	tickInterval         = 20 * time.Millisecond
+	heartbeatInterval    = 100 * time.Millisecond
 	electionTimeoutMinMS = 400
 	electionTimeoutMaxMS = 800
 	// A leader that has not heard from a majority within this window steps
@@ -78,8 +78,8 @@ type Raft struct {
 	lastContact []time.Time // last time a reply was received from each peer
 
 	// membership (foundation: all voters)
-	voters   []int
-	isVoter  map[int]bool
+	voters  []int
+	isVoter map[int]bool
 
 	// election timing
 	electionDeadline time.Time

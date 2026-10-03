@@ -74,12 +74,12 @@ type Network struct {
 	mu             sync.Mutex
 	rng            *rand.Rand
 	reliable       bool
-	longReordering bool          // occasionally hold a reply back a long time
-	longDelays     bool          // unreachable calls take longer to fail
+	longReordering bool // occasionally hold a reply back a long time
+	longDelays     bool // unreachable calls take longer to fail
 	servers        map[int]*Server
-	enabled        map[int]bool  // is server i connected to the net
-	partitions     map[int]int   // server id -> partition group; nil = one group
-	count          int32         // total RPCs attempted
+	enabled        map[int]bool // is server i connected to the net
+	partitions     map[int]int  // server id -> partition group; nil = one group
+	count          int32        // total RPCs attempted
 	bytesSent      int64
 	done           chan struct{}
 	closed         bool
@@ -186,7 +186,13 @@ func (rn *Network) reachableLocked(from, to int) bool {
 		return false
 	}
 	if rn.partitions != nil {
-		if rn.partitions[from] != rn.partitions[to] {
+		// A partition only separates servers that are BOTH assigned to groups.
+		// Endpoints outside the partition map (e.g. KV clerks) can reach any
+		// connected server — exactly like a real client that can route to
+		// whatever replica it can still contact.
+		fg, fok := rn.partitions[from]
+		tg, tok := rn.partitions[to]
+		if fok && tok && fg != tg {
 			return false
 		}
 	}

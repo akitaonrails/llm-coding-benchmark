@@ -1,0 +1,11 @@
+SPRINT 7 — Linearizable key/value store on your Raft.
+
+Implement the `kvraft` package per CONTRACT.md: `StartKVServer`, a `Clerk` (MakeClerk/Get/Put/Append) talking
+to the cluster. Requirements:
+- LINEARIZABLE semantics: every client operation appears to take effect atomically at some point between its
+  invocation and response; reads observe all prior acknowledged writes (route reads through the log or use a
+  read-index/lease — do not serve stale reads from a follower).
+- at-most-once: dedup retried client requests via client-id + sequence number (a retried Append must not be
+  applied twice).
+- snapshot the KV state when the raft log exceeds maxraftstate, and restore from snapshot on restart.
+Handle leader changes and retries transparently in the Clerk. Commit at the end.
