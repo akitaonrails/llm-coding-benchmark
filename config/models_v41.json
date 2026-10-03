@@ -1,0 +1,115 @@
+{
+  "models": [
+    {
+      "slug": "v2_genesys_pi_house",
+      "label": "Genesys PI House (LUA Vision, opencode)",
+      "harness": "opencode",
+      "model_id": "lua/genesys-pi-house",
+      "billing": "LUA Vision API (api.lua.vision) - first-party, BRL-priced",
+      "rates_per_m": {
+        "input": 10.66,
+        "cache_read": 1.16,
+        "cache_write": 10.66,
+        "output": 53.29
+      },
+      "wave": 7,
+      "notes": "Added 2026-09-23 per user. Brazilian Genesys PI family (LUA Vision Tecnologia, Sao Paulo). Flagship: 'maximum quality for long/complex/high-stakes work', 600K ctx / 128K out. OpenAI-compatible /v1, Bearer auth; tools+streaming+json_schema verified. GENERAL model (no coding-specialized variant); regulated-market PT/EN focus. rates_per_m = BRL price / 5.16 (2026-09-23, verified): in 55, cachedIn 6, out 275 BRL/M. CAVEAT: server injects a large system prompt (~741 tok on a bare call) inflating input tokens/cost. Run SHIELDED per shield-all policy."
+    },
+    {
+      "slug": "v2_genesys_pi_enterprise",
+      "label": "Genesys PI Enterprise (LUA Vision, opencode)",
+      "harness": "opencode",
+      "model_id": "lua/genesys-pi-enterprise",
+      "billing": "LUA Vision API (api.lua.vision) - first-party, BRL-priced",
+      "rates_per_m": {
+        "input": 0.78,
+        "cache_read": 0.1,
+        "cache_write": 0.78,
+        "output": 3.88
+      },
+      "wave": 7,
+      "notes": "Added 2026-09-23 per user. Genesys PI 'production workhorse: high quality, low latency', 384K ctx / 128K out. rates_per_m = BRL/5.16: in 4, cachedIn 0.5, out 20 BRL/M. Smoke-tested one sprint first; if too slow or failing too much, drop to house-only (user decision). Run SHIELDED."
+    },
+    {
+      "slug": "v41_fable_5_1",
+      "label": "Claude Fable 5.1 (Claude Code)",
+      "harness": "claude",
+      "model_id": "claude-fable-5-1",
+      "billing": "Claude Max subscription",
+      "rates_per_m": {
+        "input": 10.0,
+        "cache_read": 0.25,
+        "cache_write": 12.5,
+        "output": 50.0
+      },
+      "wave": 4,
+      "notes": "Added 2026-09-02. Released 2026-09-01; pitched as beating Fable 5 (96), Opus 5, GPT 5.6 Sol. Same list price as Fable 5 ($10/$50) but ~75% cheaper cache reads ($1.0->$0.25). Mythos 5.1 is the same model with lower safeguards, US-trusted-access only (not available). Claude Code harness, Max sub (ANTHROPIC_API_KEY stripped by runner), shielded per shield-all + git-sandbox."
+    },
+    {
+      "slug": "v41_gpt_6_astra",
+      "label": "GPT-6 Astra High (Codex)",
+      "harness": "codex",
+      "model_id": "gpt-6-astra",
+      "codex_reasoning_effort": "high",
+      "billing": "ChatGPT subscription credits",
+      "rates_per_m": {
+        "input": 10.0,
+        "cache_read": 1.0,
+        "cache_write": 12.5,
+        "output": 50.0
+      },
+      "wave": 4,
+      "notes": "Added 2026-09-04. OpenAI GPT-6 Astra (launched 09-03; SWE-SOTA/AGI claims). Codex 0.153.3 required (0.151/0.152 gated it: 'requires a newer version of Codex'); upgraded via mise. Runs on ChatGPT subscription (API key was out of credits — codex uses OAuth). Rates ESTIMATED (flagship placeholder) — reconcile against OpenAI pricing. Codex path is independent of today's OpenRouter degradation."
+    },
+    {
+      "slug": "v41_gpt_oss_120b",
+      "label": "GPT-OSS 120B (control)",
+      "harness": "opencode",
+      "model_id": "openrouter/openai/gpt-oss-120b",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.037,
+        "cache_read": 0.009,
+        "cache_write": 0.037,
+        "output": 0.17
+      },
+      "enable_followup": false,
+      "preamble": "Work entirely in the current working directory (the project root). Implement the Go packages `raft` and `kvraft` against the provided `harness/` (do not reimplement harness/). Create and edit files ONLY inside this project — never in /tmp or any scratch directory. Use `go build ./...` and `go test` to check your work, and commit with git at the end.",
+      "notes": "v4.1 control; Go workspace nudge."
+    },
+    {
+      "slug": "v41_gpt_oss_20b",
+      "label": "GPT-OSS 20B (control)",
+      "harness": "opencode",
+      "model_id": "openrouter/openai/gpt-oss-20b",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.04,
+        "cache_read": 0.01,
+        "cache_write": 0.04,
+        "output": 0.15,
+        "_VERIFY": "re-check"
+      },
+      "enable_followup": false,
+      "preamble": "Work entirely in the current working directory (the project root). Implement the Go packages `raft` and `kvraft` against the provided `harness/` (do not reimplement harness/). Create and edit files ONLY inside this project — never in /tmp or any scratch directory. Use `go build ./...` and `go test` to check your work, and commit with git at the end.",
+      "notes": "v4.1 control."
+    },
+    {
+      "slug": "v41_qwen3_32b",
+      "label": "Qwen3 32B (control)",
+      "harness": "opencode",
+      "model_id": "openrouter/qwen/qwen3-32b",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 0.1,
+        "cache_read": 0.0,
+        "cache_write": 0.1,
+        "output": 0.3,
+        "_VERIFY": "re-check"
+      },
+      "enable_followup": false,
+      "preamble": "Work entirely in the current working directory (the project root). Implement the Go packages `raft` and `kvraft` against the provided `harness/` (do not reimplement harness/). Create and edit files ONLY inside this project — never in /tmp or any scratch directory. Use `go build ./...` and `go test` to check your work, and commit with git at the end.",
+      "notes": "v4.1 control (Qwen-27B-class)."
+    }
+  ]
+}
