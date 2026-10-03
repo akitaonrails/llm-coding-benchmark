@@ -37,6 +37,14 @@ var ErrSerializationFailure = errors.New("serialization failure")
 - `Commit` must be durable before returning (fsync the WAL). After `Close()` (or a simulated crash =
   discarding the in-memory DB and calling `Open` on the same dir), **every committed txn is present and every
   aborted/in-flight txn leaves no trace**. No torn writes.
+- **REQUIRED — write your WAL through the provided crash-accurate file, not raw `os.File`.** The grader
+  simulates power-loss by truncating back to the last fsync; this only works if your WAL uses
+  `harness.OpenSync(dir, name)` → a `*harness.SyncFile` (`Append`, `Sync`, `ReadAll`, `Size`, `Truncate`,
+  `Close`). Call `wal.Sync()` to fsync on commit. And around commit, call the crash hooks so the grader can
+  inject a crash at each point: `wal.Reached("commit.beforeWrite")` → append your commit record →
+  `wal.Reached("commit.beforeFsync")` → `wal.Sync()` → `wal.Reached("commit.afterFsync")`. Frame WAL records
+  with a length + CRC so a torn (partially-fsynced) record is discarded on recovery. (A WAL on raw `os.File`
+  will not be crash-tested correctly and is a contract violation.)
 
 ### Isolation (the SSI half — the TWIST)
 - **Serializable Snapshot Isolation**, not plain SI. Concurrent txns run on snapshots; on commit the engine

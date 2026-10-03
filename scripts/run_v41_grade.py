@@ -1,201 +1,208 @@
 #!/usr/bin/env python3
-"""Grade a v4.1 P1 (Raft) submission.
+"""Grade a v4.1 submission (problem-parameterized: raft | storage | typedlang).
 
-SECURE grading: build a CLEAN workspace from the known-good harness+grader and drop in ONLY the
-model's raft/ + kvraft/ source, so a model cannot tamper with the harness/grader to pass. Then run
-the hidden gauntlet under -race and score per-test.
+SECURE grading: build a CLEAN workspace from the known-good harness+grader and drop in ONLY the model's
+authored package source, plus a generated wiring `_test.go` that adapts the model's concrete types to the
+grader's maker. Run the hidden gauntlet per-test under -race (one deadlock fails only that test). Score /100.
 
-Usage:
-  run_v41_grade.py --src <dir-with-raft-and-kvraft>   # e.g. results-v4.1/<slug>/project  OR a ref dir
-  run_v41_grade.py --slug <slug>                       # shorthand for results-v4.1/<slug>/project
+Usage: run_v41_grade.py --problem storage --slug <slug>   |   --problem raft --src <dir>
 """
 from __future__ import annotations
 import argparse, json, re, shutil, subprocess, sys, tempfile, time
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-RAFT = REPO / "benchmark-v4.1" / "raft"
-OUT = REPO / "results-v4.1"
 
-# Per-test weights (sum = 100). Foundation is cheap points; the apex (membership, learners, KV
-# linearizability) carries the weight — that is where frontier vs OSS separates.
-WEIGHTS = {
-    "TestInitialElection": 2, "TestReElection": 2, "TestPreVote": 4, "TestCheckQuorum": 4,
-    "TestBasicAgree": 2, "TestFailAgree": 2, "TestFailNoAgree": 3,
-    "TestConcurrentStarts": 3, "TestRejoin": 4, "TestBackup": 4,
-    "TestPersist1": 3, "TestPersist2": 3, "TestPersist3": 3,
-    "TestSnapshotBasic": 4, "TestSnapshotInstall": 5, "TestSnapshotCrash": 5,
-    "TestMembershipJoint": 10, "TestLearnerCatchup": 8, "TestLeadershipTransfer": 5,
-    "TestKVBasic": 3, "TestKVConcurrent": 4, "TestKVPartition": 5,
-    "TestKVSnapshotSize": 4, "TestKVLinearizable": 12,
-}
-# which sprint each test belongs to (for "depth cleared" reporting)
-SPRINT = {
-    1: ["TestInitialElection","TestReElection","TestPreVote"],
-    2: ["TestBasicAgree","TestFailAgree","TestFailNoAgree","TestConcurrentStarts","TestRejoin","TestBackup"],
-    3: ["TestPersist1","TestPersist2","TestPersist3"],
-    4: ["TestSnapshotBasic","TestSnapshotInstall","TestSnapshotCrash"],
-    5: ["TestMembershipJoint"],
-    6: ["TestLearnerCatchup","TestLeadershipTransfer","TestCheckQuorum"],
-    7: ["TestKVBasic","TestKVConcurrent","TestKVPartition","TestKVSnapshotSize"],
-    8: ["TestKVLinearizable"],
-}
-
+# --------------------------------------------------------------------------- RAFT wiring
 RAFT_WIRING = '''package grader
-import (
-  "testing"
-  "v41raft/harness"
-  "v41raft/harness/labrpc"
-  "v41raft/raft"
-)
+import ("testing";"v41raft/harness";"v41raft/harness/labrpc";"v41raft/raft")
 func mMake(peers []*labrpc.ClientEnd, me int, p *harness.Persister, ch chan harness.ApplyMsg, initial harness.Config) harness.RaftNode {
   return raft.Make(peers, me, p, ch, initial)
 }
-func TestInitialElection(t *testing.T)  { RunInitialElection(t, mMake) }
-func TestReElection(t *testing.T)       { RunReElection(t, mMake) }
-func TestPreVote(t *testing.T)          { RunPreVote(t, mMake) }
-func TestCheckQuorum(t *testing.T)      { RunCheckQuorum(t, mMake) }
-func TestBasicAgree(t *testing.T)       { RunBasicAgree(t, mMake) }
-func TestFailAgree(t *testing.T)        { RunFailAgree(t, mMake) }
-func TestFailNoAgree(t *testing.T)      { RunFailNoAgree(t, mMake) }
-func TestConcurrentStarts(t *testing.T) { RunConcurrentStarts(t, mMake) }
-func TestRejoin(t *testing.T)           { RunRejoin(t, mMake) }
-func TestBackup(t *testing.T)           { RunBackup(t, mMake) }
-func TestPersist1(t *testing.T)         { RunPersist1(t, mMake) }
-func TestPersist2(t *testing.T)         { RunPersist2(t, mMake) }
-func TestPersist3(t *testing.T)         { RunPersist3(t, mMake) }
-func TestSnapshotBasic(t *testing.T)      { RunSnapshotBasic(t, mMake) }
-func TestSnapshotInstall(t *testing.T)    { RunSnapshotInstall(t, mMake) }
-func TestSnapshotCrash(t *testing.T)      { RunSnapshotCrash(t, mMake) }
-func TestMembershipJoint(t *testing.T)    { RunMembershipJoint(t, mMake) }
-func TestLearnerCatchup(t *testing.T)     { RunLearnerCatchup(t, mMake) }
-func TestLeadershipTransfer(t *testing.T) { RunLeadershipTransfer(t, mMake) }
+func TestInitialElection(t *testing.T){RunInitialElection(t,mMake)}
+func TestReElection(t *testing.T){RunReElection(t,mMake)}
+func TestPreVote(t *testing.T){RunPreVote(t,mMake)}
+func TestCheckQuorum(t *testing.T){RunCheckQuorum(t,mMake)}
+func TestBasicAgree(t *testing.T){RunBasicAgree(t,mMake)}
+func TestFailAgree(t *testing.T){RunFailAgree(t,mMake)}
+func TestFailNoAgree(t *testing.T){RunFailNoAgree(t,mMake)}
+func TestConcurrentStarts(t *testing.T){RunConcurrentStarts(t,mMake)}
+func TestRejoin(t *testing.T){RunRejoin(t,mMake)}
+func TestBackup(t *testing.T){RunBackup(t,mMake)}
+func TestPersist1(t *testing.T){RunPersist1(t,mMake)}
+func TestPersist2(t *testing.T){RunPersist2(t,mMake)}
+func TestPersist3(t *testing.T){RunPersist3(t,mMake)}
+func TestSnapshotBasic(t *testing.T){RunSnapshotBasic(t,mMake)}
+func TestSnapshotInstall(t *testing.T){RunSnapshotInstall(t,mMake)}
+func TestSnapshotCrash(t *testing.T){RunSnapshotCrash(t,mMake)}
+func TestMembershipJoint(t *testing.T){RunMembershipJoint(t,mMake)}
+func TestLearnerCatchup(t *testing.T){RunLearnerCatchup(t,mMake)}
+func TestLeadershipTransfer(t *testing.T){RunLeadershipTransfer(t,mMake)}
 '''
-KV_WIRING = '''package grader
-import (
-  "testing"
-  "v41raft/harness"
-  "v41raft/harness/labrpc"
-  "v41raft/kvraft"
-)
-// DIRECT wiring: the concrete *kvraft.KVServer is passed as the handle (labrpc derives the RPC service
-// name from the concrete type — must NOT be wrapped). KVServerHandle only requires Kill(); the grader
-// fetches the raft peer via reflection (raftPeerOf), tolerating any Raft() return type.
+RAFT_KV_WIRING = '''package grader
+import ("testing";"v41raft/harness";"v41raft/harness/labrpc";"v41raft/kvraft")
 var mKV = KVImpl{
   MakeServer: func(servers []*labrpc.ClientEnd, me int, persister *harness.Persister, maxraftstate int, initial harness.Config) KVServerHandle {
-    return kvraft.StartKVServer(servers, me, persister, maxraftstate, initial)
-  },
+    return kvraft.StartKVServer(servers, me, persister, maxraftstate, initial) },
   MakeClerk: func(ends []*labrpc.ClientEnd) KVClerk { return kvraft.MakeClerk(ends) },
 }
-func TestKVBasic(t *testing.T)        { RunKVBasic(t, mKV) }
-func TestKVConcurrent(t *testing.T)   { RunKVConcurrent(t, mKV) }
-func TestKVPartition(t *testing.T)    { RunKVPartition(t, mKV) }
-func TestKVSnapshotSize(t *testing.T) { RunKVSnapshotSize(t, mKV) }
-func TestKVLinearizable(t *testing.T) { RunKVLinearizable(t, mKV) }
+func TestKVBasic(t *testing.T){RunKVBasic(t,mKV)}
+func TestKVConcurrent(t *testing.T){RunKVConcurrent(t,mKV)}
+func TestKVPartition(t *testing.T){RunKVPartition(t,mKV)}
+func TestKVSnapshotSize(t *testing.T){RunKVSnapshotSize(t,mKV)}
+func TestKVLinearizable(t *testing.T){RunKVLinearizable(t,mKV)}
+'''
+# --------------------------------------------------------------------------- STORAGE wiring
+STORAGE_WIRING = '''package grader
+import ("errors";"testing";"v41store/harness";"v41store/engine")
+type dbShim struct{ db *engine.DB }
+func (s dbShim) Begin() harness.TxnHandle { return txShim{s.db.Begin()} }
+func (s dbShim) Close() error { return s.db.Close() }
+type txShim struct{ tx *engine.Txn }
+func (t txShim) Get(k []byte) ([]byte, bool) { return t.tx.Get(k) }
+func (t txShim) Set(k, v []byte) { t.tx.Set(k, v) }
+func (t txShim) Delete(k []byte) { t.tx.Delete(k) }
+func (t txShim) Commit() error { return t.tx.Commit() }
+func (t txShim) Abort() { t.tx.Abort() }
+func (t txShim) Scan(lo, hi []byte, fn func(k, v []byte) bool) { t.tx.Scan(lo, hi, fn) }
+func mMaker() harness.Maker {
+  return harness.Maker{
+    Open: func(dir string) (harness.DBHandle, error) { db, err := engine.Open(dir); if err != nil { return nil, err }; return dbShim{db}, nil },
+    IsSerErr: func(e error) bool { return errors.Is(e, engine.ErrSerializationFailure) },
+  }
+}
+func TestBasicPutGet(t *testing.T){RunBasicPutGet(t,mMaker())}
+func TestScan(t *testing.T){RunScan(t,mMaker())}
+func TestCommitDurable(t *testing.T){RunCommitDurable(t,mMaker())}
+func TestAbortNoTrace(t *testing.T){RunAbortNoTrace(t,mMaker())}
+func TestCrashMidCommitAtomic(t *testing.T){RunCrashMidCommitAtomic(t,mMaker())}
+func TestRecoveryManyTxns(t *testing.T){RunRecoveryManyTxns(t,mMaker())}
+func TestSnapshotIsolation(t *testing.T){RunSnapshotIsolation(t,mMaker())}
+func TestLostUpdate(t *testing.T){RunLostUpdate(t,mMaker())}
+func TestWriteSkew(t *testing.T){RunWriteSkew(t,mMaker())}
+func TestReadOnlyAnomaly(t *testing.T){RunReadOnlyAnomaly(t,mMaker())}
+func TestG2Cycle(t *testing.T){RunG2Cycle(t,mMaker())}
+func TestSerializableFuzz(t *testing.T){RunSerializableFuzz(t,mMaker())}
 '''
 
+CONFIG = {
+  "raft": {
+    "dir": "benchmark-v4.1/raft", "out": "results-v4.1",
+    "grader_src": ["suite.go", "kvsuite.go", "extended.go"],
+    "pkgs": ["raft", "kvraft"],
+    "wiring": {"z_wire_raft_test.go": RAFT_WIRING, "z_wire_kv_test.go": RAFT_KV_WIRING},
+    "weights": {"TestInitialElection":2,"TestReElection":2,"TestPreVote":4,"TestCheckQuorum":4,"TestBasicAgree":2,
+      "TestFailAgree":2,"TestFailNoAgree":3,"TestConcurrentStarts":3,"TestRejoin":4,"TestBackup":4,"TestPersist1":3,
+      "TestPersist2":3,"TestPersist3":3,"TestSnapshotBasic":4,"TestSnapshotInstall":5,"TestSnapshotCrash":5,
+      "TestMembershipJoint":10,"TestLearnerCatchup":8,"TestLeadershipTransfer":5,"TestKVBasic":3,"TestKVConcurrent":4,
+      "TestKVPartition":5,"TestKVSnapshotSize":4,"TestKVLinearizable":12},
+    "sprints": {1:["TestInitialElection","TestReElection","TestPreVote"],
+      2:["TestBasicAgree","TestFailAgree","TestFailNoAgree","TestConcurrentStarts","TestRejoin","TestBackup"],
+      3:["TestPersist1","TestPersist2","TestPersist3"],4:["TestSnapshotBasic","TestSnapshotInstall","TestSnapshotCrash"],
+      5:["TestMembershipJoint"],6:["TestLearnerCatchup","TestLeadershipTransfer","TestCheckQuorum"],
+      7:["TestKVBasic","TestKVConcurrent","TestKVPartition","TestKVSnapshotSize"],8:["TestKVLinearizable"]},
+  },
+  "storage": {
+    "dir": "benchmark-v4.1/storage", "out": "results-v4.1/storage",
+    "grader_src": ["suite.go", "oracle.go"],
+    "pkgs": ["engine"],
+    "wiring": {"z_wire_test.go": STORAGE_WIRING},
+    "weights": {"TestBasicPutGet":3,"TestScan":3,"TestCommitDurable":6,"TestAbortNoTrace":5,"TestCrashMidCommitAtomic":12,
+      "TestRecoveryManyTxns":6,"TestSnapshotIsolation":6,"TestLostUpdate":7,"TestWriteSkew":12,"TestReadOnlyAnomaly":8,
+      "TestG2Cycle":10,"TestSerializableFuzz":22},
+    "sprints": {1:["TestBasicPutGet","TestScan"],2:["TestCommitDurable","TestAbortNoTrace","TestRecoveryManyTxns"],
+      3:["TestSnapshotIsolation","TestLostUpdate"],4:["TestWriteSkew","TestG2Cycle"],5:["TestReadOnlyAnomaly"],
+      6:["TestCrashMidCommitAtomic"],7:["TestSerializableFuzz"]},
+  },
+  # typedlang added when its grader lands
+}
 
-def build_workspace(src: Path, ws: Path) -> str | None:
-    """Assemble clean grading workspace. Returns error string, or None on success."""
+
+def build_workspace(cfg: dict, src: Path, ws: Path) -> str | None:
+    rdir = REPO / cfg["dir"]
     ws.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(RAFT / "go.mod", ws / "go.mod")
-    # known-good harness (incl porcupine) + parameterized grader logic (NO *_test.go, NO reference/)
-    shutil.copytree(RAFT / "harness", ws / "harness")
+    shutil.copy2(rdir / "go.mod", ws / "go.mod")
+    shutil.copytree(rdir / "harness", ws / "harness")
     (ws / "grader").mkdir()
-    for f in ("suite.go", "kvsuite.go", "extended.go"):
-        shutil.copy2(RAFT / "grader" / f, ws / "grader" / f)
-    # the MODEL's source only
-    for pkg in ("raft", "kvraft"):
-        srcpkg = src / pkg
-        if not srcpkg.is_dir():
+    for f in cfg["grader_src"]:
+        shutil.copy2(rdir / "grader" / f, ws / "grader" / f)
+    for pkg in cfg["pkgs"]:
+        sp = src / pkg
+        if not sp.is_dir():
             return f"missing package dir: {pkg}/ (model did not implement it)"
-        # copy only .go files (skip any *_test.go the model wrote, and any stray dirs)
         (ws / pkg).mkdir()
-        for gf in srcpkg.glob("*.go"):
+        for gf in sp.glob("*.go"):
             if gf.name.endswith("_test.go"):
                 continue
             shutil.copy2(gf, ws / pkg / gf.name)
-    # grading wiring
-    (ws / "grader" / "z_wire_raft_test.go").write_text(RAFT_WIRING)
-    (ws / "grader" / "z_wire_kv_test.go").write_text(KV_WIRING)
+    for fname, content in cfg["wiring"].items():
+        (ws / "grader" / fname).write_text(content)
     return None
 
 
-def grade(src: Path, slug: str) -> dict:
-    ws = Path(tempfile.mkdtemp(prefix=f"v41grade_{slug}_"))
-    result = {"slug": slug, "src": str(src), "tests": {}, "score": 0.0,
-              "max_sprint_cleared": 0, "compile_ok": False, "error": None}
+def grade(problem: str, src: Path, slug: str) -> dict:
+    cfg = CONFIG[problem]
+    ws = Path(tempfile.mkdtemp(prefix=f"v41g_{problem}_{slug}_"))
+    weights = cfg["weights"]; sprints = cfg["sprints"]
+    r = {"problem": problem, "slug": slug, "src": str(src), "tests": {}, "score": 0.0,
+         "max_sprint_cleared": 0, "compile_ok": False, "error": None}
     try:
-        err = build_workspace(src, ws)
+        err = build_workspace(cfg, src, ws)
         if err:
-            result["error"] = err
-            return result
-        # compile gate
-        b = subprocess.run(["go", "vet", "./..."], cwd=ws, capture_output=True, text=True, timeout=300)
+            r["error"] = err; return r
         bb = subprocess.run(["go", "build", "./..."], cwd=ws, capture_output=True, text=True, timeout=300)
         if bb.returncode != 0:
-            result["error"] = "compile failed (contract mismatch):\n" + (bb.stderr or b.stderr)[:1500]
-            return result
-        result["compile_ok"] = True
-        # Run EACH test separately with its own timeout, so a deadlock/hang in one hard test (expected
-        # from imperfect submissions) does not zero the rest. A hung test -> that test is "fail", others graded.
-        PER_TEST_TIMEOUT = 300   # seconds; reference avg ~5s, hardest (linearizability) < 60s
+            r["error"] = "compile failed (contract mismatch):\n" + bb.stderr[:1500]; return r
+        r["compile_ok"] = True
         t0 = time.time()
-        for name in WEIGHTS:
+        for name in weights:
             try:
-                p = subprocess.run(
-                    ["go", "test", "-race", "-count=1", "-run", f"^{name}$",
-                     "-timeout", f"{PER_TEST_TIMEOUT-20}s", "./grader/"],
-                    cwd=ws, capture_output=True, text=True, timeout=PER_TEST_TIMEOUT)
+                p = subprocess.run(["go", "test", "-race", "-count=1", "-run", f"^{name}$", "-timeout", "280s", "./grader/"],
+                                   cwd=ws, capture_output=True, text=True, timeout=300)
                 out = p.stdout + "\n" + p.stderr
                 if re.search(rf"^--- FAIL: {re.escape(name)} ", out, re.M) or p.returncode != 0:
-                    result["tests"][name] = "fail"
-                elif re.search(r"^ok\s", out, re.M) or re.search(rf"^--- PASS: {re.escape(name)} ", out, re.M):
-                    result["tests"][name] = "pass"
+                    r["tests"][name] = "fail"
+                elif re.search(r"^ok\s", out, re.M):
+                    r["tests"][name] = "pass"
                 else:
-                    result["tests"][name] = "fail"   # no ok / ambiguous -> not a clean pass
+                    r["tests"][name] = "fail"
             except subprocess.TimeoutExpired:
-                result["tests"][name] = "fail"       # hang/deadlock on this test
-        result["elapsed_s"] = round(time.time() - t0, 1)
-        # score (normalized to /100 regardless of weight sum)
-        earned = sum(WEIGHTS[n] for n, v in result["tests"].items() if v == "pass")
-        total = sum(WEIGHTS.values())
-        result["score"] = round(earned / total * 100, 1)
-        result["earned_raw"] = earned
-        # depth: highest sprint all of whose tests passed
-        for s in range(1, 9):
-            if all(result["tests"].get(t) == "pass" for t in SPRINT[s]):
-                result["max_sprint_cleared"] = s
+                r["tests"][name] = "fail"
+        r["elapsed_s"] = round(time.time() - t0, 1)
+        earned = sum(weights[n] for n, v in r["tests"].items() if v == "pass")
+        total = sum(weights.values())
+        r["score"] = round(earned / total * 100, 1); r["earned_raw"] = earned
+        for s in sorted(sprints):
+            if all(r["tests"].get(t) == "pass" for t in sprints[s]):
+                r["max_sprint_cleared"] = s
             else:
                 break
-        result["tests_summary"] = {k: v for k, v in result["tests"].items()}
     except subprocess.TimeoutExpired:
-        result["error"] = "TIMEOUT (likely deadlock/incoherent — OSS-DNF signature)"
+        r["error"] = "TIMEOUT (deadlock/incoherent)"
     finally:
         shutil.rmtree(ws, ignore_errors=True)
-    return result
+    return r
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--src", help="dir containing raft/ and kvraft/")
-    ap.add_argument("--slug", help="results-v4.1/<slug>/project shorthand")
+    ap.add_argument("--problem", default="raft", choices=list(CONFIG) + ["typedlang"])
+    ap.add_argument("--src"); ap.add_argument("--slug")
     a = ap.parse_args()
+    if a.problem not in CONFIG:
+        ap.error(f"problem {a.problem} not configured yet")
+    cfg = CONFIG[a.problem]
     if a.slug and not a.src:
-        a.src = str(OUT / a.slug / "project")
+        a.src = str(REPO / cfg["out"] / a.slug / "project")
     if not a.src:
         ap.error("need --src or --slug")
-    src = Path(a.src)
-    slug = a.slug or src.parent.name
-    r = grade(src, slug)
-    print(json.dumps({k: v for k, v in r.items() if k != "raw_tail"}, indent=2))
-    if r.get("error"):
-        print("\n--- error detail ---\n" + str(r["error"])[:1000])
-    print(f"\n==> {slug}: score {r['score']}/100, sprints cleared {r['max_sprint_cleared']}/8, "
-          f"compile={r['compile_ok']}")
-    # persist
-    if (OUT / slug).exists():
-        (OUT / slug / "grade.json").write_text(json.dumps(r, indent=2))
+    src = Path(a.src); slug = a.slug or src.parent.name
+    r = grade(a.problem, src, slug)
+    print(json.dumps(r, indent=2))
+    print(f"\n==> [{a.problem}] {slug}: score {r['score']}/100, cleared {r['max_sprint_cleared']}, compile={r['compile_ok']}")
+    outdir = REPO / cfg["out"] / slug
+    if outdir.exists():
+        (outdir / "grade.json").write_text(json.dumps(r, indent=2))
     return 0
 
 
