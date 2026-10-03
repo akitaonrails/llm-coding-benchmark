@@ -85,6 +85,29 @@ func TestG2Cycle(t *testing.T){RunG2Cycle(t,mMaker())}
 func TestSerializableFuzz(t *testing.T){RunSerializableFuzz(t,mMaker())}
 '''
 
+# --------------------------------------------------------------------------- TYPEDLANG wiring
+TYPEDLANG_WIRING = '''package grader
+import ("testing";"v41lang/harness";"v41lang/lang")
+type langHandle struct{}
+func (langHandle) TypeCheck(s string) error { return lang.TypeCheck(s) }
+func (langHandle) Run(s string) (string, error) { return lang.Run(s) }
+var mk harness.MakeLangFunc = func() harness.Lang { return langHandle{} }
+func TestBasicEval(t *testing.T){RunBasicEval(t,mk)}
+func TestClosures(t *testing.T){RunClosures(t,mk)}
+func TestRecursion(t *testing.T){RunRecursion(t,mk)}
+func TestRecords(t *testing.T){RunRecords(t,mk)}
+func TestRecordUpdate(t *testing.T){RunRecordUpdate(t,mk)}
+func TestLists(t *testing.T){RunLists(t,mk)}
+func TestLetPolymorphism(t *testing.T){RunLetPolymorphism(t,mk)}
+func TestOccursCheck(t *testing.T){RunOccursCheck(t,mk)}
+func TestValueRestriction(t *testing.T){RunValueRestriction(t,mk)}
+func TestRowPolymorphism(t *testing.T){RunRowPolymorphism(t,mk)}
+func TestTypeErrors(t *testing.T){RunTypeErrors(t,mk)}
+func TestGCNoLeak(t *testing.T){RunGCNoLeak(t,mk)}
+func TestGCCycles(t *testing.T){RunGCCycles(t,mk)}
+func TestGCStressMixed(t *testing.T){RunGCStressMixed(t,mk)}
+'''
+
 CONFIG = {
   "raft": {
     "dir": "benchmark-v4.1/raft", "out": "results-v4.1",
@@ -114,7 +137,19 @@ CONFIG = {
       3:["TestSnapshotIsolation","TestLostUpdate"],4:["TestWriteSkew","TestG2Cycle"],5:["TestReadOnlyAnomaly"],
       6:["TestCrashMidCommitAtomic"],7:["TestSerializableFuzz"]},
   },
-  # typedlang added when its grader lands
+  "typedlang": {
+    "dir": "benchmark-v4.1/typedlang", "out": "results-v4.1/typedlang",
+    "grader_src": ["conformance.go", "gc.go", "inference.go", "suite.go"],
+    "pkgs": ["lang"],
+    "wiring": {"z_wire_test.go": TYPEDLANG_WIRING},
+    "weights": {"TestBasicEval":4,"TestClosures":5,"TestRecursion":5,"TestRecords":5,"TestRecordUpdate":6,
+      "TestLists":5,"TestLetPolymorphism":7,"TestOccursCheck":6,"TestValueRestriction":7,"TestRowPolymorphism":14,
+      "TestTypeErrors":8,"TestGCNoLeak":12,"TestGCCycles":8,"TestGCStressMixed":8},
+    "sprints": {1:[],2:["TestLetPolymorphism","TestOccursCheck"],
+      3:["TestRowPolymorphism","TestValueRestriction","TestTypeErrors"],
+      4:["TestBasicEval","TestClosures","TestRecursion","TestRecords","TestRecordUpdate","TestLists"],
+      5:["TestGCNoLeak","TestGCCycles"],6:["TestGCStressMixed"],7:[]},
+  },
 }
 
 
