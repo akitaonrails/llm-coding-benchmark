@@ -1,0 +1,4 @@
+SPRINT 5 — Generational garbage collector.
+The VM allocates heap objects (closures, records, lists, strings). Implement a real GENERATIONAL mark-sweep GC
+(nursery + older generation + write barrier) that reclaims unreachable objects INCLUDING cycles, under
+sustained allocation, with BOUNDED heap growth. Programs must keep producing correct results. Commit at the end.

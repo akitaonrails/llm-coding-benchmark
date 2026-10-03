@@ -1,0 +1,4 @@
+SPRINT 3 — MVCC snapshot isolation + transactions.
+Implement Begin()/Txn with Get/Set/Delete/Scan/Commit/Abort. Reads observe a consistent SNAPSHOT taken at
+Begin (no dirty reads, no non-repeatable reads) even as other txns commit concurrently. Writes are buffered
+until Commit. Keep durability/recovery correct for committed txns. Commit at the end.

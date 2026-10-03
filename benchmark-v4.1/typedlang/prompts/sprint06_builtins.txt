@@ -1,0 +1,3 @@
+SPRINT 6 — Lists, builtins, recursion depth + optimization.
+Complete lists and the builtins in SPEC.md, ensure deep recursion and heavy allocation work under the GC, and
+tidy/optimize. Keep conformance (exact output) and inference correct. Commit at the end.

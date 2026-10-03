@@ -1,0 +1,4 @@
+SPRINT 2 — Hindley–Milner type inference core.
+Implement TypeCheck(source) with full HM: type variables, unification, the OCCURS CHECK (reject infinite
+types like \x -> x x), and LET-GENERALIZATION (let-polymorphism: `let id = \x -> x` usable at Int and Bool).
+Return a stable, greppable error for ill-typed programs; nil for well-typed. Commit at the end.

@@ -1,0 +1,5 @@
+SPRINT 3 — Row-polymorphic records + value restriction.
+Extend inference to ROW-POLYMORPHIC records: a function may require "a record with at least field a:Int" and
+accept {a=1,b=true} or {a=1,c=3} but reject {b=true} (principal types with row variables). Apply the VALUE
+RESTRICTION so only syntactic values are generalized (reject the classic unsound case). Keep HM core correct.
+Commit at the end.

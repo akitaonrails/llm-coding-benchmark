@@ -1,0 +1,4 @@
+SPRINT 4 — Bytecode compiler + VM (make it run).
+Compile the AST to bytecode and execute it on a stack/register VM so Run(source) produces the program's
+`print` output exactly per SPEC.md. Support closures/first-class functions, records, if, arithmetic, recursion.
+Keep TypeCheck correct (Run type-checks first). Commit at the end.
