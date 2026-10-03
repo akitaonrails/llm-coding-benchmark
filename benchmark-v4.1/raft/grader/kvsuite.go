@@ -3,6 +3,7 @@ package grader
 import (
 	"fmt"
 	"math/rand"
+	"reflect"
 	"sync"
 	"sync/atomic"
 	"testing"
@@ -18,10 +19,22 @@ import (
 // driven by the same tests)
 // ---------------------------------------------------------------------------
 
-// KVServerHandle is the slice of a KV server the cluster manager drives.
+// KVServerHandle is the slice of a KV server the cluster manager drives. It must be the CONCRETE KV
+// server type (labrpc derives the RPC service name from the concrete type, and the clerk addresses
+// "KVServer.Get" etc.) — so it must NOT be wrapped. The raft peer is fetched separately via raftPeerOf
+// (by reflection), which tolerates either Raft() interface{} or a concrete Raft() *T return.
 type KVServerHandle interface {
 	Kill()
-	Raft() interface{} // the concrete raft peer, for labrpc service registration
+}
+
+// raftPeerOf returns the server's underlying raft peer for labrpc service registration, calling the
+// server's Raft() method regardless of its declared return type (interface{} or concrete).
+func raftPeerOf(kv KVServerHandle) interface{} {
+	m := reflect.ValueOf(kv).MethodByName("Raft")
+	if !m.IsValid() {
+		panic("KV server has no Raft() method")
+	}
+	return m.Call(nil)[0].Interface()
 }
 
 // KVClerk is a KV client.
@@ -110,7 +123,7 @@ func (kc *kvCluster) startServer(i int) {
 
 	srv := labrpc.MakeServer()
 	srv.AddService(labrpc.MakeService(kv))
-	srv.AddService(labrpc.MakeService(kv.Raft()))
+	srv.AddService(labrpc.MakeService(raftPeerOf(kv)))
 	kc.net.AddServer(i, srv)
 }
 
