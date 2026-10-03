@@ -1,0 +1,6 @@
+SPRINT 7 — Hardening reveal: full differential serializability under -race.
+Your engine will be graded by a hidden objective gauntlet (see CONTRACT.md) run with the race detector: crash
+injection at many commit points, the SSI anomaly suite (write skew, lost update, read-only anomaly, G2 cycle),
+and a randomized concurrent workload whose committed history is checked for SERIALIZABILITY against a reference
+oracle. Audit everything: durability under crash-mid-commit, SSI cycle detection for point AND range reads,
+retry correctness, bounded storage. Make it correct and race-clean; do not weaken correctness to pass. Commit.

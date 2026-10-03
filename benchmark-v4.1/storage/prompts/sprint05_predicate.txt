@@ -1,0 +1,4 @@
+SPRINT 5 — Predicate/range SSI + read-only anomaly.
+Track read dependencies for RANGE scans (predicate reads), not just point reads, so phantom-based write skew
+across Scan is detected. Prevent the SSI read-only-transaction anomaly. Keep SSI correct for point and range.
+Commit at the end.

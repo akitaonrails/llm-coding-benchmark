@@ -1,0 +1,4 @@
+SPRINT 6 — Crash-during-commit atomicity + checkpoint/compaction.
+Make commit crash-atomic: a crash injected at ANY point during Commit leaves the txn either fully applied or
+not at all (no torn txn) after recovery. Add a checkpoint/compaction so the WAL and on-disk state stay bounded
+without losing durability or correctness. Commit at the end.

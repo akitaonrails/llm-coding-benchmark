@@ -1,0 +1,6 @@
+SPRINT 1 — Typed language (Go, module v41lang): lexer + parser.
+Read CONTRACT.md AND harness/SPEC.md — SPEC.md is the authoritative language definition (grammar, semantics,
+EXACT print/output formatting) that the hidden conformance grader checks against. Implement package `lang`:
+a lexer + parser producing an AST for the full language in SPEC.md (ints/bools/strings, let/let rec, lambdas,
+if, arithmetic/comparison, records {a=1,b=true} + access r.a + update {r | a=2}, lists, print). Write your own
+tests; keep `go build ./...` clean; commit. Do not read grader/ or reference/.
