@@ -1,0 +1,17 @@
+SPRINT 1 — Raft: leader election with PreVote.
+
+You are implementing a Raft consensus variant in Go (module v41raft). The provided scaffold in this
+workspace gives you the deterministic network sim and cluster manager: `harness/labrpc` (RPC),
+`harness/persister.go` (Persister), `harness/config.go` (types: ApplyMsg, Config, RaftNode interface).
+READ `CONTRACT.md` in this directory — it is the authoritative interface and describes exactly how you will be
+graded (an objective, hidden fault-injection + linearizability test gauntlet run under `-race`).
+
+This sprint: implement `raft/raft.go` with `Make`, `GetState`, `Kill`, and leader ELECTION:
+- randomized election timeouts; a single stable leader emerges and sends heartbeats.
+- **PreVote**: a candidate must win a pre-election round (NO term increment) before starting a real election,
+  so a node that was partitioned (and whose term inflated) cannot depose a healthy leader on rejoin.
+- persist currentTerm/votedFor so they survive restart (full log persistence comes next sprint; wire the
+  Persister now).
+Write your OWN Go tests as you go and keep them green. Do NOT create any files named `*_test.go` that import a
+`grader` package, and do NOT try to read a grader/ or reference/ directory — they are not part of your task.
+Build must pass `go vet ./... && go build ./...`. Commit your work with git at the end.

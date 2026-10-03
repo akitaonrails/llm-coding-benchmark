@@ -1,0 +1,6 @@
+SPRINT 5 — Raft: joint-consensus membership changes.
+
+Implement `ChangeMembership(newVoters, newLearners)` using JOINT CONSENSUS (C_old,new then C_new), NOT
+single-server add/remove. While in the joint config, agreement requires a majority of BOTH the old and new
+voter sets. This must be SAFE under partition: a reconfiguration that overlaps a network partition must not
+produce split-brain and must not lose any committed entry. Keep all prior behavior. Commit at the end.

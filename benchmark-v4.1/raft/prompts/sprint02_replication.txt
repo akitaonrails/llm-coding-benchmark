@@ -1,0 +1,10 @@
+SPRINT 2 — Raft: log replication and commit.
+
+Build on sprint 1. Implement `Start(command)` and AppendEntries-based log REPLICATION:
+- leader appends, replicates to followers, advances commitIndex on majority, applies to `applyCh` in order.
+- correct handling of term conflicts, the log-matching property, and the nextIndex/matchIndex bookkeeping.
+- include the conflict/backup optimization so a diverged follower is repaired quickly (not one-entry-per-RTT).
+- persist the full log; committed entries must survive crash/restart.
+Keep all prior behavior working (elections stay correct). Write your own tests (agreement with a majority;
+NO progress without a majority; recovery after a follower rejoins with a divergent log). `go build ./...`
+clean, commit at the end.

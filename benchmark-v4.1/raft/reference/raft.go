@@ -1,13 +1,21 @@
-// Package reference is a correct Raft implementation for the v4.1 foundation
-// sprint: leader election with PreVote, log replication with the conflict
-// backup optimization, CheckQuorum step-down, and persistence of
-// currentTerm/votedFor/log via the harness Persister.
+// Package reference is a correct Raft implementation for the v4.1 benchmark.
 //
-// Snapshot / membership-change / learner / leadership-transfer methods are
-// present as compiling stubs; they are the next sprint's work.
+// It implements, on top of the validated foundation (leader election with
+// PreVote, log replication with the conflict-backup optimization, CheckQuorum
+// step-down, and persistence of currentTerm/votedFor/log via the harness
+// Persister):
+//
+//   - Snapshot / log compaction with a lastIncludedIndex base offset and
+//     offset-aware log helpers;
+//   - the InstallSnapshot RPC (bringing laggards and learners current);
+//   - joint-consensus membership changes (C_old,new then C_new; quorum over
+//     BOTH configurations while joint; safe under partition);
+//   - learners (non-voting members that catch up via snapshot before being
+//     promoted and are excluded from quorum);
+//   - leadership transfer (TransferLeadership + the TimeoutNow RPC).
 //
 // It is the grader's "sound" reference: wired into the grader it must pass the
-// entire foundation gauntlet under -race, repeatably.
+// entire gauntlet under -race, repeatably.
 package reference
 
 import (
@@ -33,8 +41,8 @@ const (
 // Timing. The reference election timeout is a randomized fraction of the
 // harness RaftElectionTimeout so distinct peers rarely time out together.
 const (
-	tickInterval      = 20 * time.Millisecond
-	heartbeatInterval = 100 * time.Millisecond
+	tickInterval         = 20 * time.Millisecond
+	heartbeatInterval    = 100 * time.Millisecond
 	electionTimeoutMinMS = 400
 	electionTimeoutMaxMS = 800
 	// A leader that has not heard from a majority within this window steps
@@ -46,12 +54,26 @@ const (
 	leaderAliveWindow = electionTimeoutMinMS * time.Millisecond
 )
 
-// LogEntry is one replicated command. Index equals the entry's position in the
-// in-memory log slice (index 0 is a zero-term sentinel); no snapshot trimming
-// happens in the foundation sprint.
+// ConfigState is a cluster configuration recorded in the log by a membership
+// change. During a joint-consensus transition Joint is true and OldVoters holds
+// the outgoing voter set; agreement then requires a majority of BOTH Voters and
+// OldVoters. It is also delivered to the application as the Command of a
+// configuration log entry (so every server observes the transition at the same
+// log index) and is stored as the base configuration of a snapshot.
+type ConfigState struct {
+	Voters    []int
+	OldVoters []int
+	Learners  []int
+	Joint     bool
+}
+
+// LogEntry is one replicated command. If Config is non-nil the entry is a
+// membership-change entry (its Command is still delivered, carrying the
+// ConfigState, so the application's apply bookkeeping stays contiguous).
 type LogEntry struct {
 	Term    int
 	Command interface{}
+	Config  *ConfigState
 }
 
 // Raft is a single peer.
@@ -65,36 +87,52 @@ type Raft struct {
 	// persistent state
 	currentTerm int
 	votedFor    int // -1 == none
-	log         []LogEntry
+	// log uses slice-index == (raft-index - lastIncludedIndex). log[0] is a
+	// sentinel whose Term is lastIncludedTerm and whose raft-index is
+	// lastIncludedIndex. Entries strictly after the snapshot follow.
+	log               []LogEntry
+	lastIncludedIndex int
+	lastIncludedTerm  int
+	baseConfig        ConfigState // configuration as of lastIncludedIndex
+	snapshot          []byte      // the application snapshot bytes (mirrors persister)
 
 	// volatile state
 	state       raftState
 	commitIndex int
-	lastApplied int
+	lastApplied int // highest index delivered on applyCh
 
 	// leader volatile state
 	nextIndex   []int
 	matchIndex  []int
 	lastContact []time.Time // last time a reply was received from each peer
 
-	// membership (foundation: all voters)
-	voters   []int
-	isVoter  map[int]bool
+	// active membership (recomputed from baseConfig + log)
+	voters    []int
+	oldVoters []int // non-nil while joint
+	learners  []int
+	joint     bool
+	isVoter   map[int]bool
+	isLearner map[int]bool
+
+	// in-flight joint transition the leader must finalize (jointIndex is the
+	// log index of the C_old,new entry; -1 when none is pending).
+	jointIndex int
+
+	// leadership transfer target (-1 == none)
+	transferee int
 
 	// election timing
 	electionDeadline time.Time
 	lastHeartbeat    time.Time
-	// lastLeaderContact is the last time we heard from a valid leader. It is
-	// updated ONLY by a successful AppendEntries, never by our own election
-	// attempts, so a node that is itself campaigning will still grant a
-	// pre-vote to a peer. The PreVote grant gate uses this (not the election
-	// deadline) to decide whether a leader is still considered alive.
+	// lastLeaderContact is updated ONLY by a successful AppendEntries, so a
+	// node that is itself campaigning will still grant a pre-vote to a peer.
 	lastLeaderContact time.Time
 
-	applyCh   chan harness.ApplyMsg
-	applyCond *sync.Cond
-	killedCh  chan struct{}
-	killOnce  sync.Once
+	applyCh         chan harness.ApplyMsg
+	applyCond       *sync.Cond
+	snapshotToApply *harness.ApplyMsg // a snapshot waiting to be delivered in order
+	killedCh        chan struct{}
+	killOnce        sync.Once
 
 	rng *rand.Rand
 }
@@ -108,6 +146,7 @@ func Make(peers []*labrpc.ClientEnd, me int, persister *harness.Persister,
 	applyCh chan harness.ApplyMsg, initial harness.Config) *Raft {
 
 	labgob.Register(0)
+	labgob.Register(ConfigState{})
 
 	makeCounterMu.Lock()
 	makeCounter++
@@ -126,24 +165,31 @@ func Make(peers []*labrpc.ClientEnd, me int, persister *harness.Persister,
 		killedCh:    make(chan struct{}),
 		rng:         rand.New(rand.NewSource(seed)),
 		isVoter:     map[int]bool{},
+		isLearner:   map[int]bool{},
+		jointIndex:  -1,
+		transferee:  -1,
 	}
 	rf.applyCond = sync.NewCond(&rf.mu)
 
-	rf.voters = append(rf.voters, initial.Voters...)
-	if len(rf.voters) == 0 {
+	// Seed the base configuration from the initial membership. If no voters are
+	// specified every peer is a voter (foundation behaviour).
+	bv := append([]int(nil), initial.Voters...)
+	if len(bv) == 0 {
 		for i := range peers {
-			rf.voters = append(rf.voters, i)
+			bv = append(bv, i)
 		}
 	}
-	for _, v := range rf.voters {
-		rf.isVoter[v] = true
-	}
+	rf.baseConfig = ConfigState{Voters: bv, Learners: append([]int(nil), initial.Learners...)}
 
 	rf.nextIndex = make([]int, len(peers))
 	rf.matchIndex = make([]int, len(peers))
 	rf.lastContact = make([]time.Time, len(peers))
 
 	rf.readPersist(persister.ReadRaftState())
+	rf.snapshot = persister.ReadSnapshot()
+	rf.commitIndex = rf.lastIncludedIndex
+	rf.lastApplied = rf.lastIncludedIndex
+	rf.recomputeConfigLocked()
 	rf.resetElectionTimer()
 
 	go rf.ticker()
@@ -156,13 +202,22 @@ func Make(peers []*labrpc.ClientEnd, me int, persister *harness.Persister,
 // persistence
 // ---------------------------------------------------------------------------
 
-func (rf *Raft) persist() {
+func (rf *Raft) encodeStateLocked() []byte {
 	buf := new(bytes.Buffer)
 	enc := labgob.NewEncoder(buf)
 	_ = enc.Encode(rf.currentTerm)
 	_ = enc.Encode(rf.votedFor)
+	_ = enc.Encode(rf.lastIncludedIndex)
+	_ = enc.Encode(rf.lastIncludedTerm)
 	_ = enc.Encode(rf.log)
-	rf.persister.SaveRaftState(buf.Bytes())
+	_ = enc.Encode(rf.baseConfig)
+	return buf.Bytes()
+}
+
+// persist writes raft state and the current snapshot atomically. Normal state
+// changes re-save the existing snapshot bytes unchanged.
+func (rf *Raft) persist() {
+	rf.persister.SaveStateAndSnapshot(rf.encodeStateLocked(), rf.snapshot)
 }
 
 func (rf *Raft) readPersist(data []byte) {
@@ -170,14 +225,133 @@ func (rf *Raft) readPersist(data []byte) {
 		return
 	}
 	dec := labgob.NewDecoder(bytes.NewBuffer(data))
-	var currentTerm, votedFor int
+	var currentTerm, votedFor, lii, lit int
 	var log []LogEntry
-	if dec.Decode(&currentTerm) != nil || dec.Decode(&votedFor) != nil || dec.Decode(&log) != nil {
+	var base ConfigState
+	if dec.Decode(&currentTerm) != nil || dec.Decode(&votedFor) != nil ||
+		dec.Decode(&lii) != nil || dec.Decode(&lit) != nil ||
+		dec.Decode(&log) != nil || dec.Decode(&base) != nil {
 		return
 	}
 	rf.currentTerm = currentTerm
 	rf.votedFor = votedFor
+	rf.lastIncludedIndex = lii
+	rf.lastIncludedTerm = lit
 	rf.log = log
+	rf.baseConfig = base
+}
+
+// ---------------------------------------------------------------------------
+// offset-aware log helpers (caller holds rf.mu)
+// ---------------------------------------------------------------------------
+
+func (rf *Raft) lastLogIndex() int { return rf.lastIncludedIndex + len(rf.log) - 1 }
+func (rf *Raft) lastLogTerm() int  { return rf.log[len(rf.log)-1].Term }
+
+// termAt returns the term of the entry at raft-index i (which must be >=
+// lastIncludedIndex and <= lastLogIndex), or -1 if out of range.
+func (rf *Raft) termAt(i int) int {
+	pos := i - rf.lastIncludedIndex
+	if pos < 0 || pos >= len(rf.log) {
+		return -1
+	}
+	return rf.log[pos].Term
+}
+
+// entriesFrom returns a fresh copy of the entries at raft-index i onward. i must
+// be > lastIncludedIndex.
+func (rf *Raft) entriesFrom(i int) []LogEntry {
+	pos := i - rf.lastIncludedIndex
+	out := make([]LogEntry, len(rf.log)-pos)
+	copy(out, rf.log[pos:])
+	return out
+}
+
+// ---------------------------------------------------------------------------
+// membership
+// ---------------------------------------------------------------------------
+
+// recomputeConfigLocked derives the active configuration from the base config
+// (as of the snapshot) plus the last configuration entry in the log.
+func (rf *Raft) recomputeConfigLocked() {
+	cfg := rf.baseConfig
+	for i := 1; i < len(rf.log); i++ {
+		if rf.log[i].Config != nil {
+			cfg = *rf.log[i].Config
+		}
+	}
+	rf.applyConfigLocked(cfg)
+}
+
+func (rf *Raft) applyConfigLocked(cfg ConfigState) {
+	rf.voters = append([]int(nil), cfg.Voters...)
+	rf.oldVoters = append([]int(nil), cfg.OldVoters...)
+	rf.learners = append([]int(nil), cfg.Learners...)
+	rf.joint = cfg.Joint
+	rf.isVoter = map[int]bool{}
+	for _, v := range rf.voters {
+		rf.isVoter[v] = true
+	}
+	if rf.joint {
+		for _, v := range rf.oldVoters {
+			rf.isVoter[v] = true // old voters still vote/count while joint
+		}
+	}
+	rf.isLearner = map[int]bool{}
+	for _, l := range rf.learners {
+		rf.isLearner[l] = true
+	}
+}
+
+// configAsOfLocked returns the active configuration as of raft-index idx.
+func (rf *Raft) configAsOfLocked(idx int) ConfigState {
+	cfg := rf.baseConfig
+	for i := 1; i < len(rf.log); i++ {
+		if rf.lastIncludedIndex+i > idx {
+			break
+		}
+		if rf.log[i].Config != nil {
+			cfg = *rf.log[i].Config
+		}
+	}
+	return cfg
+}
+
+// replicationTargetsLocked is every peer the leader must replicate to: the
+// union of the (new and old) voter sets and the learner set, excluding self.
+func (rf *Raft) replicationTargetsLocked() []int {
+	seen := map[int]bool{rf.me: true}
+	out := []int{}
+	add := func(s []int) {
+		for _, p := range s {
+			if !seen[p] {
+				seen[p] = true
+				out = append(out, p)
+			}
+		}
+	}
+	add(rf.voters)
+	add(rf.oldVoters)
+	add(rf.learners)
+	return out
+}
+
+// isAgreedLocked reports whether pred holds for a majority of the current voter
+// set — and, while joint, also for a majority of the old voter set.
+func (rf *Raft) isAgreedLocked(pred func(int) bool) bool {
+	major := func(set []int) bool {
+		c := 0
+		for _, p := range set {
+			if pred(p) {
+				c++
+			}
+		}
+		return c >= len(set)/2+1
+	}
+	if !rf.joint {
+		return major(rf.voters)
+	}
+	return major(rf.voters) && major(rf.oldVoters)
 }
 
 // ---------------------------------------------------------------------------
@@ -192,7 +366,6 @@ func (rf *Raft) GetState() (int, bool) {
 }
 
 // Start proposes a command. If this peer is not the leader it returns false.
-// Otherwise it appends the command and returns the index it will occupy.
 func (rf *Raft) Start(command interface{}) (int, int, bool) {
 	rf.mu.Lock()
 	if rf.state != leader || rf.killed() {
@@ -200,16 +373,50 @@ func (rf *Raft) Start(command interface{}) (int, int, bool) {
 		rf.mu.Unlock()
 		return -1, term, false
 	}
-	index := len(rf.log)
-	rf.log = append(rf.log, LogEntry{Term: rf.currentTerm, Command: command})
-	rf.matchIndex[rf.me] = index
-	rf.nextIndex[rf.me] = index + 1
-	rf.persist()
+	index := rf.appendEntryLocked(LogEntry{Term: rf.currentTerm, Command: command})
 	term := rf.currentTerm
 	rf.mu.Unlock()
 
 	rf.broadcastAppendEntries()
 	return index, term, true
+}
+
+// appendEntryLocked appends one entry, updates leader bookkeeping, recomputes
+// membership if it is a config entry, and persists. Returns the new index.
+func (rf *Raft) appendEntryLocked(e LogEntry) int {
+	rf.log = append(rf.log, e)
+	index := rf.lastLogIndex()
+	rf.matchIndex[rf.me] = index
+	rf.nextIndex[rf.me] = index + 1
+	if e.Config != nil {
+		rf.recomputeConfigLocked()
+	}
+	rf.persist()
+	return index
+}
+
+// Snapshot trims the log up to (and including) index, keeping index as the new
+// base. snapshot is the application state as of index.
+func (rf *Raft) Snapshot(index int, snapshot []byte) {
+	rf.mu.Lock()
+	defer rf.mu.Unlock()
+	if index <= rf.lastIncludedIndex || index > rf.lastLogIndex() {
+		return
+	}
+	newBaseTerm := rf.termAt(index)
+	newBase := rf.configAsOfLocked(index)
+
+	suffix := rf.entriesFrom(index + 1) // entries strictly after index
+	newLog := make([]LogEntry, 1, 1+len(suffix))
+	newLog[0] = LogEntry{Term: newBaseTerm}
+	newLog = append(newLog, suffix...)
+
+	rf.log = newLog
+	rf.lastIncludedIndex = index
+	rf.lastIncludedTerm = newBaseTerm
+	rf.baseConfig = newBase
+	rf.snapshot = snapshot
+	rf.persist()
 }
 
 // Kill permanently stops the peer's goroutines.
@@ -238,14 +445,10 @@ func (rf *Raft) resetElectionTimer() {
 	rf.electionDeadline = time.Now().Add(rf.randomTimeout())
 }
 
-func (rf *Raft) quorum() int {
-	return len(rf.voters)/2 + 1
-}
-
 // becomeFollower converts to follower, adopting term if it is higher.
-// Caller holds rf.mu.
 func (rf *Raft) becomeFollower(term int) {
 	rf.state = follower
+	rf.transferee = -1
 	if term > rf.currentTerm {
 		rf.currentTerm = term
 		rf.votedFor = -1
@@ -254,11 +457,7 @@ func (rf *Raft) becomeFollower(term int) {
 	rf.resetElectionTimer()
 }
 
-func (rf *Raft) lastLogIndex() int { return len(rf.log) - 1 }
-func (rf *Raft) lastLogTerm() int  { return rf.log[len(rf.log)-1].Term }
-
-// upToDate reports whether a candidate's log (described by lastIndex/lastTerm)
-// is at least as up-to-date as ours. Caller holds rf.mu.
+// upToDate reports whether a candidate's log is at least as up-to-date as ours.
 func (rf *Raft) upToDate(lastIndex, lastTerm int) bool {
 	myTerm := rf.lastLogTerm()
 	myIndex := rf.lastLogIndex()
@@ -272,14 +471,13 @@ func (rf *Raft) upToDate(lastIndex, lastTerm int) bool {
 // RequestVote (two-phase: PreVote then real vote)
 // ---------------------------------------------------------------------------
 
-// RequestVoteArgs carries a PreVote flag. A PreVote request never mutates the
-// voter's term or votedFor; it is a pure "would you vote for me?" probe.
 type RequestVoteArgs struct {
 	Term         int
 	CandidateId  int
 	LastLogIndex int
 	LastLogTerm  int
 	PreVote      bool
+	Force        bool // leadership transfer: bypass the leader-alive pre-vote gate
 }
 
 type RequestVoteReply struct {
@@ -300,26 +498,31 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 	}
 
 	if args.PreVote {
-		// Grant a pre-vote only if the candidate's prospective term is not
-		// behind us, its log is up-to-date, AND we have not heard from a
-		// leader within an election timeout. The last clause is what makes
-		// PreVote actually prevent disruption: a follower currently hearing
-		// heartbeats will refuse, so a partitioned-then-rejoined node cannot
-		// start a real election against a healthy leader.
+		// A live leader never grants a pre-vote: it knows it is still serving,
+		// so it must quench a disruptive campaign rather than help depose
+		// itself. (A leader does not receive AppendEntries, so its own
+		// lastLeaderContact is always stale; without this guard a rejoining
+		// node could win a pre-vote on the leader's own grant.)
+		if rf.state == leader {
+			return
+		}
+		// Otherwise grant a pre-vote only if the prospective term is not behind
+		// us, the candidate's log is up-to-date, AND (unless this is a forced
+		// transfer probe) we have not heard from a leader within an election
+		// timeout.
 		if args.Term >= rf.currentTerm &&
 			rf.upToDate(args.LastLogIndex, args.LastLogTerm) &&
-			time.Since(rf.lastLeaderContact) >= leaderAliveWindow {
+			(args.Force || time.Since(rf.lastLeaderContact) >= leaderAliveWindow) {
 			reply.VoteGranted = true
 		}
-		// NB: reply.Term stays as our currentTerm; nothing is persisted.
 		return
 	}
 
-	// Real vote: a higher term forces us to step down first.
 	if args.Term > rf.currentTerm {
 		rf.currentTerm = args.Term
 		rf.votedFor = -1
 		rf.state = follower
+		rf.transferee = -1
 		rf.persist()
 		reply.Term = rf.currentTerm
 	}
@@ -349,53 +552,56 @@ func (rf *Raft) ticker() {
 		switch rf.state {
 		case leader:
 			rf.lastContact[rf.me] = time.Now()
+			// A leader removed from the configuration steps down.
+			if !rf.isVoter[rf.me] {
+				rf.becomeFollower(rf.currentTerm)
+				rf.mu.Unlock()
+				continue
+			}
 			doHeartbeat := time.Since(rf.lastHeartbeat) >= heartbeatInterval
 			if doHeartbeat {
 				rf.lastHeartbeat = time.Now()
 			}
-			lostQuorum := !rf.hasQuorumContactLocked()
-			if lostQuorum {
+			if !rf.hasQuorumContactLocked() {
 				// CheckQuorum: a leader that cannot reach a majority relinquishes
 				// leadership so a minority partition cannot keep a stale leader.
 				rf.becomeFollower(rf.currentTerm)
 				rf.mu.Unlock()
 				continue
 			}
+			rf.maybeFinalizeJointLocked()
 			rf.mu.Unlock()
 			if doHeartbeat {
 				rf.broadcastAppendEntries()
 			}
 		default:
 			timedOut := time.Now().After(rf.electionDeadline)
+			canVote := rf.isVoter[rf.me]
 			rf.mu.Unlock()
-			if timedOut {
-				rf.startElection()
+			if timedOut && canVote {
+				rf.startElection(false)
 			}
 		}
 	}
 }
 
 // hasQuorumContactLocked reports whether the leader has heard from a majority
-// of voters (itself included) within quorumCheckTimeout. Caller holds rf.mu.
+// of voters (itself included) within quorumCheckTimeout.
 func (rf *Raft) hasQuorumContactLocked() bool {
 	now := time.Now()
-	count := 0
-	for _, v := range rf.voters {
-		if v == rf.me {
-			count++
-			continue
+	return rf.isAgreedLocked(func(p int) bool {
+		if p == rf.me {
+			return true
 		}
-		if !rf.lastContact[v].IsZero() && now.Sub(rf.lastContact[v]) < quorumCheckTimeout {
-			count++
-		}
-	}
-	return count >= rf.quorum()
+		return !rf.lastContact[p].IsZero() && now.Sub(rf.lastContact[p]) < quorumCheckTimeout
+	})
 }
 
-// startElection runs a PreVote round and, if it wins, a real election.
-func (rf *Raft) startElection() {
+// startElection runs a PreVote round (unless forced) and, if it wins, a real
+// election.
+func (rf *Raft) startElection(forced bool) {
 	rf.mu.Lock()
-	if rf.state == leader || rf.killed() {
+	if rf.state == leader || rf.killed() || !rf.isVoter[rf.me] {
 		rf.mu.Unlock()
 		return
 	}
@@ -406,19 +612,27 @@ func (rf *Raft) startElection() {
 	lastTerm := rf.lastLogTerm()
 	rf.mu.Unlock()
 
-	// --- PreVote phase: no term bump, no persisted state change ---
-	won, higher := rf.collectVotes(true, prospectiveTerm, lastIndex, lastTerm)
+	if !forced {
+		won, higher := rf.collectVotes(true, false, prospectiveTerm, lastIndex, lastTerm)
+		rf.mu.Lock()
+		if higher > rf.currentTerm {
+			rf.becomeFollower(higher)
+			rf.mu.Unlock()
+			return
+		}
+		if !won || rf.state == leader || rf.currentTerm != startTerm || rf.killed() {
+			rf.mu.Unlock()
+			return
+		}
+		rf.mu.Unlock()
+	}
+
+	// --- real election ---
 	rf.mu.Lock()
-	if higher > rf.currentTerm {
-		rf.becomeFollower(higher)
+	if rf.state == leader || rf.killed() || rf.currentTerm != startTerm {
 		rf.mu.Unlock()
 		return
 	}
-	if !won || rf.state == leader || rf.currentTerm != startTerm || rf.killed() {
-		rf.mu.Unlock()
-		return
-	}
-	// --- real election: now bump the term and vote for ourselves ---
 	rf.currentTerm++
 	rf.state = candidate
 	rf.votedFor = rf.me
@@ -429,7 +643,7 @@ func (rf *Raft) startElection() {
 	lastTerm = rf.lastLogTerm()
 	rf.mu.Unlock()
 
-	won, higher = rf.collectVotes(false, term, lastIndex, lastTerm)
+	won, higher := rf.collectVotes(false, forced, term, lastIndex, lastTerm)
 	rf.mu.Lock()
 	defer rf.mu.Unlock()
 	if higher > rf.currentTerm {
@@ -441,19 +655,26 @@ func (rf *Raft) startElection() {
 	}
 }
 
-// collectVotes sends RequestVote to every other voter and tallies grants. It
-// returns whether a majority (self included) granted, and the highest term
-// seen in any reply.
-func (rf *Raft) collectVotes(preVote bool, term, lastIndex, lastTerm int) (bool, int) {
+// collectVotes sends RequestVote to every other voter and reports whether a
+// (joint-aware) majority granted, plus the highest term seen in any reply.
+func (rf *Raft) collectVotes(preVote, force bool, term, lastIndex, lastTerm int) (bool, int) {
+	rf.mu.Lock()
+	peers := []int{}
+	seen := map[int]bool{rf.me: true}
+	for _, set := range [][]int{rf.voters, rf.oldVoters} {
+		for _, v := range set {
+			if !seen[v] {
+				seen[v] = true
+				peers = append(peers, v)
+			}
+		}
+	}
+	rf.mu.Unlock()
+
 	type res struct {
+		peer  int
 		ok    bool
 		reply RequestVoteReply
-	}
-	peers := make([]int, 0, len(rf.voters))
-	for _, v := range rf.voters {
-		if v != rf.me {
-			peers = append(peers, v)
-		}
 	}
 	ch := make(chan res, len(peers))
 	for _, p := range peers {
@@ -464,14 +685,15 @@ func (rf *Raft) collectVotes(preVote bool, term, lastIndex, lastTerm int) (bool,
 				LastLogIndex: lastIndex,
 				LastLogTerm:  lastTerm,
 				PreVote:      preVote,
+				Force:        force,
 			}
 			var reply RequestVoteReply
 			ok := rf.sendRequestVote(p, args, &reply)
-			ch <- res{ok, reply}
+			ch <- res{p, ok, reply}
 		}(p)
 	}
 
-	votes := 1 // self
+	granted := map[int]bool{rf.me: true}
 	higher := 0
 	for range peers {
 		r := <-ch
@@ -479,18 +701,22 @@ func (rf *Raft) collectVotes(preVote bool, term, lastIndex, lastTerm int) (bool,
 			continue
 		}
 		if r.reply.VoteGranted {
-			votes++
+			granted[r.peer] = true
 		} else if r.reply.Term > higher {
 			higher = r.reply.Term
 		}
 	}
-	return votes >= rf.quorum(), higher
+
+	rf.mu.Lock()
+	won := rf.isAgreedLocked(func(p int) bool { return granted[p] })
+	rf.mu.Unlock()
+	return won, higher
 }
 
 // becomeLeaderLocked initializes leader state and fires an immediate heartbeat.
-// Caller holds rf.mu.
 func (rf *Raft) becomeLeaderLocked() {
 	rf.state = leader
+	rf.transferee = -1
 	last := rf.lastLogIndex()
 	now := time.Now()
 	for i := range rf.peers {
@@ -500,7 +726,129 @@ func (rf *Raft) becomeLeaderLocked() {
 	}
 	rf.matchIndex[rf.me] = last
 	rf.lastHeartbeat = now
+	// If we inherited an unfinished joint transition, remember to finalize it.
+	rf.jointIndex = -1
+	if rf.joint {
+		for i := len(rf.log) - 1; i >= 1; i-- {
+			if rf.log[i].Config != nil {
+				if rf.log[i].Config.Joint {
+					rf.jointIndex = rf.lastIncludedIndex + i
+				}
+				break
+			}
+		}
+	}
 	go rf.broadcastAppendEntries()
+}
+
+// ---------------------------------------------------------------------------
+// membership change (joint consensus) + leadership transfer
+// ---------------------------------------------------------------------------
+
+// ChangeMembership begins a joint-consensus transition to the given voter and
+// learner sets. It appends a C_old,new entry immediately; once that commits the
+// leader appends the final C_new entry. Returns the joint entry's index.
+func (rf *Raft) ChangeMembership(newVoters []int, newLearners []int) (int, bool) {
+	rf.mu.Lock()
+	defer rf.mu.Unlock()
+	if rf.state != leader || rf.killed() {
+		return -1, false
+	}
+	if rf.joint || rf.jointIndex >= 0 {
+		return -1, false // a transition is already in progress
+	}
+	joint := &ConfigState{
+		Voters:    append([]int(nil), newVoters...),
+		OldVoters: append([]int(nil), rf.voters...),
+		Learners:  append([]int(nil), newLearners...),
+		Joint:     true,
+	}
+	index := rf.appendEntryLocked(LogEntry{Term: rf.currentTerm, Command: *joint, Config: joint})
+	rf.jointIndex = index
+	go rf.broadcastAppendEntries()
+	return index, true
+}
+
+// maybeFinalizeJointLocked appends the final C_new entry once the joint entry
+// has committed.
+func (rf *Raft) maybeFinalizeJointLocked() {
+	if rf.state != leader || rf.jointIndex < 0 || rf.commitIndex < rf.jointIndex {
+		return
+	}
+	// read the joint entry's target configuration
+	if rf.jointIndex <= rf.lastIncludedIndex || rf.jointIndex > rf.lastLogIndex() {
+		rf.jointIndex = -1
+		return
+	}
+	jc := rf.log[rf.jointIndex-rf.lastIncludedIndex].Config
+	if jc == nil {
+		rf.jointIndex = -1
+		return
+	}
+	final := &ConfigState{
+		Voters:   append([]int(nil), jc.Voters...),
+		Learners: append([]int(nil), jc.Learners...),
+		Joint:    false,
+	}
+	rf.appendEntryLocked(LogEntry{Term: rf.currentTerm, Command: *final, Config: final})
+	rf.jointIndex = -1
+	go rf.broadcastAppendEntries()
+}
+
+type TimeoutNowArgs struct {
+	Term     int
+	LeaderId int
+}
+type TimeoutNowReply struct {
+	Term int
+}
+
+// TransferLeadership makes target the leader: it catches target up and then
+// sends it a TimeoutNow so it immediately starts a (forced) election.
+func (rf *Raft) TransferLeadership(target int) bool {
+	rf.mu.Lock()
+	if rf.state != leader || rf.killed() || target == rf.me || !rf.isVoter[target] {
+		rf.mu.Unlock()
+		return false
+	}
+	rf.transferee = target
+	rf.mu.Unlock()
+
+	deadline := time.Now().Add(3 * harness.RaftElectionTimeout)
+	for time.Now().Before(deadline) {
+		rf.mu.Lock()
+		if rf.state != leader || rf.killed() {
+			rf.mu.Unlock()
+			return false
+		}
+		caught := rf.matchIndex[target] >= rf.lastLogIndex()
+		term := rf.currentTerm
+		rf.mu.Unlock()
+		if caught {
+			args := &TimeoutNowArgs{Term: term, LeaderId: rf.me}
+			var reply TimeoutNowReply
+			if rf.peers[target].Call("Raft.TimeoutNow", args, &reply) {
+				return true
+			}
+			return false
+		}
+		go rf.sendAppendEntriesTo(target)
+		time.Sleep(20 * time.Millisecond)
+	}
+	return false
+}
+
+// TimeoutNow forces the recipient to start an immediate election (bypassing the
+// PreVote leader-alive gate), used for leadership transfer.
+func (rf *Raft) TimeoutNow(args *TimeoutNowArgs, reply *TimeoutNowReply) {
+	rf.mu.Lock()
+	reply.Term = rf.currentTerm
+	if args.Term < rf.currentTerm || rf.killed() || !rf.isVoter[rf.me] || rf.state == leader {
+		rf.mu.Unlock()
+		return
+	}
+	rf.mu.Unlock()
+	go rf.startElection(true)
 }
 
 // ---------------------------------------------------------------------------
@@ -517,11 +865,10 @@ type AppendEntriesArgs struct {
 }
 
 type AppendEntriesReply struct {
-	Term    int
-	Success bool
-	// Backup (fast conflict) optimization fields.
-	ConflictTerm  int // term of the conflicting entry, or -1 if the log is too short
-	ConflictIndex int // first index of ConflictTerm, or the follower's log length
+	Term          int
+	Success       bool
+	ConflictTerm  int
+	ConflictIndex int
 }
 
 // AppendEntries is the RPC handler.
@@ -538,57 +885,77 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 		return
 	}
 
-	// Valid leader for a term >= ours: adopt its term and reset our timer.
 	if args.Term > rf.currentTerm {
 		rf.currentTerm = args.Term
 		rf.votedFor = -1
 	}
 	rf.state = follower
+	rf.transferee = -1
 	rf.resetElectionTimer()
 	rf.lastLeaderContact = time.Now()
 	reply.Term = rf.currentTerm
 
-	// Consistency check at PrevLogIndex.
+	// If the leader's prev is behind our snapshot, skip the covered entries.
+	if args.PrevLogIndex < rf.lastIncludedIndex {
+		skip := rf.lastIncludedIndex - args.PrevLogIndex
+		if skip <= len(args.Entries) {
+			args.Entries = args.Entries[skip:]
+			args.PrevLogIndex = rf.lastIncludedIndex
+			args.PrevLogTerm = rf.lastIncludedTerm
+		} else {
+			// everything the leader sent is already in our snapshot
+			reply.Success = true
+			rf.maybeAdvanceCommitFromLeader(args.LeaderCommit)
+			return
+		}
+	}
+
 	if args.PrevLogIndex > rf.lastLogIndex() {
-		reply.ConflictIndex = len(rf.log) // we are too short; skip ahead to our end
+		reply.ConflictIndex = rf.lastLogIndex() + 1
 		reply.ConflictTerm = -1
-		rf.persist()
 		return
 	}
-	if args.PrevLogIndex >= 0 && rf.log[args.PrevLogIndex].Term != args.PrevLogTerm {
-		reply.ConflictTerm = rf.log[args.PrevLogIndex].Term
-		// first index with that term
+	if rf.termAt(args.PrevLogIndex) != args.PrevLogTerm {
+		ct := rf.termAt(args.PrevLogIndex)
+		reply.ConflictTerm = ct
 		i := args.PrevLogIndex
-		for i > 0 && rf.log[i-1].Term == reply.ConflictTerm {
+		for i > rf.lastIncludedIndex+1 && rf.termAt(i-1) == ct {
 			i--
 		}
 		reply.ConflictIndex = i
-		rf.persist()
 		return
 	}
 
-	// Splice in the new entries, truncating only on an actual conflict.
+	// Splice in new entries, truncating only on an actual term conflict.
+	changed := false
 	for i, e := range args.Entries {
 		idx := args.PrevLogIndex + 1 + i
-		if idx < len(rf.log) {
-			if rf.log[idx].Term != e.Term {
-				rf.log = rf.log[:idx]
-				rf.log = append(rf.log, args.Entries[i:]...)
+		pos := idx - rf.lastIncludedIndex
+		if pos < len(rf.log) {
+			if rf.log[pos].Term != e.Term {
+				rf.log = append(rf.log[:pos], args.Entries[i:]...)
+				changed = true
 				break
 			}
 		} else {
 			rf.log = append(rf.log, args.Entries[i:]...)
+			changed = true
 			break
 		}
 	}
+	if changed {
+		rf.recomputeConfigLocked()
+	}
 	rf.persist()
+	rf.maybeAdvanceCommitFromLeader(args.LeaderCommit)
+	reply.Success = true
+}
 
-	if args.LeaderCommit > rf.commitIndex {
-		rf.commitIndex = min(args.LeaderCommit, rf.lastLogIndex())
+func (rf *Raft) maybeAdvanceCommitFromLeader(leaderCommit int) {
+	if leaderCommit > rf.commitIndex {
+		rf.commitIndex = min(leaderCommit, rf.lastLogIndex())
 		rf.applyCond.Broadcast()
 	}
-
-	reply.Success = true
 }
 
 func (rf *Raft) broadcastAppendEntries() {
@@ -598,12 +965,7 @@ func (rf *Raft) broadcastAppendEntries() {
 		return
 	}
 	rf.lastContact[rf.me] = time.Now()
-	peers := make([]int, 0, len(rf.voters))
-	for _, v := range rf.voters {
-		if v != rf.me {
-			peers = append(peers, v)
-		}
-	}
+	peers := rf.replicationTargetsLocked()
 	rf.mu.Unlock()
 
 	for _, p := range peers {
@@ -617,15 +979,21 @@ func (rf *Raft) sendAppendEntriesTo(peer int) {
 		rf.mu.Unlock()
 		return
 	}
+	// If the peer needs entries we have already snapshotted away, install the
+	// snapshot instead.
+	if rf.nextIndex[peer] <= rf.lastIncludedIndex {
+		rf.mu.Unlock()
+		rf.sendInstallSnapshotTo(peer)
+		return
+	}
 	term := rf.currentTerm
 	ni := rf.nextIndex[peer]
-	if ni < 1 {
-		ni = 1
+	if ni < rf.lastIncludedIndex+1 {
+		ni = rf.lastIncludedIndex + 1
 	}
 	prevIndex := ni - 1
-	prevTerm := rf.log[prevIndex].Term
-	entries := make([]LogEntry, len(rf.log)-ni)
-	copy(entries, rf.log[ni:])
+	prevTerm := rf.termAt(prevIndex)
+	entries := rf.entriesFrom(ni)
 	args := &AppendEntriesArgs{
 		Term:         term,
 		LeaderId:     rf.me,
@@ -650,9 +1018,6 @@ func (rf *Raft) sendAppendEntriesTo(peer int) {
 		rf.becomeFollower(reply.Term)
 		return
 	}
-
-	// A reply (success or not) proves we reached this peer: it counts for
-	// CheckQuorum.
 	rf.lastContact[peer] = time.Now()
 
 	if reply.Success {
@@ -665,14 +1030,13 @@ func (rf *Raft) sendAppendEntriesTo(peer int) {
 		return
 	}
 
-	// Conflict: use the backup hints to jump nextIndex instead of decrementing
-	// by one.
+	// Conflict: use the backup hints to jump nextIndex.
 	if reply.ConflictTerm == -1 {
 		rf.nextIndex[peer] = reply.ConflictIndex
 	} else {
 		lastIdx := -1
-		for i := rf.lastLogIndex(); i >= 1; i-- {
-			if rf.log[i].Term == reply.ConflictTerm {
+		for i := rf.lastLogIndex(); i > rf.lastIncludedIndex; i-- {
+			if rf.termAt(i) == reply.ConflictTerm {
 				lastIdx = i
 				break
 			}
@@ -686,29 +1050,139 @@ func (rf *Raft) sendAppendEntriesTo(peer int) {
 	if rf.nextIndex[peer] < 1 {
 		rf.nextIndex[peer] = 1
 	}
-	// retry quickly so divergent logs converge within the test budget
 	go rf.sendAppendEntriesTo(peer)
 }
 
 // advanceCommitLocked advances commitIndex to the highest N replicated on a
-// majority whose entry is from the current term. Caller holds rf.mu.
+// (joint-aware) majority whose entry is from the current term.
 func (rf *Raft) advanceCommitLocked() {
 	for n := rf.lastLogIndex(); n > rf.commitIndex; n-- {
-		if rf.log[n].Term != rf.currentTerm {
+		if rf.termAt(n) != rf.currentTerm {
 			continue
 		}
-		count := 0
-		for _, v := range rf.voters {
-			if rf.matchIndex[v] >= n {
-				count++
-			}
-		}
-		if count >= rf.quorum() {
+		if rf.isAgreedLocked(func(p int) bool { return rf.matchIndex[p] >= n }) {
 			rf.commitIndex = n
 			rf.applyCond.Broadcast()
+			rf.maybeFinalizeJointLocked()
 			return
 		}
 	}
+}
+
+// ---------------------------------------------------------------------------
+// InstallSnapshot
+// ---------------------------------------------------------------------------
+
+type InstallSnapshotArgs struct {
+	Term              int
+	LeaderId          int
+	LastIncludedIndex int
+	LastIncludedTerm  int
+	BaseConfig        ConfigState
+	Data              []byte
+}
+
+type InstallSnapshotReply struct {
+	Term int
+}
+
+func (rf *Raft) sendInstallSnapshotTo(peer int) {
+	rf.mu.Lock()
+	if rf.state != leader {
+		rf.mu.Unlock()
+		return
+	}
+	args := &InstallSnapshotArgs{
+		Term:              rf.currentTerm,
+		LeaderId:          rf.me,
+		LastIncludedIndex: rf.lastIncludedIndex,
+		LastIncludedTerm:  rf.lastIncludedTerm,
+		BaseConfig:        rf.baseConfig,
+		Data:              rf.snapshot,
+	}
+	term := rf.currentTerm
+	rf.mu.Unlock()
+
+	var reply InstallSnapshotReply
+	if !rf.peers[peer].Call("Raft.InstallSnapshot", args, &reply) {
+		return
+	}
+
+	rf.mu.Lock()
+	defer rf.mu.Unlock()
+	if rf.state != leader || rf.currentTerm != term {
+		return
+	}
+	if reply.Term > rf.currentTerm {
+		rf.becomeFollower(reply.Term)
+		return
+	}
+	rf.lastContact[peer] = time.Now()
+	if args.LastIncludedIndex > rf.matchIndex[peer] {
+		rf.matchIndex[peer] = args.LastIncludedIndex
+	}
+	if rf.nextIndex[peer] < args.LastIncludedIndex+1 {
+		rf.nextIndex[peer] = args.LastIncludedIndex + 1
+	}
+	rf.advanceCommitLocked()
+}
+
+// InstallSnapshot is the RPC handler.
+func (rf *Raft) InstallSnapshot(args *InstallSnapshotArgs, reply *InstallSnapshotReply) {
+	rf.mu.Lock()
+	defer rf.mu.Unlock()
+
+	reply.Term = rf.currentTerm
+	if args.Term < rf.currentTerm {
+		return
+	}
+	if args.Term > rf.currentTerm {
+		rf.currentTerm = args.Term
+		rf.votedFor = -1
+	}
+	rf.state = follower
+	rf.transferee = -1
+	rf.resetElectionTimer()
+	rf.lastLeaderContact = time.Now()
+	reply.Term = rf.currentTerm
+
+	// Ignore a stale snapshot.
+	if args.LastIncludedIndex <= rf.lastIncludedIndex || args.LastIncludedIndex <= rf.commitIndex {
+		return
+	}
+
+	// Keep any suffix we already have past the snapshot point.
+	if args.LastIncludedIndex < rf.lastLogIndex() &&
+		rf.termAt(args.LastIncludedIndex) == args.LastIncludedTerm {
+		suffix := rf.entriesFrom(args.LastIncludedIndex + 1)
+		newLog := make([]LogEntry, 1, 1+len(suffix))
+		newLog[0] = LogEntry{Term: args.LastIncludedTerm}
+		newLog = append(newLog, suffix...)
+		rf.log = newLog
+	} else {
+		rf.log = []LogEntry{{Term: args.LastIncludedTerm}}
+	}
+
+	rf.lastIncludedIndex = args.LastIncludedIndex
+	rf.lastIncludedTerm = args.LastIncludedTerm
+	rf.baseConfig = args.BaseConfig
+	rf.snapshot = args.Data
+	if rf.commitIndex < args.LastIncludedIndex {
+		rf.commitIndex = args.LastIncludedIndex
+	}
+	if rf.lastApplied < args.LastIncludedIndex {
+		rf.lastApplied = args.LastIncludedIndex
+	}
+	rf.recomputeConfigLocked()
+	rf.persist()
+
+	rf.snapshotToApply = &harness.ApplyMsg{
+		SnapshotValid: true,
+		Snapshot:      args.Data,
+		SnapshotIndex: args.LastIncludedIndex,
+		SnapshotTerm:  args.LastIncludedTerm,
+	}
+	rf.applyCond.Broadcast()
 }
 
 // ---------------------------------------------------------------------------
@@ -718,20 +1192,46 @@ func (rf *Raft) advanceCommitLocked() {
 func (rf *Raft) applier() {
 	for {
 		rf.mu.Lock()
-		for rf.commitIndex <= rf.lastApplied && !rf.killed() {
+		for rf.snapshotToApply == nil && rf.commitIndex <= rf.lastApplied && !rf.killed() {
 			rf.applyCond.Wait()
 		}
 		if rf.killed() {
 			rf.mu.Unlock()
 			return
 		}
+
+		if rf.snapshotToApply != nil {
+			msg := *rf.snapshotToApply
+			rf.snapshotToApply = nil
+			if rf.lastApplied < msg.SnapshotIndex {
+				rf.lastApplied = msg.SnapshotIndex
+			}
+			rf.mu.Unlock()
+			select {
+			case rf.applyCh <- msg:
+			case <-rf.killedCh:
+				return
+			}
+			continue
+		}
+
+		if rf.lastApplied < rf.lastIncludedIndex {
+			rf.lastApplied = rf.lastIncludedIndex
+		}
 		var msgs []harness.ApplyMsg
 		for rf.lastApplied < rf.commitIndex {
 			rf.lastApplied++
-			e := rf.log[rf.lastApplied]
+			if rf.lastApplied <= rf.lastIncludedIndex {
+				continue
+			}
+			e := rf.log[rf.lastApplied-rf.lastIncludedIndex]
+			cmd := e.Command
+			if e.Config != nil {
+				cmd = *e.Config
+			}
 			msgs = append(msgs, harness.ApplyMsg{
 				CommandValid: true,
-				Command:      e.Command,
+				Command:      cmd,
 				CommandIndex: rf.lastApplied,
 				CommandTerm:  e.Term,
 			})
@@ -747,40 +1247,6 @@ func (rf *Raft) applier() {
 		}
 	}
 }
-
-// ---------------------------------------------------------------------------
-// next-sprint stubs (compile only)
-// ---------------------------------------------------------------------------
-
-// Snapshot trims the log up to index. Not implemented in the foundation sprint.
-func (rf *Raft) Snapshot(index int, snapshot []byte) {}
-
-// InstallSnapshotArgs/Reply + handler: stubbed for the next sprint.
-type InstallSnapshotArgs struct {
-	Term              int
-	LeaderId          int
-	LastIncludedIndex int
-	LastIncludedTerm  int
-	Data              []byte
-}
-type InstallSnapshotReply struct {
-	Term int
-}
-
-// InstallSnapshot is a stub; it just reports our term.
-func (rf *Raft) InstallSnapshot(args *InstallSnapshotArgs, reply *InstallSnapshotReply) {
-	rf.mu.Lock()
-	reply.Term = rf.currentTerm
-	rf.mu.Unlock()
-}
-
-// ChangeMembership is a stub for joint-consensus membership changes.
-func (rf *Raft) ChangeMembership(newVoters []int, newLearners []int) (int, bool) {
-	return -1, false
-}
-
-// TransferLeadership is a stub for leadership transfer.
-func (rf *Raft) TransferLeadership(target int) bool { return false }
 
 func min(a, b int) int {
 	if a < b {

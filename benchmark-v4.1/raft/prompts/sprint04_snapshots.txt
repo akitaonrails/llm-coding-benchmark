@@ -1,0 +1,7 @@
+SPRINT 4 — Raft: snapshots and log compaction.
+
+Implement `Snapshot(index, snapshot)` (trim the log at/below index, retain lastIncludedIndex/Term) and the
+InstallSnapshot RPC (a leader brings a lagging follower current by shipping a snapshot when the needed prefix
+has been compacted). The applyCh must deliver snapshots (SnapshotValid) consistently with command application
+across restarts. All log access must be base-offset aware. Keep everything from S1-S3 correct under
+compaction. Commit at the end.
