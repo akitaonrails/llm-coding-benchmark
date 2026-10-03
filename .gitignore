@@ -102,3 +102,7 @@ results-4/
 # transient runner artifacts (chrome testing profile + config backups)
 config/chrome-headless-xdg/
 config/opencode.benchmark.json.bak-*
+
+# Go build/test artifacts
+benchmark-v4.1/**/*.test
+benchmark-v4.1/**/__debug*
