@@ -1,0 +1,10 @@
+{
+  "problem": "typedlang",
+  "slug": "v41_qwen3_32b",
+  "src": "/mnt/data/Projects/llm-coding-benchmark/results-v4.1/typedlang/v41_qwen3_32b/project",
+  "tests": {},
+  "score": 0.0,
+  "max_sprint_cleared": 0,
+  "compile_ok": false,
+  "error": "compile failed (contract mismatch):\nlang/parser.go:5:2: package ast is not in std (/home/akitaonrails/.local/share/mise/installs/go/1.27.1/src/ast)\n"
+}

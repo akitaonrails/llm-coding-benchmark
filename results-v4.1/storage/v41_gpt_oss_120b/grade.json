@@ -1,0 +1,10 @@
+{
+  "problem": "storage",
+  "slug": "v41_gpt_oss_120b",
+  "src": "/mnt/data/Projects/llm-coding-benchmark/results-v4.1/storage/v41_gpt_oss_120b/project",
+  "tests": {},
+  "score": 0.0,
+  "max_sprint_cleared": 0,
+  "compile_ok": false,
+  "error": "missing package dir: engine/ (model did not implement it)"
+}

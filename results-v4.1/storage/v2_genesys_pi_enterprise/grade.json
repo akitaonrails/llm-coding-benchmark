@@ -1,0 +1,25 @@
+{
+  "problem": "storage",
+  "slug": "v2_genesys_pi_enterprise",
+  "src": "/mnt/data/Projects/llm-coding-benchmark/results-v4.1/storage/v2_genesys_pi_enterprise/project",
+  "tests": {
+    "TestBasicPutGet": "pass",
+    "TestScan": "pass",
+    "TestCommitDurable": "pass",
+    "TestAbortNoTrace": "pass",
+    "TestCrashMidCommitAtomic": "pass",
+    "TestRecoveryManyTxns": "pass",
+    "TestSnapshotIsolation": "pass",
+    "TestLostUpdate": "pass",
+    "TestWriteSkew": "pass",
+    "TestReadOnlyAnomaly": "pass",
+    "TestG2Cycle": "pass",
+    "TestSerializableFuzz": "pass"
+  },
+  "score": 100.0,
+  "max_sprint_cleared": 7,
+  "compile_ok": true,
+  "error": null,
+  "elapsed_s": 14.2,
+  "earned_raw": 100
+}

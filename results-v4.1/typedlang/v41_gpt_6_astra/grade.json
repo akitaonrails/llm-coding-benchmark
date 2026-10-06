@@ -1,0 +1,27 @@
+{
+  "problem": "typedlang",
+  "slug": "v41_gpt_6_astra",
+  "src": "/mnt/data/Projects/llm-coding-benchmark/results-v4.1/typedlang/v41_gpt_6_astra/project",
+  "tests": {
+    "TestBasicEval": "pass",
+    "TestClosures": "pass",
+    "TestRecursion": "pass",
+    "TestRecords": "pass",
+    "TestRecordUpdate": "pass",
+    "TestLists": "pass",
+    "TestLetPolymorphism": "pass",
+    "TestOccursCheck": "pass",
+    "TestValueRestriction": "pass",
+    "TestRowPolymorphism": "pass",
+    "TestTypeErrors": "pass",
+    "TestGCNoLeak": "pass",
+    "TestGCCycles": "pass",
+    "TestGCStressMixed": "pass"
+  },
+  "score": 100.0,
+  "max_sprint_cleared": 7,
+  "compile_ok": true,
+  "error": null,
+  "elapsed_s": 35.0,
+  "earned_raw": 100
+}

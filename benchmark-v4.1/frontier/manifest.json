@@ -1,0 +1,50 @@
+{
+  "repository": "https://github.com/Proximal-Labs/frontier-swe-v2.git",
+  "revision": "da83f84f8fbcec3cbf0f2b17c98ebc811355c2df",
+  "harbor_version": "0.23.0",
+  "opencode_version": "1.18.34",
+  "tasks": {
+    "crash-proof-flash-filesystem": {
+      "suite_id": "P4",
+      "url": "https://www.frontierswe.com/tasks/flash-fs",
+      "agent_image": "us-west1-docker.pkg.dev/proximal-core-0/proximal-evals-public/crash-proof-flash-filesystem@sha256:c7f7db75191e50b83dab378cd1b658dd257fee43b72342a0744b49625324a63f",
+      "verifier_image": "us-west1-docker.pkg.dev/proximal-core-0/proximal-evals-public/crash-proof-flash-filesystem@sha256:bc71b5fad64de580c747e72d124a1445ed15389e6f1b376a937b2cb8207eed44",
+      "agent_timeout_sec": 72000.0,
+      "cpus": 4,
+      "memory_mb": 4096,
+      "oracle_expected": 1,
+      "sha256": {
+        "instruction.md": "3cad9f39c9f8f679f9d49eefc1c29587132a50a92b8383d88a9d7fd3da62880c",
+        "task.toml": "8718c67a3a8a001a9baec2e1538b0a520a0dc062579c8538befa7a0fcfe79263"
+      }
+    },
+    "lean-4-kernel-type-checker-in-pascal": {
+      "suite_id": "P5",
+      "url": "https://www.frontierswe.com/tasks/lean-checker-pascal",
+      "agent_image": "us-west1-docker.pkg.dev/proximal-core-0/proximal-evals-public/lean-4-kernel-type-checker-in-pascal@sha256:5bd342bd9859301cb1f2ce2f70cff2b244a155f803772253395f9de5e20d2865",
+      "verifier_image": "us-west1-docker.pkg.dev/proximal-core-0/proximal-evals-public/lean-4-kernel-type-checker-in-pascal@sha256:505f8570c8d93612ff3e62c550a871d5ae31c5ec0bc854c763bce3b81b0589ac",
+      "agent_timeout_sec": 72000.0,
+      "cpus": 4,
+      "memory_mb": 8192,
+      "oracle_expected": 1,
+      "sha256": {
+        "instruction.md": "bbc76281a2f6271e5a92c90a3c931c76ceeaa9d157195849afda68f323a2ac48",
+        "task.toml": "fb8af64710f4ad36995e1df8b4386c6821b3783077b40f01fffd89082979b783"
+      }
+    },
+    "cranelift-codegen-opt": {
+      "suite_id": "P6",
+      "url": "https://www.frontierswe.com/tasks/cranelift-codegen-opt",
+      "agent_image": "us-west1-docker.pkg.dev/proximal-core-0/proximal-evals-public/cranelift-codegen-opt@sha256:004e7a388129a3723d578cb33f1a40ed966d04e834c6baea2bc71a9227e7f99d",
+      "verifier_image": "us-west1-docker.pkg.dev/proximal-core-0/proximal-evals-public/cranelift-codegen-opt@sha256:349231fc3f52b8c12619b8588e6cc17b69c4715bbff299a74174fe96b0fef934",
+      "agent_timeout_sec": 72000.0,
+      "cpus": 8,
+      "memory_mb": 131072,
+      "oracle_expected": 0,
+      "sha256": {
+        "instruction.md": "dc44c2ed915514758b35a9fc992a10b95b25c13cefe589bbdcbffa569c1eb4f4",
+        "task.toml": "fdb0a19cd220fcc98b4b774995ce656e2c2557210ed0dd86d936434880d16f60"
+      }
+    }
+  }
+}

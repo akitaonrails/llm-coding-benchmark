@@ -1,0 +1,32 @@
+{
+  "revision": "da83f84f8fbcec3cbf0f2b17c98ebc811355c2df",
+  "task": "cranelift-codegen-opt",
+  "mode": "baseline",
+  "model": null,
+  "harness": "baseline",
+  "harbor_version": "0.23.0",
+  "opencode_version": "1.18.34",
+  "agent_image": "us-west1-docker.pkg.dev/proximal-core-0/proximal-evals-public/cranelift-codegen-opt@sha256:004e7a388129a3723d578cb33f1a40ed966d04e834c6baea2bc71a9227e7f99d",
+  "verifier_image": "us-west1-docker.pkg.dev/proximal-core-0/proximal-evals-public/cranelift-codegen-opt@sha256:349231fc3f52b8c12619b8588e6cc17b69c4715bbff299a74174fe96b0fef934",
+  "memory_mb": 32768,
+  "resource_deviation": true,
+  "job_dir": "/mnt/data/Projects/llm-coding-benchmark/results-v4.1/frontier/jobs/baseline-cranelift-codegen-opt-c57b1265",
+  "status": "completed",
+  "reward": 0.0,
+  "score": 0.0,
+  "rewards": {
+    "reward": 0.0,
+    "valid": 1,
+    "speedup": 1.0,
+    "correctness": 1,
+    "measured": 10,
+    "expected": 10,
+    "build_ok": 1,
+    "changed_sources": 0,
+    "changed_codegen_sources": 0,
+    "wast_regressions": 0
+  },
+  "exception_info": null,
+  "result_path": "/mnt/data/Projects/llm-coding-benchmark/results-v4.1/frontier/jobs/baseline-cranelift-codegen-opt-c57b1265/cranelift-codegen-opt__9ky3KFE/result.json",
+  "validated": true
+}

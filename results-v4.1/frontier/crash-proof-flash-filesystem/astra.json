@@ -1,0 +1,43 @@
+{
+  "revision": "da83f84f8fbcec3cbf0f2b17c98ebc811355c2df",
+  "task": "crash-proof-flash-filesystem",
+  "mode": "astra",
+  "model": "gpt-6-astra",
+  "harness": "Harbor Codex",
+  "native_version": "0.156.0",
+  "harbor_version": "0.23.0",
+  "opencode_version": "1.18.34",
+  "agent_image": "us-west1-docker.pkg.dev/proximal-core-0/proximal-evals-public/crash-proof-flash-filesystem@sha256:c7f7db75191e50b83dab378cd1b658dd257fee43b72342a0744b49625324a63f",
+  "verifier_image": "us-west1-docker.pkg.dev/proximal-core-0/proximal-evals-public/crash-proof-flash-filesystem@sha256:bc71b5fad64de580c747e72d124a1445ed15389e6f1b376a937b2cb8207eed44",
+  "memory_mb": 4096,
+  "resource_deviation": false,
+  "job_dir": "/mnt/data/Projects/llm-coding-benchmark/results-v4.1/frontier/jobs/astra-crash-proof-flash-filesystem-af5767c8",
+  "status": "completed",
+  "started_at": "2026-10-05T13:56:03.328332+00:00",
+  "runner_pid": 2227073,
+  "runner_sha256": "095f50613d6bec501ccd7fe04951bb432f9ff3a72ee1d8baf5e046b6455e86ac",
+  "adapter_sha256": "b42ccf9c310a7e34735c30638f0ba97be0e1cb4fcef68e8f3b9b78556eebe972",
+  "reward": 0.272318,
+  "score": 27.2318,
+  "rewards": {
+    "reward": 0.272318,
+    "valid": 1,
+    "correctness": 0.340398,
+    "performance": 1.0,
+    "bd_gate": 1.0,
+    "correctness_default": 0.318659,
+    "correctness_large_blocks": 0.335578,
+    "correctness_small_blocks": 0.357248,
+    "correctness_tiny_prog": 0.352976
+  },
+  "exception_info": null,
+  "budget_exhausted": false,
+  "result_path": "/mnt/data/Projects/llm-coding-benchmark/results-v4.1/frontier/jobs/astra-crash-proof-flash-filesystem-af5767c8/crash-proof-flash-filesystem__hFs8hq9/result.recovered.json",
+  "finished_at": "2026-10-05T14:56:26.278232Z",
+  "recovery": {
+    "reason": "Harbor scrubbed the sole sensitive extra_env value CODEX_FORCE_AUTH_JSON=1 from all text artifacts. Restored that known literal in a separate result copy; original preserved.",
+    "original_result_path": "/mnt/data/Projects/llm-coding-benchmark/results-v4.1/frontier/jobs/astra-crash-proof-flash-filesystem-af5767c8/crash-proof-flash-filesystem__hFs8hq9/result.json",
+    "original_sha256": "c93feb03bed13150ff028888b30794686cf3e834346469f45b85d6a3d4098d45",
+    "recovered_sha256": "89359bd06da0d948945185433fcc3dc6528717beb4467aced6469ca0675740a7"
+  }
+}
