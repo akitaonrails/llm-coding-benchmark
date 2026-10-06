@@ -1,0 +1,25 @@
+{
+  "problem": "storage",
+  "slug": "v41_fable_5_1",
+  "src": "/mnt/data/Projects/llm-coding-benchmark/results-v4.1/storage/v41_fable_5_1/project",
+  "tests": {
+    "TestBasicPutGet": "pass",
+    "TestScan": "pass",
+    "TestCommitDurable": "pass",
+    "TestAbortNoTrace": "pass",
+    "TestCrashMidCommitAtomic": "pass",
+    "TestRecoveryManyTxns": "pass",
+    "TestSnapshotIsolation": "pass",
+    "TestLostUpdate": "pass",
+    "TestWriteSkew": "pass",
+    "TestReadOnlyAnomaly": "pass",
+    "TestG2Cycle": "pass",
+    "TestSerializableFuzz": "pass"
+  },
+  "score": 100.0,
+  "max_sprint_cleared": 7,
+  "compile_ok": true,
+  "error": null,
+  "elapsed_s": 14.1,
+  "earned_raw": 100
+}

@@ -1,0 +1,31 @@
+{
+  "revision": "da83f84f8fbcec3cbf0f2b17c98ebc811355c2df",
+  "task": "crash-proof-flash-filesystem",
+  "mode": "genesys",
+  "model": "lua/genesys-pi-house",
+  "harness": "Harbor OpenCode",
+  "harbor_version": "0.23.0",
+  "opencode_version": "1.18.34",
+  "agent_image": "us-west1-docker.pkg.dev/proximal-core-0/proximal-evals-public/crash-proof-flash-filesystem@sha256:c7f7db75191e50b83dab378cd1b658dd257fee43b72342a0744b49625324a63f",
+  "verifier_image": "us-west1-docker.pkg.dev/proximal-core-0/proximal-evals-public/crash-proof-flash-filesystem@sha256:bc71b5fad64de580c747e72d124a1445ed15389e6f1b376a937b2cb8207eed44",
+  "memory_mb": 4096,
+  "resource_deviation": false,
+  "job_dir": "/mnt/data/Projects/llm-coding-benchmark/results-v4.1/frontier/jobs/genesys-crash-proof-flash-filesystem-f685ca1c",
+  "status": "completed",
+  "reward": 0.40901,
+  "score": 40.900999999999996,
+  "rewards": {
+    "reward": 0.40901,
+    "valid": 1,
+    "correctness": 0.511263,
+    "performance": 0.0,
+    "bd_gate": 1.0,
+    "correctness_default": 0.466755,
+    "correctness_large_blocks": 0.467137,
+    "correctness_small_blocks": 0.593156,
+    "correctness_tiny_prog": 0.530359
+  },
+  "exception_info": null,
+  "result_path": "/mnt/data/Projects/llm-coding-benchmark/results-v4.1/frontier/jobs/genesys-crash-proof-flash-filesystem-f685ca1c/crash-proof-flash-filesystem__FKbvKMK/result.json",
+  "budget_exhausted": false
+}

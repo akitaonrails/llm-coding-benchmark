@@ -1,0 +1,27 @@
+{
+  "problem": "typedlang",
+  "slug": "v2_genesys_pi_enterprise",
+  "src": "/mnt/data/Projects/llm-coding-benchmark/results-v4.1/typedlang/v2_genesys_pi_enterprise/project",
+  "tests": {
+    "TestBasicEval": "pass",
+    "TestClosures": "fail",
+    "TestRecursion": "pass",
+    "TestRecords": "pass",
+    "TestRecordUpdate": "pass",
+    "TestLists": "pass",
+    "TestLetPolymorphism": "pass",
+    "TestOccursCheck": "pass",
+    "TestValueRestriction": "pass",
+    "TestRowPolymorphism": "fail",
+    "TestTypeErrors": "pass",
+    "TestGCNoLeak": "pass",
+    "TestGCCycles": "pass",
+    "TestGCStressMixed": "pass"
+  },
+  "score": 81.0,
+  "max_sprint_cleared": 2,
+  "compile_ok": true,
+  "error": null,
+  "elapsed_s": 43.2,
+  "earned_raw": 81
+}

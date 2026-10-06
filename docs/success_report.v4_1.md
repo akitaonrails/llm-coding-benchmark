@@ -2,6 +2,11 @@
 
 _2026-10-03. Suite: `benchmark-v4.1/`. Separate from v4 (Rails + sabotage vigilance; untouched)._
 
+> Historical P1 report. The [P4–P6 follow-up](success_report.v4_1.frontier.md),
+> completed 2026-10-05, found Genesys House scores of **40.901 / 0 / 0** on
+> harder FrontierSWE tasks. The parity conclusions below are limited to the
+> original tasks; they do not establish general frontier equivalence.
+
 ## Headline
 On the hardest problem in this project — an **8-sprint accumulating build of a Raft consensus variant +
 a linearizable key/value store** (PreVote, CheckQuorum, joint-consensus membership, learners, snapshots;

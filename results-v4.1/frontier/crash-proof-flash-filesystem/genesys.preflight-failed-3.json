@@ -1,0 +1,25 @@
+{
+  "revision": "da83f84f8fbcec3cbf0f2b17c98ebc811355c2df",
+  "task": "crash-proof-flash-filesystem",
+  "mode": "genesys",
+  "model": "lua/genesys-pi-house",
+  "harness": "Harbor OpenCode",
+  "harbor_version": "0.23.0",
+  "opencode_version": "1.18.34",
+  "agent_image": "us-west1-docker.pkg.dev/proximal-core-0/proximal-evals-public/crash-proof-flash-filesystem@sha256:c7f7db75191e50b83dab378cd1b658dd257fee43b72342a0744b49625324a63f",
+  "verifier_image": "us-west1-docker.pkg.dev/proximal-core-0/proximal-evals-public/crash-proof-flash-filesystem@sha256:bc71b5fad64de580c747e72d124a1445ed15389e6f1b376a937b2cb8207eed44",
+  "memory_mb": 4096,
+  "resource_deviation": false,
+  "job_dir": "/mnt/data/Projects/llm-coding-benchmark/results-v4.1/frontier/jobs/genesys-crash-proof-flash-filesystem-4cc80a3c",
+  "status": "error",
+  "reward": null,
+  "score": null,
+  "rewards": {},
+  "exception_info": {
+    "exception_type": "AttributeError",
+    "exception_message": "'ExecResult' object has no attribute 'exit_code'",
+    "exception_traceback": "Traceback (most recent call last):\n  File \"/tmp/px-eval-inspect/.venv/lib/python3.12/site-packages/harbor/trial/trial.py\", line 418, in run\n    await self._run()\n  File \"/tmp/px-eval-inspect/.venv/lib/python3.12/site-packages/harbor/trial/single_step.py\", line 41, in _run\n    await self._run_agent()\n  File \"/tmp/px-eval-inspect/.venv/lib/python3.12/site-packages/harbor/trial/single_step.py\", line 77, in _run_agent\n    await self._run_agent_phase(\n  File \"/tmp/px-eval-inspect/.venv/lib/python3.12/site-packages/harbor/trial/trial.py\", line 554, in _run_agent_phase\n    await asyncio.wait_for(\n  File \"/home/akitaonrails/.local/share/uv/python/cpython-3.12.8-linux-x86_64-gnu/lib/python3.12/asyncio/tasks.py\", line 520, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/mnt/data/Projects/llm-coding-benchmark/scripts/frontier_opencode.py\", line 27, in run\n    if check.exit_code != 0:\n       ^^^^^^^^^^^^^^^\n  File \"/tmp/px-eval-inspect/.venv/lib/python3.12/site-packages/pydantic/main.py\", line 1042, in __getattr__\n    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')\nAttributeError: 'ExecResult' object has no attribute 'exit_code'\n",
+    "occurred_at": "2026-10-04T18:19:41.759603Z"
+  },
+  "result_path": "/mnt/data/Projects/llm-coding-benchmark/results-v4.1/frontier/jobs/genesys-crash-proof-flash-filesystem-4cc80a3c/crash-proof-flash-filesystem__NgfsnYv/result.json"
+}

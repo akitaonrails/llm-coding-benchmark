@@ -37,6 +37,10 @@ for the full story, or jump to a specific model's analysis.
    harnesses).
 
 ## v4 results — start here
+
+- **v4.1 harder-task follow-up:** [Genesys House on FrontierSWE P4–P6](success_report.v4_1.frontier.md)
+  — historical Genesys-only report; see the completed three-model comparison below.
+
 - **[`success_report.v4.combined.md`](success_report.v4.combined.md)** — the master ranking (**39 scored
   models**), headline findings (disguise>severity, scanner-gaming, the value story, harness effects),
   method/integrity, and the not-completed/DNF roster.
@@ -76,3 +80,5 @@ OpenRouter), so scores are annotated with their harness.
 - [`llama-swap.md`](llama-swap.md) — local model serving (RTX 5090 / Strix Halo homelab).
 - [`external_benchmark.rails_ai_evals.md`](external_benchmark.rails_ai_evals.md) — cross-check vs an
   external Rails benchmark.
+
+- [v4.1 FrontierSWE comparison: Genesys, Astra and Fable](success_report.v4_1.frontier_comparison.md) — task explanations, scored results, and Fable progress.
