@@ -1,0 +1,20 @@
+{
+  "revision": "da83f84f8fbcec3cbf0f2b17c98ebc811355c2df",
+  "task": "crash-proof-flash-filesystem",
+  "mode": "oracle",
+  "model": null,
+  "harness": "upstream oracle",
+  "harbor_version": "0.23.0",
+  "opencode_version": "1.18.34",
+  "agent_image": "us-west1-docker.pkg.dev/proximal-core-0/proximal-evals-public/crash-proof-flash-filesystem@sha256:c7f7db75191e50b83dab378cd1b658dd257fee43b72342a0744b49625324a63f",
+  "verifier_image": "us-west1-docker.pkg.dev/proximal-core-0/proximal-evals-public/crash-proof-flash-filesystem@sha256:bc71b5fad64de580c747e72d124a1445ed15389e6f1b376a937b2cb8207eed44",
+  "memory_mb": 4096,
+  "resource_deviation": false,
+  "job_dir": "/mnt/data/Projects/llm-coding-benchmark/results-v4.1/frontier/jobs/oracle-crash-proof-flash-filesystem-73a1e305",
+  "status": "completed",
+  "reward": 1.0,
+  "score": 100.0,
+  "exception_info": null,
+  "result_path": "/mnt/data/Projects/llm-coding-benchmark/results-v4.1/frontier/jobs/oracle-crash-proof-flash-filesystem-73a1e305/crash-proof-flash-filesystem__T7xFRxi/result.json",
+  "validated": true
+}

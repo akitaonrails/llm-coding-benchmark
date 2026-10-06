@@ -1,0 +1,5 @@
+# Avoid Docker's embedded DNS DNAT interacting with Harbor's egress nftables.
+# The agent still shares only the sidecar namespace, never the host network.
+services:
+  harbor-docker-egress-control-sidecar:
+    network_mode: bridge

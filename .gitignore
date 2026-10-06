@@ -111,3 +111,6 @@ results-v4.1/*/project/
 results-v4.1/**/*.ndjson
 results-v4.1/**/*.stderr.log
 results-v4.1/**/*.prompt.txt
+
+# FrontierSWE raw jobs include large artifacts and agent credential stores.
+results-v4.1/frontier/jobs/

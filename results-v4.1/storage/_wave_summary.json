@@ -1,0 +1,99 @@
+[
+  {
+    "slug": "v2_genesys_pi_house",
+    "sprints_run": [
+      "01_btree",
+      "02_wal",
+      "03_mvcc",
+      "04_ssi",
+      "05_predicate",
+      "06_atomic",
+      "07_reveal"
+    ],
+    "dnf": false,
+    "dnf_reason": null,
+    "score": 100.0,
+    "sprints_cleared": 7
+  },
+  {
+    "slug": "v41_fable_5_1",
+    "sprints_run": [
+      "01_btree",
+      "02_wal",
+      "03_mvcc",
+      "04_ssi",
+      "05_predicate",
+      "06_atomic",
+      "07_reveal"
+    ],
+    "dnf": false,
+    "dnf_reason": null,
+    "score": 100.0,
+    "sprints_cleared": 7
+  },
+  {
+    "slug": "v41_gpt_oss_120b",
+    "sprints_run": [
+      "01_btree",
+      "02_wal"
+    ],
+    "dnf": true,
+    "dnf_reason": "no model source after sprint 02_wal",
+    "score": 0.0,
+    "sprints_cleared": 0
+  },
+  {
+    "slug": "v41_gpt_6_astra",
+    "sprints_run": [
+      "01_btree",
+      "02_wal",
+      "03_mvcc",
+      "04_ssi",
+      "05_predicate",
+      "06_atomic",
+      "07_reveal"
+    ],
+    "dnf": false,
+    "dnf_reason": null,
+    "score": 100.0,
+    "sprints_cleared": 7
+  },
+  {
+    "slug": "v2_genesys_pi_enterprise",
+    "sprints_run": [
+      "01_btree",
+      "02_wal",
+      "03_mvcc",
+      "04_ssi",
+      "05_predicate",
+      "06_atomic",
+      "07_reveal"
+    ],
+    "dnf": false,
+    "dnf_reason": null,
+    "score": 100.0,
+    "sprints_cleared": 7
+  },
+  {
+    "slug": "v41_gpt_oss_20b",
+    "sprints_run": [
+      "01_btree",
+      "02_wal"
+    ],
+    "dnf": true,
+    "dnf_reason": "no model source after sprint 02_wal",
+    "score": 0.0,
+    "sprints_cleared": 0
+  },
+  {
+    "slug": "v41_qwen3_32b",
+    "sprints_run": [
+      "01_btree",
+      "02_wal"
+    ],
+    "dnf": true,
+    "dnf_reason": "2 consecutive non-compiling sprints (through 02_wal)",
+    "score": 0.0,
+    "sprints_cleared": 0
+  }
+]
