@@ -1,0 +1,38 @@
+SPRINT 1 (one-shot) — Dynamic Range K-th Smallest.
+
+Implement a single Go data structure. This is a ONE-SHOT problem: one package, one task. READ
+`CONTRACT.md` in this workspace first — it is authoritative and describes EXACTLY how you are graded.
+
+Task: in module `v42complexity`, implement package `ds` (in `ds/ds.go`) exposing
+
+    func New(initial []int) harness.Structure
+
+backed by:
+  - Assign(i, x int)            // point update: set value at index i to x
+  - RangeKth(l, r, k int) int   // k-th smallest value among indices l..r inclusive (k is 1-based,
+                                //   duplicates count with multiplicity)
+
+CRITICAL — you are graded on correctness AND efficiency, continuously:
+
+    score = 100 * correctness * quality
+
+  * correctness = fraction of hidden conformance + adversarial workloads matching a brute-force oracle.
+  * quality is a CONTINUOUS measure of how efficient your structure is, placed on a log scale between
+    a naive sort-each-range-on-demand baseline (quality 0) and a sub-linear reference (quality 1),
+    measured by the number of value comparisons you perform.
+
+Therefore: a correct solution that sorts each queried range on demand earns correctness ~ 1 but
+quality ~ 0 (a near-zero final score). To score, RangeKth must answer in SUB-LINEAR comparisons per
+query UNDER point updates — i.e. a real indexed structure (merge-sort tree / Fenwick-of-sorted-lists /
+wavelet-style / sqrt-decomposition), not a scan-and-sort.
+
+MANDATORY: every ordering decision over stored values MUST go through `harness.Cmp(a, b int) int`
+(it returns -1/0/+1 and is the counted primitive). Native `<`, `>`, `<=`, `>=` on stored values is a
+contract violation and is audited for. Arithmetic on values (e.g. a midpoint for binary-search-on-
+answer) is fine and not counted.
+
+Bounds: n and #operations up to ~2e5; values in [0, 1e9]. Queries are always in range.
+
+`go build ./...` and `go vet ./...` must pass. Write your own tests under `ds/` if you like, but do
+NOT create `*_test.go` importing a `grader` package and do NOT look for grader/ or reference/
+directories — they are not part of your task. Commit your work with git when done.
