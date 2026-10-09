@@ -1,0 +1,132 @@
+{
+  "_note": "v4.2 de-saturation suite roster. anchors+subject copied from models_v41.json (exact v4.1 harness); near-frontier cohort copied from models_v2.json + Go workspace preamble. phi-4 (Strix control) added when staged. rates_per_m marked _VERIFY must be re-checked before any cost claim.",
+  "models": [
+    {
+      "slug": "v42_fable",
+      "label": "Claude Fable 5.1 (Claude Code)",
+      "harness": "claude",
+      "model_id": "claude-fable-5-1",
+      "billing": "Claude Max subscription",
+      "rates_per_m": {
+        "input": 10.0,
+        "cache_read": 0.25,
+        "cache_write": 12.5,
+        "output": 50.0
+      },
+      "wave": 4,
+      "notes": "Added 2026-09-02. Released 2026-09-01; pitched as beating Fable 5 (96), Opus 5, GPT 5.6 Sol. Same list price as Fable 5 ($10/$50) but ~75% cheaper cache reads ($1.0->$0.25). Mythos 5.1 is the same model with lower safeguards, US-trusted-access only (not available). Claude Code harness, Max sub (ANTHROPIC_API_KEY stripped by runner), shielded per shield-all + git-sandbox."
+    },
+    {
+      "slug": "v42_astra",
+      "label": "GPT-6 Astra High (Codex)",
+      "harness": "codex",
+      "model_id": "gpt-6-astra",
+      "codex_reasoning_effort": "high",
+      "billing": "ChatGPT subscription credits",
+      "rates_per_m": {
+        "input": 10.0,
+        "cache_read": 1.0,
+        "cache_write": 12.5,
+        "output": 50.0
+      },
+      "wave": 4,
+      "notes": "Added 2026-09-04. OpenAI GPT-6 Astra (launched 09-03; SWE-SOTA/AGI claims). Codex 0.153.3 required (0.151/0.152 gated it: 'requires a newer version of Codex'); upgraded via mise. Runs on ChatGPT subscription (API key was out of credits \u2014 codex uses OAuth). Rates ESTIMATED (flagship placeholder) \u2014 reconcile against OpenAI pricing. Codex path is independent of today's OpenRouter degradation."
+    },
+    {
+      "slug": "v42_genesys_house",
+      "label": "Genesys PI House (LUA Vision, opencode)",
+      "harness": "opencode",
+      "model_id": "lua/genesys-pi-house",
+      "billing": "LUA Vision API (api.lua.vision) - first-party, BRL-priced",
+      "rates_per_m": {
+        "input": 10.66,
+        "cache_read": 1.16,
+        "cache_write": 10.66,
+        "output": 53.29
+      },
+      "wave": 7,
+      "notes": "Added 2026-09-23 per user. Brazilian Genesys PI family (LUA Vision Tecnologia, Sao Paulo). Flagship: 'maximum quality for long/complex/high-stakes work', 600K ctx / 128K out. OpenAI-compatible /v1, Bearer auth; tools+streaming+json_schema verified. GENERAL model (no coding-specialized variant); regulated-market PT/EN focus. rates_per_m = BRL price / 5.16 (2026-09-23, verified): in 55, cachedIn 6, out 275 BRL/M. CAVEAT: server injects a large system prompt (~741 tok on a bare call) inflating input tokens/cost. Run SHIELDED per shield-all policy."
+    },
+    {
+      "slug": "v42_genesys_enterprise",
+      "label": "Genesys PI Enterprise (LUA Vision, opencode)",
+      "harness": "opencode",
+      "model_id": "lua/genesys-pi-enterprise",
+      "billing": "LUA Vision API (api.lua.vision) - first-party, BRL-priced",
+      "rates_per_m": {
+        "input": 0.78,
+        "cache_read": 0.1,
+        "cache_write": 0.78,
+        "output": 3.88
+      },
+      "wave": 7,
+      "notes": "Added 2026-09-23 per user. Genesys PI 'production workhorse: high quality, low latency', 384K ctx / 128K out. rates_per_m = BRL/5.16: in 4, cachedIn 0.5, out 20 BRL/M. Smoke-tested one sprint first; if too slow or failing too much, drop to house-only (user decision). Run SHIELDED."
+    },
+    {
+      "slug": "v42_qwen38_max",
+      "label": "Qwen 3.8 Max (opencode/OpenRouter)",
+      "harness": "opencode",
+      "model_id": "openrouter/qwen/qwen3.8-max-0902",
+      "billing": "OpenRouter API",
+      "rates_per_m": {
+        "input": 2.0,
+        "cache_read": 0.5,
+        "cache_write": 2.0,
+        "output": 6.0
+      },
+      "wave": 4,
+      "notes": "Added per user 2026-08-11. Highest-effort online Qwen 3.8 (the 27B is local-only). Successor to Qwen3.7 Max (51/C, hallucinated RubyLLM). opencode harness, XDG-isolated, cumulative-metered (post issue #14 fix). 2026-09-13: model_id fixed to dated qwen3.8-max-0902 (bare alias returns OpenRouter UnknownError/0 tokens); retry after INFRA_BLOCKED.",
+      "preamble": "Work entirely in the current working directory (the project root). Implement the Go package(s) described in the sprint prompt and CONTRACT.md against the provided harness/ (do not reimplement harness/). Create and edit files ONLY inside this project \u2014 never in /tmp or any scratch directory. Use `go build ./...` and `go test` to check your work, and commit with git at the end.",
+      "enable_followup": false
+    },
+    {
+      "slug": "v42_glm_5_3",
+      "label": "GLM 5.3 (opencode/Z.ai coding plan)",
+      "harness": "opencode",
+      "model_id": "zai/glm-5.3",
+      "billing": "Z.ai flat-rate coding plan ($0 marginal; API-equiv reported)",
+      "rates_per_m": {
+        "input": 0.6,
+        "cache_read": 0.11,
+        "cache_write": 0.6,
+        "output": 2.2
+      },
+      "wave": 4,
+      "notes": "Added 2026-08-15. Successor to GLM 5.2 (92). z.ai coding endpoint, cumulative-metered. Frontier cloud \u2014 unshielded, spot-checked post-run.",
+      "preamble": "Work entirely in the current working directory (the project root). Implement the Go package(s) described in the sprint prompt and CONTRACT.md against the provided harness/ (do not reimplement harness/). Create and edit files ONLY inside this project \u2014 never in /tmp or any scratch directory. Use `go build ./...` and `go test` to check your work, and commit with git at the end.",
+      "enable_followup": false
+    },
+    {
+      "slug": "v42_kimi_k2_6",
+      "label": "Kimi K2.6 (opencode/OpenRouter fallback)",
+      "harness": "opencode",
+      "model_id": "openrouter/moonshotai/kimi-k2.6",
+      "billing": "OpenRouter API \u2014 K2.6 NOT exposed by the Kimi subscription",
+      "rates_per_m": {
+        "input": 0.95,
+        "cache_read": 0.16,
+        "cache_write": 0.95,
+        "output": 4.0
+      },
+      "wave": 2,
+      "preamble": "Work entirely in the current working directory (the project root). Implement the Go package(s) described in the sprint prompt and CONTRACT.md against the provided harness/ (do not reimplement harness/). Create and edit files ONLY inside this project \u2014 never in /tmp or any scratch directory. Use `go build ./...` and `go test` to check your work, and commit with git at the end.",
+      "enable_followup": false
+    },
+    {
+      "slug": "v42_kimi_k3",
+      "label": "Kimi K3 (Kimi Code CLI)",
+      "harness": "kimi",
+      "model_id": "kimi-code/k3",
+      "billing": "Kimi Moderato subscription",
+      "rates_per_m": {
+        "input": 3.0,
+        "cache_read": 0.3,
+        "cache_write": 3.0,
+        "output": 15.0
+      },
+      "wave": 1,
+      "notes": "5h quota windows \u2014 a 3-phase run may need the quota watcher pattern",
+      "enable_followup": false
+    }
+  ]
+}

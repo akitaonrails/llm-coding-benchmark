@@ -114,3 +114,4 @@ results-v4.1/**/*.prompt.txt
 
 # FrontierSWE raw jobs include large artifacts and agent credential stores.
 results-v4.1/frontier/jobs/
+results-v4.2/
