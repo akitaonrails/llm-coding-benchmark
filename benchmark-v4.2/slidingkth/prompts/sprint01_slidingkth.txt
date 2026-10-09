@@ -1,0 +1,16 @@
+SPRINT 1 (one-shot) — Sliding-Window K-th Smallest.
+
+Implement a single Go data structure. READ `CONTRACT.md` first — it is authoritative and defines
+EXACTLY how you are graded (continuous: score = 100 * correctness * quality).
+
+In module `v42slidingkth`, implement package `ds` (ds/ds.go) exposing `func New(w int) harness.Stream`
+backed by Push(x int) and Kth(k int) int over a sliding window of the most recent w pushed values.
+
+CRITICAL: you are graded on correctness AND efficiency, continuously. A solution that sorts the window
+on each Kth is correct but scores ~0 on quality (near-zero final score). To score, maintain an indexed
+order-statistics structure under eviction (order-statistics BST/treap / balanced multiset) answering
+Kth in O(log w) comparisons.
+
+MANDATORY: every ordering of stored values goes through `harness.Cmp` (counted). Native <,>,<=,>= on
+stored values is a contract violation and is audited for. `go build ./...` / `go vet ./...` must pass.
+Do NOT look for grader/ or reference/ dirs. Commit with git when done.
