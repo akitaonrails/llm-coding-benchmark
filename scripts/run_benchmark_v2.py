@@ -115,6 +115,26 @@ def build_zcode_command(prompt: str, project_dir: Path) -> list[str]:
     ]
 
 
+def build_muse_command(model_id: str, prompt: str, project_dir: Path,
+                       reasoning_effort: str | None) -> list[str]:
+    # Muse Code CLI (Meta Superintelligence Labs), headless via `muse exec`.
+    # --provider meta uses the stored SUBSCRIPTION login (META_API_KEY is popped
+    # in run_phase so it can never silently fall back to pay-per-token API
+    # billing — the Meta-API analogue of the claude ANTHROPIC_API_KEY strip).
+    # --json emits JSONL events; the terminal `run.terminal.completed` carries the
+    # final text. --workspace roots policy-gated tools at the project; exec
+    # auto-approves tool use and writes files directly, and an untrusted workspace
+    # disables agent delegation (keeps parity — no subagent fan-out). muse is a
+    # mise bash-wrapper shim → bash -lc. No token metrics are exposed (flat-rate
+    # subscription → notional cost, like the Claude Max / zcode runs).
+    args = ["muse", "exec", "--json", "--provider", "meta",
+            "--model", model_id, "--workspace", str(project_dir.resolve())]
+    if reasoning_effort:
+        args += ["--reasoning-effort", reasoning_effort]
+    args.append(prompt)
+    return ["bash", "-lc", " ".join(shlex_quote(a) for a in args)]
+
+
 def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
               project_dir: Path, out_dir: Path) -> dict[str, Any]:
     harness = model["harness"]
@@ -179,6 +199,42 @@ def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
         _c.setdefault("model", {})["main"] = model["model_id"]  # e.g. "zai/glm-5.3"
         zc_cfg.write_text(json.dumps(_c, indent=1))
         command = build_zcode_command(prompt, project_dir)
+    elif harness == "muse":
+        # Isolate HOME so the user's personal skills (~/.claude/skills,
+        # ~/.agents/skills) never load into a benchmark run (parity — only muse's
+        # built-in skills remain, which are harness-native like opencode's build
+        # agent). Isolate XDG_CONFIG_HOME/XDG_DATA_HOME too, but (a) copy the
+        # subscription login (auth.json) in so `--provider meta` authenticates,
+        # and (b) carry the headless-chrome XDG so any model system-test browser
+        # stays offscreen (same reason the opencode branch seeds chromium-flags).
+        # META_API_KEY is popped so muse uses the flat-rate subscription, never
+        # the pay-per-token Meta API (billing-path discipline).
+        import shutil
+        iso_home = out_dir / ".muse-home"
+        iso_cfg = out_dir / ".muse-config"
+        iso_data = out_dir / ".muse-data"
+        for p in (iso_home, iso_cfg, iso_data):
+            p.mkdir(parents=True, exist_ok=True)
+        chrome_xdg = REPO_ROOT / "config" / "chrome-headless-xdg"
+        if chrome_xdg.exists():
+            for item in chrome_xdg.iterdir():
+                dst = iso_cfg / item.name
+                if dst.exists():
+                    continue
+                if item.is_dir():
+                    shutil.copytree(item, dst)
+                else:
+                    shutil.copy2(item, dst)
+        (iso_cfg / "muse").mkdir(parents=True, exist_ok=True)
+        real_auth = Path.home() / ".config" / "muse" / "auth.json"
+        if real_auth.exists():
+            shutil.copy2(real_auth, iso_cfg / "muse" / "auth.json")
+        env["HOME"] = str(iso_home.resolve())
+        env["XDG_CONFIG_HOME"] = str(iso_cfg.resolve())
+        env["XDG_DATA_HOME"] = str(iso_data.resolve())
+        env.pop("META_API_KEY", None)
+        command = build_muse_command(model["model_id"], prompt, project_dir,
+                                     model.get("muse_reasoning_effort"))
     elif harness == "opencode":
         # v2 phases are session-independent: fresh `opencode run` per phase
         # in the same workspace, model selected via -m each time.
@@ -343,6 +399,20 @@ def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
             session_id = d.get("sessionId")
         except Exception:
             pass
+    elif harness == "muse":
+        # muse exec emits no token/usage events in its JSONL stream (flat-rate
+        # subscription). Record the session id (the per-run stream id) for traceability;
+        # tokens stay empty and cost stays notional (None), like the Claude Max / zcode
+        # subscription runs. Grading reads the project files, not these metrics.
+        for ev in events:
+            p = ev.get("payload") or {}
+            if isinstance(p, dict) and p.get("kind") == "run_model_configured":
+                st = ev.get("stream") or {}
+                if st.get("kind") == "session":
+                    session_id = st.get("id") or session_id
+                break
+        tokens = {}
+        cost_usd = None
 
     if cost_usd is None and tokens and rates:
         cost_usd = round(
