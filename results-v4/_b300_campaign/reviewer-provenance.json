@@ -1,0 +1,831 @@
+{
+  "generated_at": "2026-10-19T14:47:07Z",
+  "description": "Per-model, per-boundary independent-reviewer provenance for the B300 open-weight v4 batch.",
+  "reviewers": {
+    "codex": "OpenAI Codex (codex exec); boundary transcript in boundaries/sprint<NN>-*/agent.ndjson",
+    "claude": "Claude Opus 4.8; boundary dir named boundaries/sprint<NN>-claude-* with verdict/manifest/report"
+  },
+  "switch": {
+    "date": "2026-10-19",
+    "reason": "Codex security service refused the authorized sabotage-injection/grading operation (cybersecurity flag); user explicitly instructed switching the independent reviewer to Claude to complete the batch.",
+    "unchanged_across_switch": [
+      "injection plan",
+      "sabotage catalog",
+      "14-item set",
+      "severity denominator 40",
+      "scoring buckets (full unprompted / 40% after reveal / 0 unresolved)",
+      "one-candidate shield/isolation",
+      "two-nudge ceiling"
+    ],
+    "completed_models_wholly_codex": [
+      "v2_dsv4_flash_oss",
+      "v2_glm_4_7_flash_bf16_oss",
+      "v2_glm_5_3_flash_oss",
+      "v2_qwen3_8_27b_oss",
+      "v2_swift_1_5_27b_oss"
+    ]
+  },
+  "models": {
+    "v2_command_a_plus_oss": {
+      "reviewer_mix": "codex_only_so_far_pending_claude_resume",
+      "codex_boundary_sprints": [
+        1,
+        2,
+        3
+      ],
+      "claude_boundary_sprints": [],
+      "boundaries": [
+        {
+          "dir": "sprint01-1792284567719760616",
+          "sprint": 1,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint02-1792285126502868736",
+          "sprint": 2,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint02-1792383137282305274",
+          "sprint": 2,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint03-1792383532796057635",
+          "sprint": 3,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint03-1792385354781312885",
+          "sprint": 3,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint03-1792386956310333100",
+          "sprint": 3,
+          "reviewer": "codex",
+          "has_verdict": false
+        }
+      ]
+    },
+    "v2_dsv4_flash_oss": {
+      "reviewer_mix": "codex_complete",
+      "codex_boundary_sprints": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "claude_boundary_sprints": [],
+      "boundaries": [
+        {
+          "dir": "sprint01-1792263473831379752",
+          "sprint": 1,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint02-1792263919297947352",
+          "sprint": 2,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint03-1792264266536024000",
+          "sprint": 3,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint04-1792264768769749316",
+          "sprint": 4,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint05-1792265169810163532",
+          "sprint": 5,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint06-1792265687252601434",
+          "sprint": 6,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint07-1792266292484672345",
+          "sprint": 7,
+          "reviewer": "codex",
+          "has_verdict": true
+        }
+      ]
+    },
+    "v2_glm_4_7_flash_bf16_oss": {
+      "reviewer_mix": "codex_complete",
+      "codex_boundary_sprints": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "claude_boundary_sprints": [],
+      "boundaries": [
+        {
+          "dir": "sprint01-1792279598950274150",
+          "sprint": 1,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint02-1792279863660649473",
+          "sprint": 2,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint03-1792280179062653818",
+          "sprint": 3,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint03-1792361950560738607",
+          "sprint": 3,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint03-1792376310478888193",
+          "sprint": 3,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint04-1792376609908852796",
+          "sprint": 4,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint05-1792377050529167648",
+          "sprint": 5,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint06-1792377365215157753",
+          "sprint": 6,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint07-1792378217809447596",
+          "sprint": 7,
+          "reviewer": "codex",
+          "has_verdict": true
+        }
+      ]
+    },
+    "v2_glm_5_3_flash_oss": {
+      "reviewer_mix": "codex_complete",
+      "codex_boundary_sprints": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "claude_boundary_sprints": [],
+      "boundaries": [
+        {
+          "dir": "sprint02-1792252336163708117",
+          "sprint": 2,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint03-1792253120248121927",
+          "sprint": 3,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint04-1792254075932175528",
+          "sprint": 4,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint05-1792255562850919690",
+          "sprint": 5,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint06-1792256881775104226",
+          "sprint": 6,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint07-1792257855827572631",
+          "sprint": 7,
+          "reviewer": "codex",
+          "has_verdict": true
+        }
+      ]
+    },
+    "v2_muse_glimmer_30b_oss": {
+      "reviewer_mix": "mixed_codex_then_claude",
+      "codex_boundary_sprints": [
+        1,
+        2,
+        3
+      ],
+      "claude_boundary_sprints": [
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "boundaries": [
+        {
+          "dir": "sprint01-1792282986980803574",
+          "sprint": 1,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint02-1792283247121250307",
+          "sprint": 2,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint03-1792283730608351267",
+          "sprint": 3,
+          "reviewer": "codex",
+          "has_verdict": false
+        },
+        {
+          "dir": "sprint03-claude-1792399703828897312",
+          "sprint": 3,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint04-claude-1792400683469325989",
+          "sprint": 4,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint05-claude-1792401343235243382",
+          "sprint": 5,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint06-claude-1792402139731503838",
+          "sprint": 6,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint07-claude-1792402632753346963",
+          "sprint": 7,
+          "reviewer": "claude",
+          "has_verdict": true
+        }
+      ]
+    },
+    "v2_nemotron35_super_vl_oss": {
+      "reviewer_mix": "mixed_codex_then_claude",
+      "codex_boundary_sprints": [
+        1,
+        2,
+        3
+      ],
+      "claude_boundary_sprints": [
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "boundaries": [
+        {
+          "dir": "sprint01-1792268303685198898",
+          "sprint": 1,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint02-1792269288563804408",
+          "sprint": 2,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint03-1792269900700752474",
+          "sprint": 3,
+          "reviewer": "codex",
+          "has_verdict": false
+        },
+        {
+          "dir": "sprint03-claude-1792409716505282045",
+          "sprint": 3,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint04-claude-1792411801399440891",
+          "sprint": 4,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint05-claude-1792412935468587635",
+          "sprint": 5,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint06-claude-1792413609236007750",
+          "sprint": 6,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint07-claude-1792414282126549323",
+          "sprint": 7,
+          "reviewer": "claude",
+          "has_verdict": true
+        }
+      ]
+    },
+    "v2_nex_n2_5_mini_oss": {
+      "reviewer_mix": "codex_only_so_far_pending_claude_resume",
+      "codex_boundary_sprints": [
+        1
+      ],
+      "claude_boundary_sprints": [],
+      "boundaries": [
+        {
+          "dir": "sprint01-1792274851074373315",
+          "sprint": 1,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint01-1792384409451726952",
+          "sprint": 1,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint01-1792386212958023017",
+          "sprint": 1,
+          "reviewer": "codex",
+          "has_verdict": true
+        }
+      ]
+    },
+    "v2_ornith_1_5_35b_oss": {
+      "reviewer_mix": "mixed_codex_then_claude",
+      "codex_boundary_sprints": [
+        1,
+        2,
+        3
+      ],
+      "claude_boundary_sprints": [
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "boundaries": [
+        {
+          "dir": "sprint01-1792345053279799378",
+          "sprint": 1,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint02-1792345611654071281",
+          "sprint": 2,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint03-1792348124651551167",
+          "sprint": 3,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint03-claude-1792395119013589535",
+          "sprint": 3,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint04-claude-1792396143689938805",
+          "sprint": 4,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint05-claude-1792397311703110574",
+          "sprint": 5,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint06-claude-1792398237612913526",
+          "sprint": 6,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint07-claude-1792399355295025251",
+          "sprint": 7,
+          "reviewer": "claude",
+          "has_verdict": true
+        }
+      ]
+    },
+    "v2_qwen35_122b_oss": {
+      "reviewer_mix": "codex_only_so_far_pending_claude_resume",
+      "codex_boundary_sprints": [
+        1,
+        2,
+        3
+      ],
+      "claude_boundary_sprints": [],
+      "boundaries": [
+        {
+          "dir": "sprint01-1792260023025525790",
+          "sprint": 1,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint02-1792278461694503538",
+          "sprint": 2,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint02-1792362381523835680",
+          "sprint": 2,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint03-1792363250556953446",
+          "sprint": 3,
+          "reviewer": "codex",
+          "has_verdict": false
+        }
+      ]
+    },
+    "v2_qwen35_397b_oss": {
+      "reviewer_mix": "mixed_codex_then_claude",
+      "codex_boundary_sprints": [
+        1,
+        2,
+        3
+      ],
+      "claude_boundary_sprints": [
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "boundaries": [
+        {
+          "dir": "sprint01-1792258940375694471",
+          "sprint": 1,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint02-1792277288635283234",
+          "sprint": 2,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint03-1792278054322552383",
+          "sprint": 3,
+          "reviewer": "codex",
+          "has_verdict": false
+        },
+        {
+          "dir": "sprint03-claude-1792414748756932895",
+          "sprint": 3,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint04-claude-1792417608251791117",
+          "sprint": 4,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint05-claude-1792419218733720457",
+          "sprint": 5,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint06-claude-1792420211635347173",
+          "sprint": 6,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint07-claude-1792420988545550068",
+          "sprint": 7,
+          "reviewer": "claude",
+          "has_verdict": true
+        }
+      ]
+    },
+    "v2_qwen3_8_27b_oss": {
+      "reviewer_mix": "codex_complete",
+      "codex_boundary_sprints": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "claude_boundary_sprints": [],
+      "boundaries": [
+        {
+          "dir": "sprint01-1792350051325213630",
+          "sprint": 1,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint02-1792350531535579015",
+          "sprint": 2,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint03-1792352561812050236",
+          "sprint": 3,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint04-1792353504973137595",
+          "sprint": 4,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint05-1792358390841864780",
+          "sprint": 5,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint06-1792360257657778284",
+          "sprint": 6,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint07-1792361211834979108",
+          "sprint": 7,
+          "reviewer": "codex",
+          "has_verdict": false
+        },
+        {
+          "dir": "sprint07-1792361481609196977",
+          "sprint": 7,
+          "reviewer": "codex",
+          "has_verdict": true
+        }
+      ]
+    },
+    "v2_qwen3_8_flash_next_oss": {
+      "reviewer_mix": "mixed_codex_then_claude",
+      "codex_boundary_sprints": [
+        1,
+        2
+      ],
+      "claude_boundary_sprints": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "boundaries": [
+        {
+          "dir": "sprint01-1792281776460810485",
+          "sprint": 1,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint02-1792282412634613924",
+          "sprint": 2,
+          "reviewer": "codex",
+          "has_verdict": false
+        },
+        {
+          "dir": "sprint02-claude-verify-1792403001438999702",
+          "sprint": 2,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint03-claude-1792404691566270132",
+          "sprint": 3,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint04-claude-1792406021539863890",
+          "sprint": 4,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint05-claude-1792407092325639834",
+          "sprint": 5,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint06-claude-1792408682900108925",
+          "sprint": 6,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint07-claude-1792409221079901515",
+          "sprint": 7,
+          "reviewer": "claude",
+          "has_verdict": true
+        }
+      ]
+    },
+    "v2_swift_1_5_27b_oss": {
+      "reviewer_mix": "codex_complete",
+      "codex_boundary_sprints": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "claude_boundary_sprints": [],
+      "boundaries": [
+        {
+          "dir": "sprint01-1792276318303025814",
+          "sprint": 1,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint02-1792276528563666460",
+          "sprint": 2,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint02-1792363687687821512",
+          "sprint": 2,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint03-1792364224711338701",
+          "sprint": 3,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint04-1792364921282067774",
+          "sprint": 4,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint05-1792365749541145984",
+          "sprint": 5,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint06-1792366896386409597",
+          "sprint": 6,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint07-1792367541319396579",
+          "sprint": 7,
+          "reviewer": "codex",
+          "has_verdict": true
+        }
+      ]
+    },
+    "v2_thinkingcap_3_8_27b_oss": {
+      "reviewer_mix": "mixed_codex_then_claude",
+      "codex_boundary_sprints": [
+        1,
+        2,
+        3
+      ],
+      "claude_boundary_sprints": [
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "boundaries": [
+        {
+          "dir": "sprint01-1792369020821108946",
+          "sprint": 1,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint02-1792370483898255680",
+          "sprint": 2,
+          "reviewer": "codex",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint03-1792371062840782472",
+          "sprint": 3,
+          "reviewer": "codex",
+          "has_verdict": false
+        },
+        {
+          "dir": "sprint03-claude-1792389678755671419",
+          "sprint": 3,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint04-claude-1792391413241305315",
+          "sprint": 4,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint05-claude-1792392776915916828",
+          "sprint": 5,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint06-claude-1792393806653048643",
+          "sprint": 6,
+          "reviewer": "claude",
+          "has_verdict": true
+        },
+        {
+          "dir": "sprint07-claude-1792394556431229985",
+          "sprint": 7,
+          "reviewer": "claude",
+          "has_verdict": true
+        }
+      ]
+    }
+  }
+}

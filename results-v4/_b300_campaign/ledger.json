@@ -1,0 +1,816 @@
+{
+  "pod": {
+    "rate_usd_per_hour": 9.09
+  },
+  "models": {
+    "v2_glm_5_3_flash_oss": {
+      "sprint_seconds_total": 8696.993807554245,
+      "guard_tripped": false,
+      "download_seconds": 600.0,
+      "serve_load_seconds": 4751.748994588852,
+      "phase_started": null,
+      "model_time_cost_usd": 25.53,
+      "prior_attempts": [
+        {
+          "path": "results-v4/v2_glm_5_3_flash_oss.infra-tunnel-attempt1",
+          "sprints": {
+            "01_foundation": {
+              "seconds": 385,
+              "exit": 1,
+              "wrapper_exit": 0,
+              "status": "infra_failed",
+              "reason": "Cloudflare HTTP 530 / tunnel 1033"
+            }
+          }
+        },
+        {
+          "path": "results-v4/v2_glm_5_3_flash_oss.eager-cancelled-attempt2",
+          "sprints": {
+            "01_foundation": {
+              "seconds": 1027,
+              "exit": -15,
+              "wrapper_exit": 0,
+              "stall_aborted": false,
+              "status": "failed"
+            }
+          },
+          "status": "user_cancelled_for_optimization",
+          "reason": "User authorized cancellation, optimization, clean restart and comparison",
+          "cancelled_at": 1792217158.432354
+        }
+      ],
+      "sprints": {
+        "01_foundation": {
+          "seconds": 3227,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "02_multiuser": {
+          "seconds": 846,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "03_admin": {
+          "seconds": 575,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "04_reports": {
+          "seconds": 712,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "05_api": {
+          "seconds": 1328,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "06_production": {
+          "seconds": 1152,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "07_reveal": {
+          "seconds": 856,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        }
+      },
+      "note": "User-authorized clean optimized restart gets fresh 7200s guard. Prior tunnel/eager attempt seconds and all costs retained separately; neither attempt is a model-quality failure.",
+      "prior_attempt_sprint_seconds": 1414.3717377185822
+    },
+    "v2_qwen35_397b_oss": {
+      "sprints": {
+        "01_foundation": {
+          "seconds": 338,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "02_multiuser": {
+          "seconds": 411,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "03_admin": {
+          "seconds": 571,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "04_reports": {
+          "seconds": 498,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "05_api": {
+          "seconds": 607,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "06_production": {
+          "seconds": 487,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "07_reveal": {
+          "seconds": 343,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        }
+      },
+      "sprint_seconds_total": 3255.3558144569397,
+      "guard_tripped": false,
+      "download_seconds": 771.889461517334,
+      "serve_load_seconds": 1333.1774067878723,
+      "phase_started": null,
+      "model_time_cost_usd": 8.22
+    },
+    "v2_qwen35_122b_oss": {
+      "sprints": {
+        "01_foundation": {
+          "seconds": 226,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "02_multiuser": {
+          "seconds": 1394,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "03_admin": {
+          "seconds": 712,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        }
+      },
+      "sprint_seconds_total": 2332.1648693084717,
+      "guard_tripped": false,
+      "download_seconds": 209.04891562461853,
+      "serve_load_seconds": 483.4391441345215,
+      "phase_started": null,
+      "model_time_cost_usd": 5.89
+    },
+    "v2_dsv4_flash_oss": {
+      "sprints": {
+        "01_foundation": {
+          "seconds": 586,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "02_multiuser": {
+          "seconds": 316,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "03_admin": {
+          "seconds": 141,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "04_reports": {
+          "seconds": 114,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "05_api": {
+          "seconds": 232,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "06_production": {
+          "seconds": 338,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "07_reveal": {
+          "seconds": 486,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        }
+      },
+      "sprint_seconds_total": 2212.5280754566193,
+      "guard_tripped": false,
+      "download_seconds": 82.65294170379639,
+      "serve_load_seconds": 1164.2626612186432,
+      "phase_started": null,
+      "model_time_cost_usd": 5.59
+    },
+    "v2_nemotron35_super_vl_oss": {
+      "sprints": {
+        "01_foundation": {
+          "seconds": 503,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "02_multiuser": {
+          "seconds": 860,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "03_admin": {
+          "seconds": 402,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "04_reports": {
+          "seconds": 293,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "05_api": {
+          "seconds": 477,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "06_production": {
+          "seconds": 198,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "07_reveal": {
+          "seconds": 242,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        }
+      },
+      "sprint_seconds_total": 2976.2163388729095,
+      "guard_tripped": false,
+      "download_seconds": 202.22301602363586,
+      "serve_load_seconds": 2518.9245154857635,
+      "phase_started": null,
+      "model_time_cost_usd": 7.51
+    },
+    "v2_qwen3_8_27b_oss": {
+      "sprints": {
+        "01_foundation": {
+          "seconds": 1442,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "02_multiuser": {
+          "seconds": 334,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "03_admin": {
+          "seconds": 1783,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "04_reports": {
+          "seconds": 769,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "05_api": {
+          "seconds": 4700,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "06_production": {
+          "seconds": 1703,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "07_reveal": {
+          "seconds": 798,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        }
+      },
+      "sprint_seconds_total": 11528.559905052185,
+      "guard_tripped": false,
+      "download_seconds": 184.6200728416443,
+      "serve_load_seconds": 158.80746579170227,
+      "phase_started": null,
+      "model_time_cost_usd": 29.11
+    },
+    "v2_glm_4_7_flash_bf16_oss": {
+      "sprints": {
+        "01_foundation": {
+          "seconds": 211,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "02_multiuser": {
+          "seconds": 169,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "03_admin": {
+          "seconds": 103,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "repair03_1792361926412474839": {
+          "seconds": 20,
+          "assisted": true,
+          "reason": null,
+          "exit": 0
+        },
+        "repair03_1792376285507471783": {
+          "seconds": 21,
+          "assisted": true,
+          "reason": null,
+          "exit": 0
+        },
+        "04_reports": {
+          "seconds": 181,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "05_api": {
+          "seconds": 273,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "06_production": {
+          "seconds": 115,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "07_reveal": {
+          "seconds": 728,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        }
+      },
+      "sprint_seconds_total": 1822.0818619728088,
+      "guard_tripped": false,
+      "download_seconds": 647.1959791183472,
+      "serve_load_seconds": 881.3672499656677,
+      "phase_started": null,
+      "model_time_cost_usd": 4.6
+    },
+    "v2_qwen3_8_flash_next_oss": {
+      "sprints": {
+        "01_foundation": {
+          "seconds": 990,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "02_multiuser": {
+          "seconds": 442,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "03_admin": {
+          "seconds": 773,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "04_reports": {
+          "seconds": 666,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "05_api": {
+          "seconds": 492,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "06_production": {
+          "seconds": 1158,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "07_reveal": {
+          "seconds": 247,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        }
+      },
+      "sprint_seconds_total": 4767.936012506485,
+      "guard_tripped": false,
+      "download_seconds": 577.0681531429291,
+      "serve_load_seconds": 619.4501001834869,
+      "phase_started": null,
+      "model_time_cost_usd": 12.04
+    },
+    "v2_muse_glimmer_30b_oss": {
+      "sprints": {
+        "01_foundation": {
+          "seconds": 127,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "02_multiuser": {
+          "seconds": 141,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "03_admin": {
+          "seconds": 267,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "04_reports": {
+          "seconds": 240,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "05_api": {
+          "seconds": 119,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "06_production": {
+          "seconds": 287,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "07_reveal": {
+          "seconds": 222,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        }
+      },
+      "sprint_seconds_total": 1401.92595911026,
+      "guard_tripped": false,
+      "download_seconds": 283.51029419898987,
+      "serve_load_seconds": 494.6735260486603,
+      "phase_started": null,
+      "model_time_cost_usd": 3.54
+    },
+    "v2_command_a_plus_oss": {
+      "sprints": {
+        "01_foundation": {
+          "seconds": 310,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "02_multiuser": {
+          "seconds": 459,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "continuation02_1792382294405343495": {
+          "seconds": 836.5158274173737,
+          "exit": 0,
+          "assisted": true,
+          "reason": null
+        },
+        "03_admin": {
+          "seconds": 204,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "continuation03_1792384880633669303": {
+          "seconds": 468.6815390586853,
+          "exit": 0,
+          "assisted": true,
+          "reason": null
+        },
+        "continuation03_1792386823166029334": {
+          "seconds": 128.1428484916687,
+          "exit": 0,
+          "assisted": true,
+          "reason": null
+        }
+      },
+      "sprint_seconds_total": 2406.070324897766,
+      "guard_tripped": false,
+      "download_seconds": 431.9472932815552,
+      "serve_load_seconds": 1748.03458070755,
+      "phase_started": null,
+      "model_time_cost_usd": 6.08
+    },
+    "v2_ornith_1_5_35b_oss": {
+      "sprints": {
+        "01_foundation": {
+          "seconds": 1619,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "02_multiuser": {
+          "seconds": 424,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "03_admin": {
+          "seconds": 2272,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "04_reports": {
+          "seconds": 428,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "05_api": {
+          "seconds": 385,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "06_production": {
+          "seconds": 399,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "07_reveal": {
+          "seconds": 750,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        }
+      },
+      "sprint_seconds_total": 9658.31811261177,
+      "guard_tripped": false,
+      "download_seconds": 301.2970974445343,
+      "serve_load_seconds": 976.2056596279144,
+      "phase_started": null,
+      "interrupted_attempts": [
+        {
+          "sprint": "01_foundation",
+          "seconds": 3381.6913681030273,
+          "reason": "Controller exited; conservative stage-start to exit accounting",
+          "evidence": "results-v4/v2_ornith_1_5_35b_oss/pause-checkpoints/migration-20261018-interrupted-sprint01"
+        }
+      ],
+      "model_time_cost_usd": 24.39
+    },
+    "v2_nex_n2_5_mini_oss": {
+      "sprints": {
+        "01_foundation": {
+          "seconds": 268,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "continuation01_1792383980211787588": {
+          "seconds": 425.26138377189636,
+          "exit": 0,
+          "assisted": true,
+          "reason": null
+        },
+        "continuation01_1792385688342176600": {
+          "seconds": 520.447961807251,
+          "exit": 0,
+          "assisted": true,
+          "reason": null
+        }
+      },
+      "sprint_seconds_total": 1213.835809469223,
+      "guard_tripped": false,
+      "download_seconds": 260.611478805542,
+      "serve_load_seconds": 446.8586483001709,
+      "phase_started": null,
+      "model_time_cost_usd": 3.06
+    },
+    "v2_swift_1_5_27b_oss": {
+      "sprints": {
+        "01_foundation": {
+          "seconds": 724,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "02_multiuser": {
+          "seconds": 80,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "03_admin": {
+          "seconds": 412,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "04_reports": {
+          "seconds": 546,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "05_api": {
+          "seconds": 643,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "06_production": {
+          "seconds": 957,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "07_reveal": {
+          "seconds": 483,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        }
+      },
+      "sprint_seconds_total": 3845.929388523102,
+      "guard_tripped": false,
+      "download_seconds": 375.39906454086304,
+      "serve_load_seconds": 403.97422313690186,
+      "phase_started": null,
+      "model_time_cost_usd": 9.71
+    },
+    "v2_thinkingcap_3_8_27b_oss": {
+      "sprints": {
+        "01_foundation": {
+          "seconds": 825,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "02_multiuser": {
+          "seconds": 1354,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "03_admin": {
+          "seconds": 429,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "04_reports": {
+          "seconds": 537,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        },
+        "05_api": {
+          "seconds": 600,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "06_production": {
+          "seconds": 532,
+          "exit": 0,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "completed"
+        },
+        "07_reveal": {
+          "seconds": 266,
+          "exit": 1,
+          "wrapper_exit": 0,
+          "stall_aborted": false,
+          "status": "failed"
+        }
+      },
+      "sprint_seconds_total": 4543.035390138626,
+      "guard_tripped": false,
+      "download_seconds": 390.18558502197266,
+      "serve_load_seconds": 406.3664481639862,
+      "phase_started": null,
+      "model_time_cost_usd": 11.47
+    }
+  }
+}
