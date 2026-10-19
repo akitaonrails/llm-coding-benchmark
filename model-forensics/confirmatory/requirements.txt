@@ -1,0 +1,7 @@
+tiktoken==0.14.0
+regex==2026.9.29
+requests==2.33.1
+charset-normalizer==3.4.4
+idna==3.11
+urllib3==2.6.3
+certifi==2026.6.17
