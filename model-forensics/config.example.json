@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "system": "Follow the user's formatting instructions. Answer directly without explanation.",
+  "temperature": null,
+  "max_tokens": 256,
+  "timeout_seconds": 90,
+  "models": [
+    {
+      "label": "genesys-house",
+      "base_url": "https://api.lua.vision/v1",
+      "model": "genesys-pi-house",
+      "key_env": "LUA_API_KEY",
+      "revision_note": "Mutable vendor alias; exact backend revision not independently verified"
+    }
+  ]
+}

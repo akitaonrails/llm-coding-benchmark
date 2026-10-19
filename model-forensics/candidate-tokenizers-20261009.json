@@ -1,0 +1,112 @@
+[
+  {
+    "model": "microsoft/Phi-4-mini-flash-reasoning",
+    "revision": "1dff8163d28ec880ca2411c474ddc0a927792810",
+    "created_at": "2025-06-19T23:40:57.000Z",
+    "tokenizer_sha256": "e7194c2957acf2c9850759cc635c1ea321024ce4dec55daad2dd12b2263a4521",
+    "vocab_size": 200029,
+    "heldout_count_matches": 768,
+    "total": 768,
+    "normalizer": null,
+    "license": "mit",
+    "base_model": null
+  },
+  {
+    "model": "microsoft/Phi-4-multimodal-instruct",
+    "revision": "93f923e1a7727d1c4f446756212d9d3e8fcc5d81",
+    "created_at": "2025-02-24T22:33:32.000Z",
+    "tokenizer_sha256": "4c1b9f641d4f8b7247b8d5007dd3b6a9f6a87cb5123134fe0d326f14d10c0585",
+    "vocab_size": 200029,
+    "heldout_count_matches": 768,
+    "total": 768,
+    "normalizer": null,
+    "license": "mit",
+    "base_model": null
+  },
+  {
+    "model": "microsoft/phi-4",
+    "revision": "2db69c1c3e91a05d2c64a3185acfbaf36f744e25",
+    "created_at": "2024-12-11T11:47:29.000Z",
+    "tokenizer_sha256": "9f38d05d9d25756bb2f181ab5a0cebcd59e638df10336fc7ed1010f7296d0298",
+    "vocab_size": 100352,
+    "heldout_count_matches": 309,
+    "total": 768,
+    "normalizer": null,
+    "license": "mit",
+    "base_model": null
+  },
+  {
+    "model": "microsoft/Phi-4-mini-instruct",
+    "revision": "cfbefacb99257ffa30c83adab238a50856ac3083",
+    "created_at": "2025-02-19T01:00:58.000Z",
+    "tokenizer_sha256": "382cc235b56c725945e149cc25f191da667c836655efd0857b004320e90e91ea",
+    "vocab_size": 200029,
+    "heldout_count_matches": 768,
+    "total": 768,
+    "normalizer": null,
+    "license": "mit",
+    "base_model": null
+  },
+  {
+    "model": "microsoft/Phi-4-mini-reasoning",
+    "revision": "0e3b1e2d02ee478a3743abe3f629e9c0cb722e0a",
+    "created_at": "2025-04-29T19:15:55.000Z",
+    "tokenizer_sha256": "f08ed885956f70d877a4d9078ec9e3119d8b68a8d579003e230be18cad66911c",
+    "vocab_size": 200029,
+    "heldout_count_matches": 768,
+    "total": 768,
+    "normalizer": null,
+    "license": "mit",
+    "base_model": null
+  },
+  {
+    "model": "microsoft/Phi-4-reasoning-plus",
+    "revision": "69baf8528e1bcf05f475034d9e5dd32875ed125f",
+    "created_at": "2025-04-17T20:51:32.000Z",
+    "tokenizer_sha256": "b28a32dcbbb2779573aa8e345457e7b10f470ccfd262d01672c2469698cbd4f7",
+    "vocab_size": 100352,
+    "heldout_count_matches": 309,
+    "total": 768,
+    "normalizer": null,
+    "license": "mit",
+    "base_model": [
+      "microsoft/phi-4"
+    ]
+  },
+  {
+    "model": "Motif-Technologies/Motif-2.6B",
+    "revision": "5b901f07cdecaa3a3f55ad1a1a89ef78bf2beb4d",
+    "created_at": "2025-06-06T23:12:00.000Z",
+    "tokenizer_sha256": "275139d476909028da05d4ee035aba88f0ca0dbfd0d395f72b7fc80fd7782e19",
+    "vocab_size": 219520,
+    "heldout_count_matches": 694,
+    "total": 768,
+    "normalizer": null,
+    "license": "apache-2.0",
+    "base_model": null
+  },
+  {
+    "model": "LLMWildling/gpt-oss-160b-kiwi",
+    "revision": "c59db9ceb26a9eaf2df077b502f7ec5fc898d4ad",
+    "created_at": "2026-05-01T03:36:48.000Z",
+    "tokenizer_sha256": "0614fe83cadab421296e664e1f48f4261fa8fef6e03e63bb75c20f38e37d07d3",
+    "vocab_size": 200019,
+    "heldout_count_matches": 768,
+    "total": 768,
+    "normalizer": null,
+    "license": "other",
+    "base_model": "openai/gpt-oss-120b"
+  },
+  {
+    "model": "yasserrmd/gpt-oss-coder-20b",
+    "revision": "6bd1ed23a7de0598955213ed6e78c8c08f83cb40",
+    "created_at": "2025-08-09T09:40:54.000Z",
+    "tokenizer_sha256": "0614fe83cadab421296e664e1f48f4261fa8fef6e03e63bb75c20f38e37d07d3",
+    "vocab_size": 200019,
+    "heldout_count_matches": 768,
+    "total": 768,
+    "normalizer": null,
+    "license": "apache-2.0",
+    "base_model": "unsloth/gpt-oss-20b-unsloth-bnb-4bit"
+  }
+]
