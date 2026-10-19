@@ -12,6 +12,12 @@ Five models have completed the full seven-sprint v4 protocol. The 2026-10-19 emp
 > non-completions: Nex (valid poor result, partial), Command A Plus (assist-exhausted,
 > partial), and Qwen3.5 122B (conditional fallback — NOT triggered, since 397B did not DNF).
 
+**Related documents:**
+[cost-vs-quality comparison + "is renting worth it"](b300-cost-quality-comparison.md) ·
+[serving optimizations (why the defaults are slow)](b300-serving-optimizations.md) ·
+[per-model progress tracker](b300-batch-status.md) ·
+[RunPod B300 ops runbook](runpod-b300-openweights-runbook.md)
+
 ## Reviewer provenance — independent reviewer switched Codex → Claude (2026-10-19)
 
 The v4 protocol uses an **independent boundary reviewer** that, between sprints, injects the

@@ -109,6 +109,24 @@ The deep code reviews in `docs/success_report*.md` are the substance of this rep
   Integration of the **deepclaude** shim (https://github.com/aattaran/deepclaude) for running Claude Code's autonomous agent loop against DeepSeek V4 Pro through OpenRouter's Anthropic-compatible endpoint. Bypasses the opencode/DeepSeek `reasoning_content` interop bug that made V4 Pro unmeasurable in Round 3.
 - `docs/success_report.deepclaude.md`
   **Round 4: deepclaude benchmark results.** DeepSeek V4 Pro inside Claude Code via the deepclaude shim. Both variants Tier A: `claude_code_deepseek_v4_pro_or` = **84/100, 21m, $3.38**, `claude_code_deepseek_v4_pro_or_sonnet` = **89/100, 18m, $3.14** (with registered-but-never-invoked Sonnet subagent — 0 delegations). Three headline findings: (1) the Claude Code harness regression that produced Opus's `chat.complete` hallucination is **Opus-specific**, not a harness property — DeepSeek used the real API in the same harness; (2) harness change alone (no orchestration) lifts DeepSeek V4 Pro by **+15-20 points** vs solo opencode (69 Tier B → 84-89 Tier A); (3) subagent-availability signal exists even without invocation — the variant with registered Sonnet produced measurably more delegable decomposition than the solo variant. Updated cost-quality verdict: deepclaude is the recommended default for Tier-A coding without an Anthropic subscription ($3.14 / 18m / 89, runs entirely through OpenRouter).
+- `docs/b300-batch-analysis.md`
+  **Open-weight v4 batch on a rented RunPod B300 (275 GB).** Hub report for the 11-model
+  self-hosted open-weight run under the v4 boundary-review ("vigilance") protocol, including the
+  Codex→Claude reviewer-switch provenance and the per-model findings (397B missed-backdoor-under-reveal,
+  Nemotron test-gaming). `docs/b300-batch-status.md` is the companion per-model progress tracker.
+- `docs/b300-cost-quality-comparison.md`
+  **The payoff analysis: are open-weight models near commercial Tier A/B, and is renting a B300 worth
+  it?** Full ranking table (score, tier, VRAM, tok/s, inference cost), cloud-vs-self-host economics
+  ($9.09/hr whole-pod vs ~$1–2 cloud per run; ~6,500 runs/month break-even), and the
+  recommendation (Swift 1.5 27B / ThinkingCap 3.8 27B as the self-host sweet spot).
+- `docs/b300-serving-optimizations.md`
+  **Why the serving defaults are unusable and what to change.** The GLM 5.3 Flash
+  `--enforce-eager` → compiled result (**10.35 → 141.40 tok/s, 13.7× from config alone**), the CUDA
+  12.8→12.9 B300 (sm_103) toolchain prerequisite, the 397B runtime-loader and Nemotron CUDA-13/vLLM-0.32
+  fixes, NVFP4+vLLM for the big MoE checkpoints, per-model parsers and MTP/DFlash speculative decoding.
+- `docs/runpod-b300-openweights-runbook.md`
+  Full operational runbook for the B300 pod: provisioning, tunnel, per-model preparation/admission,
+  tuning discipline (100 tok/s gate, 3-config/45-min cap), and the measured-optimization ledger.
 - `docs/ollama_warmup.md` / `docs/llama_swap_warmup.nvidia.md`
   Auto-generated per-model preflight tok/s reports.
 
@@ -453,6 +471,12 @@ The hand-written deep code review and runtime viability analysis (which is what 
 For the local llama-swap Docker setup (only relevant if running the NVIDIA profile):
 
 - `docs/llama-swap.md` — full guide, hardware tuning, common pitfalls
+
+For the self-hosted open-weight v4 batch on a rented RunPod B300:
+
+- `docs/b300-cost-quality-comparison.md` — ranking + "is renting worth it" economics + recommendation
+- `docs/b300-serving-optimizations.md` — why the defaults are slow (13.7× from config) and what to change
+- `docs/b300-batch-analysis.md` — hub report + reviewer provenance; `docs/runpod-b300-openweights-runbook.md` — ops runbook
 
 ## Interpreting Results
 
