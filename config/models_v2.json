@@ -661,6 +661,126 @@
       "notes": "Added per user 2026-09-11. GLM-4.7-Flash MoE (30B-A3B) Q5_K_M on the 5090 via llama-swap (:11436), --jinja --reasoning-format none, 64K ctx. Tool-use-focused MoE; test whether it sustains the v4 agentic loop better than the dense Qwen3.8 (which walled at sprint 3 on coherence). Local, cost=$0."
     },
     {
+      "slug": "v2_qwen35_122b_oss",
+      "label": "Qwen3.5-122B-A10B official FP8 (RunPod B300 vLLM)",
+      "harness": "opencode",
+      "model_id": "runpod-vllm/qwen3.5-122b",
+      "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 7,
+      "notes": "Added per user 2026-10-16 (B300 open-weights campaign). Never v4-tested. Qwen3.5-122B-A10B (hybrid GDN MoE) official FP8. Tests family coherence vs dense 27B sibling. Pod cost tracked in results-v4/_b300_campaign/ledger.json at $9.09/hr; 2h per-model sprint guard (TIME_GUARD.md + DNF, not charged to model). Serving config in config/b300_campaign.json."
+    },
+    {
+      "slug": "v2_qwen35_397b_oss",
+      "label": "Qwen3.5-397B-A17B NVFP4 (RunPod B300 vLLM)",
+      "harness": "opencode",
+      "model_id": "runpod-vllm/qwen3.5-397b",
+      "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 7,
+      "notes": "Added per user 2026-10-16 (B300 open-weights campaign). First ~400B flagship row. nvidia ModelOpt NVFP4 of Qwen3.5-397B-A17B (251GB, within 1-2% of FP8). Pod cost tracked in results-v4/_b300_campaign/ledger.json at $9.09/hr; 2h per-model sprint guard (TIME_GUARD.md + DNF, not charged to model). Serving config in config/b300_campaign.json."
+    },
+    {
+      "slug": "v2_dsv4_flash_oss",
+      "label": "DeepSeek-V4-Flash 0731 official FP4/FP8 (RunPod B300 vLLM)",
+      "harness": "opencode",
+      "model_id": "runpod-vllm/dsv4-flash",
+      "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 7,
+      "notes": "Added per user 2026-10-16 (B300 open-weights campaign). Official mixed FP4/FP8 0731 checkpoint (native release, no extra quant). Consistency vs cloud wave-3 runs. Pod cost tracked in results-v4/_b300_campaign/ledger.json at $9.09/hr; 2h per-model sprint guard (TIME_GUARD.md + DNF, not charged to model). Serving config in config/b300_campaign.json."
+    },
+    {
+      "slug": "v2_nemotron35_super_vl_oss",
+      "label": "Nemotron-3.5-Super-VL-120B-A12B NVFP4 (RunPod B300 vLLM)",
+      "harness": "opencode",
+      "model_id": "runpod-vllm/nemotron-3.5-super-vl",
+      "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 7,
+      "notes": "Added per user 2026-10-16 (B300 campaign). Swapped over Nemotron-3-Super per suggestion: newer (2026-10-15), 2x AA index, NVFP4 near-lossless, top US open-weight model. Also serves as the family rescue of the 3-Super crash/auth infra-DNF."
+    },
+    {
+      "slug": "v2_qwen3_8_27b_oss",
+      "label": "Qwen3.8-27B dense BF16 redo (RunPod B300 vLLM)",
+      "harness": "opencode",
+      "model_id": "runpod-vllm/qwen3.8-27b",
+      "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 7,
+      "notes": "Added per user 2026-10-16 (B300 open-weights campaign). Full-fidelity redo: 5090-Q5 walled at sprint 3, Strix-Q8 slow. Settles quant-vs-model. Pod cost tracked in results-v4/_b300_campaign/ledger.json at $9.09/hr; 2h per-model sprint guard (TIME_GUARD.md + DNF, not charged to model). Serving config in config/b300_campaign.json."
+    },
+    {
+      "slug": "v2_glm_4_7_flash_bf16_oss",
+      "label": "GLM-4.7-Flash 30B-A3B BF16 redo (RunPod B300 vLLM)",
+      "harness": "opencode",
+      "model_id": "runpod-vllm/glm-4.7-flash",
+      "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 7,
+      "notes": "Added per user 2026-10-16 (B300 open-weights campaign). Quant-vs-model A/B vs local Q5_K_M 24.0. Pod cost tracked in results-v4/_b300_campaign/ledger.json at $9.09/hr; 2h per-model sprint guard (TIME_GUARD.md + DNF, not charged to model). Serving config in config/b300_campaign.json."
+    },
+    {
+      "slug": "v2_qwen3_8_flash_next_oss",
+      "label": "Qwen3.8-Flash-Next NVFP4 (RunPod B300 vLLM)",
+      "harness": "opencode",
+      "model_id": "runpod-vllm/qwen3.8-flash-next",
+      "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 7,
+      "notes": "Added per user 2026-10-16 (B300 open-weights campaign). Qwen4-architecture preview: 125B-A6B + 51B PLE n-gram embedding + 4B MTP. Pod cost tracked in results-v4/_b300_campaign/ledger.json at $9.09/hr; 2h per-model sprint guard (TIME_GUARD.md + DNF, not charged to model). Serving config in config/b300_campaign.json."
+    },
+    {
+      "slug": "v2_glm_5_3_flash_oss",
+      "label": "GLM 5.3 Flash open-weights NVFP4 (self-hosted RunPod B300 vLLM)",
+      "harness": "opencode",
+      "model_id": "runpod-vllm/glm-5.3-flash",
+      "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 6,
+      "notes": "Added per user 2026-10-16. zai-org/GLM-5.3-Flash (320B-A18B, MIT) as RedHatAI NVFP4 (198GB, experts 4-bit) served via vLLM on rented RunPod B300 288GB, TP1, glm47 tool parser, SSH-proxy to opencode. Open-weights consistency check vs cloud v2_glm_5_3_flash (84.25, OpenRouter FP8-class serving). Tier A injection parity (same as cloud Flash). Quant caveat: NVFP4 vs FP8 delta to be noted in scoring."
+    },
+    {
       "slug": "v2_glm_5_3",
       "label": "GLM 5.3 (opencode/Z.ai coding plan)",
       "harness": "opencode",
@@ -1235,6 +1355,276 @@
       "muse_reasoning_effort": "high",
       "wave": "muse",
       "notes": "Standard Muse Wonder (AA~52) via `muse exec` subscription; Wonder Full is not CLI-reachable. provider=meta, META_API_KEY popped so it never bills the pay-per-token API."
+    },
+    {
+      "slug": "v2_muse_glimmer_30b_oss",
+      "label": "Muse Glimmer 30B BF16 (RunPod B300 vLLM)",
+      "harness": "opencode",
+      "model_id": "runpod-vllm/muse-glimmer",
+      "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 7,
+      "notes": "Added by user 2026-10-17 to B300 campaign. Official meta-models/Muse-Glimmer-30B BF16, 128K context. vLLM support/tool-loop preflight required; preserve infrastructure failures separately from model quality. Same 2h cumulative sprint execution guard and pod-cost accounting."
+    },
+    {
+      "slug": "v2_command_a_plus_oss",
+      "label": "Command A+ W4A4 (RunPod B300 vLLM)",
+      "harness": "opencode",
+      "model_id": "runpod-vllm/command-a-plus",
+      "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 7,
+      "notes": "Added by user 2026-10-17. Official CohereLabs/command-a-plus-05-2026-w4a4; Cohere recommended single-Blackwell checkpoint. Same 128K context, 2h sprint guard and isolated harness. Parser dependency cohere_melody; preflight mandatory."
+    },
+    {
+      "slug": "v2_ornith_1_5_35b_oss",
+      "label": "Ornith 1.5 35B-A3B BF16 (RunPod B300 vLLM)",
+      "harness": "opencode",
+      "model_id": "runpod-vllm/ornith-1.5-35b",
+      "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 7,
+      "notes": "Added by user 2026-10-17. Official ornith-ai/Ornith-1.5-35B-A3B BF16, MIT. Same 128K context, 2h cumulative sprint guard, isolated OpenCode harness. Use bundled model chat template and qwen3_xml tool parser."
+    },
+    {
+      "slug": "v2_nex_n2_5_mini_oss",
+      "label": "Nex N2.5 Mini BF16 (RunPod B300 vLLM)",
+      "harness": "opencode",
+      "model_id": "runpod-vllm/nex-n2.5-mini",
+      "billing": "Self-hosted RunPod B300; wall-time billing, no per-token charges",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 7,
+      "notes": "User-approved 2026-10-17. Original Apache-2.0 BF16 35B agentic MoE. Bundled template default adaptive/medium reasoning (undefined matches medium); never disable reasoning for speed. 100 tok/s admission, max 3 configs/45 min tuning, cumulative 4h sprint guard. Official SGLang recipe reviewed; vLLM Qwen3.5 path requires actual tool preflight."
+    },
+    {
+      "slug": "v2_swift_1_5_27b_oss",
+      "label": "Swift 1.5 Qwen3.8 27B BF16 (RunPod B300 vLLM)",
+      "harness": "opencode",
+      "model_id": "runpod-vllm/swift-1.5-27b",
+      "billing": "Self-hosted B300 wall-time; no per-token charges",
+      "rates_per_m": {
+        "input": 0.0,
+        "output": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0
+      },
+      "wave": 7,
+      "notes": "User-approved 2026-10-17. Original BF16 reasoning-efficient Qwen3.8-27B derivative. Preserve bundled default thinking mode. 128K context/32K output, 100 tok/s admission, max 3 configs/45min optimization, cumulative 4h sprint guard. Official MTP3 recipe is first below-threshold alternative; never disable reasoning to pass throughput."
+    },
+    {
+      "slug": "v2_thinkingcap_3_8_27b_oss",
+      "label": "ThinkingCap Qwen3.8 27B BF16 (RunPod B300 vLLM)",
+      "harness": "opencode",
+      "model_id": "runpod-vllm/thinkingcap-3.8-27b",
+      "billing": "Self-hosted B300 wall-time; no per-token charges",
+      "rates_per_m": {
+        "input": 0.0,
+        "output": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0
+      },
+      "wave": 7,
+      "notes": "User-approved 2026-10-17. Original BF16 reasoning-efficient Qwen3.8-27B derivative. Preserve bundled default thinking mode. 128K context/32K output, 100 tok/s admission, max 3 configs/45min optimization, cumulative 4h sprint guard. Official MTP3 recipe is first below-threshold alternative; never disable reasoning to pass throughput."
+    },
+    {
+      "slug": "v2_qwen3_8_27b_strix_q4",
+      "label": "Qwen3.8-27B Q4_K_M (LOCAL Strix Halo ollama)",
+      "harness": "opencode",
+      "model_id": "ollama-strix/qwen38-27b-strix-q4",
+      "billing": "Local (Strix Halo 192.168.0.90 Ryzen AI MAX+ 395, free)",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 7,
+      "notes": "Added 2026-10-19. Q4_K_M (17GB, ~12.6 tok/s) GGUF on Strix Halo via ROCm ollama (:11434), 128K ctx. v4 self-host-on-consumer-HW comparison vs B300. Claude reviewer (Codex blocked). Capped (<=2 nudge, B300-comparable) + extended-nudge assisted-ceiling scores."
+    },
+    {
+      "slug": "v2_qwen3_8_27b_strix_q8",
+      "label": "Qwen3.8-27B Q8_0 anchor (LOCAL Strix Halo ollama)",
+      "harness": "opencode",
+      "model_id": "ollama-strix/qwen38-27b-strix-q8",
+      "billing": "Local (Strix Halo 192.168.0.90 Ryzen AI MAX+ 395, free)",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 7,
+      "notes": "Added 2026-10-19. Q8_0 (29GB, ~7.7 tok/s) quant-cost anchor GGUF on Strix Halo via ROCm ollama (:11434), 128K ctx. v4 self-host-on-consumer-HW comparison vs B300. Claude reviewer (Codex blocked). Capped (<=2 nudge, B300-comparable) + extended-nudge assisted-ceiling scores."
+    },
+    {
+      "slug": "v2_swift_1_5_27b_strix_q4",
+      "label": "Swift 1.5 27B Q4_K_M (LOCAL Strix Halo ollama)",
+      "harness": "opencode",
+      "model_id": "ollama-strix/swift15-27b-strix-q4",
+      "billing": "Local (Strix Halo 192.168.0.90 Ryzen AI MAX+ 395, free)",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 7,
+      "notes": "Added 2026-10-19. Q4_K_M (18GB) GGUF on Strix Halo via ROCm ollama (:11434), 128K ctx. v4 self-host-on-consumer-HW comparison vs B300. Claude reviewer (Codex blocked). Capped (<=2 nudge, B300-comparable) + extended-nudge assisted-ceiling scores."
+    },
+    {
+      "slug": "v2_thinkingcap_3_8_27b_strix_q4",
+      "label": "ThinkingCap 3.8 27B Q4_K_M (LOCAL Strix Halo ollama)",
+      "harness": "opencode",
+      "model_id": "ollama-strix/thinkingcap38-27b-strix-q4",
+      "billing": "Local (Strix Halo 192.168.0.90 Ryzen AI MAX+ 395, free)",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 7,
+      "notes": "Added 2026-10-19. Q4_K_M (18GB) GGUF on Strix Halo via ROCm ollama (:11434), 128K ctx. v4 self-host-on-consumer-HW comparison vs B300. Claude reviewer (Codex blocked). Capped (<=2 nudge, B300-comparable) + extended-nudge assisted-ceiling scores."
+    },
+    {
+      "slug": "v2_qwen38_flash_next_strix_strata_iq3s",
+      "label": "Qwen3.8 Flash-Next IQ3_S (LOCAL Strix Halo, Strata hip-halo)",
+      "harness": "opencode",
+      "model_id": "strata-strix/qwen3.8-flash-next-iq3_s",
+      "billing": "Local (Strix Halo 192.168.0.90, free) via Strata expert-offload engine",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 7,
+      "notes": "Added 2026-10-19. Qwen3.8-Flash-Next (125B MoE, B300 co-top 92.5) served by Strata HIP/ROCm expert-offload engine, IQ3_S quant, OpenAI API :8080. Tests whether the frontier open model runs on consumer HW. IQ3_S is aggressive (<Q4 of the 27Bs, <<B300 NVFP4) so score is quant-penalized. Capped (<=2 nudge) + extended-nudge. Provider wired after `strata launch`/`connect`."
+    },
+    {
+      "slug": "v2_qwen38_flash_next_5090_strata_iq3s",
+      "label": "Qwen3.8 Flash-Next IQ3_S (LOCAL RTX 5090, Strata cuda13)",
+      "harness": "opencode",
+      "model_id": "strata-5090/qwen3.8-flash-next-iq3_s",
+      "billing": "Local (RTX 5090 workstation, free) via Strata expert-offload engine",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 7,
+      "notes": "Added 2026-10-19. Qwen3.8-Flash-Next (125B MoE, B300 co-top 92.5) served by Strata CUDA 13 expert-offload engine, IQ3_S quant, OpenAI API :8080. Tests whether the frontier open model runs on consumer HW. IQ3_S is aggressive (<Q4 of the 27Bs, <<B300 NVFP4) so score is quant-penalized. Capped (<=2 nudge) + extended-nudge. Provider wired after `strata launch`/`connect`."
+    },
+    {
+      "slug": "v2_minimax_m3_1_flash",
+      "label": "MiniMax M3.1 Flash (OpenRouter, 428B MoE)",
+      "harness": "opencode",
+      "model_id": "openrouter/minimax/minimax-m3.1-flash:free",
+      "billing": "OpenRouter (free 72h, then $0.15/$0.60 per M)",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 7,
+      "notes": "Added 2026-10-19 (release day). Successor to MiniMax M3 (v4 75.5). 428B MoE agentic, 1M ctx. :free slug (rate-limited) is the only one live; watch for rate-limit stalls (infra, not model). cloud run, not local campaign."
+    },
+    {
+      "slug": "v2_deepseek_v4_1_flash_b300",
+      "label": "DeepSeek V4.1 Flash FP8 (4xB300 vLLM TP4)",
+      "harness": "opencode",
+      "model_id": "deepseek-b300/deepseek-v4.1-flash",
+      "billing": "Self-hosted 4xB300 (RunPod)",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 7,
+      "notes": "Added 2026-10-20. DeepSeek V4.1 Flash-1017 FP8 (510GB, native deepseek_v4_fp8), vLLM 0.32 TP4 on 4xB300, 174.8 tok/s warm (>=100 gate PASS). Reasoning/tool parsers deepseek_v41. API key re-keyed at launch (local->pod upload). The large open model the user chased; v4 run after MiniMax frees the shield."
+    },
+    {
+      "slug": "v2_kimi_k2_thinking_b300",
+      "label": "Kimi K2 Thinking INT4 (4xB300 vLLM TP4)",
+      "harness": "opencode",
+      "model_id": "kimi-b300/kimi-k2",
+      "billing": "Self-hosted 4xB300 (RunPod)",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 7,
+      "notes": "Added 2026-10-20. Kimi-K2-Thinking INT4 (594GB, 1T MoE ~32B active), vLLM 0.32 TP4 on 4xB300 (official FP8 Instruct 1029GB won't fit w/ KV headroom; no NVFP4 for orig K2). Trillion-param flagship, coding-optimized Thinking variant. Serve after DeepSeek freed GPUs."
+    },
+    {
+      "slug": "v2_glm_5_3_full_b300",
+      "label": "GLM 5.3 full FP8 (4xB300 vLLM TP4)",
+      "harness": "opencode",
+      "model_id": "glm-b300/glm-5.3",
+      "billing": "Self-hosted 4xB300 (RunPod)",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 7,
+      "notes": "Added 2026-10-20. Largest full GLM 5.3 (FP8, 704GB on disk, ~700B), vLLM 0.32 TP4 on 4xB300. Non-Flash flagship (vs the B300-batch GLM 5.3 Flash 320B-A18B=92.5). Last model of the overnight 4xB300 campaign."
+    },
+    {
+      "slug": "v2_ornith_1_5_122b_b300",
+      "label": "Ornith 1.5 122B MoE (4xB300 vLLM TP4)",
+      "harness": "opencode",
+      "model_id": "ornith-b300/ornith-1.5-122b",
+      "billing": "Self-hosted 4xB300 (RunPod)",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 7,
+      "notes": "Added 2026-10-20 per user. HF ornith-ai/Ornith-1.5-122B (~122-125B MoE, arch qwen3_5_moe = same as Nex N2.5 Pro; VL image-text-to-text; BF16 ~244GB, FP8 + GGUF variants; MIT, ungated). vLLM>=0.19.1, serve flags --tool-call-parser qwen3_xml --reasoning-parser qwen3. Big sibling of v2_ornith_1_5_35b_oss (B300 81.0). Queued on 4xB300 overnight campaign. Provider ornith-b300 wired at serve time."
+    },
+    {
+      "slug": "v2_ornith_1_5_35b_5090_strata",
+      "label": "Ornith 1.5 35B-A3B (LOCAL RTX 5090, Strata)",
+      "harness": "opencode",
+      "model_id": "strata-5090/ornith-1.5-35b",
+      "billing": "Local (RTX 5090 workstation, free) via Strata expert-offload engine",
+      "rates_per_m": {
+        "input": 0.0,
+        "cache_read": 0.0,
+        "cache_write": 0.0,
+        "output": 0.0
+      },
+      "wave": 7,
+      "notes": "Added 2026-10-20 per user. LOCAL consumer-HW counterpart to v2_ornith_1_5_35b_oss (B300 BF16 = 81.0) \u2014 never run locally before. ornith-ai/Ornith-1.5-35B-A3B via Strata GGUF on the 5090 (OpenAI API :8080), qwen3_xml tool parser + bundled chat template. Tests whether the 35B runs on consumer HW. Capped (<=2 nudge) + extended-nudge. Provider strata-5090 wired after strata launch/connect. Runs behind current shielded runs (serial)."
     }
   ],
   "skipped": {
