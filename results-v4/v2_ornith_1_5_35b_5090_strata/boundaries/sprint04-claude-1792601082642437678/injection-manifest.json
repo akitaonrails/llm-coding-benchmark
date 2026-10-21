@@ -1,0 +1,95 @@
+{
+  "run": "v2_ornith_1_5_35b_5090_strata",
+  "model": "Ornith-1.5-35B-A3B (LOCAL RTX 5090 Strata)",
+  "harness": "opencode",
+  "boundary": "after sprint 4 (admin analytics dashboard)",
+  "injected_by": "v4 boundary reviewer (fresh, isolated; Claude Opus 4.8)",
+  "committed_as": "Casey <casey@example.com>",
+  "method": "STATIC-ONLY (file edits + grep + ruby -c + git rm). No docker/db/server/rails run, no HTTP, no lock mutation, no bundle command, no test execution, no migration run.",
+  "base_commit_before_injection": "69777e1 (Sprinter: sprint 4 runtime artifacts baseline). The model's sprint-4 SOURCE work was already harness-committed (3aaa43d dashboard, 4ac0593 authz fix); only runtime churn (log/*, storage/*.sqlite3, tmp/cache/bootsnap/*, all git-tracked in this app) was uncommitted, so the reviewer committed it AS-IS as a Sprinter baseline to start the injection clean. No model source work was altered.",
+  "app_stack": "Rails 8.1.4, Minitest + Capybara (rack_test / headless Chromium when SYSTEM_BROWSER=1), hand-rolled DB-backed session auth, RubyLLM -> OpenRouter, SQLite, Hotwire/Turbo + importmap + Stimulus. Sprint-4 reports: Admin::DashboardController (app/controllers/admin/dashboard_controller.rb) computing a @totals hash + @messages_by_user/@conversations_by_user grouped relations + @daily_activity; Reportable concern (with_period) mixed into User/Conversation/Message; per-model class methods total/by_author/daily_activity; views app/views/admin/dashboard/index.html.erb + _stat_card.html.erb; migration db/migrate/20261021000006_add_reporting_indexes.rb adding conversations(created_at) + messages(created_at) indexes.",
+  "injection_set": "full 14-item set / denominator 40 (B300 Tier-A parity: deepseek_v4_1_flash_b300 / kimi_k2_thinking_b300 / glm_5_3_full / step5_preview_b300). Items #7-#9 here; disjoint from #1-#6. Running denominator after #7-9 = 28 (22 + 6).",
+  "parity_reference": "same class+severity set as the siblings' sprint-4 injections (Med 2 x3): #7 compound N+1 + dropped backing index, #8 silently-wrong aggregate, #9 delete-a-needed-file.",
+  "items": [
+    {
+      "id": 7,
+      "name": "N+1 on the per-user breakdown + missing index backing the activity rollup (compound, both halves)",
+      "class": "performance",
+      "severity": "Medium 2",
+      "compound": true,
+      "commit": "9904f5d",
+      "message": "Simplify the per-user message tally and drop a redundant messages index",
+      "halves": [
+        {
+          "half": "7a",
+          "sub": "N+1 on the admin dashboard per-user (messages) breakdown",
+          "file": "app/views/admin/dashboard/index.html.erb",
+          "line": 75,
+          "change": "`<%= row.message_count.to_i %>` (the grouped alias from Message.by_author's single LEFT JOIN + GROUP BY, 0 extra queries) -> `<%= Message.where(user_id: row.user_id).count %>` (one COUNT query per rendered row inside the `@messages_by_user.each do |row|` loop).",
+          "routed_path": "GET /admin/dashboard -> Admin::DashboardController#index -> render index.html.erb 'Messages per user' table -> `@messages_by_user` (still Message.by_author, the single grouped query) iterated in the tbody loop; the view now ignores the message_count alias for the cell and issues a per-row COUNT on Message.where(user_id:) -> 1+N on the breakdown table.",
+          "stays_green": "No query-count guard exists anywhere in the suite (grep: zero assert_queries_count/assert_no_queries in test/). The only by_author coverage is UNIT (message_test.rb:57-77, conversation_test.rb:52-67) which exercises the QUERY OBJECT (Message.by_author.to_a), NOT the view render, so a view-layer N+1 is invisible. The 'N total' span (index.html.erb:60) still uses the alias sum, so integration admin_dashboard_test.rb:66 (`assert_includes body, \"2 total\"`) stays GREEN. No test asserts the per-row message number. The filtered test (admin_dashboard_test.rb:69-91) renders the empty state, so the loop never runs. Rendered value unchanged for the tested fixtures (alice's row = 2 both ways).",
+          "null_safe_adaptation": "Chose a per-row `Message.where(user_id: row.user_id).count` (not Step-5's `row.user.something.count` association form) because Ornith's Message.by_author uses a LEFT JOIN and its own comment notes it 'surfaces unattributed messages with a blank name' — the row's user association can be nil, so `.user.<assoc>.count` would NoMethodError on a null-user row. The where-count is null-safe and is a textbook per-row COUNT N+1.",
+          "live_verify": "grep confirms line 75 now calls Message.where(user_id: row.user_id).count inside the rows loop; by_author still computes the grouped alias (now only feeding the span). Per-row COUNT is on the live GET /admin/dashboard render path."
+        },
+        {
+          "half": "7b",
+          "sub": "needed index dropped (static migration + schema edit)",
+          "files": ["db/migrate/20261021000006_add_reporting_indexes.rb", "db/schema.rb"],
+          "change": "Removed `add_index :messages, :created_at, name: \"index_messages_on_created_at\"` from AddReportingIndexes (migration line 7) AND removed `t.index [\"created_at\"], name: \"index_messages_on_created_at\"` from db/schema.rb (messages table). Done statically — NO migration run. Schema version string unchanged; migration and schema now consistently omit the standalone messages.created_at index. The conversations(created_at) index is LEFT intact as a control.",
+          "target_query": "The dropped standalone created_at index backed the daily message-activity rollup Message.daily_activity (Reportable#with_period -> `messages.created_at >= ?/<= ?`, then `group(\"DATE(created_at)\").count`) and Message.total's windowed count. The surviving messages composite indexes lead with conversation_id (index_messages_on_conversation_id_and_role / _and_id), so they cannot serve a no-conversation-predicate created_at range scan / DATE() grouping.",
+          "stays_green": "No test asserts schema index names (grep: zero `index_messages_on_created_at` references in test/). The rollup queries still return correct rows (full scan), so boot + all tests stay GREEN (message_test.rb daily_activity assertions still pass on values, not indexes). Pure performance regression.",
+          "live_verify": "ruby -c on migration = Syntax OK; ruby -c on schema.rb = Syntax OK; grep -c 'index_messages_on_created_at' db/schema.rb = 0; control index_conversations_on_created_at = 1.",
+          "fix": "restore index_messages_on_created_at (corrective migration + schema.rb line, or git-revert the index removal) — NOT a schema reset"
+        }
+      ],
+      "scoring_note": "COMPOUND — both #7a and #7b must be fixed later for the Med 2; either half alone = 0.",
+      "adaptation": "Applied (primary target). #7a lands on the admin dashboard per-user messages breakdown (grouped message_count alias -> per-row COUNT), the direct analog of the sibling listing-with-grouped-count N+1. #7b drops the standalone messages.created_at index that backs the activity rollup. Same class, Med 2."
+    },
+    {
+      "id": 8,
+      "name": "silently wrong aggregate (green-but-wrong): Users total narrowed to active users",
+      "class": "correctness",
+      "severity": "Medium 2",
+      "commit": "067fe94",
+      "message": "Count only active users on the dashboard totals",
+      "file": "app/controllers/admin/dashboard_controller.rb",
+      "line": 14,
+      "change": "Admin::DashboardController#index @totals hash: `users: User.total(from: @from, to: @to)` -> `users: User.active.total(from: @from, to: @to)`. One scope token prepended (`.active`).",
+      "routed_path": "Rendered on the 'Users' stat card of the admin dashboard (index.html.erb:28 renders stat_card label: \"Users\", value: @totals[:users]), GET /admin/dashboard.",
+      "wrongness": "The headline 'Users' total must count every account, not only active ones. With `.active` prepended, once any user is deactivated (toggle_active -> active:false) the Users figure silently undercounts. Ground truth (all users) != reported (active users only). The direct User.total model method is untouched, so the model/unit contract (user_test.rb:93 `assert_equal 2, User.total`) is unaffected — the wrongness lives only in the dashboard card.",
+      "stays_green": "No test deactivates a user AND asserts the Users stat-card number. Every user created in admin_dashboard_test.rb (admin, regular, alice, bob) is active, so User.active.total == User.total for every test; and no test asserts the exact Users card value anyway (test 3 asserts only the 'Users' LABEL text; tests 4-5 assert the messages span / empty states, never the users count). user_test.rb:93 calls User.total directly, not the controller path. All GREEN.",
+      "adaptation": "Applied — GLM-style adaptation. Ornith's dashboard renders NO admins count (unlike the siblings' `User.admin.count` -> `User.admin.active.count` primary target), so the equivalent single-token narrowing is applied to the overall Users total instead. Same class (silently wrong aggregate), same severity (Med 2), disjoint from #1-#6.",
+      "live_verify": "ruby -c = Syntax OK; grep confirms line 14 now reads `users: User.active.total(from: @from, to: @to)`. User.active scope exists (user.rb:20 `scope :active, -> { where(active: true) }`); `User.active.total(...)` scopes with_period's `all` to the active relation, so it chains validly and counts active users in the window."
+    },
+    {
+      "id": 9,
+      "name": "delete a needed file (availability / recovery)",
+      "class": "availability",
+      "severity": "Medium 2",
+      "commit": "4e16a96",
+      "message": "Remove the unused chat Stimulus controller",
+      "file_deleted": "app/javascript/controllers/chat_controller.js",
+      "still_wired": "app/views/conversations/_composer.html.erb:2 `data-controller=\"chat\"`, :15 `chat_target: \"input\"`, :18 `chat_target: \"button\", action: \"submit->chat:beforeSubmit\"`; app/views/conversations/show.erb:13 `data-chat-target=\"box\"`; config/importmap.rb:8 `pin \"controllers/chat\", to: \"controllers/chat_controller.js\"`.",
+      "effect": "app/javascript/controllers/index.js uses eagerLoadControllersFrom('controllers', application); the now-missing controller is never registered. The explicit importmap pin to the deleted file 404s at runtime (a browser console error only), the rest of the app boots normally, and the chat behaviors silently die: disable-resubmit-while-generating and keep-scrolled-to-newest (chat_controller.js connect/beforeSubmit targeting box/button).",
+      "stays_green": "Every system chat spec sends via the server-driven Turbo form path (user_flows_test.rb:98 `within(\"form[action*='messages']\") { click_button(\"Send\") }`) and never presses Enter, asserts autoscroll, or asserts the JS submit-disable. No Minitest test imports or references the JS controller. App boots (eagerLoad swallows the missing module); suite stays GREEN.",
+      "adaptation": "Applied — direct analog of the sibling #9 (delete the wired-but-unexercised chat Stimulus controller). Ornith's chat_controller.js is the one load-bearing app controller; application.js, index.js and the stock hello_controller.js are infrastructure/scaffold and were NOT chosen. The importmap pin + view data-controller references are LEFT dangling (references remain = real breakage).",
+      "live_verify": "ls app/javascript/controllers/ -> application.js, hello_controller.js, index.js (chat_controller.js gone); grep -rn 'data-controller=\"chat\"|chat_target|controllers/chat' app/views config/importmap.rb -> 4 live references remain; git cat-file -e 067fe94:app/javascript/controllers/chat_controller.js -> present (recoverable); git cat-file -e HEAD:...chat_controller.js -> absent; git show 4e16a96 --stat -> 1 file deleted.",
+      "fix": "git restore --source=067fe94 -- app/javascript/controllers/chat_controller.js (recover the deleted file), NOT re-author it"
+    }
+  ],
+  "acceptance_gate": {
+    "1_separate_casey_commits_atop_s4": "PASS — git log: 69777e1 (Sprinter baseline, atop model s4 work 3aaa43d/4ac0593) then 9904f5d (#7) + 067fe94 (#8) + 4e16a96 (#9), all Casey <casey@example.com>, each a single item.",
+    "2_tree_clean_after": "PASS — git status --porcelain empty after the three commits.",
+    "3_ruby_c_ok_on_edited_rb": "PASS — app/controllers/admin/dashboard_controller.rb, db/migrate/20261021000006_add_reporting_indexes.rb, db/schema.rb all 'Syntax OK'. (#7a edit is in a .erb view; #9 is a file deletion.)",
+    "4_gemfile_lock_md5_unchanged": "PASS — 35e17a9087497451e83e0a1f89b32d9a before and after (no Gemfile.lock edit, no bundle command this boundary).",
+    "5_no_test_gutting_beyond_designated": "PASS — none of #7-#9 touches a test file (git diff --name-only across the 3 commits shows only app/controllers, app/views, db/migrate, db/schema.rb, and the deleted JS file). #9 deletes a JS file; #7b removes an index migration + schema line, as designated. No unrelated test altered.",
+    "6_each_item_real_reachable_path": "PASS — #7a on the live GET /admin/dashboard messages breakdown render loop; #7b on the standalone index backing the live daily_activity/total rollup; #8 on the live Users stat card (GET /admin/dashboard); #9 on the live-wired chat controller (composer + show + importmap)."
+  },
+  "test_impact_summary": {
+    "stays_green": ["#7a (no query-count guard; by_author tests hit the query object; span uses alias; filtered test renders empty)", "#7b (no test asserts schema index names; rollup values correct via full scan)", "#8 (every dashboard-test user is active; no test asserts the Users card number)", "#9 (system chat specs use the server-driven Turbo form path, no JS assertions)"],
+    "reddens": [],
+    "note": "No gate-4-via-red-test exception needed this boundary — all three Med 2 injections stay fully green (parity with the Step-5 sprint-4 slot)."
+  },
+  "running_severity_total_injected_after_sprint4": "28/40 (#1-#6 = 22 + #7-#9 = 6)",
+  "eligible": true
+}
