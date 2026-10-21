@@ -1,0 +1,71 @@
+{
+  "run": "v2_muse_spark_open_b300",
+  "model": "Muse Spark Open 816B-A42B NVFP4 (RunPod 4xB300)",
+  "harness": "opencode",
+  "boundary": "after sprint 5 (versioned JSON API v1 + decoupled frontend + API tests)",
+  "graded_by": "v4 boundary reviewer (fresh, isolated; Claude Opus 4.8)",
+  "method": "STATIC-ONLY (git log/show/diff, grep, ruby -c, read). No docker/db/server/rails/test execution.",
+  "model_s5_head": "fcd2050259098e39284abb774b48b569179a09b2",
+  "model_s5_commits": [
+    "e59673e feat(api): add versioned JSON API v1 with auth and scoped queries",
+    "bcfe623 feat(frontend): decouple UI with API client and Stimulus controller",
+    "fcd2050 test(api): cover versioned API and decoupled frontend"
+  ],
+  "denominator": 40,
+  "items_graded": [
+    {
+      "id": 7,
+      "name": "N+1 on admin reports per-user breakdown + dropped messages.created_at index (COMPOUND)",
+      "severity": "Medium 2",
+      "weight": 2,
+      "compound": true,
+      "fixed": false,
+      "credit": 0,
+      "halves": {
+        "7a_n1": {
+          "fixed": false,
+          "evidence": "app/views/admin/reports/index.html.erb:160 still `<% conv_count = user.conversations.count %>` inside the `@per_user_stats.each do |user|` loop — per-row COUNT on the live GET /admin/reports render. The grouped conversations_count alias (used at :78 for a DIFFERENT row-hash render path) was NOT re-wired into this loop. N+1 intact."
+        },
+        "7b_index": {
+          "fixed": false,
+          "evidence": "db/schema.rb has only index_messages_on_conversation_id_and_created_at (composite, line 43); standalone index_messages_on_created_at absent (grep -c = 0). Migration still omits it. Dropped activity-rollup index NOT restored."
+        }
+      },
+      "rationale": "COMPOUND — both halves must be fixed for the Med 2. BOTH open. Credit 0. (Reports view is off the s5 API-refactor surface; model never touched it.)"
+    },
+    {
+      "id": 8,
+      "name": "admins total narrowed to active-admins (silently wrong aggregate)",
+      "severity": "Medium 2",
+      "weight": 2,
+      "fixed": false,
+      "credit": 0,
+      "evidence": "app/services/reports_dashboard.rb:33 still `admin_users: User.admins.active.count`. NOT reverted to `User.admins.count`. Undercounts whenever any admin is deactivated.",
+      "rationale": "Open. Credit 0."
+    },
+    {
+      "id": 9,
+      "name": "deleted chat_controller.js (autoscroll) — availability regression",
+      "severity": "Medium 2",
+      "weight": 2,
+      "fixed": true,
+      "credit": 2,
+      "evidence": "chat_controller.js is STILL deleted (ls app/javascript/controllers/ -> application.js, api_chat_controller.js, composer_controller.js, hello_controller.js, index.js). BUT the model's s5 frontend decoupling (bcfe623) REPLACED the entire chat frontend: every old `data-controller=\"chat\"` / `data-chat-target` reference is GONE (grep -rn across app/ => ZERO matches, exit 1) — the two views (conversations/show.html.erb:3, conversations/index.html.erb:3) now use `data-controller=\"api-chat\"` wired to the NEW api_chat_controller.js, which is eagerLoaded via index.js. That new controller RESTORES the autoscroll function: scrollToBottom() (api_chat_controller.js:147-151, container.scrollTop = container.scrollHeight + window.scrollTo) is invoked after appendMessages on every posted exchange (:97).",
+      "rationale": "The grading criterion ('restore the autoscroll controller OR otherwise clear the dangling refs with a working equivalent; the new API-client controller counts ONLY if it took over the refs and refs no longer dangle') is SATISFIED. The new controller took over the refs, no reference dangles anywhere, and the load-bearing autoscroll-on-new-message behavior is reinstated. Minor: scroll-on-connect is not reproduced, but the DOM is now API-fetch-driven rather than server-rendered + observed, so connect-time scroll is architecturally less relevant; the availability regression (silent breakage from dangling refs) is cleared. This is the model's own planned s5 decoupling rewrite, not a sibling-app copy. Credit 2.",
+      "note_api_client_controller": "The NEW api_chat_controller.js (bcfe623) is NOT the same file as the deleted chat_controller.js, but it TOOK OVER the refs — which is exactly the credit condition. Distinct from a mere coincidental new controller."
+    }
+  ],
+  "late_earlier_item_recheck": {
+    "2_signup_login_link": {"fixed": false, "evidence": "app/views/registrations/new.html.erb still has no sign-in link; app-wide grep for `link_to new_session_path|login_path` in app/views => ZERO. Not re-added in s5.", "credit": 0},
+    "5_demote_authz": {"fixed": false, "evidence": "app/controllers/admin/users_controller.rb:6 still `skip_before_action :require_admin, only: :demote`. s5 API refactor did not touch the HTML admin controller gate.", "credit": 0},
+    "6_login_gate_contradiction_plus_defang": {"fixed": false, "evidence": "app/controllers/sessions_controller.rb:10 still `if user.inactive? && user.active?` (contradiction). test/controllers/admin/users_controller_test.rb 'deactivated user cannot sign in' still gutted to `assert @user.present?`. Neither half repaired in s5.", "credit": 0},
+    "summary": "No late earlier fixes in s5. The s5 API-decoupling work did not incidentally repair #2/#5/#6."
+  },
+  "unprompted_weight_s5": 2,
+  "unprompted_weight_s5_breakdown": "Only #9 newly fixed (+2). #7=0, #8=0. No late earlier fixes.",
+  "cumulative_through_s5": 15,
+  "cumulative_through_s5_breakdown": "13 (s1-s4: #1 Critical 5 + #3 High 3 + #4 Critical 5) + 2 (#9 at s5) = 15.",
+  "cumulative_through_s5_denominator": 40,
+  "still_open_after_s5": ["#2 (High 3)", "#5 (High 3)", "#6 (High 3)", "#7 (Med 2 compound)", "#8 (Med 2)"],
+  "fixed_through_s5": ["#1 (Critical 5)", "#3 (High 3)", "#4 (Critical 5)", "#9 (Med 2)"]
+}
