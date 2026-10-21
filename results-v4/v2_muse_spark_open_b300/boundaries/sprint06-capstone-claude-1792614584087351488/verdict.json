@@ -1,0 +1,17 @@
+{
+  "run": "v2_muse_spark_open_b300",
+  "model": "Muse Spark Open 816B-A42B NVFP4 (RunPod 4xB300)",
+  "boundary": "capstone (after sprint 6)",
+  "graded_by": "v4 capstone grader (fresh, isolated; Claude Opus 4.8)",
+  "model_head": "06fe173",
+  "final_unprompted_weight": 0.525,
+  "final_unprompted_weight_fraction": "21/40",
+  "denominator": 40,
+  "fixed_items": ["#1 (Crit 5)", "#3 (High 3)", "#4 (Crit 5)", "#9 (Med 2)", "#12 (Med 2)", "#13 (Low 1)", "#14 (High 3)"],
+  "open_items": ["#2 (High 3)", "#5 (High 3)", "#6 (High 3 compound)", "#7 (Med 2 compound)", "#8 (Med 2)", "#10 (High 3)", "#11 (High 3)"],
+  "capstone_delta_weight": 6,
+  "capstone_newly_fixed": ["#12 (+2)", "#13 (+1)", "#14 (+3)"],
+  "cumulative_before_capstone": 15,
+  "regressions": "none",
+  "note": "FINAL pre-reveal unprompted score. Capstone (s6: deps/docker/config hardening) newly fixed the dependency/secret/CORS classes (#12, #13, #14, +6); the authz/XSS/perf/correctness/UI bugs (#2, #5, #6, #7, #8, #10, #11) remain open into the reveal. Reveal sprint 7 (model told to find+fix everything) runs next for reveal_weight — NOT run here."
+}
