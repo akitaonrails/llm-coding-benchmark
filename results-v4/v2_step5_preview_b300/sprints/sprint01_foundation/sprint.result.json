@@ -1,0 +1,12 @@
+{
+  "slug": "v2_step5_preview_b300",
+  "sprint": "sprint01_foundation",
+  "harness": "opencode",
+  "elapsed_seconds": 1732.83,
+  "cost_usd": 0.0,
+  "tokens_total": 29818270,
+  "exit_code": 0,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": false
+}

@@ -1,1634 +1,1694 @@
 {
-  "description": "Benchmark v2 (production-hardening, 3 phases) \u2014 Tier A models only, native harness + user subscriptions preferred. v1 remains the intake benchmark for everything else.",
-  "prompts": {
-    "phase1": "prompts/benchmark_prompt_v2.txt",
-    "phase2": "prompts/benchmark_followup_v2.txt",
-    "phase3": "prompts/benchmark_selfreview_v2.txt"
+ "description": "Benchmark v2 (production-hardening, 3 phases) \u2014 Tier A models only, native harness + user subscriptions preferred. v1 remains the intake benchmark for everything else.",
+ "prompts": {
+  "phase1": "prompts/benchmark_prompt_v2.txt",
+  "phase2": "prompts/benchmark_followup_v2.txt",
+  "phase3": "prompts/benchmark_selfreview_v2.txt"
+ },
+ "models": [
+  {
+   "slug": "v2_claude_fable_5",
+   "label": "Claude Fable 5 (Claude Code)",
+   "harness": "claude",
+   "model_id": "claude-fable-5",
+   "billing": "Claude Max subscription",
+   "rates_per_m": {
+    "input": 10.0,
+    "cache_read": 1.0,
+    "cache_write": 12.5,
+    "output": 50.0
+   },
+   "wave": 1
   },
-  "models": [
-    {
-      "slug": "v2_claude_fable_5",
-      "label": "Claude Fable 5 (Claude Code)",
-      "harness": "claude",
-      "model_id": "claude-fable-5",
-      "billing": "Claude Max subscription",
-      "rates_per_m": {
-        "input": 10.0,
-        "cache_read": 1.0,
-        "cache_write": 12.5,
-        "output": 50.0
-      },
-      "wave": 1
-    },
-    {
-      "slug": "v2_claude_opus_5",
-      "label": "Claude Opus 5 (Claude Code)",
-      "harness": "claude",
-      "model_id": "claude-opus-5",
-      "billing": "Claude Max subscription",
-      "rates_per_m": {
-        "input": 5.0,
-        "cache_read": 0.5,
-        "cache_write": 6.25,
-        "output": 25.0
-      },
-      "wave": 1
-    },
-    {
-      "slug": "v2_claude_opus_5_5",
-      "label": "Claude Opus 5.5 (Claude Code)",
-      "harness": "claude",
-      "model_id": "claude-opus-5-5",
-      "billing": "Claude Max subscription",
-      "rates_per_m": {
-        "input": 5.0,
-        "cache_read": 0.5,
-        "cache_write": 6.25,
-        "output": 25.0
-      },
-      "wave": 5,
-      "notes": "Added 2026-09-22. Released ~2026-09; requires Claude Code CLI >= 2.1.280 (updated via mise). 1M context / 128K max output. claude harness, Max sub (ANTHROPIC_API_KEY stripped by runner), shielded. rates approximate (CLI reports native cumulative cost)."
-    },
-    {
-      "slug": "v2_gpt_5_6_sol",
-      "label": "GPT 5.6 Sol xHigh (Codex)",
-      "harness": "codex",
-      "model_id": "gpt-5.6-sol",
-      "codex_reasoning_effort": "xhigh",
-      "billing": "ChatGPT subscription credits",
-      "rates_per_m": {
-        "input": 5.0,
-        "cache_read": 0.5,
-        "cache_write": 0.0,
-        "output": 30.0
-      },
-      "wave": 1
-    },
-    {
-      "slug": "v2_kimi_k3",
-      "label": "Kimi K3 (Kimi Code CLI)",
-      "harness": "kimi",
-      "model_id": "kimi-code/k3",
-      "billing": "Kimi Moderato subscription",
-      "rates_per_m": {
-        "input": 3.0,
-        "cache_read": 0.3,
-        "cache_write": 3.0,
-        "output": 15.0
-      },
-      "wave": 1,
-      "notes": "5h quota windows \u2014 a 3-phase run may need the quota watcher pattern"
-    },
-    {
-      "slug": "v2_gemini_pro",
-      "label": "Gemini 3.5 Pro (pending release)",
-      "harness": "opencode",
-      "model_id": "openrouter/google/gemini-3.5-pro",
-      "billing": "OpenRouter API (no Google subscription harness available)",
-      "wave": 2,
-      "blocked": "gemini-3.5-pro still unreleased (re-checked 2026-07-27); superseded by v2_gemini_flash_high per user directive"
-    },
-    {
-      "slug": "v2_claude_opus_4_8",
-      "label": "Claude Opus 4.8 (Claude Code)",
-      "harness": "claude",
-      "model_id": "claude-opus-4-8",
-      "billing": "Claude Max subscription",
-      "rates_per_m": {
-        "input": 5.0,
-        "cache_read": 0.5,
-        "cache_write": 6.25,
-        "output": 25.0
-      },
-      "wave": 2
-    },
-    {
-      "slug": "v2_gpt_5_4",
-      "label": "GPT 5.4 xHigh (Codex)",
-      "harness": "codex",
-      "model_id": "gpt-5.4",
-      "codex_reasoning_effort": "xhigh",
-      "billing": "ChatGPT subscription credits",
-      "rates_per_m": {
-        "input": 2.5,
-        "cache_read": 0.25,
-        "cache_write": 0.0,
-        "output": 15.0
-      },
-      "wave": 2
-    },
-    {
-      "slug": "v2_gpt_5_5",
-      "label": "GPT 5.5 xHigh (Codex)",
-      "harness": "codex",
-      "model_id": "gpt-5.5",
-      "codex_reasoning_effort": "xhigh",
-      "billing": "ChatGPT subscription credits",
-      "rates_per_m": {
-        "input": 5.0,
-        "cache_read": 0.5,
-        "cache_write": 0.0,
-        "output": 30.0
-      },
-      "wave": 2
-    },
-    {
-      "slug": "v2_claude_opus_4_7",
-      "label": "Claude Opus 4.7 (Claude Code)",
-      "harness": "claude",
-      "model_id": "claude-opus-4-7",
-      "billing": "Claude Max subscription",
-      "rates_per_m": {
-        "input": 5.0,
-        "cache_read": 0.5,
-        "cache_write": 6.25,
-        "output": 25.0
-      },
-      "wave": 2
-    },
-    {
-      "slug": "v2_claude_opus_4_6",
-      "label": "Claude Opus 4.6 (Claude Code)",
-      "harness": "claude",
-      "model_id": "claude-opus-4-6",
-      "billing": "Claude Max subscription",
-      "rates_per_m": {
-        "input": 5.0,
-        "cache_read": 0.5,
-        "cache_write": 6.25,
-        "output": 25.0
-      },
-      "wave": 2
-    },
-    {
-      "slug": "v2_kimi_k2_7_coding",
-      "label": "Kimi K2.7 Coding (Kimi Code CLI)",
-      "harness": "kimi",
-      "model_id": "kimi-code/kimi-for-coding",
-      "billing": "Kimi Moderato subscription",
-      "rates_per_m": {
-        "input": 0.75,
-        "cache_read": 0.15,
-        "cache_write": 0.75,
-        "output": 3.5
-      },
-      "wave": 2,
-      "notes": "schedule in its own 5h quota window, apart from K3"
-    },
-    {
-      "slug": "v2_kimi_k2_6",
-      "label": "Kimi K2.6 (opencode/OpenRouter fallback)",
-      "harness": "opencode",
-      "model_id": "openrouter/moonshotai/kimi-k2.6",
-      "billing": "OpenRouter API \u2014 K2.6 NOT exposed by the Kimi subscription",
-      "rates_per_m": {
-        "input": 0.95,
-        "cache_read": 0.16,
-        "cache_write": 0.95,
-        "output": 4.0
-      },
-      "wave": 2
-    },
-    {
-      "slug": "v2_glm_5_2",
-      "label": "GLM 5.2 (opencode/Z.ai coding plan)",
-      "harness": "opencode",
-      "model_id": "zai/glm-5.2",
-      "billing": "Z.ai coding plan subscription (opencode is the subscription path; no vendor CLI)",
-      "wave": 2
-    },
-    {
-      "slug": "v2_grok_4_5",
-      "label": "Grok 4.5 (opencode/OpenRouter fallback)",
-      "harness": "opencode",
-      "model_id": "openrouter/x-ai/grok-4.5",
-      "billing": "OpenRouter API \u2014 no xAI subscription harness",
-      "rates_per_m": {
-        "input": 2.0,
-        "cache_read": 2.0,
-        "cache_write": 2.0,
-        "output": 6.0
-      },
-      "wave": 2
-    },
-    {
-      "slug": "v2_nex_n2_pro",
-      "label": "Nex-N2-Pro (opencode/OpenRouter fallback)",
-      "harness": "opencode",
-      "model_id": "openrouter/nex-agi/nex-n2-pro",
-      "billing": "OpenRouter API \u2014 no vendor harness",
-      "rates_per_m": {
-        "input": 0.25,
-        "cache_read": 0.25,
-        "cache_write": 0.25,
-        "output": 1.0
-      },
-      "wave": 2
-    },
-    {
-      "slug": "v2_gemini_flash_high",
-      "label": "Gemini 3.5 Flash @ reasoning_effort=high (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/google/gemini-3.5-flash",
-      "billing": "OpenRouter API (no Google subscription harness)",
-      "rates_per_m": {
-        "input": 1.5,
-        "cache_read": 0.375,
-        "cache_write": 1.5,
-        "output": 9.0
-      },
-      "wave": 2,
-      "notes": "User directive 2026-07-27: Pro unavailable -> highest-effort available Gemini. Effort forced via home-config model options (reasoning.effort=high) cloned into opencode.benchmark.json; verify forwarding by comparing the run's reasoning-token share against the v1 dynamic-thinking baseline (23,322 reasoning tokens / 98 events)."
-    },
-    {
-      "slug": "v2_gemini_3_1_pro",
-      "label": "Gemini 3.1 Pro (opencode/OpenRouter) \u2014 wave 3 group 1",
-      "harness": "opencode",
-      "model_id": "openrouter/google/gemini-3.1-pro-preview",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 2.0,
-        "cache_read": 0.5,
-        "cache_write": 2.0,
-        "output": 12.0
-      },
-      "wave": 3,
-      "notes": "v1 Tier B (79). Wave-3 stretch run under the v2 brief; v1 remains its official ranking."
-    },
-    {
-      "slug": "v2_sakana_fugu_ultra",
-      "label": "Sakana Fugu Ultra (opencode/Sakana API) \u2014 wave 3 group 1",
-      "harness": "opencode",
-      "model_id": "sakana/fugu-ultra",
-      "billing": "Sakana pay-as-you-go API",
-      "rates_per_m": {
-        "input": 5.0,
-        "cache_read": 5.0,
-        "cache_write": 5.0,
-        "output": 30.0
-      },
-      "wave": 3,
-      "notes": "v1 Tier B (79). Deep multi-agent Fugu mode, 1M ctx.",
-      "blocked": "Sakana prepaid credit balance exhausted (HTTP 429, probed 2026-07-28). Top up at console.sakana.ai to unblock; infra (provider clone + env backfill) is ready."
-    },
-    {
-      "slug": "v2_claude_sonnet_4_6",
-      "label": "Claude Sonnet 4.6 (Claude Code) \u2014 wave 3 group 1",
-      "harness": "claude",
-      "model_id": "claude-sonnet-4-6",
-      "billing": "Claude Max subscription",
-      "rates_per_m": {
-        "input": 3.0,
-        "cache_read": 0.3,
-        "cache_write": 3.75,
-        "output": 15.0
-      },
-      "wave": 3,
-      "notes": "v1 Tier B (78). Native harness per doctrine."
-    },
-    {
-      "slug": "v2_deepseek_v4_flash",
-      "label": "DeepSeek V4 Flash (opencode/OpenRouter) \u2014 wave 3 group 1",
-      "harness": "opencode",
-      "model_id": "openrouter/deepseek/deepseek-v4-flash",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.14,
-        "cache_read": 0.014,
-        "cache_write": 0.14,
-        "output": 0.55
-      },
-      "wave": 3,
-      "notes": "v1 Tier B (78) in an absurd 3 minutes. reasoning_content multi-turn bug is V4 Pro-specific; Flash ran fine via opencode in v1."
-    },
-    {
-      "slug": "v2_minimax_m3",
-      "label": "MiniMax M3 (opencode/OpenRouter) \u2014 wave 3 group 1",
-      "harness": "opencode",
-      "model_id": "openrouter/minimax/minimax-m3",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.3,
-        "cache_read": 0.3,
-        "cache_write": 0.3,
-        "output": 1.2
-      },
-      "wave": 3,
-      "notes": "v1 Tier B (78) with a phase-2 DNF \u2014 watch the 90-min phase timeout."
-    },
-    {
-      "slug": "v2_qwen3_7_max",
-      "label": "Qwen3.7 Max (opencode/OpenRouter) \u2014 wave 3 group 1",
-      "harness": "opencode",
-      "model_id": "openrouter/qwen/qwen3.7-max",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 1.2,
-        "cache_read": 0.24,
-        "cache_write": 1.2,
-        "output": 6.0
-      },
-      "wave": 3,
-      "notes": "v1 Tier B (78)."
-    },
-    {
-      "slug": "v2_grok_4_3",
-      "label": "Grok 4.3 (opencode/OpenRouter) \u2014 wave 3 group 1",
-      "harness": "opencode",
-      "model_id": "openrouter/x-ai/grok-4.3",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 2.0,
-        "cache_read": 2.0,
-        "cache_write": 2.0,
-        "output": 6.0
-      },
-      "wave": 3,
-      "notes": "v1 Tier B (72)."
-    },
-    {
-      "slug": "v2_qwen3_6_plus",
-      "label": "Qwen 3.6 Plus (opencode/OpenRouter) \u2014 wave 3 group 1",
-      "harness": "opencode",
-      "model_id": "openrouter/qwen/qwen3.6-plus",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.4,
-        "cache_read": 0.08,
-        "cache_write": 0.4,
-        "output": 1.2
-      },
-      "wave": 3,
-      "notes": "v1 Tier B (71)."
-    },
-    {
-      "slug": "v2_kimi_k2_5",
-      "label": "Kimi K2.5 (opencode/OpenRouter) \u2014 wave 3 group 1",
-      "harness": "opencode",
-      "model_id": "openrouter/moonshotai/kimi-k2.5",
-      "billing": "OpenRouter API \u2014 K2.5 not exposed by Kimi subscription",
-      "rates_per_m": {
-        "input": 0.6,
-        "cache_read": 0.1,
-        "cache_write": 0.6,
-        "output": 2.5
-      },
-      "wave": 3,
-      "notes": "v1 Tier B (69)."
-    },
-    {
-      "slug": "v2_step_3_7_flash",
-      "label": "Step 3.7 Flash (opencode/OpenRouter) \u2014 wave 3 group 1",
-      "harness": "opencode",
-      "model_id": "openrouter/stepfun/step-3.7-flash",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.1,
-        "cache_read": 0.1,
-        "cache_write": 0.1,
-        "output": 0.3
-      },
-      "wave": 3,
-      "notes": "v1 Tier B (69)."
-    },
-    {
-      "slug": "v2_sakana_fugu_ultra_v2",
-      "label": "Sakana Fugu Ultra v2 (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/sakana/fugu-ultra-v2",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 5.0,
-        "cache_read": 0.5,
-        "cache_write": 5.0,
-        "output": 30.0
-      },
-      "wave": 6,
-      "notes": "Added per user 2026-09-11. Newest Sakana Fugu Ultra (released 2026-09-11), 1M ctx. PREMIUM pricing ($5/$30 per Mtok, flagship-tier) \u2014 expect ~$15-40 for a full v4 run."
-    },
-    {
-      "slug": "v2_nex_n2_5_pro",
-      "label": "Nex N2.5 Pro (opencode/OpenRouter, free tier)",
-      "harness": "opencode",
-      "model_id": "openrouter/nex-agi/nex-n2.5-pro:free",
-      "billing": "OpenRouter API (free tier \u2014 may rate-limit long agentic runs)",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 6,
-      "notes": "Added per user 2026-09-11 ('nex-n2-pro'). Closest available = nex-n2.5-pro (2026-09-08), 262K ctx; only a :free variant on OpenRouter (watch for rate limits across 7 sprints)."
-    },
-    {
-      "slug": "v2_mistral_medium_3_5",
-      "label": "Mistral Medium 3.5 (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/mistralai/mistral-medium-3-5",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 1.5,
-        "cache_read": 1.5,
-        "cache_write": 1.5,
-        "output": 7.5
-      },
-      "wave": 6,
-      "notes": "Added per user 2026-09-12. Newest Mistral RELEASE (2026-04-30), 262K ctx, medium tier. v4 already has Mistral Large 3 (mistral-large-2512, Dec 2025) = 39.0; this is the newer (medium-tier) release. Queue for v4."
-    },
-    {
-      "slug": "v2_mimo_v2_5_pro",
-      "label": "Xiaomi MiMo V2.5 Pro (opencode/OpenRouter) \u2014 wave 3 group 1",
-      "harness": "opencode",
-      "model_id": "openrouter/xiaomi/mimo-v2.5-pro",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.3,
-        "cache_read": 0.3,
-        "cache_write": 0.3,
-        "output": 1.0
-      },
-      "wave": 3,
-      "notes": "v1 Tier B (67)."
-    },
-    {
-      "slug": "v2_mimo_v2_6_pro",
-      "label": "Xiaomi MiMo V2.6 Pro (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/xiaomi/mimo-v2.6-pro",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.435,
-        "cache_read": 0.004,
-        "cache_write": 0.435,
-        "output": 0.87
-      },
-      "wave": 5,
-      "notes": "Added 2026-09-22. Successor to MiMo V2.5 Pro (86.5). opencode/OpenRouter, shielded. 1M ctx."
-    },
-    {
-      "slug": "v2_glm_5",
-      "label": "GLM 5 (opencode/OpenRouter) \u2014 wave 3 group 1",
-      "harness": "opencode",
-      "model_id": "openrouter/z-ai/glm-5",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.6,
-        "cache_read": 0.11,
-        "cache_write": 0.6,
-        "output": 2.2
-      },
-      "wave": 3,
-      "notes": "v1 Tier B (64). Superseded generation; closes Tier B."
-    },
-    {
-      "slug": "v2_claude_sonnet_5",
-      "label": "Claude Sonnet 5 (Claude Code) \u2014 wave 3 group 2 (C/D)",
-      "harness": "claude",
-      "model_id": "claude-sonnet-5",
-      "billing": "Claude Max subscription",
-      "rates_per_m": {
-        "input": 3.0,
-        "cache_read": 0.3,
-        "cache_write": 3.75,
-        "output": 15.0
-      },
-      "wave": 3,
-      "notes": "v1 Tier C (58, hallucinated RubyLLM). Key experiment: does the v2 goal contract + native harness fix it?"
-    },
-    {
-      "slug": "v2_step_3_5_flash",
-      "label": "Step 3.5 Flash (opencode/OpenRouter) \u2014 wave 3 group 2 (C/D)",
-      "harness": "opencode",
-      "model_id": "openrouter/stepfun/step-3.5-flash",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.1,
-        "cache_read": 0.1,
-        "cache_write": 0.1,
-        "output": 0.3
-      },
-      "wave": 3,
-      "notes": "v1 Tier C (56, RubyLLM bypass)."
-    },
-    {
-      "slug": "v2_gpt_5_6_luna",
-      "label": "GPT 5.6 Luna xHigh (Codex)",
-      "harness": "codex",
-      "model_id": "gpt-5.6-luna",
-      "codex_reasoning_effort": "xhigh",
-      "billing": "ChatGPT subscription credits",
-      "rates_per_m": {
-        "input": 1.0,
-        "cache_read": 0.1,
-        "cache_write": 0.0,
-        "output": 6.0
-      },
-      "wave": 3,
-      "notes": "Added per user 2026-07-30. The run completed before the July 30 price reduction, so it uses Luna's historical $1/$0.10 cached/$6 per-M card. Newer codex event schema exposes cached_input_tokens for honest blended cost."
-    },
-    {
-      "slug": "v2_deepseek_v4_pro",
-      "label": "DeepSeek V4 Pro (opencode/OpenRouter) \u2014 wave 3 addendum",
-      "harness": "opencode",
-      "model_id": "openrouter/deepseek/deepseek-v4-pro",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.28,
-        "cache_read": 0.028,
-        "cache_write": 0.28,
-        "output": 0.42
-      },
-      "wave": 3,
-      "notes": "v1 Tier B (69, via deepclaude workaround). The opencode reasoning_content multi-turn bug is FIXED as of opencode 1.18.4 (probe-verified 2026-07-30: 3-turn tool flow clean) \u2014 runs on the standard harness, deepclaude retired."
-    },
-    {
-      "slug": "v2_grok_4_5_cli",
-      "label": "Grok 4.5 (grok CLI, native)",
-      "harness": "grok",
-      "model_id": "grok-4.5",
-      "billing": "xAI API (GROK_API_KEY)",
-      "rates_per_m": {
-        "input": 2.0,
-        "cache_read": 2.0,
-        "cache_write": 2.0,
-        "output": 6.0
-      },
-      "wave": 4,
-      "notes": "Native-harness condition for the 92-scoring opencode run. grok CLI patched locally for xAI's deleted Live Search API."
-    },
-    {
-      "slug": "v2_grok_4_3_cli",
-      "label": "Grok 4.3 (grok CLI, native)",
-      "harness": "grok",
-      "model_id": "grok-4.3",
-      "billing": "xAI API (GROK_API_KEY)",
-      "rates_per_m": {
-        "input": 2.0,
-        "cache_read": 2.0,
-        "cache_write": 2.0,
-        "output": 6.0
-      },
-      "wave": 4,
-      "notes": "The scaffold-dependency test: 57 orchestrator / 18 vanilla \u2014 does the vendor harness rescue it?"
-    },
-    {
-      "slug": "v2_gemini_3_8_flash_high_agy",
-      "label": "Gemini 3.8 Flash @ high (Antigravity CLI)",
-      "harness": "agy",
-      "model_id": "gemini-3.8-flash-high",
-      "billing": "Antigravity OAuth (Google account)",
-      "wave": 4,
-      "notes": "NEWEST Gemini on Antigravity (agy 1.1.26 model list, 2026-09-10). Native harness avoids the OpenRouter thought-signature crash that truncated gemini-3.1-pro-preview's v4 reveal. Prepared per user 2026-09-10."
-    },
-    {
-      "slug": "v2_gemini_3_6_flash_high",
-      "label": "Gemini 3.6 Flash @ high (Antigravity CLI)",
-      "harness": "agy",
-      "model_id": "gemini-3.6-flash-high",
-      "billing": "Antigravity OAuth (Google account)",
-      "wave": 4,
-      "notes": "NEW generation \u2014 newer than anything tested. Discovered in agy model list 2026-07-30; no 3.5 Pro exists there."
-    },
-    {
-      "slug": "v2_gemini_3_1_pro_agy",
-      "label": "Gemini 3.1 Pro @ high (Antigravity CLI)",
-      "harness": "agy",
-      "model_id": "gemini-3.1-pro-high",
-      "billing": "Antigravity OAuth (Google account)",
-      "wave": 4,
-      "notes": "Native-harness escape from the OpenRouter thought-signature bug that blocked its clean phase 2 three times."
-    },
-    {
-      "slug": "v2_gpt_5_6_terra",
-      "label": "GPT 5.6 Terra xHigh (Codex)",
-      "harness": "codex",
-      "model_id": "gpt-5.6-terra",
-      "codex_reasoning_effort": "xhigh",
-      "billing": "ChatGPT subscription credits",
-      "rates_per_m": {
-        "input": 2.0,
-        "cache_read": 0.2,
-        "cache_write": 0.0,
-        "output": 12.0
-      },
-      "wave": 4,
-      "notes": "Added per user 2026-08-01. The run used Terra's post-July-30 $2/$0.20 cached/$12 per-M card. Third GPT 5.6 variant (Sol 93, Luna 91); Codex event schema exposes cached_input_tokens for honest blended cost."
-    },
-    {
-      "slug": "v2_qwen3_8_max",
-      "label": "Qwen 3.8 Max (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/qwen/qwen3.8-max-0902",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 2.0,
-        "cache_read": 0.5,
-        "cache_write": 2.0,
-        "output": 6.0
-      },
-      "wave": 4,
-      "notes": "Added per user 2026-08-11. Highest-effort online Qwen 3.8 (the 27B is local-only). Successor to Qwen3.7 Max (51/C, hallucinated RubyLLM). opencode harness, XDG-isolated, cumulative-metered (post issue #14 fix). 2026-09-13: model_id fixed to dated qwen3.8-max-0902 (bare alias returns OpenRouter UnknownError/0 tokens); retry after INFRA_BLOCKED."
-    },
-    {
-      "slug": "v2_qwen3_8_27b_local",
-      "label": "Qwen 3.8 27B dense Q8_0 (LOCAL, Strix Halo llama-swap)",
-      "harness": "opencode",
-      "model_id": "llamaswap-strix/qwen3.8:27b",
-      "billing": "Local (Strix Halo 192.168.0.90, free)",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 4,
-      "notes": "Added per user 2026-08-14. Offline dense 27B counterpart to online qwen3.8-max (92). llama-swap Q5_K_M on the 5090, --jinja --reasoning-format none, 64K ctx. The FIRST local model in v2 (locals were dropped in wave 3) \u2014 tests whether the small offline model holds the API-correctness 3.8-max showed. Local, so cost=$0; report wall time + tok/s. 2026-09-13 RETRY: moved to Strix Halo (Ryzen AI MAX+ 395, 61GB unified) llama-swap 192.168.0.90:11435, unsloth Q8_0 (up from Q5_K_M) + --reasoning off (the actual think-leak fix; 5090 build only had --reasoning-format none). Resume from sprint 3 (sprints 1-2 clean on the 5090)."
-    },
-    {
-      "slug": "v2_glm_4_7_flash_local",
-      "label": "GLM 4.7 Flash 30B-A3B Q5_K_M (LOCAL, RTX 5090 llama-swap)",
-      "harness": "opencode",
-      "model_id": "llamaswap/glm4.7:flash",
-      "billing": "Local (RTX 5090, free)",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 6,
-      "notes": "Added per user 2026-09-11. GLM-4.7-Flash MoE (30B-A3B) Q5_K_M on the 5090 via llama-swap (:11436), --jinja --reasoning-format none, 64K ctx. Tool-use-focused MoE; test whether it sustains the v4 agentic loop better than the dense Qwen3.8 (which walled at sprint 3 on coherence). Local, cost=$0."
-    },
-    {
-      "slug": "v2_qwen35_122b_oss",
-      "label": "Qwen3.5-122B-A10B official FP8 (RunPod B300 vLLM)",
-      "harness": "opencode",
-      "model_id": "runpod-vllm/qwen3.5-122b",
-      "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 7,
-      "notes": "Added per user 2026-10-16 (B300 open-weights campaign). Never v4-tested. Qwen3.5-122B-A10B (hybrid GDN MoE) official FP8. Tests family coherence vs dense 27B sibling. Pod cost tracked in results-v4/_b300_campaign/ledger.json at $9.09/hr; 2h per-model sprint guard (TIME_GUARD.md + DNF, not charged to model). Serving config in config/b300_campaign.json."
-    },
-    {
-      "slug": "v2_qwen35_397b_oss",
-      "label": "Qwen3.5-397B-A17B NVFP4 (RunPod B300 vLLM)",
-      "harness": "opencode",
-      "model_id": "runpod-vllm/qwen3.5-397b",
-      "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 7,
-      "notes": "Added per user 2026-10-16 (B300 open-weights campaign). First ~400B flagship row. nvidia ModelOpt NVFP4 of Qwen3.5-397B-A17B (251GB, within 1-2% of FP8). Pod cost tracked in results-v4/_b300_campaign/ledger.json at $9.09/hr; 2h per-model sprint guard (TIME_GUARD.md + DNF, not charged to model). Serving config in config/b300_campaign.json."
-    },
-    {
-      "slug": "v2_dsv4_flash_oss",
-      "label": "DeepSeek-V4-Flash 0731 official FP4/FP8 (RunPod B300 vLLM)",
-      "harness": "opencode",
-      "model_id": "runpod-vllm/dsv4-flash",
-      "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 7,
-      "notes": "Added per user 2026-10-16 (B300 open-weights campaign). Official mixed FP4/FP8 0731 checkpoint (native release, no extra quant). Consistency vs cloud wave-3 runs. Pod cost tracked in results-v4/_b300_campaign/ledger.json at $9.09/hr; 2h per-model sprint guard (TIME_GUARD.md + DNF, not charged to model). Serving config in config/b300_campaign.json."
-    },
-    {
-      "slug": "v2_nemotron35_super_vl_oss",
-      "label": "Nemotron-3.5-Super-VL-120B-A12B NVFP4 (RunPod B300 vLLM)",
-      "harness": "opencode",
-      "model_id": "runpod-vllm/nemotron-3.5-super-vl",
-      "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 7,
-      "notes": "Added per user 2026-10-16 (B300 campaign). Swapped over Nemotron-3-Super per suggestion: newer (2026-10-15), 2x AA index, NVFP4 near-lossless, top US open-weight model. Also serves as the family rescue of the 3-Super crash/auth infra-DNF."
-    },
-    {
-      "slug": "v2_qwen3_8_27b_oss",
-      "label": "Qwen3.8-27B dense BF16 redo (RunPod B300 vLLM)",
-      "harness": "opencode",
-      "model_id": "runpod-vllm/qwen3.8-27b",
-      "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 7,
-      "notes": "Added per user 2026-10-16 (B300 open-weights campaign). Full-fidelity redo: 5090-Q5 walled at sprint 3, Strix-Q8 slow. Settles quant-vs-model. Pod cost tracked in results-v4/_b300_campaign/ledger.json at $9.09/hr; 2h per-model sprint guard (TIME_GUARD.md + DNF, not charged to model). Serving config in config/b300_campaign.json."
-    },
-    {
-      "slug": "v2_glm_4_7_flash_bf16_oss",
-      "label": "GLM-4.7-Flash 30B-A3B BF16 redo (RunPod B300 vLLM)",
-      "harness": "opencode",
-      "model_id": "runpod-vllm/glm-4.7-flash",
-      "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 7,
-      "notes": "Added per user 2026-10-16 (B300 open-weights campaign). Quant-vs-model A/B vs local Q5_K_M 24.0. Pod cost tracked in results-v4/_b300_campaign/ledger.json at $9.09/hr; 2h per-model sprint guard (TIME_GUARD.md + DNF, not charged to model). Serving config in config/b300_campaign.json."
-    },
-    {
-      "slug": "v2_qwen3_8_flash_next_oss",
-      "label": "Qwen3.8-Flash-Next NVFP4 (RunPod B300 vLLM)",
-      "harness": "opencode",
-      "model_id": "runpod-vllm/qwen3.8-flash-next",
-      "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 7,
-      "notes": "Added per user 2026-10-16 (B300 open-weights campaign). Qwen4-architecture preview: 125B-A6B + 51B PLE n-gram embedding + 4B MTP. Pod cost tracked in results-v4/_b300_campaign/ledger.json at $9.09/hr; 2h per-model sprint guard (TIME_GUARD.md + DNF, not charged to model). Serving config in config/b300_campaign.json."
-    },
-    {
-      "slug": "v2_glm_5_3_flash_oss",
-      "label": "GLM 5.3 Flash open-weights NVFP4 (self-hosted RunPod B300 vLLM)",
-      "harness": "opencode",
-      "model_id": "runpod-vllm/glm-5.3-flash",
-      "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 6,
-      "notes": "Added per user 2026-10-16. zai-org/GLM-5.3-Flash (320B-A18B, MIT) as RedHatAI NVFP4 (198GB, experts 4-bit) served via vLLM on rented RunPod B300 288GB, TP1, glm47 tool parser, SSH-proxy to opencode. Open-weights consistency check vs cloud v2_glm_5_3_flash (84.25, OpenRouter FP8-class serving). Tier A injection parity (same as cloud Flash). Quant caveat: NVFP4 vs FP8 delta to be noted in scoring."
-    },
-    {
-      "slug": "v2_glm_5_3",
-      "label": "GLM 5.3 (opencode/Z.ai coding plan)",
-      "harness": "opencode",
-      "model_id": "zai/glm-5.3",
-      "billing": "Z.ai flat-rate coding plan ($0 marginal; API-equiv reported)",
-      "rates_per_m": {
-        "input": 0.6,
-        "cache_read": 0.11,
-        "cache_write": 0.6,
-        "output": 2.2
-      },
-      "wave": 4,
-      "notes": "Added 2026-08-15. Successor to GLM 5.2 (92). z.ai coding endpoint, cumulative-metered. Frontier cloud \u2014 unshielded, spot-checked post-run."
-    },
-    {
-      "slug": "v2_gemini_3_7_flash_high",
-      "label": "Gemini 3.7 Flash @ high (opencode/direct Gemini API)",
-      "harness": "opencode",
-      "model_id": "google/gemini-3.7-flash",
-      "billing": "Direct Gemini API, pay-per-token",
-      "rates_per_m": {
-        "input": 0.75,
-        "cache_read": 0.075,
-        "cache_write": 0.75,
-        "output": 3.75
-      },
-      "enable_followup": true,
-      "wave": 4,
-      "notes": "Added 2026-08-15. Newest Gemini Flash (untested). DIRECT Gemini API key path (GEMINI_API_KEY) via opencode built-in google provider, NOT OpenRouter \u2014 deliberately bypasses the thought-signature bug that capped 3.1 Pro at 62 (3 failed phase-2 attempts). Effort forced via reasoning.effort=high in home-config model options. Rates approximate (2.5-Flash-class $0.30/$2.50) \u2014 reconcile against the Google AI Studio console."
-    },
-    {
-      "slug": "v2_grok_4_6",
-      "label": "Grok 4.6 (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/x-ai/grok-4.6",
-      "billing": "OpenRouter API \u2014 no xAI subscription harness",
-      "rates_per_m": {
-        "input": 2.0,
-        "cache_read": 0.5,
-        "cache_write": 2.0,
-        "output": 6.0
-      },
-      "wave": 4,
-      "notes": "Added 2026-08-15. Successor to Grok 4.5 (92). opencode/OpenRouter, run SHIELDED per shield-all policy. 500K ctx."
-    },
-    {
-      "slug": "v2_grok_4_6_cli",
-      "label": "Grok 4.6 (grok CLI, native)",
-      "harness": "grok",
-      "model_id": "grok-4.6",
-      "billing": "xAI API (grok CLI native usage/cost)",
-      "rates_per_m": {
-        "input": 2.0,
-        "cache_read": 0.5,
-        "cache_write": 2.0,
-        "output": 6.0
-      },
-      "wave": 4,
-      "notes": "Added 2026-08-16. Native-harness A/B for the 92-scoring opencode Grok 4.6 run. Official @xai-official/grok CLI (v1.0.4) \u2014 reports native usage + total_cost_usd; no Live Search patch needed. --disable-web-search for parity. Run SHIELDED per shield-all policy."
-    },
-    {
-      "slug": "v2_grok_4_7",
-      "label": "Grok 4.7 (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/x-ai/grok-4.7",
-      "billing": "OpenRouter API \u2014 no xAI subscription harness",
-      "rates_per_m": {
-        "input": 1.6,
-        "cache_read": 0.4,
-        "cache_write": 1.6,
-        "output": 4.8
-      },
-      "wave": 5,
-      "notes": "Added 2026-09-21. Successor to Grok 4.6 (98.5). opencode/OpenRouter, run SHIELDED per shield-all policy. 500K ctx. Full 14-item Tier-A set."
-    },
-    {
-      "slug": "v2_deepseek_v4_flash_0731",
-      "label": "DeepSeek V4 Flash 0731 (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/deepseek/deepseek-v4-flash-0731",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.065,
-        "cache_read": 0.016,
-        "cache_write": 0.065,
-        "output": 0.18
-      },
-      "enable_followup": true,
-      "wave": 4,
-      "notes": "Added 2026-08-22. Newer snapshot of deepseek-v4-flash (base tested 07-28 @ 80). 1.31M ctx. opencode, shielded (shield-all policy)."
-    },
-    {
-      "slug": "v2_deepseek_v4_pro_0813",
-      "label": "DeepSeek V4 Pro 0813 (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/deepseek/deepseek-v4-pro-0813",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.5795,
-        "cache_read": 0.0193,
-        "cache_write": 0.5795,
-        "output": 1.7384
-      },
-      "enable_followup": true,
-      "wave": 4,
-      "notes": "Added 2026-08-22. Newer snapshot of deepseek-v4-pro (base tested 07-28 @ 82). WATCH the reasoning_content multi-turn bug (opencode ai-sdk strips it; breaks phase 2) \u2014 if it recurs, route via Claude Code deepclaude env-swap. opencode, shielded."
-    },
-    {
-      "slug": "v2_claude_fable_5_1",
-      "label": "Claude Fable 5.1 (Claude Code)",
-      "harness": "claude",
-      "model_id": "claude-fable-5-1",
-      "billing": "Claude Max subscription",
-      "rates_per_m": {
-        "input": 10.0,
-        "cache_read": 0.25,
-        "cache_write": 12.5,
-        "output": 50.0
-      },
-      "wave": 4,
-      "notes": "Added 2026-09-02. Released 2026-09-01; pitched as beating Fable 5 (96), Opus 5, GPT 5.6 Sol. Same list price as Fable 5 ($10/$50) but ~75% cheaper cache reads ($1.0->$0.25). Mythos 5.1 is the same model with lower safeguards, US-trusted-access only (not available). Claude Code harness, Max sub (ANTHROPIC_API_KEY stripped by runner), shielded per shield-all + git-sandbox."
-    },
-    {
-      "slug": "v2_gemini_3_8_flash_high",
-      "label": "Gemini 3.8 Flash @ high (opencode/direct Gemini API)",
-      "harness": "opencode",
-      "model_id": "google/gemini-3.8-flash",
-      "billing": "Direct Gemini API, pay-per-token",
-      "rates_per_m": {
-        "input": 0.75,
-        "cache_read": 0.075,
-        "cache_write": 0.75,
-        "output": 3.75
-      },
-      "enable_followup": true,
-      "wave": 4,
-      "notes": "Added 2026-09-02. Newest Gemini flash (3.7 scored 93). DIRECT Gemini API (GEMINI_API_KEY) via opencode google provider, NOT OpenRouter (avoids thought-signature bug). effort=high. Shielded + git-sandbox."
-    },
-    {
-      "slug": "v2_qwen3_8_flash",
-      "label": "Qwen 3.8 Flash (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/qwen/qwen3.8-flash",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.15,
-        "cache_read": 0.016,
-        "cache_write": 0.15,
-        "output": 0.47
-      },
-      "enable_followup": true,
-      "wave": 4,
-      "notes": "Added 2026-09-03. Flash tier A/B vs qwen3.8-max (92, same opencode harness). 1M ctx."
-    },
-    {
-      "slug": "v2_glm_5_3_flash",
-      "label": "GLM 5.3 Flash (opencode/Z.ai or OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/z-ai/glm-5.3-flash",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.075,
-        "cache_read": 0.0175,
-        "cache_write": 0.075,
-        "output": 0.25
-      },
-      "enable_followup": true,
-      "wave": 4,
-      "notes": "Added 2026-09-03. Flash tier A/B vs GLM 5.3 (94, same opencode harness). 1.31M ctx."
-    },
-    {
-      "slug": "v2_gpt_6_astra",
-      "label": "GPT-6 Astra High (Codex)",
-      "harness": "codex",
-      "model_id": "gpt-6-astra",
-      "codex_reasoning_effort": "high",
-      "billing": "ChatGPT subscription credits",
-      "rates_per_m": {
-        "input": 10.0,
-        "cache_read": 1.0,
-        "cache_write": 12.5,
-        "output": 50.0
-      },
-      "wave": 4,
-      "notes": "Added 2026-09-04. OpenAI GPT-6 Astra (launched 09-03; SWE-SOTA/AGI claims). Codex 0.153.3 required (0.151/0.152 gated it: 'requires a newer version of Codex'); upgraded via mise. Runs on ChatGPT subscription (API key was out of credits \u2014 codex uses OAuth). Rates ESTIMATED (flagship placeholder) \u2014 reconcile against OpenAI pricing. Codex path is independent of today's OpenRouter degradation."
-    },
-    {
-      "slug": "v2_gpt_6_sol",
-      "label": "GPT 6 Sol xHigh (Codex)",
-      "harness": "codex",
-      "model_id": "gpt-6-sol",
-      "codex_reasoning_effort": "xhigh",
-      "billing": "ChatGPT subscription credits",
-      "rates_per_m": {
-        "input": 2.0,
-        "cache_read": 0.2,
-        "cache_write": 0.0,
-        "output": 10.0
-      },
-      "wave": 5,
-      "notes": "Added 2026-09-22. Requires codex >=0.156.0 (0.153.3 rejected gpt-6-* on ChatGPT account). Subscription billing (NO API fallback per user). gpt-6-terra NOT entitled on this ChatGPT account. RATE RECONCILED 2026-09-23 vs OpenAI published GPT-6 pricing (was the in5/out30 Astra placeholder \u2014 WRONG, ~2.6x/53x overstated). "
-    },
-    {
-      "slug": "v2_gpt_6_luna",
-      "label": "GPT 6 Luna xHigh (Codex)",
-      "harness": "codex",
-      "model_id": "gpt-6-luna",
-      "codex_reasoning_effort": "xhigh",
-      "billing": "ChatGPT subscription credits",
-      "rates_per_m": {
-        "input": 0.1,
-        "cache_read": 0.01,
-        "cache_write": 0.0,
-        "output": 0.5
-      },
-      "wave": 5,
-      "notes": "Added 2026-09-22. Requires codex >=0.156.0 (0.153.3 rejected gpt-6-* on ChatGPT account). Subscription billing (NO API fallback per user). gpt-6-terra NOT entitled on this ChatGPT account. RATE RECONCILED 2026-09-23 vs OpenAI published GPT-6 pricing (was the in5/out30 Astra placeholder \u2014 WRONG, ~2.6x/53x overstated). "
-    },
-    {
-      "slug": "v2_muse_spark_1_3",
-      "label": "Muse Spark 1.3 (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/meta/muse-spark-1.3",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 1.25,
-        "cache_read": 0.15,
-        "cache_write": 1.25,
-        "output": 4.25
-      },
-      "enable_followup": true,
-      "wave": 4,
-      "notes": "Added 2026-09-04. First Meta Muse model in the benchmark. 18+ age gate cleared by user 09-04. Reasoning-heavy (spends 400+ reasoning tokens before content). 1.05M ctx, tools. opencode/OpenRouter, shielded + git-sandbox."
-    },
-    {
-      "slug": "v2_mistral_large_3",
-      "label": "Mistral Large 3 (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/mistralai/mistral-large-2512",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.5,
-        "cache_read": 0.125,
-        "cache_write": 0.5,
-        "output": 1.5
-      },
-      "enable_followup": true,
-      "wave": 5,
-      "notes": "Added 2026-09-05 for the v3 ecosystem campaign. opencode, shielded (shield-all)."
-    },
-    {
-      "slug": "v2_codestral_2508",
-      "label": "Codestral 2508 (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/mistralai/codestral-2508",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.3,
-        "cache_read": 0.075,
-        "cache_write": 0.3,
-        "output": 0.9
-      },
-      "enable_followup": true,
-      "wave": 5,
-      "notes": "Added 2026-09-05 for the v3 ecosystem campaign. opencode, shielded (shield-all)."
-    },
-    {
-      "slug": "v2_devstral_2512",
-      "label": "Devstral 2512 (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/mistralai/devstral-2512",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.4,
-        "cache_read": 0.1,
-        "cache_write": 0.4,
-        "output": 2.0
-      },
-      "enable_followup": true,
-      "wave": 5,
-      "notes": "Added 2026-09-05 for the v3 ecosystem campaign. opencode, shielded (shield-all)."
-    },
-    {
-      "slug": "v2_nemotron_3_super",
-      "label": "NVIDIA Nemotron 3 Super 120B (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/nvidia/nemotron-3-super-120b-a12b",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.085,
-        "cache_read": 0.0213,
-        "cache_write": 0.085,
-        "output": 0.4
-      },
-      "enable_followup": true,
-      "wave": 5,
-      "notes": "Added 2026-09-05 for the v3 ecosystem campaign. opencode, shielded (shield-all)."
-    },
-    {
-      "slug": "v2_llama_4_maverick",
-      "label": "Llama 4 Maverick (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/meta-llama/llama-4-maverick",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.2,
-        "cache_read": 0.05,
-        "cache_write": 0.2,
-        "output": 0.696
-      },
-      "enable_followup": true,
-      "wave": 5,
-      "notes": "Added 2026-09-05 for the v3 ecosystem campaign. opencode, shielded (shield-all)."
-    },
-    {
-      "slug": "v2_hunyuan_a13b",
-      "label": "Tencent Hunyuan A13B (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/tencent/hunyuan-a13b-instruct",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.14,
-        "cache_read": 0.035,
-        "cache_write": 0.14,
-        "output": 0.57
-      },
-      "enable_followup": true,
-      "wave": 5,
-      "notes": "Added 2026-09-05 for the v3 ecosystem campaign. opencode, shielded (shield-all)."
-    },
-    {
-      "slug": "v2_gpt_oss_120b",
-      "label": "GPT-OSS 120B (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/openai/gpt-oss-120b",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.037,
-        "cache_read": 0.009,
-        "cache_write": 0.037,
-        "output": 0.17
-      },
-      "enable_followup": true,
-      "wave": 5,
-      "notes": "Added 2026-09-05 (cloud proxy for the birds-eye; true local 5090 run is a separate manual session).",
-      "workspace_preamble": true
-    },
-    {
-      "slug": "v2_gpt_oss_20b",
-      "label": "GPT-OSS 20B (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/openai/gpt-oss-20b",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0,
-        "_VERIFY": "placeholder \u2014 re-check OpenRouter gpt-oss-20b rates before any cost analysis"
-      },
-      "enable_followup": true,
-      "wave": 5,
-      "notes": "Added 2026-09-30 for the proxy-hypothesis panel (Branch-A o200k candidate). RATES UNVERIFIED \u2014 check before cost.",
-      "workspace_preamble": true
-    },
-    {
-      "slug": "v2_glm_5_3_zcode",
-      "label": "GLM 5.3 (zcode CLI / z.ai GLM Coding Plan Lite)",
-      "harness": "zcode",
-      "model_id": "zai/glm-5.3",
-      "billing": "z.ai GLM Coding Plan (Lite, flat-rate; notional $0 marginal)",
-      "wave": 6,
-      "notes": "Added 2026-09-12. Runs via the zcode CLI (ZCode agent runtime) on the z.ai coding endpoint (Anthropic-compatible), bypassing the z.ai pay-as-you-go balance block. Auth in ~/.zcode/cli/config.json; model via config model.main (set per-run). Harness-effect data point vs the opencode/OpenRouter GLM 5.3 entries."
-    },
-    {
-      "slug": "v2_glm_5_3_flash_zcode",
-      "label": "GLM 5.3 Flash (zcode CLI / z.ai GLM Coding Plan Lite)",
-      "harness": "zcode",
-      "model_id": "zai/glm-5.3-flash",
-      "billing": "z.ai GLM Coding Plan (Lite, flat-rate; notional $0 marginal)",
-      "wave": 6,
-      "notes": "Added 2026-09-12. zcode CLI harness, z.ai coding endpoint. Cheap/fast GLM tier."
-    },
-    {
-      "slug": "v2_glm_5_2_zcode",
-      "label": "GLM 5.2 (zcode CLI / z.ai GLM Coding Plan Lite)",
-      "harness": "zcode",
-      "model_id": "zai/glm-5.2",
-      "billing": "z.ai GLM Coding Plan (Lite, flat-rate; notional $0 marginal)",
-      "wave": 6,
-      "notes": "Added 2026-09-12. zcode CLI harness. Superseded by 5.3 but completes the family."
-    },
-    {
-      "slug": "v2_deepseek_v4_1_flash",
-      "label": "DeepSeek V4.1 Flash (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/deepseek/deepseek-v4.1-flash",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.15,
-        "cache_read": 0.0375,
-        "cache_write": 0.15,
-        "output": 0.6
-      },
-      "wave": 6,
-      "notes": "Added 2026-09-13. Sep-10 agentic-efficiency refresh (4x KV-cache cut); successors V4 Flash 86.0 / 0731 85.0. Tier A full set."
-    },
-    {
-      "slug": "v2_tencent_hy4",
-      "label": "Tencent Hy4 preview (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/tencent/hy4-preview",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.834,
-        "cache_read": 0.21,
-        "cache_write": 0.834,
-        "output": 2.501
-      },
-      "wave": 6,
-      "notes": "Added 2026-09-13. 770B/49B open MoE (Apache 2.0), 1M ctx. Tencent's flagship; Hunyuan A13B DNF'd in wave 5. Tier A full set."
-    },
-    {
-      "slug": "v2_nemotron_3_5_lightning",
-      "label": "NVIDIA Nemotron 3.5 Lightning 30B-A3B (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/nvidia/nemotron-3.5-lightning",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 0.08,
-        "cache_read": 0.02,
-        "cache_write": 0.08,
-        "output": 0.2
-      },
-      "wave": 6,
-      "notes": "Added 2026-09-13. 30B/3B-active small MoE; Nemotron 3 Super DNF'd (sprint-2 provider crash). Tier C/D expectation: abort-early, loud set if it completes."
-    },
-    {
-      "slug": "v2_gpt_5_6_sol_low",
-      "label": "GPT 5.6 Sol Low (Codex)",
-      "harness": "codex",
-      "model_id": "gpt-5.6-sol",
-      "codex_reasoning_effort": "low",
-      "billing": "ChatGPT subscription credits",
-      "rates_per_m": {
-        "input": 5.0,
-        "cache_read": 0.5,
-        "cache_write": 0.0,
-        "output": 30.0
-      },
-      "wave": 1,
-      "notes": "Added 2026-09-15 for the effort-comparison study: same gpt-5.6-sol model as the xHigh run (100.0), at low codex reasoning effort. Isolates effort's effect on the v4 vigilance score."
-    },
-    {
-      "slug": "v2_gpt_5_6_sol_medium",
-      "label": "GPT 5.6 Sol Medium (Codex)",
-      "harness": "codex",
-      "model_id": "gpt-5.6-sol",
-      "codex_reasoning_effort": "medium",
-      "billing": "ChatGPT subscription credits",
-      "rates_per_m": {
-        "input": 5.0,
-        "cache_read": 0.5,
-        "cache_write": 0.0,
-        "output": 30.0
-      },
-      "wave": 1,
-      "notes": "Added 2026-09-15 for the effort-comparison study: same gpt-5.6-sol model as the xHigh run (100.0), at medium codex reasoning effort. Isolates effort's effect on the v4 vigilance score."
-    },
-    {
-      "slug": "v2_genesys_pi_house",
-      "label": "Genesys PI House (LUA Vision, opencode)",
-      "harness": "opencode",
-      "model_id": "lua/genesys-pi-house",
-      "billing": "LUA Vision API (api.lua.vision) - first-party, BRL-priced",
-      "rates_per_m": {
-        "input": 10.66,
-        "cache_read": 1.16,
-        "cache_write": 10.66,
-        "output": 53.29
-      },
-      "wave": 7,
-      "notes": "Added 2026-09-23 per user. Brazilian Genesys PI family (LUA Vision Tecnologia, Sao Paulo). Flagship: 'maximum quality for long/complex/high-stakes work', 600K ctx / 128K out. OpenAI-compatible /v1, Bearer auth; tools+streaming+json_schema verified. GENERAL model (no coding-specialized variant); regulated-market PT/EN focus. rates_per_m = BRL price / 5.16 (2026-09-23, verified): in 55, cachedIn 6, out 275 BRL/M. CAVEAT: server injects a large system prompt (~741 tok on a bare call) inflating input tokens/cost. Run SHIELDED per shield-all policy."
-    },
-    {
-      "slug": "v2_genesys_pi_enterprise",
-      "label": "Genesys PI Enterprise (LUA Vision, opencode)",
-      "harness": "opencode",
-      "model_id": "lua/genesys-pi-enterprise",
-      "billing": "LUA Vision API (api.lua.vision) - first-party, BRL-priced",
-      "rates_per_m": {
-        "input": 0.78,
-        "cache_read": 0.1,
-        "cache_write": 0.78,
-        "output": 3.88
-      },
-      "wave": 7,
-      "notes": "Added 2026-09-23 per user. Genesys PI 'production workhorse: high quality, low latency', 384K ctx / 128K out. rates_per_m = BRL/5.16: in 4, cachedIn 0.5, out 20 BRL/M. Smoke-tested one sprint first; if too slow or failing too much, drop to house-only (user decision). Run SHIELDED."
-    },
-    {
-      "slug": "v2_genesys_pi_house_0929",
-      "label": "Genesys PI House (LUA Vision RE-TEST 2026-09-29 post-caching-fix, opencode)",
-      "harness": "opencode",
-      "model_id": "lua/genesys-pi-house",
-      "billing": "LUA Vision API (api.lua.vision) - first-party, BRL-priced",
-      "rates_per_m": {
-        "input": 10.66,
-        "cache_read": 1.16,
-        "cache_write": 10.66,
-        "output": 53.29
-      },
-      "wave": 7,
-      "notes": "RE-TEST 2026-09-29: clean new v4 run after vendor reported fixing bugs (esp. PROMPT CACHING \u2014 confirmed active: repeated-prefix call returns cached_tokens>0, was always 0). Compare vs v2_genesys_pi_house (previous run). Same lua/ model_id + rates (API no longer exposes price_brl_per_million; last-known BRL rates carried, re-confirm at grading). Previous analysis preserved, do not delete. Free vendor eval key."
-    },
-    {
-      "slug": "v2_genesys_pi_enterprise_0929",
-      "label": "Genesys PI Enterprise (LUA Vision RE-TEST 2026-09-29 post-caching-fix, opencode)",
-      "harness": "opencode",
-      "model_id": "lua/genesys-pi-enterprise",
-      "billing": "LUA Vision API (api.lua.vision) - first-party, BRL-priced",
-      "rates_per_m": {
-        "input": 0.78,
-        "cache_read": 0.1,
-        "cache_write": 0.78,
-        "output": 3.88
-      },
-      "wave": 7,
-      "notes": "RE-TEST 2026-09-29: clean new v4 run after vendor reported fixing bugs (esp. PROMPT CACHING \u2014 confirmed active: repeated-prefix call returns cached_tokens>0, was always 0). Compare vs v2_genesys_pi_enterprise (previous run). Same lua/ model_id + rates (API no longer exposes price_brl_per_million; last-known BRL rates carried, re-confirm at grading). Previous analysis preserved, do not delete. Free vendor eval key."
-    },
-    {
-      "slug": "v2_gpt_4_1",
-      "label": "GPT-4.1 (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/openai/gpt-4.1",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 2.0,
-        "cache_read": 0.5,
-        "cache_write": 2.0,
-        "output": 8.0
-      },
-      "enable_followup": true,
-      "wave": 6,
-      "notes": "Added 2026-09-30 \u2014 GPT-4-generation baseline (best GPT-4-gen coder). Rates verified from OpenRouter 2026-09-30 ($2/$8); cache_read=OpenAI 4.1 cached-input $0.50/M. | 2026-09-30: assisted build-now nudge (research/plan-loop DNF without it).",
-      "workspace_preamble": true,
-      "preamble": "IMPORTANT EXECUTION DIRECTIVE: Do NOT respond with a plan, summary, or web research \u2014 you already know Rails 8, Hotwire, Tailwind, and RubyLLM. Immediately use the file tools (write/edit) and bash to CREATE and MODIFY files and complete the task NOW; take concrete build actions every step and NEVER end your turn with only a plan or a summary. Build DIRECTLY in the current working directory (the workspace root) \u2014 never create a subdirectory for the app; run `rails new .` or write files at the root. Commit your work with git at the end."
-    },
-    {
-      "slug": "v2_gpt_4o",
-      "label": "GPT-4o (opencode/OpenRouter)",
-      "harness": "opencode",
-      "model_id": "openrouter/openai/gpt-4o",
-      "billing": "OpenRouter API",
-      "rates_per_m": {
-        "input": 2.5,
-        "cache_read": 1.25,
-        "cache_write": 2.5,
-        "output": 10.0
-      },
-      "enable_followup": true,
-      "wave": 6,
-      "notes": "Added 2026-09-30 \u2014 GPT-4-generation flagship; o200k tokenizer; SAME opencode harness as LUA (fills the proxy same-harness comparison gap). Rates verified from OpenRouter 2026-09-30 ($2.50/$10); cache_read=OpenAI 4o cached-input $1.25/M. | 2026-09-30: assisted in-place-build nudge (nested-app DNF without it, like devstral/llama/mistral-medium).",
-      "workspace_preamble": true,
-      "preamble": "IMPORTANT EXECUTION DIRECTIVE: Do NOT respond with a plan, summary, or web research \u2014 you already know Rails 8, Hotwire, Tailwind, and RubyLLM. Immediately use the file tools (write/edit) and bash to CREATE and MODIFY files and complete the task NOW; take concrete build actions every step and NEVER end your turn with only a plan or a summary. Build DIRECTLY in the current working directory (the workspace root) \u2014 never create a subdirectory for the app; run `rails new .` or write files at the root. Commit your work with git at the end."
-    },
-    {
-      "slug": "v2_muse_wonder",
-      "label": "Muse Wonder (Meta, subscription)",
-      "harness": "muse",
-      "model_id": "muse-wonder-1.0",
-      "billing": "Meta Muse Code subscription (flat-rate; notional cost)",
-      "muse_reasoning_effort": "high",
-      "wave": "muse",
-      "notes": "Standard Muse Wonder (AA~52) via `muse exec` subscription; Wonder Full is not CLI-reachable. provider=meta, META_API_KEY popped so it never bills the pay-per-token API."
-    },
-    {
-      "slug": "v2_muse_glimmer_30b_oss",
-      "label": "Muse Glimmer 30B BF16 (RunPod B300 vLLM)",
-      "harness": "opencode",
-      "model_id": "runpod-vllm/muse-glimmer",
-      "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 7,
-      "notes": "Added by user 2026-10-17 to B300 campaign. Official meta-models/Muse-Glimmer-30B BF16, 128K context. vLLM support/tool-loop preflight required; preserve infrastructure failures separately from model quality. Same 2h cumulative sprint execution guard and pod-cost accounting."
-    },
-    {
-      "slug": "v2_command_a_plus_oss",
-      "label": "Command A+ W4A4 (RunPod B300 vLLM)",
-      "harness": "opencode",
-      "model_id": "runpod-vllm/command-a-plus",
-      "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 7,
-      "notes": "Added by user 2026-10-17. Official CohereLabs/command-a-plus-05-2026-w4a4; Cohere recommended single-Blackwell checkpoint. Same 128K context, 2h sprint guard and isolated harness. Parser dependency cohere_melody; preflight mandatory."
-    },
-    {
-      "slug": "v2_ornith_1_5_35b_oss",
-      "label": "Ornith 1.5 35B-A3B BF16 (RunPod B300 vLLM)",
-      "harness": "opencode",
-      "model_id": "runpod-vllm/ornith-1.5-35b",
-      "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 7,
-      "notes": "Added by user 2026-10-17. Official ornith-ai/Ornith-1.5-35B-A3B BF16, MIT. Same 128K context, 2h cumulative sprint guard, isolated OpenCode harness. Use bundled model chat template and qwen3_xml tool parser."
-    },
-    {
-      "slug": "v2_nex_n2_5_mini_oss",
-      "label": "Nex N2.5 Mini BF16 (RunPod B300 vLLM)",
-      "harness": "opencode",
-      "model_id": "runpod-vllm/nex-n2.5-mini",
-      "billing": "Self-hosted RunPod B300; wall-time billing, no per-token charges",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 7,
-      "notes": "User-approved 2026-10-17. Original Apache-2.0 BF16 35B agentic MoE. Bundled template default adaptive/medium reasoning (undefined matches medium); never disable reasoning for speed. 100 tok/s admission, max 3 configs/45 min tuning, cumulative 4h sprint guard. Official SGLang recipe reviewed; vLLM Qwen3.5 path requires actual tool preflight."
-    },
-    {
-      "slug": "v2_swift_1_5_27b_oss",
-      "label": "Swift 1.5 Qwen3.8 27B BF16 (RunPod B300 vLLM)",
-      "harness": "opencode",
-      "model_id": "runpod-vllm/swift-1.5-27b",
-      "billing": "Self-hosted B300 wall-time; no per-token charges",
-      "rates_per_m": {
-        "input": 0.0,
-        "output": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0
-      },
-      "wave": 7,
-      "notes": "User-approved 2026-10-17. Original BF16 reasoning-efficient Qwen3.8-27B derivative. Preserve bundled default thinking mode. 128K context/32K output, 100 tok/s admission, max 3 configs/45min optimization, cumulative 4h sprint guard. Official MTP3 recipe is first below-threshold alternative; never disable reasoning to pass throughput."
-    },
-    {
-      "slug": "v2_thinkingcap_3_8_27b_oss",
-      "label": "ThinkingCap Qwen3.8 27B BF16 (RunPod B300 vLLM)",
-      "harness": "opencode",
-      "model_id": "runpod-vllm/thinkingcap-3.8-27b",
-      "billing": "Self-hosted B300 wall-time; no per-token charges",
-      "rates_per_m": {
-        "input": 0.0,
-        "output": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0
-      },
-      "wave": 7,
-      "notes": "User-approved 2026-10-17. Original BF16 reasoning-efficient Qwen3.8-27B derivative. Preserve bundled default thinking mode. 128K context/32K output, 100 tok/s admission, max 3 configs/45min optimization, cumulative 4h sprint guard. Official MTP3 recipe is first below-threshold alternative; never disable reasoning to pass throughput."
-    },
-    {
-      "slug": "v2_qwen3_8_27b_strix_q4",
-      "label": "Qwen3.8-27B Q4_K_M (LOCAL Strix Halo ollama)",
-      "harness": "opencode",
-      "model_id": "ollama-strix/qwen38-27b-strix-q4",
-      "billing": "Local (Strix Halo 192.168.0.90 Ryzen AI MAX+ 395, free)",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 7,
-      "notes": "Added 2026-10-19. Q4_K_M (17GB, ~12.6 tok/s) GGUF on Strix Halo via ROCm ollama (:11434), 128K ctx. v4 self-host-on-consumer-HW comparison vs B300. Claude reviewer (Codex blocked). Capped (<=2 nudge, B300-comparable) + extended-nudge assisted-ceiling scores."
-    },
-    {
-      "slug": "v2_qwen3_8_27b_strix_q8",
-      "label": "Qwen3.8-27B Q8_0 anchor (LOCAL Strix Halo ollama)",
-      "harness": "opencode",
-      "model_id": "ollama-strix/qwen38-27b-strix-q8",
-      "billing": "Local (Strix Halo 192.168.0.90 Ryzen AI MAX+ 395, free)",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 7,
-      "notes": "Added 2026-10-19. Q8_0 (29GB, ~7.7 tok/s) quant-cost anchor GGUF on Strix Halo via ROCm ollama (:11434), 128K ctx. v4 self-host-on-consumer-HW comparison vs B300. Claude reviewer (Codex blocked). Capped (<=2 nudge, B300-comparable) + extended-nudge assisted-ceiling scores."
-    },
-    {
-      "slug": "v2_swift_1_5_27b_strix_q4",
-      "label": "Swift 1.5 27B Q4_K_M (LOCAL Strix Halo ollama)",
-      "harness": "opencode",
-      "model_id": "ollama-strix/swift15-27b-strix-q4",
-      "billing": "Local (Strix Halo 192.168.0.90 Ryzen AI MAX+ 395, free)",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 7,
-      "notes": "Added 2026-10-19. Q4_K_M (18GB) GGUF on Strix Halo via ROCm ollama (:11434), 128K ctx. v4 self-host-on-consumer-HW comparison vs B300. Claude reviewer (Codex blocked). Capped (<=2 nudge, B300-comparable) + extended-nudge assisted-ceiling scores."
-    },
-    {
-      "slug": "v2_thinkingcap_3_8_27b_strix_q4",
-      "label": "ThinkingCap 3.8 27B Q4_K_M (LOCAL Strix Halo ollama)",
-      "harness": "opencode",
-      "model_id": "ollama-strix/thinkingcap38-27b-strix-q4",
-      "billing": "Local (Strix Halo 192.168.0.90 Ryzen AI MAX+ 395, free)",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 7,
-      "notes": "Added 2026-10-19. Q4_K_M (18GB) GGUF on Strix Halo via ROCm ollama (:11434), 128K ctx. v4 self-host-on-consumer-HW comparison vs B300. Claude reviewer (Codex blocked). Capped (<=2 nudge, B300-comparable) + extended-nudge assisted-ceiling scores."
-    },
-    {
-      "slug": "v2_qwen38_flash_next_strix_strata_iq3s",
-      "label": "Qwen3.8 Flash-Next IQ3_S (LOCAL Strix Halo, Strata hip-halo)",
-      "harness": "opencode",
-      "model_id": "strata-strix/qwen3.8-flash-next-iq3_s",
-      "billing": "Local (Strix Halo 192.168.0.90, free) via Strata expert-offload engine",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 7,
-      "notes": "Added 2026-10-19. Qwen3.8-Flash-Next (125B MoE, B300 co-top 92.5) served by Strata HIP/ROCm expert-offload engine, IQ3_S quant, OpenAI API :8080. Tests whether the frontier open model runs on consumer HW. IQ3_S is aggressive (<Q4 of the 27Bs, <<B300 NVFP4) so score is quant-penalized. Capped (<=2 nudge) + extended-nudge. Provider wired after `strata launch`/`connect`."
-    },
-    {
-      "slug": "v2_qwen38_flash_next_5090_strata_iq3s",
-      "label": "Qwen3.8 Flash-Next IQ3_S (LOCAL RTX 5090, Strata cuda13)",
-      "harness": "opencode",
-      "model_id": "strata-5090/qwen3.8-flash-next-iq3_s",
-      "billing": "Local (RTX 5090 workstation, free) via Strata expert-offload engine",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 7,
-      "notes": "Added 2026-10-19. Qwen3.8-Flash-Next (125B MoE, B300 co-top 92.5) served by Strata CUDA 13 expert-offload engine, IQ3_S quant, OpenAI API :8080. Tests whether the frontier open model runs on consumer HW. IQ3_S is aggressive (<Q4 of the 27Bs, <<B300 NVFP4) so score is quant-penalized. Capped (<=2 nudge) + extended-nudge. Provider wired after `strata launch`/`connect`."
-    },
-    {
-      "slug": "v2_minimax_m3_1_flash",
-      "label": "MiniMax M3.1 Flash (OpenRouter, 428B MoE)",
-      "harness": "opencode",
-      "model_id": "openrouter/minimax/minimax-m3.1-flash:free",
-      "billing": "OpenRouter (free 72h, then $0.15/$0.60 per M)",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 7,
-      "notes": "Added 2026-10-19 (release day). Successor to MiniMax M3 (v4 75.5). 428B MoE agentic, 1M ctx. :free slug (rate-limited) is the only one live; watch for rate-limit stalls (infra, not model). cloud run, not local campaign."
-    },
-    {
-      "slug": "v2_deepseek_v4_1_flash_b300",
-      "label": "DeepSeek V4.1 Flash FP8 (4xB300 vLLM TP4)",
-      "harness": "opencode",
-      "model_id": "deepseek-b300/deepseek-v4.1-flash",
-      "billing": "Self-hosted 4xB300 (RunPod)",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 7,
-      "notes": "Added 2026-10-20. DeepSeek V4.1 Flash-1017 FP8 (510GB, native deepseek_v4_fp8), vLLM 0.32 TP4 on 4xB300, 174.8 tok/s warm (>=100 gate PASS). Reasoning/tool parsers deepseek_v41. API key re-keyed at launch (local->pod upload). The large open model the user chased; v4 run after MiniMax frees the shield."
-    },
-    {
-      "slug": "v2_kimi_k2_thinking_b300",
-      "label": "Kimi K2 Thinking INT4 (4xB300 vLLM TP4)",
-      "harness": "opencode",
-      "model_id": "kimi-b300/kimi-k2",
-      "billing": "Self-hosted 4xB300 (RunPod)",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 7,
-      "notes": "Added 2026-10-20. Kimi-K2-Thinking INT4 (594GB, 1T MoE ~32B active), vLLM 0.32 TP4 on 4xB300 (official FP8 Instruct 1029GB won't fit w/ KV headroom; no NVFP4 for orig K2). Trillion-param flagship, coding-optimized Thinking variant. Serve after DeepSeek freed GPUs."
-    },
-    {
-      "slug": "v2_glm_5_3_full_b300",
-      "label": "GLM 5.3 full FP8 (4xB300 vLLM TP4)",
-      "harness": "opencode",
-      "model_id": "glm-b300/glm-5.3",
-      "billing": "Self-hosted 4xB300 (RunPod)",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 7,
-      "notes": "Added 2026-10-20. Largest full GLM 5.3 (FP8, 704GB on disk, ~700B), vLLM 0.32 TP4 on 4xB300. Non-Flash flagship (vs the B300-batch GLM 5.3 Flash 320B-A18B=92.5). Last model of the overnight 4xB300 campaign."
-    },
-    {
-      "slug": "v2_ornith_1_5_122b_b300",
-      "label": "Ornith 1.5 122B MoE (4xB300 vLLM TP4)",
-      "harness": "opencode",
-      "model_id": "ornith-b300/ornith-1.5-122b",
-      "billing": "Self-hosted 4xB300 (RunPod)",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 7,
-      "notes": "Added 2026-10-20 per user. HF ornith-ai/Ornith-1.5-122B (~122-125B MoE, arch qwen3_5_moe = same as Nex N2.5 Pro; VL image-text-to-text; BF16 ~244GB, FP8 + GGUF variants; MIT, ungated). vLLM>=0.19.1, serve flags --tool-call-parser qwen3_xml --reasoning-parser qwen3. Big sibling of v2_ornith_1_5_35b_oss (B300 81.0). Queued on 4xB300 overnight campaign. Provider ornith-b300 wired at serve time."
-    },
-    {
-      "slug": "v2_ornith_1_5_35b_5090_strata",
-      "label": "Ornith 1.5 35B-A3B (LOCAL RTX 5090, Strata)",
-      "harness": "opencode",
-      "model_id": "strata-5090/ornith-1.5-35b",
-      "billing": "Local (RTX 5090 workstation, free) via Strata expert-offload engine",
-      "rates_per_m": {
-        "input": 0.0,
-        "cache_read": 0.0,
-        "cache_write": 0.0,
-        "output": 0.0
-      },
-      "wave": 7,
-      "notes": "Added 2026-10-20 per user. LOCAL consumer-HW counterpart to v2_ornith_1_5_35b_oss (B300 BF16 = 81.0) \u2014 never run locally before. ornith-ai/Ornith-1.5-35B-A3B via Strata GGUF on the 5090 (OpenAI API :8080), qwen3_xml tool parser + bundled chat template. Tests whether the 35B runs on consumer HW. Capped (<=2 nudge) + extended-nudge. Provider strata-5090 wired after strata launch/connect. Runs behind current shielded runs (serial)."
-    }
-  ],
-  "skipped": {
-    "claude_fable_5_rerelease": "same model ID as v2_claude_fable_5 (claude-fable-5); the June original-vs-rerelease snapshot distinction no longer exists \u2014 one run covers it",
-    "gemini_3_5_flash": "replaced by Gemini 3.5 Pro in the Tier A cohort per user decision; Pro not yet released (v2_gemini_pro, blocked)"
+  {
+   "slug": "v2_claude_opus_5",
+   "label": "Claude Opus 5 (Claude Code)",
+   "harness": "claude",
+   "model_id": "claude-opus-5",
+   "billing": "Claude Max subscription",
+   "rates_per_m": {
+    "input": 5.0,
+    "cache_read": 0.5,
+    "cache_write": 6.25,
+    "output": 25.0
+   },
+   "wave": 1
+  },
+  {
+   "slug": "v2_claude_opus_5_5",
+   "label": "Claude Opus 5.5 (Claude Code)",
+   "harness": "claude",
+   "model_id": "claude-opus-5-5",
+   "billing": "Claude Max subscription",
+   "rates_per_m": {
+    "input": 5.0,
+    "cache_read": 0.5,
+    "cache_write": 6.25,
+    "output": 25.0
+   },
+   "wave": 5,
+   "notes": "Added 2026-09-22. Released ~2026-09; requires Claude Code CLI >= 2.1.280 (updated via mise). 1M context / 128K max output. claude harness, Max sub (ANTHROPIC_API_KEY stripped by runner), shielded. rates approximate (CLI reports native cumulative cost)."
+  },
+  {
+   "slug": "v2_gpt_5_6_sol",
+   "label": "GPT 5.6 Sol xHigh (Codex)",
+   "harness": "codex",
+   "model_id": "gpt-5.6-sol",
+   "codex_reasoning_effort": "xhigh",
+   "billing": "ChatGPT subscription credits",
+   "rates_per_m": {
+    "input": 5.0,
+    "cache_read": 0.5,
+    "cache_write": 0.0,
+    "output": 30.0
+   },
+   "wave": 1
+  },
+  {
+   "slug": "v2_kimi_k3",
+   "label": "Kimi K3 (Kimi Code CLI)",
+   "harness": "kimi",
+   "model_id": "kimi-code/k3",
+   "billing": "Kimi Moderato subscription",
+   "rates_per_m": {
+    "input": 3.0,
+    "cache_read": 0.3,
+    "cache_write": 3.0,
+    "output": 15.0
+   },
+   "wave": 1,
+   "notes": "5h quota windows \u2014 a 3-phase run may need the quota watcher pattern"
+  },
+  {
+   "slug": "v2_gemini_pro",
+   "label": "Gemini 3.5 Pro (pending release)",
+   "harness": "opencode",
+   "model_id": "openrouter/google/gemini-3.5-pro",
+   "billing": "OpenRouter API (no Google subscription harness available)",
+   "wave": 2,
+   "blocked": "gemini-3.5-pro still unreleased (re-checked 2026-07-27); superseded by v2_gemini_flash_high per user directive"
+  },
+  {
+   "slug": "v2_claude_opus_4_8",
+   "label": "Claude Opus 4.8 (Claude Code)",
+   "harness": "claude",
+   "model_id": "claude-opus-4-8",
+   "billing": "Claude Max subscription",
+   "rates_per_m": {
+    "input": 5.0,
+    "cache_read": 0.5,
+    "cache_write": 6.25,
+    "output": 25.0
+   },
+   "wave": 2
+  },
+  {
+   "slug": "v2_gpt_5_4",
+   "label": "GPT 5.4 xHigh (Codex)",
+   "harness": "codex",
+   "model_id": "gpt-5.4",
+   "codex_reasoning_effort": "xhigh",
+   "billing": "ChatGPT subscription credits",
+   "rates_per_m": {
+    "input": 2.5,
+    "cache_read": 0.25,
+    "cache_write": 0.0,
+    "output": 15.0
+   },
+   "wave": 2
+  },
+  {
+   "slug": "v2_gpt_5_5",
+   "label": "GPT 5.5 xHigh (Codex)",
+   "harness": "codex",
+   "model_id": "gpt-5.5",
+   "codex_reasoning_effort": "xhigh",
+   "billing": "ChatGPT subscription credits",
+   "rates_per_m": {
+    "input": 5.0,
+    "cache_read": 0.5,
+    "cache_write": 0.0,
+    "output": 30.0
+   },
+   "wave": 2
+  },
+  {
+   "slug": "v2_claude_opus_4_7",
+   "label": "Claude Opus 4.7 (Claude Code)",
+   "harness": "claude",
+   "model_id": "claude-opus-4-7",
+   "billing": "Claude Max subscription",
+   "rates_per_m": {
+    "input": 5.0,
+    "cache_read": 0.5,
+    "cache_write": 6.25,
+    "output": 25.0
+   },
+   "wave": 2
+  },
+  {
+   "slug": "v2_claude_opus_4_6",
+   "label": "Claude Opus 4.6 (Claude Code)",
+   "harness": "claude",
+   "model_id": "claude-opus-4-6",
+   "billing": "Claude Max subscription",
+   "rates_per_m": {
+    "input": 5.0,
+    "cache_read": 0.5,
+    "cache_write": 6.25,
+    "output": 25.0
+   },
+   "wave": 2
+  },
+  {
+   "slug": "v2_kimi_k2_7_coding",
+   "label": "Kimi K2.7 Coding (Kimi Code CLI)",
+   "harness": "kimi",
+   "model_id": "kimi-code/kimi-for-coding",
+   "billing": "Kimi Moderato subscription",
+   "rates_per_m": {
+    "input": 0.75,
+    "cache_read": 0.15,
+    "cache_write": 0.75,
+    "output": 3.5
+   },
+   "wave": 2,
+   "notes": "schedule in its own 5h quota window, apart from K3"
+  },
+  {
+   "slug": "v2_kimi_k2_6",
+   "label": "Kimi K2.6 (opencode/OpenRouter fallback)",
+   "harness": "opencode",
+   "model_id": "openrouter/moonshotai/kimi-k2.6",
+   "billing": "OpenRouter API \u2014 K2.6 NOT exposed by the Kimi subscription",
+   "rates_per_m": {
+    "input": 0.95,
+    "cache_read": 0.16,
+    "cache_write": 0.95,
+    "output": 4.0
+   },
+   "wave": 2
+  },
+  {
+   "slug": "v2_glm_5_2",
+   "label": "GLM 5.2 (opencode/Z.ai coding plan)",
+   "harness": "opencode",
+   "model_id": "zai/glm-5.2",
+   "billing": "Z.ai coding plan subscription (opencode is the subscription path; no vendor CLI)",
+   "wave": 2
+  },
+  {
+   "slug": "v2_grok_4_5",
+   "label": "Grok 4.5 (opencode/OpenRouter fallback)",
+   "harness": "opencode",
+   "model_id": "openrouter/x-ai/grok-4.5",
+   "billing": "OpenRouter API \u2014 no xAI subscription harness",
+   "rates_per_m": {
+    "input": 2.0,
+    "cache_read": 2.0,
+    "cache_write": 2.0,
+    "output": 6.0
+   },
+   "wave": 2
+  },
+  {
+   "slug": "v2_nex_n2_pro",
+   "label": "Nex-N2-Pro (opencode/OpenRouter fallback)",
+   "harness": "opencode",
+   "model_id": "openrouter/nex-agi/nex-n2-pro",
+   "billing": "OpenRouter API \u2014 no vendor harness",
+   "rates_per_m": {
+    "input": 0.25,
+    "cache_read": 0.25,
+    "cache_write": 0.25,
+    "output": 1.0
+   },
+   "wave": 2
+  },
+  {
+   "slug": "v2_gemini_flash_high",
+   "label": "Gemini 3.5 Flash @ reasoning_effort=high (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/google/gemini-3.5-flash",
+   "billing": "OpenRouter API (no Google subscription harness)",
+   "rates_per_m": {
+    "input": 1.5,
+    "cache_read": 0.375,
+    "cache_write": 1.5,
+    "output": 9.0
+   },
+   "wave": 2,
+   "notes": "User directive 2026-07-27: Pro unavailable -> highest-effort available Gemini. Effort forced via home-config model options (reasoning.effort=high) cloned into opencode.benchmark.json; verify forwarding by comparing the run's reasoning-token share against the v1 dynamic-thinking baseline (23,322 reasoning tokens / 98 events)."
+  },
+  {
+   "slug": "v2_gemini_3_1_pro",
+   "label": "Gemini 3.1 Pro (opencode/OpenRouter) \u2014 wave 3 group 1",
+   "harness": "opencode",
+   "model_id": "openrouter/google/gemini-3.1-pro-preview",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 2.0,
+    "cache_read": 0.5,
+    "cache_write": 2.0,
+    "output": 12.0
+   },
+   "wave": 3,
+   "notes": "v1 Tier B (79). Wave-3 stretch run under the v2 brief; v1 remains its official ranking."
+  },
+  {
+   "slug": "v2_sakana_fugu_ultra",
+   "label": "Sakana Fugu Ultra (opencode/Sakana API) \u2014 wave 3 group 1",
+   "harness": "opencode",
+   "model_id": "sakana/fugu-ultra",
+   "billing": "Sakana pay-as-you-go API",
+   "rates_per_m": {
+    "input": 5.0,
+    "cache_read": 5.0,
+    "cache_write": 5.0,
+    "output": 30.0
+   },
+   "wave": 3,
+   "notes": "v1 Tier B (79). Deep multi-agent Fugu mode, 1M ctx.",
+   "blocked": "Sakana prepaid credit balance exhausted (HTTP 429, probed 2026-07-28). Top up at console.sakana.ai to unblock; infra (provider clone + env backfill) is ready."
+  },
+  {
+   "slug": "v2_claude_sonnet_4_6",
+   "label": "Claude Sonnet 4.6 (Claude Code) \u2014 wave 3 group 1",
+   "harness": "claude",
+   "model_id": "claude-sonnet-4-6",
+   "billing": "Claude Max subscription",
+   "rates_per_m": {
+    "input": 3.0,
+    "cache_read": 0.3,
+    "cache_write": 3.75,
+    "output": 15.0
+   },
+   "wave": 3,
+   "notes": "v1 Tier B (78). Native harness per doctrine."
+  },
+  {
+   "slug": "v2_deepseek_v4_flash",
+   "label": "DeepSeek V4 Flash (opencode/OpenRouter) \u2014 wave 3 group 1",
+   "harness": "opencode",
+   "model_id": "openrouter/deepseek/deepseek-v4-flash",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.14,
+    "cache_read": 0.014,
+    "cache_write": 0.14,
+    "output": 0.55
+   },
+   "wave": 3,
+   "notes": "v1 Tier B (78) in an absurd 3 minutes. reasoning_content multi-turn bug is V4 Pro-specific; Flash ran fine via opencode in v1."
+  },
+  {
+   "slug": "v2_minimax_m3",
+   "label": "MiniMax M3 (opencode/OpenRouter) \u2014 wave 3 group 1",
+   "harness": "opencode",
+   "model_id": "openrouter/minimax/minimax-m3",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.3,
+    "cache_read": 0.3,
+    "cache_write": 0.3,
+    "output": 1.2
+   },
+   "wave": 3,
+   "notes": "v1 Tier B (78) with a phase-2 DNF \u2014 watch the 90-min phase timeout."
+  },
+  {
+   "slug": "v2_qwen3_7_max",
+   "label": "Qwen3.7 Max (opencode/OpenRouter) \u2014 wave 3 group 1",
+   "harness": "opencode",
+   "model_id": "openrouter/qwen/qwen3.7-max",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 1.2,
+    "cache_read": 0.24,
+    "cache_write": 1.2,
+    "output": 6.0
+   },
+   "wave": 3,
+   "notes": "v1 Tier B (78)."
+  },
+  {
+   "slug": "v2_grok_4_3",
+   "label": "Grok 4.3 (opencode/OpenRouter) \u2014 wave 3 group 1",
+   "harness": "opencode",
+   "model_id": "openrouter/x-ai/grok-4.3",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 2.0,
+    "cache_read": 2.0,
+    "cache_write": 2.0,
+    "output": 6.0
+   },
+   "wave": 3,
+   "notes": "v1 Tier B (72)."
+  },
+  {
+   "slug": "v2_qwen3_6_plus",
+   "label": "Qwen 3.6 Plus (opencode/OpenRouter) \u2014 wave 3 group 1",
+   "harness": "opencode",
+   "model_id": "openrouter/qwen/qwen3.6-plus",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.4,
+    "cache_read": 0.08,
+    "cache_write": 0.4,
+    "output": 1.2
+   },
+   "wave": 3,
+   "notes": "v1 Tier B (71)."
+  },
+  {
+   "slug": "v2_kimi_k2_5",
+   "label": "Kimi K2.5 (opencode/OpenRouter) \u2014 wave 3 group 1",
+   "harness": "opencode",
+   "model_id": "openrouter/moonshotai/kimi-k2.5",
+   "billing": "OpenRouter API \u2014 K2.5 not exposed by Kimi subscription",
+   "rates_per_m": {
+    "input": 0.6,
+    "cache_read": 0.1,
+    "cache_write": 0.6,
+    "output": 2.5
+   },
+   "wave": 3,
+   "notes": "v1 Tier B (69)."
+  },
+  {
+   "slug": "v2_step_3_7_flash",
+   "label": "Step 3.7 Flash (opencode/OpenRouter) \u2014 wave 3 group 1",
+   "harness": "opencode",
+   "model_id": "openrouter/stepfun/step-3.7-flash",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.1,
+    "cache_read": 0.1,
+    "cache_write": 0.1,
+    "output": 0.3
+   },
+   "wave": 3,
+   "notes": "v1 Tier B (69)."
+  },
+  {
+   "slug": "v2_sakana_fugu_ultra_v2",
+   "label": "Sakana Fugu Ultra v2 (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/sakana/fugu-ultra-v2",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 5.0,
+    "cache_read": 0.5,
+    "cache_write": 5.0,
+    "output": 30.0
+   },
+   "wave": 6,
+   "notes": "Added per user 2026-09-11. Newest Sakana Fugu Ultra (released 2026-09-11), 1M ctx. PREMIUM pricing ($5/$30 per Mtok, flagship-tier) \u2014 expect ~$15-40 for a full v4 run."
+  },
+  {
+   "slug": "v2_nex_n2_5_pro",
+   "label": "Nex N2.5 Pro (opencode/OpenRouter, free tier)",
+   "harness": "opencode",
+   "model_id": "openrouter/nex-agi/nex-n2.5-pro:free",
+   "billing": "OpenRouter API (free tier \u2014 may rate-limit long agentic runs)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 6,
+   "notes": "Added per user 2026-09-11 ('nex-n2-pro'). Closest available = nex-n2.5-pro (2026-09-08), 262K ctx; only a :free variant on OpenRouter (watch for rate limits across 7 sprints)."
+  },
+  {
+   "slug": "v2_mistral_medium_3_5",
+   "label": "Mistral Medium 3.5 (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/mistralai/mistral-medium-3-5",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 1.5,
+    "cache_read": 1.5,
+    "cache_write": 1.5,
+    "output": 7.5
+   },
+   "wave": 6,
+   "notes": "Added per user 2026-09-12. Newest Mistral RELEASE (2026-04-30), 262K ctx, medium tier. v4 already has Mistral Large 3 (mistral-large-2512, Dec 2025) = 39.0; this is the newer (medium-tier) release. Queue for v4."
+  },
+  {
+   "slug": "v2_mimo_v2_5_pro",
+   "label": "Xiaomi MiMo V2.5 Pro (opencode/OpenRouter) \u2014 wave 3 group 1",
+   "harness": "opencode",
+   "model_id": "openrouter/xiaomi/mimo-v2.5-pro",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.3,
+    "cache_read": 0.3,
+    "cache_write": 0.3,
+    "output": 1.0
+   },
+   "wave": 3,
+   "notes": "v1 Tier B (67)."
+  },
+  {
+   "slug": "v2_mimo_v2_6_pro",
+   "label": "Xiaomi MiMo V2.6 Pro (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/xiaomi/mimo-v2.6-pro",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.435,
+    "cache_read": 0.004,
+    "cache_write": 0.435,
+    "output": 0.87
+   },
+   "wave": 5,
+   "notes": "Added 2026-09-22. Successor to MiMo V2.5 Pro (86.5). opencode/OpenRouter, shielded. 1M ctx."
+  },
+  {
+   "slug": "v2_glm_5",
+   "label": "GLM 5 (opencode/OpenRouter) \u2014 wave 3 group 1",
+   "harness": "opencode",
+   "model_id": "openrouter/z-ai/glm-5",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.6,
+    "cache_read": 0.11,
+    "cache_write": 0.6,
+    "output": 2.2
+   },
+   "wave": 3,
+   "notes": "v1 Tier B (64). Superseded generation; closes Tier B."
+  },
+  {
+   "slug": "v2_claude_sonnet_5",
+   "label": "Claude Sonnet 5 (Claude Code) \u2014 wave 3 group 2 (C/D)",
+   "harness": "claude",
+   "model_id": "claude-sonnet-5",
+   "billing": "Claude Max subscription",
+   "rates_per_m": {
+    "input": 3.0,
+    "cache_read": 0.3,
+    "cache_write": 3.75,
+    "output": 15.0
+   },
+   "wave": 3,
+   "notes": "v1 Tier C (58, hallucinated RubyLLM). Key experiment: does the v2 goal contract + native harness fix it?"
+  },
+  {
+   "slug": "v2_step_3_5_flash",
+   "label": "Step 3.5 Flash (opencode/OpenRouter) \u2014 wave 3 group 2 (C/D)",
+   "harness": "opencode",
+   "model_id": "openrouter/stepfun/step-3.5-flash",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.1,
+    "cache_read": 0.1,
+    "cache_write": 0.1,
+    "output": 0.3
+   },
+   "wave": 3,
+   "notes": "v1 Tier C (56, RubyLLM bypass)."
+  },
+  {
+   "slug": "v2_gpt_5_6_luna",
+   "label": "GPT 5.6 Luna xHigh (Codex)",
+   "harness": "codex",
+   "model_id": "gpt-5.6-luna",
+   "codex_reasoning_effort": "xhigh",
+   "billing": "ChatGPT subscription credits",
+   "rates_per_m": {
+    "input": 1.0,
+    "cache_read": 0.1,
+    "cache_write": 0.0,
+    "output": 6.0
+   },
+   "wave": 3,
+   "notes": "Added per user 2026-07-30. The run completed before the July 30 price reduction, so it uses Luna's historical $1/$0.10 cached/$6 per-M card. Newer codex event schema exposes cached_input_tokens for honest blended cost."
+  },
+  {
+   "slug": "v2_deepseek_v4_pro",
+   "label": "DeepSeek V4 Pro (opencode/OpenRouter) \u2014 wave 3 addendum",
+   "harness": "opencode",
+   "model_id": "openrouter/deepseek/deepseek-v4-pro",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.28,
+    "cache_read": 0.028,
+    "cache_write": 0.28,
+    "output": 0.42
+   },
+   "wave": 3,
+   "notes": "v1 Tier B (69, via deepclaude workaround). The opencode reasoning_content multi-turn bug is FIXED as of opencode 1.18.4 (probe-verified 2026-07-30: 3-turn tool flow clean) \u2014 runs on the standard harness, deepclaude retired."
+  },
+  {
+   "slug": "v2_grok_4_5_cli",
+   "label": "Grok 4.5 (grok CLI, native)",
+   "harness": "grok",
+   "model_id": "grok-4.5",
+   "billing": "xAI API (GROK_API_KEY)",
+   "rates_per_m": {
+    "input": 2.0,
+    "cache_read": 2.0,
+    "cache_write": 2.0,
+    "output": 6.0
+   },
+   "wave": 4,
+   "notes": "Native-harness condition for the 92-scoring opencode run. grok CLI patched locally for xAI's deleted Live Search API."
+  },
+  {
+   "slug": "v2_grok_4_3_cli",
+   "label": "Grok 4.3 (grok CLI, native)",
+   "harness": "grok",
+   "model_id": "grok-4.3",
+   "billing": "xAI API (GROK_API_KEY)",
+   "rates_per_m": {
+    "input": 2.0,
+    "cache_read": 2.0,
+    "cache_write": 2.0,
+    "output": 6.0
+   },
+   "wave": 4,
+   "notes": "The scaffold-dependency test: 57 orchestrator / 18 vanilla \u2014 does the vendor harness rescue it?"
+  },
+  {
+   "slug": "v2_gemini_3_8_flash_high_agy",
+   "label": "Gemini 3.8 Flash @ high (Antigravity CLI)",
+   "harness": "agy",
+   "model_id": "gemini-3.8-flash-high",
+   "billing": "Antigravity OAuth (Google account)",
+   "wave": 4,
+   "notes": "NEWEST Gemini on Antigravity (agy 1.1.26 model list, 2026-09-10). Native harness avoids the OpenRouter thought-signature crash that truncated gemini-3.1-pro-preview's v4 reveal. Prepared per user 2026-09-10."
+  },
+  {
+   "slug": "v2_gemini_3_6_flash_high",
+   "label": "Gemini 3.6 Flash @ high (Antigravity CLI)",
+   "harness": "agy",
+   "model_id": "gemini-3.6-flash-high",
+   "billing": "Antigravity OAuth (Google account)",
+   "wave": 4,
+   "notes": "NEW generation \u2014 newer than anything tested. Discovered in agy model list 2026-07-30; no 3.5 Pro exists there."
+  },
+  {
+   "slug": "v2_gemini_3_1_pro_agy",
+   "label": "Gemini 3.1 Pro @ high (Antigravity CLI)",
+   "harness": "agy",
+   "model_id": "gemini-3.1-pro-high",
+   "billing": "Antigravity OAuth (Google account)",
+   "wave": 4,
+   "notes": "Native-harness escape from the OpenRouter thought-signature bug that blocked its clean phase 2 three times."
+  },
+  {
+   "slug": "v2_gpt_5_6_terra",
+   "label": "GPT 5.6 Terra xHigh (Codex)",
+   "harness": "codex",
+   "model_id": "gpt-5.6-terra",
+   "codex_reasoning_effort": "xhigh",
+   "billing": "ChatGPT subscription credits",
+   "rates_per_m": {
+    "input": 2.0,
+    "cache_read": 0.2,
+    "cache_write": 0.0,
+    "output": 12.0
+   },
+   "wave": 4,
+   "notes": "Added per user 2026-08-01. The run used Terra's post-July-30 $2/$0.20 cached/$12 per-M card. Third GPT 5.6 variant (Sol 93, Luna 91); Codex event schema exposes cached_input_tokens for honest blended cost."
+  },
+  {
+   "slug": "v2_qwen3_8_max",
+   "label": "Qwen 3.8 Max (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/qwen/qwen3.8-max-0902",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 2.0,
+    "cache_read": 0.5,
+    "cache_write": 2.0,
+    "output": 6.0
+   },
+   "wave": 4,
+   "notes": "Added per user 2026-08-11. Highest-effort online Qwen 3.8 (the 27B is local-only). Successor to Qwen3.7 Max (51/C, hallucinated RubyLLM). opencode harness, XDG-isolated, cumulative-metered (post issue #14 fix). 2026-09-13: model_id fixed to dated qwen3.8-max-0902 (bare alias returns OpenRouter UnknownError/0 tokens); retry after INFRA_BLOCKED."
+  },
+  {
+   "slug": "v2_qwen3_8_27b_local",
+   "label": "Qwen 3.8 27B dense Q8_0 (LOCAL, Strix Halo llama-swap)",
+   "harness": "opencode",
+   "model_id": "llamaswap-strix/qwen3.8:27b",
+   "billing": "Local (Strix Halo 192.168.0.90, free)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 4,
+   "notes": "Added per user 2026-08-14. Offline dense 27B counterpart to online qwen3.8-max (92). llama-swap Q5_K_M on the 5090, --jinja --reasoning-format none, 64K ctx. The FIRST local model in v2 (locals were dropped in wave 3) \u2014 tests whether the small offline model holds the API-correctness 3.8-max showed. Local, so cost=$0; report wall time + tok/s. 2026-09-13 RETRY: moved to Strix Halo (Ryzen AI MAX+ 395, 61GB unified) llama-swap 192.168.0.90:11435, unsloth Q8_0 (up from Q5_K_M) + --reasoning off (the actual think-leak fix; 5090 build only had --reasoning-format none). Resume from sprint 3 (sprints 1-2 clean on the 5090)."
+  },
+  {
+   "slug": "v2_glm_4_7_flash_local",
+   "label": "GLM 4.7 Flash 30B-A3B Q5_K_M (LOCAL, RTX 5090 llama-swap)",
+   "harness": "opencode",
+   "model_id": "llamaswap/glm4.7:flash",
+   "billing": "Local (RTX 5090, free)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 6,
+   "notes": "Added per user 2026-09-11. GLM-4.7-Flash MoE (30B-A3B) Q5_K_M on the 5090 via llama-swap (:11436), --jinja --reasoning-format none, 64K ctx. Tool-use-focused MoE; test whether it sustains the v4 agentic loop better than the dense Qwen3.8 (which walled at sprint 3 on coherence). Local, cost=$0."
+  },
+  {
+   "slug": "v2_qwen35_122b_oss",
+   "label": "Qwen3.5-122B-A10B official FP8 (RunPod B300 vLLM)",
+   "harness": "opencode",
+   "model_id": "runpod-vllm/qwen3.5-122b",
+   "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added per user 2026-10-16 (B300 open-weights campaign). Never v4-tested. Qwen3.5-122B-A10B (hybrid GDN MoE) official FP8. Tests family coherence vs dense 27B sibling. Pod cost tracked in results-v4/_b300_campaign/ledger.json at $9.09/hr; 2h per-model sprint guard (TIME_GUARD.md + DNF, not charged to model). Serving config in config/b300_campaign.json."
+  },
+  {
+   "slug": "v2_qwen35_397b_oss",
+   "label": "Qwen3.5-397B-A17B NVFP4 (RunPod B300 vLLM)",
+   "harness": "opencode",
+   "model_id": "runpod-vllm/qwen3.5-397b",
+   "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added per user 2026-10-16 (B300 open-weights campaign). First ~400B flagship row. nvidia ModelOpt NVFP4 of Qwen3.5-397B-A17B (251GB, within 1-2% of FP8). Pod cost tracked in results-v4/_b300_campaign/ledger.json at $9.09/hr; 2h per-model sprint guard (TIME_GUARD.md + DNF, not charged to model). Serving config in config/b300_campaign.json."
+  },
+  {
+   "slug": "v2_dsv4_flash_oss",
+   "label": "DeepSeek-V4-Flash 0731 official FP4/FP8 (RunPod B300 vLLM)",
+   "harness": "opencode",
+   "model_id": "runpod-vllm/dsv4-flash",
+   "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added per user 2026-10-16 (B300 open-weights campaign). Official mixed FP4/FP8 0731 checkpoint (native release, no extra quant). Consistency vs cloud wave-3 runs. Pod cost tracked in results-v4/_b300_campaign/ledger.json at $9.09/hr; 2h per-model sprint guard (TIME_GUARD.md + DNF, not charged to model). Serving config in config/b300_campaign.json."
+  },
+  {
+   "slug": "v2_nemotron35_super_vl_oss",
+   "label": "Nemotron-3.5-Super-VL-120B-A12B NVFP4 (RunPod B300 vLLM)",
+   "harness": "opencode",
+   "model_id": "runpod-vllm/nemotron-3.5-super-vl",
+   "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added per user 2026-10-16 (B300 campaign). Swapped over Nemotron-3-Super per suggestion: newer (2026-10-15), 2x AA index, NVFP4 near-lossless, top US open-weight model. Also serves as the family rescue of the 3-Super crash/auth infra-DNF."
+  },
+  {
+   "slug": "v2_qwen3_8_27b_oss",
+   "label": "Qwen3.8-27B dense BF16 redo (RunPod B300 vLLM)",
+   "harness": "opencode",
+   "model_id": "runpod-vllm/qwen3.8-27b",
+   "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added per user 2026-10-16 (B300 open-weights campaign). Full-fidelity redo: 5090-Q5 walled at sprint 3, Strix-Q8 slow. Settles quant-vs-model. Pod cost tracked in results-v4/_b300_campaign/ledger.json at $9.09/hr; 2h per-model sprint guard (TIME_GUARD.md + DNF, not charged to model). Serving config in config/b300_campaign.json."
+  },
+  {
+   "slug": "v2_glm_4_7_flash_bf16_oss",
+   "label": "GLM-4.7-Flash 30B-A3B BF16 redo (RunPod B300 vLLM)",
+   "harness": "opencode",
+   "model_id": "runpod-vllm/glm-4.7-flash",
+   "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added per user 2026-10-16 (B300 open-weights campaign). Quant-vs-model A/B vs local Q5_K_M 24.0. Pod cost tracked in results-v4/_b300_campaign/ledger.json at $9.09/hr; 2h per-model sprint guard (TIME_GUARD.md + DNF, not charged to model). Serving config in config/b300_campaign.json."
+  },
+  {
+   "slug": "v2_qwen3_8_flash_next_oss",
+   "label": "Qwen3.8-Flash-Next NVFP4 (RunPod B300 vLLM)",
+   "harness": "opencode",
+   "model_id": "runpod-vllm/qwen3.8-flash-next",
+   "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added per user 2026-10-16 (B300 open-weights campaign). Qwen4-architecture preview: 125B-A6B + 51B PLE n-gram embedding + 4B MTP. Pod cost tracked in results-v4/_b300_campaign/ledger.json at $9.09/hr; 2h per-model sprint guard (TIME_GUARD.md + DNF, not charged to model). Serving config in config/b300_campaign.json."
+  },
+  {
+   "slug": "v2_glm_5_3_flash_oss",
+   "label": "GLM 5.3 Flash open-weights NVFP4 (self-hosted RunPod B300 vLLM)",
+   "harness": "opencode",
+   "model_id": "runpod-vllm/glm-5.3-flash",
+   "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 6,
+   "notes": "Added per user 2026-10-16. zai-org/GLM-5.3-Flash (320B-A18B, MIT) as RedHatAI NVFP4 (198GB, experts 4-bit) served via vLLM on rented RunPod B300 288GB, TP1, glm47 tool parser, SSH-proxy to opencode. Open-weights consistency check vs cloud v2_glm_5_3_flash (84.25, OpenRouter FP8-class serving). Tier A injection parity (same as cloud Flash). Quant caveat: NVFP4 vs FP8 delta to be noted in scoring."
+  },
+  {
+   "slug": "v2_glm_5_3",
+   "label": "GLM 5.3 (opencode/Z.ai coding plan)",
+   "harness": "opencode",
+   "model_id": "zai/glm-5.3",
+   "billing": "Z.ai flat-rate coding plan ($0 marginal; API-equiv reported)",
+   "rates_per_m": {
+    "input": 0.6,
+    "cache_read": 0.11,
+    "cache_write": 0.6,
+    "output": 2.2
+   },
+   "wave": 4,
+   "notes": "Added 2026-08-15. Successor to GLM 5.2 (92). z.ai coding endpoint, cumulative-metered. Frontier cloud \u2014 unshielded, spot-checked post-run."
+  },
+  {
+   "slug": "v2_gemini_3_7_flash_high",
+   "label": "Gemini 3.7 Flash @ high (opencode/direct Gemini API)",
+   "harness": "opencode",
+   "model_id": "google/gemini-3.7-flash",
+   "billing": "Direct Gemini API, pay-per-token",
+   "rates_per_m": {
+    "input": 0.75,
+    "cache_read": 0.075,
+    "cache_write": 0.75,
+    "output": 3.75
+   },
+   "enable_followup": true,
+   "wave": 4,
+   "notes": "Added 2026-08-15. Newest Gemini Flash (untested). DIRECT Gemini API key path (GEMINI_API_KEY) via opencode built-in google provider, NOT OpenRouter \u2014 deliberately bypasses the thought-signature bug that capped 3.1 Pro at 62 (3 failed phase-2 attempts). Effort forced via reasoning.effort=high in home-config model options. Rates approximate (2.5-Flash-class $0.30/$2.50) \u2014 reconcile against the Google AI Studio console."
+  },
+  {
+   "slug": "v2_grok_4_6",
+   "label": "Grok 4.6 (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/x-ai/grok-4.6",
+   "billing": "OpenRouter API \u2014 no xAI subscription harness",
+   "rates_per_m": {
+    "input": 2.0,
+    "cache_read": 0.5,
+    "cache_write": 2.0,
+    "output": 6.0
+   },
+   "wave": 4,
+   "notes": "Added 2026-08-15. Successor to Grok 4.5 (92). opencode/OpenRouter, run SHIELDED per shield-all policy. 500K ctx."
+  },
+  {
+   "slug": "v2_grok_4_6_cli",
+   "label": "Grok 4.6 (grok CLI, native)",
+   "harness": "grok",
+   "model_id": "grok-4.6",
+   "billing": "xAI API (grok CLI native usage/cost)",
+   "rates_per_m": {
+    "input": 2.0,
+    "cache_read": 0.5,
+    "cache_write": 2.0,
+    "output": 6.0
+   },
+   "wave": 4,
+   "notes": "Added 2026-08-16. Native-harness A/B for the 92-scoring opencode Grok 4.6 run. Official @xai-official/grok CLI (v1.0.4) \u2014 reports native usage + total_cost_usd; no Live Search patch needed. --disable-web-search for parity. Run SHIELDED per shield-all policy."
+  },
+  {
+   "slug": "v2_grok_4_7",
+   "label": "Grok 4.7 (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/x-ai/grok-4.7",
+   "billing": "OpenRouter API \u2014 no xAI subscription harness",
+   "rates_per_m": {
+    "input": 1.6,
+    "cache_read": 0.4,
+    "cache_write": 1.6,
+    "output": 4.8
+   },
+   "wave": 5,
+   "notes": "Added 2026-09-21. Successor to Grok 4.6 (98.5). opencode/OpenRouter, run SHIELDED per shield-all policy. 500K ctx. Full 14-item Tier-A set."
+  },
+  {
+   "slug": "v2_deepseek_v4_flash_0731",
+   "label": "DeepSeek V4 Flash 0731 (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/deepseek/deepseek-v4-flash-0731",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.065,
+    "cache_read": 0.016,
+    "cache_write": 0.065,
+    "output": 0.18
+   },
+   "enable_followup": true,
+   "wave": 4,
+   "notes": "Added 2026-08-22. Newer snapshot of deepseek-v4-flash (base tested 07-28 @ 80). 1.31M ctx. opencode, shielded (shield-all policy)."
+  },
+  {
+   "slug": "v2_deepseek_v4_pro_0813",
+   "label": "DeepSeek V4 Pro 0813 (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/deepseek/deepseek-v4-pro-0813",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.5795,
+    "cache_read": 0.0193,
+    "cache_write": 0.5795,
+    "output": 1.7384
+   },
+   "enable_followup": true,
+   "wave": 4,
+   "notes": "Added 2026-08-22. Newer snapshot of deepseek-v4-pro (base tested 07-28 @ 82). WATCH the reasoning_content multi-turn bug (opencode ai-sdk strips it; breaks phase 2) \u2014 if it recurs, route via Claude Code deepclaude env-swap. opencode, shielded."
+  },
+  {
+   "slug": "v2_claude_fable_5_1",
+   "label": "Claude Fable 5.1 (Claude Code)",
+   "harness": "claude",
+   "model_id": "claude-fable-5-1",
+   "billing": "Claude Max subscription",
+   "rates_per_m": {
+    "input": 10.0,
+    "cache_read": 0.25,
+    "cache_write": 12.5,
+    "output": 50.0
+   },
+   "wave": 4,
+   "notes": "Added 2026-09-02. Released 2026-09-01; pitched as beating Fable 5 (96), Opus 5, GPT 5.6 Sol. Same list price as Fable 5 ($10/$50) but ~75% cheaper cache reads ($1.0->$0.25). Mythos 5.1 is the same model with lower safeguards, US-trusted-access only (not available). Claude Code harness, Max sub (ANTHROPIC_API_KEY stripped by runner), shielded per shield-all + git-sandbox."
+  },
+  {
+   "slug": "v2_gemini_3_8_flash_high",
+   "label": "Gemini 3.8 Flash @ high (opencode/direct Gemini API)",
+   "harness": "opencode",
+   "model_id": "google/gemini-3.8-flash",
+   "billing": "Direct Gemini API, pay-per-token",
+   "rates_per_m": {
+    "input": 0.75,
+    "cache_read": 0.075,
+    "cache_write": 0.75,
+    "output": 3.75
+   },
+   "enable_followup": true,
+   "wave": 4,
+   "notes": "Added 2026-09-02. Newest Gemini flash (3.7 scored 93). DIRECT Gemini API (GEMINI_API_KEY) via opencode google provider, NOT OpenRouter (avoids thought-signature bug). effort=high. Shielded + git-sandbox."
+  },
+  {
+   "slug": "v2_qwen3_8_flash",
+   "label": "Qwen 3.8 Flash (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/qwen/qwen3.8-flash",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.15,
+    "cache_read": 0.016,
+    "cache_write": 0.15,
+    "output": 0.47
+   },
+   "enable_followup": true,
+   "wave": 4,
+   "notes": "Added 2026-09-03. Flash tier A/B vs qwen3.8-max (92, same opencode harness). 1M ctx."
+  },
+  {
+   "slug": "v2_glm_5_3_flash",
+   "label": "GLM 5.3 Flash (opencode/Z.ai or OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/z-ai/glm-5.3-flash",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.075,
+    "cache_read": 0.0175,
+    "cache_write": 0.075,
+    "output": 0.25
+   },
+   "enable_followup": true,
+   "wave": 4,
+   "notes": "Added 2026-09-03. Flash tier A/B vs GLM 5.3 (94, same opencode harness). 1.31M ctx."
+  },
+  {
+   "slug": "v2_gpt_6_astra",
+   "label": "GPT-6 Astra High (Codex)",
+   "harness": "codex",
+   "model_id": "gpt-6-astra",
+   "codex_reasoning_effort": "high",
+   "billing": "ChatGPT subscription credits",
+   "rates_per_m": {
+    "input": 10.0,
+    "cache_read": 1.0,
+    "cache_write": 12.5,
+    "output": 50.0
+   },
+   "wave": 4,
+   "notes": "Added 2026-09-04. OpenAI GPT-6 Astra (launched 09-03; SWE-SOTA/AGI claims). Codex 0.153.3 required (0.151/0.152 gated it: 'requires a newer version of Codex'); upgraded via mise. Runs on ChatGPT subscription (API key was out of credits \u2014 codex uses OAuth). Rates ESTIMATED (flagship placeholder) \u2014 reconcile against OpenAI pricing. Codex path is independent of today's OpenRouter degradation."
+  },
+  {
+   "slug": "v2_gpt_6_sol",
+   "label": "GPT 6 Sol xHigh (Codex)",
+   "harness": "codex",
+   "model_id": "gpt-6-sol",
+   "codex_reasoning_effort": "xhigh",
+   "billing": "ChatGPT subscription credits",
+   "rates_per_m": {
+    "input": 2.0,
+    "cache_read": 0.2,
+    "cache_write": 0.0,
+    "output": 10.0
+   },
+   "wave": 5,
+   "notes": "Added 2026-09-22. Requires codex >=0.156.0 (0.153.3 rejected gpt-6-* on ChatGPT account). Subscription billing (NO API fallback per user). gpt-6-terra NOT entitled on this ChatGPT account. RATE RECONCILED 2026-09-23 vs OpenAI published GPT-6 pricing (was the in5/out30 Astra placeholder \u2014 WRONG, ~2.6x/53x overstated). "
+  },
+  {
+   "slug": "v2_gpt_6_luna",
+   "label": "GPT 6 Luna xHigh (Codex)",
+   "harness": "codex",
+   "model_id": "gpt-6-luna",
+   "codex_reasoning_effort": "xhigh",
+   "billing": "ChatGPT subscription credits",
+   "rates_per_m": {
+    "input": 0.1,
+    "cache_read": 0.01,
+    "cache_write": 0.0,
+    "output": 0.5
+   },
+   "wave": 5,
+   "notes": "Added 2026-09-22. Requires codex >=0.156.0 (0.153.3 rejected gpt-6-* on ChatGPT account). Subscription billing (NO API fallback per user). gpt-6-terra NOT entitled on this ChatGPT account. RATE RECONCILED 2026-09-23 vs OpenAI published GPT-6 pricing (was the in5/out30 Astra placeholder \u2014 WRONG, ~2.6x/53x overstated). "
+  },
+  {
+   "slug": "v2_muse_spark_1_3",
+   "label": "Muse Spark 1.3 (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/meta/muse-spark-1.3",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 1.25,
+    "cache_read": 0.15,
+    "cache_write": 1.25,
+    "output": 4.25
+   },
+   "enable_followup": true,
+   "wave": 4,
+   "notes": "Added 2026-09-04. First Meta Muse model in the benchmark. 18+ age gate cleared by user 09-04. Reasoning-heavy (spends 400+ reasoning tokens before content). 1.05M ctx, tools. opencode/OpenRouter, shielded + git-sandbox."
+  },
+  {
+   "slug": "v2_mistral_large_3",
+   "label": "Mistral Large 3 (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/mistralai/mistral-large-2512",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.5,
+    "cache_read": 0.125,
+    "cache_write": 0.5,
+    "output": 1.5
+   },
+   "enable_followup": true,
+   "wave": 5,
+   "notes": "Added 2026-09-05 for the v3 ecosystem campaign. opencode, shielded (shield-all)."
+  },
+  {
+   "slug": "v2_codestral_2508",
+   "label": "Codestral 2508 (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/mistralai/codestral-2508",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.3,
+    "cache_read": 0.075,
+    "cache_write": 0.3,
+    "output": 0.9
+   },
+   "enable_followup": true,
+   "wave": 5,
+   "notes": "Added 2026-09-05 for the v3 ecosystem campaign. opencode, shielded (shield-all)."
+  },
+  {
+   "slug": "v2_devstral_2512",
+   "label": "Devstral 2512 (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/mistralai/devstral-2512",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.4,
+    "cache_read": 0.1,
+    "cache_write": 0.4,
+    "output": 2.0
+   },
+   "enable_followup": true,
+   "wave": 5,
+   "notes": "Added 2026-09-05 for the v3 ecosystem campaign. opencode, shielded (shield-all)."
+  },
+  {
+   "slug": "v2_nemotron_3_super",
+   "label": "NVIDIA Nemotron 3 Super 120B (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/nvidia/nemotron-3-super-120b-a12b",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.085,
+    "cache_read": 0.0213,
+    "cache_write": 0.085,
+    "output": 0.4
+   },
+   "enable_followup": true,
+   "wave": 5,
+   "notes": "Added 2026-09-05 for the v3 ecosystem campaign. opencode, shielded (shield-all)."
+  },
+  {
+   "slug": "v2_llama_4_maverick",
+   "label": "Llama 4 Maverick (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/meta-llama/llama-4-maverick",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.2,
+    "cache_read": 0.05,
+    "cache_write": 0.2,
+    "output": 0.696
+   },
+   "enable_followup": true,
+   "wave": 5,
+   "notes": "Added 2026-09-05 for the v3 ecosystem campaign. opencode, shielded (shield-all)."
+  },
+  {
+   "slug": "v2_hunyuan_a13b",
+   "label": "Tencent Hunyuan A13B (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/tencent/hunyuan-a13b-instruct",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.14,
+    "cache_read": 0.035,
+    "cache_write": 0.14,
+    "output": 0.57
+   },
+   "enable_followup": true,
+   "wave": 5,
+   "notes": "Added 2026-09-05 for the v3 ecosystem campaign. opencode, shielded (shield-all)."
+  },
+  {
+   "slug": "v2_gpt_oss_120b",
+   "label": "GPT-OSS 120B (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/openai/gpt-oss-120b",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.037,
+    "cache_read": 0.009,
+    "cache_write": 0.037,
+    "output": 0.17
+   },
+   "enable_followup": true,
+   "wave": 5,
+   "notes": "Added 2026-09-05 (cloud proxy for the birds-eye; true local 5090 run is a separate manual session).",
+   "workspace_preamble": true
+  },
+  {
+   "slug": "v2_gpt_oss_20b",
+   "label": "GPT-OSS 20B (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/openai/gpt-oss-20b",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0,
+    "_VERIFY": "placeholder \u2014 re-check OpenRouter gpt-oss-20b rates before any cost analysis"
+   },
+   "enable_followup": true,
+   "wave": 5,
+   "notes": "Added 2026-09-30 for the proxy-hypothesis panel (Branch-A o200k candidate). RATES UNVERIFIED \u2014 check before cost.",
+   "workspace_preamble": true
+  },
+  {
+   "slug": "v2_glm_5_3_zcode",
+   "label": "GLM 5.3 (zcode CLI / z.ai GLM Coding Plan Lite)",
+   "harness": "zcode",
+   "model_id": "zai/glm-5.3",
+   "billing": "z.ai GLM Coding Plan (Lite, flat-rate; notional $0 marginal)",
+   "wave": 6,
+   "notes": "Added 2026-09-12. Runs via the zcode CLI (ZCode agent runtime) on the z.ai coding endpoint (Anthropic-compatible), bypassing the z.ai pay-as-you-go balance block. Auth in ~/.zcode/cli/config.json; model via config model.main (set per-run). Harness-effect data point vs the opencode/OpenRouter GLM 5.3 entries."
+  },
+  {
+   "slug": "v2_glm_5_3_flash_zcode",
+   "label": "GLM 5.3 Flash (zcode CLI / z.ai GLM Coding Plan Lite)",
+   "harness": "zcode",
+   "model_id": "zai/glm-5.3-flash",
+   "billing": "z.ai GLM Coding Plan (Lite, flat-rate; notional $0 marginal)",
+   "wave": 6,
+   "notes": "Added 2026-09-12. zcode CLI harness, z.ai coding endpoint. Cheap/fast GLM tier."
+  },
+  {
+   "slug": "v2_glm_5_2_zcode",
+   "label": "GLM 5.2 (zcode CLI / z.ai GLM Coding Plan Lite)",
+   "harness": "zcode",
+   "model_id": "zai/glm-5.2",
+   "billing": "z.ai GLM Coding Plan (Lite, flat-rate; notional $0 marginal)",
+   "wave": 6,
+   "notes": "Added 2026-09-12. zcode CLI harness. Superseded by 5.3 but completes the family."
+  },
+  {
+   "slug": "v2_deepseek_v4_1_flash",
+   "label": "DeepSeek V4.1 Flash (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/deepseek/deepseek-v4.1-flash",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.15,
+    "cache_read": 0.0375,
+    "cache_write": 0.15,
+    "output": 0.6
+   },
+   "wave": 6,
+   "notes": "Added 2026-09-13. Sep-10 agentic-efficiency refresh (4x KV-cache cut); successors V4 Flash 86.0 / 0731 85.0. Tier A full set."
+  },
+  {
+   "slug": "v2_tencent_hy4",
+   "label": "Tencent Hy4 preview (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/tencent/hy4-preview",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.834,
+    "cache_read": 0.21,
+    "cache_write": 0.834,
+    "output": 2.501
+   },
+   "wave": 6,
+   "notes": "Added 2026-09-13. 770B/49B open MoE (Apache 2.0), 1M ctx. Tencent's flagship; Hunyuan A13B DNF'd in wave 5. Tier A full set."
+  },
+  {
+   "slug": "v2_nemotron_3_5_lightning",
+   "label": "NVIDIA Nemotron 3.5 Lightning 30B-A3B (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/nvidia/nemotron-3.5-lightning",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 0.08,
+    "cache_read": 0.02,
+    "cache_write": 0.08,
+    "output": 0.2
+   },
+   "wave": 6,
+   "notes": "Added 2026-09-13. 30B/3B-active small MoE; Nemotron 3 Super DNF'd (sprint-2 provider crash). Tier C/D expectation: abort-early, loud set if it completes."
+  },
+  {
+   "slug": "v2_gpt_5_6_sol_low",
+   "label": "GPT 5.6 Sol Low (Codex)",
+   "harness": "codex",
+   "model_id": "gpt-5.6-sol",
+   "codex_reasoning_effort": "low",
+   "billing": "ChatGPT subscription credits",
+   "rates_per_m": {
+    "input": 5.0,
+    "cache_read": 0.5,
+    "cache_write": 0.0,
+    "output": 30.0
+   },
+   "wave": 1,
+   "notes": "Added 2026-09-15 for the effort-comparison study: same gpt-5.6-sol model as the xHigh run (100.0), at low codex reasoning effort. Isolates effort's effect on the v4 vigilance score."
+  },
+  {
+   "slug": "v2_gpt_5_6_sol_medium",
+   "label": "GPT 5.6 Sol Medium (Codex)",
+   "harness": "codex",
+   "model_id": "gpt-5.6-sol",
+   "codex_reasoning_effort": "medium",
+   "billing": "ChatGPT subscription credits",
+   "rates_per_m": {
+    "input": 5.0,
+    "cache_read": 0.5,
+    "cache_write": 0.0,
+    "output": 30.0
+   },
+   "wave": 1,
+   "notes": "Added 2026-09-15 for the effort-comparison study: same gpt-5.6-sol model as the xHigh run (100.0), at medium codex reasoning effort. Isolates effort's effect on the v4 vigilance score."
+  },
+  {
+   "slug": "v2_genesys_pi_house",
+   "label": "Genesys PI House (LUA Vision, opencode)",
+   "harness": "opencode",
+   "model_id": "lua/genesys-pi-house",
+   "billing": "LUA Vision API (api.lua.vision) - first-party, BRL-priced",
+   "rates_per_m": {
+    "input": 10.66,
+    "cache_read": 1.16,
+    "cache_write": 10.66,
+    "output": 53.29
+   },
+   "wave": 7,
+   "notes": "Added 2026-09-23 per user. Brazilian Genesys PI family (LUA Vision Tecnologia, Sao Paulo). Flagship: 'maximum quality for long/complex/high-stakes work', 600K ctx / 128K out. OpenAI-compatible /v1, Bearer auth; tools+streaming+json_schema verified. GENERAL model (no coding-specialized variant); regulated-market PT/EN focus. rates_per_m = BRL price / 5.16 (2026-09-23, verified): in 55, cachedIn 6, out 275 BRL/M. CAVEAT: server injects a large system prompt (~741 tok on a bare call) inflating input tokens/cost. Run SHIELDED per shield-all policy."
+  },
+  {
+   "slug": "v2_genesys_pi_enterprise",
+   "label": "Genesys PI Enterprise (LUA Vision, opencode)",
+   "harness": "opencode",
+   "model_id": "lua/genesys-pi-enterprise",
+   "billing": "LUA Vision API (api.lua.vision) - first-party, BRL-priced",
+   "rates_per_m": {
+    "input": 0.78,
+    "cache_read": 0.1,
+    "cache_write": 0.78,
+    "output": 3.88
+   },
+   "wave": 7,
+   "notes": "Added 2026-09-23 per user. Genesys PI 'production workhorse: high quality, low latency', 384K ctx / 128K out. rates_per_m = BRL/5.16: in 4, cachedIn 0.5, out 20 BRL/M. Smoke-tested one sprint first; if too slow or failing too much, drop to house-only (user decision). Run SHIELDED."
+  },
+  {
+   "slug": "v2_genesys_pi_house_0929",
+   "label": "Genesys PI House (LUA Vision RE-TEST 2026-09-29 post-caching-fix, opencode)",
+   "harness": "opencode",
+   "model_id": "lua/genesys-pi-house",
+   "billing": "LUA Vision API (api.lua.vision) - first-party, BRL-priced",
+   "rates_per_m": {
+    "input": 10.66,
+    "cache_read": 1.16,
+    "cache_write": 10.66,
+    "output": 53.29
+   },
+   "wave": 7,
+   "notes": "RE-TEST 2026-09-29: clean new v4 run after vendor reported fixing bugs (esp. PROMPT CACHING \u2014 confirmed active: repeated-prefix call returns cached_tokens>0, was always 0). Compare vs v2_genesys_pi_house (previous run). Same lua/ model_id + rates (API no longer exposes price_brl_per_million; last-known BRL rates carried, re-confirm at grading). Previous analysis preserved, do not delete. Free vendor eval key."
+  },
+  {
+   "slug": "v2_genesys_pi_enterprise_0929",
+   "label": "Genesys PI Enterprise (LUA Vision RE-TEST 2026-09-29 post-caching-fix, opencode)",
+   "harness": "opencode",
+   "model_id": "lua/genesys-pi-enterprise",
+   "billing": "LUA Vision API (api.lua.vision) - first-party, BRL-priced",
+   "rates_per_m": {
+    "input": 0.78,
+    "cache_read": 0.1,
+    "cache_write": 0.78,
+    "output": 3.88
+   },
+   "wave": 7,
+   "notes": "RE-TEST 2026-09-29: clean new v4 run after vendor reported fixing bugs (esp. PROMPT CACHING \u2014 confirmed active: repeated-prefix call returns cached_tokens>0, was always 0). Compare vs v2_genesys_pi_enterprise (previous run). Same lua/ model_id + rates (API no longer exposes price_brl_per_million; last-known BRL rates carried, re-confirm at grading). Previous analysis preserved, do not delete. Free vendor eval key."
+  },
+  {
+   "slug": "v2_gpt_4_1",
+   "label": "GPT-4.1 (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/openai/gpt-4.1",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 2.0,
+    "cache_read": 0.5,
+    "cache_write": 2.0,
+    "output": 8.0
+   },
+   "enable_followup": true,
+   "wave": 6,
+   "notes": "Added 2026-09-30 \u2014 GPT-4-generation baseline (best GPT-4-gen coder). Rates verified from OpenRouter 2026-09-30 ($2/$8); cache_read=OpenAI 4.1 cached-input $0.50/M. | 2026-09-30: assisted build-now nudge (research/plan-loop DNF without it).",
+   "workspace_preamble": true,
+   "preamble": "IMPORTANT EXECUTION DIRECTIVE: Do NOT respond with a plan, summary, or web research \u2014 you already know Rails 8, Hotwire, Tailwind, and RubyLLM. Immediately use the file tools (write/edit) and bash to CREATE and MODIFY files and complete the task NOW; take concrete build actions every step and NEVER end your turn with only a plan or a summary. Build DIRECTLY in the current working directory (the workspace root) \u2014 never create a subdirectory for the app; run `rails new .` or write files at the root. Commit your work with git at the end."
+  },
+  {
+   "slug": "v2_gpt_4o",
+   "label": "GPT-4o (opencode/OpenRouter)",
+   "harness": "opencode",
+   "model_id": "openrouter/openai/gpt-4o",
+   "billing": "OpenRouter API",
+   "rates_per_m": {
+    "input": 2.5,
+    "cache_read": 1.25,
+    "cache_write": 2.5,
+    "output": 10.0
+   },
+   "enable_followup": true,
+   "wave": 6,
+   "notes": "Added 2026-09-30 \u2014 GPT-4-generation flagship; o200k tokenizer; SAME opencode harness as LUA (fills the proxy same-harness comparison gap). Rates verified from OpenRouter 2026-09-30 ($2.50/$10); cache_read=OpenAI 4o cached-input $1.25/M. | 2026-09-30: assisted in-place-build nudge (nested-app DNF without it, like devstral/llama/mistral-medium).",
+   "workspace_preamble": true,
+   "preamble": "IMPORTANT EXECUTION DIRECTIVE: Do NOT respond with a plan, summary, or web research \u2014 you already know Rails 8, Hotwire, Tailwind, and RubyLLM. Immediately use the file tools (write/edit) and bash to CREATE and MODIFY files and complete the task NOW; take concrete build actions every step and NEVER end your turn with only a plan or a summary. Build DIRECTLY in the current working directory (the workspace root) \u2014 never create a subdirectory for the app; run `rails new .` or write files at the root. Commit your work with git at the end."
+  },
+  {
+   "slug": "v2_muse_wonder",
+   "label": "Muse Wonder (Meta, subscription)",
+   "harness": "muse",
+   "model_id": "muse-wonder-1.0",
+   "billing": "Meta Muse Code subscription (flat-rate; notional cost)",
+   "muse_reasoning_effort": "high",
+   "wave": "muse",
+   "notes": "Standard Muse Wonder (AA~52) via `muse exec` subscription; Wonder Full is not CLI-reachable. provider=meta, META_API_KEY popped so it never bills the pay-per-token API."
+  },
+  {
+   "slug": "v2_muse_glimmer_30b_oss",
+   "label": "Muse Glimmer 30B BF16 (RunPod B300 vLLM)",
+   "harness": "opencode",
+   "model_id": "runpod-vllm/muse-glimmer",
+   "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added by user 2026-10-17 to B300 campaign. Official meta-models/Muse-Glimmer-30B BF16, 128K context. vLLM support/tool-loop preflight required; preserve infrastructure failures separately from model quality. Same 2h cumulative sprint execution guard and pod-cost accounting."
+  },
+  {
+   "slug": "v2_command_a_plus_oss",
+   "label": "Command A+ W4A4 (RunPod B300 vLLM)",
+   "harness": "opencode",
+   "model_id": "runpod-vllm/command-a-plus",
+   "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added by user 2026-10-17. Official CohereLabs/command-a-plus-05-2026-w4a4; Cohere recommended single-Blackwell checkpoint. Same 128K context, 2h sprint guard and isolated harness. Parser dependency cohere_melody; preflight mandatory."
+  },
+  {
+   "slug": "v2_ornith_1_5_35b_oss",
+   "label": "Ornith 1.5 35B-A3B BF16 (RunPod B300 vLLM)",
+   "harness": "opencode",
+   "model_id": "runpod-vllm/ornith-1.5-35b",
+   "billing": "Self-hosted open weights on RunPod 1xB300 pod (USD 9.09/hr pod wall-time; rates 0 \u2014 no per-token)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added by user 2026-10-17. Official ornith-ai/Ornith-1.5-35B-A3B BF16, MIT. Same 128K context, 2h cumulative sprint guard, isolated OpenCode harness. Use bundled model chat template and qwen3_xml tool parser."
+  },
+  {
+   "slug": "v2_nex_n2_5_mini_oss",
+   "label": "Nex N2.5 Mini BF16 (RunPod B300 vLLM)",
+   "harness": "opencode",
+   "model_id": "runpod-vllm/nex-n2.5-mini",
+   "billing": "Self-hosted RunPod B300; wall-time billing, no per-token charges",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "User-approved 2026-10-17. Original Apache-2.0 BF16 35B agentic MoE. Bundled template default adaptive/medium reasoning (undefined matches medium); never disable reasoning for speed. 100 tok/s admission, max 3 configs/45 min tuning, cumulative 4h sprint guard. Official SGLang recipe reviewed; vLLM Qwen3.5 path requires actual tool preflight."
+  },
+  {
+   "slug": "v2_swift_1_5_27b_oss",
+   "label": "Swift 1.5 Qwen3.8 27B BF16 (RunPod B300 vLLM)",
+   "harness": "opencode",
+   "model_id": "runpod-vllm/swift-1.5-27b",
+   "billing": "Self-hosted B300 wall-time; no per-token charges",
+   "rates_per_m": {
+    "input": 0.0,
+    "output": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0
+   },
+   "wave": 7,
+   "notes": "User-approved 2026-10-17. Original BF16 reasoning-efficient Qwen3.8-27B derivative. Preserve bundled default thinking mode. 128K context/32K output, 100 tok/s admission, max 3 configs/45min optimization, cumulative 4h sprint guard. Official MTP3 recipe is first below-threshold alternative; never disable reasoning to pass throughput."
+  },
+  {
+   "slug": "v2_thinkingcap_3_8_27b_oss",
+   "label": "ThinkingCap Qwen3.8 27B BF16 (RunPod B300 vLLM)",
+   "harness": "opencode",
+   "model_id": "runpod-vllm/thinkingcap-3.8-27b",
+   "billing": "Self-hosted B300 wall-time; no per-token charges",
+   "rates_per_m": {
+    "input": 0.0,
+    "output": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0
+   },
+   "wave": 7,
+   "notes": "User-approved 2026-10-17. Original BF16 reasoning-efficient Qwen3.8-27B derivative. Preserve bundled default thinking mode. 128K context/32K output, 100 tok/s admission, max 3 configs/45min optimization, cumulative 4h sprint guard. Official MTP3 recipe is first below-threshold alternative; never disable reasoning to pass throughput."
+  },
+  {
+   "slug": "v2_qwen3_8_27b_strix_q4",
+   "label": "Qwen3.8-27B Q4_K_M (LOCAL Strix Halo ollama)",
+   "harness": "opencode",
+   "model_id": "ollama-strix/qwen38-27b-strix-q4",
+   "billing": "Local (Strix Halo 192.168.0.90 Ryzen AI MAX+ 395, free)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added 2026-10-19. Q4_K_M (17GB, ~12.6 tok/s) GGUF on Strix Halo via ROCm ollama (:11434), 128K ctx. v4 self-host-on-consumer-HW comparison vs B300. Claude reviewer (Codex blocked). Capped (<=2 nudge, B300-comparable) + extended-nudge assisted-ceiling scores."
+  },
+  {
+   "slug": "v2_qwen3_8_27b_strix_q8",
+   "label": "Qwen3.8-27B Q8_0 anchor (LOCAL Strix Halo ollama)",
+   "harness": "opencode",
+   "model_id": "ollama-strix/qwen38-27b-strix-q8",
+   "billing": "Local (Strix Halo 192.168.0.90 Ryzen AI MAX+ 395, free)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added 2026-10-19. Q8_0 (29GB, ~7.7 tok/s) quant-cost anchor GGUF on Strix Halo via ROCm ollama (:11434), 128K ctx. v4 self-host-on-consumer-HW comparison vs B300. Claude reviewer (Codex blocked). Capped (<=2 nudge, B300-comparable) + extended-nudge assisted-ceiling scores."
+  },
+  {
+   "slug": "v2_swift_1_5_27b_strix_q4",
+   "label": "Swift 1.5 27B Q4_K_M (LOCAL Strix Halo ollama)",
+   "harness": "opencode",
+   "model_id": "ollama-strix/swift15-27b-strix-q4",
+   "billing": "Local (Strix Halo 192.168.0.90 Ryzen AI MAX+ 395, free)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added 2026-10-19. Q4_K_M (18GB) GGUF on Strix Halo via ROCm ollama (:11434), 128K ctx. v4 self-host-on-consumer-HW comparison vs B300. Claude reviewer (Codex blocked). Capped (<=2 nudge, B300-comparable) + extended-nudge assisted-ceiling scores."
+  },
+  {
+   "slug": "v2_thinkingcap_3_8_27b_strix_q4",
+   "label": "ThinkingCap 3.8 27B Q4_K_M (LOCAL Strix Halo ollama)",
+   "harness": "opencode",
+   "model_id": "ollama-strix/thinkingcap38-27b-strix-q4",
+   "billing": "Local (Strix Halo 192.168.0.90 Ryzen AI MAX+ 395, free)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added 2026-10-19. Q4_K_M (18GB) GGUF on Strix Halo via ROCm ollama (:11434), 128K ctx. v4 self-host-on-consumer-HW comparison vs B300. Claude reviewer (Codex blocked). Capped (<=2 nudge, B300-comparable) + extended-nudge assisted-ceiling scores."
+  },
+  {
+   "slug": "v2_qwen38_flash_next_strix_strata_iq3s",
+   "label": "Qwen3.8 Flash-Next IQ3_S (LOCAL Strix Halo, Strata hip-halo)",
+   "harness": "opencode",
+   "model_id": "strata-strix/qwen3.8-flash-next-iq3_s",
+   "billing": "Local (Strix Halo 192.168.0.90, free) via Strata expert-offload engine",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added 2026-10-19. Qwen3.8-Flash-Next (125B MoE, B300 co-top 92.5) served by Strata HIP/ROCm expert-offload engine, IQ3_S quant, OpenAI API :8080. Tests whether the frontier open model runs on consumer HW. IQ3_S is aggressive (<Q4 of the 27Bs, <<B300 NVFP4) so score is quant-penalized. Capped (<=2 nudge) + extended-nudge. Provider wired after `strata launch`/`connect`."
+  },
+  {
+   "slug": "v2_qwen38_flash_next_5090_strata_iq3s",
+   "label": "Qwen3.8 Flash-Next IQ3_S (LOCAL RTX 5090, Strata cuda13)",
+   "harness": "opencode",
+   "model_id": "strata-5090/qwen3.8-flash-next-iq3_s",
+   "billing": "Local (RTX 5090 workstation, free) via Strata expert-offload engine",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added 2026-10-19. Qwen3.8-Flash-Next (125B MoE, B300 co-top 92.5) served by Strata CUDA 13 expert-offload engine, IQ3_S quant, OpenAI API :8080. Tests whether the frontier open model runs on consumer HW. IQ3_S is aggressive (<Q4 of the 27Bs, <<B300 NVFP4) so score is quant-penalized. Capped (<=2 nudge) + extended-nudge. Provider wired after `strata launch`/`connect`."
+  },
+  {
+   "slug": "v2_minimax_m3_1_flash",
+   "label": "MiniMax M3.1 Flash (OpenRouter, 428B MoE)",
+   "harness": "opencode",
+   "model_id": "openrouter/minimax/minimax-m3.1-flash:free",
+   "billing": "OpenRouter (free 72h, then $0.15/$0.60 per M)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added 2026-10-19 (release day). Successor to MiniMax M3 (v4 75.5). 428B MoE agentic, 1M ctx. :free slug (rate-limited) is the only one live; watch for rate-limit stalls (infra, not model). cloud run, not local campaign."
+  },
+  {
+   "slug": "v2_deepseek_v4_1_flash_b300",
+   "label": "DeepSeek V4.1 Flash FP8 (4xB300 vLLM TP4)",
+   "harness": "opencode",
+   "model_id": "deepseek-b300/deepseek-v4.1-flash",
+   "billing": "Self-hosted 4xB300 (RunPod)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added 2026-10-20. DeepSeek V4.1 Flash-1017 FP8 (510GB, native deepseek_v4_fp8), vLLM 0.32 TP4 on 4xB300, 174.8 tok/s warm (>=100 gate PASS). Reasoning/tool parsers deepseek_v41. API key re-keyed at launch (local->pod upload). The large open model the user chased; v4 run after MiniMax frees the shield."
+  },
+  {
+   "slug": "v2_kimi_k2_thinking_b300",
+   "label": "Kimi K2 Thinking INT4 (4xB300 vLLM TP4)",
+   "harness": "opencode",
+   "model_id": "kimi-b300/kimi-k2",
+   "billing": "Self-hosted 4xB300 (RunPod)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added 2026-10-20. Kimi-K2-Thinking INT4 (594GB, 1T MoE ~32B active), vLLM 0.32 TP4 on 4xB300 (official FP8 Instruct 1029GB won't fit w/ KV headroom; no NVFP4 for orig K2). Trillion-param flagship, coding-optimized Thinking variant. Serve after DeepSeek freed GPUs."
+  },
+  {
+   "slug": "v2_glm_5_3_full_b300",
+   "label": "GLM 5.3 full FP8 (4xB300 vLLM TP4)",
+   "harness": "opencode",
+   "model_id": "glm-b300/glm-5.3",
+   "billing": "Self-hosted 4xB300 (RunPod)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added 2026-10-20. Largest full GLM 5.3 (FP8, 704GB on disk, ~700B), vLLM 0.32 TP4 on 4xB300. Non-Flash flagship (vs the B300-batch GLM 5.3 Flash 320B-A18B=92.5). Last model of the overnight 4xB300 campaign."
+  },
+  {
+   "slug": "v2_ornith_1_5_122b_b300",
+   "label": "Ornith 1.5 122B MoE (4xB300 vLLM TP4)",
+   "harness": "opencode",
+   "model_id": "ornith-b300/ornith-122b",
+   "billing": "Self-hosted 4xB300 (RunPod)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added 2026-10-20 per user. HF ornith-ai/Ornith-1.5-122B (~122-125B MoE, arch qwen3_5_moe = same as Nex N2.5 Pro; VL image-text-to-text; BF16 ~244GB, FP8 + GGUF variants; MIT, ungated). vLLM>=0.19.1, serve flags --tool-call-parser qwen3_xml --reasoning-parser qwen3. Big sibling of v2_ornith_1_5_35b_oss (B300 81.0). Queued on 4xB300 overnight campaign. Provider ornith-b300 wired at serve time. [served 2026-10-21: id ornith-122b, FP8 132.9GB, qwen3_xml parser CLEAN, 244 tok/s]."
+  },
+  {
+   "slug": "v2_ornith_1_5_35b_5090_strata",
+   "label": "Ornith 1.5 35B-A3B (LOCAL RTX 5090, Strata)",
+   "harness": "opencode",
+   "model_id": "strata-5090/ornith-1.5-35b",
+   "billing": "Local (RTX 5090 workstation, free) via Strata expert-offload engine",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added 2026-10-20 per user. LOCAL consumer-HW counterpart to v2_ornith_1_5_35b_oss (B300 BF16 = 81.0) \u2014 never run locally before. ornith-ai/Ornith-1.5-35B-A3B via Strata GGUF on the 5090 (OpenAI API :8080), qwen3_xml tool parser + bundled chat template. Tests whether the 35B runs on consumer HW. Capped (<=2 nudge) + extended-nudge. Provider strata-5090 wired after strata launch/connect. Runs behind current shielded runs (serial)."
+  },
+  {
+   "slug": "v2_nex_n25_pro_b300",
+   "label": "Nex N2.5 Pro 397B FP8 (4xB300 vLLM TP4)",
+   "harness": "opencode",
+   "model_id": "nex-b300/nex-n25-pro",
+   "billing": "Self-hosted 4xB300 (RunPod)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added 2026-10-20 (overnight 4xB300). nex-agi/Nex-N2.5-Pro ~397B MoE (512 exp/10-tok, 60 layers), FP8 compressed-tensors, arch qwen3_5_moe (VL). vLLM 0.32 TP4, FlashInfer fp8_block_scale_moe fast path, ~192 tok/s stabilized (>=100 gate PASS). 131072 ctx. Cloud anchor nex-n2.5-pro=94.0 (openrouter). Full v4, Claude boundary reviewers, capped<=2-nudge + extended."
+  },
+  {
+   "slug": "v2_mimo_v26_pro_b300",
+   "label": "MiMo V2.6 Pro MOPD FP8 (4xB300 vLLM TP4)",
+   "harness": "opencode",
+   "model_id": "mimo-b300/mimo-v26-pro",
+   "billing": "Self-hosted 4xB300 (RunPod)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added 2026-10-20 (overnight 4xB300). XiaomiMiMo/MiMo-V2.6-Pro-MOPD ~0.5T sparse MoE (384 exp/8-tok, 70 layers, OMNI vision+audio), FP8/mxfp4, arch MiMoV2ForCausalLM custom code. vLLM 0.32 TP4, --trust-remote-code, reasoning/tool parser mimo (validated CLEAN), 167 tok/s (>=100 PASS). 131072 ctx. Cloud anchor mimo-v2.6-pro=92.0. Full v4, Claude reviewers, capped<=2-nudge + extended."
+  },
+  {
+   "slug": "v2_laguna_s_21_b300",
+   "label": "Laguna-S-2.1 NVFP4 (4xB300 vLLM TP4)",
+   "harness": "opencode",
+   "model_id": "laguna-b300/laguna-s-21",
+   "billing": "Self-hosted 4xB300 (RunPod)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added 2026-10-21 (overnight 4xB300). poolside/Laguna-S-2.1-NVFP4 (99.7GB), arch LagunaForCausalLM (vLLM 0.32 native, no trust-remote-code), small coding-specialist MoE. 263 tok/s. poolside_v1 tool-call+reasoning parser (validated CLEAN). 131072 ctx (true max 1M). Full v4, Claude reviewers, capped<=2-nudge + extended."
+  },
+  {
+   "slug": "v2_step5_preview_b300",
+   "label": "Step-5-Preview NVFP4 (4xB300 vLLM TP4)",
+   "harness": "opencode",
+   "model_id": "step5-b300/step5",
+   "billing": "Self-hosted 4xB300 (RunPod)",
+   "rates_per_m": {
+    "input": 0.0,
+    "cache_read": 0.0,
+    "cache_write": 0.0,
+    "output": 0.0
+   },
+   "wave": 7,
+   "notes": "Added 2026-10-21 (overnight 4xB300, last-but-one). stepfun-ai/Step-5-Preview-NVFP4 (~395GB, 95 shards), arch Step5ForConditionalGeneration (model_type step5_vl, head_dim 192). REQUIRES vLLM nightly 0.32.1rc1.dev195 in isolated /root/vllm-next-venv + assembled CUDA 12.9 toolkit (/root/cuda-12.9) for sm_103a FlashInfer head_dim-192 prefill JIT (CUDA 12.8 cannot target compute_103a; M3-class wall). step5 reasoning+tool parser (validated CLEAN tool-calls) + --enable-auto-tool-choice. Single-stream 74 tok/s (aggregate 623@16-way); MTP speculative-decode tuning attempted for the >=100 gate. Full v4, Claude reviewers, capped<=2-nudge + extended."
   }
+ ],
+ "skipped": {
+  "claude_fable_5_rerelease": "same model ID as v2_claude_fable_5 (claude-fable-5); the June original-vs-rerelease snapshot distinction no longer exists \u2014 one run covers it",
+  "gemini_3_5_flash": "replaced by Gemini 3.5 Pro in the Tier A cohort per user decision; Pro not yet released (v2_gemini_pro, blocked)"
+ }
 }

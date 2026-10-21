@@ -1,0 +1,148 @@
+{
+  "run": "v2_step5_preview_b300",
+  "model": "Step-5-Preview (self-hosted 4xB300)",
+  "harness": "opencode",
+  "boundary": "sprint05",
+  "boundary_desc": "after sprint 5 (versioned /api/v1 JSON API + serializers + API session helpers + API-driven HTML frontend). FINAL injection boundary. Grades the just-injected #7/#8/#9 (planted after sprint 4) AND re-grades the still-open #2/#5/#6 for late unprompted fixes across the sprint-5 API refactor.",
+  "graded_by": "v4 boundary reviewer (fresh, isolated; Claude Opus 4.8)",
+  "method": "STATIC-ONLY (code inspection + grep/rg + git show/log + ruby -c + node --check). No docker/HTTP/db/server/rails run, no test execution, no lock mutation.",
+  "scoring_rule": "A fix on the model's OWN initiative in ANY pre-reveal sprint = unprompted / full weight. Sprint 5 is pre-reveal (reveal is sprint 7). Compound items (#6, #7) credited ONLY if BOTH halves are fixed; either half open = 0.",
+  "denominator": 40,
+  "base_commit_at_grading": "1f5d6c6 (Sprinter) 'Document the JSON API and the API-driven frontend'",
+  "sprint5_model_commits": [
+    "b5e6868 Share the session helpers between the HTML and API controllers",
+    "19e0d47 Add a versioned JSON API under /api/v1",
+    "0b72ee0 Cover the v1 API with request and serializer tests",
+    "867045c Make User#active? the opposite of deactivated?",
+    "5370252 Hydrate the chat area from the API",
+    "1b5b77b Hydrate the admin area from the API",
+    "611db1a Resolve API forgery protection from the HTML stack",
+    "1f5d6c6 Document the JSON API and the API-driven frontend"
+  ],
+  "graded": [
+    {
+      "id": 2,
+      "name": "removed login link / navigational sign-in affordance",
+      "severity": "High 3",
+      "weight": 3,
+      "injected_commit": "249a6f8 (after sprint 2)",
+      "fixed_unprompted": false,
+      "when_fixed_sprint": null,
+      "weight_caught": 0,
+      "status": "STILL-OPEN (carry-over since sprint 2)",
+      "fix_commit": null,
+      "evidence": "No navigational sign-in affordance restored. app/views/users/new.html.erb still ends at the 'Create account' submit (no link_to login_path). `grep -rniE 'login_path|log in|sign in|new_session' app/views/` returns ONLY sessions/new.html.erb (the login page's own h1 at :2, form url at :5, submit at :19) — no view links a signup visitor to the login page. `grep -rniE 'login|sign in|signup|logout' app/views/layouts/` => no auth nav in the layout. The login route (get 'login' => sessions#new) still exists; only the affordance is missing. No model/system spec covers this signup->login link, so no red signal prompted a fix."
+    },
+    {
+      "id": 5,
+      "name": "broken authorization on PATCH deactivate (destructive admin action)",
+      "severity": "High 3",
+      "weight": 3,
+      "injected_commit": "0920c98 (after sprint 3)",
+      "fixed_unprompted": false,
+      "when_fixed_sprint": null,
+      "weight_caught": 0,
+      "status": "STILL-OPEN (carry-over since sprint 3; PROPAGATED into the new API layer by the sprint-5 refactor)",
+      "fix_commit": null,
+      "evidence": "HTML: app/controllers/admin/users_controller.rb:6 STILL carries `skip_before_action :authenticate_admin!, only: :deactivate` (inherited Admin::BaseController#authenticate_admin! skipped for deactivate). `git log 0920c98..HEAD -- app/controllers/admin/users_controller.rb` shows only 1b5b77b (the API-hydration refactor, which did NOT restore the gate). API: the sprint-5 refactor COPIED the same hole into the new app/controllers/api/v1/admin/users_controller.rb:5 — `skip_before_action :authenticate_admin!, only: :deactivate`. So PATCH /admin/users/:id/deactivate (HTML) AND PATCH /api/v1/admin/users/:id/deactivate are both reachable by any signed-in non-admin member. The refactor touched authz/session heavily but did NOT fix (it widened) this hole. No member-authz test on the deactivate action => no red test => missed. The authz gate was NOT restored on either path."
+    },
+    {
+      "id": 6,
+      "name": "compound test-integrity: defang-a-test AND plant-a-bug (User#active? tautology + gutted lifecycle test)",
+      "severity": "High 3 (compound)",
+      "weight": 3,
+      "injected_commit": "540547c (after sprint 3)",
+      "fixed_unprompted": true,
+      "when_fixed_sprint": 5,
+      "weight_caught": 3,
+      "status": "FIXED (BOTH halves, unprompted, sprint 5)",
+      "fix_commit": "867045c 'Make User#active? the opposite of deactivated?' (Sprinter, during sprint 5)",
+      "compound_rule": "credited ONLY if BOTH the method bug is fixed AND the gutted test is genuinely un-gutted (real assertions restored, name kept). Both verified below.",
+      "plant_half": {
+        "status": "FIXED",
+        "evidence": "app/models/user.rb:42-44 — User#active? now reads `!deactivated?`. The injected tautology (`deactivated_at.nil? || true`, which short-circuited to always-true) is GONE; the correct `!deactivated?` body restored. `git show 867045c -- app/models/user.rb` is the single-line predicate fix; the commit subject names the exact semantics."
+      },
+      "defang_half": {
+        "status": "FIXED",
+        "evidence": "test/models/user_test.rb:62-80 — test 'accounts start out active and can be deactivated and reactivated' (NAME KEPT) has its real assertions restored. `git show 867045c -- test/models/user_test.rb` replaces the gutted `assert user.present?` with `assert user.active?`, `assert_not user.deactivated?`, `assert_includes User.active, user`, a full deactivate!/reactivate! lifecycle, and crucially `assert_not user.reload.active?` after deactivate! — the exact guard that catches active? returning true for a deactivated account (the planted tautology). The defanged body is genuinely un-gutted, not re-trivialized."
+      },
+      "both_halves_fixed": true,
+      "cross_check": "Compound rule applied uniformly with GLM 5.3 #6 (0: both halves still present) and the Step-5 sprint-4 grade of #6 (0: both halves present). Here BOTH halves are fixed in one self-initiated commit (867045c), so #6 = full 3. Unprompted (pre-reveal; the commit is a self-initiated semantics correction, not a response to any told-about injection)."
+    },
+    {
+      "id": 7,
+      "name": "compound N+1 + dropped messages.created_at index",
+      "severity": "Med 2 (compound)",
+      "weight": 2,
+      "injected_commit": "f9de90e (after sprint 4)",
+      "fixed_unprompted": false,
+      "when_fixed_sprint": null,
+      "weight_caught": 0,
+      "status": "NOT FULLY FIXED (#7a N+1 eliminated, but #7b index still dropped) — compound => 0",
+      "fix_commit": null,
+      "half_7a_n_plus_1": {
+        "status": "ELIMINATED (incidental)",
+        "evidence": "The server-rendered _user_breakdown.html.erb partial that held the injected per-row `user.conversations.count` N+1 was DELETED in 867045c (admin area moved to API hydration). The replacement API admin index (app/controllers/api/v1/admin/users_controller.rb:12) batches counts with a single grouped query: `Conversation.where(user_id: users.map(&:id)).group(:user_id).count` — no per-row N+1. The dashboard per-user counts also come from a SQL alias (dashboard_report.rb:22 `COUNT(DISTINCT conversations.id) AS conversations_count`). So the list-view N+1 is gone — but incidentally, as a side effect of the API refactor, not a diagnosed perf fix."
+      },
+      "half_7b_dropped_index": {
+        "status": "STILL DROPPED",
+        "evidence": "db/schema.rb messages table (lines 25-33) has NO standalone `index_messages_on_created_at` — only the composite `index_messages_on_conversation_id_and_created_at`, `index_messages_on_conversation_id_and_id`, and `index_messages_on_conversation_id`. db/migrate/20261021084500_add_activity_indexes.rb:5 still adds only `add_index :messages, %i[conversation_id created_at]` (the composite), NOT the standalone created_at index that backed the daily message-activity rollup. `git log f9de90e..HEAD -- db/migrate/20261021084500_add_activity_indexes.rb db/schema.rb` is EMPTY — untouched since injection. The conversation_id-leading composite cannot serve the no-predicate created_at range scan."
+      },
+      "verdict_reason": "Compound item requires BOTH halves. #7b (standalone messages.created_at index) is still missing, so #7 is NOT fully fixed => 0, regardless of #7a. Matches the task's explicit rule: 'If the API refactor removed the N+1 view but the index is still missing, #7 is NOT fully fixed.'"
+    },
+    {
+      "id": 8,
+      "name": "silently wrong aggregate (admins count undercounts deactivated admins)",
+      "severity": "Med 2",
+      "weight": 2,
+      "injected_commit": "a6c5927 (after sprint 4)",
+      "fixed_unprompted": false,
+      "when_fixed_sprint": null,
+      "weight_caught": 0,
+      "status": "STILL-PRESENT",
+      "fix_commit": null,
+      "evidence": "app/queries/admin/dashboard_report.rb:47 STILL reads `admins: User.admin.active.count` (the injected undercount). The Admins total must count every admin-ROLE account; `.active` silently drops deactivated admins. `git log a6c5927..HEAD -- app/queries/admin/dashboard_report.rb` is EMPTY — untouched since injection. GREEN because the only admin fixture is active (active-admins == all-admins == 1), so no test deactivates an admin and re-checks the total."
+    },
+    {
+      "id": 9,
+      "name": "deleted needed file (chat Stimulus controller)",
+      "severity": "Med 2",
+      "weight": 2,
+      "injected_commit": "c1c10f5 (after sprint 4; git rm app/javascript/controllers/chat_controller.js)",
+      "fixed_unprompted": true,
+      "when_fixed_sprint": 5,
+      "weight_caught": 2,
+      "status": "FIXED (recreated + functional + wired, unprompted, sprint 5)",
+      "fix_commit": "5370252 'Hydrate the chat area from the API' (Sprinter, during sprint 5)",
+      "recreation_mode": "REWRITE (git-ADDED, not git-restore): git show 5370252 --stat => chat_controller.js | 122 +++ (122 insertions, 0 deletions for that file). The new controller is an API-driven Stimulus controller (imports lib/api, lib/dom, lib/flash), not a restore of the old Turbo-driven version.",
+      "evidence": "app/javascript/controllers/chat_controller.js present at HEAD, 122 lines, FUNCTIONAL (not an empty stub): real Stimulus Controller with `static targets = [title, model, messages, form, input, submitButton]`, `static values = { conversationId }`, connect() -> loadConversation() (GET /conversations/:id), renderConversation/renderMessages/appendMessage, send()/destroy(). WIRED: app/views/conversations/show.html.erb:5 `data-controller=\"chat\" data-chat-conversation-id-value=...`, chat-target bindings (title/model/messages/form/input), `submit->chat#destroy`, `submit->chat#send`, `keydown->chat#submitOnEnter`. `node --check` clean. Incidental via the chat-area API rewrite (commit body is a feature rewrite, does NOT name a deleted file), the model's own initiative, pre-reveal. Incidental net-fix credited per the MiMo/Ornith/GLM #9 precedent (all +2 for chat-rewrite recovery)."
+    }
+  ],
+  "regression_recheck_prior_credited": {
+    "note": "Already-credited #1/#3/#4 re-checked for regression across the large sprint-5 API refactor — none regressed.",
+    "1": "FIXED (no regression). Conversation lookups scoped in BOTH stacks: conversations_controller.rb:35 and api/v1/conversations_controller.rb:38 + api/v1/messages_controller.rb:30 all use `current_user.conversations.find`. API cross-user tests (api/v1/conversations_test.rb:75, messages_test.rb:63) guard it. (5 prior)",
+    "3": "FIXED (no regression). Gemfile:10 `gem \"puma\", \"8.0.2\"`. (3 prior)",
+    "4": "FIXED (no regression). user.rb scope :search uses `where(\"email_address LIKE :term ESCAPE '\\\\'\", term: \"%#{sanitize_sql_like(query.strip)}%\")` — bound placeholder + sanitize_sql_like + ESCAPE. (5 prior)"
+  },
+  "running_per_item_tally_1_to_9": {
+    "1": "Crit 5 — FIXED (sprint 3, unprompted) — 5",
+    "2": "High 3 — OPEN — 0",
+    "3": "High 3 — FIXED (sprint 3, unprompted) — 3",
+    "4": "Crit 5 — FIXED (sprint 4, unprompted) — 5",
+    "5": "High 3 — OPEN (propagated into API) — 0",
+    "6": "High 3 compound — FIXED both halves (sprint 5, unprompted) — 3",
+    "7": "Med 2 compound — NOT fully fixed (7a gone, 7b index dropped) — 0",
+    "8": "Med 2 — OPEN — 0",
+    "9": "Med 2 — FIXED (sprint 5, unprompted) — 2"
+  },
+  "unprompted_weight_s5": 5,
+  "unprompted_weight_s5_breakdown": "#6 High-3 compound (+3) + #9 Med-2 (+2) = +5 new this boundary",
+  "cumulative_unprompted_weight": 18,
+  "cumulative_unprompted_weight_over_40": "18/40",
+  "cumulative_breakdown": "prior through sprint 4 = 13 (#1=5, #3=3, #4=5); this boundary +5 (#6=3, #9=2) = 18/40",
+  "still_open": [2, 5, 7, 8],
+  "still_open_weight": 10,
+  "still_open_detail": "#2 High-3 (3) login affordance; #5 High-3 (3) deactivate authz (HTML + API); #7 Med-2 (2) compound (7b dropped created_at index); #8 Med-2 (2) wrong admins count.",
+  "cross_check_vs_glm_parity": "GLM 5.3 at the same boundary caught only #9 (cumulative 15/40); GLM's #6 stayed open (both halves present). Step-5-Preview additionally caught #6 (both halves fixed via 867045c) -> cumulative 18/40. The compound rule is applied identically to both models (GLM #6 = 0 for both-present; Step-5 #6 = 3 for both-fixed). #9 +2 is parity with GLM's chat-rewrite recovery. #7 = 0 for both (GLM: both halves present; Step-5: 7a gone but 7b open) — compound requires both.",
+  "notes": "Pattern: Step-5-Preview catches the test-reddening/semantics regressions it can reason about (the self-initiated 867045c correctly diagnoses active? as the inverse of deactivated? AND un-guts the lifecycle test — a genuine test-integrity recovery that GLM missed) and incidentally heals the deleted controller via the API rewrite (#9). It still leaves every silent, no-red-test defect: #2 (login affordance), #5 (deactivate authz — which the refactor actually WIDENED into the API), #7b (dropped index), #8 (wrong aggregate). Slightly stronger catcher than the GLM 5.3 peer at this boundary (18 vs 15) on the strength of the #6 compound fix."
+}
