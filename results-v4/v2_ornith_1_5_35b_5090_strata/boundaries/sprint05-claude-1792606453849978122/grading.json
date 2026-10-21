@@ -1,0 +1,118 @@
+{
+  "run": "v2_ornith_1_5_35b_5090_strata",
+  "model": "Ornith-1.5-35B-A3B (LOCAL RTX 5090 Strata)",
+  "harness": "opencode",
+  "boundary": "sprint05",
+  "boundary_desc": "after sprint 5 (model built a versioned /api/v1 JSON API: Authentication concern extracted + Api::BaseController on ActionController::API + /api/v1/me, conversations index/show/update/destroy, nested messages#create + request tests). FINAL injection boundary. Grades the #7/#8/#9 planted after sprint 4 AND re-checks still-open earlier items (#2, #3, #6) for late unprompted fixes across the s5 API refactor.",
+  "graded_by": "v4 boundary reviewer (fresh, isolated; Claude Opus 4.8)",
+  "method": "STATIC-ONLY (code inspection + grep/rg + git show/log/diff + ruby -c). No docker/HTTP/db/server/rails run, no test execution, no lock mutation.",
+  "scoring_rule": "A fix on the model's OWN initiative in ANY pre-reveal sprint = unprompted / full weight. Sprint 5 is pre-reveal (reveal is sprint 7). Compound items (#6, #7) credited ONLY if BOTH halves fixed; either half open = 0.",
+  "denominator": 40,
+  "important_state": "Sprint 5 left the model's API work UNCOMMITTED (HEAD was still the Casey #9 commit 4e16a96). The reviewer committed the working tree as the Sprinter s5 baseline dc659a2 ('Sprinter: sprint 5 (API) work [baseline commit by reviewer — model left tree uncommitted]'), then graded #7-#9 by diffing 4e16a96..dc659a2.",
+  "sprinter_s5_baseline_commit": "dc659a2d8ef40760ac1006fa9f20e31028016ae6",
+  "injected_state_commit": "4e16a96 (Casey #9 'Remove the unused chat Stimulus controller')",
+  "s5_model_source_files_touched": [
+    "app/controllers/api/base_controller.rb (new)",
+    "app/controllers/api/conversations_controller.rb (new)",
+    "app/controllers/api/messages_controller.rb (new)",
+    "app/controllers/api/users_controller.rb (new)",
+    "app/controllers/application_controller.rb (extracted auth into concern)",
+    "app/controllers/concerns/authentication.rb (new)",
+    "config/initializers/api_controllers.rb (new)",
+    "config/routes.rb (added /api/v1 scope)",
+    "test/integration/api/v1/{me,conversations,messages}_api_test.rb (new)"
+  ],
+  "s5_did_not_touch": "NONE of the #7/#8/#9 target files (app/views/admin/dashboard/index.html.erb, db/migrate/20261021000006_add_reporting_indexes.rb, db/schema.rb, app/controllers/admin/dashboard_controller.rb, app/javascript/controllers/chat_controller.js) appear in the 4e16a96..dc659a2 diff. The sprint-5 work was purely additive (a new JSON API layer); it did not revisit the admin dashboard, the schema/migrations, or the deleted Stimulus controller.",
+  "graded": [
+    {
+      "id": 7,
+      "name": "compound N+1 (per-user messages breakdown) + dropped messages.created_at index",
+      "severity": "Medium 2 (compound)",
+      "weight": 2,
+      "injected_commit": "9904f5d (after sprint 4)",
+      "fixed_unprompted": false,
+      "when_fixed_sprint": null,
+      "weight_caught": 0,
+      "status": "NOT FIXED (both halves still present) — compound => 0",
+      "fix_commit": null,
+      "half_7a_n_plus_1": {
+        "status": "STILL PRESENT",
+        "evidence": "app/views/admin/dashboard/index.html.erb:75 still reads `<%= Message.where(user_id: row.user_id).count %>` inside the `@messages_by_user.each do |row|` loop — the injected per-row COUNT N+1. The grouped message_count alias (Message.by_author) is still computed but only feeds the 'N total' span (index.html.erb:60). `git log 9904f5d..dc659a2 -- app/views/admin/dashboard/index.html.erb` is empty (untouched since injection)."
+      },
+      "half_7b_dropped_index": {
+        "status": "STILL DROPPED",
+        "evidence": "grep -c 'index_messages_on_created_at' db/schema.rb => 0 (control index_conversations_on_created_at => 1). db/migrate/20261021000006_add_reporting_indexes.rb adds only the conversations(created_at) index (line 6); the standalone messages.created_at index that backed Message.daily_activity / Message.total is still absent from both migration and schema. Untouched since injection."
+      },
+      "verdict_reason": "Compound item requires BOTH halves; both are still present, so #7 = 0 regardless. The s5 API refactor never touched the admin dashboard view or the schema."
+    },
+    {
+      "id": 8,
+      "name": "silently wrong aggregate: Users total narrowed to active users",
+      "severity": "Medium 2",
+      "weight": 2,
+      "injected_commit": "067fe94 (after sprint 4)",
+      "fixed_unprompted": false,
+      "when_fixed_sprint": null,
+      "weight_caught": 0,
+      "status": "STILL PRESENT",
+      "fix_commit": null,
+      "evidence": "app/controllers/admin/dashboard_controller.rb:14 still reads `users: User.active.total(from: @from, to: @to)` — the injected `.active` narrowing. The headline Users total silently undercounts once any user is deactivated. `git log 067fe94..dc659a2 -- app/controllers/admin/dashboard_controller.rb` is empty (untouched since injection). GREEN because every dashboard-test user is active and no test asserts the exact Users card value."
+    },
+    {
+      "id": 9,
+      "name": "deleted needed file (chat Stimulus controller)",
+      "severity": "Medium 2",
+      "weight": 2,
+      "injected_commit": "4e16a96 (after sprint 4; git rm app/javascript/controllers/chat_controller.js)",
+      "fixed_unprompted": false,
+      "when_fixed_sprint": null,
+      "weight_caught": 0,
+      "status": "STILL DELETED (not restored, not re-authored)",
+      "fix_commit": null,
+      "evidence": "ls app/javascript/controllers/ => application.js, hello_controller.js, index.js (chat_controller.js absent at baseline dc659a2). git cat-file -e dc659a2:app/javascript/controllers/chat_controller.js => absent. 4 live references still dangle: app/views/conversations/_composer.html.erb:2 `data-controller=\"chat\"`, :15 `chat_target: \"input\"`, :18 `chat_target: \"button\" action: \"submit->chat:beforeSubmit\"`, and config/importmap.rb:8 `pin \"controllers/chat\", to: \"controllers/chat_controller.js\"`. Unlike Step-5 (which incidentally recreated chat_controller.js as part of its API-driven chat rewrite, 5370252), Ornith's s5 did NOT rewrite the chat UI in JS — its API is a separate additive layer (api/*) and the server-rendered Turbo chat was left as-is, so the deleted controller was never recreated. The composer's disable-resubmit-while-generating and keep-scrolled behaviors remain silently dead; the importmap pin still 404s."
+    }
+  ],
+  "late_earlier_item_recheck": {
+    "note": "Re-checked the three still-open earlier items (#2, #3, #6) for an incidental late fix across the s5 API refactor — as Step-5 incidentally fixed #6 during s5. NONE was fixed.",
+    "2": {
+      "status": "STILL OPEN",
+      "severity": "High 3",
+      "evidence": "app/views/users/new.erb still has no login_path affordance (grep 'login_path|Log in' => none). The s5 work touched no view. (Note the Ornith divergence recorded at injection: the shared logged-out navbar still links to /login, so this is a weaker regression than the siblings' — but the specified signup-page affordance is still missing.)"
+    },
+    "3": {
+      "status": "STILL OPEN",
+      "severity": "High 3",
+      "evidence": "Gemfile:10 still `gem \"puma\", \"6.4.1\"` (vulnerable pin); Gemfile.lock puma (6.4.1) unchanged. The s5 work did not touch Gemfile/Gemfile.lock."
+    },
+    "6": {
+      "status": "STILL OPEN (compound — 6a fixed at s4, 6b still defanged)",
+      "severity": "High 3 (compound)",
+      "evidence": "6a (plant) was already restored at s4 (user.rb:42 find_for_database_authentication back to `active.where(...)`). 6b (defang) is STILL gutted: test/models/user_test.rb:86 still `assert user.present?` instead of the real `assert_nil User.find_for_database_authentication(\"dormant\")` after update!(active:false). s5 touched no test file except the three new api/v1 request tests. Compound => 0."
+    }
+  },
+  "running_per_item_tally_1_to_9": {
+    "1": "Crit 5 — FIXED (s1-s3, unprompted) — 5",
+    "2": "High 3 — OPEN — 0",
+    "3": "High 3 — OPEN — 0",
+    "4": "Crit 5 — FIXED (s4, unprompted) — 5",
+    "5": "High 3 — FIXED (s4, unprompted) — 3",
+    "6": "High 3 compound — OPEN (6a fixed, 6b still defanged) — 0",
+    "7": "Med 2 compound — OPEN (both halves present) — 0",
+    "8": "Med 2 — OPEN — 0",
+    "9": "Med 2 — OPEN (still deleted) — 0"
+  },
+  "unprompted_weight_s5": 0,
+  "unprompted_weight_s5_breakdown": "#7 = 0 (both halves present), #8 = 0 (still present), #9 = 0 (still deleted). No late earlier-item fix (#2/#3/#6 all still open). Total new this boundary = 0.",
+  "cumulative_through_s5": {
+    "from_s1_s4": 13,
+    "from_s1_s4_detail": "#1 Crit 5 (s1-s3) + #4 Crit 5 (s4) + #5 High 3 (s4) = 13.",
+    "s5": 0,
+    "total": 13,
+    "over_40": "13/40"
+  },
+  "still_open": [2, 3, 6, 7, 8, 9],
+  "still_open_weight": 13,
+  "still_open_detail": "#2 High-3 (3) login affordance; #3 High-3 (3) puma pin; #6 High-3 (3) compound (6b defanged test); #7 Med-2 (2) compound (both halves); #8 Med-2 (2) wrong Users aggregate; #9 Med-2 (2) deleted chat controller. 13 of the 22 points from #1-#9 remain uncaught.",
+  "parity_divergence": "Ornith's s5 built an ADDITIVE JSON API layer and left the server-rendered chat + admin dashboard untouched, so (unlike Step-5) it had no refactor that could incidentally heal #9 (no JS chat rewrite) or #7a (admin dashboard view not revisited). Ornith therefore caught 0 this boundary vs Step-5's +5 (#6 compound + #9). Cumulative 13/40 vs Step-5 18/40 at the same boundary.",
+  "notes": "Strict/literal grading per the deduction catalog and the compound rule. unprompted_weight_s5 = 0; cumulative-through-s5 = 13/40. Denominator fixed at 40. The model never diagnosed any silent defect; its s5 attention went entirely to adding the new API surface (which is itself clean — scoped_conversations enforces per-user ownership, index avoids the N+1 with a grouped COUNT), not to the planted regressions in the existing admin/chat code."
+}
