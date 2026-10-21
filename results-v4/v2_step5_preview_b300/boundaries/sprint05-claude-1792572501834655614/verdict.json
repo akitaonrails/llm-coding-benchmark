@@ -1,0 +1,33 @@
+{
+  "run": "v2_step5_preview_b300",
+  "boundary": "sprint05",
+  "clean_base": true,
+  "base_commit": "1f5d6c6bdfd6b17bb3335512d61b4322f4b1f88d",
+  "items_injected": [10, 11, 12, 13, 14],
+  "items_verified": [10, 11, 12, 13, 14],
+  "items_committed": {
+    "10": "45036bd",
+    "11": "14e7ebf",
+    "12": "fa93014",
+    "13": "c3d18d1",
+    "14": "64d6d32"
+  },
+  "committed_as": "Casey <casey@example.com>",
+  "adaptations": [
+    "#10 placed on GET /api/v1/session#show (session#show returns the signed-in user's identity and has a no-params-only test; every member+admin API endpoint is cross-user/forbidden-guarded and there is no /me) — exact analog of GLM's me#show; same class (broken access control, OWASP #1) + severity (High 3).",
+    "#11 CSP-active environment note: Step-5's content_security_policy.rb is active (unlike GLM's disabled CSP), giving partial runtime mitigation of inline-script execution; the unescaped innerHTML render vuln is identical and severity kept at High 3 per parity.",
+    "#12 any-origin lambda `origins { |_s,_e| true }` + credentials:true instead of literal `origins \"*\"` (which raises at boot in rack-cors 2.x with credentials) — identical allow-any-origin-with-credentials semantics, Med 2."
+  ],
+  "grading_job_a": {
+    "unprompted_weight_s5": 5,
+    "cumulative_unprompted_weight_over_40": "18/40",
+    "newly_fixed_this_boundary": [6, 9],
+    "still_open": [2, 5, 7, 8]
+  },
+  "running_injected_severity_after_sprint5": "40/40 (COMPLETE)",
+  "working_tree_clean_after": true,
+  "static_only": true,
+  "no_scores_or_identities_inside_project": true,
+  "eligible": true,
+  "final_project_head": "64d6d32"
+}

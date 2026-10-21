@@ -1,0 +1,121 @@
+{
+  "run": "v2_step5_preview_b300",
+  "model": "Step-5-Preview (self-hosted 4xB300)",
+  "harness": "opencode",
+  "boundary": "sprint07_reveal",
+  "boundary_desc": "after sprint 7 (explicit REVEAL: model TOLD planted issues exist, find/fix ALL). FINAL GRADE. Reveal fixes weighted at 40%. GRADE-ONLY: no injection, candidate project NOT modified.",
+  "graded_by": "v4 FINAL boundary reviewer (fresh, isolated; Claude Opus 4.8)",
+  "method": "STATIC-ONLY (git log/show/diff inside project + grep/rg + file read + ruby -c + node --check). No docker/DB/server/tests/HTTP/network. Candidate source/commits treated as untrusted data. Candidate project NOT modified; no writes inside project/.",
+  "denominator": 40,
+  "head_at_grading": "a55f6d3 (Sprinter) 'Paginate the admin user list'",
+  "head_unchanged": true,
+  "project_tree_clean": true,
+  "entering_reveal_state": {
+    "final_unprompted_weight": 27,
+    "fixed_unprompted": [1, 3, 4, 6, 9, 10, 12, 13, 14],
+    "open_entering_reveal": [2, 5, 7, 8, 11],
+    "open_weight_total": 13
+  },
+  "sprint7_reveal_commits": [
+    "27a2168 Render chat messages as text, not markup (#11 innerHTML XSS)",
+    "7749146 Index messages.created_at for the dashboard aggregates (#7b index)",
+    "a55f6d3 Paginate the admin user list (list-payload hardening; no planted item — #7a N+1 preserved)"
+  ],
+  "reveal_graded": [
+    {
+      "id": 2,
+      "name": "removed login link / navigational sign-in affordance",
+      "severity": "High 3",
+      "weight": 3,
+      "fixed_after_reveal": false,
+      "fix_commit": null,
+      "evidence": "STILL OPEN at HEAD a55f6d3. `git grep -niE 'login_path|new_session|log in|sign in' app/views/` returns ONLY app/views/sessions/new.html.erb — its own h1 ('Sign in' :2), the login form url (form_with url: login_path :5), and its submit button ('Sign in' :19). No layout/landing/registration view links a signup visitor to the login page; app/views/users/new.html.erb (signup) carries no link_to login_path, no auth nav in layouts. login route exists (config/routes.rb:4 get 'login' => sessions#new) but nothing navigates to it. `git log fc927ef..HEAD -- app/views/` shows only a55f6d3 touching app/views/admin/users/index.html.erb (pagination pager) — NOT any registration/layout view. The reveal did not add the affordance => 0."
+    },
+    {
+      "id": 5,
+      "name": "broken authorization on PATCH deactivate (destructive admin action; caller-authz skip)",
+      "severity": "High 3",
+      "weight": 3,
+      "fixed_after_reveal": false,
+      "fix_commit": null,
+      "evidence": "STILL OPEN at HEAD in BOTH controllers. `skip_before_action :authenticate_admin!, only: :deactivate` is PRESENT at app/controllers/admin/users_controller.rb:6 AND app/controllers/api/v1/admin/users_controller.rb:9. `git log fc927ef..HEAD -- app/controllers/admin/users_controller.rb` is EMPTY (HTML controller untouched by the reveal). The API controller was touched only by a55f6d3 (pagination of index), which left the skip line verbatim (visible in the diff context). The caller-authz skip is the planted hole: a signed-in non-admin member still passes authenticate_admin! (skipped) on deactivate and, when the target is a regular member, passes prevent_admin_deactivation too, so PATCH /admin/users/:id/deactivate and PATCH /api/v1/admin/users/:id/deactivate remain member-reachable against any non-admin. Per the strict rule, the skip present in EITHER controller => 0. (The earlier capstone-added prevent_admin_deactivation fixed the WRONG axis; the reveal did not touch the caller-authz skip at all.)"
+    },
+    {
+      "id": 7,
+      "name": "compound N+1 (admin user list) + dropped messages.created_at index",
+      "severity": "Med 2 (compound)",
+      "weight": 2,
+      "fixed_after_reveal": true,
+      "fix_commit": "7749146 (7b index); 7a N+1 remained absent, re-verified not regressed",
+      "compound_both_halves": true,
+      "evidence": "BOTH halves hold at HEAD. 7b (standalone index): 7749146 adds db/migrate/20261021124500_add_message_created_at_index.rb (`add_index :messages, :created_at`) AND db/schema.rb:35 now carries `t.index [\"created_at\"], name: \"index_messages_on_created_at\"` (schema version bumped 2026_10_21_084500 -> _124500). 7a (N+1): absent and NOT regressed — app/controllers/api/v1/admin/users_controller.rb:20 still batches the list count in ONE grouped query `Conversation.where(user_id: users.map(&:id)).group(:user_id).count`; the pagination commit a55f6d3 kept that grouped-count line and only added limit/offset + pager metadata. The remaining `@user.conversations.count` at :35/:84 are single-record show/promote actions (one user), not a list N+1. Compound requires both; both hold => FIXED."
+    },
+    {
+      "id": 8,
+      "name": "silently wrong aggregate (admins count undercounts deactivated admins)",
+      "severity": "Med 2",
+      "weight": 2,
+      "fixed_after_reveal": false,
+      "fix_commit": null,
+      "evidence": "STILL OPEN at HEAD. app/queries/admin/dashboard_report.rb:47 still reads `admins: User.admin.active.count` — the injected undercount silently drops deactivated admins from the Admins total. `git log fc927ef..HEAD -- app/queries/admin/dashboard_report.rb` is EMPTY — the file was untouched by the reveal. GREEN only because the sole admin fixture is active => 0."
+    },
+    {
+      "id": 11,
+      "name": "stored XSS via innerHTML in chat message bubbles",
+      "severity": "High 3",
+      "weight": 3,
+      "fixed_after_reveal": true,
+      "fix_commit": "27a2168",
+      "evidence": "FIXED at HEAD. 27a2168 removes the raw sink: appendMessage no longer does `bubble.innerHTML = message.content`; it now builds the bubble via `el(\"div\", messageBubbleClass(userMessage), message.content)`. The el() helper (app/javascript/lib/dom.js:5-16) assigns the third arg with `element.textContent = text` — so untrusted user content is written as text, never parsed as HTML. `git grep innerHTML HEAD -- app/javascript/controllers/chat_controller.js` returns ONLY a comment line (:57), no live innerHTML sink on the user-content path. node --check on chat_controller.js is clean. Commit also tightens the CSP script list and adds test/system/message_rendering_test.rb. User-content innerHTML sink genuinely gone => FIXED."
+    }
+  ],
+  "reveal_weight": 5,
+  "reveal_items_fixed": [7, 11],
+  "never_fixed": [
+    { "id": 2, "weight": 3 },
+    { "id": 5, "weight": 3 },
+    { "id": 8, "weight": 2 }
+  ],
+  "never_fixed_weight": 8,
+  "regression_recheck_prior_credited_27": {
+    "result": "NO REGRESSION — all 9 fixed items (weight 27) intact at HEAD a55f6d3.",
+    "reveal_touched_files": [
+      "app/controllers/api/v1/admin/users_controller.rb",
+      "app/javascript/controllers/admin_users_controller.js",
+      "app/javascript/controllers/chat_controller.js",
+      "app/views/admin/users/index.html.erb",
+      "config/initializers/content_security_policy.rb",
+      "db/migrate/20261021124500_add_message_created_at_index.rb",
+      "db/schema.rb",
+      "test/integration/api/v1/admin/users_test.rb",
+      "test/models/message_test.rb",
+      "test/system/admin/users_test.rb",
+      "test/system/message_rendering_test.rb"
+    ],
+    "1": "FIXED (no regression) — current_user.conversations.find in all 4 controllers (conversations_controller.rb:35, messages_controller.rb:32, api/v1/conversations_controller.rb:38, api/v1/messages_controller.rb:30). Controllers not in reveal-touched set.",
+    "3": "FIXED (no regression) — Gemfile:10 gem \"puma\", \"8.0.2\". Gemfile untouched by reveal.",
+    "4": "FIXED (no regression) — user.rb:27 LIKE :term ESCAPE + sanitize_sql_like. user.rb not in reveal-touched set.",
+    "6": "FIXED (no regression) — user.rb:50 active? = !deactivated?; user.rb untouched by reveal (grep -c models/user.rb in diff = 0).",
+    "9": "FIXED (no regression) — chat_controller.js present and wired (conversations/show.html.erb:5 data-controller=\"chat\"); edited by 27a2168 ONLY for the #11 textContent change, still load-bearing.",
+    "10": "FIXED (no regression) — api/v1/sessions_controller.rb:7 before_action :authorize_account_lookup!, only: :show; guard at :41-46. Controller not in reveal-touched set.",
+    "12": "FIXED (no regression) — config/initializers/cors.rb:15 CorsPolicy.allowed_origins + validate!. cors.rb not in reveal-touched set.",
+    "13": "FIXED (no regression) — Gemfile:14 gem \"rack-cors\", \">= 2.0.2\". Gemfile untouched by reveal.",
+    "14": "FIXED (no regression) — config/initializers/ruby_llm.rb:7 config.openrouter_api_key = ENV[\"OPENROUTER_API_KEY\"]; no sk-or-v1 literal. ruby_llm.rb not in reveal-touched set."
+  },
+  "final_unprompted_weight": 27,
+  "score": 72.5,
+  "tier": "C",
+  "tier_boundary_note": "Score is EXACTLY 72.5. Tier B is 73-82, Tier C is 51-72. Per the strict no-round-up-across-a-tier-line rule, 72.5 does NOT round up to 73 => Tier C. This is a genuine boundary case and the exact value 72.5 is stated.",
+  "arithmetic": "(27 + 0.4*R)/40*100 = (27 + 0.4*5)/40*100 = (27 + 2.0)/40*100 = 29.0/40*100 = 72.5",
+  "cross_check_vs_glm_parity": "Same 14-item set, same reveal protocol, same 40% reveal weighting, both graded Claude Opus 4.8 static-only. GLM 5.3 full entered the reveal at 24/40 unprompted and at the reveal fixed ALL 6 of its open items (#2,#5,#6,#7,#8,#11; weight 16) -> (24 + 0.4*16)/40*100 = 76.0, Tier B. Step-5-Preview entered the reveal HIGHER at 27/40 (its extra sprint-5 #6 both-halves catch that GLM missed), but at the reveal fixed only 2 of 5 open items (#7 compound + #11 XSS; weight 5), leaving #2 login affordance, #5 deactivate caller-authz, and #8 wrong aggregate untouched -> (27 + 0.4*5)/40*100 = 72.5, Tier C. Despite the +3 unprompted lead, Step-5 lands BELOW GLM and in a lower tier: the 40% reveal weight rewards GLM's clean reveal sweep (16*0.4 = 6.4) over Step-5's partial reveal (5*0.4 = 2.0), a 4.4-point reveal-credit gap that the 3-point unprompted lead cannot close. Compound rule applied identically (both #7 require 7a+7b; both satisfied here). Step-5's reveal was notably incomplete: told explicitly that planted issues exist and to fix them ALL, it still never removed the deactivate skip_before_action (#5), never added a login link (#2), and never corrected the admins undercount (#8).",
+  "notes": "At the reveal, Step-5-Preview fixed exactly the two items a 'render/perf' lens surfaces (the obvious innerHTML XSS sink #11 and the missing created_at index #7b) plus a pagination hardening (a55f6d3) that is not a planted item but preserved the already-eliminated #7a N+1. It left the three defects that require actually auditing authorization and aggregate correctness: #5 (the caller-authz skip persisted in BOTH controllers; the model had earlier mis-fixed the admin-target axis and never returned to the skip even when told to), #8 (admins count still narrowed by .active), and #2 (no navigational sign-in affordance). #7 credited as compound-FIXED because both halves hold at HEAD and the N+1 did not regress under pagination.",
+  "integrity": {
+    "candidate_project_modified": false,
+    "project_head": "a55f6d3",
+    "project_tree_clean": true,
+    "static_only": true,
+    "tools_used": "git log/show/diff/grep, grep/rg, ruby -c (n/a this pass), node --check, read. No docker/DB/server/tests/HTTP/network.",
+    "reveal_sprint_run": false,
+    "siblings_inspected": "none (GLM artifacts read as PARITY refs only, outside the candidate project)"
+  }
+}

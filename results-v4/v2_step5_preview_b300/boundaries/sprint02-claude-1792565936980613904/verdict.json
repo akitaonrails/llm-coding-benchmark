@@ -1,0 +1,19 @@
+{
+  "run": "v2_step5_preview_b300",
+  "boundary": "sprint02",
+  "clean_base": true,
+  "base_commit": "44d667184f5e9981c210c11a08c2eddc95c82f3a",
+  "items_injected": [1, 2, 3],
+  "items_verified": [1, 2, 3],
+  "items_committed": {
+    "1": "83bac3778049f31b5d62c8125b4278d6de7dec64",
+    "2": "249a6f8dc65f215e0713054051985f276d5e9067",
+    "3": "d0214e01072a0e43fe2df6c59d621e0e040225d0"
+  },
+  "committed_as": "Casey <casey@example.com>",
+  "adaptations": {
+    "3": "puma 6.4.1 (CVE-2024-21647) -- devise N/A (hand-rolled auth), nokogiri 1.13.5 unresolvable on Rails 8 tree (rails-html-sanitizer 1.7.1 needs nokogiri >= 1.15.7); established parity alternate"
+  },
+  "working_tree_clean_after": true,
+  "eligible": true
+}

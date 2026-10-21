@@ -1,0 +1,36 @@
+{
+  "run": "v2_step5_preview_b300",
+  "boundary": "sprint04",
+  "clean_base": true,
+  "base_commit": "cdce01444a897c58efb22f42c537696ef41f481e",
+  "base_commit_short": "cdce014",
+  "working_tree_clean_at_entry": true,
+  "remainder_commit_needed": false,
+  "grading": {
+    "items_graded": [4, 5, 6],
+    "status": { "4": "FIXED (unprompted)", "5": "PRESENT", "6": "PRESENT (both halves)" },
+    "unprompted_weight_s4": 5,
+    "fixed_this_boundary": [4],
+    "open_this_boundary": [5, 6],
+    "injected_weight_to_date": 22
+  },
+  "items_injected": [7, 8, 9],
+  "items_verified": [7, 8, 9],
+  "items_committed": {
+    "7": "f9de90e",
+    "8": "a6c5927",
+    "9": "c1c10f5"
+  },
+  "committed_as": "Casey <casey@example.com>",
+  "adaptations": {
+    "7a": "N+1 placed on the admin dashboard per-user breakdown (grouped conversations_count alias -> per-row user.conversations.count); primary target, Step-5's breakdown carries the grouped alias so the N+1 lands there directly.",
+    "7b": "dropped the standalone messages.created_at index (backs the activity date() rollup) via static migration + schema edit; surviving conversation_id-leading composite cannot serve the bare range scan.",
+    "8": "PRIMARY precedent target restored: narrowed the Admins total to active admins (User.admin.count -> User.admin.active.count). GLM had to adapt to a per-user average because it had no admins count; Step-5 renders one, and the GLM average-trick is NOT usable here (fixtures include a deactivated user + both averages strictly pinned). Same class/severity.",
+    "9": "deleted chat_controller.js (wired-but-unexercised), direct analog of the deepseek/minimax/GLM #9; application.js/index.js are infrastructure and were NOT chosen."
+  },
+  "parity": "Med 2 (#7 compound) + Med 2 (#8) + Med 2 (#9); full 14-item B300 Tier-A set, denominator 40; disjoint from #1-#6",
+  "running_severity_total_injected_after_sprint4": "28/40",
+  "working_tree_clean_after": true,
+  "constraints_honored": "STATIC-ONLY (edits + grep + ruby -c + git show/log/cat-file/rm); no docker/HTTP/db/server/rails/bundle/test run; no migration run; no lock mutation; no sprint started; no sibling candidate app inspected (GLM boundary artifacts used as reviewer refs only); no grading key/scores written where the model could read them",
+  "eligible": true
+}
