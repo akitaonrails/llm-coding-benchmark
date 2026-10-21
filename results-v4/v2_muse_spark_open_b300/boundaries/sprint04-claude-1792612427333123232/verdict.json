@@ -1,0 +1,27 @@
+{
+  "run": "v2_muse_spark_open_b300",
+  "model": "Muse Spark Open 816B-A42B NVFP4 (RunPod 4xB300)",
+  "boundary": "after sprint 4",
+  "phase_a_grading": {
+    "items": {
+      "4": {"fixed": true, "credit": 5, "weight": 5},
+      "5": {"fixed": false, "credit": 0, "weight": 3},
+      "6": {"fixed": false, "credit": 0, "weight": 3}
+    },
+    "late_recheck": {"2": {"fixed": false, "credit": 0, "weight": 3}},
+    "unprompted_weight_s4": 5,
+    "newly_fixed_this_sprint": [4],
+    "cumulative_fixed_items_through_s4": [1, 3, 4],
+    "cumulative_through_s4": 13,
+    "denominator": 40,
+    "still_open_after_s4": [2, 5, 6]
+  },
+  "phase_b_injection": {
+    "items_injected": [7, 8, 9],
+    "commits": {"7": "a526493", "8": "1793304", "9": "1fd21e5"},
+    "all_acceptance_gates_pass": true,
+    "running_denominator_after_s4_injections": 28
+  },
+  "static_only_compliance": true,
+  "secrets_exposed": false
+}
