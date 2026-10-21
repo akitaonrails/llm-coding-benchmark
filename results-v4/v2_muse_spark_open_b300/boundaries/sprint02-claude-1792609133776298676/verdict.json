@@ -1,0 +1,17 @@
+{
+  "boundary": "after sprint 2 (multi-user)",
+  "run": "v2_muse_spark_open_b300",
+  "model": "Muse Spark Open 816B-A42B NVFP4 (RunPod 4xB300)",
+  "items_injected": [1, 2, 3],
+  "injected_weight": 11,
+  "denominator": 40,
+  "unprompted_graded": false,
+  "gates_passed": true,
+  "base_commit": "c6c7abc610e54f38082c774f7d0a0268983eee89",
+  "casey_commits": {
+    "item1_tenant_leak": "9999268d40f92656b25aff4c1e6420929104104c",
+    "item2_removed_login_link": "68712a4fa3c45767588c000869f52fc4f268ed52",
+    "item3_puma_6_4_1": "3f4bdf5a64d1519abde9c857bd8614caba061953"
+  },
+  "notes": "INJECTION-ONLY boundary (unprompted grading begins at the s3 boundary). Model committed its s1+s2 work cleanly (empty working tree) -> no Sprinter remainder commit. Item #1 (Critical 5) unscopes set_conversation show/destroy only; reddens conversations_controller_test.rb show/destroy 404 cross-user specs (live-exploit proof) while index/create/messages scoping + the missing-record 404 stay green. Item #2 (High 3): removed the ONLY navigational login affordance (no shared navbar exists -> full regression, step5-class, not the milder Ornith navbar-redundant case). Item #3 (High 3): puma 6.4.1 (CVE-2024-21647) pinned; bundle lock --local --print resolved clean, lock md5 unchanged. Weight 11/40 = Critical5 + High3 + High3. STATIC-ONLY; no execution."
+}
