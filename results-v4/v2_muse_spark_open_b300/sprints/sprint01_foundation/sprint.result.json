@@ -1,0 +1,12 @@
+{
+  "slug": "v2_muse_spark_open_b300",
+  "sprint": "sprint01_foundation",
+  "harness": "opencode",
+  "elapsed_seconds": 1024.56,
+  "cost_usd": 0.0,
+  "tokens_total": 10382971,
+  "exit_code": 0,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": false
+}

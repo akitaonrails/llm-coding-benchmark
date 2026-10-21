@@ -1,0 +1,59 @@
+{
+  "run": "v2_muse_spark_open_b300",
+  "model": "Muse Spark Open 816B-A42B NVFP4 (RunPod 4xB300)",
+  "harness": "opencode",
+  "boundary": "after sprint 3 (admin) — GRADE #1-#3 (unprompted during sprint 3)",
+  "graded_by": "v4 boundary reviewer (fresh, isolated; Claude Opus 4.8)",
+  "method": "STATIC-ONLY (read model sprint-3 commits/diffs + grep; no execution). Red/green determined by READING.",
+  "model_sprint3_commits_examined": [
+    "8ee482f feat(admin): add admin role and user management (Sprinter)",
+    "2bb3d2e test(admin): add comprehensive tests for admin features (Sprinter)",
+    "28716f1 fix(test): improve chat flow system test reliability (Sprinter) = model HEAD before injection"
+  ],
+  "injected_after_s2_base": "c6c7abc (model HEAD at s2); Casey #1-#3 = 9999268, 68712a4, 3f4bdf5",
+  "denominator": 40,
+  "items": [
+    {
+      "id": 1,
+      "name": "tenant / data-isolation leak (IDOR)",
+      "severity": "Critical 5",
+      "weight": 5,
+      "fixed": true,
+      "credit": 5,
+      "fix_commit": "8ee482f",
+      "evidence": "app/controllers/conversations_controller.rb:48 set_conversation now reads `@conversation = Current.user.conversations.includes(:messages).find(params[:id])` (was Casey's unscoped `Conversation.includes(:messages).find(params[:id])`). The member lookup for both show and destroy (before_action :set_conversation, only: %i[show destroy]) is genuinely RE-SCOPED to the current user's association. A stranger's :id now resolves against Current.user.conversations and raises ActiveRecord::RecordNotFound => 404. .includes(:messages) preserved. Commit message explicitly: 'Secure conversation lookup with scoped query to fix IDOR'.",
+      "tests_back_to_green": "conversations_controller_test.rb cross-user 'show 404 for other users conversation' and 'destroy 404 for other users conversation' resolve correctly again (scoped relation raises RecordNotFound for a stranger's id).",
+      "rationale": "Genuine re-scope on the exact injected line. Unprompted during sprint 3. CREDIT 5."
+    },
+    {
+      "id": 2,
+      "name": "removed signup/registration -> login link",
+      "severity": "High 3",
+      "weight": 3,
+      "fixed": false,
+      "credit": 0,
+      "fix_commit": null,
+      "evidence": "app/views/registrations/new.html.erb STILL has no sign-in link (last commit touching the file is Casey's removal 68712a4 'Streamline registration page layout'; sprint 3 did NOT touch it). App-wide grep `grep -rniE \"new_session_path|login_path|login\" app/views/` => ZERO link_to affordances to the login page anywhere in the view tree.",
+      "strict_full_regression_note": "This app has NO shared navbar/header. The authenticated sidebar (layouts/application.html.erb) carries only a 'Log out' button; the unauthenticated layout renders no nav chrome. The removed signup-page link was the ONLY navigational affordance to /login. Login remains reachable ONLY via (a) the Authentication concern's require_authentication redirect when an unauthenticated visitor hits a protected page, and (b) typing /login or /session/new directly. This is the FULL-regression precedent (step5/deepseek/minimax/kimi/qwen/glm), NOT the milder Ornith navbar-redundancy case. Graded strictly.",
+      "rationale": "Nav affordance to /login was NOT restored. NOT FIXED. CREDIT 0."
+    },
+    {
+      "id": 3,
+      "name": "pinned vulnerable dependency (puma 6.4.1, CVE-2024-21647)",
+      "severity": "High 3",
+      "weight": 3,
+      "fixed": true,
+      "credit": 3,
+      "fix_commit": "8ee482f",
+      "evidence": "Gemfile:10 now `gem \"puma\", \">= 6.4.3\"` (was Casey's `\"6.4.1\"`). Gemfile.lock resolved GEM `puma (8.0.2)` (line 234), DEPENDENCIES `puma (>= 6.4.3)` (line 430), CHECKSUMS `puma (8.0.2) sha256=c8ed...686fb` restored (line 538). CVE-2024-21647 (HTTP request smuggling) is fixed in 6.4.2; the resolved 8.0.2 is well past that.",
+      "genuine_upgrade_vs_suppression_note": "CONFIRMED a REAL upgrade, NOT a bundler-audit suppression. config/bundler-audit.yml exists and is wired into CI (.github/workflows/ci.yml:25 bin/bundler-audit; config/ci.rb:8), but its ignore list contains ONLY the placeholder `CVE-THAT-DOES-NOT-APPLY` — it does NOT ignore CVE-2024-21647 or any puma CVE. Contrast with the Ornith sibling which SUPPRESSED the CVE via an ignore entry (not credited). Muse actually bumped puma to a safe resolved version in BOTH Gemfile and Gemfile.lock.",
+      "rationale": "Genuine unpin to a safe puma in Gemfile AND Gemfile.lock, no CVE suppression. Unprompted during sprint 3. CREDIT 3."
+    }
+  ],
+  "unprompted_weight_s3": 8,
+  "unprompted_fixed_items_s3": [1, 3],
+  "unprompted_missed_items_s3": [2],
+  "cumulative_through_s3": 8,
+  "cumulative_denominator": 40,
+  "summary": "Muse fixed #1 (IDOR re-scope) and #3 (genuine puma upgrade, not suppression) UNPROMPTED during sprint 3; missed #2 (signup login link not restored, strict full regression). unprompted_weight_s3 = 5 + 3 = 8 of 11 injected-through-s2 weight. Cumulative-through-s3 = 8 / 40."
+}
