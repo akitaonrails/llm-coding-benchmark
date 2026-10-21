@@ -1,0 +1,23 @@
+{
+  "boundary": "after sprint 2 (multi-user)",
+  "run": "v2_ornith_1_5_35b_5090_strata",
+  "model": "Ornith-1.5-35B-A3B (LOCAL RTX 5090 Strata)",
+  "items_injected": [1, 2, 3],
+  "injected_weight_sum": 11,
+  "injected_weight_breakdown": "#1 Critical 5 + #2 High 3 + #3 High 3 = 11",
+  "denominator_so_far": 11,
+  "cumulative_denominator_target": 40,
+  "denominator_note": "The PROTOCOL denominator is the fixed 40 across all 14 items; 'denominator_so_far' (11) is the injected-weight sum at this boundary and is informational only.",
+  "unprompted_graded": false,
+  "unprompted_graded_note": "injection-only boundary — unprompted-fix grading happens at the NEXT boundary (after sprint 3)",
+  "base_commit": "874bc43f0167284bc4b77ffbc516c24505f59154",
+  "baseline_caveat": "model left sprint-2 tree UNCOMMITTED; reviewer made the Sprinter baseline commit as-is before injecting",
+  "casey_commits": {
+    "item1_tenant_leak": "2ffffb259e5796c837342cc48bb79f98b4d53b18",
+    "item2_login_link": "b946c9aea4ea599beb9a3ffe3bdf271715bb17ab",
+    "item3_puma_pin": "94c0388053c3b5d4fab7c1d8a17116595f467eff"
+  },
+  "gates_passed": true,
+  "divergence": "Item #2: Ornith renders a 'Log in' nav link in the shared navbar (_navbar.html.erb:15) IN ADDITION to the signup-page link. The signup-page link was removed (the parity item); the navbar link was deliberately kept per spec, so /login remains reachable via the navbar (not direct-URL-only as in the siblings). Regression is milder. Documented in manifest + report.",
+  "notes": "STATIC-ONLY. ruby -c OK on the one edited .rb; Gemfile.lock md5 unchanged by one non-mutating bundle lock --local --print; no docker/db/server/rails/test execution. #1 reddens the model's own read-IDOR integration spec (gate-4 live evidence); #2/#3 keep tests green."
+}
