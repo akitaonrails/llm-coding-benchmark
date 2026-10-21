@@ -1,0 +1,10 @@
+{
+  "model": "Muse Spark Open 816B-A42B NVFP4 (RunPod 4xB300)",
+  "final_unprompted": 21,
+  "reveal_weight": 17,
+  "final_score": 69.5,
+  "tier": "C",
+  "open_at_end": ["#8"],
+  "nudges": 0,
+  "denominator": 40
+}
