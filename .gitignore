@@ -123,3 +123,5 @@ results-v4/_b300_campaign/supervisor/
 results-v4/_b300_campaign/migration-*/
 results-v4.1/**/.claude/
 results-v4.1/**/.agents/
+results-v4/**/opencode-session-store.sqlite3
+results-v4/_b300_campaign/reboot-pause-*/
