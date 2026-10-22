@@ -13,6 +13,7 @@ import argparse, json, time, urllib.request, signal, sys
 
 # gauge/counter name -> key in our record (vLLM metric names may carry a suffix; match by prefix)
 WANT = {
+    "vllm:kv_cache_usage_perc": "kv_cache_util",
     "vllm:gpu_cache_usage_perc": "kv_cache_util",
     "vllm:num_requests_running": "running",
     "vllm:num_requests_waiting": "waiting",

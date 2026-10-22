@@ -12,6 +12,10 @@ set -uo pipefail
 MODEL_TAG="${1:?model_tag required}"
 SERVED="${2:-$MODEL_TAG}"
 VENV="${3:-/root/vllm-next-venv}"
+# tokenizer source: the served name is NOT an HF repo, so bench must load the local
+# tokenizer to synthesize/count random prompts. Pass the local model dir as 4th arg.
+TOKENIZER="${4:-$SERVED}"
+export HF_HUB_OFFLINE=1
 BENCH="$VENV/bin/vllm"
 BASE="http://localhost:8000"
 OUT="/root/v4.2_results/$MODEL_TAG"
@@ -43,6 +47,7 @@ for N in $LEVELS; do
     --base-url "$BASE" \
     --endpoint /v1/chat/completions \
     --model "$SERVED" \
+    --tokenizer "$TOKENIZER" \
     --dataset-name random \
     --random-input-len "$IN_LEN" \
     --random-output-len "$OUT_LEN" \
