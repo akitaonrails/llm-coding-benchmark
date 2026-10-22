@@ -166,3 +166,18 @@ Also: two recurring FALSE POSITIVES in the post-run scan — (a) the auditor's o
 Qwen 3.8-27B is a hybrid SSM/Mamba architecture — the tuned `~/Projects/llama-swap-docker` build (April llama.cpp) can't load it (`missing tensor blk.N.ssm_conv1d.weight`). Use a FRESH `ollama/ollama:latest` container instead (its current llama.cpp supports it); import the existing HF GGUF via `FROM /hf/<file>.gguf` in a Modelfile (no re-download). The v2 brief is context-heavy: this reasoning model exhausts small contexts on gem-source recon before building — it DNF'd at 32K and 64K, needed 128K+ to build. On the 5090 (32 GB) use `OLLAMA_FLASH_ATTENTION=1 OLLAMA_KV_CACHE_TYPE=q8_0` to fit 128-176K (`PARAMETER num_ctx`); 176K ≈ 28GB (safe ~4GB OOM margin). Wire opencode via a custom openai-compatible provider (`llamaswap`/`ollama`) → `http://localhost:<port>/v1`; the generic-clone in config.py propagates it into the isolated benchmark config.
 
 A full sweep (2026-08-15) found only ONE official run contaminated: Grok 4.5 (92, read Opus 4.7 as a reference) — annotated with a ᶜ caveat in the report, not re-run (user decision). All other official runs verified clean.
+
+## Open-weight model benchmark batches
+
+Before any open-weight batch or recovery, read and follow
+[docs/OPEN_WEIGHT_BENCHMARK_POLICY.md](docs/OPEN_WEIGHT_BENCHMARK_POLICY.md).
+This records the user's standing requirements: official-card/per-model admission,
+100 decoded tok/s, bounded optimization, causal startup diagnosis, annotated minor
+nudges, loop/no-progress guards, cumulative four-hour sprint budgets, independent
+billing protection, resumable evidence, and clean model isolation. Infrastructure
+and harness failures are not model-quality failures. Preserve and identify assisted
+results; never reveal hidden test answers through a nudge.
+
+## Required cleanup procedure
+
+Follow [docs/CLEANUP.md](docs/CLEANUP.md) after every completed run or task. Preserve results, analysis, transcripts and source submissions; remove only verified disposable task-owned execution resources. Do not globally prune Docker or touch other projects, shared inference servers or paused runs. Use new attempt directories for clean reruns instead of deleting prior results (this supersedes earlier `rm -rf results/<slug>` advice). Record removals and intentional retention in a cleanup ledger.
