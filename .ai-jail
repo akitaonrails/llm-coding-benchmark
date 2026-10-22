@@ -11,3 +11,5 @@ rw_maps = [
     "/tmp/claude-1026/-mnt-data-Projects-llm-coding-benchmark/a360d72f-16d0-4685-8c62-cd651897594a/scratchpad/jailtest/project",
 ]
 ro_maps = ["~/.config"]
+network = true
+agent_state = true
