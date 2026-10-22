@@ -121,3 +121,5 @@ results-v4/**/.muse-data/
 results-v4/**/*-restored-pod-*.json
 results-v4/_b300_campaign/supervisor/
 results-v4/_b300_campaign/migration-*/
+results-v4.1/**/.claude/
+results-v4.1/**/.agents/

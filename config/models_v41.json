@@ -59,7 +59,7 @@
         "output": 50.0
       },
       "wave": 4,
-      "notes": "Added 2026-09-04. OpenAI GPT-6 Astra (launched 09-03; SWE-SOTA/AGI claims). Codex 0.153.3 required (0.151/0.152 gated it: 'requires a newer version of Codex'); upgraded via mise. Runs on ChatGPT subscription (API key was out of credits — codex uses OAuth). Rates ESTIMATED (flagship placeholder) — reconcile against OpenAI pricing. Codex path is independent of today's OpenRouter degradation."
+      "notes": "Added 2026-09-04. OpenAI GPT-6 Astra (launched 09-03; SWE-SOTA/AGI claims). Codex 0.153.3 required (0.151/0.152 gated it: 'requires a newer version of Codex'); upgraded via mise. Runs on ChatGPT subscription (API key was out of credits \u2014 codex uses OAuth). Rates ESTIMATED (flagship placeholder) \u2014 reconcile against OpenAI pricing. Codex path is independent of today's OpenRouter degradation."
     },
     {
       "slug": "v41_gpt_oss_120b",
@@ -74,7 +74,7 @@
         "output": 0.17
       },
       "enable_followup": false,
-      "preamble": "Work entirely in the current working directory (the project root). Implement the Go package(s) described in the sprint prompt and CONTRACT.md against the provided harness/ (do not reimplement harness/). Create and edit files ONLY inside this project — never in /tmp or any scratch directory. Use `go build ./...` and `go test` to check your work, and commit with git at the end.",
+      "preamble": "Work entirely in the current working directory (the project root). Implement the Go package(s) described in the sprint prompt and CONTRACT.md against the provided harness/ (do not reimplement harness/). Create and edit files ONLY inside this project \u2014 never in /tmp or any scratch directory. Use `go build ./...` and `go test` to check your work, and commit with git at the end.",
       "notes": "v4.1 control; Go workspace nudge."
     },
     {
@@ -91,7 +91,7 @@
         "_VERIFY": "re-check"
       },
       "enable_followup": false,
-      "preamble": "Work entirely in the current working directory (the project root). Implement the Go package(s) described in the sprint prompt and CONTRACT.md against the provided harness/ (do not reimplement harness/). Create and edit files ONLY inside this project — never in /tmp or any scratch directory. Use `go build ./...` and `go test` to check your work, and commit with git at the end.",
+      "preamble": "Work entirely in the current working directory (the project root). Implement the Go package(s) described in the sprint prompt and CONTRACT.md against the provided harness/ (do not reimplement harness/). Create and edit files ONLY inside this project \u2014 never in /tmp or any scratch directory. Use `go build ./...` and `go test` to check your work, and commit with git at the end.",
       "notes": "v4.1 control."
     },
     {
@@ -108,8 +108,54 @@
         "_VERIFY": "re-check"
       },
       "enable_followup": false,
-      "preamble": "Work entirely in the current working directory (the project root). Implement the Go package(s) described in the sprint prompt and CONTRACT.md against the provided harness/ (do not reimplement harness/). Create and edit files ONLY inside this project — never in /tmp or any scratch directory. Use `go build ./...` and `go test` to check your work, and commit with git at the end.",
+      "preamble": "Work entirely in the current working directory (the project root). Implement the Go package(s) described in the sprint prompt and CONTRACT.md against the provided harness/ (do not reimplement harness/). Create and edit files ONLY inside this project \u2014 never in /tmp or any scratch directory. Use `go build ./...` and `go test` to check your work, and commit with git at the end.",
       "notes": "v4.1 control (Qwen-27B-class)."
+    },
+    {
+      "slug": "v41_gpt_6_sol_medium",
+      "label": "GPT-6 Sol Medium (Codex)",
+      "harness": "codex",
+      "model_id": "gpt-6-sol",
+      "codex_reasoning_effort": "medium",
+      "billing": "ChatGPT subscription credits",
+      "rates_per_m": {
+        "input": 2.0,
+        "cache_read": 0.2,
+        "cache_write": 0.0,
+        "output": 10.0
+      },
+      "wave": 5,
+      "notes": "v4.1 comparison requested 2026-10-06. Native Codex subscription; medium reasoning. Rates inherited from existing GPT-6 Sol configuration, not a new price verification."
+    },
+    {
+      "slug": "v41_genesys_house_repeat2",
+      "label": "Genesys PI House repeat 2 (reported API fix)",
+      "harness": "opencode",
+      "model_id": "lua/genesys-pi-house",
+      "billing": "LUA Vision API (api.lua.vision) - first-party, BRL-priced",
+      "rates_per_m": {
+        "input": 10.66,
+        "cache_read": 1.16,
+        "cache_write": 10.66,
+        "output": 53.29
+      },
+      "wave": 7,
+      "notes": "Second independent v4.1 attempt requested 2026-10-07 after user reported vendor API fixes. Same model and harness configuration. Original attempts retained; vendor fix not independently verified."
+    },
+    {
+      "slug": "v41_genesys_house_repeat3",
+      "label": "Genesys PI House attempt 3",
+      "harness": "opencode",
+      "model_id": "lua/genesys-pi-house",
+      "billing": "LUA Vision API (api.lua.vision) - first-party, BRL-priced",
+      "rates_per_m": {
+        "input": 10.66,
+        "cache_read": 1.16,
+        "cache_write": 10.66,
+        "output": 53.29
+      },
+      "wave": 7,
+      "notes": "Third independent v4.1 attempt requested 2026-10-08 to examine variability. Same model/harness settings; no prior solution or failure-specific hints provided. Preserve both prior attempts."
     }
   ]
 }

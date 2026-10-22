@@ -33,7 +33,37 @@ SHIELD_BASE = REPO.parent
 SHIELD = [
     "benchmark-v4",
     "docs", ".agents/skills/benchmark-audit", "CLAUDE.md",
+    # Other benchmark generations also contain peer apps and answer material.
+    # Keep this explicit so recovery still knows paths absent after a crash.
+    "benchmark-v3", "benchmark-v4.1", "benchmark-v4.2", "benchmark-v5",
+    "results", "results-4", "results-claude-code", "results-nvidia",
+    "results-v2", "results-v3", "results-v4-1", "results-v4.1", "results-v4.2",
+    "model-forensics",
 ]
+
+
+PRIVATE_CURRENT = ('boundaries', 'pause-checkpoints', 'assistance', 'RESUME.md', 'PAUSED',
+                   'TIME_GUARD.md', 'THROUGHPUT_SKIP.md')
+
+
+def restore_current_evidence(sh: Path) -> list[str]:
+    manifest = sh / 'current-evidence.json'
+    if not manifest.exists():
+        return []
+    slug = json.loads(manifest.read_text())['slug']
+    if Path(slug).name != slug or slug in ('.', '..'):
+        raise RuntimeError('Invalid shield owner')
+    conflicts = []
+    for name in PRIVATE_CURRENT:
+        source = sh / 'current-evidence' / name
+        target = OUT / slug / name
+        if source.exists():
+            if target.exists():
+                conflicts.append('current-evidence/' + name)
+            else:
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.move(str(source), str(target))
+    return conflicts
 
 
 def shield(out_root: Path) -> Path:
@@ -46,6 +76,14 @@ def shield(out_root: Path) -> Path:
             dst = sh / "misc" / rel
             dst.parent.mkdir(parents=True, exist_ok=True)
             shutil.move(str(src), str(dst))
+    # Review/injection reports for THIS model are also answer material.
+    # Preserve them outside the candidate's own parent directory during a sprint.
+    (sh / 'current-evidence.json').write_text(json.dumps({'slug': out_root.name}))
+    (sh / 'current-evidence').mkdir()
+    for name in PRIVATE_CURRENT:
+        source = out_root / name
+        if source.exists():
+            shutil.move(str(source), str(sh / 'current-evidence' / name))
     # other models' v4 outputs
     if out_root.parent.exists():
         for d in out_root.parent.iterdir():
@@ -68,6 +106,9 @@ def unshield(sh: Path) -> None:
     if res.exists():
         for d in res.iterdir():
             shutil.move(str(d), str(OUT / d.name))
+    conflicts = restore_current_evidence(sh)
+    if conflicts:
+        raise RuntimeError(f'Reviewer evidence restoration conflict; shield preserved: {conflicts}')
     shutil.rmtree(sh, ignore_errors=True)
 
 
@@ -124,6 +165,7 @@ def restore_stranded_shields() -> None:
                 else:
                     OUT.mkdir(parents=True, exist_ok=True)
                     shutil.move(str(d), str(OUT / d.name))
+        conflicts.extend(restore_current_evidence(sh))
         # only delete the shield if NOTHING is left unrestored — otherwise preserve it for manual review
         if conflicts:
             print(f"[shield-recover] {sh.name}: LEFT IN PLACE — unresolved conflicts (target exists): {conflicts}")
@@ -137,7 +179,11 @@ def main() -> int:
     ap.add_argument("--model", required=True)
     ap.add_argument("--sprint", required=True, help="prompt basename, e.g. 01_foundation")
     ap.add_argument("--config", default=str(REPO / "config" / "models_v2.json"))
+    ap.add_argument('--repair-prompt', type=Path)
+    ap.add_argument('--repair-tag')
     a = ap.parse_args()
+    if bool(a.repair_prompt) != bool(a.repair_tag):
+        ap.error('Repair prompt and tag must be supplied together')
 
     prompt_file = PROMPTS / f"sprint{a.sprint}.txt"
     if not prompt_file.exists():
@@ -147,6 +193,20 @@ def main() -> int:
             ap.error(f"no prompt for sprint {a.sprint}")
         prompt_file = cand[0]
     prompt = prompt_file.read_text()
+    assistance = None
+    import os
+    if a.repair_prompt:
+        if not a.repair_prompt.resolve().is_relative_to((OUT/a.model/'assistance').resolve()):
+            ap.error('Repair prompt must be a recorded model assistance artifact')
+        if not a.repair_tag.replace('_','').isalnum():
+            ap.error('Invalid repair tag')
+        assistance=json.loads(a.repair_prompt.read_text())
+        prompt=assistance['prompt']
+    elif os.environ.get('B300_ALLOW_MINOR_NUDGES') == '1':
+        from b300_assistance import consume
+        assistance = consume(OUT/a.model, a.sprint)
+        if assistance:
+            prompt += '\n\nFollow-up on an ordinary issue from your preceding work:\n' + assistance['prompt']
 
     models = json.loads(Path(a.config).read_text())["models"]
     model = next((m for m in models if m["slug"] == a.model), None)
@@ -185,8 +245,8 @@ def main() -> int:
     from run_benchmark_v2 import run_phase
     out_root = OUT / model["slug"]
     proj = out_root / "project"
-    sprint_tag = prompt_file.stem  # sprintNN_name
-    out_dir = out_root / "sprints" / sprint_tag
+    sprint_tag = a.repair_tag or prompt_file.stem
+    out_dir = out_root / ('repairs' if a.repair_tag else 'sprints') / sprint_tag
     out_dir.mkdir(parents=True, exist_ok=True)
 
     first = not proj.exists()
@@ -219,8 +279,10 @@ def main() -> int:
         "elapsed_seconds": rec.get("elapsed_seconds"), "cost_usd": rec.get("cost_usd"),
         "tokens_total": (rec.get("tokens") or {}).get("total"),
         "exit_code": rec.get("exit_code"), "stall_aborted": rec.get("stall_aborted"),
+        "assistance": assistance,
+        "assisted_run": bool(assistance or list((out_root/'assistance').glob('*.json'))),
     }
-    (out_dir / "sprint.result.json").write_text(json.dumps(summary, indent=2))
+    (out_dir / ('repair.result.json' if a.repair_tag else 'sprint.result.json')).write_text(json.dumps(summary, indent=2))
     print(f"[{model['slug']}] sprint {sprint_tag} done "
           f"elapsed={summary['elapsed_seconds']}s cost=${summary['cost_usd']} exit={summary['exit_code']}")
     return 0

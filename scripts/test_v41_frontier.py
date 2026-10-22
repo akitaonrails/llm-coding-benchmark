@@ -57,13 +57,15 @@ class FrontierTests(unittest.TestCase):
     def test_native_configs_preserve_controls_and_limits(self):
         manifest = json.loads(MANIFEST.read_text())
         name = "cranelift-codegen-opt"
-        for mode, model in (("astra", "gpt-6-astra"), ("fable", "claude-fable-5-1")):
+        for mode, model in (("astra", "gpt-6-astra"), ("fable", "claude-fable-5-1"), ("sol_medium", "gpt-6-sol")):
             config = build_config(Path(name), manifest["tasks"][name], manifest,
                                   argparse.Namespace(mode=mode, memory_mb=32768))
             from harbor.agents.factory import AgentFactory
             AgentFactory.run_preflight(config.agents[0])
             self.assertEqual(config.agents[0].model_name, model)
             self.assertEqual(config.agents[0].env, {})
+            if mode == "sol_medium":
+                self.assertEqual(config.agents[0].kwargs["reasoning_effort"], "medium")
             self.assertEqual(config.environment.override_memory_mb, 32768)
             self.assertNotIn("HARBOR_ORACLE_FLAG", config.model_dump_json())
             self.assertFalse(config.environment.mounts)
@@ -76,6 +78,18 @@ class FrontierTests(unittest.TestCase):
         adapter = object.__new__(FrontierClaude)
         with patch.dict(os.environ, {"ANTHROPIC_API_KEY": "test-key"}):
             self.assertEqual(adapter._resolve_auth_env(), {})
+
+    def test_genesys_repeat_preserves_agent_and_resource_config(self):
+        manifest = json.loads(MANIFEST.read_text())
+        name = 'cranelift-codegen-opt'
+        with patch.dict(os.environ, {'LUA_API_KEY': 'synthetic-test-key'}):
+            configs = [build_config(Path(name), manifest['tasks'][name], manifest,
+                                   argparse.Namespace(mode=mode, memory_mb=32768))
+                       for mode in ('genesys', 'genesys_repeat2', 'genesys_repeat3')]
+        original, second, third = [c.model_dump(exclude={'job_name'}) for c in configs]
+        self.assertEqual(original, second)
+        self.assertEqual(original, third)
+        self.assertEqual(len({c.job_name for c in configs}), 3)
 
 
 class InstallerNetworkTests(unittest.IsolatedAsyncioTestCase):

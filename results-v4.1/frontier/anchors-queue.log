@@ -1,0 +1,156 @@
+QUEUE crash-proof-flash-filesystem / oracle
+QUEUE OK crash-proof-flash-filesystem / oracle: 100.0
+QUEUE crash-proof-flash-filesystem / baseline
+QUEUE OK crash-proof-flash-filesystem / baseline: 0.0
+QUEUE crash-proof-flash-filesystem / astra
+START crash-proof-flash-filesystem: astra; job=astra-crash-proof-flash-filesystem-3f835d60
+Traceback (most recent call last):
+  File "/mnt/data/Projects/llm-coding-benchmark/scripts/run_v41_frontier.py", line 197, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/mnt/data/Projects/llm-coding-benchmark/scripts/run_v41_frontier.py", line 193, in main
+    return asyncio.run(run(args))
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akitaonrails/.local/share/uv/python/cpython-3.12.8-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/home/akitaonrails/.local/share/uv/python/cpython-3.12.8-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akitaonrails/.local/share/uv/python/cpython-3.12.8-linux-x86_64-gnu/lib/python3.12/asyncio/base_events.py", line 686, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/mnt/data/Projects/llm-coding-benchmark/scripts/run_v41_frontier.py", line 161, in run
+    job = await Job.create(config)
+          ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/px-eval-inspect/.venv/lib/python3.12/site-packages/harbor/job.py", line 145, in create
+    AgentFactory.run_preflight(agent)
+  File "/tmp/px-eval-inspect/.venv/lib/python3.12/site-packages/harbor/agents/factory.py", line 144, in run_preflight
+    agent_class.preflight(
+TypeError: RestrictedInstall.preflight() got an unexpected keyword argument 'kwargs'
+Traceback (most recent call last):
+  File "/mnt/data/Projects/llm-coding-benchmark/scripts/run_v41_frontier_wave.py", line 71, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/mnt/data/Projects/llm-coding-benchmark/scripts/run_v41_frontier_wave.py", line 63, in main
+    raise RuntimeError(f"Invalid or failed {mode} result; inspect {record}")
+RuntimeError: Invalid or failed astra result; inspect /mnt/data/Projects/llm-coding-benchmark/results-v4.1/frontier/crash-proof-flash-filesystem/astra.json
+QUEUE crash-proof-flash-filesystem / oracle
+QUEUE OK crash-proof-flash-filesystem / oracle: 100.0
+QUEUE crash-proof-flash-filesystem / baseline
+QUEUE OK crash-proof-flash-filesystem / baseline: 0.0
+QUEUE crash-proof-flash-filesystem / astra
+START crash-proof-flash-filesystem: astra; job=astra-crash-proof-flash-filesystem-af5767c8
+  1/1 Bd_Gate: 1.000 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1:00:22 0:00:00Traceback (most recent call last):
+  File "/mnt/data/Projects/llm-coding-benchmark/scripts/run_v41_frontier.py", line 197, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/mnt/data/Projects/llm-coding-benchmark/scripts/run_v41_frontier.py", line 193, in main
+    return asyncio.run(run(args))
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akitaonrails/.local/share/uv/python/cpython-3.12.8-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py", line 194, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/home/akitaonrails/.local/share/uv/python/cpython-3.12.8-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akitaonrails/.local/share/uv/python/cpython-3.12.8-linux-x86_64-gnu/lib/python3.12/asyncio/base_events.py", line 686, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/mnt/data/Projects/llm-coding-benchmark/scripts/run_v41_frontier.py", line 166, in run
+    result = json.loads(trial_files[0].read_text())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akitaonrails/.local/share/uv/python/cpython-3.12.8-linux-x86_64-gnu/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akitaonrails/.local/share/uv/python/cpython-3.12.8-linux-x86_64-gnu/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/akitaonrails/.local/share/uv/python/cpython-3.12.8-linux-x86_64-gnu/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 25 column 32 (char 1263)
+Traceback (most recent call last):
+  File "/mnt/data/Projects/llm-coding-benchmark/scripts/run_v41_frontier_wave.py", line 71, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/mnt/data/Projects/llm-coding-benchmark/scripts/run_v41_frontier_wave.py", line 63, in main
+    raise RuntimeError(f"Invalid or failed {mode} result; inspect {record}")
+RuntimeError: Invalid or failed astra result; inspect /mnt/data/Projects/llm-coding-benchmark/results-v4.1/frontier/crash-proof-flash-filesystem/astra.json
+QUEUE crash-proof-flash-filesystem / oracle
+QUEUE OK crash-proof-flash-filesystem / oracle: 100.0
+QUEUE crash-proof-flash-filesystem / baseline
+QUEUE OK crash-proof-flash-filesystem / baseline: 0.0
+QUEUE crash-proof-flash-filesystem / astra
+QUEUE OK crash-proof-flash-filesystem / astra: 27.2318
+QUEUE lean-4-kernel-type-checker-in-pascal / oracle
+QUEUE OK lean-4-kernel-type-checker-in-pascal / oracle: 100.0
+QUEUE lean-4-kernel-type-checker-in-pascal / baseline
+QUEUE OK lean-4-kernel-type-checker-in-pascal / baseline: 0.0
+QUEUE lean-4-kernel-type-checker-in-pascal / astra
+START lean-4-kernel-type-checker-in-pascal: astra; job=astra-lean-4-kernel-type-checker-in-pascal-dc42262a
+  1/1 Accept_Ok: 476.000 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1:21:29 0:00:00DONE lean-4-kernel-type-checker-in-pascal: completed reward=0.980695
+QUEUE OK lean-4-kernel-type-checker-in-pascal / astra: 98.0695
+QUEUE cranelift-codegen-opt / oracle
+QUEUE OK cranelift-codegen-opt / oracle: 0.0
+QUEUE cranelift-codegen-opt / baseline
+QUEUE OK cranelift-codegen-opt / baseline: 0.0
+QUEUE cranelift-codegen-opt / astra
+START cranelift-codegen-opt: astra; job=astra-cranelift-codegen-opt-7d4618a4
+  1/1 Build_Ok: 1.000 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 0:24:04 0:00:00DONE cranelift-codegen-opt: completed reward=0.0
+QUEUE OK cranelift-codegen-opt / astra: 0.0
+QUEUE crash-proof-flash-filesystem / oracle
+QUEUE OK crash-proof-flash-filesystem / oracle: 100.0
+QUEUE crash-proof-flash-filesystem / baseline
+QUEUE OK crash-proof-flash-filesystem / baseline: 0.0
+QUEUE crash-proof-flash-filesystem / fable
+START crash-proof-flash-filesystem: fable; job=fable-crash-proof-flash-filesystem-0f481743
+  1/1 Bd_Gate: 0.000 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 0:02:34 0:00:00DONE crash-proof-flash-filesystem: error reward=0.0
+Traceback (most recent call last):
+  File "/mnt/data/Projects/llm-coding-benchmark/scripts/run_v41_frontier_wave.py", line 71, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/mnt/data/Projects/llm-coding-benchmark/scripts/run_v41_frontier_wave.py", line 63, in main
+    raise RuntimeError(f"Invalid or failed {mode} result; inspect {record}")
+RuntimeError: Invalid or failed fable result; inspect /mnt/data/Projects/llm-coding-benchmark/results-v4.1/frontier/crash-proof-flash-filesystem/fable.json
+QUEUE crash-proof-flash-filesystem / oracle
+QUEUE OK crash-proof-flash-filesystem / oracle: 100.0
+QUEUE crash-proof-flash-filesystem / baseline
+QUEUE OK crash-proof-flash-filesystem / baseline: 0.0
+QUEUE crash-proof-flash-filesystem / astra
+QUEUE OK crash-proof-flash-filesystem / astra: 27.2318
+QUEUE lean-4-kernel-type-checker-in-pascal / oracle
+QUEUE OK lean-4-kernel-type-checker-in-pascal / oracle: 100.0
+QUEUE lean-4-kernel-type-checker-in-pascal / baseline
+QUEUE OK lean-4-kernel-type-checker-in-pascal / baseline: 0.0
+QUEUE lean-4-kernel-type-checker-in-pascal / astra
+QUEUE OK lean-4-kernel-type-checker-in-pascal / astra: 98.0695
+QUEUE cranelift-codegen-opt / oracle
+QUEUE OK cranelift-codegen-opt / oracle: 0.0
+QUEUE cranelift-codegen-opt / baseline
+QUEUE OK cranelift-codegen-opt / baseline: 0.0
+QUEUE cranelift-codegen-opt / astra
+QUEUE OK cranelift-codegen-opt / astra: 0.0
+QUEUE crash-proof-flash-filesystem / oracle
+QUEUE OK crash-proof-flash-filesystem / oracle: 100.0
+QUEUE crash-proof-flash-filesystem / baseline
+QUEUE OK crash-proof-flash-filesystem / baseline: 0.0
+QUEUE crash-proof-flash-filesystem / fable
+START crash-proof-flash-filesystem: fable; job=fable-crash-proof-flash-filesystem-88235889
+  1/1 Bd_Gate: 1.000 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2:18:06 0:00:00DONE crash-proof-flash-filesystem: completed reward=0.992667
+QUEUE OK crash-proof-flash-filesystem / fable: 99.2667
+QUEUE lean-4-kernel-type-checker-in-pascal / oracle
+QUEUE OK lean-4-kernel-type-checker-in-pascal / oracle: 100.0
+QUEUE lean-4-kernel-type-checker-in-pascal / baseline
+QUEUE OK lean-4-kernel-type-checker-in-pascal / baseline: 0.0
+QUEUE lean-4-kernel-type-checker-in-pascal / fable
+START lean-4-kernel-type-checker-in-pascal: fable; job=fable-lean-4-kernel-type-checker-in-pascal-546c0ad3
+  1/1 Accept_Ok: 475.000 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1:32:15 0:00:00DONE lean-4-kernel-type-checker-in-pascal: completed reward=0.984102
+QUEUE OK lean-4-kernel-type-checker-in-pascal / fable: 98.4102
+QUEUE cranelift-codegen-opt / oracle
+QUEUE OK cranelift-codegen-opt / oracle: 0.0
+QUEUE cranelift-codegen-opt / baseline
+QUEUE OK cranelift-codegen-opt / baseline: 0.0
+QUEUE cranelift-codegen-opt / fable
+START cranelift-codegen-opt: fable; job=fable-cranelift-codegen-opt-d93cbcdb
+  1/1 Build_Ok: 1.000 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10:59:36 0:00:00DONE cranelift-codegen-opt: completed reward=0.26375
+QUEUE OK cranelift-codegen-opt / fable: 26.375

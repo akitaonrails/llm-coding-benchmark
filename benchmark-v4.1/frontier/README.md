@@ -240,3 +240,31 @@ This is one attempt per model with different native harnesses, and a local P6
 memory deviation. The published FrontierSWE leaderboard uses a different harness
 and repeated trials. Reproducing this protocol does not guarantee identical
 outputs, scores, runtime, or provider-side model behavior.
+
+
+## Genesys second attempt after reported API fixes
+
+On 2026-10-07 the user requested a fresh Genesys House P1–P6 run after the vendor
+reported API fixes. This report is not independent verification of the vendor's
+root-cause claim. The original results remain unchanged. New P1–P3 records use
+`v41_genesys_house_repeat2`; P4–P6 use `genesys_repeat2.json`. Model and task
+configuration remain the same, including 32 GiB for Cranelift. No original model
+solution is resumed or copied. Matching reference/no-op controls are reused.
+
+```sh
+.venv-frontier/bin/python scripts/run_v41_sol_wave.py --model genesys_repeat2
+```
+
+Despite its historical filename, this controller now supports the Sol comparison
+and Genesys repeat. Overall progress is `results-v4.1/genesys-repeat2-queue.json`;
+FrontierSWE phase progress is `results-v4.1/frontier/genesys-repeat2-queue.json`.
+Compare both attempts explicitly rather than replacing the first with the best.
+
+
+A third independent Genesys House attempt was requested on 2026-10-08 to examine
+run-to-run variability. Use the same controller with `--model genesys_repeat3`.
+P1–P3 use `v41_genesys_house_repeat3`; P4–P6 use `genesys_repeat3.json`.
+Both prior attempts are retained, including their failures. The new attempt uses
+fresh workspaces, identical configuration and original prompts, without hints
+from inspection of earlier submissions. Three trials remain a small sample;
+changes cannot by themselves identify the effect of a provider-side API fix.

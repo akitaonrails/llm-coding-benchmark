@@ -95,5 +95,53 @@
     "dnf_reason": "2 consecutive non-compiling sprints (through 02_hm)",
     "score": 0.0,
     "sprints_cleared": 0
+  },
+  {
+    "slug": "v41_gpt_6_sol_medium",
+    "sprints_run": [
+      "01_parser",
+      "02_hm",
+      "03_rows",
+      "04_vm",
+      "05_gc",
+      "06_builtins",
+      "07_reveal"
+    ],
+    "dnf": false,
+    "dnf_reason": null,
+    "score": 100.0,
+    "sprints_cleared": 7
+  },
+  {
+    "slug": "v41_genesys_house_repeat2",
+    "sprints_run": [
+      "01_parser",
+      "02_hm",
+      "03_rows",
+      "04_vm",
+      "05_gc",
+      "06_builtins",
+      "07_reveal"
+    ],
+    "dnf": false,
+    "dnf_reason": null,
+    "score": 100.0,
+    "sprints_cleared": 7
+  },
+  {
+    "slug": "v41_genesys_house_repeat3",
+    "sprints_run": [
+      "01_parser",
+      "02_hm",
+      "03_rows",
+      "04_vm",
+      "05_gc",
+      "06_builtins",
+      "07_reveal"
+    ],
+    "dnf": false,
+    "dnf_reason": null,
+    "score": 100.0,
+    "sprints_cleared": 7
   }
 ]
