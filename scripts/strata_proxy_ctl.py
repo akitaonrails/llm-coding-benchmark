@@ -16,7 +16,7 @@ PROXY = os.path.expanduser("~/.local/bin/qwen-strata-ondemand")
 LOG = "/mnt/data/strata-models/proxy.log"   # NEVER /tmp — tmpfs hit EDQUOT once and silently killed the proxy
 ENV = {
     "QWEN_IDLE_TTL": "600",
-    "QWEN_VRAM_RESERVE_MIB": "2560",
+    "QWEN_VRAM_RESERVE_MIB": "4096",  # 2026-10-22: raised 2560->4096; validated holding >=3.6GB free at 99% GPU load
     "QWEN_UP_PORT": "8781",
     "QWEN_PROXY_PORT": "8080",
 }

@@ -108,3 +108,37 @@ Strata has **no native idle-unload**, so a small proxy wraps it:
 ## See also
 - [`docs/hardware-serving-playbook.md`](hardware-serving-playbook.md) · [`docs/llama-swap.md`](llama-swap.md) · [`docs/v4.2-concurrency-report.md`](v4.2-concurrency-report.md)
 - Upstream: Strata issue #533 (hot VRAM resize), #1034 (vram elastic semantics), #3140 (`--vram-reserve-mib`).
+
+## VRAM reserve for the desktop (Hyprland) — 2026-10-22 incident + fix
+
+**Incident**: hard reset required — Strata engine (Qwen3.8-Flash-Next IQ3_S) used 32,085 of
+32,607 MiB (98.4%) on the 5090, leaving Hyprland + terminal ~500 MiB. Desktop allocations
+failed; even the TUI was unusable.
+
+**Root cause (two layers)**:
+1. The on-demand proxy's `set_reserve()` was fire-once with all exceptions swallowed — on cold
+   start it fired before the engine's `/v1/vram` endpoint was live, silently never applied, and
+   nothing retried. (Measured: 1,760 MiB free with a nominal 2,560 reserve.)
+2. 2,560 MiB was too small anyway for Hyprland + browser + terminal.
+
+**Fix (validated empirically)**:
+- `QWEN_VRAM_RESERVE_MIB` raised to **4096**; `set_reserve()` now retries (~3 min backoff),
+  verifies the engine's response, and logs `[vram] reserve ... confirmed` to the engine log.
+- `idle_watch` re-asserts the reserve every 30 s while the engine is up (idempotent, attempt-1
+  confirms) — closes any drift/rebalance gap.
+- Load test at 99% GPU utilization: free VRAM held 3,629–3,888 MiB for the whole generation.
+  Cost: ~150 tok/s vs ~200 (expert cache capped at ~9.7K slots vs 11.7K full; more experts
+  stream over PCIe). Fair trade for a desktop that stays alive.
+
+**Levers, in order**:
+1. Raise `QWEN_VRAM_RESERVE_MIB` (ctl script env) if the desktop needs more headroom.
+2. Structural: the workstation has an **AMD Raphael Radeon 610M iGPU** (18:00.0) — moving
+   Hyprland to the iGPU frees the entire 5090 for compute (BIOS/display routing + Hyprland env;
+   610M is fine for terminal/browsing, weak for gaming).
+3. Smaller quant / lower `--kv-resident` if the model itself must shrink.
+4. NVIDIA Linux has NO hard driver-level reservation for display clients — the engine-side
+   elastic reserve (above) or a VRAM-holder daemon are the community-standard answers.
+
+Engine facts: `/v1/vram` POST `{"reserve_mib": N}` → engine evicts expert-cache slots until
+~N MiB free; response reports `expert_slots`, `vram_free_mib`. `--vram-elastic` is required in
+the launch profile (present in `~/.local/state/strata/launch/iq3_s-128k.json`).
