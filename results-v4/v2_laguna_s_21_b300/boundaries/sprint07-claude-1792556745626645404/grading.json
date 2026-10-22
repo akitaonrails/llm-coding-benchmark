@@ -1,0 +1,136 @@
+{
+  "slug": "v2_laguna_s_21_b300",
+  "boundary": "sprint07-reveal",
+  "head": "fb1633a",
+  "assisted": true,
+  "nudges_used": 1,
+  "reveal_weight_factor": 0.4,
+  "items": [
+    {
+      "id": 1,
+      "title": "Web IDOR: ConversationsController#show/#destroy global find",
+      "weight": 5,
+      "status": "FIXED_AT_REVEAL",
+      "who": "fb1633a",
+      "compound_both_halves": null,
+      "evidence": "app/controllers/conversations_controller.rb:32 set_conversation now `current_user.conversations.find(params[:id])` (was `Conversation.find`); before_action :set_conversation guards show+destroy (line 2). Raises RecordNotFound (404) for non-owned ids."
+    },
+    {
+      "id": 2,
+      "title": "Removed sign-in link on registration page",
+      "weight": 3,
+      "status": "FIXED_AT_REVEAL",
+      "who": "fb1633a",
+      "compound_both_halves": null,
+      "evidence": "app/views/registrations/new.html.erb:5-8 link_to 'sign in to your existing account', sign_in_path restored. Plant was 3bb036c (removed the <p> block). sign_in route exists (config/routes.rb:7). Anonymous users have no nav (layout nav renders only when current_user present), so the registration-page link is the sign-in affordance."
+    },
+    {
+      "id": 3,
+      "title": "Puma downgraded to 6.4.1 (stale/vulnerable pin)",
+      "weight": 3,
+      "status": "FIXED_UNPROMPTED",
+      "who": "pre-reveal (reverted; plant 6302eee)",
+      "compound_both_halves": null,
+      "evidence": "Gemfile:10 `gem \"puma\", \"~> 8.0\"`, Gemfile.lock puma (8.0.2). Plant 6302eee pinned puma \"6.4.1\". No regression at fb1633a."
+    },
+    {
+      "id": 4,
+      "title": "SQL injection in admin user search (string interpolation)",
+      "weight": 5,
+      "status": "FIXED_UNPROMPTED",
+      "who": "pre-reveal (reverted; plant b6ac758)",
+      "compound_both_halves": null,
+      "evidence": "app/controllers/admin/users_controller.rb:12 `scope.where(\"email ILIKE ?\", \"%#{@q}%\")` parameterized bind. Plant b6ac758 was `where(\"email ILIKE '%#{@q}%'\")`. No regression at fb1633a."
+    },
+    {
+      "id": 5,
+      "title": "Auth bypass: skip_before_action :require_admin on deactivate",
+      "weight": 3,
+      "status": "FIXED_AT_REVEAL",
+      "who": "fb1633a",
+      "compound_both_halves": null,
+      "evidence": "app/controllers/admin/users_controller.rb: `skip_before_action :require_admin, only: :deactivate` removed; deactivate now guarded by `before_action :require_admin` (line 6). Authorization#require_admin redirects non-admins to root_path (halts chain). Test added (admin/users_controller_test.rb)."
+    },
+    {
+      "id": 6,
+      "title": "COMPOUND: current_user.active? defanged guard + gutted user_test assertion",
+      "weight": 3,
+      "status": "PRESENT",
+      "who": null,
+      "compound_both_halves": false,
+      "evidence": "HALF A (code): FIXED pre-reveal in 45338ce — authentication.rb:26 `return if current_user.active?` (defanged `|| current_user.present?` from plant 72dbe4d removed). HALF B (test): NOT FIXED — test/models/user_test.rb:14-18 test_deactivate_sets_deactivated_at still missing the gutted `assert_not user.active?` (removed in 72dbe4d; reveal fb1633a did not touch user_test.rb). Strict compound (consistent with Ornith=0): originally-gutted assertion must be un-gutted in place; it is not. NO reveal credit."
+    },
+    {
+      "id": 7,
+      "title": "COMPOUND: N+1 per_user_breakdown + dropped created_at index + gutted dashboard query-count test",
+      "weight": 2,
+      "status": "FIXED_AT_REVEAL",
+      "who": "fb1633a",
+      "compound_both_halves": true,
+      "evidence": "HALF A (N+1): dashboard.rb per_user_breakdown reverted to single GROUP BY (LEFT JOINs + group + pluck), no per-user loop. HALF B (index): db/migrate/20261021150000_restore_conversations_created_at_index.rb add_index + db/schema.rb t.index [created_at] restored (schema version bumped 140000->150000). HALF C (test): test/services/reports/dashboard_test.rb replaced smoke-check with a real guard — subscribes to sql.active_record, counts SELECTs, asserts query_count <= 2 (N+1 would be 1+2N). All three halves. Plant was ee8e16b (all three in one commit)."
+    },
+    {
+      "id": 8,
+      "title": "Aggregate correctness: count_active_users counted all users",
+      "weight": 2,
+      "status": "FIXED_UNPROMPTED",
+      "who": "pre-reveal (reverted; plant 74961e8)",
+      "compound_both_halves": null,
+      "evidence": "app/services/reports/dashboard.rb:152 `User.active.count`. Plant 74961e8 was `User.all.count`. Reverted at 295ceb7. No regression at fb1633a."
+    },
+    {
+      "id": 9,
+      "title": "Deleted chat_form_controller.js still referenced by views",
+      "weight": 2,
+      "status": "FIXED_AT_REVEAL",
+      "who": "fb1633a",
+      "compound_both_halves": null,
+      "evidence": "app/javascript/controllers/chat_form_controller.js recreated (Stimulus controller, static targets input/messages, request action). Wired: conversations/show.html.erb:22 data-controller=\"chat-form\", messages/_form.html.erb:3 action submit->chat-form#request + target input. node --check clean."
+    },
+    {
+      "id": 10,
+      "title": "API IDOR: messages/conversations endpoints global find",
+      "weight": 3,
+      "status": "FIXED_UNPROMPTED",
+      "who": "pre-reveal (295ceb7 + sprint-5)",
+      "compound_both_halves": null,
+      "evidence": "api/v1/conversations_controller.rb:11/17/44 and api/v1/messages_controller.rb:58 all scope via current_user.conversations(.find/.new/.recently_created). No regression at fb1633a."
+    },
+    {
+      "id": 11,
+      "title": "XSS: raw() on user message body in _message partial",
+      "weight": 3,
+      "status": "FIXED_AT_REVEAL",
+      "who": "fb1633a",
+      "compound_both_halves": null,
+      "evidence": "app/views/messages/_message.html.erb:5 user branch now `<%= message.content %>` (raw removed -> HTML-escaped). Non-compound (sink only). XSS-escaping test added in messages_controller_test.rb."
+    },
+    {
+      "id": 12,
+      "title": "CORS not configured for JSON API",
+      "weight": 2,
+      "status": "FIXED_UNPROMPTED",
+      "who": "pre-reveal (1baf08d)",
+      "compound_both_halves": null,
+      "evidence": "config/initializers/cors.rb present: Rack::Cors middleware on /api/v1/*, origins from ALLOWED_CORS_ORIGINS, credentials false when wildcard. No regression at fb1633a."
+    },
+    {
+      "id": 13,
+      "title": "rack-cors dependency not pinned",
+      "weight": 1,
+      "status": "FIXED_UNPROMPTED",
+      "who": "pre-reveal (b77c793)",
+      "compound_both_halves": null,
+      "evidence": "Gemfile:22 `gem \"rack-cors\", \"~> 3.0\"`, Gemfile.lock rack-cors (3.0.0). No regression at fb1633a."
+    },
+    {
+      "id": 14,
+      "title": "Hardcoded OpenRouter API key fallback",
+      "weight": 3,
+      "status": "FIXED_UNPROMPTED",
+      "who": "pre-reveal (reverted; plant 58096be)",
+      "compound_both_halves": null,
+      "evidence": "config/initializers/ruby_llm.rb:11 `config.openrouter_api_key = ENV[\"OPENROUTER_API_KEY\"]` — hardcoded `sk-or-v1-...` fallback from plant 58096be removed. No regression at fb1633a."
+    }
+  ]
+}

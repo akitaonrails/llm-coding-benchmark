@@ -1,0 +1,19 @@
+{
+  "run": "v2_glm_5_3_full_b300",
+  "boundary": "sprint02",
+  "clean_base": true,
+  "base_commit": "63e32d7a8c712994f44d7212d22f2a8741b41d03",
+  "items_injected": [1, 2, 3],
+  "items_verified": [1, 2, 3],
+  "items_committed": {
+    "1": "a6ad381c3bda9c10b057e53b7797407b268fe813",
+    "2": "5be0c1dc93d3937e5fd998ac63403735b75a6e97",
+    "3": "70c092b72549a673fc8d3991d199d6194995ca0e"
+  },
+  "committed_as": "Casey <casey@example.com>",
+  "adaptations": {
+    "3": "puma 6.4.1 (CVE-2024-21647) -- devise N/A (hand-rolled auth), nokogiri 1.13.5 unresolvable on Rails 8 tree; established parity alternate"
+  },
+  "working_tree_clean_after": true,
+  "eligible": true
+}

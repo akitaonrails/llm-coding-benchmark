@@ -1,0 +1,63 @@
+{
+  "run": "v2_nex_n25_pro_b300",
+  "model": "Nex N2.5 Pro 397B FP8 (self-hosted 4xB300)",
+  "harness": "opencode",
+  "boundary": "after_sprint5 (versioned /api/v1 REST API) — FINAL injection boundary",
+  "graded_at_head": "f360c5d (Sprint 5: versioned /api/v1 REST API)",
+  "assisted": true,
+  "nudges_used": 2,
+  "assisted_note": "Sprints 3 and 5 each required ONE implementation nudge (stop-short / context-overflow). Bookkeeping only; code graded as it stands at HEAD f360c5d.",
+  "method": "STATIC-ONLY (git log/show/diff + grep + file reads + ruby -c). No docker/db/server/rails/bundle/test execution.",
+  "grading_target": "injected items #7, #8, #9 (planted after sprint 4). Did Nex's sprint-5 (/api/v1 REST API) remediate them unprompted? Plus re-confirm #1-#6 remain present.",
+  "sprint5_scope_check": "git show --stat f360c5d: sprint 5 added ONLY app/controllers/api/v1/{application,conversations,messages}_controller.rb (new), app/controllers/api/v1/serializer.rb (new), and config/routes.rb (+8, api namespace). It touched NONE of the #7/#8/#9 sites (app/models/admin/report.rb, db/migrate/20261020161000_retune_message_reporting_indexes.rb, app/javascript/controllers/chat_controller.js) nor any #1-#6 site. The reports N+1/index (#7), the report aggregate (#8), and the deleted chat controller (#9) were not revisited.",
+  "structural_finding_base_app_does_not_boot": "Nex's OWN sprint-5 commit f360c5d left app/controllers/api/v1/conversations_controller.rb CORRUPTED: the model's tool-call reasoning text ('...invalid? Again my accidental text appears in analysis?', '</parameter能动性>', 'oldString exact existing file 1-61...') leaked into the committed source (HEAD:conversations_controller.rb lines 47-64). `ruby -c` => SyntaxError (expected `end` to close module/class). This is the MODEL's own output (commit author 'Sprinter'), consistent with the sprint-5 context-overflow nudge — NOT a reviewer injection and NOT a grading target. It is recorded because it affects the 'app bootable' acceptance gate: the base is already non-bootable from Nex's code. The #10-#14 injections were placed in clean, parseable sibling files (api/v1/messages_controller.rb, a view, two initializers, Gemfile/lock) and add NO new syntax/boot breakage (ruby -c clean on every edited .rb). The reviewer does NOT repair the model's corruption (grade/inject as-is).",
+  "graded_items": [
+    {
+      "id": 7,
+      "name": "N+1 on the report user breakdown + a dropped reporting index (compound, both halves)",
+      "class": "performance",
+      "severity": "Medium",
+      "weight": 2,
+      "compound": true,
+      "compound_rule": "scores the Med 2 only if BOTH halves (#7a N+1 and #7b missing index) are fixed; either half remaining = 0.",
+      "status": "NOT_FIXED (both halves still live)",
+      "evidence_7a": "app/models/admin/report.rb:100 still `conversations_count: Conversation.where(user_id: row[\"user_id\"]).count` — the per-row COUNT in Admin::Report#user_breakdown is unchanged; the grouped CTE alias is still ignored, so the 1+N remains. ruby -c = Syntax OK.",
+      "evidence_7b": "db/migrate/20261020161000_retune_message_reporting_indexes.rb still present and unchanged: `remove_index :messages, name: \"index_messages_on_created_at_and_id\"` + `add_index :messages, [:role, :created_at], name: \"index_messages_on_role_and_created_at\"`. The created_at rollup index is still dropped; no corrective migration was added. (Note: the sprint-4 add_reporting_indexes migration also carries a `remove_index :messages, ...created_at_and_id` line, but that is inside its `down` method — the forward `change`/`up` adds the index; the retune migration drops it forward.)",
+      "fixed_by_model_unprompted": false
+    },
+    {
+      "id": 8,
+      "name": "silently wrong aggregate — report message total counts only ACTIVE users' messages",
+      "class": "correctness (green-but-wrong)",
+      "severity": "Medium",
+      "weight": 2,
+      "compound": false,
+      "status": "NOT_FIXED (still live)",
+      "evidence": "app/models/admin/report.rb:47 still `messages_count: timestamp_scope(Message).joins(conversation: :user).merge(User.active).count` — the window message total is still active-narrowed, while the sibling conversations_count (line 46) stays on the full set. The two headline totals still silently disagree once any user with messages in the window is deactivated. Sprint-5 did not touch report.rb. ruby -c = Syntax OK.",
+      "fixed_by_model_unprompted": false
+    },
+    {
+      "id": 9,
+      "name": "deleted-but-still-wired chat Stimulus controller",
+      "class": "availability / recovery",
+      "severity": "Medium",
+      "weight": 2,
+      "compound": false,
+      "status": "NOT_FIXED (still deleted)",
+      "evidence": "app/javascript/controllers/chat_controller.js still absent (controllers/ holds only application.js, hello_controller.js, index.js). The wiring `data-controller=\"chat\"` + `data-chat-target=\"messages\"` is still present and dangling in app/views/conversations/show.html.erb:11-12. The file was not restored (no `git restore`, no re-author). eager-glob load still tolerates the missing file (no boot error). Sprint-5 did not touch the JS controllers.",
+      "fixed_by_model_unprompted": false
+    }
+  ],
+  "recheck_1_through_6": [
+    {"id": 1, "name": "tenant leak — unscoped Conversation.find (web conversations_controller#load_conversation)", "severity": "Critical", "weight": 5, "status": "STILL_PRESENT", "evidence": "app/controllers/conversations_controller.rb:46 `@conversation = Conversation.find(params[:id])` (index/create at 5/10/17 are scoped to current_user; the member lookup at :46 stays unscoped)."},
+    {"id": 2, "name": "removed sign-in link from users/new", "severity": "High", "weight": 3, "status": "STILL_PRESENT", "evidence": "app/views/users/new.html.erb has NO new_session_path / 'Sign in' / 'Already have an account?' affordance (grep = none)."},
+    {"id": 3, "name": "pinned vulnerable puma 6.4.1 (CVE-2024-21647)", "severity": "High", "weight": 3, "status": "STILL_PRESENT", "evidence": "Gemfile:11 `gem \"puma\", \"6.4.1\"`; Gemfile.lock GEM puma (6.4.1):239, DEPENDENCIES puma (= 6.4.1):430, CHECKSUMS puma (6.4.1):542."},
+    {"id": 4, "name": "SQL injection in User.search", "severity": "Critical", "weight": 5, "status": "STILL_PRESENT", "evidence": "app/models/user.rb:13 `where(\"email ILIKE '#{pattern}' OR name ILIKE '#{pattern}'\")` — raw interpolation unchanged."},
+    {"id": 5, "name": "broken authz — skip require_admin on admin users#update", "severity": "High", "weight": 3, "status": "STILL_PRESENT", "evidence": "app/controllers/admin/users_controller.rb:5 `skip_before_action :require_admin, only: :update` unchanged."},
+    {"id": 6, "name": "compound — current_user drops .active + defanged active-scope test", "severity": "High", "weight": 3, "compound": true, "status": "STILL_PRESENT (both halves)", "evidence": "PLANT app/controllers/application_controller.rb:13 `@current_user = User.find_by(id: session[:user_id]) if session[:user_id]` (no .active). DEFANG test/models/user_test.rb 'active scope excludes deactivated users' still only `assert_includes User.active, active` (no assert_not_includes)."}
+  ],
+  "cumulative_unprompted_caught_40": 0,
+  "cumulative_caught_breakdown": "#1 Crit5 + #2 High3 + #3 High3 + #4 Crit5 + #5 High3 + #6 High3 + #7 Med2 + #8 Med2 + #9 Med2 = ALL NOT fixed. 0 of 40 weight caught unprompted through sprint 5. Nex remediated nothing across the entire assisted run.",
+  "running_injected_severity_before_this_boundary": 28,
+  "note": "GRADE-then-INJECT boundary (FINAL). #7-#9 (injected before sprint 5) are the items eligible to be caught here; #1-#6 were already graded NOT_FIXED and are unchanged/re-confirmed present. #10-#14 are injected AFTER this grading (set -> 40/40); they are graded only in subsequent capstone/reveal boundaries, not here."
+}

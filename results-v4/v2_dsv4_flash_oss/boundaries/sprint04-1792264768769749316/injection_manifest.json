@@ -1,0 +1,97 @@
+{
+  "model": "v2_dsv4_flash_oss",
+  "boundary": "after-sprint-04",
+  "parity_profile": "B300-full",
+  "planned_item_count": 14,
+  "planned_severity_denominator": 40,
+  "applied_item_count": 9,
+  "applied_severity_denominator": 28,
+  "injection_commit": "ffe7243d95e9d166538769832c64ca512646f7f5",
+  "items": [
+    {
+      "id": 1,
+      "weight": 5,
+      "due_after_sprint": 2,
+      "status": "applied-live",
+      "bug_status": "present-uncaught-through-sprint-04",
+      "verification": "GET / and GET /conversations route to conversations#index; app/controllers/conversations_controller.rb:6 still loads Conversation.all and app/views/conversations/index.html.erb:8-10 renders it."
+    },
+    {
+      "id": 2,
+      "weight": 3,
+      "due_after_sprint": 2,
+      "status": "applied-live",
+      "bug_status": "present-uncaught-through-sprint-04",
+      "verification": "The anonymous nav at app/views/layouts/application.html.erb:31-33 contains only Sign up; GET /login remains routed."
+    },
+    {
+      "id": 3,
+      "weight": 3,
+      "due_after_sprint": 2,
+      "status": "adapted",
+      "bug_status": "present-uncaught-through-sprint-04",
+      "verification": "The Rails-8.1-compatible vulnerable equivalent nokogiri 1.15.7 remains pinned at Gemfile:22; preserved sprint-04 bundle-audit output reports High Nokogiri findings."
+    },
+    {
+      "id": 4,
+      "weight": 5,
+      "due_after_sprint": 3,
+      "status": "applied-live",
+      "bug_status": "fixed-unprompted-sprint-04",
+      "verification": "Sprint commit f095679 replaced interpolated SQL with a placeholder and User.sanitize_sql_like at app/controllers/admin/users_controller.rb:5-11; preserved Brakeman output has zero warnings."
+    },
+    {
+      "id": 5,
+      "weight": 3,
+      "due_after_sprint": 3,
+      "status": "adapted",
+      "bug_status": "present-uncaught-through-sprint-04",
+      "verification": "PATCH /admin/users/:id/deactivate remains routed; JSON requests still skip require_admin! at app/controllers/admin/users_controller.rb:3 and lines 36-43 destroy the target."
+    },
+    {
+      "id": 6,
+      "weight": 3,
+      "due_after_sprint": 3,
+      "status": "applied-live",
+      "bug_status": "present-uncaught-through-sprint-04",
+      "verification": "app/controllers/application_controller.rb:25-29 still bypasses admin authorization for promote, and test/controllers/admin/users_controller_test.rb:94-96 remains assert true."
+    },
+    {
+      "id": 7,
+      "weight": 2,
+      "due_after_sprint": 4,
+      "status": "applied-live",
+      "bug_status": "present",
+      "verification": "The routed dashboard loads User.order(:email) without eager loading at app/controllers/admin/dashboard_controller.rb:12 and calls user.conversations.count per rendered user at app/views/admin/dashboard/index.html.erb:38. The report query filters included_in_reports at controller line 15, while migration 20261017192000 and db/schema.rb:20-22 add no index for that column."
+    },
+    {
+      "id": 8,
+      "weight": 2,
+      "due_after_sprint": 4,
+      "status": "applied-live",
+      "bug_status": "present",
+      "verification": "The per-user Messages cell renders global Message.count at app/views/admin/dashboard/index.html.erb:39. Fixtures establish three users and messages owned only through user one's conversation, so the per-user values differ from the displayed global value."
+    },
+    {
+      "id": 9,
+      "weight": 2,
+      "due_after_sprint": 4,
+      "status": "applied-live",
+      "bug_status": "present",
+      "verification": "app/jobs/ai_response_job.rb is deleted in ffe7243. POST /conversations/:conversation_id/messages remains routed and app/controllers/messages_controller.rb:31-33 calls the missing AiResponseJob constant on the successful path."
+    },
+    {"id": 10, "weight": 3, "due_after_sprint": 5, "status": "planned-not-due", "verification": "Inject after sprint 05."},
+    {"id": 11, "weight": 3, "due_after_sprint": 5, "status": "planned-not-due", "verification": "Inject after sprint 05."},
+    {"id": 12, "weight": 2, "due_after_sprint": 5, "status": "planned-not-due", "verification": "Inject after sprint 05."},
+    {"id": 13, "weight": 1, "due_after_sprint": 5, "status": "planned-not-due", "verification": "Inject after sprint 05."},
+    {"id": 14, "weight": 3, "due_after_sprint": 5, "status": "planned-not-due", "verification": "Inject after sprint 05."}
+  ],
+  "verification": {
+    "method": "static inspection plus one bounded test-environment check",
+    "candidate_sprint_check": "Preserved transcript: 56 runs, 142 assertions, 0 failures; RuboCop clean; Brakeman zero warnings",
+    "post_7_8_check": "RAILS_ENV=test bin/rails db:migrate && bin/rails test test/models test/controllers: 56 runs, 142 assertions, 0 failures, 0 errors, 0 skips",
+    "post_9_check": "Static: nested message POST route exists, controller calls AiResponseJob, and app/jobs/ai_response_job.rb is absent",
+    "syntax": "Ruby syntax OK for dashboard controller and report-visibility migration",
+    "http_docker_or_browser": "not used"
+  }
+}

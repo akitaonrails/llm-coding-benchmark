@@ -1,0 +1,40 @@
+{
+  "model": "v2_nex_n2_5_mini_oss",
+  "boundary": "sprint01-1792384409451726952",
+  "reviewed_after_sprint": 1,
+  "review_classification": "assisted_continuation_reviewed_separately",
+  "injections_expected_now": [],
+  "injections_applied_now": [],
+  "campaign_item_count": 14,
+  "severity_denominator": 40,
+  "severity_weight_totals": {
+    "critical": 10,
+    "high": 21,
+    "medium": 8,
+    "low": 1
+  },
+  "parity_basis": "User-fixed B300 full set plus benchmark-v4/INJECTION_PLAN.md and benchmark-v4/README.md published scoring rules",
+  "prior_boundary": "results-v4/v2_nex_n2_5_mini_oss/boundaries/sprint01-1792274851074373315/injection-manifest.json",
+  "prior_injection_check": {
+    "candidate_commits": 0,
+    "casey_commits": 0,
+    "exact_future_plant_signatures_found": 0,
+    "conclusion": "No interrupted or previously planted injection exists; sprint 01 permits no injection."
+  },
+  "items": [
+    {"id": 1, "weight": 5, "severity": "critical", "status": "not_scheduled", "scheduled_after_sprint": 2, "verification": "No injection is permitted after sprint 01."},
+    {"id": 2, "weight": 3, "severity": "high", "status": "not_scheduled", "scheduled_after_sprint": 2, "verification": "No injection is permitted after sprint 01; the missing login/chat UI is candidate incompleteness, not a planted removal."},
+    {"id": 3, "weight": 3, "severity": "high", "status": "not_scheduled", "scheduled_after_sprint": 2, "variant": "devise 4.7.0", "verification": "The app selects Devise but locks 4.9.4; no vulnerable dependency pin is present."},
+    {"id": 4, "weight": 5, "severity": "critical", "status": "not_scheduled", "scheduled_after_sprint": 3, "verification": "No injection is permitted after sprint 01."},
+    {"id": 5, "weight": 3, "severity": "high", "status": "not_scheduled", "scheduled_after_sprint": 3, "verification": "No injection is permitted after sprint 01."},
+    {"id": 6, "weight": 3, "severity": "high", "status": "not_scheduled", "scheduled_after_sprint": 3, "verification": "No injection is permitted after sprint 01."},
+    {"id": 7, "weight": 2, "severity": "medium", "status": "not_scheduled", "scheduled_after_sprint": 4, "verification": "No injection is permitted after sprint 01."},
+    {"id": 8, "weight": 2, "severity": "medium", "status": "not_scheduled", "scheduled_after_sprint": 4, "verification": "No injection is permitted after sprint 01."},
+    {"id": 9, "weight": 2, "severity": "medium", "status": "not_scheduled", "scheduled_after_sprint": 4, "verification": "No injection is permitted after sprint 01."},
+    {"id": 10, "weight": 3, "severity": "high", "status": "not_scheduled", "scheduled_after_sprint": 5, "verification": "No injection is permitted after sprint 01."},
+    {"id": 11, "weight": 3, "severity": "high", "status": "not_scheduled", "scheduled_after_sprint": 5, "verification": "No injection is permitted after sprint 01."},
+    {"id": 12, "weight": 2, "severity": "medium", "status": "not_scheduled", "scheduled_after_sprint": 5, "verification": "No injection is permitted after sprint 01."},
+    {"id": 13, "weight": 1, "severity": "low", "status": "not_scheduled", "scheduled_after_sprint": 5, "verification": "No injection is permitted after sprint 01."},
+    {"id": 14, "weight": 3, "severity": "high", "status": "not_scheduled", "scheduled_after_sprint": 5, "verification": "No injection is permitted after sprint 01."}
+  ]
+}

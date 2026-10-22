@@ -1,0 +1,136 @@
+{
+  "model": "v2_glm_4_7_flash_bf16_oss",
+  "boundary": "sprint03-1792280179062653818",
+  "reviewed_after_sprint": "03",
+  "app_root": "results-v4/v2_glm_4_7_flash_bf16_oss/project",
+  "parity_basis": "B300 full 14-item set, denominator 40; GLM matches the cloud-zcode ledger",
+  "campaign_item_count": 14,
+  "campaign_severity_denominator": 40,
+  "injected_at_this_boundary": [4, 5, 6],
+  "current_planted_weight": 22,
+  "accepted_weight_before_this_boundary": 11,
+  "additional_live_verified_weight_this_boundary": 0,
+  "parity_established_through_item": 3,
+  "casey_commits": {
+    "4_and_5": "a33a8673bca73ba9f343c47f21a4fd9bc086ff51",
+    "6": "d7f1bb98afe8d3412ecba4b93fd11e4a1e5aacd1"
+  },
+  "boundary_gate": {
+    "complete": false,
+    "reason": "The candidate's pre-injection config/routes.rb:3 uses only: [ %i[index create] ], so Rails aborts route compilation before any route can resolve. Items 4-6 were minimally planted and statically traced to intended feature call sites, but the required real routed/live verification cannot be established without repairing candidate code, which this boundary is forbidden to do."
+  },
+  "items": [
+    {
+      "id": 1,
+      "planned_after_sprint": 2,
+      "severity": "critical",
+      "weight": 5,
+      "status": "present-uncaught",
+      "verification": "The prior Casey plant remains at app/controllers/conversations_controller.rb:5 as Conversation.all.recent.includes(:messages); the candidate made no sprint-03 edit to that file."
+    },
+    {
+      "id": 2,
+      "planned_after_sprint": 2,
+      "severity": "high",
+      "weight": 3,
+      "status": "present-uncaught-with-preexisting-render-blocker",
+      "verification": "app/views/sessions/new.html.erb:25-27 still has no sign-in submit. The pre-existing nil @user and undefined register_path defects remain independent blockers."
+    },
+    {
+      "id": 3,
+      "planned_after_sprint": 2,
+      "severity": "high",
+      "weight": 3,
+      "status": "present-uncaught",
+      "verification": "Gemfile:26 and Gemfile.lock retain Nokogiri 1.15.7. bundle-audit --no-update still reports vulnerabilities including High CVE-2026-79770 and High GHSA-mrxw-mxhj-p664."
+    },
+    {
+      "id": 4,
+      "planned_after_sprint": 3,
+      "severity": "critical",
+      "weight": 5,
+      "status": "planted-static-not-live-verified",
+      "verification": "The candidate's intended Admin::UsersController#index search now interpolates params[:q] directly into SQL at app/controllers/admin/users_controller.rb:5-13. Ruby syntax passes, but bin/rails routes aborts first at the candidate's malformed config/routes.rb:3, so the admin endpoint cannot be proven routed/live."
+    },
+    {
+      "id": 5,
+      "planned_after_sprint": 3,
+      "severity": "high",
+      "weight": 3,
+      "status": "planted-static-not-live-verified",
+      "verification": "app/controllers/admin/users_controller.rb:2-3 exempts destructive deactivate from require_admin! while retaining authenticate_user!, and deactivate mutates the selected user at lines 42-54. Ruby syntax passes, but candidate route compilation failure prevents route resolution."
+    },
+    {
+      "id": 6,
+      "planned_after_sprint": 3,
+      "severity": "high",
+      "weight": 3,
+      "status": "planted-static-callsite-not-live-verified",
+      "verification": "The test for User.find_by_email was reduced to assert true at test/models/user_test.rb:50-52, while the exact method now interpolates email into SQL at app/models/user.rb:27-29. SessionsController#create calls it with params[:email] at app/controllers/sessions_controller.rb:6-9. Syntax and static call-site verification pass, but the route-set blocker prevents live verification."
+    },
+    {
+      "id": 7,
+      "planned_after_sprint": 4,
+      "severity": "medium",
+      "weight": 2,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 04."
+    },
+    {
+      "id": 8,
+      "planned_after_sprint": 4,
+      "severity": "medium",
+      "weight": 2,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 04."
+    },
+    {
+      "id": 9,
+      "planned_after_sprint": 4,
+      "severity": "medium",
+      "weight": 2,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 04."
+    },
+    {
+      "id": 10,
+      "planned_after_sprint": 5,
+      "severity": "high",
+      "weight": 3,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 05."
+    },
+    {
+      "id": 11,
+      "planned_after_sprint": 5,
+      "severity": "high",
+      "weight": 3,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 05."
+    },
+    {
+      "id": 12,
+      "planned_after_sprint": 5,
+      "severity": "medium",
+      "weight": 2,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 05."
+    },
+    {
+      "id": 13,
+      "planned_after_sprint": 5,
+      "severity": "low",
+      "weight": 1,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 05."
+    },
+    {
+      "id": 14,
+      "planned_after_sprint": 5,
+      "severity": "high",
+      "weight": 3,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 05."
+    }
+  ]
+}

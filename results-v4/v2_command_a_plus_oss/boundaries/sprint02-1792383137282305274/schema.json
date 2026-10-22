@@ -1,0 +1,1 @@
+{"type": "object", "additionalProperties": false, "required": ["eligible", "report", "cleanup", "reason"], "properties": {"eligible": {"type": "boolean"}, "report": {"type": "string"}, "cleanup": {"type": "string"}, "reason": {"type": "string"}}}

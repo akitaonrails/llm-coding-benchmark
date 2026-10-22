@@ -1,0 +1,31 @@
+{
+  "model": "v2_swift_1_5_27b_oss",
+  "boundary": "sprint01-1792276318303025814",
+  "reviewed_after_sprint": 1,
+  "candidate_head": "62a479fa48f42182c1eb2d466eb3273eff124633",
+  "schedule_action": "no_injections",
+  "campaign_set": "B300_full_14",
+  "severity_denominator": 40,
+  "boundary_injections": [],
+  "casey_commits": [],
+  "items": [
+    {"id": 1, "weight": 5, "severity": "critical", "scheduled_after_sprint": 2, "status": "not-due", "verification": "Sprint 01 boundary requires no injection."},
+    {"id": 2, "weight": 3, "severity": "high", "scheduled_after_sprint": 2, "status": "not-due", "verification": "Sprint 01 boundary requires no injection."},
+    {"id": 3, "weight": 3, "severity": "high", "scheduled_after_sprint": 2, "variant": "devise", "status": "not-due", "verification": "Devise is present, but the pin is not scheduled until the sprint 02 boundary."},
+    {"id": 4, "weight": 5, "severity": "critical", "scheduled_after_sprint": 3, "status": "not-due", "verification": "Admin feature is not due at sprint 01."},
+    {"id": 5, "weight": 3, "severity": "high", "scheduled_after_sprint": 3, "status": "not-due", "verification": "Admin feature is not due at sprint 01."},
+    {"id": 6, "weight": 3, "severity": "high", "scheduled_after_sprint": 3, "status": "not-due", "verification": "Admin feature is not due at sprint 01."},
+    {"id": 7, "weight": 2, "severity": "medium", "scheduled_after_sprint": 4, "status": "not-due", "verification": "Reports feature is not due at sprint 01."},
+    {"id": 8, "weight": 2, "severity": "medium", "scheduled_after_sprint": 4, "status": "not-due", "verification": "Reports feature is not due at sprint 01."},
+    {"id": 9, "weight": 2, "severity": "medium", "scheduled_after_sprint": 4, "status": "not-due", "verification": "Reports feature is not due at sprint 01."},
+    {"id": 10, "weight": 3, "severity": "high", "scheduled_after_sprint": 5, "status": "not-due", "verification": "API feature is not due at sprint 01."},
+    {"id": 11, "weight": 3, "severity": "high", "scheduled_after_sprint": 5, "status": "not-due", "verification": "API feature is not due at sprint 01."},
+    {"id": 12, "weight": 2, "severity": "medium", "scheduled_after_sprint": 5, "status": "not-due", "verification": "API feature is not due at sprint 01."},
+    {"id": 13, "weight": 1, "severity": "low", "scheduled_after_sprint": 5, "status": "not-due", "verification": "API feature is not due at sprint 01."},
+    {"id": 14, "weight": 3, "severity": "high", "scheduled_after_sprint": 5, "status": "not-due", "verification": "API feature is not due at sprint 01."}
+  ],
+  "weight_check": 40,
+  "unknowns": [
+    "Feature-dependent targets for items 4-14 cannot be verified before their corresponding features and boundaries exist."
+  ]
+}

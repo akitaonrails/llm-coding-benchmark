@@ -1,0 +1,12 @@
+{
+  "slug": "v2_nemotron35_super_vl_oss",
+  "sprint": "sprint04_reports",
+  "harness": "opencode",
+  "elapsed_seconds": 292.99,
+  "cost_usd": 0.0,
+  "tokens_total": 3594560,
+  "exit_code": 0,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": false
+}

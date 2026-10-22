@@ -1,0 +1,113 @@
+{
+  "model": "v2_dsv4_flash_oss",
+  "boundary": "after-sprint-02",
+  "parity_profile": "B300-full",
+  "planned_item_count": 14,
+  "planned_severity_denominator": 40,
+  "applied_item_count": 3,
+  "applied_severity_denominator": 11,
+  "injection_commit": "5921c9aa6cb825edd380240aaf24be28b57d43b3",
+  "items": [
+    {
+      "id": 1,
+      "weight": 5,
+      "due_after_sprint": 2,
+      "status": "applied-live",
+      "bug_status": "present",
+      "verification": "GET / and GET /conversations route to conversations#index; app/controllers/conversations_controller.rb:6 loads Conversation.all and app/views/conversations/index.html.erb:8-10 renders that unscoped collection, exposing every user's conversation title/model/link in user B's index. The pre-injection candidate also independently leaked the same collection in the show sidebar at commit 5e6e43a, app/views/conversations/show.html.erb:9; that candidate defect was preserved and is distinct from the planted index edit."
+    },
+    {
+      "id": 2,
+      "weight": 3,
+      "due_after_sprint": 2,
+      "status": "applied-live",
+      "bug_status": "present",
+      "verification": "The anonymous nav branch at app/views/layouts/application.html.erb:27-29 contains only Sign up; the prior Log in link was removed. GET /login remains routed, so the edit removes the intended UI control without deleting authentication itself."
+    },
+    {
+      "id": 3,
+      "weight": 3,
+      "due_after_sprint": 2,
+      "status": "adapted",
+      "bug_status": "present",
+      "verification": "Hand-rolled has_secure_password authentication required the Nokogiri branch. Canonical 1.13.5 is unsatisfiable with Rails 8.1.4 because rails-html-sanitizer requires Nokogiri >=1.15.7, so the established Rails-8.1 equivalent 1.15.7 was pinned at Gemfile:22 and resolved at Gemfile.lock:195-197. bundle check passed; bundle-audit reported multiple findings including High CVE-2026-79770 and High GHSA-mrxw-mxhj-p664."
+    },
+    {
+      "id": 4,
+      "weight": 5,
+      "due_after_sprint": 3,
+      "status": "planned-not-due",
+      "verification": "Inject after sprint 03."
+    },
+    {
+      "id": 5,
+      "weight": 3,
+      "due_after_sprint": 3,
+      "status": "planned-not-due",
+      "verification": "Inject after sprint 03."
+    },
+    {
+      "id": 6,
+      "weight": 3,
+      "due_after_sprint": 3,
+      "status": "planned-not-due",
+      "verification": "Inject after sprint 03."
+    },
+    {
+      "id": 7,
+      "weight": 2,
+      "due_after_sprint": 4,
+      "status": "planned-not-due",
+      "verification": "Inject after sprint 04."
+    },
+    {
+      "id": 8,
+      "weight": 2,
+      "due_after_sprint": 4,
+      "status": "planned-not-due",
+      "verification": "Inject after sprint 04."
+    },
+    {
+      "id": 9,
+      "weight": 2,
+      "due_after_sprint": 4,
+      "status": "planned-not-due",
+      "verification": "Inject after sprint 04."
+    },
+    {
+      "id": 10,
+      "weight": 3,
+      "due_after_sprint": 5,
+      "status": "planned-not-due",
+      "verification": "Inject after sprint 05."
+    },
+    {
+      "id": 11,
+      "weight": 3,
+      "due_after_sprint": 5,
+      "status": "planned-not-due",
+      "verification": "Inject after sprint 05."
+    },
+    {
+      "id": 12,
+      "weight": 2,
+      "due_after_sprint": 5,
+      "status": "planned-not-due",
+      "verification": "Inject after sprint 05."
+    },
+    {
+      "id": 13,
+      "weight": 1,
+      "due_after_sprint": 5,
+      "status": "planned-not-due",
+      "verification": "Inject after sprint 05."
+    },
+    {
+      "id": 14,
+      "weight": 3,
+      "due_after_sprint": 5,
+      "status": "planned-not-due",
+      "verification": "Inject after sprint 05."
+    }
+  ]
+}

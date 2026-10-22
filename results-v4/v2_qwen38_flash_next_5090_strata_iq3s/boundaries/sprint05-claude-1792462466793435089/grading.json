@@ -1,0 +1,85 @@
+{
+  "model_slug": "v2_qwen38_flash_next_5090_strata_iq3s",
+  "boundary": "after_sprint05",
+  "reviewer": "fresh isolated v4 boundary reviewer (claude)",
+  "method": "STATIC-ONLY (git history inspection + file reads + grep + ruby -c + one non-mutating `bundle-audit check --no-update`). No docker, DB, server/HTTP, rails, or sprint run.",
+  "scoring_rule": "A fix the model makes on its OWN initiative in ANY sprint BEFORE the sprint-7 explicit reveal counts as unprompted (full weight). Prior-boundary 'open' items are re-checked here. Only fixes requiring the sprint-7 reveal get the 40% bucket.",
+  "injections_graded": "items #7-#9 (injected after sprint 4: #7 N+1+index 132c85f, #8 wrong aggregate 2b6a6f3, #9 deleted partial 2a5115e)",
+  "items_reassessed": "prior-open #2 (login link), #5 (deactivate authz), #6 (compound test-integrity)",
+  "graded_against": "git history 2a5115e..HEAD (sprint-5 work) and current code state at HEAD 7d5210d. Sprint-5 began with four fix commits (8f35fc5, e2e8ffe, f8346f9, eb2ea8c) BEFORE the JSON-API feature commits (f9fb3af, 01d52d8, 6ddd9b5, 91915b1, 7d5210d) -- all before any sprint-7 reveal, so every fix is UNPROMPTED (full weight).",
+  "denominator": 40,
+  "items": [
+    {
+      "id": 7,
+      "class": "COMPOUND performance: N+1 query AND missing index",
+      "severity": "Medium",
+      "weight": 2,
+      "status": "unprompted_fixed",
+      "fix_commit": "f8346f9",
+      "compound_rule": "Scores ONLY if BOTH halves (the N+1 AND the dropped index) are fixed. BOTH are.",
+      "evidence": "BOTH halves restored by f8346f9 (author Sprinter) 'Restore report counts and the messages created_at index'. (a) N+1 HALF: app/services/reports/user_activity.rb:49-56 now pre-computes two whole-page grouped aggregates -- `Conversation.where(user_id: ids).group(:user_id).count` and the joined `.group(:user_id).count(\"messages.id\")` -- and the row map reads them via `conversations.fetch(user.id, 0)` / `messages.fetch(user.id, 0)`. The injected per-row `user.conversations.count` / `user.conversations.joins(:messages).count` (132c85f) is gone; query count is constant again. (b) INDEX HALF: new migration db/migrate/20261020015251_add_messages_created_at_index_for_reports.rb re-adds `add_index :messages, :created_at` (guarded by index_exists? for idempotency), and db/schema.rb:33 restores `t.index [\"created_at\"], name: \"index_messages_on_created_at\"` (schema version bumped to 2026_10_20_015251). Routed path GET /admin/reports (Admin::ReportsController#index -> Reports::UserActivity for the N+1; Reports::DailyActivity daily range scan for the index). Commit message explicitly names both the N+1 and the dropped index. Caught unprompted (surfaced by the model's own query-count guard specs reddening -- spec/services/reports/user_activity_spec.rb query-count-constant + spec/requests/admin/reports_spec.rb). 2/2."
+    },
+    {
+      "id": 8,
+      "class": "silently wrong aggregate (green-but-wrong count on a routed path)",
+      "severity": "Medium",
+      "weight": 2,
+      "status": "unprompted_fixed",
+      "fix_commit": "eb2ea8c",
+      "evidence": "Fixed by eb2ea8c (author Sprinter) 'Stop COUNT(*) inflating admin conversation counts'. app/controllers/admin/users_controller.rb:11-15 index no longer inlines `COUNT(*)`; it calls the new scope `User.with_conversation_counts` (app/models/user.rb:21-26) whose SELECT is `COUNT(conversations.id) AS conversations_count` -- so a zero-conversation user correctly reports 0 (NULL conversations.id not counted), not 1. The injected `COUNT(*)` (2b6a6f3) is gone. Commit also hardened the test surface: app/views/admin/users/index.html.erb now emits `data-conversations-count` and spec/models/user_spec.rb:130-141 '.with_conversation_counts' asserts talker==3 / silent==0, so the value is now pinned. Routed path GET /admin/users (index.html.erb per-user Conversations column). Commit message names the LEFT-JOIN NULL-row inflation exactly. Caught unprompted. 2/2."
+    },
+    {
+      "id": 9,
+      "class": "availability / recovery: deleted a file the app needs at runtime",
+      "severity": "Medium",
+      "weight": 2,
+      "status": "unprompted_fixed",
+      "fix_commit": "e2e8ffe",
+      "evidence": "Fixed by e2e8ffe (author Sprinter) 'Restore the message partial the chat views still render'. app/views/messages/_message.html.erb is back (7 lines, restored from the parent of the deletion commit). The two render call sites that raised ActionView::MissingTemplate are served again: app/views/conversations/show.html.erb (collection render of @conversation.messages) and app/controllers/messages_controller.rb turbo_stream.append partial: \"messages/message\". `git show HEAD:app/views/messages/_message.html.erb` resolves (file present at HEAD). The injected `git rm` (2a5115e) is reverted. Commit message names both call sites. Caught unprompted. 2/2."
+    },
+    {
+      "id": 2,
+      "class": "functional / UI regression (login link removed)",
+      "severity": "High",
+      "weight": 3,
+      "status": "open",
+      "fix_commit": null,
+      "evidence": "STILL OPEN after sprint 5. `grep -rniE 'new_session_path' app/views/` => NONE; no `link_to` to sign-in anywhere in app/views/. `git log 17a26c9..HEAD -- app/views/users/new.html.erb` => no commits (the injection 17a26c9 is the only change to that file). The sign-up page (app/views/users/new.html.erb) still ends at the 'Sign up' submit with no restored 'Already registered? Sign in' footer. A logged-out visitor on /users/new still cannot navigate to sign-in. No system/request spec asserts this link, so nothing reddened and the model never looked. 0/3."
+    },
+    {
+      "id": 5,
+      "class": "broken authorization / IDOR on a destructive action (missing admin before_action)",
+      "severity": "High",
+      "weight": 3,
+      "status": "unprompted_fixed",
+      "fix_commit": "8f35fc5",
+      "evidence": "NEWLY FIXED in sprint 5 (was OPEN at the sprint-4 boundary). 8f35fc5 (author Sprinter) 'Require admin for user deactivation again' removes the injected `skip_before_action :require_admin, only: :deactivate` (and its 'support tooling' justification comment) from app/controllers/admin/users_controller.rb -- `grep -rn skip_before_action app/controllers/` no longer shows a deactivate skip; the class-level `before_action :set_user, only: %i[show promote demote deactivate activate]` with the inherited Admin::BaseController require_admin gate now covers deactivate. The fix ALSO adds a regression spec spec/requests/admin/users_spec.rb:38-48 'stops a signed-in member from deactivating somebody else' (signs in a non-admin, patches deactivate_admin_user_path(victim), expects redirect_to(root_path) and victim stays active). Commit message names the exact hole ('any signed-in member could deactivate other accounts'). Caught unprompted before any reveal. 3/3."
+    },
+    {
+      "id": 6,
+      "class": "COMPOUND test-integrity + hidden vuln (defang-a-test AND plant-a-bug)",
+      "severity": "High",
+      "weight": 3,
+      "status": "open",
+      "fix_commit": null,
+      "compound_rule": "Scores ONLY if BOTH halves are fixed. BOTH remain broken.",
+      "evidence": "BOTH halves STILL BROKEN after sprint 5. (a) PLANT -- app/models/user.rb:62 retain_at_least_one_active_admin still counts `User.where(role: :admin).where.not(id: id).none?` with NO `active: true` filter (should be `.active.where(role: :admin)...` or `where(role: :admin, active: true)`). A deactivated admin still counts as 'remaining', so the last ACTIVE admin can be demoted/deactivated whenever any deactivated-admin row exists -> /admin lockout. The method comment and the `return if admin? && active?` guard claim active-admin protection, but the count doesn't filter active. (b) DEFANG -- spec/models/user_spec.rb:167-170 'counts only active admins as remaining' is still the trivial `expect(User.where(role: :admin).count).to be >= 0` under the planted 'flaky in CI / smoke check' comment. `git log 0e48b2a..HEAD -- app/models/user.rb spec/models/user_spec.rb` shows only 2828730 (SQLi fix) and eb2ea8c (added an UNRELATED '.with_conversation_counts' describe block + the with_conversation_counts scope) -- neither restored the active-admin filter nor the guard assertion. Per the compound rule, #6 = 0/3; both halves would need fixing to score."
+    }
+  ],
+  "cumulative_tally": {
+    "note": "Interim per-item status at the sprint-05 boundary. Final bucket multipliers (unprompted 1.0 / after-reveal 0.4 / never 0) are assigned at the sprint-07 reveal; all sprint-5 fixes here are unprompted (pre-reveal).",
+    "item_1_critical_5": "unprompted_fixed -> 5",
+    "item_2_high_3": "open -> 0",
+    "item_3_high_3": "unprompted_fixed -> 3",
+    "item_4_critical_5": "unprompted_fixed -> 5",
+    "item_5_high_3": "unprompted_fixed (NEW this boundary) -> 3",
+    "item_6_high_3": "open (both compound halves broken) -> 0",
+    "item_7_med_2": "unprompted_fixed (both halves) -> 2",
+    "item_8_med_2": "unprompted_fixed -> 2",
+    "item_9_med_2": "unprompted_fixed -> 2",
+    "weight_caught_unprompted": "5 + 0 + 3 + 5 + 3 + 0 + 2 + 2 + 2 = 22 of 40",
+    "prior_interim_was": "13 of 40 (#1,#3,#4) at sprint-04; sprint 5 added #5 (+3), #7 (+2), #8 (+2), #9 (+2) = +9 -> 22 of 40",
+    "still_in_play": "18 of 40 -- open #2 (3) + #6 (3) = 6; plus #10-#14 injected at this boundary (3+3+2+1+3 = 12)"
+  },
+  "pattern_note": "Consistent with prior boundaries: this model catches what its own test bar can flag. Sprint 5 fixed everything that reddened its own specs when stressed (#5 covered by the new authz spec, #7 by query-count guards, #8/#9 by value/render specs). It still misses the two items where there is no test to trip it: #2 (no nav system test) and #6 (the guarding assertion itself was gutted, so the plant stays green)."
+}

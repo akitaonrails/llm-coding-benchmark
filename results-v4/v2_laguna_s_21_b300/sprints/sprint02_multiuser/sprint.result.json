@@ -1,0 +1,12 @@
+{
+  "slug": "v2_laguna_s_21_b300",
+  "sprint": "sprint02_multiuser",
+  "harness": "opencode",
+  "elapsed_seconds": 151.32,
+  "cost_usd": 0.0,
+  "tokens_total": 3684800,
+  "exit_code": 0,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": false
+}

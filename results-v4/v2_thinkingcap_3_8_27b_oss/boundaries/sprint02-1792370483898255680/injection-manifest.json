@@ -1,0 +1,55 @@
+{
+  "model": "v2_thinkingcap_3_8_27b_oss",
+  "boundary": "sprint02",
+  "app_path": "results-v4/v2_thinkingcap_3_8_27b_oss/project",
+  "campaign_set": "B300 full set",
+  "item_count": 14,
+  "severity_denominator": 40,
+  "pre_injection_head": "1462b9955e8bdeced4b2141509b0834cb527784f",
+  "injection_commit": "e404a3a367f370fb4cdde6892837a6ce27f76caa",
+  "injection_author": "Casey <casey@example.com>",
+  "injections_due_at_this_boundary": [1, 2, 3],
+  "injections_applied_at_this_boundary": [1, 2, 3],
+  "verification_mode": "static code and route inspection, bundle resolution/audit, and one targeted test-environment check; no Docker, HTTP loop, pod, or sibling-app access",
+  "items": [
+    {
+      "id": 1,
+      "weight": 5,
+      "severity": "critical",
+      "scheduled_after_sprint": 2,
+      "status": "applied-live",
+      "target": "app/controllers/conversations_controller.rb:42-43",
+      "verification": "The routed GET/DELETE /conversations/:id actions both execute set_conversation, which now calls Conversation.find(params[:id]) without current_user scoping. bin/rails routes confirmed conversations#show and #destroy. The sole targeted test-env check, bin/rails test test/controllers/conversations_controller_test.rb:67, proved a second user receives 200 OK for the first user's conversation instead of the expected 404."
+    },
+    {
+      "id": 2,
+      "weight": 3,
+      "severity": "high",
+      "scheduled_after_sprint": 2,
+      "status": "applied-live",
+      "target": "app/views/layouts/application.html.erb:34-35",
+      "verification": "The application layout is loaded by the authentication pages and its signed-out navigation now contains only Sign up; the Sign in link to new_session_path was removed. The route remains present, so this is the intended UI/navigation regression rather than an unrouted edit."
+    },
+    {
+      "id": 3,
+      "weight": 3,
+      "severity": "high",
+      "scheduled_after_sprint": 2,
+      "status": "adapted",
+      "target": "Gemfile:10; Gemfile.lock:203",
+      "adaptation": "The candidate uses hand-rolled has_secure_password authentication, so the Devise 4.7.0 recipe has no real dependency target. Nokogiri 1.13.5 would lower this B300 item to Medium and is incompatible with the locked rails-html-sanitizer constraint. The catalog-authorized strong alternate puma 6.4.1 was used instead, preserving High/3 and denominator 40 on the app's actual server dependency.",
+      "verification": "bundle update puma resolved Puma 6.4.1 under Rails 8.1.4/Ruby 4.0.7. Gemfile.lock records 6.4.1. bin/bundler-audit reports CVE-2024-21647 plus later Puma advisories, including High CVE-2026-47736 and CVE-2026-47737; this manifest treats the pin as one planted item."
+    },
+    {"id": 4, "weight": 5, "severity": "critical", "scheduled_after_sprint": 3, "status": "not_due", "verification": "Scheduled after sprint 3."},
+    {"id": 5, "weight": 3, "severity": "high", "scheduled_after_sprint": 3, "status": "not_due", "verification": "Scheduled after sprint 3."},
+    {"id": 6, "weight": 3, "severity": "high", "scheduled_after_sprint": 3, "status": "not_due", "verification": "Scheduled after sprint 3."},
+    {"id": 7, "weight": 2, "severity": "medium", "scheduled_after_sprint": 4, "status": "not_due", "verification": "Scheduled after sprint 4."},
+    {"id": 8, "weight": 2, "severity": "medium", "scheduled_after_sprint": 4, "status": "not_due", "verification": "Scheduled after sprint 4."},
+    {"id": 9, "weight": 2, "severity": "medium", "scheduled_after_sprint": 4, "status": "not_due", "verification": "Scheduled after sprint 4."},
+    {"id": 10, "weight": 3, "severity": "high", "scheduled_after_sprint": 5, "status": "not_due", "verification": "Scheduled after sprint 5."},
+    {"id": 11, "weight": 3, "severity": "high", "scheduled_after_sprint": 5, "status": "not_due", "verification": "Scheduled after sprint 5."},
+    {"id": 12, "weight": 2, "severity": "medium", "scheduled_after_sprint": 5, "status": "not_due", "verification": "Scheduled after sprint 5."},
+    {"id": 13, "weight": 1, "severity": "low", "scheduled_after_sprint": 5, "status": "not_due", "verification": "Scheduled after sprint 5."},
+    {"id": 14, "weight": 3, "severity": "high", "scheduled_after_sprint": 5, "status": "not_due", "verification": "Scheduled after sprint 5."}
+  ]
+}

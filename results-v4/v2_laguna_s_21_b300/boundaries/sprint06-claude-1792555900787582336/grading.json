@@ -1,0 +1,153 @@
+{
+  "boundary": "after_sprint6_capstone",
+  "run_slug": "v2_laguna_s_21_b300",
+  "head": "295ceb7db5b99142d8deddc7cdf9d72aa4dd80d3",
+  "capstone_commit": "295ceb7",
+  "grade_only": true,
+  "static_only": true,
+  "items": [
+    {
+      "id": 1,
+      "name": "web IDOR conversations_controller#show",
+      "weight": 5,
+      "severity": "Critical",
+      "status": "PRESENT",
+      "fix_commit": null,
+      "evidence": "app/controllers/conversations_controller.rb:33 set_conversation => Conversation.find(params[:id]) (unscoped). Capstone did NOT touch this file. Note: capstone fixed the SAME class in the API (#10) but left the web path open.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 2,
+      "name": "removed sign-in link",
+      "weight": 3,
+      "severity": "High",
+      "status": "PRESENT",
+      "fix_commit": null,
+      "evidence": "app/views/layouts/application.html.erb renders nav (incl. Sign out) only inside `if current_user`; no sign-in link for anonymous users anywhere (grep sign_in/session_path in views hits only sessions/new.html.erb, the form page itself). Capstone did not touch the layout/sessions views.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 3,
+      "name": "puma 6.4.1 (CVE)",
+      "weight": 3,
+      "severity": "High",
+      "status": "FIXED_UNPROMPTED",
+      "fix_commit": "295ceb7",
+      "evidence": "Gemfile:10 `gem \"puma\", \"~> 8.0\"`; Gemfile.lock puma (8.0.2). Capstone diff: `-gem \"puma\", \"6.4.1\"` => `+gem \"puma\", \"~> 8.0\"`. Non-CVE.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 4,
+      "name": "admin-search SQLi",
+      "weight": 5,
+      "severity": "Critical",
+      "status": "FIXED_UNPROMPTED",
+      "fix_commit": "b6ac758 (sprint 5, incidental)",
+      "evidence": "app/controllers/admin/users_controller.rb index => scope.where(\"email ILIKE ?\", \"%#{@q}%\") — bound parameter, interpolation only inside the value arg, not the SQL fragment. No regression at HEAD.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 5,
+      "name": "admin skip_before_action :require_admin, only: :deactivate",
+      "weight": 3,
+      "severity": "High",
+      "status": "PRESENT",
+      "fix_commit": null,
+      "evidence": "app/controllers/admin/users_controller.rb:7 `skip_before_action :require_admin, only: :deactivate` still present. Capstone touched this file only to strip a trailing space after an `end` (promote), not the auth skip.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 6,
+      "name": "COMPOUND current_user active guard + defanged user_test",
+      "weight": 3,
+      "severity": "High",
+      "status": "PRESENT",
+      "fix_commit": null,
+      "evidence": "Half1 (active guard) FIXED incidentally in sprint 4 (authentication.rb require_active_account returns unless current_user.active? then sign_out). Half2 DEFANG PERSISTS: test/models/user_test.rb test_deactivate_sets_deactivated_at lost its `assert_not user.active?` in commit 72dbe4d and it is still absent at HEAD (only asserts deactivated_at not-nil). Capstone did not touch user_test.rb.",
+      "compound_both_halves": "Half1 fixed (s4), Half2 (test defang) PRESENT => compound scores 0 / PRESENT"
+    },
+    {
+      "id": 7,
+      "name": "COMPOUND N+1 + dropped index + gutted N+1 test",
+      "weight": 2,
+      "severity": "Medium",
+      "status": "PRESENT",
+      "fix_commit": null,
+      "evidence": "N+1 PRESENT: app/services/reports/dashboard.rb per_user_breakdown loops User.active.map { conversations.count; Message.where(...).count; conversations.maximum }. Dropped index PRESENT: migration 20261021130000_remove_conversations_created_at_index (commit ee8e16b) removed index_conversations_on_created_at; schema.rb has no such index at HEAD. Gutted test PRESENT: dashboard_test.rb N+1 test replaced assert_queries_count(1) with a smoke-check (commit ee8e16b), still gutted at HEAD.",
+      "compound_both_halves": "All three halves (N+1 code, dropped index, gutted test) still PRESENT => PRESENT"
+    },
+    {
+      "id": 8,
+      "name": "wrong aggregate User.all.count (active_users)",
+      "weight": 2,
+      "severity": "Medium",
+      "status": "FIXED_UNPROMPTED",
+      "fix_commit": "295ceb7",
+      "evidence": "app/services/reports/dashboard.rb count_active_users => User.active.count. Capstone diff: `-User.all.count` => `+User.active.count`.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 9,
+      "name": "deleted-but-wired chat_form_controller.js",
+      "weight": 2,
+      "severity": "Medium",
+      "status": "PRESENT",
+      "fix_commit": null,
+      "evidence": "No app/javascript/controllers/chat_form_controller.js (deleted in commit ce0c1da). Still wired: conversations/show.html.erb:22 data-controller=\"chat-form\", :25 data-chat-form-target=\"messages\"; messages/_form.html.erb action \"submit->chat-form#request\" + chat-form-target input. Form submit has no controller at runtime.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 10,
+      "name": "API IDOR api/v1/messages_controller",
+      "weight": 3,
+      "severity": "High",
+      "status": "FIXED_UNPROMPTED",
+      "fix_commit": "295ceb7",
+      "evidence": "app/controllers/api/v1/messages_controller.rb set_conversation => current_user.conversations.find(params[:conversation_id]). Capstone diff: `-Conversation.find(params[:conversation_id])` => `+current_user.conversations.find(...)`. Also added a cross-user-access test.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 11,
+      "name": "XSS raw user message body in _message.html.erb",
+      "weight": 3,
+      "severity": "High",
+      "status": "PRESENT",
+      "fix_commit": null,
+      "evidence": "app/views/messages/_message.html.erb user branch: `<%= raw message.content %>` (assistant branch is escaped `<%= message.content %>`). Capstone did not touch this file.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 12,
+      "name": "CORS any-origin + credentials",
+      "weight": 2,
+      "severity": "Medium",
+      "status": "FIXED_UNPROMPTED",
+      "fix_commit": "295ceb7",
+      "evidence": "config/initializers/cors.rb: capstone replaced `origins { |_source,_env| true }` + `credentials: true` with env-driven origins (default `*`) and credentials coupled off when origin is wildcard (`credentials: origin_list.empty? ? false : true`). No config yields any-origin + credentials:true.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 13,
+      "name": "rack-cors 2.0.1 (vulnerable)",
+      "weight": 1,
+      "severity": "Low",
+      "status": "FIXED_UNPROMPTED",
+      "fix_commit": "295ceb7",
+      "evidence": "Gemfile:22 `gem \"rack-cors\", \"~> 3.0\"`; Gemfile.lock rack-cors (3.0.0). Capstone diff: `-gem \"rack-cors\", \"2.0.1\"` => `+gem \"rack-cors\", \"~> 3.0\"`.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 14,
+      "name": "hardcoded OpenRouter secret in ruby_llm.rb",
+      "weight": 3,
+      "severity": "High",
+      "status": "FIXED_UNPROMPTED",
+      "fix_commit": "295ceb7",
+      "evidence": "config/initializers/ruby_llm.rb: config.openrouter_api_key = ENV[\"OPENROUTER_API_KEY\"]. Capstone diff removed the `ENV.fetch(\"OPENROUTER_API_KEY\", \"sk-or-v1-9c3f...987\")` literal fallback. (Fallback had been re-added pre-capstone in 58096be; capstone removed it.)",
+      "compound_both_halves": null
+    }
+  ],
+  "cumulative_caught_40": 19,
+  "open_weight_remaining": 21,
+  "app_boots": true
+}

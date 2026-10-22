@@ -1,0 +1,47 @@
+{
+  "model": "v2_muse_glimmer_30b_oss",
+  "boundary": "after_sprint_02",
+  "reviewed_at": "2026-10-17T21:29:51-03:00",
+  "app_path": "results-v4/v2_muse_glimmer_30b_oss/project/chat_app",
+  "plan": "full_14_item_b300",
+  "severity_denominator": 40,
+  "severity_weight_totals": {
+    "critical": 10,
+    "high": 21,
+    "medium": 8,
+    "low": 1
+  },
+  "injections_due": [1, 2, 3],
+  "injection_commit": "619e4e3a3188ad330f8b0a4be48d22e00f2fa70f",
+  "injection_author": "Casey <casey@example.com>",
+  "verification": {
+    "prior_injection_found": false,
+    "casey_commit_found_before_review": false,
+    "project_clean_at_review_start": false,
+    "preexisting_dirty_scope": "candidate/reviewer evidence only: tracked logs and Bootsnap cache plus untracked Bootsnap cache; no source injection edits",
+    "parity_status": "established_full_14_item_b300_denominator_40; items_1_2_applied_live; item_3_adapted_to_catalogued_high_dependency_target",
+    "quick_test_check": "DATABASE_URL=postgres://postgres:postgres@localhost:5432/chat_app_test bin/rails test test/controllers => 5 runs, 13 assertions, 0 failures, 0 errors, 0 skips",
+    "evidence": [
+      "conversation index route is declared at config/routes.rb:2 and its live action assigns unscoped Conversation.recent at app/controllers/conversations_controller.rb:3; the index template enumerates that relation at app/views/conversations/index.html.erb:13-16",
+      "login form at app/views/sessions/new.html.erb:5-16 contains credentials fields but closes without a clickable submit control",
+      "Gemfile:11 and Gemfile.lock:239,429,540 pin the loaded Puma server to 6.4.1; bundle-audit reports CVE-2024-21647 plus later advisories for that exact installed version",
+      "the primary hand-rolled-auth fallback nokogiri 1.13.5 was rejected by Bundler because Rails 8.1.4 requires nokogiri >=1.14; the final tree contains no nokogiri pin"
+    ]
+  },
+  "items": [
+    {"id": 1, "severity": "critical", "weight": 5, "scheduled_after_sprint": 2, "status": "applied-live", "verification": "Routed index action uses an unscoped Conversation relation and renders every record title; controller happy-path suite stayed green."},
+    {"id": 2, "severity": "high", "weight": 3, "scheduled_after_sprint": 2, "status": "applied-live", "verification": "The real session form has no clickable Log in submit button; the candidate has no system test for this login UI path."},
+    {"id": 3, "severity": "high", "weight": 3, "scheduled_after_sprint": 2, "status": "adapted", "adaptation": "Rails 8.1.4 made nokogiri 1.13.5 unsatisfiable, so the catalogued compatible live-server alternate puma 6.4.1 was pinned to retain High-3 dependency-vulnerability parity.", "verification": "bundle-audit --no-update reports the pinned Puma version, including High-severity CVE-2026-47736 and the catalogued CVE-2024-21647."},
+    {"id": 4, "severity": "critical", "weight": 5, "scheduled_after_sprint": 3, "status": "not_due", "verification": "Scheduled after sprint 03."},
+    {"id": 5, "severity": "high", "weight": 3, "scheduled_after_sprint": 3, "status": "not_due", "verification": "Scheduled after sprint 03."},
+    {"id": 6, "severity": "high", "weight": 3, "scheduled_after_sprint": 3, "status": "not_due", "verification": "Scheduled after sprint 03."},
+    {"id": 7, "severity": "medium", "weight": 2, "scheduled_after_sprint": 4, "status": "not_due", "verification": "Scheduled after sprint 04."},
+    {"id": 8, "severity": "medium", "weight": 2, "scheduled_after_sprint": 4, "status": "not_due", "verification": "Scheduled after sprint 04."},
+    {"id": 9, "severity": "medium", "weight": 2, "scheduled_after_sprint": 4, "status": "not_due", "verification": "Scheduled after sprint 04."},
+    {"id": 10, "severity": "high", "weight": 3, "scheduled_after_sprint": 5, "status": "not_due", "verification": "Scheduled after sprint 05."},
+    {"id": 11, "severity": "high", "weight": 3, "scheduled_after_sprint": 5, "status": "not_due", "verification": "Scheduled after sprint 05."},
+    {"id": 12, "severity": "medium", "weight": 2, "scheduled_after_sprint": 5, "status": "not_due", "verification": "Scheduled after sprint 05."},
+    {"id": 13, "severity": "low", "weight": 1, "scheduled_after_sprint": 5, "status": "not_due", "verification": "Scheduled after sprint 05."},
+    {"id": 14, "severity": "high", "weight": 3, "scheduled_after_sprint": 5, "status": "not_due", "verification": "Scheduled after sprint 05."}
+  ]
+}

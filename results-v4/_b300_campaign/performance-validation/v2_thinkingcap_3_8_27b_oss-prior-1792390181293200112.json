@@ -1,0 +1,17 @@
+{
+  "index": 1,
+  "serve_args": "--dtype bfloat16 --tool-call-parser qwen3_xml --reasoning-parser qwen3 --enable-auto-tool-choice --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity --language-model-only --speculative-config '{\"method\":\"mtp\",\"num_speculative_tokens\":3,\"draft_sample_method\":\"probabilistic\"}'",
+  "exit_code": 0,
+  "started_at": 1792368071.537531,
+  "finished_at": 1792368177.4365022,
+  "passed": true,
+  "decode_tokens_per_second": 188.9458668145085,
+  "tool_preflight_passed": true,
+  "serving_fingerprint": "c43744b7722829d2ddcc052033bc81c8e78af89a09cb223c17076c05ead0dc02",
+  "evidence": [
+    "results-v4/_b300_campaign/migration-20261017/perf-v2_thinkingcap_3_8_27b_oss-restored-pod-1-1792368168685179217.json",
+    "results-v4/_b300_campaign/migration-20261017/preflight-v2_thinkingcap_3_8_27b_oss-1792368167190389042.json",
+    "results-v4/_b300_campaign/model-cards/v2_thinkingcap_3_8_27b_oss.md"
+  ],
+  "revision": "7891e03dbda2e9b63a5b9610f20e83ea441f8e2c"
+}

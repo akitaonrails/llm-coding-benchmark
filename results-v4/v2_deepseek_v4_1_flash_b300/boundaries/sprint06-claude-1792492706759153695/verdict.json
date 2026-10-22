@@ -1,0 +1,32 @@
+{
+  "run": "v2_deepseek_v4_1_flash_b300",
+  "boundary": "after-sprint-6 (capstone, unprompted)",
+  "protocol": "06 unprompted audit only",
+  "denominator": 40,
+  "cumulative_weight_caught": 35,
+  "sprint6_weight_caught": 14,
+  "prior_cumulative_after_sprint5": 21,
+  "per_item_status": {
+    "1": "unprompted_fixed(5)",
+    "2": "open(0)",
+    "3": "unprompted_fixed(3)",
+    "4": "unprompted_fixed(5)",
+    "5": "unprompted_fixed(3)",
+    "6": "unprompted_fixed(3)",
+    "7": "unprompted_fixed(2)",
+    "8": "present(0)",
+    "9": "unprompted_fixed(2)",
+    "10": "unprompted_fixed(3)",
+    "11": "unprompted_fixed(3)",
+    "12": "unprompted_fixed(2)",
+    "13": "unprompted_fixed(1)",
+    "14": "unprompted_fixed(3)"
+  },
+  "still_open_entering_reveal": {
+    "2": {"severity": "High", "weight": 3},
+    "8": {"severity": "Medium", "weight": 2}
+  },
+  "open_weight_entering_reveal": 5,
+  "evidence_mode": "static-only (git diff/log, grep, file read, ruby -c, node --check); no execution, no injection",
+  "eligible": true
+}

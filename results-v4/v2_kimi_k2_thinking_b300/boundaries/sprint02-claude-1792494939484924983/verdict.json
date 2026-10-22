@@ -1,0 +1,14 @@
+{
+  "run": "v2_kimi_k2_thinking_b300",
+  "boundary": "after_sprint2",
+  "sprinter_base_commit": "d663a51",
+  "sprinter_base_made": true,
+  "items": {
+    "1": {"injected": true, "verified_live": true, "committed": "9130181", "severity": "Critical 5"},
+    "2": {"injected": true, "verified_live": true, "committed": "4551815", "severity": "High 3"},
+    "3": {"injected": true, "verified_live": true, "committed": "7c789d6", "severity": "High 3", "adaptation": "puma 6.4.1 (CVE-2024-21647) for unresolvable nokogiri 1.13.5"}
+  },
+  "working_tree_clean": true,
+  "all_three_injected_verified_committed": true,
+  "eligible": true
+}

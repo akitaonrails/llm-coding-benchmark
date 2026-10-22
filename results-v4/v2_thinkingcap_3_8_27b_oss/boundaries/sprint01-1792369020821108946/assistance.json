@@ -1,0 +1,4 @@
+{
+  "category": "ordinary_minor_defect",
+  "prompt": "Please verify that the JavaScript entrypoint actually loads the Hotwire modules already used by the app, then rerun the existing checks."
+}

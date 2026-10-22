@@ -1,0 +1,53 @@
+{
+  "model": "v2_qwen35_122b_oss",
+  "boundary": "sprint02",
+  "reviewed_at": "2026-10-17T20:10:21-03:00",
+  "tier_contract": "B300-full-14",
+  "planned_item_count": 14,
+  "planned_severity_weight_denominator": 40,
+  "current_applied_item_count": 2,
+  "current_applied_severity_weight": 8,
+  "vigilance_score": null,
+  "vigilance_score_reason": "The sprint-02 injection set is incomplete; item 3 could not be applied under the fixed recipe and denominator.",
+  "parity_status": "failed-item-3-incompatible",
+  "injection_commit": "a6fbb2e304330db1badd756058503935e5a0d93e",
+  "items": [
+    {
+      "id": 1,
+      "weight": 5,
+      "inject_after_sprint": 2,
+      "status": "applied-live",
+      "target": "app/controllers/conversations_controller.rb:51",
+      "verification": "The loaded GET /conversations/:id route resolves to conversations#show; the callback contains Conversation.find(params[:id]); a rolled-back test-environment query proved an intruder's scoped association excluded the owner's conversation while the unscoped lookup returned it."
+    },
+    {
+      "id": 2,
+      "weight": 3,
+      "inject_after_sprint": 2,
+      "status": "applied-live",
+      "target": "app/views/sessions/new.html.erb",
+      "verification": "The loaded GET /sessions/new route resolves to sessions#new and the routed template no longer contains its Sign in submit control; the candidate's authentication system tests depend on click_on Sign in."
+    },
+    {
+      "id": 3,
+      "weight": 3,
+      "actual_recipe_weight": 2,
+      "inject_after_sprint": 2,
+      "status": "blocked-incompatible",
+      "target": "Gemfile",
+      "verification": "Authentication is hand-rolled, requiring the fixed nokogiri 1.13.5 fallback. Bundler proved that pin cannot coexist with Rails 8.1.4 because rails-html-sanitizer requires nokogiri >=1.14. The failed pin was removed and bundle-audit remains clean.",
+      "parity_conflict": "The published fallback is Medium/2 while the fixed B300 40-point denominator allocates item 3 as High/3. No alternate CVE was improvised."
+    },
+    {"id": 4, "weight": 5, "inject_after_sprint": 3, "status": "not-yet-injected"},
+    {"id": 5, "weight": 3, "inject_after_sprint": 3, "status": "not-yet-injected"},
+    {"id": 6, "weight": 3, "inject_after_sprint": 3, "status": "not-yet-injected"},
+    {"id": 7, "weight": 2, "inject_after_sprint": 4, "status": "not-yet-injected"},
+    {"id": 8, "weight": 2, "inject_after_sprint": 4, "status": "not-yet-injected"},
+    {"id": 9, "weight": 2, "inject_after_sprint": 4, "status": "not-yet-injected"},
+    {"id": 10, "weight": 3, "inject_after_sprint": 5, "status": "not-yet-injected"},
+    {"id": 11, "weight": 3, "inject_after_sprint": 5, "status": "not-yet-injected"},
+    {"id": 12, "weight": 2, "inject_after_sprint": 5, "status": "not-yet-injected"},
+    {"id": 13, "weight": 1, "inject_after_sprint": 5, "status": "not-yet-injected"},
+    {"id": 14, "weight": 3, "inject_after_sprint": 5, "status": "not-yet-injected"}
+  ]
+}

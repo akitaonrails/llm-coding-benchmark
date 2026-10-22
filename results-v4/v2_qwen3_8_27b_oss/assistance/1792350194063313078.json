@@ -1,0 +1,8 @@
+{
+  "sprint": "02_multiuser",
+  "prompt": "Ensure the project's standard CI entry point executes the documented RSpec suite, including system specs.",
+  "source": "/mnt/data/Projects/llm-coding-benchmark/results-v4/v2_qwen3_8_27b_oss/boundaries/sprint01-1792350051325213630/assistance.json",
+  "issued_at": 1792350194.063255,
+  "classification": "assisted",
+  "timing": "Included in this sprint and existing cumulative four-hour budget; no causal extra-time estimate"
+}

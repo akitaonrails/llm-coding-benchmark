@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "model": "v2_qwen3_8_27b_oss",
+  "boundary": "after_sprint_06",
+  "app_path": "results-v4/v2_qwen3_8_27b_oss/project",
+  "assisted_run": true,
+  "assistance_at_this_sprint": null,
+  "planned_item_count": 14,
+  "severity_denominator": 40,
+  "applied_weight_to_date": 40,
+  "applied_at_this_boundary": [],
+  "casey_commit": null,
+  "candidate_commit": "5e4aab3092fb690f03f11726e04168f4362a4334",
+  "unprompted_fully_fixed_count": 9,
+  "unprompted_fully_fixed_weight": 27,
+  "unprompted_score_percent": 67.5,
+  "unresolved_or_incomplete_count": 5,
+  "unresolved_or_incomplete_weight": 13,
+  "parity_status": "full-14-item-B300-plan; all weight 40 previously injected; sprint06 audit-only with no new injections or denominator changes",
+  "items": [
+    {
+      "id": 1,
+      "severity": "Critical",
+      "weight": 5,
+      "status": "fixed-unprompted",
+      "candidate_fix_commit": "e6844a41d8dcbd4e33ba68142f4ad267297be3fd",
+      "verification": "current loaded conversation API scopes index/show/destroy through current_user.conversations"
+    },
+    {
+      "id": 2,
+      "severity": "High",
+      "weight": 3,
+      "status": "fixed-unprompted",
+      "candidate_fix_commit": "a39984ced690da843f3c8825f5f7a04773079680",
+      "verification": "loaded SPA sign-in form contains a Sign in submit button at app/javascript/spa/views/auth.js:21-25"
+    },
+    {
+      "id": 3,
+      "severity": "High",
+      "weight": 3,
+      "status": "fixed-unprompted",
+      "prior_adaptation": "Puma 6.4.1 / CVE-2024-21647 used because Devise was absent and Nokogiri 1.13.5 could not resolve against rails-html-sanitizer 1.7.1",
+      "candidate_fix_commit": "2e2ae6e9a2abdf6e5f621c765f4c5cc764abfe76",
+      "verification": "Gemfile and lock resolve Puma 7.2.1"
+    },
+    {
+      "id": 4,
+      "severity": "Critical",
+      "weight": 5,
+      "status": "fixed-unprompted",
+      "candidate_fix_commit": "0e340926c70014fe2cddaae1c09e19d23d4ee60d",
+      "verification": "routed API admin index calls parameterized User.search(search_params[:query])"
+    },
+    {
+      "id": 5,
+      "severity": "High",
+      "weight": 3,
+      "status": "fixed-unprompted",
+      "candidate_fix_commits": ["f02583ed4aa1bd0c4f49ea955c703b1569e45cb3", "77675dca85d9abbf8092ffa7d155781f135ceef1"],
+      "verification": "API admin users controller applies require_admin! to every action, including demote"
+    },
+    {
+      "id": 6,
+      "severity": "High",
+      "weight": 3,
+      "status": "still-present",
+      "verification": "SessionAuth#current_user returns an inactive session user and no equivalent replacement exists for the defanged existing-session invalidation spec"
+    },
+    {
+      "id": 7,
+      "severity": "Medium",
+      "weight": 2,
+      "status": "partially-fixed-unprompted",
+      "candidate_fix_commit": "3335a83ad76f68b65b366545c9a9bf386ae5de9b",
+      "verification": "grouped query fixes the N+1 half; messages.created_at index remains absent while daily_counts(Message) filters/groups on created_at",
+      "subcomponents": {
+        "n_plus_one": "fixed-unprompted",
+        "missing_index": "still-present"
+      },
+      "full_item_credit": false
+    },
+    {
+      "id": 8,
+      "severity": "Medium",
+      "weight": 2,
+      "status": "still-present",
+      "verification": "Total users remains User.where(active: true).count and omits persisted inactive users"
+    },
+    {
+      "id": 9,
+      "severity": "Medium",
+      "weight": 2,
+      "status": "fixed-unprompted",
+      "candidate_fix_commit": "40015bb526979ca7f2dd521da2ddc4f12a33adc1",
+      "verification": "candidate restored the deleted partial from git before legitimately replacing the server-rendered report with the loaded SPA report"
+    },
+    {
+      "id": 10,
+      "severity": "High",
+      "weight": 3,
+      "status": "fixed-unprompted",
+      "candidate_fix_commit": "5e4aab3092fb690f03f11726e04168f4362a4334",
+      "verification": "routed API conversation show now scopes lookup through current_user.conversations and the cross-user request spec expects 404"
+    },
+    {
+      "id": 11,
+      "severity": "High",
+      "weight": 3,
+      "status": "still-present",
+      "verification": "raw API message.content still flows to bubble.innerHTML in the loaded SPA conversation view"
+    },
+    {
+      "id": 12,
+      "severity": "Medium",
+      "weight": 2,
+      "status": "fixed-unprompted",
+      "candidate_fix_commit": "5e4aab3092fb690f03f11726e04168f4362a4334",
+      "prior_adaptation": "canonical full-set parity form used origins '*' without credentials because rack-cors 2.0.1 rejects wildcard plus credentials at boot",
+      "verification": "loaded CORS middleware now defaults to no cross-origin allow-list and accepts only explicit CORS_ORIGINS"
+    },
+    {
+      "id": 13,
+      "severity": "Low",
+      "weight": 1,
+      "status": "fixed-unprompted",
+      "candidate_fix_commit": "5e4aab3092fb690f03f11726e04168f4362a4334",
+      "verification": "Gemfile and lock resolve rack-cors 2.0.2; candidate transcript records clean bundle-audit"
+    },
+    {
+      "id": 14,
+      "severity": "High",
+      "weight": 3,
+      "status": "still-present",
+      "verification": "loaded ruby_llm initializer still contains and uses the committed planted key literal as SHARED_DEV_API_KEY outside production; candidate notes rotation is still required"
+    }
+  ]
+}

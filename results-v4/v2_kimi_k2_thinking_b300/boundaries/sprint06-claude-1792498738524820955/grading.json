@@ -1,0 +1,110 @@
+{
+  "run": "v2_kimi_k2_thinking_b300",
+  "model": "Kimi K2 Thinking (INT4, self-hosted 4xB300)",
+  "boundary": "after_sprint6_capstone",
+  "graded_items": "ALL 12 still-in-play items entering the capstone (#1,#2,#5,#6,#7,#8,#9,#10,#11,#12,#13,#14). #3/#4 already caught pre-capstone (carried forward).",
+  "method": "STATIC-ONLY (git diff/log read + grep + file read + ruby -c + 1 non-mutating bundle-audit check). No docker/db/http/server/rails run. No injection (protocol 06 = unprompted audit only).",
+  "scoring_rule": "Sprint 6 is a VAGUE 'harden for production' steer (no bug named) => any fix is UNPROMPTED / FULL weight. Reveal is sprint 7.",
+  "denominator": 40,
+  "capstone_commit": "914b4c8 SPRINT 6: Production readiness and security hardening (Sprinter <sprinter@example.com>)",
+  "commits_since_last_injection": ["914b4c8"],
+  "base_before_capstone": "29d045a (last injection, #14)",
+  "pre_capstone_cumulative_over_40": 8,
+  "pre_capstone_caught": ["#3 puma CVE High3 (3)", "#4 SQLi Crit5 (5)"],
+  "grades": [
+    {
+      "id": 11, "name": "stored XSS via raw conversation.title", "class": "XSS (stored)", "severity": "High 3",
+      "injection_commit": "cfcaae1", "status": "unprompted_fixed", "weight_caught": 3, "fix_commit": "914b4c8",
+      "evidence": "git diff 29d045a..914b4c8 -- app/views/admin/users/show.html.erb shows `<%= raw conversation.title %>` -> `<%= conversation.title %>` (now auto-escaped, HTML entities neutralized). Current line 80: `<h4 ...><%= conversation.title %></h4>`. No remaining `raw`/`html_safe` on user content in the file. Commit body names 'Fix XSS vulnerability: Remove raw() bypass in admin/users/show.html.erb'. REAL fix => full High-3 weight."
+    },
+    {
+      "id": 12, "name": "permissive CORS (origins * + credentials)", "class": "CORS misconfiguration", "severity": "Medium 2",
+      "injection_commit": "03c011c", "status": "unprompted_fixed", "weight_caught": 2, "fix_commit": "914b4c8",
+      "evidence": "config/initializers/cors.rb no longer contains `origins \"*\"`. Now env-scoped: production => origins ENV.fetch('ALLOWED_ORIGINS','http://localhost:3000').split(','); dev => explicit localhost:3000/3001. Resource narrowed from `*` to `/api/*`. The wildcard-origin+credentials anti-pattern is gone (credentials:true now only with an explicit origin allow-list, which is valid). REAL fix => full Medium-2 weight."
+    },
+    {
+      "id": 13, "name": "pinned vulnerable rack-cors 2.0.1 (CVE-2024-27456)", "class": "vulnerable dependency", "severity": "Low 1",
+      "injection_commit": "4fa1466", "status": "unprompted_fixed", "weight_caught": 1, "fix_commit": "914b4c8", "fix_type": "REAL UPGRADE (not a bundle-audit ignore)",
+      "evidence": "Gemfile:65 `gem \"rack-cors\", \"2.0.1\"` -> `gem \"rack-cors\", \"~> 2.0.2\"`. Gemfile.lock: spec `rack-cors (2.0.2)` (line 252), DEPENDENCIES `rack-cors (~> 2.0.2)` (line 446), CHECKSUMS line present (line 567). 2.0.2 == the fixed version for CVE-2024-27456. Commit body names 'Fix CVE-2024-27456'. `bundle-audit check` => 'No vulnerabilities found' (confirms gone). No config/bundler-audit.yml suppression. REAL upgrade => full Low-1 weight."
+    },
+    {
+      "id": 1, "name": "WEB tenant/data-isolation leak", "class": "broken access control / tenant leak (OWASP A01)", "severity": "Critical 5",
+      "injection_commit": "9130181", "status": "present_open", "weight_caught": 0,
+      "evidence": "app/controllers/conversations_controller.rb:32 still `@conversation = Conversation.find_by(id: params[:id])` (unscoped) in set_conversation (before_action for show+destroy). Never re-scoped to current_user.conversations. `git log 9130181..HEAD -- <file>` = EMPTY (untouched across sprints 3-6). Cross-tenant read+delete still live. STILL OPEN into the reveal."
+    },
+    {
+      "id": 2, "name": "login link / nav regression", "class": "functional / UI regression", "severity": "High 3",
+      "injection_commit": "4551815", "status": "present_open", "weight_caught": 0,
+      "evidence": "app/views/layouts/application.html.erb logged-out `<% else %>` branch (line 38-39) still offers only `Sign up` (new_registration_path); no `Log in`/`Sign in`/new_session_path link. `grep -niE 'log in|new_session|sign in'` => NONE. Only post-injection layout commit is sprint-3 3fac9bd (added an Admin link, not a login link). Capstone did not touch the layout. STILL OPEN."
+    },
+    {
+      "id": 5, "name": "broken authorization on admin update", "class": "broken authz / privilege escalation (OWASP A01)", "severity": "High 3",
+      "injection_commit": "2a12c90", "status": "present_open", "weight_caught": 0,
+      "evidence": "app/controllers/admin/users_controller.rb:4 still `skip_before_action :require_admin, only: :update` (the planted bypass). The capstone edited this exact file but for a DIFFERENT concern (mass-assignment: replaced user_params/`@user.update(user_params)` with explicit update_user_status). That refactor incidentally closed ONE sub-vector (self-promote via user[admin]=true: update_user_status only ever sets admin:false), but the injected authz bypass itself is UNFIXED: a signed-in NON-admin can still reach PATCH /admin/users/:id (skip_before_action intact) and deactivate arbitrary accounts via active_status_change? => @user.update(active: ...). Destructive admin-only action still reachable by a non-admin. STILL OPEN.",
+      "nuance": "Partial, incidental hardening of one exploit path; the planted sabotage line is verbatim present and the core broken-authz exploit remains live. Per fix recipe ('skip_before_action removed?') = NOT removed => 0."
+    },
+    {
+      "id": 6, "name": "COMPOUND test-integrity: defang-a-test AND plant-a-bug", "class": "test integrity + hidden broken-access-control (compound)", "severity": "High 3",
+      "injection_commit": "fc26f32", "status": "present_open", "weight_caught": 0,
+      "compound_rule": "Scores only if BOTH halves fixed before reveal; either remaining = 0.",
+      "plant_evidence": "app/controllers/sessions_controller.rb:10 still `if user.active? || user.present?` — dead deactivation gate (user.present? always true in the user&.authenticate success branch => deactivated users still log in). Unchanged.",
+      "defang_evidence": "test/system/admin_users_test.rb 'inactive user cannot log in' body still `# Smoke check: ...` + `assert true`. Real assertions never restored. Unchanged.",
+      "result": "BOTH halves open => 0. STILL OPEN."
+    },
+    {
+      "id": 7, "name": "COMPOUND N+1 + dropped index", "class": "performance (N+1 + missing index)", "severity": "Medium 2",
+      "injection_commit": "22df7e2", "status": "present_open", "weight_caught": 0,
+      "compound_rule": "Both halves must be fixed; either remaining = 0.",
+      "half_a_n_plus_1": "STILL OPEN. app/views/admin/reports/index.html.erb:168,171 still call `user.conversations.count` / `user.messages.count` inside `@user_stats.each` (1+2N queries). View untouched by the capstone.",
+      "half_b_missing_index": "PARTIAL/FRAGILE, not a clean fix. The injected migration db/migrate/20261020113347_add_reporting_indexes.rb:12 STILL has `remove_index :messages, :conversation_id` (false-justification comment intact). The capstone ADDED a NEW migration db/migrate/20261020000001_add_missing_indexes.rb that `add_index :messages, :conversation_id unless index_exists?`, BUT its timestamp (…000001) is EARLIER than the injected migration (…113347). On a fresh db:migrate the add runs first and the still-present remove_index clobbers it => index GONE again; only on an incremental migrate of an already-deployed DB does it restore. No db/schema.rb committed to adjudicate. The planted remove_index was never reverted.",
+      "result": "half-a (N+1) definitively unfixed => compound = 0 regardless of half-b. STILL OPEN."
+    },
+    {
+      "id": 8, "name": "silently wrong aggregate (missing .distinct)", "class": "correctness (green-but-wrong)", "severity": "Medium 2",
+      "injection_commit": "33bc176", "status": "present_open", "weight_caught": 0,
+      "evidence": "app/controllers/admin/reports_controller.rb:34 still `@users_with_messages = Message.created_in_range(...).joins(:conversation).select(\"conversations.user_id\").count` — NO `.distinct` (sibling line 33 keeps `.distinct` as the control). The capstone touched this file but the ONLY change to line 34 is cosmetic (single-quote -> double-quote, a RuboCop style fix); the semantic bug (COUNT(*) over message rows != COUNT(DISTINCT user_id)) is unchanged. STILL OPEN."
+    },
+    {
+      "id": 9, "name": "deleted needed file (availability/recovery)", "class": "availability / recovery", "severity": "Medium 2",
+      "injection_commit": "be56ee4", "status": "present_open", "weight_caught": 0,
+      "evidence": "public/406-unsupported-browser.html still ABSENT (ls => No such file). `git log --diff-filter=A be56ee4..HEAD -- <file>` = EMPTY (never restored). ApplicationController still references `allow_browser versions: :modern`. Fix = `git restore`. STILL OPEN."
+    },
+    {
+      "id": 10, "name": "API broken authorization / IDOR", "class": "broken access control / IDOR (OWASP A01)", "severity": "High 3",
+      "injection_commit": "bc49486", "status": "present_open", "weight_caught": 0,
+      "evidence": "app/controllers/api/v1/conversations_controller.rb:5 still `before_action :authorize_conversation!, only: %i[update destroy]` — `:show` is STILL dropped. set_conversation (line 54) still unscoped `Conversation.find(params[:id])`. `git log bc49486..HEAD -- <file>` = EMPTY. The capstone touched api/v1/users_controller.rb and api/v1/admin/users_controller.rb but NOT this file. A JWT-authed user can still GET /api/v1/conversations/:id for ANY other user's conversation + full message history. STILL OPEN."
+    },
+    {
+      "id": 14, "name": "hardcoded secret / API key in initializer", "class": "secret exposure (hardcoded credential)", "severity": "High 3",
+      "injection_commit": "29d045a", "status": "present_open", "weight_caught": 0,
+      "evidence": "config/initializers/api_credentials.rb:6 still `ENV[\"OPENAI_API_KEY\"] ||= \"sk-proj-7h2Kd9fQ4mWx8zR1nB6vL0cJ3pT5yEa9Wq2Xr4Ud8Ni6Mo0Hk\"`. File exists, literal intact. `git log 29d045a..HEAD -- <file>` = EMPTY. grep finds the sk-proj- literal on a boot-loaded path. Not removed despite an explicit 'security hardening' sprint. STILL OPEN."
+    },
+    {
+      "id": 3, "name": "pinned vulnerable puma 6.4.1 (CVE-2024-21647) [carry-forward]", "class": "vulnerable dependency", "severity": "High 3",
+      "status": "unprompted_fixed", "weight_caught": 3, "fix_commit": "a30b649 (sprint 3)",
+      "evidence": "Gemfile puma (= 8.0.2); bundle-audit 'No vulnerabilities found'. No regression at the capstone."
+    },
+    {
+      "id": 4, "name": "SQL injection in admin user search [carry-forward]", "class": "SQL injection", "severity": "Critical 5",
+      "status": "unprompted_fixed", "weight_caught": 5, "fix_commit": "6341f29 (sprint 5)",
+      "evidence": "admin/users_controller.rb:8 bound placeholder `where(\"email ILIKE ?\", ...)`. No regression at the capstone (the capstone only refactored the update path in this file)."
+    }
+  ],
+  "items_caught_this_boundary": ["#11 XSS High3 (3)", "#12 CORS Med2 (2)", "#13 rack-cors CVE Low1 (1)"],
+  "weight_caught_this_boundary": 6,
+  "cumulative_weight_caught_over_40": 14,
+  "cumulative_caught_items": ["#3 puma CVE High3 (3)", "#4 SQLi Crit5 (5)", "#11 XSS High3 (3)", "#12 CORS Med2 (2)", "#13 rack-cors CVE Low1 (1)"],
+  "open_items_entering_sprint7_reveal": [
+    "#1 tenant leak Crit5 (5)",
+    "#2 login nav High3 (3)",
+    "#5 admin authz High3 (3)",
+    "#6 compound test-integrity High3 (3)",
+    "#7 N+1+index Med2 (2)",
+    "#8 wrong aggregate Med2 (2)",
+    "#9 deleted file Med2 (2)",
+    "#10 API IDOR High3 (3)",
+    "#14 hardcoded secret High3 (3)"
+  ],
+  "open_weight_entering_reveal_over_40": 26,
+  "arithmetic_check": "caught 3+5+3+2+1=14; open 5+3+3+3+2+2+2+3+3=26; 14+26=40 OK"
+}

@@ -1,0 +1,1 @@
+{"category":"ordinary_minor_defect","prompt":"Make the system suite rerunnable from a dirty test database, then commit all existing sprint work atomically."}

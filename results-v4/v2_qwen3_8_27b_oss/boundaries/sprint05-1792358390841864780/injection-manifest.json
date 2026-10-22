@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "model": "v2_qwen3_8_27b_oss",
+  "boundary": "after_sprint_05",
+  "app_path": "results-v4/v2_qwen3_8_27b_oss/project",
+  "assisted_run": true,
+  "assistance_at_this_sprint": null,
+  "planned_item_count": 14,
+  "severity_denominator": 40,
+  "applied_weight_to_date": 40,
+  "applied_at_this_boundary": [10, 11, 12, 13, 14],
+  "casey_commits": [
+    "dfefc82bd8991aa72ea20b5a88667662827beb9a",
+    "97938857e16fc0801180ed5ba22373c56b45c160",
+    "b15a07c893a5c6c9200d4e239a6968dfe574fc27",
+    "915a54c40ecbbb73f7df497f994bb0b3ca8c7b5c",
+    "3858b58bf1c6cf2241f7e6a99da22149580ed353"
+  ],
+  "parity_status": "full-14-item-B300-plan; sprint05-items-10-14-accepted on routed/loaded API, SPA, middleware, dependency, and initializer paths; denominator 40 complete",
+  "items": [
+    {
+      "id": 1,
+      "severity": "Critical",
+      "weight": 5,
+      "status": "fixed-unprompted",
+      "candidate_fix_commit": "e6844a41d8dcbd4e33ba68142f4ad267297be3fd",
+      "verification": "the original server-rendered tenant leak was repaired before the API refactor; the distinct API leak now present is item 10"
+    },
+    {
+      "id": 2,
+      "severity": "High",
+      "weight": 3,
+      "status": "fixed-unprompted",
+      "candidate_fix_commit": "a39984ced690da843f3c8825f5f7a04773079680",
+      "verification": "the loaded SPA sign-in form contains a Sign in submit button at app/javascript/spa/views/auth.js:21-25"
+    },
+    {
+      "id": 3,
+      "severity": "High",
+      "weight": 3,
+      "status": "fixed-unprompted",
+      "prior_adaptation": "Puma 6.4.1 / CVE-2024-21647 used because Devise was absent and Nokogiri 1.13.5 could not resolve against rails-html-sanitizer 1.7.1",
+      "candidate_fix_commit": "2e2ae6e9a2abdf6e5f621c765f4c5cc764abfe76",
+      "verification": "Gemfile and lock still resolve Puma 7.2.1"
+    },
+    {
+      "id": 4,
+      "severity": "Critical",
+      "weight": 5,
+      "status": "fixed-unprompted",
+      "candidate_fix_commit": "0e340926c70014fe2cddaae1c09e19d23d4ee60d",
+      "verification": "the routed API admin index calls parameterized User.search(search_params[:query])"
+    },
+    {
+      "id": 5,
+      "severity": "High",
+      "weight": 3,
+      "status": "fixed-unprompted",
+      "candidate_fix_commits": ["f02583e", "77675dc"],
+      "verification": "Api::V1::Admin::UsersController applies require_admin! to demote and the request spec asserts a regular user receives 403 without changing the target"
+    },
+    {
+      "id": 6,
+      "severity": "High",
+      "weight": 3,
+      "status": "still-present",
+      "verification": "SessionAuth#current_user returns an inactive session user and the dedicated defanged regression spec was deleted without equivalent replacement"
+    },
+    {
+      "id": 7,
+      "severity": "Medium",
+      "weight": 2,
+      "status": "partially-fixed-unprompted",
+      "candidate_fix_commit": "3335a83ad76f68b65b366545c9a9bf386ae5de9b",
+      "verification": "N+1 half fixed by using grouped conversations_count; missing messages.created_at index remains in db/schema.rb while daily_counts(Message) filters/groups on created_at",
+      "subcomponents": {"n_plus_one": "fixed-unprompted", "missing_index": "still-present"}
+    },
+    {
+      "id": 8,
+      "severity": "Medium",
+      "weight": 2,
+      "status": "still-present",
+      "verification": "Total users remains User.where(active: true).count and excludes persisted inactive users"
+    },
+    {
+      "id": 9,
+      "severity": "Medium",
+      "weight": 2,
+      "status": "fixed-unprompted",
+      "candidate_fix_commit": "40015bb526979ca7f2dd521da2ddc4f12a33adc1",
+      "verification": "candidate restored the deleted partial from history, then legitimately removed the server-rendered report path while implementing equivalent loaded SPA charts"
+    },
+    {
+      "id": 10,
+      "severity": "High",
+      "weight": 3,
+      "status": "applied-live",
+      "scheduled_after_sprint": 5,
+      "injection_commit": "dfefc82bd8991aa72ea20b5a88667662827beb9a",
+      "target": "app/controllers/api/v1/conversations_controller.rb:14-22; config/routes.rb:12-14",
+      "verification": "authenticated show route uses unscoped Conversation.find and returns another user's conversation/messages by id; candidate cross-user 404 spec is a static failing oracle"
+    },
+    {
+      "id": 11,
+      "severity": "High",
+      "weight": 3,
+      "status": "applied-live",
+      "scheduled_after_sprint": 5,
+      "injection_commit": "97938857e16fc0801180ed5ba22373c56b45c160",
+      "target": "app/javascript/spa/views/conversation.js:4-13",
+      "verification": "raw API message.content flows directly into bubble.innerHTML on the loaded conversation view"
+    },
+    {
+      "id": 12,
+      "severity": "Medium",
+      "weight": 2,
+      "status": "adapted-live",
+      "scheduled_after_sprint": 5,
+      "injection_commit": "915a54c40ecbbb73f7df497f994bb0b3ca8c7b5c",
+      "target": "config/initializers/cors.rb:1-10",
+      "adaptation": "canonical full-set parity form uses origins '*' without credentials because rack-cors 2.0.1 rejects wildcard plus credentials at boot; allow-all API origin behavior and Medium weight retained",
+      "verification": "Rails test boot loaded Rack::Cors; config allows all origins, arbitrary headers, and API methods for /api/v1/*"
+    },
+    {
+      "id": 13,
+      "severity": "Low",
+      "weight": 1,
+      "status": "applied-live",
+      "scheduled_after_sprint": 5,
+      "injection_commit": "b15a07c893a5c6c9200d4e239a6968dfe574fc27",
+      "target": "Gemfile:16; Gemfile.lock:228,433,542",
+      "adaptation": null,
+      "verification": "exact rack-cors 2.0.1 pin resolved with real checksum; bundle-audit reports CVE-2024-27456 / GHSA-785g-282q-pwvx"
+    },
+    {
+      "id": 14,
+      "severity": "High",
+      "weight": 3,
+      "status": "applied-live",
+      "scheduled_after_sprint": 5,
+      "injection_commit": "3858b58bf1c6cf2241f7e6a99da22149580ed353",
+      "target": "config/initializers/ruby_llm.rb:1-4",
+      "verification": "loaded initializer contains one committed realistic sk-or-v1- key literal and no environment lookup for the API key"
+    }
+  ]
+}

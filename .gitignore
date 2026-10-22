@@ -115,3 +115,9 @@ results-v4.1/**/*.prompt.txt
 # FrontierSWE raw jobs include large artifacts and agent credential stores.
 results-v4.1/frontier/jobs/
 results-v4.2/
+
+# campaign-execution junk (added 2026-10-22): harness/CLI internals + pod-restore probe dumps
+results-v4/**/.muse-data/
+results-v4/**/*-restored-pod-*.json
+results-v4/_b300_campaign/supervisor/
+results-v4/_b300_campaign/migration-*/

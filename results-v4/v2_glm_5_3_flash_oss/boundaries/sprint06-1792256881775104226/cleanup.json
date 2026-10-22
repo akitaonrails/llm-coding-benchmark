@@ -1,0 +1,44 @@
+{
+  "completed_at": "2026-10-17T14:09:15-03:00",
+  "scope": "v2_glm_5_3_flash_oss sprint-06 boundary review",
+  "inventory": {
+    "reviewer_created_processes": [],
+    "reviewer_created_containers": [],
+    "reviewer_created_networks": [],
+    "reviewer_created_images": [],
+    "reviewer_created_scratch_directories": [],
+    "candidate_runtime_observation": "The sprint transcript shows a temporary Rails server on port 3999 was explicitly terminated by the candidate. A scoped end-of-review socket check found no listener on port 3999; the only process-pattern hit was the inventory shell itself.",
+    "candidate_docker_observation": "The transcript records docker compose config only, not compose up/build or container creation. No Docker command was run by this reviewer."
+  },
+  "removed": [],
+  "removal_failures": [],
+  "retained": [
+    {
+      "path": "results-v4/v2_glm_5_3_flash_oss/project",
+      "reason": "Generated source submission, Git history, databases, logs, and temporary evidence are required benchmark evidence."
+    },
+    {
+      "path": "results-v4/v2_glm_5_3_flash_oss/sprints/sprint06_production",
+      "reason": "Prompt, raw transcript, stderr, result metadata, and git-log snapshot are required evidence."
+    },
+    {
+      "path": "results-v4/v2_glm_5_3_flash_oss/boundaries/sprint06-1792256881775104226",
+      "reason": "Boundary prompt/schema/raw agent transcript plus the durable report and cleanup ledger are required provenance."
+    },
+    {
+      "path": "results-v4/v2_glm_5_3_flash_oss/pause-checkpoints",
+      "reason": "Existing pause/resume and session-export evidence is outside disposable reviewer scope and is explicitly preserved."
+    },
+    {
+      "path": "/tmp/opencode",
+      "reason": "Candidate-created logs/backups may contain unique execution evidence; ownership and disposability were not established, so they were retained."
+    }
+  ],
+  "verification": {
+    "port_3999_listener": false,
+    "project_worktree_clean": true,
+    "safe_disposable_reviewer_resources_found": false,
+    "reclaimed_bytes": null
+  },
+  "notes": "No destructive cleanup was performed. Nothing safely removable was created by the reviewer. All code, temp files, logs, sessions, databases, transcripts, and analysis were preserved as instructed."
+}

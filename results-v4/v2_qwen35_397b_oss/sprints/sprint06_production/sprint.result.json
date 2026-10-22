@@ -1,0 +1,12 @@
+{
+  "slug": "v2_qwen35_397b_oss",
+  "sprint": "sprint06_production",
+  "harness": "opencode",
+  "elapsed_seconds": 486.49,
+  "cost_usd": 0.0,
+  "tokens_total": 5414828,
+  "exit_code": 1,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": false
+}

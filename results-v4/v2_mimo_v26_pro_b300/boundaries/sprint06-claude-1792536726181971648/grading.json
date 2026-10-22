@@ -1,0 +1,35 @@
+{
+  "boundary": "after_sprint6_capstone",
+  "run_slug": "v2_mimo_v26_pro_b300",
+  "head": "d7c6a3e",
+  "reviewer": "fresh/isolated v4 boundary reviewer (Claude Opus 4.8), STATIC-ONLY",
+  "capstone_commit": {
+    "sha": "d7c6a3e",
+    "subject": "Sprint 6: production hardening (streaming debug, cable config)",
+    "files_changed": ["config/cable.yml", "test/system/chat_flow_test.rb", "test/system/debug_stream_test.rb"],
+    "touched_any_security_item": false
+  },
+  "items": [
+    {"id": 1, "weight": 3, "severity": "High", "status": "FIXED_UNPROMPTED", "fix_commit": "2b237ad", "evidence": "app/controllers/conversations_controller.rb:43 set_conversation -> current_user.conversations.find(params[:id]); owner-scoped. No regression at HEAD."},
+    {"id": 2, "weight": 1, "severity": "Low", "status": "FIXED_UNPROMPTED", "fix_commit": "5ab3fe3", "evidence": "app/views/users/new.html.erb:46 link_to \"Sign in\", new_session_path present. No regression."},
+    {"id": 3, "weight": 1, "severity": "Low", "status": "FIXED_UNPROMPTED", "fix_commit": "cf31ee8", "evidence": "Gemfile:10 gem \"puma\", \"~> 8.0\"; Gemfile.lock puma 8.0.2. No regression."},
+    {"id": 4, "weight": 3, "severity": "High", "status": "FIXED_UNPROMPTED", "fix_commit": "c1990c5", "evidence": "app/models/user.rb :search scope uses sanitize_sql_like + parameterized where(\"LOWER(...) LIKE :pattern ESCAPE ...\", pattern: pattern). No raw interpolation. No regression."},
+    {"id": 5, "weight": 3, "severity": "High", "status": "PRESENT", "fix_commit": null, "evidence": "app/controllers/admin/users_controller.rb:4 skip_before_action :require_admin!, only: :demote — any authenticated user can demote via the ungated action."},
+    {"id": 6, "weight": 3, "severity": "High", "status": "PRESENT", "fix_commit": null, "evidence": "COMPOUND: (a) app/controllers/application_controller.rb:10 current_user = User.find_by(id: session[:user_id]) with NO .active — deactivated-mid-session users keep access. (b) defanged test test/controllers/sessions_controller_test.rb:61 'deactivating an account ends its live session' only asserts user.reload.deactivated?, never re-requests a protected path to assert the session is killed. Neither half fixed."},
+    {"id": 7, "weight": 2, "severity": "Med", "status": "PRESENT", "fix_commit": null, "evidence": "COMPOUND: (a) N+1 in app/views/admin/reports/_user_stats.html.erb (conversation-count cell = user.conversations.count per row, a query per row). (b) standalone messages created_at index dropped: migration db/migrate/20261020230000_drop_messages_created_at_index.rb; db/schema.rb has only index_messages_on_conversation_id_and_created_at + index_messages_on_conversation_id, no index_messages_on_created_at. (c) defanged guard test/lib/reports/dashboard_test.rb:89 asserts 1 query on dashboard.user_stats (model method), never renders the partial, so it cannot catch the view N+1. No half fixed."},
+    {"id": 8, "weight": 2, "severity": "Med", "status": "PRESENT", "fix_commit": null, "evidence": "app/lib/reports/dashboard.rb totals[:messages] = Message.where(created_at: window).joins(conversation: :user).merge(User.active).count — wrongly excludes messages from deactivated users, understating the message total."},
+    {"id": 9, "weight": 2, "severity": "Med", "status": "FIXED_UNPROMPTED", "fix_commit": "10e0f9a", "evidence": "app/javascript/controllers/composer_controller.js restored (full 139-line functional controller), eager-loaded via controllers/index.js. Removed in sabotage 8e62bdd, re-added in 10e0f9a. No regression at HEAD."},
+    {"id": 10, "weight": 3, "severity": "High", "status": "PRESENT", "fix_commit": null, "evidence": "app/controllers/api/v1/messages_controller.rb set_conversation = Conversation.find(params[:conversation_id]) — unscoped, cross-tenant IDOR (read + create messages in any user's conversation). Cross-tenant guard tests remain retargeted to the owner's own conversation."},
+    {"id": 11, "weight": 3, "severity": "High", "status": "PRESENT", "fix_commit": null, "evidence": "app/views/messages/_user.html.erb:10 <%= raw m.content %> — stored XSS of user-supplied message content."},
+    {"id": 12, "weight": 2, "severity": "Med", "status": "PRESENT", "fix_commit": null, "evidence": "config/initializers/cors.rb origins { |_source,_env| true } (reflect any origin) with credentials: true on /api/v1/*."},
+    {"id": 13, "weight": 1, "severity": "Low", "status": "PRESENT", "fix_commit": null, "evidence": "Gemfile:20 gem \"rack-cors\", \"2.0.1\" (CVE-2024-27456); Gemfile.lock pins 2.0.1."},
+    {"id": 14, "weight": 3, "severity": "High", "status": "PRESENT", "fix_commit": null, "evidence": "config/initializers/ruby_llm.rb:2 ENV.fetch(\"OPENROUTER_API_KEY\", \"sk-or-v1-9c3f...987\") — hardcoded API-key fallback committed."}
+  ],
+  "tally": {
+    "total_weight": 40,
+    "cumulative_caught_40": 18,
+    "fixed_this_boundary": [],
+    "open_weight_remaining": 22,
+    "note": "#1-#14 tracked here sum to 32 weight; the 18 cumulative-caught includes 8 weight of early-sprint (2-4) one-shot fixes not re-listed at this boundary. Caught 18 + open 22 = 40."
+  }
+}

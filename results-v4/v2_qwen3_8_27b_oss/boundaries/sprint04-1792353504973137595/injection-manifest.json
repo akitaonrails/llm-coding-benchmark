@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "model": "v2_qwen3_8_27b_oss",
+  "boundary": "after_sprint_04",
+  "app_path": "results-v4/v2_qwen3_8_27b_oss/project",
+  "assisted_run": true,
+  "assistance_at_this_sprint": null,
+  "planned_item_count": 14,
+  "severity_denominator": 40,
+  "applied_weight_to_date": 28,
+  "applied_at_this_boundary": [7, 8, 9],
+  "casey_commits": [
+    "a6a62300e2ed336fe25baa237900af4cf00cb23b",
+    "39f953ecafc1ab944c04ad09a27db3f056f66249",
+    "8e3edcedca30bdb80bb50e675fa84ee162aa265f"
+  ],
+  "parity_status": "full-14-item-B300-plan; sprint04-items-7-9-accepted on routed/loaded report paths; no adaptation",
+  "items": [
+    {
+      "id": 1,
+      "severity": "Critical",
+      "weight": 5,
+      "status": "fixed-unprompted",
+      "candidate_fix_commit": "e6844a41d8dcbd4e33ba68142f4ad267297be3fd",
+      "verification": "current routed conversation callback still uses current_user.conversations.find(params[:id])"
+    },
+    {
+      "id": 2,
+      "severity": "High",
+      "weight": 3,
+      "status": "fixed-unprompted",
+      "candidate_fix_commit": "a39984ced690da843f3c8825f5f7a04773079680",
+      "verification": "routed sign-in form still contains the Sign in submit control"
+    },
+    {
+      "id": 3,
+      "severity": "High",
+      "weight": 3,
+      "status": "fixed-unprompted",
+      "prior_adaptation": "Puma 6.4.1 / CVE-2024-21647 used because Devise was absent and Nokogiri 1.13.5 could not resolve against rails-html-sanitizer 1.7.1",
+      "candidate_fix_commit": "2e2ae6e9a2abdf6e5f621c765f4c5cc764abfe76",
+      "verification": "Gemfile and lock still resolve Puma 7.2.1"
+    },
+    {
+      "id": 4,
+      "severity": "Critical",
+      "weight": 5,
+      "status": "fixed-unprompted",
+      "prior_injection_commit": "6d40ae0b172cedb0eba02c54bb91c074c179e7b6",
+      "candidate_fix_commit": "0e340926c70014fe2cddaae1c09e19d23d4ee60d",
+      "verification": "routed admin index now calls parameterized User.search(search_params[:query]); direct SQL interpolation is absent"
+    },
+    {
+      "id": 5,
+      "severity": "High",
+      "weight": 3,
+      "status": "still-present",
+      "prior_injection_commit": "6d40ae0b172cedb0eba02c54bb91c074c179e7b6",
+      "verification": "Admin::UsersController still excludes demote from require_admin, and the routed action changes an arbitrary loaded user's admin flag"
+    },
+    {
+      "id": 6,
+      "severity": "High",
+      "weight": 3,
+      "status": "still-present",
+      "prior_injection_commit": "6d40ae0b172cedb0eba02c54bb91c074c179e7b6",
+      "verification": "current_user still accepts an inactive session user and the dedicated regression spec remains a trivial true assertion"
+    },
+    {
+      "id": 7,
+      "severity": "Medium",
+      "weight": 2,
+      "status": "applied-live",
+      "scheduled_after_sprint": 4,
+      "injection_commit": "a6a62300e2ed336fe25baa237900af4cf00cb23b",
+      "target": "app/services/admin/report_service.rb:57-78; db/migrate/20261018200000_consolidate_message_indexes.rb:1-5; db/schema.rb:12,54-70",
+      "verification": "the loaded report service issues row.conversations.count once per user with conversations, while the migration and current schema remove the messages.created_at index used by the report's time-window query; the focused pre-deletion check passed 20 examples"
+    },
+    {
+      "id": 8,
+      "severity": "Medium",
+      "weight": 2,
+      "status": "applied-live",
+      "scheduled_after_sprint": 4,
+      "injection_commit": "39f953ecafc1ab944c04ad09a27db3f056f66249",
+      "target": "app/services/admin/report_service.rb:33-42",
+      "verification": "the Total users card now receives User.where(active: true).count and therefore silently excludes deactivated persisted users; the focused pre-deletion check passed 20 examples"
+    },
+    {
+      "id": 9,
+      "severity": "Medium",
+      "weight": 2,
+      "status": "applied-live",
+      "scheduled_after_sprint": 4,
+      "injection_commit": "8e3edcedca30bdb80bb50e675fa84ee162aa265f",
+      "target": "app/views/admin/reports/_activity_chart.html.erb (deleted); app/views/admin/reports/show.html.erb:71-73",
+      "verification": "the routed report view retains three activity_chart renders while the required partial is absent, yielding ActionView::MissingTemplate when an admin report renders"
+    },
+    {
+      "id": 10,
+      "severity": "High",
+      "weight": 3,
+      "status": "not-yet-scheduled",
+      "scheduled_after_sprint": 5,
+      "verification": "not applicable at sprint 04"
+    },
+    {
+      "id": 11,
+      "severity": "High",
+      "weight": 3,
+      "status": "not-yet-scheduled",
+      "scheduled_after_sprint": 5,
+      "verification": "not applicable at sprint 04"
+    },
+    {
+      "id": 12,
+      "severity": "Medium",
+      "weight": 2,
+      "status": "not-yet-scheduled",
+      "scheduled_after_sprint": 5,
+      "verification": "not applicable at sprint 04"
+    },
+    {
+      "id": 13,
+      "severity": "Low",
+      "weight": 1,
+      "status": "not-yet-scheduled",
+      "scheduled_after_sprint": 5,
+      "verification": "not applicable at sprint 04"
+    },
+    {
+      "id": 14,
+      "severity": "High",
+      "weight": 3,
+      "status": "not-yet-scheduled",
+      "scheduled_after_sprint": 5,
+      "verification": "not applicable at sprint 04"
+    }
+  ]
+}

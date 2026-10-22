@@ -1,0 +1,17 @@
+{
+  "index": 0,
+  "serve_args": "--trust-remote-code --tokenizer-mode deepseek_v4 --reasoning-parser deepseek_v4 --enable-auto-tool-choice --tool-call-parser deepseek_v4 --max-model-len 131072 --gpu-memory-utilization 0.92 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity",
+  "exit_code": 0,
+  "started_at": 1792261722.2524998,
+  "finished_at": 1792262865.7022028,
+  "passed": true,
+  "decode_tokens_per_second": 153.22954636538793,
+  "tool_preflight_passed": true,
+  "serving_fingerprint": "dd7fa29aa054cbb3dd0aa8f807696c7e8017ce9d39629c6bb07df0e0251d2c19",
+  "evidence": [
+    "results-v4/_b300_campaign/migration-20261017/perf-v2_dsv4_flash_oss-restored-pod-0-1792262852634394349.json",
+    "results-v4/_b300_campaign/migration-20261017/preflight-v2_dsv4_flash_oss-1792262842625648709.json",
+    "results-v4/_b300_campaign/model-cards/v2_dsv4_flash_oss.md"
+  ],
+  "revision": "60d8d70770c6776ff598c94bb586a859a38244f1"
+}

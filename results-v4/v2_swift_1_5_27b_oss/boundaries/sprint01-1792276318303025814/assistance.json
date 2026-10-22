@@ -1,0 +1,4 @@
+{
+  "category": "ordinary_minor_defect",
+  "prompt": "Before continuing, verify that capped LLM history retains the newest messages, including the current user turn, once it exceeds MAX_HISTORY_MESSAGES."
+}

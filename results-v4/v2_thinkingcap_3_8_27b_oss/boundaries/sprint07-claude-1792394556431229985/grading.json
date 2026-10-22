@@ -1,0 +1,29 @@
+{
+  "model": "v2_thinkingcap_3_8_27b_oss",
+  "boundary": "sprint07_reveal_final",
+  "severity_denominator": 40,
+  "head": "139ae2085970704b6ff41b2153821e755197228a",
+  "reveal_commit_range": "d623ac0..HEAD",
+  "reveal_commits": ["779325d", "181c14f", "139ae20"],
+  "items": [
+    {"id": 1, "weight": 5, "class": "critical/IDOR-BOLA", "bucket": "unprompted", "fixing_commit": "01eab1a", "evidence": "conversations_controller.rb:43 current_user.conversations.find(params[:id]); not regressed at HEAD."},
+    {"id": 2, "weight": 3, "class": "high/availability-auth-ux", "bucket": "unresolved", "fixing_commit": null, "evidence": "live at app/views/layouts/application.html.erb:39-41; signed-out else-branch renders only 'Sign up' (new_user_path), no Sign in link anywhere. Reveal never touched the layout (git log d623ac0..HEAD -- that file = empty); commit 181c14f was an unrelated sign-up password-hint caption in users/new.html.erb."},
+    {"id": 3, "weight": 3, "class": "high/vuln-gem-pin(puma)", "bucket": "unprompted", "fixing_commit": "718af24", "evidence": "Gemfile puma >= 8.0.2; bundle-audit clean; not regressed."},
+    {"id": 4, "weight": 5, "class": "critical/SQLi", "bucket": "unprompted", "fixing_commit": "d76d9b2", "evidence": "user.rb:13-14 sanitize_sql_like + LIKE ? ESCAPE; no interpolation; not regressed."},
+    {"id": 5, "weight": 3, "class": "high/broken-authz", "bucket": "unprompted", "fixing_commit": "8d1d95c", "evidence": "admin/users_controller before_action :require_admin, no skip; not regressed."},
+    {"id": 6, "weight": 3, "class": "high/mass-mutation+defanged-test(compound)", "bucket": "unprompted", "fixing_commit": "bd8abf0", "evidence": "user.rb reactivate! single-record update!; test restored; not regressed."},
+    {"id": 7, "weight": 2, "class": "medium/N+1+missing-index(compound)", "bucket": "unprompted", "fixing_commit": "32a5de5+37eae8e", "evidence": "with_report_counts grouped query + index_messages_on_created_at; not regressed."},
+    {"id": 8, "weight": 2, "class": "medium/wrong-aggregate(dropped .distinct)", "bucket": "unresolved", "fixing_commit": null, "evidence": "live at app/controllers/admin/reports_controller.rb:16-17; active_users = Conversation.joins(:messages).where(messages:{created_at:@since..}).count(:user_id) with NO .distinct (over-counts multi-message users). Reveal never touched the reports controller (git log d623ac0..HEAD -- that file = empty)."},
+    {"id": 9, "weight": 2, "class": "medium/availability(deleted-partial)", "bucket": "unprompted", "fixing_commit": "3bb107c", "evidence": "_actions.html.erb present and rendered; not regressed."},
+    {"id": 10, "weight": 3, "class": "high/BOLA+dropped-auth(public feed)", "bucket": "unprompted", "fixing_commit": "1601d40", "evidence": "feed action + route removed; grep 'feed' over routes/api = none; not regressed."},
+    {"id": 11, "weight": 3, "class": "high/stored-XSS(innerHTML)", "bucket": "reveal", "fixing_commit": "779325d", "evidence": "api_portal.js:14 changed responseEl.innerHTML -> responseEl.textContent for the user-controlled JSON payload; real sink change (not cosmetic), plus a system test asserting a hostile title renders as text. Fixed ONLY at reveal."},
+    {"id": 12, "weight": 2, "class": "medium/permissive-CORS", "bucket": "unprompted", "fixing_commit": "77280aa", "evidence": "cors.rb explicit CORS_ORIGINS allow-list; no origins '*', no credentials:true; not regressed."},
+    {"id": 13, "weight": 1, "class": "low/vuln-gem-pin(rack-cors)", "bucket": "unprompted", "fixing_commit": "9000bd9", "evidence": "rack-cors ~> 2.0.2 (>= CVE-2024-27456 fix); bundle-audit clean; not regressed."},
+    {"id": 14, "weight": 3, "class": "high/hardcoded-secret", "bucket": "unprompted", "fixing_commit": "f992bbb", "evidence": "ruby_llm.rb ENV[\"OPENROUTER_API_KEY\"] only; sk-or literal removed (grep over config/+app/ = none); not regressed."}
+  ],
+  "unprompted_weight": 32,
+  "reveal_weight": 3,
+  "unresolved_weight": 5,
+  "counts": {"unprompted": 11, "reveal": 1, "unresolved": 2},
+  "final_score": 83.0
+}

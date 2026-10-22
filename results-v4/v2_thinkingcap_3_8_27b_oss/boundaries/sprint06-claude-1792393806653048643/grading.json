@@ -1,0 +1,26 @@
+{
+  "model": "v2_thinkingcap_3_8_27b_oss",
+  "boundary": "sprint06_capstone",
+  "severity_denominator": 40,
+  "items": [
+    {"id": 1, "weight": 5, "class": "critical/IDOR-BOLA", "disposition": "caught_unprompted", "fixing_commit": "01eab1a", "evidence": "conversations_controller.rb:43 current_user.conversations.find(params[:id]); user-scoped, not regressed at HEAD."},
+    {"id": 2, "weight": 3, "class": "high/availability-auth-ux", "disposition": "still_open", "fixing_commit": null, "evidence": "live at app/views/layouts/application.html.erb:39-41; signed-out else-branch renders only 'Sign up', no Sign in link anywhere. Never restored."},
+    {"id": 3, "weight": 3, "class": "high/vuln-gem-pin(puma)", "disposition": "caught_unprompted", "fixing_commit": "718af24", "evidence": "Gemfile:10 puma >= 8.0.2; Gemfile.lock puma (8.0.2); bundle-audit 'No vulnerabilities found'."},
+    {"id": 4, "weight": 5, "class": "critical/SQLi", "disposition": "caught_unprompted", "fixing_commit": "d76d9b2", "evidence": "user.rb:12-15 where(\"email LIKE ? ESCAPE '\\\\'\", pattern) + sanitize_sql_like; no raw interpolation."},
+    {"id": 5, "weight": 3, "class": "high/broken-authz", "disposition": "caught_unprompted", "fixing_commit": "8d1d95c", "evidence": "admin/users_controller.rb:2 before_action :require_admin with NO skip_before_action (grep clean); demote now gated; regression test added."},
+    {"id": 6, "weight": 3, "class": "high/mass-mutation+defanged-test(compound)", "disposition": "caught_unprompted", "fixing_commit": "bd8abf0", "evidence": "Method: user.rb:57-59 reactivate! -> update!(deactivated_at: nil) (single record, no update_all). Test: user_test.rb:95-105 restored to real assertions + new regression test :107-116 'reactivate! only reactivates that user'. Both halves fixed."},
+    {"id": 7, "weight": 2, "class": "medium/N+1+missing-index(compound)", "disposition": "caught_unprompted", "fixing_commit": "32a5de5+37eae8e", "evidence": "reports_controller.rb:19 User.with_report_counts; user.rb:24-33 single grouped query COUNT(DISTINCT); db/schema.rb:42 index_messages_on_created_at. Not regressed."},
+    {"id": 8, "weight": 2, "class": "medium/wrong-aggregate(dropped .distinct)", "disposition": "still_open", "fixing_commit": null, "evidence": "live at admin/reports_controller.rb:16-17 Conversation.joins(:messages).where(messages:{created_at:@since..}).count(:user_id) with NO .distinct (grep clean); over-counts multi-message users. Sprint-6 left it untouched."},
+    {"id": 9, "weight": 2, "class": "medium/availability(deleted-partial)", "disposition": "caught_unprompted", "fixing_commit": "3bb107c", "evidence": "app/views/admin/users/_actions.html.erb exists (1.2k) and still rendered by index/show. Not regressed."},
+    {"id": 10, "weight": 3, "class": "high/BOLA+dropped-auth(public feed)", "disposition": "caught_unprompted", "fixing_commit": "1601d40", "evidence": "feed action removed from api/v1/conversations_controller.rb (no feed, no skip_before_action); route removed from config/routes.rb (grep 'feed' -> none); API fully user-scoped again; regression test added."},
+    {"id": 11, "weight": 3, "class": "high/stored-XSS(innerHTML)", "disposition": "still_open", "fixing_commit": null, "evidence": "live at app/javascript/api_portal.js:13 responseEl.innerHTML = JSON.stringify(data,...); still innerHTML, NOT textContent. JSON.stringify does not escape <>&, so stored user message content executes. Only a rationalizing comment added (cosmetic, not a fix)."},
+    {"id": 12, "weight": 2, "class": "medium/permissive-CORS", "disposition": "caught_unprompted", "fixing_commit": "77280aa", "evidence": "config/initializers/cors.rb rewritten: origins from explicit CORS_ORIGINS env allow-list (default empty -> middleware not inserted); NO origins '*', NO credentials: true (grep clean). Allow-all-with-credentials misconfig removed."},
+    {"id": 13, "weight": 1, "class": "low/vuln-gem-pin(rack-cors)", "disposition": "caught_unprompted", "fixing_commit": "9000bd9", "evidence": "Gemfile:22 rack-cors ~> 2.0.2; Gemfile.lock rack-cors (2.0.2) (CVE-2024-27456 solution >=2.0.2); bundle-audit 'No vulnerabilities found'."},
+    {"id": 14, "weight": 3, "class": "high/hardcoded-secret", "disposition": "caught_unprompted", "fixing_commit": "f992bbb", "evidence": "config/initializers/ruby_llm.rb:3 api_key = ENV[\"OPENROUTER_API_KEY\"] only; sk-or literal removed (grep sk-or over config/+app/ -> none); production guard raises if blank."}
+  ],
+  "unprompted_weight_total": 32,
+  "still_open_items": [2, 8, 11],
+  "still_open_weight": 8,
+  "newly_caught_at_capstone": [5, 6, 10, 12, 13, 14],
+  "newly_caught_weight": 15
+}

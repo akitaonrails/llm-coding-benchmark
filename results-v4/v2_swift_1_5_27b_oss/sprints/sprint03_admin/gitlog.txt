@@ -1,0 +1,181 @@
+e973556 fix: upgrade puma to 8.0.2 to resolve CVE-2026-47737
+ Gemfile      | 2 +-
+ Gemfile.lock | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+116b7a5 feat: add admin area to list, search, and manage users
+ README.md                                       |  11 +-
+ app/controllers/admin/base_controller.rb        |  11 ++
+ app/controllers/admin/users_controller.rb       |  66 +++++++++
+ app/views/admin/users/index.html.erb            |  76 ++++++++++
+ app/views/admin/users/show.html.erb             |  79 +++++++++++
+ app/views/shared/_sidebar.html.erb              |   8 +-
+ config/routes.rb                                |  11 ++
+ test/controllers/admin/users_controller_test.rb | 176 ++++++++++++++++++++++++
+ test/system/admin_area_test.rb                  | 102 ++++++++++++++
+ 9 files changed, 537 insertions(+), 3 deletions(-)
+edb1bab feat: add admin and active flags to users
+ app/models/user.rb                                 |  49 ++++++++++
+ config/locales/devise.en.yml                       |   1 +
+ ...20261018225117_add_admin_and_active_to_users.rb |   9 ++
+ db/schema.rb                                       |   6 +-
+ db/seeds.rb                                        |  17 ++--
+ test/fixtures/users.yml                            |  10 ++
+ test/models/user_test.rb                           | 101 +++++++++++++++++++++
+ 7 files changed, 186 insertions(+), 7 deletions(-)
+9a67a4b fix: restore per-user conversation scoping and sign-in button
+ app/controllers/conversations_controller.rb | 2 +-
+ app/views/devise/sessions/new.html.erb      | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+02e99c6 Complete sprint 2 dependency regression
+ Gemfile      | 2 +-
+ Gemfile.lock | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+b8e4b3c Introduce sprint 2 boundary regressions
+ app/controllers/conversations_controller.rb | 2 +-
+ app/views/devise/sessions/new.html.erb      | 2 --
+ 2 files changed, 1 insertion(+), 3 deletions(-)
+58f18f6 fix: retain newest messages in capped LLM history
+ app/services/chat_service.rb       | 13 ++++++++-----
+ test/services/chat_service_test.rb | 10 ++++++++--
+ 2 files changed, 16 insertions(+), 7 deletions(-)
+62a479f chore: add Docker support, env template, and README
+ .dockerignore         |  16 +++++++
+ .env.example          |   8 ++++
+ Dockerfile            |  59 +++++++++++++++++++++++++
+ README.md             | 118 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ bin/docker-entrypoint |   9 ++++
+ docker-compose.yml    |  20 +++++++++
+ 6 files changed, 230 insertions(+)
+565b181 test: add model, service, controller, and system test suites
+ test/application_system_test_case.rb              | 22 +++++++
+ test/controllers/.keep                            |  0
+ test/controllers/conversations_controller_test.rb | 72 +++++++++++++++++++++++
+ test/controllers/messages_controller_test.rb      | 67 +++++++++++++++++++++
+ test/fixtures/conversations.yml                   |  9 +++
+ test/fixtures/files/.keep                         |  0
+ test/fixtures/messages.yml                        | 11 ++++
+ test/fixtures/users.yml                           |  9 +++
+ test/helpers/.keep                                |  0
+ test/integration/.keep                            |  0
+ test/models/.keep                                 |  0
+ test/models/conversation_test.rb                  | 67 +++++++++++++++++++++
+ test/models/message_test.rb                       | 36 ++++++++++++
+ test/models/user_test.rb                          | 34 +++++++++++
+ test/services/chat_service_test.rb                | 71 ++++++++++++++++++++++
+ test/services/llm_client_test.rb                  | 24 ++++++++
+ test/system/chat_flow_test.rb                     | 49 +++++++++++++++
+ test/test_helper.rb                               | 41 +++++++++++++
+ 18 files changed, 512 insertions(+)
+c105008 feat: controllers, views, and Hotwire chat UI
+ app/controllers/application_controller.rb          | 21 ++++++++++
+ app/controllers/concerns/.keep                     |  0
+ app/controllers/conversations_controller.rb        | 33 ++++++++++++++++
+ app/controllers/messages_controller.rb             | 21 ++++++++++
+ app/helpers/application_helper.rb                  |  2 +
+ app/javascript/application.js                      | 12 ++++++
+ app/javascript/controllers/application.js          |  9 +++++
+ app/javascript/controllers/hello_controller.js     |  7 ++++
+ app/javascript/controllers/index.js                |  4 ++
+ app/views/conversations/_conversation.html.erb     | 13 ++++++
+ app/views/conversations/index.html.erb             | 12 ++++++
+ app/views/conversations/show.html.erb              | 14 +++++++
+ app/views/devise/confirmations/new.html.erb        | 16 ++++++++
+ .../mailer/confirmation_instructions.html.erb      |  5 +++
+ app/views/devise/mailer/email_changed.html.erb     |  7 ++++
+ app/views/devise/mailer/password_change.html.erb   |  3 ++
+ .../mailer/reset_password_instructions.html.erb    |  8 ++++
+ .../devise/mailer/unlock_instructions.html.erb     |  7 ++++
+ app/views/devise/passwords/edit.html.erb           | 25 ++++++++++++
+ app/views/devise/passwords/new.html.erb            | 16 ++++++++
+ app/views/devise/registrations/edit.html.erb       | 42 ++++++++++++++++++++
+ app/views/devise/registrations/new.html.erb        | 43 ++++++++++++++++++++
+ app/views/devise/sessions/new.html.erb             | 37 +++++++++++++++++
+ app/views/devise/shared/_error_messages.html.erb   | 14 +++++++
+ app/views/devise/shared/_links.html.erb            | 25 ++++++++++++
+ app/views/devise/unlocks/new.html.erb              | 16 ++++++++
+ app/views/layouts/application.html.erb             | 46 ++++++++++++++++++++++
+ app/views/layouts/devise.html.erb                  | 30 ++++++++++++++
+ app/views/messages/_form.html.erb                  |  9 +++++
+ app/views/messages/_message.html.erb               |  6 +++
+ app/views/messages/create.turbo_stream.erb         | 12 ++++++
+ app/views/pwa/manifest.json.erb                    | 22 +++++++++++
+ app/views/pwa/service-worker.js                    | 26 ++++++++++++
+ app/views/shared/_sidebar.html.erb                 | 23 +++++++++++
+ 34 files changed, 586 insertions(+)
+36f9194 feat: domain models, chat services, and database schema
+ app/models/application_record.rb                  |  3 ++
+ app/models/concerns/.keep                         |  0
+ app/models/conversation.rb                        | 32 ++++++++++++
+ app/models/message.rb                             |  8 +++
+ app/models/user.rb                                |  8 +++
+ app/services/chat_service.rb                      | 60 +++++++++++++++++++++++
+ app/services/llm_client.rb                        | 33 +++++++++++++
+ db/migrate/20261017222151_devise_create_users.rb  | 44 +++++++++++++++++
+ db/migrate/20261017222157_create_conversations.rb | 10 ++++
+ db/migrate/20261017222158_create_messages.rb      | 12 +++++
+ db/schema.rb                                      | 46 +++++++++++++++++
+ db/seeds.rb                                       |  9 ++++
+ 12 files changed, 265 insertions(+)
+720fe0d feat: Rails application configuration, binstubs, and static assets
+ Rakefile                                        |   6 +
+ app/assets/builds/.keep                         |   0
+ app/assets/images/.keep                         |   0
+ app/assets/stylesheets/application.css          |  10 +
+ app/assets/tailwind/application.css             |   1 +
+ bin/brakeman                                    |   7 +
+ bin/bundler-audit                               |   6 +
+ bin/ci                                          |   6 +
+ bin/dev                                         |  16 ++
+ bin/importmap                                   |   4 +
+ bin/rails                                       |   4 +
+ bin/rake                                        |   4 +
+ bin/rubocop                                     |   8 +
+ bin/setup                                       |  35 +++
+ config.ru                                       |   6 +
+ config/application.rb                           |  39 +++
+ config/boot.rb                                  |   4 +
+ config/bundler-audit.yml                        |   5 +
+ config/ci.rb                                    |  24 ++
+ config/credentials.yml.enc                      |   1 +
+ config/database.yml                             |  31 +++
+ config/environment.rb                           |   5 +
+ config/environments/development.rb              |  60 +++++
+ config/environments/production.rb               |  67 +++++
+ config/environments/test.rb                     |  42 ++++
+ config/importmap.rb                             |   7 +
+ config/initializers/assets.rb                   |   7 +
+ config/initializers/content_security_policy.rb  |  29 +++
+ config/initializers/devise.rb                   | 316 ++++++++++++++++++++++++
+ config/initializers/filter_parameter_logging.rb |   8 +
+ config/initializers/inflections.rb              |  16 ++
+ config/initializers/ruby_llm.rb                 |  10 +
+ config/locales/devise.en.yml                    |  65 +++++
+ config/locales/en.yml                           |  31 +++
+ config/puma.rb                                  |  39 +++
+ config/routes.rb                                |  14 ++
+ lib/tasks/.keep                                 |   0
+ log/.keep                                       |   0
+ public/400.html                                 | 135 ++++++++++
+ public/404.html                                 | 135 ++++++++++
+ public/406-unsupported-browser.html             | 135 ++++++++++
+ public/422.html                                 | 135 ++++++++++
+ public/500.html                                 | 135 ++++++++++
+ public/icon.png                                 | Bin 0 -> 4166 bytes
+ public/icon.svg                                 |   3 +
+ public/robots.txt                               |   1 +
+ script/.keep                                    |   0
+ storage/.keep                                   |   0
+ tmp/.keep                                       |   0
+ vendor/.keep                                    |   0
+ vendor/javascript/.keep                         |   0
+ 51 files changed, 1612 insertions(+)
+a89543c chore: add Gemfile with app, auth, LLM, and test dependencies
+ Gemfile      |  56 +++++++
+ Gemfile.lock | 539 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 595 insertions(+)
+2e254b0 chore: add project tooling and gitignore
+ .gitignore    | 33 +++++++++++++++++++++++++++++++++
+ .rubocop.yml  |  8 ++++++++
+ .ruby-version |  1 +
+ Procfile.dev  |  2 ++
+ 4 files changed, 44 insertions(+)

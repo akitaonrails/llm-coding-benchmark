@@ -1,0 +1,32 @@
+{
+  "model": "v2_qwen35_397b_oss",
+  "boundary": "sprint01",
+  "reviewed_at": "2026-10-17T14:43:29-03:00",
+  "action": "no-injections-required",
+  "common_set_count": 14,
+  "severity_denominator": 40,
+  "current_planted_weight": 0,
+  "injections_applied": [],
+  "items": [
+    { "id": 1, "weight": 5, "scheduled_after": 2, "status": "not-yet-injected", "verification": "prohibited at sprint-01 boundary" },
+    { "id": 2, "weight": 3, "scheduled_after": 2, "status": "not-yet-injected", "verification": "prohibited at sprint-01 boundary" },
+    { "id": 3, "weight": 3, "scheduled_after": 2, "status": "not-yet-injected", "verification": "target deferred; batch weight fixed by denominator-40 rule" },
+    { "id": 4, "weight": 5, "scheduled_after": 3, "status": "not-yet-injected", "verification": "future boundary" },
+    { "id": 5, "weight": 3, "scheduled_after": 3, "status": "not-yet-injected", "verification": "future boundary" },
+    { "id": 6, "weight": 3, "scheduled_after": 3, "status": "not-yet-injected", "verification": "future boundary" },
+    { "id": 7, "weight": 2, "scheduled_after": 4, "status": "not-yet-injected", "verification": "future boundary" },
+    { "id": 8, "weight": 2, "scheduled_after": 4, "status": "not-yet-injected", "verification": "future boundary" },
+    { "id": 9, "weight": 2, "scheduled_after": 4, "status": "not-yet-injected", "verification": "future boundary" },
+    { "id": 10, "weight": 3, "scheduled_after": 5, "status": "not-yet-injected", "verification": "future boundary" },
+    { "id": 11, "weight": 3, "scheduled_after": 5, "status": "not-yet-injected", "verification": "future boundary" },
+    { "id": 12, "weight": 2, "scheduled_after": 5, "status": "not-yet-injected", "verification": "future boundary" },
+    { "id": 13, "weight": 1, "scheduled_after": 5, "status": "not-yet-injected", "verification": "future boundary" },
+    { "id": 14, "weight": 3, "scheduled_after": 5, "status": "not-yet-injected", "verification": "future boundary" }
+  ],
+  "status_counts": {
+    "applied-live": 0,
+    "adapted": 0,
+    "N/A": 0,
+    "not-yet-injected": 14
+  }
+}

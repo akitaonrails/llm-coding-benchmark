@@ -1,0 +1,17 @@
+{
+  "index": 0,
+  "serve_args": "--dtype bfloat16 --tool-call-parser qwen3_xml --reasoning-parser qwen3 --enable-auto-tool-choice --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity",
+  "exit_code": 0,
+  "started_at": 1792285412.4648643,
+  "finished_at": 1792285547.071692,
+  "passed": true,
+  "decode_tokens_per_second": 311.8700712207901,
+  "tool_preflight_passed": true,
+  "serving_fingerprint": "7941aef51e5332ca1376e8a7980dfd9d6b51e537744ab57605cdcae38f7eb61c",
+  "evidence": [
+    "results-v4/_b300_campaign/migration-20261017/perf-v2_ornith_1_5_35b_oss-restored-pod-0-1792285541726778032.json",
+    "results-v4/_b300_campaign/migration-20261017/preflight-v2_ornith_1_5_35b_oss-1792285540120660163.json",
+    "results-v4/_b300_campaign/model-cards/v2_ornith_1_5_35b_oss.md"
+  ],
+  "revision": "10fbf86fed7ecee4a061f8b499a618f46001cac1"
+}

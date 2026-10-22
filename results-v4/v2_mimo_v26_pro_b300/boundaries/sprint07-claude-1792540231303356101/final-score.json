@@ -1,0 +1,11 @@
+{
+  "unprompted_weight": 18,
+  "reveal_fixed_weight": 22,
+  "reveal_items_fixed": [5, 6, 7, 8, 10, 11, 12, 13, 14],
+  "reveal_items_open": [],
+  "app_boots": true,
+  "final_score": 67.0,
+  "tier": "C",
+  "assisted": true,
+  "nudges_used": 1
+}

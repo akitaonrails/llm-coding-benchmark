@@ -1,0 +1,47 @@
+{
+  "timestamp": "2026-10-17T13:47:45-03:00",
+  "task": "fresh isolated v4 sprint05 boundary review and injection",
+  "scope": "results-v4/v2_glm_5_3_flash_oss",
+  "inventory": {
+    "persistent_processes_created": [],
+    "containers_or_networks_created_or_used": [],
+    "test_environments_started": [],
+    "scratch_paths_created": [],
+    "preexisting_scoped_processes": [
+      {
+        "pid": 3988554,
+        "command_summary": "puma 8.0.2 on localhost:3987",
+        "cwd": "results-v4/v2_glm_5_3_flash_oss/project",
+        "reviewer_ownership": "not created or used by this boundary reviewer",
+        "action": "retained",
+        "reason": "preexisting candidate/system-test process; exact lifecycle ownership and resumability need are not established, so cleanup policy requires retention"
+      }
+    ]
+  },
+  "removed": [],
+  "retained": [
+    {
+      "path": "results-v4/v2_glm_5_3_flash_oss/project/",
+      "reason": "candidate source, four Casey injection commits, databases, logs, screenshots, temporary files, and git evidence must be preserved"
+    },
+    {
+      "path": "results-v4/v2_glm_5_3_flash_oss/sprints/",
+      "reason": "raw prompts, transcripts, stderr, metadata, and git-log evidence"
+    },
+    {
+      "path": "results-v4/v2_glm_5_3_flash_oss/pause-checkpoints/ and RESUME.md",
+      "reason": "paused/resumption evidence explicitly preserved"
+    },
+    {
+      "path": "results-v4/v2_glm_5_3_flash_oss/boundaries/sprint05-1792255562850919690/",
+      "reason": "boundary prompt/schema, raw reviewer transcript, report, verdict, and cleanup provenance"
+    }
+  ],
+  "notes": [
+    "No Docker command, application request, browser, Rails test environment, remote/pod access, or campaign-setting action was used.",
+    "The bundle-audit advisory check and all syntax/git checks exited; they left no persistent reviewer-owned process.",
+    "No disposable task-owned resource was safely removable. The preexisting scoped Puma was retained rather than signaled because this reviewer did not create or use it and ownership was not established beyond its cwd.",
+    "No images, containers, volumes, networks, caches, project logs, databases, sessions, transcripts, source files, temporary evidence, or pause artifacts were deleted.",
+    "No reclaimed-space claim is made."
+  ]
+}

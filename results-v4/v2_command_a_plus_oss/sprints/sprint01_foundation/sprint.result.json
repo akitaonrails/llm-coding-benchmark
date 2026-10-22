@@ -1,0 +1,12 @@
+{
+  "slug": "v2_command_a_plus_oss",
+  "sprint": "sprint01_foundation",
+  "harness": "opencode",
+  "elapsed_seconds": 309.73,
+  "cost_usd": 0.0,
+  "tokens_total": 6486300,
+  "exit_code": 1,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": false
+}

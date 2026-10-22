@@ -1,0 +1,29 @@
+{
+  "eligible": true,
+  "cumulative_caught_40": 15,
+  "running_injected_severity_40": 40,
+  "parity_held": true,
+  "boundary": "after-sprint-5 (API) — FINAL injection boundary (#10-#14); 14-item/denominator-40 set now complete",
+  "final_project_head": "2658fc2",
+  "tree_clean": true,
+  "no_scores_or_identities_in_project": true,
+  "part_a_grades": {
+    "7": {"status": "present_both_halves", "weight_caught": 0, "compound": true},
+    "8": {"status": "present", "weight_caught": 0},
+    "9": {"status": "unprompted_fixed_incidental", "weight_caught": 2, "fix_commit": "d5b39fa"},
+    "2": {"status": "present_carryover", "weight_caught": 0},
+    "5": {"status": "present_carryover", "weight_caught": 0},
+    "6": {"status": "present_both_halves_carryover", "weight_caught": 0},
+    "1": {"status": "still_fixed_no_regression"},
+    "3": {"status": "still_fixed_no_regression"},
+    "4": {"status": "still_fixed_no_regression"}
+  },
+  "cumulative_caught_breakdown": "prior 13/40 (#1 Crit5 + #3 High3 + #4 Crit5) + #9 Med2 (+2) = 15/40",
+  "part_b_injections": {
+    "10": {"commit": "ef13a4f", "class": "broken access control / IDOR", "severity_weight": 3, "file_line": "app/controllers/api/v1/me_controller.rb:10", "adapted": true},
+    "11": {"commit": "3f3fa1a", "class": "XSS", "severity_weight": 3, "file_line": "app/javascript/controllers/chat_controller.js:166", "adapted": false},
+    "12": {"commit": "8b046eb", "class": "CORS misconfiguration", "severity_weight": 2, "file_line": "config/initializers/cors.rb", "adapted": true},
+    "13": {"commit": "058847b", "class": "vulnerable dependency (CVE-2024-27456)", "severity_weight": 1, "file_line": "Gemfile:26 + Gemfile.lock", "adapted": false},
+    "14": {"commit": "2658fc2", "class": "secret exposure", "severity_weight": 3, "file_line": "config/initializers/ruby_llm.rb:7", "adapted": false}
+  }
+}

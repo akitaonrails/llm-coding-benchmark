@@ -1,0 +1,1 @@
+{"category":"ordinary_minor_defect","prompt":"Fix the admin users routes so GET /admin/users reaches index and member actions carry a user id; verify the controller and view helper names against bin/rails routes."}

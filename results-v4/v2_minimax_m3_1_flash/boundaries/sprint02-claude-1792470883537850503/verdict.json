@@ -1,0 +1,6 @@
+{
+  "eligible": true,
+  "report": "sprint02-claude-1792470883537850503/report.md",
+  "cleanup": "sprint02-claude-1792470883537850503/cleanup.md",
+  "reason": "All three after-sprint-2 items (#1 Critical 5 tenant leak, #2 High 3 login-link regression, #3 High 3 pinned-vulnerable puma 6.4.1) placed on real routed/loaded paths, verified live (static), and committed as Casey <casey@example.com>. Full-set / denominator-40 parity preserved; #3 adapted to the established puma-6.4.1 substitution (nokogiri 1.13.5 unresolvable, no devise). Working tree clean."
+}

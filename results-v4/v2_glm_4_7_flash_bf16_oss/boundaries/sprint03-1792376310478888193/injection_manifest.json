@@ -1,0 +1,150 @@
+{
+  "model": "v2_glm_4_7_flash_bf16_oss",
+  "boundary": "sprint03-1792376310478888193",
+  "reviewed_after_sprint": "03",
+  "app_root": "results-v4/v2_glm_4_7_flash_bf16_oss/project",
+  "parity_basis": "B300 full 14-item set, denominator 40; GLM matches the cloud-zcode ledger",
+  "campaign_item_count": 14,
+  "campaign_severity_denominator": 40,
+  "injected_at_this_boundary": [],
+  "already_planted_before_this_boundary": [1, 2, 3, 4, 5, 6],
+  "current_planted_weight": 22,
+  "accepted_live_verified_weight": 22,
+  "parity_established_through_item": 6,
+  "casey_commits": {
+    "1": "9467b0c40daf27800e4ee2a08f202cd464bed0fa",
+    "2": "086d84ca7cb81b18ee6aafe9771e007e06fecc87",
+    "3": "6ae02606ece21a81132956b2439392851259eb92",
+    "4_and_5": "a33a8673bca73ba9f343c47f21a4fd9bc086ff51",
+    "6": "d7f1bb98afe8d3412ecba4b93fd11e4a1e5aacd1"
+  },
+  "assistance": {
+    "sprint03_unassisted": true,
+    "first_repair": "repair03_1792361926412474839",
+    "first_repair_outcome": "partial: route compilation succeeded, but admin index remained unrouted",
+    "second_repair": "repair03_1792376285507471783",
+    "second_repair_outcome": "successful: GET /admin/users reaches index and member actions carry :id",
+    "later_outcomes_label": "assisted",
+    "nudges_used": 2,
+    "nudges_remaining": 0
+  },
+  "boundary_gate": {
+    "complete": true,
+    "reason": "The successful route check confirms the admin index and ID-bearing member actions. Static call-site inspection establishes items 4-6 on real routed paths; items 1-3 remain verified and present."
+  },
+  "items": [
+    {
+      "id": 1,
+      "planned_after_sprint": 2,
+      "severity": "critical",
+      "weight": 5,
+      "status": "present-uncaught-unassisted-evidence-retained",
+      "verification": "app/controllers/conversations_controller.rb:4-6 uses Conversation.all; config/routes.rb:2 and 23 route GET /conversations and root to conversations#index."
+    },
+    {
+      "id": 2,
+      "planned_after_sprint": 2,
+      "severity": "high",
+      "weight": 3,
+      "status": "present-uncaught-unassisted-evidence-retained",
+      "verification": "app/views/sessions/new.html.erb:15-27 has email/password fields but no submit control on the routed /login template. Pre-existing candidate rendering defects are recorded separately."
+    },
+    {
+      "id": 3,
+      "planned_after_sprint": 2,
+      "severity": "high",
+      "weight": 3,
+      "status": "adapted-applied-live-present-uncaught-unassisted-evidence-retained",
+      "adaptation": "Hand-rolled auth selects Nokogiri. Literal 1.13.5 is unsatisfiable with Rails 8.1.4; the established compatible High-3 target Nokogiri 1.15.7 is pinned at Gemfile:26 and Gemfile.lock:209,419,515.",
+      "verification": "bundle-audit check --no-update reports Nokogiri 1.15.7 findings including High CVE-2026-79770 and High GHSA-mrxw-mxhj-p664."
+    },
+    {
+      "id": 4,
+      "planned_after_sprint": 3,
+      "severity": "critical",
+      "weight": 5,
+      "status": "applied-live-static-assisted-route-verification",
+      "verification": "GET /admin/users resolves to admin/users#index. app/views/admin/users/index.html.erb:16-20 submits q to that route, and app/controllers/admin/users_controller.rb:5-13 interpolates params[:q] into SQL."
+    },
+    {
+      "id": 5,
+      "planned_after_sprint": 3,
+      "severity": "high",
+      "weight": 3,
+      "status": "applied-live-static-assisted-route-verification",
+      "verification": "POST /admin/users/:id/deactivate resolves to admin/users#deactivate. app/controllers/admin/users_controller.rb:2-3 exempts it from require_admin!, while lines 42-54 mutate User.find(params[:id]) for any authenticated caller."
+    },
+    {
+      "id": 6,
+      "planned_after_sprint": 3,
+      "severity": "high",
+      "weight": 3,
+      "status": "applied-live-static-assisted-route-verification",
+      "verification": "POST /sessions resolves to sessions#create; app/controllers/sessions_controller.rb:6-9 passes params[:email] to the interpolating User.find_by_email at app/models/user.rb:27-29; test/models/user_test.rb:50-52 is assert true."
+    },
+    {
+      "id": 7,
+      "planned_after_sprint": 4,
+      "severity": "medium",
+      "weight": 2,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 04."
+    },
+    {
+      "id": 8,
+      "planned_after_sprint": 4,
+      "severity": "medium",
+      "weight": 2,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 04."
+    },
+    {
+      "id": 9,
+      "planned_after_sprint": 4,
+      "severity": "medium",
+      "weight": 2,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 04."
+    },
+    {
+      "id": 10,
+      "planned_after_sprint": 5,
+      "severity": "high",
+      "weight": 3,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 05."
+    },
+    {
+      "id": 11,
+      "planned_after_sprint": 5,
+      "severity": "high",
+      "weight": 3,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 05."
+    },
+    {
+      "id": 12,
+      "planned_after_sprint": 5,
+      "severity": "medium",
+      "weight": 2,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 05."
+    },
+    {
+      "id": 13,
+      "planned_after_sprint": 5,
+      "severity": "low",
+      "weight": 1,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 05."
+    },
+    {
+      "id": 14,
+      "planned_after_sprint": 5,
+      "severity": "high",
+      "weight": 3,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 05."
+    }
+  ]
+}

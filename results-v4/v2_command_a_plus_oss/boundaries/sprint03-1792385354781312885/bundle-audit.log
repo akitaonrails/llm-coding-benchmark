@@ -1,0 +1,55 @@
+Name: devise
+Version: 4.9.4
+CVE: CVE-2026-32700
+GHSA: GHSA-57hq-95w6-v4fc
+Criticality: Medium
+URL: https://github.com/heartcombo/devise/security/advisories/GHSA-57hq-95w6-v4fc
+Title: Confirmable "change email" race condition permits user to confirm email they have no access to
+Solution: update to '>= 5.0.3'
+
+Name: devise
+Version: 4.9.4
+CVE: CVE-2026-40295
+GHSA: GHSA-jp94-3292-c3xv
+Criticality: Medium
+URL: https://github.com/heartcombo/devise/security/advisories/GHSA-jp94-3292-c3xv
+Title: Devise has an Open Redirect via Unvalidated `request.referrer` in Timeoutable Session Timeout Handler
+Solution: update to '>= 5.0.4'
+
+Name: puma
+Version: 6.4.1
+CVE: CVE-2024-21647
+GHSA: GHSA-c2f4-cvqm-65w2
+Criticality: Medium
+URL: https://github.com/puma/puma/security/advisories/GHSA-c2f4-cvqm-65w2
+Title: Puma HTTP Request/Response Smuggling vulnerability
+Solution: update to '~> 5.6.8', '>= 6.4.2'
+
+Name: puma
+Version: 6.4.1
+CVE: CVE-2024-45614
+GHSA: GHSA-9hf4-67fc-4vf4
+Criticality: Medium
+URL: https://github.com/puma/puma/security/advisories/GHSA-9hf4-67fc-4vf4
+Title: Puma's header normalization allows for client to clobber proxy set headers
+Solution: update to '~> 5.6.9', '>= 6.4.3'
+
+Name: puma
+Version: 6.4.1
+CVE: CVE-2026-47736
+GHSA: GHSA-qpgp-93vx-g8v8
+Criticality: High
+URL: https://www.cve.org/CVERecord?id=CVE-2026-47736
+Title: Puma PROXY Protocol v1 Parser Allows Remote Memory Exhaustion
+Solution: update to '~> 7.2.1', '>= 8.0.2'
+
+Name: puma
+Version: 6.4.1
+CVE: CVE-2026-47737
+GHSA: GHSA-2vqw-3mp8-cgmx
+Criticality: High
+URL: https://www.cve.org/CVERecord/SearchResults?query=CVE-2026-47737
+Title: Puma PROXY Protocol v1 Accepts Repeated Protocol Headers on Persistent Connections
+Solution: update to '~> 7.2.1', '>= 8.0.2'
+
+Vulnerabilities found!

@@ -1,0 +1,93 @@
+{
+  "run": "v2_kimi_k2_thinking_b300",
+  "model": "Kimi K2 Thinking (INT4, self-hosted 4xB300, vLLM TP=4, ~110 tok/s)",
+  "boundary": "after_sprint7_explicit_reveal",
+  "role": "FINAL reviewer — GRADE-ONLY, no injection",
+  "method": "STATIC-ONLY (git diff/log read + grep + file read + ruby -c). No docker/db/http/server/rails run. No injection. No sprint started, pod untouched.",
+  "denominator": 40,
+  "formula": "score = (unprompted_weight + 0.4 * reveal_weight) / 40 * 100",
+  "capstone_commit": "914b4c8",
+  "reveal_commits_since_capstone": [
+    "d145276 Fix critical authorization vulnerability in ConversationsController",
+    "c07074e Fix logic error allowing deactivated users to login",
+    "b1380f5 Fix authorization bypass in API ConversationsController#show",
+    "e3d916f Fix critical authorization bypass in Admin::UsersController",
+    "ff7495c Add pagination and query limits to admin API endpoints",
+    "2a83a5a Add comprehensive tests for security vulnerabilities",
+    "b86e272 Fix RuboCop style violations"
+  ],
+  "unprompted_items_carried_forward": [
+    {"id": 3,  "name": "puma 6.4.1 CVE-2024-21647", "severity": "High 3",  "weight": 3, "fixed_at": "sprint 3 (a30b649)"},
+    {"id": 4,  "name": "SQL injection admin user search", "severity": "Critical 5", "weight": 5, "fixed_at": "sprint 5 (6341f29)"},
+    {"id": 11, "name": "stored XSS via raw conversation.title", "severity": "High 3", "weight": 3, "fixed_at": "capstone sprint 6 (914b4c8)"},
+    {"id": 12, "name": "permissive CORS origins * + credentials", "severity": "Medium 2", "weight": 2, "fixed_at": "capstone sprint 6 (914b4c8)"},
+    {"id": 13, "name": "rack-cors 2.0.1 CVE-2024-27456", "severity": "Low 1", "weight": 1, "fixed_at": "capstone sprint 6 (914b4c8)"}
+  ],
+  "unprompted_weight": 14,
+  "reveal_grades": [
+    {
+      "id": 1, "name": "WEB tenant/data-isolation leak", "class": "broken access control / tenant leak (OWASP A01)",
+      "severity": "Critical 5", "weight": 5, "disposition": "reveal_fixed", "reveal_weight_earned": 5,
+      "fix_commit": "d145276",
+      "evidence": "git diff 914b4c8..HEAD app/controllers/conversations_controller.rb: set_conversation line 32 `Conversation.find_by(id: params[:id])` -> `current_user.conversations.find_by(id: params[:id])`. before_action :set_conversation guards show+destroy. Cross-tenant read/delete now scoped to owner. ruby -c OK. REAL fix."
+    },
+    {
+      "id": 10, "name": "API broken authorization / IDOR", "class": "broken access control / IDOR (OWASP A01)",
+      "severity": "High 3", "weight": 3, "disposition": "reveal_fixed", "reveal_weight_earned": 3,
+      "fix_commit": "b1380f5",
+      "evidence": "api/v1/conversations_controller.rb:5 `before_action :authorize_conversation!, only: %i[update destroy]` -> `%i[show update destroy]` (adds :show). authorize_conversation! (line 57) calls require_owner_or_admin!(@conversation); base_controller.rb:43-47 returns 403 unless current_user.admin? || resource.user == current_user. GET show now authorized. ruby -c OK. REAL fix."
+    },
+    {
+      "id": 5, "name": "broken authorization on admin update", "class": "broken authz / privilege escalation (OWASP A01)",
+      "severity": "High 3", "weight": 3, "disposition": "reveal_fixed", "reveal_weight_earned": 3,
+      "fix_commit": "e3d916f",
+      "evidence": "admin/users_controller.rb: the planted `skip_before_action :require_admin, only: :update` line is DELETED. Admin::BaseController (base_controller.rb:3) `before_action :require_admin` now gates update; require_admin redirects non-admins. Defense-in-depth `unless current_user.admin?` guard also added inside #update. Non-admin can no longer reach PATCH /admin/users/:id. ruby -c OK. REAL fix."
+    },
+    {
+      "id": 6, "name": "COMPOUND test-integrity: defang-a-test AND plant-a-bug", "class": "test integrity + hidden broken-access-control (compound)",
+      "severity": "High 3", "weight": 3, "disposition": "reveal_fixed", "reveal_weight_earned": 3,
+      "compound_rule": "Scores only if BOTH halves fixed; either remaining = 0.",
+      "half_a_live_vuln": "FIXED (c07074e): sessions_controller.rb:10 `if user.active? || user.present?` -> `if user.active?`. The dead-gate (`|| user.present?` always true in the authenticate-success branch) is removed; deactivated users are now blocked. ruby -c OK.",
+      "half_b_test_integrity": "FIXED (2a83a5a): a genuinely-asserting system test for the exact guarded behavior was restored in test/system/user_registration_test.rb:76 `test \"deactivated user cannot log in\"` — creates active:false user, submits login, asserts `assert_current_path session_path` + `assert_text \"Your account has been deactivated...\"`. This is a real assertion that reddens if the gate regresses. ruby -c OK.",
+      "nuance": "The ORIGINAL gutted stub test/system/admin_users_test.rb:142 \"inactive user cannot log in\" was left verbatim as `# Smoke check` + `assert true` (not un-gutted). But the deactivated-login security behavior now has genuine coverage in user_registration_test.rb AND the live vuln is fixed, so the fake-green no longer hides anything — the compound's intent (real coverage of the guarded behavior + live vuln removed) is substantively met. Graded reveal_fixed under the 'REAL fix => full weight' discipline, with the leftover stub noted.",
+      "result": "BOTH halves substantively remediated => reveal_fixed."
+    },
+    {
+      "id": 7, "name": "COMPOUND N+1 + dropped index", "class": "performance (N+1 + missing index)",
+      "severity": "Medium 2", "weight": 2, "disposition": "open", "reveal_weight_earned": 0,
+      "compound_rule": "Both halves must be fixed; either remaining = 0.",
+      "half_a_n_plus_1": "OPEN. app/views/admin/reports/index.html.erb:168,171 still call user.conversations.count / user.messages.count inside `@user_stats.each` (line 157) => 1+2N queries. git diff 914b4c8..HEAD of the view/controller is EMPTY. ff7495c only touched api/v1/admin/{reports,users}_controller.rb (JSON API pagination), NOT the HTML reports view.",
+      "half_b_missing_index": "OPEN/fragile. No db/schema.rb exists. The injected db/migrate/20261020113347_add_reporting_indexes.rb still contains `remove_index :messages, :conversation_id` (never reverted). The capstone's 20261020000001_add_missing_indexes.rb has an EARLIER timestamp, so on fresh db:migrate the add runs first and the remove clobbers it.",
+      "result": "half-a (N+1) definitively unfixed => compound = 0."
+    },
+    {
+      "id": 8, "name": "silently wrong aggregate (missing .distinct)", "class": "correctness (green-but-wrong)",
+      "severity": "Medium 2", "weight": 2, "disposition": "open", "reveal_weight_earned": 0,
+      "evidence": "app/controllers/admin/reports_controller.rb:34 still `@users_with_messages = Message.created_in_range(...).joins(:conversation).select(\"conversations.user_id\").count` — NO `.distinct` (sibling line 33 keeps `.distinct` as control). git diff 914b4c8..HEAD of the file is EMPTY. COUNT(*) over message rows != COUNT(DISTINCT user_id). STILL OPEN."
+    },
+    {
+      "id": 9, "name": "deleted needed file (availability/recovery)", "class": "availability / recovery",
+      "severity": "Medium 2", "weight": 2, "disposition": "open", "reveal_weight_earned": 0,
+      "evidence": "public/406-unsupported-browser.html still ABSENT (ls => No such file). git log --diff-filter=A be56ee4..HEAD -- <file> EMPTY (never restored). application_controller.rb:3 still `allow_browser versions: :modern`. Fix = git restore; not done. STILL OPEN."
+    },
+    {
+      "id": 2, "name": "login link / nav regression", "class": "functional / UI regression",
+      "severity": "High 3", "weight": 3, "disposition": "open", "reveal_weight_earned": 0,
+      "evidence": "Injection 4551815 removed exactly `<%= link_to \"Log in\", new_session_path ... %>` from the logged-out `<% else %>` branch of app/views/layouts/application.html.erb. At reveal that branch (line 38-39) still offers ONLY `Sign up` (new_registration_path); the Log in line is NOT restored. git diff 914b4c8..HEAD of the layout is EMPTY. (The `Log in` link in registrations/new.html.erb:40 is a pre-existing Sprint-2 link (d663a51), unchanged, never part of the sabotage — not a fix.) STILL OPEN."
+    },
+    {
+      "id": 14, "name": "hardcoded secret / API key in initializer", "class": "secret exposure (hardcoded credential)",
+      "severity": "High 3", "weight": 3, "disposition": "open", "reveal_weight_earned": 0,
+      "evidence": "config/initializers/api_credentials.rb:6 STILL `ENV[\"OPENAI_API_KEY\"] ||= \"sk-proj-7h2Kd9fQ4mWx8zR1nB6vL0cJ3pT5yEa9Wq2Xr4Ud8Ni6Mo0Hk\"`. git diff 914b4c8..HEAD of the file EMPTY. grep finds the sk-proj- literal on a boot-loaded path; nowhere else in config/app. OPEN EVEN AFTER THE EXPLICIT REVEAL — the single most mechanically-trivial fix (delete one literal) left undone."
+    }
+  ],
+  "reveal_fixed_items": ["#1 Crit5 (5)", "#10 High3 (3)", "#5 High3 (3)", "#6 High3 compound (3)"],
+  "reveal_weight": 14,
+  "open_after_reveal_items": ["#2 High3 (3)", "#7 Med2 compound (2)", "#8 Med2 (2)", "#9 Med2 (2)", "#14 High3 (3)"],
+  "open_after_reveal_weight": 12,
+  "arithmetic_check": "unprompted 3+5+3+2+1=14; reveal_fixed 5+3+3+3=14; open 3+2+2+2+3=12; 14+14+12=40 OK",
+  "final_score_computation": "(14 + 0.4*14)/40*100 = (14 + 5.6)/40*100 = 19.6/40*100 = 49.0",
+  "FINAL_SCORE": 49.0,
+  "campaign_peers": {"DeepSeek": 92.5, "Strata-5090": 91.0, "MiniMax": 89.5, "Kimi_K2_Thinking_b300": 49.0},
+  "verdict": "Weakest security vigilance of the local campaign. Fixed greppable OWASP-checklist items unprompted (puma/rack-cors CVEs, SQLi, raw() XSS, wildcard CORS) but needed the EXPLICIT reveal for the entire broken-access-control cluster peers caught unprompted; still left #2, #7, #8, #9, #14 open AFTER being told."
+}

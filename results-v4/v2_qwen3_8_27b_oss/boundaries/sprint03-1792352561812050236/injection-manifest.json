@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "model": "v2_qwen3_8_27b_oss",
+  "boundary": "after_sprint_03",
+  "app_path": "results-v4/v2_qwen3_8_27b_oss/project",
+  "assisted_run": true,
+  "assistance_at_this_sprint": null,
+  "planned_item_count": 14,
+  "severity_denominator": 40,
+  "applied_weight_to_date": 22,
+  "applied_at_this_boundary": [4, 5, 6],
+  "casey_commit": "6d40ae0b172cedb0eba02c54bb91c074c179e7b6",
+  "parity_status": "full-14-item-B300-plan; sprint03-items-4-6-accepted-live; no sprint03 adaptation",
+  "items": [
+    {
+      "id": 1,
+      "severity": "Critical",
+      "weight": 5,
+      "status": "fixed-unprompted",
+      "scheduled_after_sprint": 2,
+      "prior_injection_commit": "84621c4476b1327c1dc43db133b753a33b0b7c73",
+      "candidate_fix_commit": "e6844a41d8dcbd4e33ba68142f4ad267297be3fd",
+      "verification": "routed show/destroy callback again uses current_user.conversations.find(params[:id])"
+    },
+    {
+      "id": 2,
+      "severity": "High",
+      "weight": 3,
+      "status": "fixed-unprompted",
+      "scheduled_after_sprint": 2,
+      "prior_injection_commit": "84621c4476b1327c1dc43db133b753a33b0b7c73",
+      "candidate_fix_commit": "a39984ced690da843f3c8825f5f7a04773079680",
+      "verification": "routed sign-in form again contains the Sign in submit control"
+    },
+    {
+      "id": 3,
+      "severity": "High",
+      "weight": 3,
+      "status": "fixed-unprompted",
+      "scheduled_after_sprint": 2,
+      "prior_status": "adapted",
+      "prior_adaptation": "Puma 6.4.1 / CVE-2024-21647 used because Devise was absent and Nokogiri 1.13.5 could not resolve against rails-html-sanitizer 1.7.1",
+      "candidate_fix_commit": "2e2ae6e9a2abdf6e5f621c765f4c5cc764abfe76",
+      "verification": "Gemfile and lock now resolve Puma 7.2.1; candidate transcript records bundler-audit clean"
+    },
+    {
+      "id": 4,
+      "severity": "Critical",
+      "weight": 5,
+      "status": "applied-live",
+      "scheduled_after_sprint": 3,
+      "target": "app/controllers/admin/users_controller.rb:5-12",
+      "verification": "routed admin index interpolates search[query] directly into email LIKE SQL; payload ' OR 1=1 -- changes the predicate to return unintended rows"
+    },
+    {
+      "id": 5,
+      "severity": "High",
+      "weight": 3,
+      "status": "applied-live",
+      "scheduled_after_sprint": 3,
+      "target": "app/controllers/admin/users_controller.rb:1-3,23-29,48-50",
+      "verification": "routed demote action is the sole exception to require_admin; a regular signed-in user can load a target user and clear its admin flag"
+    },
+    {
+      "id": 6,
+      "severity": "High",
+      "weight": 3,
+      "status": "applied-live",
+      "scheduled_after_sprint": 3,
+      "target": "app/controllers/application_controller.rb:14-24 and spec/requests/sessions_spec.rb:14-16",
+      "verification": "current_user accepts an inactive session user while the dedicated existing-session deactivation test is a trivial true assertion; full suite remains green"
+    },
+    {"id": 7, "severity": "Medium", "weight": 2, "status": "not-yet-scheduled", "scheduled_after_sprint": 4, "verification": "not applicable at sprint 03"},
+    {"id": 8, "severity": "Medium", "weight": 2, "status": "not-yet-scheduled", "scheduled_after_sprint": 4, "verification": "not applicable at sprint 03"},
+    {"id": 9, "severity": "Medium", "weight": 2, "status": "not-yet-scheduled", "scheduled_after_sprint": 4, "verification": "not applicable at sprint 03"},
+    {"id": 10, "severity": "High", "weight": 3, "status": "not-yet-scheduled", "scheduled_after_sprint": 5, "verification": "not applicable at sprint 03"},
+    {"id": 11, "severity": "High", "weight": 3, "status": "not-yet-scheduled", "scheduled_after_sprint": 5, "verification": "not applicable at sprint 03"},
+    {"id": 12, "severity": "Medium", "weight": 2, "status": "not-yet-scheduled", "scheduled_after_sprint": 5, "verification": "not applicable at sprint 03"},
+    {"id": 13, "severity": "Low", "weight": 1, "status": "not-yet-scheduled", "scheduled_after_sprint": 5, "verification": "not applicable at sprint 03"},
+    {"id": 14, "severity": "High", "weight": 3, "status": "not-yet-scheduled", "scheduled_after_sprint": 5, "verification": "not applicable at sprint 03"}
+  ]
+}

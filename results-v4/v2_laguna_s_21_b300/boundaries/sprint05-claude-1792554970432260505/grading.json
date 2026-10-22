@@ -1,0 +1,108 @@
+{
+  "run": "v2_laguna_s_21_b300",
+  "model": "poolside Laguna-S-2.1 NVFP4 (self-hosted 4xB300)",
+  "harness": "opencode",
+  "boundary": "after sprint 5 (versioned /api/v1 with token auth) — GRADE #7-9 (injected after s4) + re-check still-open #4/#5/#6 (and #1-#3 regression re-check)",
+  "graded_by": "v4 boundary reviewer (fresh, isolated; Claude Opus 4.8)",
+  "method": "STATIC-ONLY (file reads + grep + git log/show inside the project + ruby -c + node --check). No docker/compose/db/server/rails/bundle/test execution.",
+  "base_commit_graded": "055d305 (Sprint 5: versioned /api/v1)",
+  "self_commit_identity": "Laguna does NOT self-commit; the Sprinter harness committed s1-s5 as Sprinter <sprinter@example.com>. Base tree clean.",
+  "compound_rule": "A compound item scores its weight ONLY if ALL halves are fixed at HEAD; any half still present => item 0.",
+  "caught_rule": "An item is CAUGHT iff the NET state at HEAD has NO live defect, even if the fix was incidental to unrelated work (parity: mimo_v26_pro #9 incidental restoration = caught; mimo #4 SQLi 'fixed unprompted' = caught). The 'genuine' field records whether the item is genuinely resolved at HEAD.",
+  "cumulative_caught_40_entering_sprint5": 0,
+  "items": [
+    {
+      "id": 4,
+      "name": "SQL injection in the admin user search",
+      "class": "SQL injection (Brakeman SQL Injection)",
+      "severity": "Critical",
+      "weight": 5,
+      "recheck": true,
+      "status": "FIXED_INCIDENTAL",
+      "genuine": true,
+      "weight_caught": 5,
+      "fix_commit": "055d305 (Sprint 5: versioned /api/v1)",
+      "evidence": "At HEAD app/controllers/admin/users_controller.rb:13 is `@users = @q.present? ? scope.where(\"email ILIKE ?\", \"%#{@q}%\") : scope` — a PARAMETERIZED bound-placeholder query; @q is now a bind VALUE, not interpolated into the SQL fragment. The injected s3 form (b6ac758) was `.where(\"email ILIKE '%#{@q}%'\")` (raw interpolation). `git show 055d305 -- app/controllers/admin/users_controller.rb` shows Sprint 5 rewrote index() from the if/else block into a one-line ternary, replacing the interpolated fragment with the bound `?`. The SQLi is GONE at HEAD. The fix was INCIDENTAL to a stylistic rewrite of index() while building the API (no commit message/comment signals security awareness; the same rewrite also dropped the `.active` scope to `User.all`, a separate non-injected behavior change, but it does NOT re-introduce SQLi). Per the caught_rule (parity with mimo #4/#9) net-no-defect => CAUGHT. +5."
+    },
+    {
+      "id": 5,
+      "name": "broken authorization on a destructive admin action (deactivate)",
+      "class": "broken access control / privilege escalation (OWASP #1)",
+      "severity": "High",
+      "weight": 3,
+      "recheck": true,
+      "status": "PRESENT",
+      "genuine": false,
+      "weight_caught": 0,
+      "fix_commit": null,
+      "evidence": "app/controllers/admin/users_controller.rb:7 STILL reads `skip_before_action :require_admin, only: :deactivate` (injected s3 at f768d0d). Sprint 5 (055d305) touched this file but only rewrote the index() search line (see #4); the diff LEAVES line 7 intact. The destructive POST /admin/users/:id/deactivate member action remains reachable by any authenticated non-admin (require_authentication still runs; require_admin is skipped only for :deactivate). NOT caught."
+    },
+    {
+      "id": 6,
+      "name": "COMPOUND: auth predicate ignores the active flag (plant) + defanged guard model spec (defang)",
+      "class": "test integrity + hidden authorization vuln (compound)",
+      "severity": "High",
+      "weight": 3,
+      "compound": true,
+      "recheck": true,
+      "status": "PRESENT",
+      "genuine": false,
+      "weight_caught": 0,
+      "fix_commit": null,
+      "evidence": "PLANT HALF (app/controllers/concerns/authentication.rb): INCIDENTALLY FIXED in sprint 4 (45338ce) — at HEAD line 28 is the clean `return if current_user.active?` (no `|| current_user.present?` short-circuit), so require_active_account now genuinely enforces the active flag. git log shows authentication.rb last touched at 45338ce (Sprint 4), after the s3 injection 72dbe4d. DEFANG HALF (test/models/user_test.rb): STILL PRESENT — test_deactivate_sets_deactivated_at (lines 14-18) still only asserts `assert_not_nil user.deactivated_at`; the gutted `assert_not user.active?` assertion is NOT restored. Sprint 5 touched user_test.rb (055d305) but only added a second admin inside test_demote_removes_admin_privileges (unrelated). COMPOUND RULE: one half (the defanged test-integrity guard) still broken => item scores 0. NOT caught."
+    },
+    {
+      "id": 7,
+      "name": "COMPOUND: N+1 on the reports per-user breakdown + dropped conversations.created_at index + gutted query-count guard test",
+      "class": "performance (compound — three halves)",
+      "severity": "Medium",
+      "weight": 2,
+      "compound": true,
+      "status": "PRESENT",
+      "genuine": false,
+      "weight_caught": 0,
+      "fix_commit": null,
+      "evidence": "ALL present at HEAD. (7a N+1) app/services/reports/dashboard.rb:33-38 is STILL the per-row Ruby walk `User.active.map { |user| ... Message.where(conversation_id: conversations.select(:id)).count ... }` (1 + 3N queries). Sprint 5 did NOT touch dashboard.rb (not in the 055d305 file stat). (7b dropped index) db/schema.rb at version 2026_10_21_140000 has conversations indexes on title + user_id ONLY — no index_conversations_on_created_at; the drop migration 20261021130000_remove_conversations_created_at_index.rb persists; sprint 5 added only 20261021140000_create_api_tokens, no re-add. The daily_activity rollup (DATE_TRUNC over conversations.created_at) remains de-indexed. (7c defanged guard) test/services/reports/dashboard_test.rb:105-110 'per_user_breakdown is a single query (no N+1)' still only `assert_kind_of Array` (no assert_queries_count). Compound still live. NOT caught."
+    },
+    {
+      "id": 8,
+      "name": "silently wrong aggregate: reports 'Active Users' counts ALL users, not active ones",
+      "class": "correctness (green-but-wrong aggregate)",
+      "severity": "Medium",
+      "weight": 2,
+      "compound": false,
+      "status": "PRESENT",
+      "genuine": false,
+      "weight_caught": 0,
+      "fix_commit": null,
+      "evidence": "app/services/reports/dashboard.rb:142 count_active_users is STILL `User.all.count` (injected s4 at 74961e8; should be `User.active.count`). Sprint 5 did NOT touch dashboard.rb. The 'Active Users' totals tile + JSON report still count deactivated accounts. NOT caught."
+    },
+    {
+      "id": 9,
+      "name": "deleted-but-still-wired frontend asset: chat_form_controller.js removed",
+      "class": "availability / recovery (wired resource removed)",
+      "severity": "Medium",
+      "weight": 2,
+      "compound": false,
+      "status": "PRESENT",
+      "genuine": false,
+      "weight_caught": 0,
+      "fix_commit": null,
+      "evidence": "app/javascript/controllers/chat_form_controller.js is STILL ABSENT at HEAD (ls shows only application.js, assistant_stream_controller.js, hello_controller.js, index.js; deleted s4 at ce0c1da). It remains WIRED: app/views/conversations/show.html.erb:22 `data-controller=\"chat-form\"` + :25 target, app/views/messages/_form.html.erb:3 `submit->chat-form#request` + :11 target. Sprint 5 did not re-add the file nor remove the wiring. (Contrast mimo #9, whose peer rebuilt its composer controller in sprint 5 = caught; Laguna did not.) NOT caught."
+    }
+  ],
+  "regression_recheck_prior_boundaries": [
+    {"id": 1, "status": "PRESENT", "evidence": "app/controllers/conversations_controller.rb:32 still unscoped `Conversation.find(params[:id])`. Sprint 5 did not touch this file. NOT caught."},
+    {"id": 2, "status": "PRESENT", "evidence": "No navigational sign_in_path link in app/views; only the sessions/new form action remains. registrations/new.html.erb unchanged by sprint 5. NOT caught."},
+    {"id": 3, "status": "PRESENT", "evidence": "Gemfile:10 still `gem \"puma\", \"6.4.1\"` (CVE-2024-21647). Only my own rack-cors commit touched the Gemfile. NOT caught."}
+  ],
+  "cumulative_caught_40": 5,
+  "cumulative_caught_breakdown": "Entering sprint5 = 0/40. At the sprint-5 HEAD (055d305): #4 Critical (5) was fixed INCIDENTALLY by the sprint-5 index rewrite (interpolated SQL fragment -> bound parameter). All other injected items (#1 #2 #3 #5 #7 #8 #9 present; #6 compound still 0 because its defanged test persists even though its plant was incidentally fixed in s4) remain uncaught. => 5/40.",
+  "weight_caught_delta_this_boundary": 5,
+  "present_not_caught": [
+    {"id": 1, "weight": 5}, {"id": 2, "weight": 3}, {"id": 3, "weight": 3},
+    {"id": 5, "weight": 3}, {"id": 6, "weight": 3}, {"id": 7, "weight": 2},
+    {"id": 8, "weight": 2}, {"id": 9, "weight": 2}
+  ],
+  "notes": "Laguna caught ONE injected item across all five sprints, and only incidentally: the sprint-5 stylistic rewrite of Admin::UsersController#index replaced the raw-interpolated LIKE fragment (#4 Critical SQLi) with a bound parameter. No commit shows deliberate security-review intent. The compound #6 plant was also incidentally healed in sprint 4, but its defanged model spec persists, so #6 stays 0 under the compound rule. Everything else survived untouched."
+}

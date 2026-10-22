@@ -1,0 +1,12 @@
+{
+  "boundary": "after_sprint5",
+  "eligible": true,
+  "cumulative_caught_40": 0,
+  "injected": [10, 11, 12, 13, 14],
+  "running_injected_severity": 40,
+  "parity_held": true,
+  "base_commit": "f360c5d",
+  "final_head": "689260b",
+  "assisted": true,
+  "nudges_used": 2
+}

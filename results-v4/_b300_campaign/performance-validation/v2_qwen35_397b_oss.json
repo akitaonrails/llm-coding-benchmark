@@ -1,0 +1,17 @@
+{
+  "index": 0,
+  "serve_args": "--quantization modelopt --kv-cache-dtype fp8 --reasoning-parser qwen3 --enable-auto-tool-choice --tool-call-parser qwen3_coder --max-model-len 131072 --gpu-memory-utilization 0.95 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity --language-model-only",
+  "exit_code": 0,
+  "started_at": 1792415969.4890702,
+  "finished_at": 1792416425.6426256,
+  "passed": true,
+  "decode_tokens_per_second": 143.90109447536366,
+  "tool_preflight_passed": true,
+  "serving_fingerprint": "9ecd1b4b50764babeae49a865644d27a76b43543475f03367d72c119e71d6876",
+  "evidence": [
+    "results-v4/_b300_campaign/migration-20261017/perf-v2_qwen35_397b_oss-restored-pod-0-1792416416939389299.json",
+    "results-v4/_b300_campaign/migration-20261017/preflight-v2_qwen35_397b_oss-1792416410081002300.json",
+    "results-v4/_b300_campaign/model-cards/v2_qwen35_397b_oss.md"
+  ],
+  "revision": "12b28061efd8145b11226e4fab2528ee4f39ef09"
+}

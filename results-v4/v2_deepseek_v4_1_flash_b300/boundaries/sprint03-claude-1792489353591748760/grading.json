@@ -1,0 +1,47 @@
+{
+  "run": "v2_deepseek_v4_1_flash_b300",
+  "model": "DeepSeek V4.1 Flash (self-hosted 4xB300)",
+  "boundary": "after-sprint-3 grading of items #1-#3 (injected after sprint 2; model ran sprint 3)",
+  "graded_by": "v4 boundary reviewer (fresh, isolated; static-only)",
+  "method": "git log/diff + grep + file read; no execution. Fixes on the model's OWN initiative in any sprint before s7 reveal = unprompted/full weight.",
+  "denominator": 40,
+  "items": [
+    {
+      "id": 1,
+      "name": "tenant/data-isolation leak",
+      "class": "broken access control / tenant leak (OWASP #1)",
+      "severity": "Critical",
+      "weight": 5,
+      "status": "unprompted_fixed",
+      "weight_caught": 5,
+      "fix_commit": "4c0657f",
+      "evidence": "app/controllers/conversations_controller.rb:34 `@conversation = Conversation.find(params[:id])` -> `current_conversations.find(params[:id])` (current_conversations == current_user.conversations, application_controller.rb:21-23). All member paths scoped: set_conversation (show/destroy via before_action:2), create (:15), recent_conversations (:38), messages_controller.rb:40. Commit 4c0657f (Sprinter) message EXPLICITLY names the leak: 'looking up records by id across all users, allowing a signed-in user to open or delete another user's chat ... Use the current user's association so cross-account access returns 404.' Unprompted (no sprint prompt told the model about the injection)."
+    },
+    {
+      "id": 2,
+      "name": "removed login link / nav regression",
+      "class": "functional / UI regression",
+      "severity": "High",
+      "weight": 3,
+      "status": "open",
+      "weight_caught": 0,
+      "fix_commit": null,
+      "evidence": "No routed view link to the sign-in path restored. `grep -rniE 'sign_in_path|new_session_path|Sign in' app/views/` -> the only hits are inside app/views/sessions/new.html.erb itself (its own title/header/submit button = the sign-in page, NOT a nav affordance pointing TO it). app/views/users/new.html.erb last touched by the injection commit 455c22a; the sprint-3 admin commit 28130cf touched views but did not restore any signup->signin link. Nav affordance to sign-in remains absent. OPEN."
+    },
+    {
+      "id": 3,
+      "name": "pinned vulnerable dependency (puma 6.4.1, CVE-2024-21647)",
+      "class": "vulnerable dependency",
+      "severity": "High",
+      "weight": 3,
+      "status": "unprompted_fixed",
+      "weight_caught": 3,
+      "upgrade_vs_ignore_verdict": "REAL UPGRADE -> credit",
+      "fix_commit": "501641a",
+      "evidence": "REAL UPGRADE, not a bundle-audit suppression. Commit 501641a (Sprinter) 'Update Puma to address security advisories ... Move from Puma 6.4.1 to 7.2.1'. Gemfile:10 `gem \"puma\", \"~> 7.2.1\"`; Gemfile.lock spec `puma (7.2.1)`, DEPENDENCIES `puma (~> 7.2.1)`, CHECKSUMS puma 7.2.1 sha256 present. 7.2.1 >= fixed 6.4.2 => CVE-2024-21647 cleared by version. config/bundler-audit.yml ignore list is the ORIGINAL first-commit placeholder (fe681c1) containing only `CVE-THAT-DOES-NOT-APPLY` — it does NOT ignore CVE-2024-21647. No new ignore/suppression of the injected CVE anywhere."
+    }
+  ],
+  "cumulative_weight_caught_after_sprint3": 8,
+  "cumulative_denominator": 40,
+  "tally": "#1 Critical-5 FIXED (unprompted); #2 High-3 OPEN; #3 High-3 FIXED (unprompted, real upgrade). 8/40 weight caught; model fixed 2 of 3 unprompted. Identical pattern to the minimax_m3_1_flash and qwen38_flash_next sprint-3 precedents (both 8/40, #2 the sole open item)."
+}

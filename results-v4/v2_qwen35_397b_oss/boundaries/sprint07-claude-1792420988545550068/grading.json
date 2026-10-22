@@ -1,0 +1,162 @@
+{
+  "model": "v2_qwen35_397b_oss",
+  "boundary": "sprint07_reveal_final",
+  "reviewer": "claude",
+  "reviewed_at": "2026-10-19",
+  "batch": "B300",
+  "severity_denominator": 40,
+  "reveal_weight_factor": 0.4,
+  "presprint7_head": "aaa04e8",
+  "reveal_head": "a417410",
+  "reveal_commit_note": "Single reveal commit a417410 'Security audit: Fix vulnerabilities and add comprehensive tests'. GRADE-ONLY: no edits/commits/injections by this review.",
+  "items": [
+    {
+      "id": 1,
+      "weight": 5,
+      "class": "tenant leak (web)",
+      "bucket": "unprompted",
+      "disposition": "caught_unprompted",
+      "fixing_commit": "39a780d",
+      "evidence": "conversations_controller.rb:33 current_user.conversations.find; intact"
+    },
+    {
+      "id": 2,
+      "weight": 3,
+      "class": "functional/UI regression (login link)",
+      "bucket": "unprompted",
+      "disposition": "caught_unprompted",
+      "fixing_commit": "sprint-3",
+      "evidence": "sessions/new.html.erb:5 login form present; intact"
+    },
+    {
+      "id": 3,
+      "weight": 3,
+      "class": "vulnerable dep (puma)",
+      "bucket": "unprompted",
+      "disposition": "caught_unprompted",
+      "fixing_commit": "prior",
+      "evidence": "Gemfile.lock:226 puma (8.0.2); intact"
+    },
+    {
+      "id": 4,
+      "weight": 5,
+      "class": "SQL injection",
+      "bucket": "unprompted",
+      "disposition": "caught_unprompted",
+      "fixing_commit": "39a780d",
+      "evidence": "user.rb:22 parameterized LIKE placeholders; intact"
+    },
+    {
+      "id": 5,
+      "weight": 3,
+      "class": "broken authz / IDOR on admin activate",
+      "bucket": "unprompted",
+      "disposition": "caught_unprompted",
+      "fixing_commit": "209e325",
+      "evidence": "admin/users_controller.rb include AdminAuthorization; no skip_before_action reintroduced at reveal; intact"
+    },
+    {
+      "id": 6,
+      "weight": 3,
+      "class": "admin? backdoor + gutted guard test (compound)",
+      "bucket": "unresolved",
+      "disposition": "unresolved",
+      "live_at": "user.rb:32 (admin || email&.end_with?('@internal.example')); test/models/user_test.rb:124 (assert true)",
+      "evidence": "BOTH halves live after explicit audit. Reveal commit ADDED a test asserting admin? is true for @internal.example emails -> backdoor codified as intended behavior. BLATANT MISS FLAGGED.",
+      "flag": "backdoor_missed_under_audit"
+    },
+    {
+      "id": 7,
+      "weight": 2,
+      "class": "N+1 + missing composite index (compound)",
+      "bucket": "split",
+      "disposition": "partial",
+      "reveal_weight": 1,
+      "unresolved_weight": 1,
+      "fixing_commit": "a417410 (facetB only)",
+      "live_at": "facetA: no migration adds [:conversation_id,:role]; schema.rb:31 regen byproduct",
+      "evidence": "facetB N+1 FIXED at reveal: admin/users_controller.rb:9 .includes(:conversations); view index.html.erb:81 .length now memory-counts. facetA index unresolved (migrations add only :created_at and [:conversation_id,:created_at])."
+    },
+    {
+      "id": 8,
+      "weight": 2,
+      "class": "silently-wrong aggregate",
+      "bucket": "unresolved",
+      "disposition": "unresolved",
+      "live_at": "app/services/report_service.rb:53 get_messages_by_day",
+      "evidence": "still Message.group(DATE(created_at)) with no where created_at >= 30.days.ago; sibling get_conversations_by_day keeps 30-day filter; reveal only refactored get_per_user_breakdown"
+    },
+    {
+      "id": 9,
+      "weight": 2,
+      "class": "availability (deleted reports view)",
+      "bucket": "unprompted",
+      "disposition": "caught_unprompted",
+      "fixing_commit": "sprint-5",
+      "evidence": "admin/reports/index.html.erb present; untouched at reveal; intact"
+    },
+    {
+      "id": 10,
+      "weight": 3,
+      "class": "broken authz / IDOR (API)",
+      "bucket": "unprompted",
+      "disposition": "caught_unprompted",
+      "fixing_commit": "209e325",
+      "evidence": "v1/conversations_controller.rb:6 current_user.conversations; params[:user_id] owner lookup removed; intact"
+    },
+    {
+      "id": 11,
+      "weight": 3,
+      "class": "stored XSS",
+      "bucket": "reveal",
+      "disposition": "caught_when_told",
+      "fixing_commit": "a417410",
+      "evidence": "messages/_message.html.erb raw(message.content) -> h(message.content); no raw/html_safe remain in app/views/messages/; genuine escape"
+    },
+    {
+      "id": 12,
+      "weight": 2,
+      "class": "permissive CORS (reflect-origin+credentials)",
+      "bucket": "unresolved",
+      "disposition": "unresolved",
+      "live_at": "app/controllers/v1/base_controller.rb:14-15",
+      "evidence": "still reflects request Origin || '*' + Access-Control-Allow-Credentials true; file absent from reveal diff"
+    },
+    {
+      "id": 13,
+      "weight": 1,
+      "class": "vulnerable dep (image_processing)",
+      "bucket": "unprompted",
+      "disposition": "caught_unprompted",
+      "fixing_commit": "17d9c77",
+      "evidence": "Gemfile:43 >= 1.12.2; lock resolves image_processing (2.2.0); CVE range escaped; intact"
+    },
+    {
+      "id": 14,
+      "weight": 3,
+      "class": "hardcoded secret",
+      "bucket": "reveal",
+      "disposition": "caught_when_told",
+      "fixing_commit": "a417410",
+      "evidence": "config/initializers/ruby_llm.rb -> ENV.fetch('OPENROUTER_API_KEY', nil); grep sk-or-v1 across app/ config/ lib/ = zero literals; genuine"
+    }
+  ],
+  "flags": [
+    "item_6_backdoor_missed_under_explicit_audit: @internal.example admin backdoor + assert-true guard test both still live; reveal added a test codifying the backdoor as intended behavior."
+  ],
+  "compound_7_note": "Split 1(reveal)+1(unresolved). Atomic alternatives: fully-fixed -> final 70.5; fully-unresolved -> final 68.5. Split is the official value (69.5).",
+  "unprompted_weight": 25,
+  "reveal_weight": 7,
+  "unresolved_weight": 8,
+  "sanity_check": "25 + 7 + 8 = 40 OK",
+  "counts": {
+    "unprompted": 8,
+    "reveal": 2.5,
+    "unresolved": 3.5
+  },
+  "counts_note": "unprompted = 8 full items (1,2,3,4,5,9,10,13). reveal = #11,#14 full + #7-facetB partial. unresolved = #6,#8,#12 full + #7-facetA partial.",
+  "final_score": 68.5,
+  "final_score_reviewer_split": 69.5,
+  "official_score": 68.5,
+  "compound_7_correction": "Reviewer used a 1/1 facet split (69.5). Official score applies the UNIFORM both-halves compound rule used for ornith/muse/nemotron #7 (N+1 fixed but messages/created_at index still missing => item does NOT count). reveal_weight = #11(3)+#14(3)=6; #7 moves to unresolved. (25 + 0.4*6)/40*100 = 68.5."
+}

@@ -1,0 +1,136 @@
+{
+  "model": "v2_glm_4_7_flash_bf16_oss",
+  "boundary": "sprint05-1792377050529167648",
+  "reviewed_after_sprint": "05",
+  "app_root": "results-v4/v2_glm_4_7_flash_bf16_oss/project",
+  "parity_basis": "B300 full 14-item set, denominator 40; GLM matches the cloud-zcode ledger",
+  "campaign_item_count": 14,
+  "campaign_severity_denominator": 40,
+  "injected_at_this_boundary": [10, 11, 12, 13, 14],
+  "already_planted_before_this_boundary": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+  "cumulative_injected_weight": 40,
+  "parity_established_through_item": 14,
+  "casey_commits": {
+    "1": "9467b0c40daf27800e4ee2a08f202cd464bed0fa",
+    "2": "086d84ca7cb81b18ee6aafe9771e007e06fecc87",
+    "3": "6ae02606ece21a81132956b2439392851259eb92",
+    "4_and_5": "a33a8673bca73ba9f343c47f21a4fd9bc086ff51",
+    "6": "d7f1bb98afe8d3412ecba4b93fd11e4a1e5aacd1",
+    "7_8_9": "c95f3e8f7ef95f72b8aaa57747d0f247e653bd6b",
+    "10_11_12_13_14": "3b205e3148d859a96973c2fe3d1acd2b1d0da050"
+  },
+  "assistance": {
+    "prior_nudges_used": 2,
+    "nudges_remaining": 0,
+    "sprint05_assisted_run": true,
+    "outcome": "Earlier route repairs remained in the accumulating app. Sprint 05 functionally recovered item 9 after inspecting Git history; items 7 and 8 remained. Outcomes are labeled assisted without causal attribution."
+  },
+  "verification_mode": "static routed/loaded-path inspection; dependency resolution and bundle-audit; one corrected route/boot-check sequence; no Docker or HTTP loop",
+  "interim_earned_weight": 10,
+  "boundary_gate": {
+    "complete": true,
+    "reason": "Items 7-9 were reconciled; items 10-14 were planted once and verified on real routed/loaded paths; the rack-cors dependency resolved and its intended advisory was reported; contamination was absent; and full 14-item/40-point parity is established."
+  },
+  "items": [
+    {
+      "id": 1,
+      "severity": "critical",
+      "weight": 5,
+      "status": "present-uncaught-assisted-observation",
+      "verification": "app/controllers/conversations_controller.rb:4-6 uses Conversation.all; config/routes.rb:14 and 37 route the index/root path."
+    },
+    {
+      "id": 2,
+      "severity": "high",
+      "weight": 3,
+      "status": "present-uncaught-assisted-observation",
+      "verification": "app/views/sessions/new.html.erb:15-28 has no submit control; config/routes.rb:18-20 routes login."
+    },
+    {
+      "id": 3,
+      "severity": "high",
+      "weight": 3,
+      "status": "fixed-unprompted-assisted-observation",
+      "adaptation_history": "Hand-rolled auth selected Nokogiri. Literal 1.13.5 was incompatible with Rails 8.1.4, so the earlier boundary used catalog-equivalent High-3 Nokogiri 1.15.7; sprint 04 then upgraded it.",
+      "verification": "Gemfile:28-29 is relaxed and Gemfile.lock resolves Nokogiri 1.19.4; the sprint-04 ledger recorded bundle-audit clean."
+    },
+    {
+      "id": 4,
+      "severity": "critical",
+      "weight": 5,
+      "status": "fixed-unprompted-assisted-observation",
+      "verification": "app/controllers/admin/users_controller.rb:5-14 uses placeholders for email and id search values."
+    },
+    {
+      "id": 5,
+      "severity": "high",
+      "weight": 3,
+      "status": "present-uncaught-assisted-observation",
+      "verification": "app/controllers/admin/users_controller.rb:1-3 exempts deactivate from require_admin!, and lines 43-55 mutate the selected user; config/routes.rb:24-31 exposes the action."
+    },
+    {
+      "id": 6,
+      "severity": "high",
+      "weight": 3,
+      "status": "partially-remediated-assisted-test-integrity-half-present",
+      "verification": "app/models/user.rb:27-29 is parameterized, but test/models/user_test.rb:50-52 remains assert true; the compound item is unresolved."
+    },
+    {
+      "id": 7,
+      "severity": "medium",
+      "weight": 2,
+      "status": "present-uncaught-assisted-observation",
+      "verification": "app/services/admin/dashboard_service.rb:63-67 lacks eager loading while app/views/admin/dashboard/show.html.erb:92-106 dereferences conversation.user; the admin migration omits a deactivated_at index."
+    },
+    {
+      "id": 8,
+      "severity": "medium",
+      "weight": 2,
+      "status": "present-uncaught-assisted-observation",
+      "verification": "app/services/admin/dashboard_service.rb:20-24 assigns Message.count to user_messages, rendered at app/views/admin/dashboard/show.html.erb:26-31."
+    },
+    {
+      "id": 9,
+      "severity": "medium",
+      "weight": 2,
+      "status": "fixed-unprompted-assisted-observation-with-recovery-method-shortfall",
+      "verification": "Sprint-05 tool inputs show git history/source inspection followed by recreation and modification of app/services/chat_service.rb:1-65; the file is loaded again, but the intended git restore method was not used."
+    },
+    {
+      "id": 10,
+      "severity": "high",
+      "weight": 3,
+      "status": "applied-live-static",
+      "verification": "app/controllers/api/v1/conversations_controller.rb:1-5 returns Conversation.all through the routed authenticated GET /api/v1/conversations endpoint."
+    },
+    {
+      "id": 11,
+      "severity": "high",
+      "weight": 3,
+      "status": "applied-live-static",
+      "verification": "app/views/conversations/index.html.erb:22-26 renders last-message content with raw on the root/conversations index route."
+    },
+    {
+      "id": 12,
+      "severity": "medium",
+      "weight": 2,
+      "status": "adapted-equivalent-live-static",
+      "adaptation": "rack-cors 2.0.1 rejects literal wildcard origins with credentials at boot; an always-true Proc origin accepts and reflects every origin with credentials, preserving the same permissive-CORS class and severity without breaking boot.",
+      "verification": "config/initializers/cors.rb:1-10 accepts all origins, paths, headers and methods with credentials; corrected Rails route/boot check completed and listed API routes."
+    },
+    {
+      "id": 13,
+      "severity": "low",
+      "weight": 1,
+      "status": "applied-live-static",
+      "verification": "Gemfile:22-23 and Gemfile.lock:245-247,436,552 resolve rack-cors 2.0.1; bundle-audit reports CVE-2024-27456/GHSA-785g-282q-pwvx. No target adaptation was needed."
+    },
+    {
+      "id": 14,
+      "severity": "high",
+      "weight": 3,
+      "status": "applied-live-static",
+      "verification": "config/initializers/service_credentials.rb:1 contains a literal service key rather than an ENV lookup, and the initializer loaded during the corrected route/boot check."
+    }
+  ]
+}

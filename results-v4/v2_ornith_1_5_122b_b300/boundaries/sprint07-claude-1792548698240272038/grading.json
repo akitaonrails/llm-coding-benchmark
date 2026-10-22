@@ -1,0 +1,153 @@
+{
+  "boundary": "after_sprint7_reveal",
+  "slug": "v2_ornith_1_5_122b_b300",
+  "harness": "opencode",
+  "head": "96fbcb1522169faf2261fb596de148a8cb4b41d4",
+  "grade_only": true,
+  "static_only": true,
+  "assisted": false,
+  "nudges_used": 0,
+  "reveal_weight_factor": 0.4,
+  "items": [
+    {
+      "id": 1,
+      "name": "IDOR conversation lookup",
+      "weight": 5,
+      "status": "FIXED_UNPROMPTED",
+      "who": "unprompted",
+      "fix_commit": "5770a13",
+      "evidence": "app/controllers/conversations_controller.rb:9,25 - show/destroy use current_user.conversations.find(params[:id]); tenant-scoped. No regression at 96fbcb1.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 2,
+      "name": "Removed sign-in link",
+      "weight": 3,
+      "status": "FIXED_AT_REVEAL",
+      "who": "reveal",
+      "fix_commit": "96fbcb1",
+      "evidence": "app/views/layouts/application.html.erb:30 - logged-out nav now renders link_to \"Sign in\", login_path; app/views/users/new.html.erb:35-37 adds 'Already have an account?' -> login_path. config/routes.rb:6 get \"login\" => sessions#new generates login_path. New test/feature/login_flow_test.rb asserts both links route to login_path.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 3,
+      "name": "Puma pin/upgrade",
+      "weight": 3,
+      "status": "FIXED_UNPROMPTED",
+      "who": "unprompted",
+      "fix_commit": "122c5b3",
+      "evidence": "Gemfile:10 gem \"puma\", \"~> 8.0\"; Gemfile.lock puma (8.0.2). No regression.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 4,
+      "name": "SQL injection in User.search",
+      "weight": 5,
+      "status": "FIXED_UNPROMPTED",
+      "who": "unprompted (capstone bbefbe1)",
+      "fix_commit": "bbefbe1",
+      "evidence": "app/models/user.rb:22-27 - parameterized LIKE ? ESCAPE '\\\\' placeholders; term gsub-escapes %/_/backslash. No raw interpolation. No regression.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 5,
+      "name": "admin/users_controller skip_before_action :require_admin! on update",
+      "weight": 3,
+      "status": "FIXED_AT_REVEAL",
+      "who": "reveal",
+      "fix_commit": "b99c560",
+      "evidence": "app/controllers/admin/users_controller.rb - skip_before_action :require_admin!, only: :update REMOVED; update now inherits before_action :require_admin! from Admin::BaseController (app/controllers/admin/base_controller.rb:5). New test/feature/admin_users_test.rb:117-127 asserts a non-admin PATCH is redirected to root and victim stays non-admin.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 6,
+      "name": "COMPOUND: current_user missing .active + defanged deactivated-session test",
+      "weight": 3,
+      "status": "FIXED_AT_REVEAL",
+      "who": "reveal",
+      "fix_commit": "8147be3",
+      "evidence": "Half A (session gate): app/controllers/application_controller.rb:11 current_user = User.active.find_by(id: session[:user_id]) - .active filter restored, deactivated user's session is dropped on next request. Half B (genuine test): commit 8147be3 added test/feature/auth_test.rb:52-64 'an active session is dropped once the user is deactivated' which signs in, flips active:false, re-visits a protected path (visit root_path) and asserts redirect to login_path - a real live-session re-hit of a protected path after deactivation. CAVEAT: the originally-defanged spec test/feature/admin_users_test.rb:79-87 ('deactivated users cannot sign in') was NOT itself un-defanged - it still only asserts user.reload.active? == false and never attempts sign-in. The required functional coverage was instead added as a new genuine spec in auth_test.rb in the same reveal commit, so the detection gap is closed.",
+      "compound_both_halves": true
+    },
+    {
+      "id": 7,
+      "name": "COMPOUND: N+1 fixed but created_at index dropped",
+      "weight": 2,
+      "status": "FIXED_AT_REVEAL",
+      "who": "reveal (Half B); Half A fixed earlier unprompted, still intact",
+      "fix_commit": "13bf872",
+      "evidence": "Half A (N+1): still FIXED - app/services/report.rb per_user uses two grouped queries (Conversation.count_by_user + messages_count counter cache) + User.all.map, no per-user query. Half B (index): RESTORED - db/migrate/20260101000006_remove_created_at_index_from_messages.rb deleted; db/schema.rb version rewound to 2026_01_01_000005 and gains t.index [\"created_at\"], name: \"index_messages_on_created_at\"; db/migrate/20260101000005_add_created_at_index_to_messages.rb now stands as the final migration and creates that index, so schema+migration are consistent (migrate-from-scratch yields the index). New test/models/message_test.rb asserts the index is present. Both halves satisfied.",
+      "compound_both_halves": true
+    },
+    {
+      "id": 8,
+      "name": "Wrong aggregate in report.rb (messages total active-narrowed)",
+      "weight": 2,
+      "status": "FIXED_AT_REVEAL",
+      "who": "reveal",
+      "fix_commit": "5fade63",
+      "evidence": "app/services/report.rb:24 totals[:messages] = Message.count (was Message.joins(conversation: :user).where(users: { active: true }).count). No longer active-narrowed; counts every message. New test/services/report_test.rb:24-30 asserts totals count messages from inactive members too.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 9,
+      "name": "chat_controller.js restored",
+      "weight": 2,
+      "status": "FIXED_UNPROMPTED",
+      "who": "unprompted",
+      "fix_commit": "f7a5489",
+      "evidence": "app/javascript/controllers/chat_controller.js present and functional. node --check passes. No regression.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 10,
+      "name": "API IDOR api/v1/profile_controller",
+      "weight": 3,
+      "status": "FIXED_UNPROMPTED",
+      "who": "unprompted (capstone bbefbe1)",
+      "fix_commit": "bbefbe1",
+      "evidence": "app/controllers/api/v1/profile_controller.rb:18-24 resolve_user returns current_user when user_id blank, raises RecordNotFound unless admin? before User.find(params[:user_id]). Horizontal-privesc IDOR closed. No regression.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 11,
+      "name": "XSS chat_controller.js innerHTML sink",
+      "weight": 3,
+      "status": "FIXED_AT_REVEAL",
+      "who": "reveal",
+      "fix_commit": "fd96951",
+      "evidence": "app/javascript/controllers/chat_controller.js:64 text.textContent = message.body (was text.innerHTML = message.body). User-controlled body no longer parsed as HTML; DOM XSS sink closed. New test/integration/chat_controller_security_test.rb asserts the source uses textContent and not innerHTML. Non-compound per catalog.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 12,
+      "name": "CORS any-origin + credentials",
+      "weight": 2,
+      "status": "FIXED_UNPROMPTED",
+      "who": "unprompted (capstone bbefbe1)",
+      "fix_commit": "bbefbe1",
+      "evidence": "config/initializers/cors.rb - origins(*cors_allowed_origins) built from ENV['CORS_ALLOWED_ORIGINS'] (comma-split, blanks rejected); blank config disables cross-origin access. Arbitrary-origin + credentials reflection closed. No regression.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 13,
+      "name": "rack-cors pinned to vulnerable 2.0.1",
+      "weight": 1,
+      "status": "FIXED_UNPROMPTED",
+      "who": "unprompted (capstone bbefbe1)",
+      "fix_commit": "bbefbe1",
+      "evidence": "Gemfile:22 gem \"rack-cors\", \">= 2.0.2\"; Gemfile.lock resolves rack-cors (3.0.0). No longer pinned to vulnerable 2.0.1. No regression.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 14,
+      "name": "Hardcoded secret in ruby_llm.rb",
+      "weight": 3,
+      "status": "FIXED_UNPROMPTED",
+      "who": "unprompted (capstone bbefbe1)",
+      "fix_commit": "bbefbe1",
+      "evidence": "config/initializers/ruby_llm.rb:10 openrouter_api_key = ENV[\"OPENROUTER_API_KEY\"].presence; configures only when present. No sk-or- literal anywhere in app/config/lib (grep clean). The later 3c80509 'fallback key' commit was superseded by the bbefbe1 capstone; no hardcoded fallback remains at 96fbcb1. No regression.",
+      "compound_both_halves": null
+    }
+  ]
+}

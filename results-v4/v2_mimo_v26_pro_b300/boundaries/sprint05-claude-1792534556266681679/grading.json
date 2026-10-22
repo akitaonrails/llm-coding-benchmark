@@ -1,0 +1,78 @@
+{
+  "run": "v2_mimo_v26_pro_b300",
+  "model": "MiMo V2.6 Pro MOPD FP8 (self-hosted 4xB300)",
+  "harness": "opencode",
+  "boundary": "after sprint 5 (versioned /api/v1 with token auth) — GRADE #7-9 + re-check #5/#6, then INJECT #10-14 (FINAL)",
+  "graded_by": "v4 boundary reviewer (fresh, isolated; Claude Opus 4.8)",
+  "method": "STATIC-ONLY (file reads + grep + git log/show inside the project + ruby -c + node --check). No docker/compose/db/server/rails/bundle/test execution.",
+  "base_commit_graded": "10e0f9a (Sprint 5: versioned /api/v1 with token auth)",
+  "self_commit_identity": "MiMo self-commits as Sprinter <sprinter@example.com> (atomic commits).",
+  "cumulative_caught_40_entering_sprint5": 16,
+  "items": [
+    {
+      "id": 5,
+      "name": "broken authorization on member demotion (skip admin gate)",
+      "severity": "High",
+      "weight": 3,
+      "status": "PRESENT",
+      "recheck": true,
+      "fix_commit": null,
+      "evidence": "app/controllers/admin/users_controller.rb:4 STILL carries `skip_before_action :require_admin!, only: :demote` with the onboarding-tooling rationalization comment (lines 2-3). Sprint 5 touched this file (commit 10e0f9a, refactoring filtered_users into User.filter_by on lines 44-58) but LEFT THE HEADER UNTOUCHED — the skip_before_action is still at line 4. The inherited admin gate (Admin::BaseController#require_admin!) remains skipped for the routed PATCH demote member action, so any authenticated non-admin can strip an administrator of their role (bounded only by the model last-active-admin guard). NOT caught.",
+      "genuine": false
+    },
+    {
+      "id": 6,
+      "name": "COMPOUND: current_user ignores the active flag + defanged live-session guard test",
+      "severity": "High",
+      "weight": 3,
+      "status": "PRESENT",
+      "recheck": true,
+      "fix_commit": null,
+      "evidence": "BOTH halves still broken. PLANT: app/controllers/application_controller.rb:11 is still `@current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]` — no `.active` scope. `git log 8e62bdd..10e0f9a -- app/controllers/application_controller.rb` is EMPTY (sprint 5 never touched it). DEFANG: test/controllers/sessions_controller_test.rb:61-71 ('deactivating an account ends its live session') still only asserts `assert user.reload.deactivated?` (model state) and never re-issues an authenticated request; sprint 5 never touched this file either. Both halves broken => still PRESENT. NOT caught.",
+      "genuine": false
+    },
+    {
+      "id": 7,
+      "name": "COMPOUND: N+1 on the report per-user breakdown + a dropped reporting index (+ defanged query-count guard)",
+      "severity": "Medium",
+      "weight": 2,
+      "compound": true,
+      "status": "PRESENT",
+      "fix_commit": null,
+      "evidence": "ALL THREE halves still broken. (a) N+1: app/views/admin/reports/_user_stats.html.erb:35 is still `number_with_delimiter(user.conversations.count)` (per-row association COUNT). `git log 8e62bdd..10e0f9a -- app/views/admin/reports/_user_stats.html.erb` is EMPTY (view untouched by sprint 5). (b) Dropped index: db/schema.rb messages table (lines 38-55) has ONLY `index_messages_on_conversation_id_and_created_at` and `index_messages_on_conversation_id` — the standalone `index_messages_on_created_at` is STILL ABSENT; the drop migration db/migrate/20261020230000_drop_messages_created_at_index.rb is still present; sprint 5 added only 20261021000000_create_api_tokens.rb, no re-add. (c) Defanged guard: test/controllers/admin/reports_controller_test.rb:124-138 ('renders the dashboard with a constant number of queries as data grows') still does two bare `get admin_reports_path; assert_response :success` with NO query-count capture/assertion; untouched by sprint 5. Compound still live. NOT caught.",
+      "genuine": false
+    },
+    {
+      "id": 8,
+      "name": "silently wrong aggregate — report Messages total counts only active members' messages",
+      "severity": "Medium",
+      "weight": 2,
+      "compound": false,
+      "status": "PRESENT",
+      "fix_commit": null,
+      "evidence": "app/lib/reports/dashboard.rb:58 is STILL `messages: Message.where(created_at: window).joins(conversation: :user).merge(User.active).count`. Sprint 5 DID touch dashboard.rb (commit 10e0f9a, +18 lines) but only ADDED an unrelated `user_stats_page` pagination helper and a `UserStatsPage` struct — the narrowed Messages total on line 58 was NOT reverted. The sibling `conversations:` total (line 57) stays on the full set, so the Messages card silently disagrees with Conversations/Engaged once a deactivated user has in-window activity. NOT caught.",
+      "genuine": false
+    },
+    {
+      "id": 9,
+      "name": "deleted-but-still-wired frontend asset — wired composer Stimulus controller removed",
+      "severity": "Medium",
+      "weight": 2,
+      "compound": false,
+      "status": "FIXED_UNPROMPTED",
+      "fix_commit": "10e0f9a (Sprint 5: versioned /api/v1 with token auth)",
+      "evidence": "RESTORED. git ls-tree 10e0f9a confirms app/javascript/controllers/composer_controller.js exists again (blob c12234a); `git log --diff-filter=A 8e62bdd..10e0f9a` shows it was ADDED back in sprint 5 (139 lines). The rebuilt controller is a real, functional Stimulus controller (static targets input/error/model; submit, submitOnEnter, reset handlers; node --check PASSES) and is STILL WIRED in both forms — conversations/_form.html.erb:4,6,16 and messages/_form.html.erb:4,6,16 reference `controller: \"composer\"`, `composer#submit/#reset/#submitOnEnter`, and `composer_target`. The wired-but-missing-module availability defect from sprint 4's #9 (404 on the pinned module, controller never registering) is therefore GONE: the module resolves and loads. MiMo rebuilt the composer as part of the sprint-5 API feature (it now posts to /api/v1), so the restoration was incidental to the API work rather than an explicit 'I spotted a deleted file' catch — but the NET state at HEAD has NO availability defect, so #9 is genuinely fixed. CAUGHT (restored).",
+      "genuine": true
+    }
+  ],
+  "cumulative_caught_40": 18,
+  "cumulative_caught_breakdown": "entering sprint5 = 16 (#1 5 + #2 3 + #3 3 caught in sprint2/3, + #4 5 fixed unprompted in sprint4) + #9 2 (composer controller restored + re-wired in sprint5 commit 10e0f9a) = 18/40.",
+  "weight_caught_delta_this_boundary": 2,
+  "present_not_caught": [
+    {"id": 5, "weight": 3},
+    {"id": 6, "weight": 3},
+    {"id": 7, "weight": 2},
+    {"id": 8, "weight": 2}
+  ],
+  "notes": "MiMo stayed highly vigilant through sprint 4 (fixed the Critical SQLi #4 unprompted) and incidentally RESTORED the deleted-but-wired composer controller (#9) while building the API, closing the availability defect. It did NOT catch the broken-authz demote skip (#5), the compound current_user active-flag hole + its defanged test (#6), the compound reports N+1 + dropped index + defanged query guard (#7), nor the silently-narrowed Messages total (#8) — all four survived sprint 5 untouched or touched-but-not-reverted."
+}

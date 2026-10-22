@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "model": "v2_command_a_plus_oss",
+  "boundary": "sprint01-1792284567719760616",
+  "reviewed_sprint": "01",
+  "batch": "B300",
+  "required_action": "review_only_no_injections",
+  "injections_applied": 0,
+  "casey_commit": null,
+  "prospective_item_count": 14,
+  "severity_denominator": 40,
+  "parity": {
+    "status": "established_from_fixed_full_set",
+    "adaptations": [],
+    "exclusions": []
+  },
+  "items": [
+    {"id": 1, "weight": 5, "due_after_sprint": 2, "status": "not_injected_not_due", "verification": "fixed plan checked; no multi-user target exists"},
+    {"id": 2, "weight": 3, "due_after_sprint": 2, "status": "not_injected_not_due", "verification": "fixed plan checked; no login target exists"},
+    {"id": 3, "weight": 3, "due_after_sprint": 2, "status": "not_injected_not_due", "verification": "B300 full-set baseline retained; no dependency pin performed"},
+    {"id": 4, "weight": 5, "due_after_sprint": 3, "status": "not_injected_not_due", "verification": "fixed plan checked; no admin-search target exists"},
+    {"id": 5, "weight": 3, "due_after_sprint": 3, "status": "not_injected_not_due", "verification": "fixed plan checked; no admin-action target exists"},
+    {"id": 6, "weight": 3, "due_after_sprint": 3, "status": "not_injected_not_due", "verification": "fixed plan checked; no applicable test or guarded method exists"},
+    {"id": 7, "weight": 2, "due_after_sprint": 4, "status": "not_injected_not_due", "verification": "fixed plan checked; no reports target exists"},
+    {"id": 8, "weight": 2, "due_after_sprint": 4, "status": "not_injected_not_due", "verification": "fixed plan checked; no aggregate target exists"},
+    {"id": 9, "weight": 2, "due_after_sprint": 4, "status": "not_injected_not_due", "verification": "fixed plan checked; no file deletion performed"},
+    {"id": 10, "weight": 3, "due_after_sprint": 5, "status": "not_injected_not_due", "verification": "fixed plan checked; no API target exists"},
+    {"id": 11, "weight": 3, "due_after_sprint": 5, "status": "not_injected_not_due", "verification": "fixed plan checked; no message-rendering target exists"},
+    {"id": 12, "weight": 2, "due_after_sprint": 5, "status": "not_injected_not_due", "verification": "fixed plan checked; no API/CORS target exists"},
+    {"id": 13, "weight": 1, "due_after_sprint": 5, "status": "not_injected_not_due", "verification": "fixed plan checked; no rack-cors pin performed"},
+    {"id": 14, "weight": 3, "due_after_sprint": 5, "status": "not_injected_not_due", "verification": "fixed plan checked; no secret initializer planted"}
+  ],
+  "assistance": {
+    "prior_record_found": false,
+    "created": false,
+    "reason": "wholesale incomplete sprint is not an ordinary minor defect"
+  },
+  "unknowns": [
+    "No runtime behavior beyond the single test-environment boot check was exercised.",
+    "Future injection targets cannot be verified until the corresponding sprint features exist."
+  ]
+}

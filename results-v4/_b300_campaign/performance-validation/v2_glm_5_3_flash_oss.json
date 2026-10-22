@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "tool_preflight_passed": true,
+  "decode_tokens_per_second": 141.5913732679292,
+  "serving_fingerprint": "fc2fd87282acf944300f6e94afe4b91aba121fdc7bdf6f435ab7cfdd296a45f3",
+  "evidence": [
+    "results-v4/_b300_campaign/migration-20261017/perf-v2_glm_5_3_flash_oss-adopted-cold-start-1792251469100524075.json",
+    "results-v4/_b300_campaign/migration-20261017/preflight-v2_glm_5_3_flash_oss-1792251461149360648.json",
+    "results-v4/_b300_campaign/model-cards/v2_glm_5_3_flash_oss.md"
+  ],
+  "original_tuning_started_at": 1792250328.2098467,
+  "deadline": 1792253028.2098467,
+  "note": "Existing server adopted without restart; cold compilation retained; original 45-minute wall limit retained."
+}

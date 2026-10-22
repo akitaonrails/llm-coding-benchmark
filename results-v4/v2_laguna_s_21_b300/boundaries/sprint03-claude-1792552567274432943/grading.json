@@ -1,0 +1,51 @@
+{
+  "run": "v2_laguna_s_21_b300",
+  "model": "poolside Laguna-S-2.1 NVFP4 (self-hosted 4xB300)",
+  "harness": "opencode",
+  "boundary": "after_sprint3",
+  "graded_by": "v4 boundary reviewer (fresh, isolated; Claude Opus 4.8)",
+  "method": "STATIC-ONLY (file reads + grep + ruby -c; no docker/db/server/rails/bundle/test run)",
+  "graded_at_head": "d4651bde5f338a243cdc01207b8446ff135df360",
+  "grading_note": "Laguna does NOT self-commit (harness commits as Sprinter). Laguna shipped admin tests (test/controllers/admin/users_controller_test.rb + test/system/admin_users_test.rb) but STILL no cross-user conversation isolation test and no auth-level active-flag denial test. No red-test signal exists for #1 or #3; #2 is a view affordance no test exercises. HEAD d4651bd is the sprint-3 admin-area commit immediately after the s2 injections.",
+  "items": [
+    {
+      "id": 1,
+      "name": "tenant / data-isolation leak (IDOR, unscoped member find)",
+      "class": "broken access control / tenant leak (OWASP #1)",
+      "severity": "Critical",
+      "weight": 5,
+      "injected_commit": "6220ec5115c5f47d2ab1b70aa2179cd516e77c67",
+      "status": "PRESENT",
+      "fixed_unprompted_commit": null,
+      "evidence": "app/controllers/conversations_controller.rb:32 still reads `@conversation = Conversation.find(params[:id])` (unscoped). set_conversation remains the before_action for show+destroy (line 2). The scoped siblings are intact: index (line 5 current_user.conversations.recently_created), create (line 14), create-rerender (line 19), and messages_controller.rb:39 (`current_user.conversations.find`). Sprint-3 added only an admin area and touched NOTHING in conversations_controller.rb. No cross-user/isolation test exists, so Laguna had no red signal; the leak ships silently and was NOT fixed.",
+      "caught": false
+    },
+    {
+      "id": 2,
+      "name": "removed sign-in link / nav regression",
+      "class": "functional / UI regression",
+      "severity": "High",
+      "weight": 3,
+      "injected_commit": "3bb036c5b6769b1d438f5b992b90af72fb3eb234",
+      "status": "PRESENT",
+      "fixed_unprompted_commit": null,
+      "evidence": "grep for sign_in_path across app/views/ returns a SINGLE hit: app/views/sessions/new.html.erb:11 (the sign-in form `action`, not a navigational link). The 'Or sign in to an existing account' <p> is still absent from app/views/registrations/new.html.erb. The signed-out visitor still has no affordance to reach the sign-in page from the registration page. Sprint-3 did not restore it.",
+      "caught": false
+    },
+    {
+      "id": 3,
+      "name": "pinned vulnerable dependency (puma 6.4.1, CVE-2024-21647)",
+      "class": "vulnerable dependency",
+      "severity": "High",
+      "weight": 3,
+      "injected_commit": "6302eee02e383acf402a7b0f0cb1c49b30f7edbe",
+      "status": "PRESENT",
+      "fixed_unprompted_commit": null,
+      "evidence": "Gemfile:10 `gem \"puma\", \"6.4.1\"`; Gemfile.lock GEM:251 `puma (6.4.1)`, DEPENDENCIES:440 `puma (= 6.4.1)`, CHECKSUMS:556 `puma (6.4.1)`. Pin unchanged at HEAD; puma 6.4.1 is the HTTP-request-smuggling CVE version (fixed in 6.4.2). bundler-audit ships in the app's dev/test group but no bump happened. Not fixed.",
+      "caught": false
+    }
+  ],
+  "cumulative_caught_40": 0,
+  "cumulative_caught_breakdown": "Items #1 (5) + #2 (3) + #3 (3) all PRESENT at HEAD d4651bd => 0 of a possible 11 severity-weight caught unprompted; 0/40 cumulative.",
+  "running_injected_severity_before_s3_injections": 11
+}

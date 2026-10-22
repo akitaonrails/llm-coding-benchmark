@@ -1,0 +1,33 @@
+{
+  "trials": [
+    {
+      "index": 0,
+      "serve_args": "--dtype bfloat16 --tool-call-parser muse_glimmer --reasoning-parser muse_glimmer --enable-auto-tool-choice --generation-config auto --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity",
+      "exit_code": 2,
+      "started_at": 1792272613.3197315,
+      "finished_at": 1792272744.220296,
+      "passed": false
+    },
+    {
+      "index": 1,
+      "serve_args": "--dtype bfloat16 --tool-call-parser muse_glimmer --reasoning-parser muse_glimmer --enable-auto-tool-choice --generation-config auto --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity --speculative-config '{\"method\":\"dflash\",\"model\":\"/root/models/muse-glimmer-assistant\",\"num_speculative_tokens\":15}'",
+      "exit_code": 2,
+      "started_at": 1792272783.211269,
+      "finished_at": 1792272912.7132833,
+      "passed": false
+    },
+    {
+      "index": 2,
+      "serve_args": "--dtype bfloat16 --tool-call-parser muse_glimmer --reasoning-parser muse_glimmer --enable-auto-tool-choice --generation-config auto --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity --max-num-batched-tokens 1024",
+      "exit_code": 2,
+      "started_at": 1792272933.1851623,
+      "finished_at": 1792273064.1389577,
+      "passed": false
+    }
+  ],
+  "deadline": 1792275302.060202,
+  "resumed_frozen_recipe": false,
+  "official_card": "results-v4/_b300_campaign/model-cards/v2_muse_glimmer_30b_oss.md",
+  "research_source": "https://docs.vllm.ai/en/latest/configuration/optimization/",
+  "rationale": "Native MTP when model card supplies recipe; otherwise bounded smaller prefill batch tests for latency. No context/output/reasoning reduction."
+}

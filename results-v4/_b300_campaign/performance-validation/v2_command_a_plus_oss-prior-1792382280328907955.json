@@ -1,0 +1,17 @@
+{
+  "index": 0,
+  "serve_args": "--tool-call-parser cohere_command4 --reasoning-parser cohere_command4 --enable-auto-tool-choice --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity",
+  "exit_code": 0,
+  "started_at": 1792283936.568122,
+  "finished_at": 1792284238.488844,
+  "passed": true,
+  "decode_tokens_per_second": 198.13441994687088,
+  "tool_preflight_passed": true,
+  "serving_fingerprint": "76e95b3562b95d2613111cce112a61dc5c9ee5944a5b4b2fa065cba5a9a8d11c",
+  "evidence": [
+    "results-v4/_b300_campaign/migration-20261017/perf-v2_command_a_plus_oss-restored-pod-0-1792284231342883845.json",
+    "results-v4/_b300_campaign/migration-20261017/preflight-v2_command_a_plus_oss-1792284227084516858.json",
+    "results-v4/_b300_campaign/model-cards/v2_command_a_plus_oss.md"
+  ],
+  "revision": "ebd2d72c0f9a84389c6b057136d38c435aea2700"
+}

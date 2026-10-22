@@ -1,0 +1,148 @@
+{
+  "status": "paused_pending_batch_review",
+  "reason": "Automatic supervisor: sprint or boundary failed; preserve for batch review",
+  "recorded_at": 1792273630.830042,
+  "model": {
+    "slug": "v2_command_a_plus_oss",
+    "hf_repo": "CohereLabs/command-a-plus-05-2026-w4a4",
+    "local_dir": "command-a-plus-w4a4",
+    "size_gb": 132.0,
+    "served_name": "command-a-plus",
+    "serve_args": "--tool-call-parser cohere_command4 --reasoning-parser cohere_command4 --enable-auto-tool-choice --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity --max-num-batched-tokens 2048",
+    "notes": "User-approved 2026-10-17. Official W4A4 recommended by Cohere for single Blackwell GPU; 218B total/25B active; Apache-2.0. Requires vLLM >=0.25 and cohere_melody. Same cumulative 4h guard; preflight required."
+  },
+  "checkpoint_revision_manifest": [
+    {
+      "slug": "v2_glm_5_3_flash_oss",
+      "repo": "RedHatAI/GLM-5.3-Flash-NVFP4",
+      "revision": "18d55bfd5a2194887738da73753975c9d3842f46",
+      "gated": false,
+      "license": "mit"
+    },
+    {
+      "slug": "v2_qwen35_122b_oss",
+      "repo": "Qwen/Qwen3.5-122B-A10B-FP8",
+      "revision": "a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9",
+      "gated": false,
+      "license": "apache-2.0"
+    },
+    {
+      "slug": "v2_qwen35_397b_oss",
+      "repo": "nvidia/Qwen3.5-397B-A17B-NVFP4",
+      "revision": "12b28061efd8145b11226e4fab2528ee4f39ef09",
+      "gated": false,
+      "license": "apache-2.0"
+    },
+    {
+      "slug": "v2_dsv4_flash_oss",
+      "repo": "deepseek-ai/DeepSeek-V4-Flash",
+      "revision": "60d8d70770c6776ff598c94bb586a859a38244f1",
+      "gated": false,
+      "license": "mit"
+    },
+    {
+      "slug": "v2_nemotron35_super_vl_oss",
+      "repo": "nvidia/NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-NVFP4",
+      "revision": "59b8721646c38111a242da18218859fb2b454322",
+      "gated": false,
+      "license": "other"
+    },
+    {
+      "slug": "v2_qwen3_8_27b_oss",
+      "repo": "Qwen/Qwen3.8-27B",
+      "revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+      "gated": false,
+      "license": "apache-2.0"
+    },
+    {
+      "slug": "v2_glm_4_7_flash_bf16_oss",
+      "repo": "zai-org/GLM-4.7-Flash",
+      "revision": "7dd20894a642a0aa287e9827cb1a1f7f91386b67",
+      "gated": false,
+      "license": "mit"
+    },
+    {
+      "slug": "v2_qwen3_8_flash_next_oss",
+      "repo": "nvidia/Qwen3.8-Flash-Next-NVFP4",
+      "revision": "fc694b54fb0174e0913e6adf86691ef85a4ead47",
+      "gated": false,
+      "license": "other"
+    },
+    {
+      "slug": "v2_muse_glimmer_30b_oss",
+      "repo": "meta-models/Muse-Glimmer-30B",
+      "revision": "a4e59da52a7bc87ae7251dd5545c0dd437c44b68",
+      "gated": false,
+      "license": "apache-2.0"
+    },
+    {
+      "slug": "v2_command_a_plus_oss",
+      "repo": "CohereLabs/command-a-plus-05-2026-w4a4",
+      "revision": "ebd2d72c0f9a84389c6b057136d38c435aea2700",
+      "gated": false,
+      "license": "apache-2.0"
+    },
+    {
+      "slug": "v2_ornith_1_5_35b_oss",
+      "repo": "ornith-ai/Ornith-1.5-35B-A3B",
+      "revision": "10fbf86fed7ecee4a061f8b499a618f46001cac1",
+      "gated": false,
+      "license": "mit"
+    },
+    {
+      "slug": "v2_nex_n2_5_mini_oss",
+      "repo": "nex-agi/Nex-N2.5-mini",
+      "revision": "87420286149d9cce9bd46cd335ef9bda33c37c1b",
+      "gated": false,
+      "license": "apache-2.0"
+    },
+    {
+      "slug": "v2_swift_1_5_27b_oss",
+      "repo": "ukisai/Swift-1.5-Qwen3.8-27b",
+      "revision": "b4c84d42903a8646b25857eb2827288d92ed85a4",
+      "gated": false,
+      "license": "swift-open-license-1.0"
+    },
+    {
+      "slug": "v2_thinkingcap_3_8_27b_oss",
+      "repo": "bottlecapai/ThinkingCap-Qwen3.8-27B",
+      "revision": "7891e03dbda2e9b63a5b9610f20e83ea441f8e2c",
+      "gated": "auto",
+      "license": "polyform-small-business-1.0.0 plus personal-use grant"
+    }
+  ],
+  "workspace": "results-v4/v2_command_a_plus_oss/project",
+  "workspace_exists": false,
+  "sprints": [],
+  "sessions": [],
+  "git": {},
+  "ledger": {
+    "sprints": {},
+    "sprint_seconds_total": 0,
+    "guard_tripped": false,
+    "download_seconds": 166.13846158981323,
+    "serve_load_seconds": 0,
+    "phase_started": null
+  },
+  "tuning": null,
+  "remote_retention": {
+    "weights": "/root/models/command-a-plus-w4a4",
+    "retain": [
+      "model-specific caches",
+      "temporary files required to resume",
+      "server logs and launch state; archive locally before replacing shared state"
+    ],
+    "weights_policy": "May delete downloaded weights only when space is needed, after verifying and recording the exact repository and immutable revision. Preserve execution state and caches.",
+    "gpu_process": "May stop owned inference process after archiving; KV cache is transient and will be rebuilt."
+  },
+  "resume_checklist": [
+    "Review all models after batch before selecting resumptions.",
+    "Archive remote launch state/logs locally before loading another model; preserve execution state/caches; weights alone may be removed if space is needed and an immutable revision is recorded.",
+    "Restore serving configuration from this checkpoint and verify API/tool preflight.",
+    "Verify session export succeeded; retain local OpenCode session store. Do not delete failed export evidence.",
+    "Determine whether current sprint ended or was interrupted; preserve existing logs before continuation.",
+    "Do not blindly rerun standard launcher: it skips existing sprint.result.json and DNF markers.",
+    "Verify grading/injection boundary records before advancing sprint. Never repeat completed injections.",
+    "Record any additional authorized budget separately; keep original attempt time, costs and pause artifacts."
+  ]
+}

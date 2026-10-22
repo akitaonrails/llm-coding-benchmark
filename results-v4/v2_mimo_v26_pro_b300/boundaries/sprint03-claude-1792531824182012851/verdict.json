@@ -1,0 +1,10 @@
+{
+  "boundary": "after_sprint3",
+  "eligible": true,
+  "cumulative_caught_40": 11,
+  "injected": [4, 5, 6],
+  "running_injected_severity": 22,
+  "parity_held": true,
+  "base_commit": "79a379f",
+  "final_head": "5faf72b"
+}

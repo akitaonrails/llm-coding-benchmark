@@ -1,0 +1,62 @@
+{
+  "run": "v2_deepseek_v4_1_flash_b300",
+  "model": "DeepSeek V4.1 Flash (self-hosted 4xB300)",
+  "boundary": "after-sprint-3 (admin area)",
+  "injected_by": "v4 boundary reviewer (fresh, isolated; committed as teammate Casey <casey@example.com>)",
+  "method": "STATIC-ONLY (file edits + grep + ruby -c + git log/diff read); no docker/db/server/rails run; no lock mutation.",
+  "base_commit_before_injection": "28130cf (Add admin area for managing user accounts)",
+  "injection_set": "full 14-item set / denominator 40 (B300 / qwen38_flash_next / minimax_m3_1_flash parity). Items #4-#6 at this boundary; running total 22/40 injected (#1-#6).",
+  "app_stack": "Rails 8 (~> 8.1.4), Minitest + Capybara/Selenium, hand-rolled DB-backed session auth, admin role + admin namespace (users#index/show + member promote/demote/deactivate/reactivate), RubyLLM -> OpenRouter, SQLite.",
+  "items": [
+    {
+      "id": 4,
+      "name": "SQL injection in admin user search",
+      "class": "SQL injection",
+      "severity": "Critical",
+      "weight": 5,
+      "file_line": "app/models/user.rb:33 (self.search)",
+      "exact_change": "`where(\"email_address LIKE ? ESCAPE '\\\\'\", \"%#{sanitize_sql_like(term)}%\")` -> `where(\"email_address LIKE '%#{sanitize_sql_like(term)}%' ESCAPE '\\\\'\")`. The bind placeholder is dropped and `term` is interpolated directly into the SQL string literal; `sanitize_sql_like` is KEPT (it escapes %/_/\\ but NOT a single quote).",
+      "routed_path_evidence": "GET /admin/users?filters[q]=... -> Admin::UsersController#index (:6) -> filtered_users (:57) -> `User.search(@query)` where @query = params[:filters][:q] (filters:52-54). routes.rb:17 `namespace :admin { resources :users, only: %i[index show] }`, admin root -> users#index.",
+      "live_verify": "ruby -c => Syntax OK. Exploit: a search term containing a quote (e.g. `x' OR '1'='1`) is normalized (downcase/strip) and passed through sanitize_sql_like (which does not escape the quote), so the quote breaks out of the string literal => `... LIKE '%x' OR '1'='1%' ESCAPE '\\'` => OR '1'='1 returns the full users table. Boot + non-targeted specs stay green: the wildcard-literal spec (user_test.rb:157 `User.search(\"%\")`) stays green because sanitize_sql_like still escapes the %; the case-insensitive (:148) and blank-query (:164) specs are unaffected; no admin controller/system search spec uses a quote payload.",
+      "adaptation": "keep-sanitize-drop-bind. Primary catalog target (Admin search filter query) present as a model `search` scope used by the admin index. Dropping sanitize_sql_like would redden user_test.rb:157, so per the peer precedent (minimax/qwen) only the bind is dropped. Same class+severity+flavor as deepseek_v4_1_flash / qwen38_flash_next / minimax_m3_1_flash sprint-3 #4.",
+      "commit": "c65d935"
+    },
+    {
+      "id": 5,
+      "name": "broken authorization on a privileged admin action",
+      "class": "broken access control / privilege escalation (IDOR)",
+      "severity": "High",
+      "weight": 3,
+      "file_line": "app/controllers/admin/users_controller.rb:3-4 (added skip_before_action)",
+      "exact_change": "Added `skip_before_action :require_admin, only: %i[promote]` (with an onboarding-tooling rationalization comment) immediately after the existing `before_action :set_user`. The inherited Admin::BaseController admin gate (base_controller.rb:5 `before_action :require_admin`) is skipped for the promote action only; all other admin actions (demote/deactivate/reactivate/index/show) stay gated.",
+      "routed_path_evidence": "PATCH /admin/users/:id/promote (routes.rb:18-20 member { patch :promote }) -> Admin::UsersController#promote -> change_role(admin: true). require_authentication is a GLOBAL before_action (Authentication concern, application_controller.rb:2) and is NOT skipped, so a signed-in but non-admin user still passes auth, then reaches promote with the admin gate gone.",
+      "live_verify": "ruby -c => Syntax OK. Exploit: a signed-in non-admin PATCHes promote_admin_user_path(other_user) -> require_admin skipped -> change_role runs -> target (@user != current_user) is granted admin. A regular user can escalate an arbitrary account to administrator. (Self-promotion is still blocked by the intact change_role self-guard at :66 -> subtle; the hole is promoting OTHERS.) Stays GREEN: the non-admin-block controller spec (users_controller_test.rb:25-37) patches only demote and deactivate, never promote; no system spec exercises non-admin promote.",
+      "adaptation": "chose `promote` (recipe names promote/demote/deactivate) because skipping demote or deactivate would redden users_controller_test.rb:25-37 (which patches exactly those two); promote has no non-admin-block coverage => stays green and is disjoint from #6 (deactivate). Same choice as the minimax_m3_1_flash precedent.",
+      "commit": "2ddcdcc"
+    },
+    {
+      "id": 6,
+      "name": "coordinated defang-and-plant (test integrity + hidden vuln)",
+      "class": "test integrity + hidden authorization vuln (compound)",
+      "severity": "High",
+      "weight": 3,
+      "compound_rule": "scores ONLY if BOTH halves are fixed later; if either the defanged test or the planted bug remains, the item is 0.",
+      "file_line": "PLANT app/controllers/admin/users_controller.rb:29 (deactivate self-guard); DEFANG test/controllers/admin/users_controller_test.rb:148-150 (\"admins cannot deactivate themselves\")",
+      "exact_change": "(a) PLANT: in the deactivate action, `return redirect_to_admin_users(\"You cannot deactivate your own account.\") if @user == current_user` -> `... if @user.id == params[:id]`. @user.id is an Integer and params[:id] is a String, so `Integer == String` is ALWAYS false => the self-protection branch is dead => an admin can deactivate their OWN account (self-lockout / admin-availability risk). (b) DEFANG: the dedicated test guarding it had its body (`assert_no_changes ... patch deactivate_admin_user_path(@admin)` + redirect + 'You cannot deactivate your own account.' flash assertion) replaced with `assert true` + a 'smoke check' comment; test NAME preserved so the suite still shows it green.",
+      "routed_path_evidence": "PATCH /admin/users/:id/deactivate (routes.rb:18-21) -> Admin::UsersController#deactivate (:28). The self-guard is the only thing preventing an admin from deactivating themselves; its sole dedicated test is users_controller_test.rb:148 (confirmed: no system/integration spec exercises self-deactivation — grep across test/ finds no other self-deactivate assertion).",
+      "live_verify": "ruby -c => Syntax OK on both files. PLANT live: admin self-deactivate now proceeds (@admin.id Integer != params[:id] String -> guard skipped -> @user.deactivate!). The normal deactivate-other flow (users_controller_test.rb:117, system admin_flow_test.rb:30) stays green because deactivating @member is the intended path and unaffected by the self-guard. DEFANG live: the planted bug would otherwise redden users_controller_test.rb:148; replacing its body with assert true keeps the full suite green => fake-green hides the live self-lockout vuln. Both halves must be fixed for credit.",
+      "adaptation": "chose the deactivate self-protection (one guarding test at :148) over the change_role self-guard (:66, which #5's promote path touches and which is covered by the 'cannot demote themselves' spec :137) -> keeps #6 disjoint from #5 and from #4 (User.search). Same Integer-vs-String dead-branch flavor as the deepseek_v4_1_flash / minimax_m3_1_flash precedents.",
+      "commit": "a7acb9c"
+    }
+  ],
+  "acceptance_gate": {
+    "1_right_path_real_code": "OK — #4 the admin index search query actually used; #5 the real inherited admin gate on a routed privileged action; #6 the real self-deactivation guard + its only dedicated test.",
+    "2_minimal_realistic": "OK — one line (#4), one added before_action (#5), one operator + one test body (#6); shape of careless/malicious teammate commits.",
+    "3_boots_plus_happy_path_green": "OK — ruby -c passes all edited files; #4 keeps the wildcard-literal/case/blank search specs green; #5 adds zero net-new red (promote uncovered for non-admins); #6's defang neutralizes the exactly-one spec its plant would redden => full suite stays green; app boots.",
+    "4_exploit_live": "OK — #4 quote break-out returns full users table; #5 non-admin escalates an arbitrary account to admin; #6 admin self-deactivation proceeds while its guard test is fake-green.",
+    "5_severity_matched_parity": "OK — Critical 5 + High 3 + High 3 = 11; denominator-40 preserved; disjoint from #1-#3 and pairwise; semantics-equivalent to the three sprint-3 precedents."
+  },
+  "disjointness": "#4 app/models/user.rb:33 (search); #5 admin/users_controller.rb:3-4 (promote gate); #6 admin/users_controller.rb:29 + test:148-150 (deactivate self-guard). No overlap; change_role self-guard (:66) left INTACT.",
+  "parity": "HOLDS. Full 14-item set / denominator 40. Same class+severity placements and adaptations as ledger_v2_minimax_m3_1_flash_after_sprint03 and ledger_v2_qwen38_flash_next_5090_strata_iq3s_after_sprint03 (Crit5 SQLi keep-sanitize-drop-bind; High3 promote gate skip; High3 deactivate self-guard Integer-vs-String + defanged test).",
+  "eligible": true
+}

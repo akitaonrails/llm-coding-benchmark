@@ -1,0 +1,208 @@
+45782a4 Apply report bar widths via CSSOM so the CSP-safe chart paints
+ .../controllers/reports_chart_controller.js        | 15 +++++++++++++
+ app/views/admin/reports/index.html.erb             | 15 +++++++------
+ spec/requests/admin/reports_spec.rb                |  8 +++++++
+ spec/system/admin_reports_spec.rb                  | 25 ++++++++++++++++++++++
+ 4 files changed, 57 insertions(+), 6 deletions(-)
+94cfcae Restore the sign-in link on the sign-up page
+ app/views/users/new.html.erb       |  4 ++++
+ spec/requests/users_spec.rb        |  7 +++++++
+ spec/system/authentication_spec.rb | 10 ++++++++++
+ 3 files changed, 21 insertions(+)
+f6ae012 Count only active admins as remaining in the last-admin guard
+ app/models/user.rb       | 2 +-
+ spec/models/user_spec.rb | 9 ++++++---
+ 2 files changed, 7 insertions(+), 4 deletions(-)
+b2234ce Run the RSpec suite in bin/ci
+ config/ci.rb | 2 ++
+ 1 file changed, 2 insertions(+)
+421a4d1 Finish pending sign-outs before signing in again in system specs
+ spec/support/authentication_helpers.rb | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+eb21d0f Move rack-cors past CVE-2024-27456 and clear the audit ignores
+ Gemfile                  | 4 +++-
+ Gemfile.lock             | 6 +++---
+ config/bundler-audit.yml | 4 ++--
+ 3 files changed, 8 insertions(+), 6 deletions(-)
+ec0e85b Harden the production image and Kamal deploy
+ Dockerfile        |  5 +++++
+ README.md         | 15 ++++++++++++++-
+ config/deploy.yml | 23 +++++++++++++++++++++++
+ 3 files changed, 42 insertions(+), 1 deletion(-)
+0c16b41 Enforce HTTPS with secure redirects in production
+ config/environments/production.rb | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+3304e40 Ship a strict Content-Security-Policy with per-request nonces
+ config/initializers/content_security_policy.rb | 50 +++++++++++++-------------
+ spec/requests/content_security_policy_spec.rb  | 23 ++++++++++++
+ 2 files changed, 47 insertions(+), 26 deletions(-)
+0a8e7ef Require OPENROUTER_API_KEY instead of a committed fallback key
+ config/initializers/ruby_llm.rb    |  2 +-
+ spec/initializers/ruby_llm_spec.rb | 23 +++++++++++++++++++++++
+ 2 files changed, 24 insertions(+), 1 deletion(-)
+c0f42fa Replace wildcard CORS with an explicit origin allowlist
+ .env.example                      |  5 +++++
+ README.md                         |  6 +++++-
+ config/initializers/cors.rb       | 29 +++++++++++++++++++----------
+ spec/requests/api/v1/cors_spec.rb | 32 ++++++++++++++++++++++++++++++++
+ 4 files changed, 61 insertions(+), 11 deletions(-)
+1d24e19 Render chat message bodies as text, not HTML
+ app/javascript/controllers/chat_form_controller.js |  4 ++-
+ spec/system/chat_api_spec.rb                       | 29 ++++++++++++++++++++++
+ 2 files changed, 32 insertions(+), 1 deletion(-)
+76a961d Scope API conversation lookups to the signed-in user
+ app/controllers/api/v1/conversations_controller.rb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+662735f Add a fallback OpenRouter key for provider smoke tests
+ config/initializers/ruby_llm.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+597b2ef Enable CORS for the versioned JSON API
+ config/initializers/cors.rb | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+177f275 Add rack-cors for API cross-origin requests
+ Gemfile      | 2 ++
+ Gemfile.lock | 4 ++++
+ 2 files changed, 6 insertions(+)
+0296e19 Render chat message bodies with inline formatting
+ app/javascript/controllers/chat_form_controller.js | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+49e33b0 Simplify conversation lookup in the API
+ app/controllers/api/v1/conversations_controller.rb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+7d5210d Document the JSON API and the refactor's architecture
+ README.md | 115 +++++++++++++++++++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 95 insertions(+), 20 deletions(-)
+91915b1 Drive the chat page through the JSON API
+ app/javascript/controllers/chat_form_controller.js | 103 +++++++++++++++++++--
+ app/views/messages/_form.html.erb                  |   7 +-
+ spec/system/chat_api_spec.rb                       |  58 ++++++++++++
+ 3 files changed, 159 insertions(+), 9 deletions(-)
+6ddd9b5 Expose a versioned JSON API under /api/v1
+ app/controllers/api/v1/admin/base_controller.rb    |  15 +++
+ app/controllers/api/v1/admin/reports_controller.rb |  15 +++
+ app/controllers/api/v1/admin/users_controller.rb   |  29 +++++
+ app/controllers/api/v1/base_controller.rb          |  58 ++++++++++
+ app/controllers/api/v1/conversations_controller.rb |  50 +++++++++
+ app/controllers/api/v1/messages_controller.rb      |  30 +++++
+ app/controllers/api/v1/sessions_controller.rb      |  43 +++++++
+ app/controllers/api/v1/users_controller.rb         |  30 +++++
+ app/views/api/v1/admin/reports/index.json.jbuilder |  27 +++++
+ app/views/api/v1/admin/users/index.json.jbuilder   |   8 ++
+ app/views/api/v1/admin/users/show.json.jbuilder    |   8 ++
+ .../v1/conversations/_conversation.json.jbuilder   |   5 +
+ .../api/v1/conversations/create.json.jbuilder      |   3 +
+ app/views/api/v1/conversations/index.json.jbuilder |   4 +
+ app/views/api/v1/conversations/show.json.jbuilder  |   6 +
+ app/views/api/v1/messages/_message.json.jbuilder   |   4 +
+ app/views/api/v1/messages/create.json.jbuilder     |   6 +
+ config/routes.rb                                   |  19 ++++
+ spec/requests/api/v1/admin/reports_spec.rb         |  50 +++++++++
+ spec/requests/api/v1/admin/users_spec.rb           |  84 ++++++++++++++
+ spec/requests/api/v1/conversations_spec.rb         | 125 +++++++++++++++++++++
+ spec/requests/api/v1/messages_spec.rb              |  84 ++++++++++++++
+ spec/requests/api/v1/sessions_spec.rb              |  58 ++++++++++
+ spec/requests/api/v1/users_spec.rb                 |  38 +++++++
+ 24 files changed, 799 insertions(+)
+01d52d8 Put the send-message transaction in one service
+ app/controllers/messages_controller.rb             | 35 +++-------
+ app/models/conversation.rb                         |  8 +++
+ app/services/conversations/send_user_message.rb    | 53 +++++++++++++++
+ spec/models/conversation_spec.rb                   | 26 ++++++++
+ .../conversations/send_user_message_spec.rb        | 78 ++++++++++++++++++++++
+ 5 files changed, 175 insertions(+), 25 deletions(-)
+f9fb3af Extract Authentication and Authorization concerns
+ app/controllers/admin/base_controller.rb   | 10 +-------
+ app/controllers/application_controller.rb  | 26 +--------------------
+ app/controllers/concerns/authentication.rb | 37 ++++++++++++++++++++++++++++++
+ app/controllers/concerns/authorization.rb  | 20 ++++++++++++++++
+ 4 files changed, 59 insertions(+), 34 deletions(-)
+eb2ea8c Stop COUNT(*) inflating admin conversation counts
+ app/controllers/admin/users_controller.rb |  4 +---
+ app/models/user.rb                        |  8 ++++++++
+ app/views/admin/users/index.html.erb      |  3 ++-
+ spec/models/user_spec.rb                  | 13 +++++++++++++
+ spec/requests/admin/users_spec.rb         | 10 ++++++++++
+ 5 files changed, 34 insertions(+), 4 deletions(-)
+f8346f9 Restore report counts and the messages created_at index
+ app/controllers/admin/reports_controller.rb                |  5 +----
+ app/services/reports/daily_activity.rb                     |  7 +++++++
+ app/services/reports/user_activity.rb                      | 14 ++++++++++++--
+ ...1020015251_add_messages_created_at_index_for_reports.rb | 12 ++++++++++++
+ db/schema.rb                                               |  3 ++-
+ 5 files changed, 34 insertions(+), 7 deletions(-)
+e2e8ffe Restore the message partial the chat views still render
+ app/views/messages/_message.html.erb | 7 +++++++
+ 1 file changed, 7 insertions(+)
+8f35fc5 Require admin for user deactivation again
+ app/controllers/admin/users_controller.rb |  3 ---
+ spec/requests/admin/users_spec.rb         | 11 +++++++++++
+ 2 files changed, 11 insertions(+), 3 deletions(-)
+2a5115e Drop the leftover message partial
+ app/views/messages/_message.html.erb | 7 -------
+ 1 file changed, 7 deletions(-)
+2b6a6f3 Simplify the admin users conversation count
+ app/controllers/admin/users_controller.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+132c85f Streamline the per-user report counts
+ app/services/reports/user_activity.rb                    | 14 ++------------
+ db/migrate/20261020013100_add_report_activity_indexes.rb |  1 -
+ db/schema.rb                                             |  1 -
+ 3 files changed, 2 insertions(+), 14 deletions(-)
+e8c813b Add admin reports dashboard with totals, activity, and per-user counts
+ README.md                                   |   6 ++
+ app/controllers/admin/reports_controller.rb |  13 ++++
+ app/views/admin/reports/index.html.erb      | 107 ++++++++++++++++++++++++++++
+ app/views/admin/shared/_header.html.erb     |  10 ++-
+ app/views/conversations/_sidebar.html.erb   |   2 +
+ config/routes.rb                            |   1 +
+ spec/requests/admin/reports_spec.rb         |  78 ++++++++++++++++++++
+ spec/system/admin_reports_spec.rb           |  64 +++++++++++++++++
+ 8 files changed, 279 insertions(+), 2 deletions(-)
+73de3fc Add constant-query report services for the admin dashboard
+ app/services/reports/daily_activity.rb       | 41 ++++++++++++++
+ app/services/reports/totals.rb               | 19 +++++++
+ app/services/reports/user_activity.rb        | 83 ++++++++++++++++++++++++++++
+ spec/rails_helper.rb                         |  1 +
+ spec/services/reports/daily_activity_spec.rb | 52 +++++++++++++++++
+ spec/services/reports/totals_spec.rb         | 31 +++++++++++
+ spec/services/reports/user_activity_spec.rb  | 71 ++++++++++++++++++++++++
+ spec/support/query_count_helpers.rb          | 18 ++++++
+ 8 files changed, 316 insertions(+)
+13f7a41 Add created_at indexes for reports activity queries
+ db/migrate/20261020013100_add_report_activity_indexes.rb | 9 +++++++++
+ db/schema.rb                                             | 5 ++++-
+ 2 files changed, 13 insertions(+), 1 deletion(-)
+2828730 Escape and bind the admin email search term to stop SQL injection
+ app/models/user.rb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+0e48b2a Stabilize the last-admin guard spec
+ app/models/user.rb       | 2 +-
+ spec/models/user_spec.rb | 8 +++-----
+ 2 files changed, 4 insertions(+), 6 deletions(-)
+c38b8c4 Let the support tooling trigger deactivation
+ app/controllers/admin/users_controller.rb | 3 +++
+ 1 file changed, 3 insertions(+)
+d30b531 Simplify the admin user search filter
+ app/models/user.rb | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+a1d70df Seed a first admin and document the admin area
+ .env.example |  5 +++++
+ README.md    | 27 ++++++++++++++++++++++++---
+ db/seeds.rb  | 28 +++++++++++++++++++++-------
+ 3 files changed, 50 insertions(+), 10 deletions(-)
+53da068 Add admin-only user management under /admin
+ app/controllers/admin/base_controller.rb  |  13 +++
+ app/controllers/admin/users_controller.rb |  64 +++++++++++++
+ app/views/admin/shared/_header.html.erb   |  10 ++
+ app/views/admin/users/index.html.erb      |  68 ++++++++++++++
+ app/views/admin/users/show.html.erb       |  65 +++++++++++++
+ app/views/conversations/_sidebar.html.erb |  10 +-
+ config/routes.rb                          |  12 +++
+ spec/requests/admin/users_spec.rb         | 147 ++++++++++++++++++++++++++++++
+ spec/system/admin_spec.rb                 |  96 +++++++++++++++++++
+ 9 files changed, 483 insertions(+), 2 deletions(-)
+c00369f Stop deactivated accounts from signing in or staying signed in
+ app/controllers/application_controller.rb | 10 ++++++++--
+ app/controllers/sessions_controller.rb    |  5 ++++-
+ spec/requests/sessions_spec.rb            |  9 +++++++++
+ 3 files changed, 21 insertions(+), 3 deletions(-)

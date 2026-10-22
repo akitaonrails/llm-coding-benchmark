@@ -1,0 +1,79 @@
+{
+  "run": "v2_deepseek_v4_1_flash_b300",
+  "model": "DeepSeek V4.1 Flash (self-hosted 4xB300)",
+  "boundary": "after-sprint-4 (admin reporting dashboard + per-user activity)",
+  "injected_by": "v4 boundary reviewer (fresh, isolated; committed as teammate Casey <casey@example.com>)",
+  "method": "STATIC-ONLY (file edits + grep + ruby -c + git log/diff read); no docker/db/server/rails/bundle run; no lock mutation; no test execution.",
+  "base_commit_before_injection": "d0c6a90 (Harden admin mutations and parameterize user search)",
+  "injection_set": "full 14-item set / denominator 40 (B300 / minimax_m3_1_flash / qwen38_flash_next parity). Items #7-#9 at this boundary; running total 28/40 injected (#1-#9).",
+  "app_stack": "Rails 8 (~> 8.1.4), Minitest + Capybara/Selenium, hand-rolled DB-backed session auth, admin namespace (users + dashboard/reports), AdminReport service (constant-query joins), messages_count counter_cache, Stimulus (chat + flash controllers), RubyLLM -> OpenRouter, SQLite.",
+  "items": [
+    {
+      "id": 7,
+      "name": "N+1 on the conversation list + a dropped/retuned needed index",
+      "class": "performance (compound, two halves)",
+      "severity": "Medium",
+      "weight": 2,
+      "compound_note": "Both halves (a N+1 and b missing index) planted per the catalog #7 recipe.",
+      "halves": [
+        {
+          "half": "7a",
+          "name": "N+1 message count on the conversation list",
+          "file_line": "app/views/conversations/_conversation.html.erb:9",
+          "exact_change": "`pluralize(conversation.messages_count, \"message\")` -> `pluralize(conversation.messages.count, \"message\")`. The model displays the per-conversation message count via the `messages_count` counter_cache COLUMN (Message belongs_to :conversation, counter_cache: true -> zero per-row queries). The edit replaces the cached column read with `conversation.messages.count`, firing `SELECT COUNT(*) FROM messages WHERE conversation_id = ?` once PER conversation rendered.",
+          "routed_path_evidence": "GET / and GET /conversations -> ConversationsController#index -> `@conversations = current_user.conversations.recent.limit(100)` -> renders conversations/_sidebar (and the mobile list) which renders the `conversations/conversation` partial as a COLLECTION -> 1+N (up to 100 extra COUNT queries). Also rendered on GET /conversations/:id (show renders the sidebar). routes.rb:9 resources :conversations.",
+          "live_verify": "ruby -c n/a (ERB). grep app/views/conversations/_conversation.html.erb:9 => `conversation.messages.count`. N+1 is LIVE on the index/sidebar collection render; value identical (counter_cache == COUNT), so happy-path assertions stay green. The ONLY query-count guard in the suite is admin_report_test.rb:163 `assert_queries_count(1)`, which exercises the AdminReport service (user_breakdown), NOT this view -> unaffected. conversations#index/show have no query-count assertion. chat_flow_test.rb:19 `assert_selector \"aside\", text: \"2 messages\"` stays green (same number).",
+          "adaptation": "The model's admin reports listing (AdminReport#user_breakdown) is query-count-GUARDED (admin_report_test.rb:163), so an N+1 there would redden the suite (gate 3). Per the minimax_m3_1_flash / deepseek_v4_1_flash precedent, the N+1 is planted on the model's real UNGUARDED listing — the conversation list on the app's main page. Faithful 'drop the preloaded/cached grouped count -> per-row .count' regression; here the preload is a counter_cache column rather than a controller-side grouped query, so the equivalent change is column-read -> association .count. Same class (N+1), same Med 2.",
+          "commit": "ca0c05b"
+        },
+        {
+          "half": "7b",
+          "name": "needed activity-rollup index dropped and replaced by a non-serving composite",
+          "file_line": "db/migrate/20261020120001_retune_message_indexes.rb (new); db/schema.rb:13 (version), :34 (messages index block)",
+          "exact_change": "New migration `remove_index :messages, :created_at` + `add_index :messages, [:role, :created_at]`. schema.rb version 2026_10_20_120000 -> 2026_10_20_120001; messages block's `t.index [\"created_at\"], name: \"index_messages_on_created_at\"` replaced by `t.index [\"role\", \"created_at\"], name: \"index_messages_on_role_and_created_at\"`.",
+          "routed_path_evidence": "The dropped bare-created_at index backed AdminReport#activity (app/services/admin_report.rb:111 `Message.where(created_at: start_time..)` grouped by DATE(created_at), NO role predicate), rendered on GET /admin, /admin/dashboard, /admin/reports (dashboard#index). A [role, created_at] composite (leading column role) cannot serve a pure created_at range/group scan -> the daily message activity bucket now does a full-table scan.",
+          "live_verify": "ruby -c OK on migration and schema.rb. grep -c index_messages_on_created_at db/schema.rb => 0; index_messages_on_role_and_created_at => 1; control indexes index_conversations_on_created_at => 1 and index_users_on_created_at => 1 (untouched). No test asserts index presence -> suite green; no boot break. Fix = restore index_messages_on_created_at (corrective migration + schema.rb).",
+          "adaptation": "Identical to the minimax_m3_1_flash / deepseek_v4_1_flash #7b recipe (drop the sprint-4 messages.created_at index backing the activity rollup; add a plausible-but-false [:role, :created_at] composite; schema synced).",
+          "commit": "c0da82e"
+        }
+      ],
+      "commit": "ca0c05b+c0da82e"
+    },
+    {
+      "id": 8,
+      "name": "silently wrong aggregate — admins total counts only ACTIVE admins",
+      "class": "correctness (green-but-wrong)",
+      "severity": "Medium",
+      "weight": 2,
+      "file_line": "app/services/admin_report.rb:11 (TOTALS_SQL admins_count)",
+      "exact_change": "`(SELECT SUM(CASE WHEN admin THEN 1 ELSE 0 END) FROM users) AS admins_count` -> `(SELECT SUM(CASE WHEN admin AND active THEN 1 ELSE 0 END) FROM users) AS admins_count`. The 'Total admins' figure now excludes any administrator who has been deactivated (deactivate! sets active=false but KEEPS the admin role), so the dashboard under-reports the admin headcount. Ground truth (count of admins regardless of active) != the reported number whenever a deactivated admin exists.",
+      "routed_path_evidence": "Rendered on the dashboard Admins card: app/views/admin/dashboard/index.html.erb:31 `<span id=\"total-admins\"><%= number_with_delimiter(@totals.admins) %></span> admins`, via Admin::DashboardController#index (GET /admin, /admin/dashboard, /admin/reports).",
+      "live_verify": "ruby -c OK. grep app/services/admin_report.rb:11 => `CASE WHEN admin AND active`. Green-but-wrong: the sole pins are admin_report_test.rb:25 `assert_equal 1, totals.admins` and dashboard_controller_test.rb:51 `assert_select \"#total-admins\", text: \"1\"` — in both the only admin fixture is ACTIVE (and in the controller test the deactivated user @inactive is a non-admin), so the figure stays 1 and the suite passes. No test deactivates an admin and then checks totals.admins, so the undercount never surfaces in CI.",
+      "adaptation": "Same narrowing as the minimax_m3_1_flash / deepseek_v4_1_flash / qwen38strix #8 (admin count -> active-admin count). Applied to this model's raw-SQL TOTALS query (equivalent of their `User.admin.count -> User.admin.active.count`).",
+      "commit": "5519c77"
+    },
+    {
+      "id": 9,
+      "name": "delete a needed file — wired Stimulus controller removed",
+      "class": "availability / recovery",
+      "severity": "Medium",
+      "weight": 2,
+      "file_line": "app/javascript/controllers/chat_controller.js (DELETED)",
+      "exact_change": "Deleted the entire chat Stimulus controller. It is still WIRED by the views: conversations/show.html.erb:6 `data-controller=\"chat\"` + :22/:28/:34 `data-action=\"chat#usePrompt\"`, and messages/_composer.html.erb:4 `turbo:submit-start->chat#submitting turbo:submit-end->chat#submitted`, :13 `chat_target: \"input\"`, :14 `input->chat#autogrow keydown->chat#keydown`, plus the submit button `data-chat-target=\"submit\"`. controllers/index.js uses `eagerLoadControllersFrom(\"controllers\", ...)` (importmap.rb `pin_all_from app/javascript/controllers`), so the missing file raises NO JS/boot error — the controller just never registers.",
+      "routed_path_evidence": "Loaded on GET /conversations/:id (the chat workspace) and in the composer rendered there and on message create (create.turbo_stream.erb:23). Silently lost behaviors: Enter-to-send (ADVERTISED in the composer footer :36 'Enter to send · Shift+Enter for a new line'), submit busy/disabled state, textarea autogrow, auto-scroll-to-bottom on new messages (MutationObserver), and click-a-suggestion-to-fill (usePrompt).",
+      "live_verify": "ls app/javascript/controllers/ => application.js, flash_controller.js, index.js (chat_controller.js gone). grep -rn 'chat_controller' app/ config/ test/ => none (never referenced by filename; eager-loaded by glob, so no stale import). git show 979840f --stat => 1 file deleted, 77 deletions. Suite stays GREEN: chat_flow_test.rb submits via `fill_in` + `click_button \"Send\"` (never Enter, never a prompt suggestion) and all its assertions are server/Turbo-driven — messages append via create.turbo_stream.erb, the input is cleared SERVER-SIDE (create.turbo_stream.erb:23 re-renders #composer with Message.new, so `assert_equal \"\", find_field(\"message_content\").value` holds without the controller), the header/sidebar/message-count come from Turbo-stream re-renders, and Capybara visibility is unaffected by scroll position. No test asserts Enter-to-send, busy-state, autogrow, auto-scroll, or usePrompt. Fix = `git restore` the file (NOT recreate).",
+      "adaptation": "Direct analog of the minimax_m3_1_flash #9 (delete a wired-but-unexercised Stimulus controller). This model folded the composer form-submit UX (Enter-to-send + busy-state + autofocus) that peers carried in a separate message_composer/message_form controller INTO chat_controller.js; that controller's unique behaviors are all unexercised by the suite, making it the faithful same-class, same-severity target. (flash_controller.js was the weaker alternative analog and was NOT chosen.)",
+      "commit": "979840f"
+    }
+  ],
+  "acceptance_gate": {
+    "1_right_path_real_code": "OK — #7a the real conversation-list partial rendered on the app's main page; #7b the real sprint-4 activity-rollup index; #8 the real admins total card on the dashboard; #9 a real wired Stimulus controller loaded on the chat workspace.",
+    "2_minimal_realistic": "OK — one ERB line (#7a), one migration + synced schema line (#7b), one SQL predicate (#8), one file deletion (#9); each is the shape of a careless/malicious teammate commit.",
+    "3_boots_plus_happy_path_green": "OK — ruby -c passes every edited/added .rb; #7a value unchanged (counter_cache == COUNT) and the only query-count guard is on the AdminReport service, not this view; #7b no test asserts index presence; #8 both admin-count pins have an active admin so the figure stays 1; #9 all chat_flow assertions are server/Turbo-driven and the input clears server-side. App boots; suite stays green.",
+    "4_exploit_live": "OK — #7a 1+N COUNT queries on the conversation list; #7b bare-created_at index gone from schema (grep 0), activity rollup unindexed; #8 admins total under-reports a deactivated admin; #9 Enter-to-send/busy/autogrow/auto-scroll/usePrompt silently dead on the chat workspace.",
+    "5_severity_matched_parity": "OK — Med 2 + Med 2 + Med 2 = 6; denominator-40 preserved; disjoint from #1-#6 and pairwise; semantics-equivalent to the minimax_m3_1_flash and qwen38_flash_next sprint-4 precedents."
+  },
+  "disjointness": "#7a app/views/conversations/_conversation.html.erb:9 (list message count); #7b db/migrate/20261020120001 + db/schema.rb (messages index); #8 app/services/admin_report.rb:11 (admins_count SQL); #9 app/javascript/controllers/chat_controller.js (deleted). No overlap with #1 (conversations_controller set_conversation scoping — left intact), #2 (sign-in nav affordance), #3 (Gemfile puma), #4 (user.rb search), #5 (admin promote gate), or #6 (admin deactivate self-guard + its test).",
+  "parity": "HOLDS. Full 14-item set / denominator 40. Same class+severity placements and adaptations as ledger_v2_minimax_m3_1_flash_after_sprint04 and ledger_v2_qwen38_flash_next_5090_strata_iq3s_after_sprint04 (Med2 N+1 on the unguarded conversation list; Med2 drop messages.created_at index + false [role, created_at] composite; Med2 active-only admin count; Med2 delete a wired-but-unexercised Stimulus controller). Note: the INJECTED set is identical to the peers; the model's superior Part-A fix record (19 vs the peers' 16 at this boundary) is a model-quality difference, not a parity divergence.",
+  "eligible": true
+}

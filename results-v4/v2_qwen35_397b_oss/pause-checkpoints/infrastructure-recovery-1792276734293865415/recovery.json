@@ -1,0 +1,9 @@
+{
+  "time": 1792276734.294164,
+  "entry": {
+    "slug": "v2_qwen35_397b_oss",
+    "boundary": 2,
+    "reason": "False root-only Rails detection; resume missed review then sprint03"
+  },
+  "preserves": "All source, transcripts, sessions, previous admission and cumulative sprint budget"
+}

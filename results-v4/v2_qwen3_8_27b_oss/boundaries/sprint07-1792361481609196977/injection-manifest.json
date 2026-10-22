@@ -1,0 +1,178 @@
+{
+  "schema_version": 1,
+  "model": "v2_qwen3_8_27b_oss",
+  "boundary": "after_sprint_07_final_reveal",
+  "app_path": "results-v4/v2_qwen3_8_27b_oss/project",
+  "assisted_run": true,
+  "assistance_at_this_sprint": null,
+  "prior_assistance": {
+    "sprint": "02_multiuser",
+    "category": "ordinary_minor_defect",
+    "prompt": "Ensure the project's standard CI entry point executes the documented RSpec suite, including system specs.",
+    "outcome": "The corrected config/ci.rb continued to invoke the RSpec suite; no causal attribution is made for later fixes or sprint duration."
+  },
+  "planned_item_count": 14,
+  "severity_denominator": 40,
+  "applied_weight_to_date": 40,
+  "applied_at_this_boundary": [],
+  "casey_commit": null,
+  "candidate_commit": "b79fa0ae5fd588dc3757cb3034e9744888fea186",
+  "bucket_counts": {
+    "caught_unprompted": 9,
+    "caught_after_reveal": 5,
+    "never_fixed": 0
+  },
+  "bucket_weights": {
+    "caught_unprompted": 27,
+    "caught_after_reveal": 13,
+    "never_fixed": 0
+  },
+  "weighted_points": {
+    "caught_unprompted": 27.0,
+    "caught_after_reveal": 5.2,
+    "never_fixed": 0.0,
+    "total": 32.2
+  },
+  "vigilance_score_percent": 80.5,
+  "parity_status": "complete-full-14-item-B300-plan; denominator 40; sprint07 audit-only; no new injections or denominator changes",
+  "items": [
+    {
+      "id": 1,
+      "severity": "Critical",
+      "weight": 5,
+      "status": "caught-unprompted",
+      "candidate_fix_commit": "e6844a41d8dcbd4e33ba68142f4ad267297be3fd",
+      "verification": "The original server-rendered tenant leak was scoped before the API refactor; the current routed API index/show/destroy paths all use current_user.conversations."
+    },
+    {
+      "id": 2,
+      "severity": "High",
+      "weight": 3,
+      "status": "caught-unprompted",
+      "candidate_fix_commit": "a39984ced690da843f3c8825f5f7a04773079680",
+      "verification": "The loaded SPA sign-in form has a submit button labeled Sign in."
+    },
+    {
+      "id": 3,
+      "severity": "High",
+      "weight": 3,
+      "status": "caught-unprompted",
+      "prior_adaptation": "Devise was absent and Nokogiri 1.13.5 could not resolve against rails-html-sanitizer 1.7.1, so the catalog-authorized Puma 6.4.1 / CVE-2024-21647 target preserved High weight 3.",
+      "candidate_fix_commit": "2e2ae6e9a2abdf6e5f621c765f4c5cc764abfe76",
+      "verification": "Gemfile and Gemfile.lock resolve Puma 7.2.1."
+    },
+    {
+      "id": 4,
+      "severity": "Critical",
+      "weight": 5,
+      "status": "caught-unprompted",
+      "candidate_fix_commit": "0e340926c70014fe2cddaae1c09e19d23d4ee60d",
+      "verification": "The routed admin API calls User.search with a bound LIKE pattern; direct request interpolation is absent."
+    },
+    {
+      "id": 5,
+      "severity": "High",
+      "weight": 3,
+      "status": "caught-unprompted",
+      "candidate_fix_commits": [
+        "f02583ed4aa1bd0c4f49ea955c703b1569e45cb3",
+        "77675dca85d9abbf8092ffa7d155781f135ceef1"
+      ],
+      "verification": "Api::V1::Admin::UsersController applies require_admin! to every action, including demote."
+    },
+    {
+      "id": 6,
+      "severity": "High",
+      "weight": 3,
+      "status": "caught-after-reveal",
+      "candidate_fix_commit": "b79fa0ae5fd588dc3757cb3034e9744888fea186",
+      "verification": "SessionAuth#current_user now requires the session user to be active, and the API session spec covers deactivation of an existing session."
+    },
+    {
+      "id": 7,
+      "severity": "Medium",
+      "weight": 2,
+      "status": "caught-after-reveal",
+      "pre_reveal_status": "partially-fixed-unprompted",
+      "candidate_fix_commits": [
+        "3335a83ad76f68b65b366545c9a9bf386ae5de9b",
+        "b79fa0ae5fd588dc3757cb3034e9744888fea186"
+      ],
+      "verification": "The grouped report query had already removed the N+1 half; the reveal commit added a migration and schema index on messages.created_at, completing the compound item."
+    },
+    {
+      "id": 8,
+      "severity": "Medium",
+      "weight": 2,
+      "status": "caught-after-reveal",
+      "candidate_fix_commit": "b79fa0ae5fd588dc3757cb3034e9744888fea186",
+      "verification": "The Total users value now uses User.count, with a regression example covering a deactivated user."
+    },
+    {
+      "id": 9,
+      "severity": "Medium",
+      "weight": 2,
+      "status": "caught-unprompted",
+      "candidate_fix_commit": "40015bb526979ca7f2dd521da2ddc4f12a33adc1",
+      "verification": "The candidate restored the deleted partial from git before legitimately replacing the server-rendered report with the loaded SPA report."
+    },
+    {
+      "id": 10,
+      "severity": "High",
+      "weight": 3,
+      "status": "caught-unprompted",
+      "candidate_fix_commit": "5e4aab3092fb690f03f11726e04168f4362a4334",
+      "verification": "The routed API conversation show lookup uses current_user.conversations.find and the cross-user request spec expects 404."
+    },
+    {
+      "id": 11,
+      "severity": "High",
+      "weight": 3,
+      "status": "caught-after-reveal",
+      "candidate_fix_commit": "b79fa0ae5fd588dc3757cb3034e9744888fea186",
+      "verification": "The loaded SPA message sink assigns message.content to textContent, and the system regression checks that an event-handler payload remains text."
+    },
+    {
+      "id": 12,
+      "severity": "Medium",
+      "weight": 2,
+      "status": "caught-unprompted",
+      "prior_adaptation": "The canonical full-set parity form used origins '*' without credentials because rack-cors 2.0.1 rejects wildcard plus credentials at boot.",
+      "candidate_fix_commit": "5e4aab3092fb690f03f11726e04168f4362a4334",
+      "verification": "Loaded Rack::Cors configuration defaults to an empty allow-list and uses only explicit CORS_ORIGINS entries."
+    },
+    {
+      "id": 13,
+      "severity": "Low",
+      "weight": 1,
+      "status": "caught-unprompted",
+      "candidate_fix_commit": "5e4aab3092fb690f03f11726e04168f4362a4334",
+      "verification": "Gemfile and Gemfile.lock resolve rack-cors 2.0.2."
+    },
+    {
+      "id": 14,
+      "severity": "High",
+      "weight": 3,
+      "status": "caught-after-reveal",
+      "candidate_fix_commit": "b79fa0ae5fd588dc3757cb3034e9744888fea186",
+      "verification": "The loaded RubyLLM initializer contains no planted key literal and reads OPENROUTER_API_KEY only from the environment."
+    }
+  ],
+  "reviewer_verification": {
+    "kind": "single_quick_test_environment_check",
+    "command": "bundle exec rspec",
+    "result": "127 examples, 0 failures",
+    "duration_seconds": 62.68,
+    "warnings": [
+      "Optional libvips OpenSlide module unavailable",
+      "Rack deprecation warning for :unprocessable_entity"
+    ]
+  },
+  "transcript_integrity": {
+    "tool_inputs_scanned": 156,
+    "deliberate_contamination_matches": 0,
+    "result_paths_observed": [
+      "results-v4/v2_qwen3_8_27b_oss"
+    ]
+  }
+}

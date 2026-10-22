@@ -1,0 +1,23 @@
+{
+  "label": "compiled-interactivity",
+  "started_at": 1792217281.7923098,
+  "serving_fingerprint": "9d624e62c01332bbe97705095dc6fd83e9ae3a02ff41e5740f4d9d12953631cb",
+  "serve_args": "--tool-call-parser glm47 --reasoning-parser glm47 --enable-auto-tool-choice --max-model-len 131072 --kv-cache-dtype fp8 --gpu-memory-utilization 0.92 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity",
+  "checkpoint": "RedHatAI/GLM-5.3-Flash-NVFP4",
+  "references": [
+    "https://recipes.vllm.ai/zai-org/GLM-5.3-Flash",
+    "https://github.com/vllm-project/vllm/blob/main/docs/configuration/optimization.md"
+  ],
+  "finished_at": 1792217854.9255288,
+  "evidence": [
+    "results-v4/_b300_campaign/migration-20261017/perf-v2_glm_5_3_flash_oss-compiled-interactivity-1792217845629303666.json",
+    "results-v4/_b300_campaign/migration-20261017/preflight-v2_glm_5_3_flash_oss-1792217843048799312.json",
+    "results-v4/_b300_campaign/migration-20261017/server-compiled-accepted-1792217880125779507/serve-state.json",
+    "results-v4/_b300_campaign/migration-20261017/server-compiled-accepted-1792217880125779507/server.log",
+    "results-v4/_b300_campaign/migration-20261017/perf-v2_glm_5_3_flash_oss-compiled-long-cache-1792217875742523584.json"
+  ],
+  "decode_tokens_per_second": 141.40470520780949,
+  "tool_preflight_passed": true,
+  "error": null,
+  "passed": true
+}

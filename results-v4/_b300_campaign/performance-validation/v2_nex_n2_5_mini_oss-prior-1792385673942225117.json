@@ -1,0 +1,17 @@
+{
+  "index": 0,
+  "serve_args": "--dtype bfloat16 --tool-call-parser qwen3_coder --reasoning-parser qwen3 --enable-auto-tool-choice --chat-template /root/models/nex-n25-mini-bf16/chat_template.jinja --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity --language-model-only",
+  "exit_code": 0,
+  "started_at": 1792383812.0775468,
+  "finished_at": 1792383965.484507,
+  "passed": true,
+  "decode_tokens_per_second": 343.51953108142465,
+  "tool_preflight_passed": true,
+  "serving_fingerprint": "9a0882c07da585f35fa96958254b711e7bfd71afc8129c94a77ed2676fcee72b",
+  "evidence": [
+    "results-v4/_b300_campaign/migration-20261017/perf-v2_nex_n2_5_mini_oss-restored-pod-0-1792383960238911332.json",
+    "results-v4/_b300_campaign/migration-20261017/preflight-v2_nex_n2_5_mini_oss-1792383957994303731.json",
+    "results-v4/_b300_campaign/model-cards/v2_nex_n2_5_mini_oss.md"
+  ],
+  "revision": "87420286149d9cce9bd46cd335ef9bda33c37c1b"
+}

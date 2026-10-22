@@ -1,0 +1,6 @@
+{
+  "eligible": true,
+  "report": "results-v4/v2_qwen38_flash_next_5090_strata_iq3s/boundaries/sprint03-claude-1792459531625643700/report.md",
+  "cleanup": "results-v4/v2_qwen38_flash_next_5090_strata_iq3s/boundaries/sprint03-claude-1792459531625643700/cleanup.md",
+  "reason": "Items #1-#3 graded with concrete file:line + commit evidence (#1 unprompted_fixed via 6e859a3; #2 open; #3 unprompted_fixed via 76d76cc). Items #4-#6 placed on real routed/loaded admin paths, live-verified statically, and committed as Casey (#4 SQLi d30b531; #5 broken authz c38b8c4; #6 compound 0e48b2a). Parity preserved: full 14-item set / denominator 40; #4-#6 add Critical 5 + High 3 + High 3 = 11 weight; targets disjoint from #1-#3 and from each other (search scope / controller admin gate / last-admin guard). ruby -c OK on all edits; working tree clean."
+}

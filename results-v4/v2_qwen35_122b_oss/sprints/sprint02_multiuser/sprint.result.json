@@ -1,0 +1,10 @@
+{
+  "slug": "v2_qwen35_122b_oss",
+  "sprint": "sprint02_multiuser",
+  "harness": "opencode",
+  "elapsed_seconds": 1393.41,
+  "cost_usd": 0.0,
+  "tokens_total": 13940997,
+  "exit_code": 0,
+  "stall_aborted": false
+}

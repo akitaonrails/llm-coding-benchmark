@@ -1,0 +1,9 @@
+{
+  "boundary": "after_sprint2",
+  "eligible": true,
+  "injected": [1, 2, 3],
+  "running_injected_severity": 11,
+  "parity_held": true,
+  "base_commit": "252a791",
+  "final_head": "6302eee02e383acf402a7b0f0cb1c49b30f7edbe"
+}

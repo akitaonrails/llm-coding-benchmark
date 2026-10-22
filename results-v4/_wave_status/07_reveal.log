@@ -62,3 +62,11 @@
 14:26:18 RUN  v2_nex_n2_5_pro sprint 07_reveal ...
 15:33:50 DONE v2_nex_n2_5_pro — ok exit=1 tokens=14070610 cost=$0.0
 15:33:50 === WAVE sprint 07_reveal complete ===
+17:45:24 === WAVE sprint 07_reveal : 1 models ===
+17:45:24 RUN  v2_muse_wonder sprint 07_reveal ...
+17:51:03 DNF  v2_muse_wonder — exit=1 tokens=0 (crash/auth, no real work) (dropped from remaining sprints)
+17:51:03 === WAVE sprint 07_reveal complete ===
+02:13:23 === WAVE sprint 07_reveal : 1 models ===
+02:13:23 RUN  v2_muse_wonder sprint 07_reveal ...
+02:13:29 DNF  v2_muse_wonder — exit=1 tokens=0 (crash/auth, no real work) (dropped from remaining sprints)
+02:13:29 === WAVE sprint 07_reveal complete ===

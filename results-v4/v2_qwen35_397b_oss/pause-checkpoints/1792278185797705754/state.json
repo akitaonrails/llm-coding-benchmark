@@ -1,0 +1,209 @@
+{
+  "status": "paused_pending_batch_review",
+  "reason": "Automatic supervisor: sprint or boundary failed; preserve for batch review",
+  "recorded_at": 1792278186.7486374,
+  "model": {
+    "slug": "v2_qwen35_397b_oss",
+    "hf_repo": "nvidia/Qwen3.5-397B-A17B-NVFP4",
+    "local_dir": "qwen35-397b-nvfp4",
+    "size_gb": 251,
+    "served_name": "qwen3.5-397b",
+    "serve_args": "--quantization modelopt --kv-cache-dtype fp8 --reasoning-parser qwen3 --enable-auto-tool-choice --tool-call-parser qwen3_coder --max-model-len 131072 --gpu-memory-utilization 0.95 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity --language-model-only",
+    "notes": "Tight fit: 251GB weights on 275GB. First ~400B flagship row."
+  },
+  "checkpoint_revision_manifest": [
+    {
+      "slug": "v2_glm_5_3_flash_oss",
+      "repo": "RedHatAI/GLM-5.3-Flash-NVFP4",
+      "revision": "18d55bfd5a2194887738da73753975c9d3842f46",
+      "gated": false,
+      "license": "mit"
+    },
+    {
+      "slug": "v2_qwen35_122b_oss",
+      "repo": "Qwen/Qwen3.5-122B-A10B-FP8",
+      "revision": "a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9",
+      "gated": false,
+      "license": "apache-2.0"
+    },
+    {
+      "slug": "v2_qwen35_397b_oss",
+      "repo": "nvidia/Qwen3.5-397B-A17B-NVFP4",
+      "revision": "12b28061efd8145b11226e4fab2528ee4f39ef09",
+      "gated": false,
+      "license": "apache-2.0"
+    },
+    {
+      "slug": "v2_dsv4_flash_oss",
+      "repo": "deepseek-ai/DeepSeek-V4-Flash",
+      "revision": "60d8d70770c6776ff598c94bb586a859a38244f1",
+      "gated": false,
+      "license": "mit"
+    },
+    {
+      "slug": "v2_nemotron35_super_vl_oss",
+      "repo": "nvidia/NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-NVFP4",
+      "revision": "59b8721646c38111a242da18218859fb2b454322",
+      "gated": false,
+      "license": "other"
+    },
+    {
+      "slug": "v2_qwen3_8_27b_oss",
+      "repo": "Qwen/Qwen3.8-27B",
+      "revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+      "gated": false,
+      "license": "apache-2.0"
+    },
+    {
+      "slug": "v2_glm_4_7_flash_bf16_oss",
+      "repo": "zai-org/GLM-4.7-Flash",
+      "revision": "7dd20894a642a0aa287e9827cb1a1f7f91386b67",
+      "gated": false,
+      "license": "mit"
+    },
+    {
+      "slug": "v2_qwen3_8_flash_next_oss",
+      "repo": "nvidia/Qwen3.8-Flash-Next-NVFP4",
+      "revision": "fc694b54fb0174e0913e6adf86691ef85a4ead47",
+      "gated": false,
+      "license": "other"
+    },
+    {
+      "slug": "v2_muse_glimmer_30b_oss",
+      "repo": "meta-models/Muse-Glimmer-30B",
+      "revision": "a4e59da52a7bc87ae7251dd5545c0dd437c44b68",
+      "gated": false,
+      "license": "apache-2.0"
+    },
+    {
+      "slug": "v2_command_a_plus_oss",
+      "repo": "CohereLabs/command-a-plus-05-2026-w4a4",
+      "revision": "ebd2d72c0f9a84389c6b057136d38c435aea2700",
+      "gated": false,
+      "license": "apache-2.0"
+    },
+    {
+      "slug": "v2_ornith_1_5_35b_oss",
+      "repo": "ornith-ai/Ornith-1.5-35B-A3B",
+      "revision": "10fbf86fed7ecee4a061f8b499a618f46001cac1",
+      "gated": false,
+      "license": "mit"
+    },
+    {
+      "slug": "v2_nex_n2_5_mini_oss",
+      "repo": "nex-agi/Nex-N2.5-mini",
+      "revision": "87420286149d9cce9bd46cd335ef9bda33c37c1b",
+      "gated": false,
+      "license": "apache-2.0"
+    },
+    {
+      "slug": "v2_swift_1_5_27b_oss",
+      "repo": "ukisai/Swift-1.5-Qwen3.8-27b",
+      "revision": "b4c84d42903a8646b25857eb2827288d92ed85a4",
+      "gated": false,
+      "license": "swift-open-license-1.0"
+    },
+    {
+      "slug": "v2_thinkingcap_3_8_27b_oss",
+      "repo": "bottlecapai/ThinkingCap-Qwen3.8-27B",
+      "revision": "7891e03dbda2e9b63a5b9610f20e83ea441f8e2c",
+      "gated": "auto",
+      "license": "polyform-small-business-1.0.0 plus personal-use grant"
+    }
+  ],
+  "workspace": "results-v4/v2_qwen35_397b_oss/project",
+  "workspace_exists": true,
+  "sprints": [
+    {
+      "sprint": "sprint01_foundation",
+      "result_path": "results-v4/v2_qwen35_397b_oss/sprints/sprint01_foundation/sprint.result.json",
+      "exit_code": 1,
+      "stall_aborted": false
+    },
+    {
+      "sprint": "sprint02_multiuser",
+      "result_path": "results-v4/v2_qwen35_397b_oss/sprints/sprint02_multiuser/sprint.result.json",
+      "exit_code": 0,
+      "stall_aborted": false
+    },
+    {
+      "sprint": "sprint03_admin",
+      "result_path": "results-v4/v2_qwen35_397b_oss/sprints/sprint03_admin/sprint.result.json",
+      "exit_code": 0,
+      "stall_aborted": false
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "ses_eb3effad2ffeZ40kc84qamtM2m",
+      "path": "results-v4/v2_qwen35_397b_oss/pause-checkpoints/1792278185797705754/ses_eb3effad2ffeZ40kc84qamtM2m.json",
+      "status": "export_failed"
+    },
+    {
+      "session_id": "ses_eb508f99bffebBGpMYr41Qn5WQ",
+      "path": "results-v4/v2_qwen35_397b_oss/pause-checkpoints/1792278185797705754/ses_eb508f99bffebBGpMYr41Qn5WQ.json",
+      "status": "export_failed"
+    },
+    {
+      "session_id": "ses_eb5101884ffeKE9imuwjI7L3B1",
+      "path": "results-v4/v2_qwen35_397b_oss/pause-checkpoints/1792278185797705754/ses_eb5101884ffeKE9imuwjI7L3B1.json",
+      "status": "export_failed"
+    }
+  ],
+  "git": {
+    "head": "e7d5a780eabf5ab52dd0c9fa181ee505f9a33ecc\n",
+    "status": " M llm-chat-app/app/assets/builds/tailwind.css\n M llm-chat-app/log/development.log\n M llm-chat-app/log/test.log\n M llm-chat-app/storage/development.sqlite3\n M llm-chat-app/storage/test.sqlite3\n M llm-chat-app/test/controllers/conversations_controller_test.rb\n M llm-chat-app/test/controllers/messages_controller_test.rb\n M llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/23/9d6067d22b7c50\n M llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/33/0d1e05ddd76fbc\n M llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/53/d4d3e59435b43f\n M llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/a0/0194da6c07f4ba\n M llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/c7/fe39f984ee8f97\n M llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/cc/984057b206e67f\n M llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/ea/f4a6b6ba1e2604\n M llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/ef/b5c8c86629ef20\n M llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/f3/20ab519b8bfff2\n M llm-chat-app/tmp/cache/bootsnap/load-path-cache\n?? llm-chat-app/storage/test.sqlite3-shm\n?? llm-chat-app/storage/test.sqlite3-wal\n?? llm-chat-app/storage/test.sqlite3_0\n?? llm-chat-app/storage/test.sqlite3_1\n?? llm-chat-app/storage/test.sqlite3_10\n?? llm-chat-app/storage/test.sqlite3_11\n?? llm-chat-app/storage/test.sqlite3_12\n?? llm-chat-app/storage/test.sqlite3_13\n?? llm-chat-app/storage/test.sqlite3_14\n?? llm-chat-app/storage/test.sqlite3_15\n?? llm-chat-app/storage/test.sqlite3_16\n?? llm-chat-app/storage/test.sqlite3_17\n?? llm-chat-app/storage/test.sqlite3_18\n?? llm-chat-app/storage/test.sqlite3_19\n?? llm-chat-app/storage/test.sqlite3_2\n?? llm-chat-app/storage/test.sqlite3_20\n?? llm-chat-app/storage/test.sqlite3_21\n?? llm-chat-app/storage/test.sqlite3_22\n?? llm-chat-app/storage/test.sqlite3_23\n?? llm-chat-app/storage/test.sqlite3_24\n?? llm-chat-app/storage/test.sqlite3_25\n?? llm-chat-app/storage/test.sqlite3_26\n?? llm-chat-app/storage/test.sqlite3_27\n?? llm-chat-app/storage/test.sqlite3_28\n?? llm-chat-app/storage/test.sqlite3_29\n?? llm-chat-app/storage/test.sqlite3_3\n?? llm-chat-app/storage/test.sqlite3_30\n?? llm-chat-app/storage/test.sqlite3_31\n?? llm-chat-app/storage/test.sqlite3_4\n?? llm-chat-app/storage/test.sqlite3_5\n?? llm-chat-app/storage/test.sqlite3_6\n?? llm-chat-app/storage/test.sqlite3_7\n?? llm-chat-app/storage/test.sqlite3_8\n?? llm-chat-app/storage/test.sqlite3_9\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/09/db7b84622d7c10\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/0a/252476efaf0a4e\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/0c/8f03334522b89f\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/0e/1f0c22a8818828\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/0e/7a6e7cb856d455\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/0f/dfee1f78dd446b\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/11/3b1a999f22523b\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/11/9a796fde0076c3\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/12/ef417ddfe1978f\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/16/66a89b94c71c04\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/19/6e98f5b6130730\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/1a/93b23fd66b918f\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/1a/d2cccc09722917\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/21/5005fa0dc95cfe\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/22/8fa5616e5e0ca2\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/24/0489132f6c658a\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/27/93c2114fab0f7d\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/2c/258dfd960877eb\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/30/4995284ea39ac1\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/30/9be48d1cb02877\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/37/1ce42fdb1c838f\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/39/4d79e6dc19108d\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/39/77681c846697e3\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/39/d94d7fb10231f8\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/39/fdf9582323b3f3\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/3b/c91bcaf0601df8\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/41/15b49aa8d39584\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/41/8ce3d73d4ce604\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/42/c08e1869cacc28\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/42/e914e513742c41\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/44/27cd0dd5dfb109\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/45/b64cdc9b29f413\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/48/763456002dc185\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/4a/365394fe187bb2\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/4c/a3e2fd03d382c8\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/4d/be61094b66c384\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/51/fc47f3d2eaff09\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/53/0f635f07dc3e64\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/53/d13326ffedc43c\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/58/9e6d160ac6ccd3\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/59/04592ef6207225\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/59/0ead6792cbe42f\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/5c/18bbc1b1182e43\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/5d/a30319355e5165\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/5d/a521e8dbea8c4f\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/61/78f14e3d1f2205\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/62/1826067904af46\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/62/ca274d5cf16937\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/68/0904ecb7632912\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/69/17a4d1227ccb1c\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/69/585e8f7ea1cfc4\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/69/a4cc082a03fd6b\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/6b/768d1c2b441696\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/6b/8c8989121b8794\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/6c/0b6df21aea90d2\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/6c/9bfd45e0002471\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/73/e0f92d29fe76ec\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/74/fe6ed86b17262c\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/78/681082e856eeeb\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/79/12708d5503d5e6\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/79/2387ff0aabc033\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/7a/d38e71ff3b1acf\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/7e/7c36d954c2e725\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/7e/85e1f0eda8398f\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/82/d0421792aa1cfc\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/85/79ebea5d258ab4\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/87/a8fa6817b80af1\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/8b/258ff4b089a570\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/8c/98da629751c9e1\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/8e/4b5ffa6d80921d\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/8e/6dab683960c89f\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/8e/817e8366542333\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/90/8ed700e13838ff\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/91/7d361ee62de5e0\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/91/7f249f2bcb7638\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/98/668c0b8713f0c9\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/99/c838c5eac90f90\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/9a/243eff14040dc5\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/9a/9a745b41fcdb05\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/9c/6d273de0b7a3c0\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/9e/bb1985d23e48cd\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/9f/cba94a35a08f4a\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/a0/64579f227dd053\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/a1/04cbb3f61bb932\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/a1/c2eaf902b84ea7\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/a3/f8d8b36462970f\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/a5/01d19944994704\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/a6/d8fe431fc31fa6\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/a6/fa2a3b0b30c17b\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/ad/246001bca54cf8\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/b1/ac575152b81d54\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/b2/5b1309024cf5d8\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/b2/a83954aacc5b06\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/b4/5e244cca1e791d\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/b9/0c2dfd4214b37b\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/b9/f2c720d2471f84\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/bb/7501ccbd45c4fe\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/be/35dcbef19a541b\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/be/58430992f4271a\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/c0/e8be059bb8afd6\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/c2/478d3ac47f4a2b\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/c6/63203037b96f0c\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/c9/6749a6f73d1a6e\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/ca/101d14dd692c6c\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/cb/4f60ecbb30e7b9\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/cb/f142c9bd6e9e40\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/cd/0cffb76691ab13\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/ce/5788cd4f915975\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/ce/764f613335511f\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/ce/fbcae4bc2e0f0a\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/d1/8b2a0412967d8b\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/d2/cd8a07567b8661\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/d5/1efa555eeaa40c\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/d5/754ba0a119e69e\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/d7/30e2ddac8da02c\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/d7/77f36df71a6e4b\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/d9/7cb9df5cfbf5ae\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/d9/f8cf90ab6dff3f\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/da/dfc57b5f500dc2\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/db/6b5d03e7780cbf\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/dc/57fba91776b23e\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/dc/ab8f65a9a17e4d\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/dd/745f3113642532\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/df/5aa0ed4e045c7f\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/e1/6139327b0bf069\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/e2/8a7220209083cc\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/e5/60d4aa78784b0f\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/e6/7e003ef3c51249\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/e7/d582b786d14249\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/e8/53824d794a5fe3\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/e8/dd5c5818d3dfd1\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/ea/0f1946cd5cd296\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/ea/cc991872f94665\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/f2/402c55693927e4\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/f3/8ab3d741411740\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/f4/65adbeb9169066\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/f6/5758ac865ca3f4\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/f9/13256addba4a08\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/f9/c016cad8375aa7\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/fb/16a3c1c00ebe0a\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/fc/4e8236cb34171e\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-iseq/ff/35cd26087c2b80\n?? llm-chat-app/tmp/cache/bootsnap/compile-cache-yaml/2b/\n?? llm-chat-app/tmp/capybara/\n"
+  },
+  "ledger": {
+    "sprints": {
+      "01_foundation": {
+        "seconds": 338,
+        "exit": 1,
+        "wrapper_exit": 0,
+        "stall_aborted": false,
+        "status": "failed"
+      },
+      "02_multiuser": {
+        "seconds": 411,
+        "exit": 0,
+        "wrapper_exit": 0,
+        "stall_aborted": false,
+        "status": "completed"
+      },
+      "03_admin": {
+        "seconds": 571,
+        "exit": 0,
+        "wrapper_exit": 0,
+        "stall_aborted": false,
+        "status": "completed"
+      }
+    },
+    "sprint_seconds_total": 1319.6154553890228,
+    "guard_tripped": false,
+    "download_seconds": 231.79753303527832,
+    "serve_load_seconds": 853.1114835739136,
+    "phase_started": null,
+    "model_time_cost_usd": 3.33
+  },
+  "tuning": null,
+  "remote_retention": {
+    "weights": "/root/models/qwen35-397b-nvfp4",
+    "retain": [
+      "model-specific caches",
+      "temporary files required to resume",
+      "server logs and launch state; archive locally before replacing shared state"
+    ],
+    "weights_policy": "May delete downloaded weights only when space is needed, after verifying and recording the exact repository and immutable revision. Preserve execution state and caches.",
+    "gpu_process": "May stop owned inference process after archiving; KV cache is transient and will be rebuilt."
+  },
+  "resume_checklist": [
+    "Review all models after batch before selecting resumptions.",
+    "Archive remote launch state/logs locally before loading another model; preserve execution state/caches; weights alone may be removed if space is needed and an immutable revision is recorded.",
+    "Restore serving configuration from this checkpoint and verify API/tool preflight.",
+    "Verify session export succeeded; retain local OpenCode session store. Do not delete failed export evidence.",
+    "Determine whether current sprint ended or was interrupted; preserve existing logs before continuation.",
+    "Do not blindly rerun standard launcher: it skips existing sprint.result.json and DNF markers.",
+    "Verify grading/injection boundary records before advancing sprint. Never repeat completed injections.",
+    "Record any additional authorized budget separately; keep original attempt time, costs and pause artifacts."
+  ]
+}

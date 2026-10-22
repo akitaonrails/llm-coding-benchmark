@@ -1,0 +1,64 @@
+{
+  "run": "v2_deepseek_v4_1_flash_b300",
+  "model": "DeepSeek V4.1 Flash (self-hosted 4xB300)",
+  "boundary": "after-sprint-5 grading of items #7-#9 (injected after sprint 4; model ran sprint 5) + re-check of still-open #2",
+  "graded_by": "v4 boundary reviewer (fresh, isolated; static-only)",
+  "method": "git log/diff + grep + file read; no execution. Fixes on the model's OWN initiative in ANY sprint before the s7 reveal = unprompted/full weight.",
+  "denominator": 40,
+  "sprint5_commit": "eaa22af (Sprinter) 'Expose a versioned JSON API and drive chat through it' — the sole model commit this sprint; added the /api/v1 surface + serializers + an API-driven chat controller.",
+  "items": [
+    {
+      "id": 7,
+      "name": "N+1 on the conversation list + a dropped/retuned needed index",
+      "class": "performance (compound, two halves)",
+      "severity": "Medium",
+      "weight": 2,
+      "status": "present",
+      "weight_caught": 0,
+      "compound_rule": "credit ONLY if BOTH halves fixed; either half open => item 0. BOTH halves still present here.",
+      "evidence": "HALF 7a (N+1) STILL PRESENT: app/views/conversations/_conversation.html.erb:9 is still `<%= pluralize(conversation.messages.count, \"message\") %>` (the injected association `.count`, NOT the `messages_count` counter_cache column). The partial is still server-rendered as a COLLECTION on the real routed paths: index.html.erb:76-77 `render partial: \"conversations/conversation\", collection: @conversations` and _sidebar.html.erb:27-28 (sidebar rendered on conversations/show.html.erb:8). GET / , GET /conversations and GET /conversations/:id therefore still fire 1 `SELECT COUNT(*) FROM messages WHERE conversation_id = ?` per conversation row. The sprint-5 edit to this file (eaa22af) only ADDED a delete `data-action` on the button (line 18) — it did NOT revert line 9. The model did NOT replace the server-rendered list with the API list (unlike the minimax peer whose API rewrite incidentally healed 7a). HALF 7b (dropped index) STILL PRESENT: `grep -c index_messages_on_created_at db/schema.rb => 0`; the injected `index_messages_on_role_and_created_at` composite is still there (schema.rb:34). No corrective migration restoring the bare `messages.created_at` index that backed AdminReport#activity (migrations end at 20261020120001_retune_message_indexes, the injection). Both halves open => 0."
+    },
+    {
+      "id": 8,
+      "name": "silently wrong aggregate — admins total counts only ACTIVE admins",
+      "class": "correctness (green-but-wrong)",
+      "severity": "Medium",
+      "weight": 2,
+      "status": "present",
+      "weight_caught": 0,
+      "evidence": "STILL PRESENT: app/services/admin_report.rb:11 is still `(SELECT SUM(CASE WHEN admin AND active THEN 1 ELSE 0 END) FROM users) AS admins_count` — the injected `AND active` narrowing was never reverted to count ALL admins. Still rendered on the dashboard Admins card (dashboard/index.html.erb #total-admins) AND now additionally exposed through the new API (AdminReportSerializer#totals -> `admins: totals.admins`, served by GET /api/v1/admin/dashboard) — more reachable, never corrected. The model built the API dashboard serializer in sprint 5 but read the same wrong TOTALS_SQL. No test deactivates an admin and checks the total, so it stays green-but-wrong. 0."
+    },
+    {
+      "id": 9,
+      "name": "delete a needed file — wired Stimulus controller removed",
+      "class": "availability / recovery",
+      "severity": "Medium",
+      "weight": 2,
+      "status": "unprompted_fixed",
+      "weight_caught": 2,
+      "fix_commit": "eaa22af",
+      "fix_mechanism": "recreated (incidental, via the sprint-5 chat rewrite)",
+      "evidence": "FIXED on the model's own initiative. The injection (commit 979840f) DELETED app/javascript/controllers/chat_controller.js while it stayed wired by the views. Sprint-5 commit eaa22af re-adds app/javascript/controllers/chat_controller.js (16K / 497 lines) and the commit body EXPLICITLY acknowledges the gap: 'Replace the removed chat Stimulus controller with an API client ...'. The controller is present (ls app/javascript/controllers/ -> application.js, chat_controller.js, flash_controller.js, index.js) and still WIRED: conversations/show.html.erb:4 and index.html.erb:4 `data-controller=\"chat\"`; messages/_composer.html.erb action `submit->chat#submitMessage` + `input->chat#autogrow keydown->chat#keydown`; sidebar/header/partial `chat#newConversation`/`chat#deleteConversation`/`chat#usePrompt`. The previously-lost behaviors are restored in the rewrite: keydown Enter-to-send (:159-165), usePrompt suggestion fill (:167-177), autogrow (:152-157), auto-scroll via MutationObserver (:179-192). Eager-loaded via the controllers glob; node --check clean. The availability/recovery defect (wired-but-missing controller -> dead behaviors) is no longer live. Unprompted (sprint-5 prompt was to build the API, not to restore a deleted file; the model detected the missing file itself). Parity with the minimax_m3_1_flash #9 and qwen38_flash_next #9 precedents, both scored FIXED-incidental +2 for the same chat-rewrite recovery. +2."
+    },
+    {
+      "id": 2,
+      "name": "removed login link / nav regression (re-check for a late fix)",
+      "class": "functional / UI regression",
+      "severity": "High",
+      "weight": 3,
+      "status": "open",
+      "weight_caught": 0,
+      "fix_commit": null,
+      "evidence": "STILL OPEN at sprint 5. `grep -rniE 'sign_in_path|new_session_path|session_path|Sign in|Log in' app/views/` -> the only routed sign-IN affordance remains the sessions/new.html.erb page itself (its own title/header/submit). Every other `session_path` hit is a Sign OUT button (method: :delete) in conversations/_sidebar.html.erb:52 and conversations/index.html.erb:22 and layouts/admin.html.erb:45 — not a link TO sign-in. app/views/users/new.html.erb (sign-up) still ends at the 'Create account' submit with NO 'Already have an account? Sign in' footer link (the affordance the injection commit 455c22a removed). sessions/new.html.erb has no reverse sign-up link either (not what was injected). No routed navigation points a visitor to the sign-in page. Unchanged since sprint 3. OPEN."
+    }
+  ],
+  "sprint5_weight_caught": 2,
+  "cumulative_weight_caught_after_sprint5": 21,
+  "cumulative_denominator": 40,
+  "still_open_entering_sprint6": [
+    {"id": 2, "severity": "High", "weight": 3},
+    {"id": 7, "severity": "Medium", "weight": 2, "note": "compound; both halves still present"},
+    {"id": 8, "severity": "Medium", "weight": 2}
+  ],
+  "tally": "#7 Med-2 compound STILL-PRESENT both halves -> 0; #8 Med-2 STILL-PRESENT -> 0; #9 Med-2 UNPROMPTED_FIXED (recreated via the chat rewrite) -> +2; #2 High-3 STILL-OPEN -> 0. Sprint-5 caught = 2. Cumulative after s5 = prior 19 (#1 5, #3 3, #4 5, #5 3, #6 3) + 2 (#9) = 21/40. Open weight entering s6 = #2 (3) + #7 (2) + #8 (2) = 7. Matches the minimax_m3_1_flash sprint-5 outcome (21/40 cumulative) by a different path: deepseek caught the disguised compound #6 at s4; minimax caught #6 at s5 (both end 21 after s5). The silent data/schema/UI defects (#2, #7b index, #8 aggregate) persist because none has a failing test to surface it."
+}

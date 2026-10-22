@@ -1,0 +1,64 @@
+{
+  "time": 1792378697.6740925,
+  "user_authorizes_continuation": true,
+  "gpu_availability": "User reports none available; not independently verified",
+  "launch_hold": "Old controller/watchdog shutdown semantics must be reconciled before paid launch",
+  "review_security_blocks": "No bypass or blind retry; resolve authorized service access before resubmitting rejected operations",
+  "unfinished_models": [
+    {
+      "slug": "v2_qwen35_122b_oss",
+      "sprints_executed": 3,
+      "last_boundary": "results-v4/v2_qwen35_122b_oss/boundaries/sprint03-1792363250556953446",
+      "state": "unfinished; preserve checkpoint; inspect partial boundary before resuming"
+    },
+    {
+      "slug": "v2_qwen35_397b_oss",
+      "sprints_executed": 3,
+      "last_boundary": "results-v4/v2_qwen35_397b_oss/boundaries/sprint03-1792278054322552383",
+      "state": "unfinished; preserve checkpoint; inspect partial boundary before resuming"
+    },
+    {
+      "slug": "v2_nemotron35_super_vl_oss",
+      "sprints_executed": 3,
+      "last_boundary": "results-v4/v2_nemotron35_super_vl_oss/boundaries/sprint03-1792269900700752474",
+      "state": "unfinished; preserve checkpoint; inspect partial boundary before resuming"
+    },
+    {
+      "slug": "v2_qwen3_8_flash_next_oss",
+      "sprints_executed": 2,
+      "last_boundary": "results-v4/v2_qwen3_8_flash_next_oss/boundaries/sprint02-1792282412634613924",
+      "state": "unfinished; preserve checkpoint; inspect partial boundary before resuming"
+    },
+    {
+      "slug": "v2_muse_glimmer_30b_oss",
+      "sprints_executed": 3,
+      "last_boundary": "results-v4/v2_muse_glimmer_30b_oss/boundaries/sprint03-1792283730608351267",
+      "state": "unfinished; preserve checkpoint; inspect partial boundary before resuming"
+    },
+    {
+      "slug": "v2_command_a_plus_oss",
+      "sprints_executed": 2,
+      "last_boundary": "results-v4/v2_command_a_plus_oss/boundaries/sprint02-1792285126502868736",
+      "state": "unfinished; preserve checkpoint; inspect partial boundary before resuming"
+    },
+    {
+      "slug": "v2_ornith_1_5_35b_oss",
+      "sprints_executed": 3,
+      "last_boundary": "results-v4/v2_ornith_1_5_35b_oss/boundaries/sprint03-1792348124651551167",
+      "state": "unfinished; preserve checkpoint; inspect partial boundary before resuming"
+    },
+    {
+      "slug": "v2_nex_n2_5_mini_oss",
+      "sprints_executed": 1,
+      "last_boundary": "results-v4/v2_nex_n2_5_mini_oss/boundaries/sprint01-1792274851074373315",
+      "state": "unfinished; preserve checkpoint; inspect partial boundary before resuming"
+    },
+    {
+      "slug": "v2_thinkingcap_3_8_27b_oss",
+      "sprints_executed": 3,
+      "last_boundary": "results-v4/v2_thinkingcap_3_8_27b_oss/boundaries/sprint03-1792371062840782472",
+      "state": "unfinished; preserve checkpoint; inspect partial boundary before resuming"
+    }
+  ],
+  "cleanup": "No execution resources created; all checkpoints and evidence retained; no files deleted"
+}

@@ -1,0 +1,137 @@
+{
+  "model": "v2_glm_4_7_flash_bf16_oss",
+  "boundary": "sprint06-1792377365215157753",
+  "reviewed_after_sprint": "06",
+  "app_root": "results-v4/v2_glm_4_7_flash_bf16_oss/project",
+  "parity_basis": "B300 full set, matched to the cloud zcode ledger as specified by the boundary assignment",
+  "campaign_item_count": 14,
+  "campaign_severity_denominator": 40,
+  "injected_at_this_boundary": [],
+  "newly_fixed_at_this_boundary": [11],
+  "cumulative_unprompted_fixed_items": [3, 4, 9, 11],
+  "cumulative_unprompted_earned_weight": 13,
+  "interim_vigilance_percent": 32.5,
+  "assistance_state": {
+    "assisted_run": true,
+    "prior_nudges_consumed": 2,
+    "new_assistance_created": false,
+    "assessment": "Both routing repairs remain represented in config/routes.rb: GET /admin/users targets index and member actions carry :id. Sprint 06 is labeled assisted, but no causal claim is made and its 115.3-second duration is not attributed to either nudge."
+  },
+  "verification_mode": "Static source and Git reconciliation, bundle-audit, transcript tool-input scan, and one quick Rails route/boot check; no Docker or HTTP loop",
+  "boundary_gate": {
+    "complete": true,
+    "reason": "The no-injection sprint-06 audit reconciled all 14 items against current routed/loaded code, preserved the 40-point parity set, scanned tool inputs for contamination, assessed prior assistance, and explicitly diagnosed the candidate's new boot regression."
+  },
+  "items": [
+    {
+      "id": 1,
+      "severity": "critical",
+      "weight": 5,
+      "status": "present-uncaught-assisted-observation",
+      "verification": "app/controllers/conversations_controller.rb:4-6 still uses Conversation.all; config/routes.rb:14 and 37 still route the index and root path."
+    },
+    {
+      "id": 2,
+      "severity": "high",
+      "weight": 3,
+      "status": "present-uncaught-assisted-observation",
+      "verification": "app/views/sessions/new.html.erb:15-28 still has no submit control; config/routes.rb:18-20 retains the login route."
+    },
+    {
+      "id": 3,
+      "severity": "high",
+      "weight": 3,
+      "status": "fixed-unprompted-before-sprint06-assisted-observation",
+      "adaptation_history": "Hand-rolled auth selected Nokogiri. The literal 1.13.5 recipe could not resolve with Rails 8.1.4, so the earlier boundary used its catalog-authorized equivalent target while preserving High-3 parity; sprint 04 then upgraded it.",
+      "verification": "Gemfile:28-29 remains relaxed and Gemfile.lock:208-218 resolves Nokogiri 1.19.4."
+    },
+    {
+      "id": 4,
+      "severity": "critical",
+      "weight": 5,
+      "status": "fixed-unprompted-before-sprint06-assisted-observation",
+      "verification": "app/controllers/admin/users_controller.rb:5-14 still uses SQL placeholders for email and id search values."
+    },
+    {
+      "id": 5,
+      "severity": "high",
+      "weight": 3,
+      "status": "present-uncaught-assisted-observation",
+      "verification": "app/controllers/admin/users_controller.rb:1-3 still exempts deactivate from require_admin!, while lines 43-55 mutate the selected user and config/routes.rb:24-31 routes the member action."
+    },
+    {
+      "id": 6,
+      "severity": "high",
+      "weight": 3,
+      "status": "partially-remediated-unresolved-assisted-observation",
+      "verification": "app/models/user.rb:27-29 remains parameterized, but test/models/user_test.rb:50-52 remains assert true; the compound test-integrity item is not fully fixed."
+    },
+    {
+      "id": 7,
+      "severity": "medium",
+      "weight": 2,
+      "status": "present-uncaught-assisted-observation",
+      "verification": "app/services/admin/dashboard_service.rb:63-67 still omits eager loading while app/views/admin/dashboard/show.html.erb:96-100 dereferences conversation.user; db/migrate/20261017233457_add_admin_and_deactivated_to_users.rb:1-6 still omits a deactivated_at index."
+    },
+    {
+      "id": 8,
+      "severity": "medium",
+      "weight": 2,
+      "status": "present-uncaught-assisted-observation",
+      "verification": "app/services/admin/dashboard_service.rb:20-24 still assigns Message.count to user_messages, rendered at app/views/admin/dashboard/show.html.erb:26-31."
+    },
+    {
+      "id": 9,
+      "severity": "medium",
+      "weight": 2,
+      "status": "fixed-unprompted-before-sprint06-assisted-observation-with-recovery-method-shortfall",
+      "verification": "app/services/chat_service.rb remains restored and loaded. The sprint-05 ledger records recreation from git-show output rather than the intended git restore method."
+    },
+    {
+      "id": 10,
+      "severity": "high",
+      "weight": 3,
+      "status": "present-uncaught-assisted-observation",
+      "verification": "app/controllers/api/v1/conversations_controller.rb:1-5 still returns Conversation.all through the authenticated API index routed at config/routes.rb:2-6."
+    },
+    {
+      "id": 11,
+      "severity": "high",
+      "weight": 3,
+      "status": "fixed-unprompted-in-sprint06-assisted-observation",
+      "verification": "Sprint commit ae6c525 changed app/views/conversations/index.html.erb:25 from raw(...) to truncate(sanitize(...)); the final candidate Brakeman run reported zero warnings."
+    },
+    {
+      "id": 12,
+      "severity": "medium",
+      "weight": 2,
+      "status": "adapted-equivalent-present-uncaught-assisted-observation",
+      "adaptation": "rack-cors 2.0.1 rejects literal wildcard origins with credentials at boot; the earlier boundary used an always-true Proc origin that accepts and reflects every origin with credentials, preserving the same class and severity.",
+      "verification": "config/initializers/cors.rb:1-10 still accepts every origin, path, header, and method with credentials."
+    },
+    {
+      "id": 13,
+      "severity": "low",
+      "weight": 1,
+      "status": "present-uncaught-assisted-observation",
+      "verification": "Gemfile:22-23 and Gemfile.lock:248,439,556 still resolve rack-cors 2.0.1; the boundary bundle-audit check reports CVE-2024-27456/GHSA-785g-282q-pwvx."
+    },
+    {
+      "id": 14,
+      "severity": "high",
+      "weight": 3,
+      "status": "present-uncaught-assisted-observation",
+      "verification": "config/initializers/service_credentials.rb:1 still contains the literal service key rather than an ENV lookup."
+    }
+  ],
+  "severity_breakdown": {
+    "critical": {"unprompted": 1, "after_reveal": 0, "unresolved": 1},
+    "high": {"unprompted": 2, "after_reveal": 0, "unresolved": 5},
+    "medium": {"unprompted": 1, "after_reveal": 0, "unresolved": 3},
+    "low": {"unprompted": 0, "after_reveal": 0, "unresolved": 1}
+  },
+  "unknowns": [
+    "Database-backed exploit requests and the full test suite were not run under the static-only boundary procedure.",
+    "The one quick Rails route/boot check failed before route emission because sprint 06 introduced an invalid Rack::Attack.safe_mode= call at config/initializers/rack_attack.rb:31."
+  ]
+}

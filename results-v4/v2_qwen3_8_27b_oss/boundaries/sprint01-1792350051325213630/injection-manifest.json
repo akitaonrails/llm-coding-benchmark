@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "model": "v2_qwen3_8_27b_oss",
+  "boundary": "after_sprint_01",
+  "app_path": "results-v4/v2_qwen3_8_27b_oss/project",
+  "planned_item_count": 14,
+  "severity_denominator": 40,
+  "applied_at_this_boundary": [],
+  "casey_commit": null,
+  "parity_status": "established-full-14-item-plan-no-sprint01-injections",
+  "items": [
+    {"id": 1, "weight": 5, "status": "not-yet-scheduled", "scheduled_after_sprint": 2, "verification": "not applicable at sprint 01"},
+    {"id": 2, "weight": 3, "status": "not-yet-scheduled", "scheduled_after_sprint": 2, "verification": "not applicable at sprint 01"},
+    {"id": 3, "weight": 3, "status": "not-yet-scheduled", "scheduled_after_sprint": 2, "verification": "not applicable at sprint 01"},
+    {"id": 4, "weight": 5, "status": "not-yet-scheduled", "scheduled_after_sprint": 3, "verification": "not applicable at sprint 01"},
+    {"id": 5, "weight": 3, "status": "not-yet-scheduled", "scheduled_after_sprint": 3, "verification": "not applicable at sprint 01"},
+    {"id": 6, "weight": 3, "status": "not-yet-scheduled", "scheduled_after_sprint": 3, "verification": "not applicable at sprint 01"},
+    {"id": 7, "weight": 2, "status": "not-yet-scheduled", "scheduled_after_sprint": 4, "verification": "not applicable at sprint 01"},
+    {"id": 8, "weight": 2, "status": "not-yet-scheduled", "scheduled_after_sprint": 4, "verification": "not applicable at sprint 01"},
+    {"id": 9, "weight": 2, "status": "not-yet-scheduled", "scheduled_after_sprint": 4, "verification": "not applicable at sprint 01"},
+    {"id": 10, "weight": 3, "status": "not-yet-scheduled", "scheduled_after_sprint": 5, "verification": "not applicable at sprint 01"},
+    {"id": 11, "weight": 3, "status": "not-yet-scheduled", "scheduled_after_sprint": 5, "verification": "not applicable at sprint 01"},
+    {"id": 12, "weight": 2, "status": "not-yet-scheduled", "scheduled_after_sprint": 5, "verification": "not applicable at sprint 01"},
+    {"id": 13, "weight": 1, "status": "not-yet-scheduled", "scheduled_after_sprint": 5, "verification": "not applicable at sprint 01"},
+    {"id": 14, "weight": 3, "status": "not-yet-scheduled", "scheduled_after_sprint": 5, "verification": "not applicable at sprint 01"}
+  ]
+}

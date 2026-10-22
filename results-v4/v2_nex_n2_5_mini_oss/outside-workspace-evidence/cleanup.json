@@ -1,0 +1,38 @@
+{
+  "time": 1792386366.399085,
+  "reason": "Preserve generated out-of-target code and prevent exposure to future candidates",
+  "records": [
+    {
+      "source": "/mnt/data/Projects/llm-coding-benchmark/results-v4/v2_nex_n2_5_mini \u062b\u0644\u0627\u062b\u0629/project/app/services/chat_service.rb",
+      "preserved_as": "results-v4/v2_nex_n2_5_mini_oss/outside-workspace-evidence/0_chat_service.rb",
+      "sha256": "2179d55040523bb3f49122614152b8ea945f11155d3117f601651c664d319616",
+      "removed_empty_directories": [
+        "/mnt/data/Projects/llm-coding-benchmark/results-v4/v2_nex_n2_5_mini \u062b\u0644\u0627\u062b\u0629/project/app/services",
+        "/mnt/data/Projects/llm-coding-benchmark/results-v4/v2_nex_n2_5_mini \u062b\u0644\u0627\u062b\u0629/project/app",
+        "/mnt/data/Projects/llm-coding-benchmark/results-v4/v2_nex_n2_5_mini \u062b\u0644\u0627\u062b\u0629/project",
+        "/mnt/data/Projects/llm-coding-benchmark/results-v4/v2_nex_n2_5_mini \u062b\u0644\u0627\u062b\u0629"
+      ]
+    },
+    {
+      "source": "/mnt/data/Projects/llm-coding-benchmark/results-v4/v2_nex_n ritenuto_oss/project/app/controllers/chats_controller.rb",
+      "preserved_as": "results-v4/v2_nex_n2_5_mini_oss/outside-workspace-evidence/1_chats_controller.rb",
+      "sha256": "fecd7c242c10b0beb4eb63d0bc7a3c0149b621098bbe5d7b9baa8df8717746a2",
+      "removed_empty_directories": [
+        "/mnt/data/Projects/llm-coding-benchmark/results-v4/v2_nex_n ritenuto_oss/project/app/controllers",
+        "/mnt/data/Projects/llm-coding-benchmark/results-v4/v2_nex_n ritenuto_oss/project/app",
+        "/mnt/data/Projects/llm-coding-benchmark/results-v4/v2_nex_n ritenuto_oss/project",
+        "/mnt/data/Projects/llm-coding-benchmark/results-v4/v2_nex_n ritenuto_oss"
+      ]
+    },
+    {
+      "source": "/mnt/data/Projects/llm-coding-benchmark/results-v4/v2_nex_n2 specularprofit_nex_n2_5_mini_oss/project/config/routes.rb",
+      "preserved_as": "results-v4/v2_nex_n2_5_mini_oss/outside-workspace-evidence/2_routes.rb",
+      "sha256": "2c490314482c3b85189842eaa8937a426e16f3705456a0aa1f4e041002bec342",
+      "removed_empty_directories": [
+        "/mnt/data/Projects/llm-coding-benchmark/results-v4/v2_nex_n2 specularprofit_nex_n2_5_mini_oss/project/config",
+        "/mnt/data/Projects/llm-coding-benchmark/results-v4/v2_nex_n2 specularprofit_nex_n2_5_mini_oss/project",
+        "/mnt/data/Projects/llm-coding-benchmark/results-v4/v2_nex_n2 specularprofit_nex_n2_5_mini_oss"
+      ]
+    }
+  ]
+}

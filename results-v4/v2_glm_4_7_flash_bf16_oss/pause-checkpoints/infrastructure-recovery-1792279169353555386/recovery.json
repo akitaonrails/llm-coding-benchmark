@@ -1,0 +1,8 @@
+{
+  "time": 1792279169.3542578,
+  "entry": {
+    "slug": "v2_glm_4_7_flash_bf16_oss",
+    "reason": "CUDA12 loader resolution repaired and verified; restart from original serving baseline, preserve failed attempts"
+  },
+  "preserves": "All source, transcripts, sessions, previous admission and cumulative sprint budget"
+}

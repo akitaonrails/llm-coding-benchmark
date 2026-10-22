@@ -1,0 +1,12 @@
+{
+  "slug": "v2_ornith_1_5_35b_oss",
+  "sprint": "sprint01_foundation",
+  "harness": "opencode",
+  "elapsed_seconds": 1619.18,
+  "cost_usd": 0.0,
+  "tokens_total": 16166997,
+  "exit_code": 1,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": false
+}

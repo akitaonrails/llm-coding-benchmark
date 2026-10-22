@@ -1,0 +1,73 @@
+{
+  "run": "v2_deepseek_v4_1_flash_b300",
+  "model": "DeepSeek V4.1 Flash (self-hosted, FP8, 4xB300 vLLM TP=4, ~175 tok/s)",
+  "boundary": "after-sprint-7 (EXPLICIT REVEAL) — grade ONLY the two items still open entering the reveal: #2 (High 3) and #8 (Med 2). Reveal fixes earn 40% weight.",
+  "graded_by": "v4 FINAL boundary reviewer (fresh, isolated; static-only)",
+  "method": "git log/diff + grep + file read + ruby -c; no execution, no Docker/HTTP, no injection. Reveal commits are the two commits since capstone HEAD 32e6634.",
+  "protocol": "07 explicit-reveal grading; reveal fixes = 0.4 weight",
+  "denominator": 40,
+  "reveal_commits": {
+    "1d203f8": "Restore sign-in link on the sign-up page (Sprinter) — fixes #2",
+    "97587cb": "Count deactivated administrators in dashboard totals (Sprinter) — fixes #8"
+  },
+  "head": "1d203f8",
+  "capstone_head_before_reveal": "32e6634",
+  "items": [
+    {
+      "id": 2,
+      "name": "removed login link / nav regression",
+      "class": "functional / UI regression",
+      "severity": "High",
+      "weight": 3,
+      "status": "reveal_fixed",
+      "weight_basis": 3,
+      "reveal_multiplier": 0.4,
+      "weight_caught": 1.2,
+      "fix_commit": "1d203f8",
+      "evidence": "FIXED AT REVEAL. app/views/users/new.html.erb:56-59 now appends a footer paragraph: `Already have an account? <%= link_to \"Sign in\", sign_in_path, ... %>`. This is a routed GET nav affordance TO the sign-in page: config/routes.rb:31 `get \"sign_in\", to: \"sessions#new\", as: :sign_in` defines sign_in_path -> sessions#new (NOT a Sign-OUT; those are `session_path, method: :delete`). At capstone HEAD 32e6634 the file ended at the 'Create account' submit with NO sign-in footer link (git show 32e6634:app/views/users/new.html.erb confirms absence) — the affordance the injection 455c22a removed. Commit 1d203f8 also adds regression coverage: integration test asserts `assert_select \"a[href=?]\", sign_in_path, text: \"Sign in\"` and a system test clicks the link and asserts `assert_current_path sign_in_path`. Fixed only after the explicit sprint-7 reveal (open and untouched through sprints 3-6) -> 40% weight = 0.4 x 3 = 1.2."
+    },
+    {
+      "id": 8,
+      "name": "silently wrong aggregate — admins total counted only ACTIVE admins",
+      "class": "correctness (green-but-wrong)",
+      "severity": "Medium",
+      "weight": 2,
+      "status": "reveal_fixed",
+      "weight_basis": 2,
+      "reveal_multiplier": 0.4,
+      "weight_caught": 0.8,
+      "fix_commit": "97587cb",
+      "evidence": "FIXED AT REVEAL. app/services/admin_report.rb:11 TOTALS_SQL is now `(SELECT SUM(CASE WHEN admin THEN 1 ELSE 0 END) FROM users) AS admins_count` — the injected `AND active` narrowing is removed, so ALL admins are counted regardless of active state. row[\"admins_count\"] flows to totals.admins (admin_report.rb:74), rendered on the dashboard Admins card and served via AdminReportSerializer through GET /api/v1/admin/dashboard. ruby -c app/services/admin_report.rb => Syntax OK. Commit 97587cb also adds a service test that creates an active + a deactivated admin and asserts `assert_equal 2, totals.admins` while active_users stays 1 — the exact green-but-wrong case now has a guarding assertion. The under-count persisted silently through sprints 4-6 (no failing test surfaced it); fixed only after the explicit reveal -> 40% weight = 0.4 x 2 = 0.8."
+    }
+  ],
+  "reveal_weight": 5,
+  "reveal_weight_credited": 2.0,
+  "unprompted_weight": 35,
+  "arithmetic": {
+    "formula": "score = (unprompted_weight + 0.4 * reveal_weight) / 40 * 100",
+    "unprompted_weight": 35,
+    "reveal_weight": 5,
+    "reveal_contribution": 2.0,
+    "numerator": 37.0,
+    "denominator": 40,
+    "final_score": 92.5
+  },
+  "per_item_final_disposition": {
+    "1": "unprompted_fixed (Critical 5) — 5.0",
+    "2": "reveal_fixed (High 3) — 1.2",
+    "3": "unprompted_fixed (High 3, real upgrade) — 3.0",
+    "4": "unprompted_fixed (Critical 5) — 5.0",
+    "5": "unprompted_fixed (High 3) — 3.0",
+    "6": "unprompted_fixed (High 3, compound both halves) — 3.0",
+    "7": "unprompted_fixed (Med 2, compound both halves) — 2.0",
+    "8": "reveal_fixed (Med 2) — 0.8",
+    "9": "unprompted_fixed (Med 2) — 2.0",
+    "10": "unprompted_fixed (High 3) — 3.0",
+    "11": "unprompted_fixed (High 3) — 3.0",
+    "12": "unprompted_fixed (Med 2) — 2.0",
+    "13": "unprompted_fixed (Low 1, real upgrade) — 1.0",
+    "14": "unprompted_fixed (High 3) — 3.0"
+  },
+  "final_score": 92.5,
+  "verdict": "All 14 planted defects resolved by HEAD: 12 unprompted (35 weight) + 2 at the explicit reveal (#2, #8 — the two no-signal silent defects, credited at 40%). Final 92.5/40-scale."
+}

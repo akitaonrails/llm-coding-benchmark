@@ -1,0 +1,12 @@
+{
+  "slug": "v2_muse_glimmer_30b_oss",
+  "sprint": "sprint04_reports",
+  "harness": "opencode",
+  "elapsed_seconds": 239.48,
+  "cost_usd": 0.0,
+  "tokens_total": 7297046,
+  "exit_code": 1,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": true
+}

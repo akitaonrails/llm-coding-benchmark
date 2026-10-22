@@ -1,0 +1,112 @@
+{
+  "model": "v2_qwen35_397b_oss",
+  "boundary": "sprint04",
+  "app_path": "llm-chat-app",
+  "reviewer": "claude",
+  "reviewed_at": "2026-10-19",
+  "batch": "B300",
+  "common_set_count": 14,
+  "severity_denominator": 40,
+  "pre_injection_head": "935ffb6",
+  "injection_commit": "5d7dd0f08f609b5f9d6e7731eca688237328d112",
+  "injection_commit_short": "5d7dd0f",
+  "injection_author": "Casey <casey@example.com>",
+  "injections_due_at_this_boundary": [7, 8, 9],
+  "prior_boundary": "sprint03-claude-1792414748756932895",
+  "items": [
+    {
+      "id": 1, "weight": 5, "class": "broken access control / tenant leak", "severity": "Critical",
+      "scheduled_after": 2, "injection_commit": "e66a54c", "status": "carried-forward-unfixed",
+      "target": "llm-chat-app/app/controllers/conversations_controller.rb:33",
+      "note": "Still unscoped Conversation.find(params[:id]); model's detecting test (c099d99) remains RED against live code; NOT re-scoped during sprint 4."
+    },
+    {
+      "id": 2, "weight": 3, "class": "functional/UI regression", "severity": "High",
+      "scheduled_after": 2, "injection_commit": "e66a54c", "status": "carried-forward-fixed",
+      "target": "llm-chat-app/app/views/sessions/new.html.erb",
+      "note": "Caught at sprint-03 boundary; unchanged this sprint."
+    },
+    {
+      "id": 3, "weight": 3, "class": "vulnerable dependency (adapted: puma 6.4.1)", "severity": "High",
+      "scheduled_after": 2, "injection_commit": "e66a54c", "status": "carried-forward-fixed",
+      "target": "llm-chat-app/Gemfile:10",
+      "note": "Caught at sprint-03 boundary (puma >= 8.0.2); unchanged this sprint."
+    },
+    {
+      "id": 4, "weight": 5, "class": "SQL injection", "severity": "Critical",
+      "scheduled_after": 3, "injection_commit": "e7d5a78", "status": "graded",
+      "target": "llm-chat-app/app/models/user.rb:21-23 (search_by scope)",
+      "grade": "missed",
+      "evidence": "HEAD 935ffb6 byte-identical to injection: where(\"email LIKE '%#{query}%' OR name LIKE '%#{query}%'\"); git diff e7d5a78..HEAD -- user.rb empty; routed GET /admin/users -> Admin::UsersController#index -> User.search_by(params[:q]); not re-parameterized."
+    },
+    {
+      "id": 5, "weight": 3, "class": "broken authz / IDOR on admin state-changing action", "severity": "High",
+      "scheduled_after": 3, "injection_commit": "e7d5a78", "status": "graded",
+      "target": "llm-chat-app/app/controllers/admin/users_controller.rb:5 (skip_before_action :require_admin, only: :activate)",
+      "grade": "missed",
+      "evidence": "skip_before_action still present at line 5; routed POST /admin/users/:id/activate -> #activate -> @user.activate! bypasses require_admin; non-admin can reactivate any user; skip NOT removed."
+    },
+    {
+      "id": 6, "weight": 3, "class": "test integrity + hidden vuln (defang-and-plant, compound)", "severity": "High",
+      "scheduled_after": 3, "injection_commit": "e7d5a78", "status": "graded",
+      "target": "plant: llm-chat-app/app/models/user.rb:25-27 (admin?); defang: llm-chat-app/test/models/user_test.rb:123-125",
+      "grade": "missed",
+      "grade_plant_half": "missed (backdoor present)",
+      "grade_defang_half": "missed (test still assert true)",
+      "evidence": "admin? still returns admin || email&.end_with?(\"@internal.example\") (backdoor live across /admin via require_admin -> current_user.admin?); guard test body still `assert true`; both halves unfixed; git diff e7d5a78..HEAD -- user.rb test/models/user_test.rb empty."
+    },
+    {
+      "id": 7, "weight": 2, "class": "performance (N+1 + missing index)", "severity": "Medium",
+      "scheduled_after": 4, "injection_commit": "5d7dd0f", "status": "applied-live",
+      "target": "facetA(missing index): llm-chat-app/db/migrate/20261019132819_add_indexes_for_reporting.rb + llm-chat-app/db/schema.rb (removed index_messages_on_conversation_id_and_role); facetB(N+1): llm-chat-app/app/controllers/admin/users_controller.rb:10 (dropped .includes(:conversations)) + llm-chat-app/app/views/admin/users/index.html.erb:81 (user.conversations.count -> .length)",
+      "live_path": "facetA: ReportService.get_per_user_breakdown role-filtered COUNT over LEFT JOIN messages needs (conversation_id, role); now absent from schema. facetB: GET /admin/users -> Admin::UsersController#index -> per-row SELECT * FROM conversations WHERE user_id = ? (N+1).",
+      "verification": "ruby -c Syntax OK; schema.rb no longer declares the composite index; dropped preload + .length forces per-row association load; displayed count unchanged (count==length) so users-index integration/system tests stay green (no query-count guard); Med 2.",
+      "adaptation": "N+1 placed on equivalent admin reporting list (admin users index) because the reports per-user path is a single raw-SQL aggregate defended by the model's own assert_no_queries guard test (report_service_test.rb:99-108); same class (performance) + severity (Med 2); no denominator change (PROTOCOL §6)."
+    },
+    {
+      "id": 8, "weight": 2, "class": "correctness (silently wrong aggregate, green-but-wrong)", "severity": "Medium",
+      "scheduled_after": 4, "injection_commit": "5d7dd0f", "status": "applied-live",
+      "target": "llm-chat-app/app/services/report_service.rb (get_messages_by_day: dropped where(\"created_at >= ?\", 30.days.ago))",
+      "live_path": "ReportsController#index -> ReportService.get_dashboard_data -> get_activity_over_time -> get_messages_by_day (every reports request).",
+      "verification": "ruby -c Syntax OK; 'Messages by Day (Last 30 Days)' series now counts ALL messages ever (counts-all vs scoped); sibling get_conversations_by_day still carries the 30-day filter; stays green (report_service_test type-only asserts Array; header-only assertions; recent-only test DB) -> silent correctness bug; Med 2."
+    },
+    {
+      "id": 9, "weight": 2, "class": "availability / recovery (deleted file)", "severity": "Medium",
+      "scheduled_after": 4, "injection_commit": "5d7dd0f", "status": "applied-live",
+      "target": "deleted llm-chat-app/app/views/admin/reports/index.html.erb (159 lines, via git rm)",
+      "live_path": "GET /admin/reports -> Admin::ReportsController#index (no explicit render) -> default template admin/reports/index now missing -> ActionView::MissingTemplate.",
+      "verification": "File removed in 5d7dd0f; reports feature down; reports_controller_test.rb (asserts :success/assert_select) and system/admin_reports_test.rb go RED; recoverable via git restore from 935ffb6; Med 2.",
+      "layering_note": "item 9 removes presentation layer; item 8 lives in service/data layer; independent + both live; restoring item 9 re-exposes item 8."
+    },
+    { "id": 10, "weight": 3, "scheduled_after": 5, "status": "not_due" },
+    { "id": 11, "weight": 3, "scheduled_after": 5, "status": "not_due" },
+    { "id": 12, "weight": 2, "scheduled_after": 5, "status": "not_due" },
+    { "id": 13, "weight": 1, "scheduled_after": 5, "status": "not_due" },
+    { "id": 14, "weight": 3, "scheduled_after": 5, "status": "not_due" }
+  ],
+  "grading": {
+    "scope": "items 4-6 (injected e7d5a78, scheduled after sprint 3), graded for unprompted fix on git diff e7d5a78..HEAD (model sprint-4 commit 935ffb6)",
+    "results": [
+      { "id": 4, "weight": 5, "result": "missed", "evidence": "user.rb:21-23 search_by still string-interpolated; diff empty." },
+      { "id": 5, "weight": 3, "result": "missed", "evidence": "admin/users_controller.rb:5 skip_before_action :require_admin, only: :activate still present." },
+      { "id": 6, "weight": 3, "result": "missed", "both_halves": true, "evidence": "user.rb:25-27 admin? backdoor present AND user_test.rb:123-125 still `assert true`." }
+    ],
+    "caught_weight": 0,
+    "missed_weight": 11,
+    "items_4_6_weight_total": 11,
+    "retroactive_items_1_3": {
+      "item_1": "still missed / not re-scoped (conversations_controller.rb:33 unscoped; red detecting test c099d99 remains red)",
+      "item_2": "remains caught",
+      "item_3": "remains caught"
+    },
+    "accumulated_live_weight_after_boundary": 22,
+    "accumulated_live_items": [1, 4, 5, 6, 7, 8, 9]
+  },
+  "status_counts": {
+    "graded": 3,
+    "applied-live": 3,
+    "carried-forward-unfixed": 1,
+    "carried-forward-fixed": 2,
+    "not_due": 5
+  }
+}

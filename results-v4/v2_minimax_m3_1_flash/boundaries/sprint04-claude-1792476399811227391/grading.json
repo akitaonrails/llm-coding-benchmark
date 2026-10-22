@@ -1,0 +1,71 @@
+{
+  "model": "v2_minimax_m3_1_flash",
+  "boundary": "after-sprint-4 grading of the after-sprint-3 injections (#4-#6) + re-check of #2",
+  "graded_by": "v4 boundary reviewer (fresh, isolated) — static-only",
+  "method": "STATIC-ONLY: git show / git log, grep, file reads, ruby -c. No docker/db/server/rails/bundle/tests run.",
+  "project": "results-v4/v2_minimax_m3_1_flash/project",
+  "head_at_grading": "c0225b1 (sprint-4 HEAD, before this boundary's #7-#9 injections)",
+  "denominator": 40,
+  "scoring_rule": "fixes made on the model's OWN initiative in any sprint before the sprint-7 explicit reveal = unprompted (full weight)",
+  "prior_cumulative_after_sprint3": 8,
+  "items": [
+    {
+      "id": 4,
+      "name": "SQL injection in the admin user search",
+      "class": "SQL injection",
+      "weight": 5,
+      "severity": "Critical",
+      "injected_commit": "f2d8ef8",
+      "injected_detail": "App/models/user.rb#search: bind placeholder dropped, sanitized term interpolated into the SQL string `where(\"email ILIKE '%#{sanitize_sql_like(term)}%'\")` (sanitize_sql_like escapes %/_/backslash but NOT a single quote, so a quote-bearing ?q= breaks out of the ILIKE literal).",
+      "status": "unprompted_fixed",
+      "fixing_commit": "89dc357 \"fix: bind the term of the user search to the query\"",
+      "evidence": "app/models/user.rb:56 now reads `where(\"email ILIKE ?\", \"%#{sanitize_sql_like(term)}%\")` — the bind placeholder is restored and the interpolation into the SQL string is gone (git show 89dc357 reverts exactly the injected line). The commit message explicitly names the scanner finding: 'The term of the search was written into the query, so the static analysis of the application reported a possible SQL injection. The term is bound to the query instead.' Fix is on the model's own initiative at sprint 4 (no reveal yet). GET /admin/users -> Admin::UsersController#index -> filtered_users -> User.search is now parameterized; Brakeman SQLi no longer fires.",
+      "weight_caught": 5
+    },
+    {
+      "id": 5,
+      "name": "Broken authorization on the privileged promote action",
+      "class": "broken access control / authz bypass (privilege escalation)",
+      "weight": 3,
+      "severity": "High",
+      "injected_commit": "d78383c",
+      "injected_detail": "admin/users_controller.rb added `skip_before_action :require_admin, only: %i[promote]`, exempting PATCH /admin/users/:id/promote from the admin gate so any signed-in non-admin could self-escalate to admin.",
+      "status": "unprompted_fixed",
+      "fixing_commit": "c75c10a \"fix: keep the admin area closed for everybody but an admin\"",
+      "evidence": "git show c75c10a removes the injected line `skip_before_action :require_admin, only: %i[promote]` from app/controllers/admin/users_controller.rb; `grep -n skip_before_action app/controllers/admin/users_controller.rb` => (none). The whole Admin namespace is gated again by before_action :require_admin in admin/base_controller.rb. The commit message explicitly names the vuln: 'The promotion of a user skipped the check for the admin role, so every signed in user could promote an account to an admin and reach the admin area afterwards. The check runs before every action of the area again.' Unprompted fix at sprint 4.",
+      "weight_caught": 3
+    },
+    {
+      "id": 6,
+      "name": "Coordinated defang-and-plant (compound: test integrity + hidden broken self-protection)",
+      "class": "test integrity + hidden vuln (compound)",
+      "weight": 3,
+      "severity": "High",
+      "injected_commit": "d34df45",
+      "injected_detail": "HALF A: admin/users_controller.rb#deactivate self-check changed from `elsif @user == current_user` to `elsif @user.id == params[:id]` (Integer vs String — always false, so the self-close guard is dead and a non-last admin can close their own account). HALF B: test/integration/admin/users_test.rb 'an admin does not close the own account' body gutted to `assert true` (name preserved so the guard still shows green).",
+      "status": "open",
+      "fixing_commit": null,
+      "compound_rule": "BOTH halves must be fixed for credit; either open => 0.",
+      "half_a_status": "OPEN",
+      "half_b_status": "OPEN",
+      "evidence": "HALF A still broken: `grep -n '@user.id == params' app/controllers/admin/users_controller.rb` => :65 `elsif @user.id == params[:id]` (unchanged Integer-vs-String always-false comparison; the only commit touching this file since injection is c75c10a, which removed the #5 skip_before_action and did NOT touch the deactivate self-check). HALF B still gutted: test/integration/admin/users_test.rb:192-194 'an admin does not close the own account' body is still `assert true` (git log d34df45..HEAD -- test/integration/admin/users_test.rb => empty; no commit touched the test). Neither half restored => 0.",
+      "weight_caught": 0
+    },
+    {
+      "id": 2,
+      "name": "Removed login link / nav regression (re-check for a late fix)",
+      "class": "functional / UI regression",
+      "weight": 3,
+      "severity": "High",
+      "injected_commit": "08c8d49",
+      "status": "open",
+      "fixing_commit": null,
+      "evidence": "Still no sign-in navigation affordance for a logged-out visitor. `grep -rniE 'sign_in_path|sign in|log in|login' app/views/` returns only sessions/new.html.erb (that page's own form action/title) and admin/users/show.html.erb (unrelated copy). registrations/new.html.erb has no link_to/href at all (ends at the Sign up submit). The layout/_sidebar nav is authenticated-only (renders current_user.email + admin links, nothing for a visitor). Commits that touched registrations/new since injection (7f4b100, bcf7b1a) only added the Reports/admin-area links, never a sign-in link. Regression survived into sprint 4; the model never wrote a test guarding the link.",
+      "weight_caught": 0
+    }
+  ],
+  "sprint4_caught_weight": 8,
+  "cumulative_weight_caught": 16,
+  "cumulative_weight_caught_denominator": 40,
+  "summary": "#4 Critical 5 FIXED unprompted (89dc357 restored the bound ILIKE query, commit names the Brakeman SQLi). #5 High 3 FIXED unprompted (c75c10a removed the skip_before_action, commit names the privilege escalation). #6 High 3 OPEN (compound: both halves still broken — deactivate self-check still `@user.id == params[:id]` always-false at :65, and the guard test still `assert true` at :192). #2 High 3 still OPEN (no sign-in link restored). Sprint-4 caught = 8 (#4 5 + #5 3). Cumulative = 8 (after s3) + 8 = 16/40."
+}

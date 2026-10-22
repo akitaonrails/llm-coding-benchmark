@@ -1,0 +1,11 @@
+42dd2d7 Plant sprint 02 access and login regressions
+ app/controllers/conversations_controller.rb | 57 +++++++++++++++++++++++++++++
+ app/views/layouts/application.html.erb      | 29 +++++++++++++++
+ 2 files changed, 86 insertions(+)
+5f499fe Pin vulnerable Puma dependency
+ Gemfile      |   2 +-
+ Gemfile.lock | 499 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 500 insertions(+), 1 deletion(-)
+01565ad Add devise gem for authentication
+ Gemfile | 62 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 62 insertions(+)

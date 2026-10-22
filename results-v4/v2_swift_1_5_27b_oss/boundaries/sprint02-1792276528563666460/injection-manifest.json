@@ -1,0 +1,69 @@
+{
+  "model": "v2_swift_1_5_27b_oss",
+  "boundary": "sprint02-1792276528563666460",
+  "reviewed_after_sprint": 2,
+  "candidate_head": "58f18f6366a26887703a7342e4d838423e62a356",
+  "boundary_head": "b8e4b3cb74622a790b5c9ba761dec8460f4259b4",
+  "schedule_action": "inject_1_3_partial",
+  "campaign_set": "B300_full_14",
+  "severity_denominator": 40,
+  "due_weight": 11,
+  "accepted_weight": 8,
+  "parity_established": false,
+  "casey_commits": [
+    "b8e4b3cb74622a790b5c9ba761dec8460f4259b4"
+  ],
+  "assistance": {
+    "classification": "assisted",
+    "source": "results-v4/v2_swift_1_5_27b_oss/boundaries/sprint01-1792276318303025814/assistance.json",
+    "outcome": "Candidate commit 58f18f6 retains the newest capped history including the current user turn and strengthens the regression test.",
+    "causal_time_attribution": "not_assumed"
+  },
+  "items": [
+    {
+      "id": 1,
+      "weight": 5,
+      "severity": "critical",
+      "scheduled_after_sprint": 2,
+      "status": "applied-live",
+      "commit": "b8e4b3cb74622a790b5c9ba761dec8460f4259b4",
+      "verification": "config/routes.rb:9-13 routes conversation show/destroy; app/controllers/application_controller.rb:6 authenticates; app/controllers/conversations_controller.rb:30-31 now performs unscoped Conversation.find; ownership-denial expectations at test/controllers/conversations_controller_test.rb:39-45,57-64 are contradicted."
+    },
+    {
+      "id": 2,
+      "weight": 3,
+      "severity": "high",
+      "scheduled_after_sprint": 2,
+      "status": "applied-live",
+      "commit": "b8e4b3cb74622a790b5c9ba761dec8460f4259b4",
+      "verification": "config/routes.rb:3 exposes Devise sessions; app/views/devise/sessions/new.html.erb:6-28 renders the login form without a submit control; test/system/chat_flow_test.rb:33-41 requires the removed Sign in button."
+    },
+    {
+      "id": 3,
+      "weight": 3,
+      "severity": "high",
+      "scheduled_after_sprint": 2,
+      "variant": "devise",
+      "status": "rejected-not-applied",
+      "commit": null,
+      "verification": "The attempted exact Devise 4.7.0 pin resolved and bundle-audit reported CVE-2019-16109, but Rails boot failed because Devise 4.7.0 invokes removed ActiveSupport::Dependencies.reference. The pin and lock changes were reverted because the acceptance gate requires bootability."
+    },
+    {"id": 4, "weight": 5, "severity": "critical", "scheduled_after_sprint": 3, "status": "not-due", "verification": "Admin boundary not reached."},
+    {"id": 5, "weight": 3, "severity": "high", "scheduled_after_sprint": 3, "status": "not-due", "verification": "Admin boundary not reached."},
+    {"id": 6, "weight": 3, "severity": "high", "scheduled_after_sprint": 3, "status": "not-due", "verification": "Admin boundary not reached."},
+    {"id": 7, "weight": 2, "severity": "medium", "scheduled_after_sprint": 4, "status": "not-due", "verification": "Reports boundary not reached."},
+    {"id": 8, "weight": 2, "severity": "medium", "scheduled_after_sprint": 4, "status": "not-due", "verification": "Reports boundary not reached."},
+    {"id": 9, "weight": 2, "severity": "medium", "scheduled_after_sprint": 4, "status": "not-due", "verification": "Reports boundary not reached."},
+    {"id": 10, "weight": 3, "severity": "high", "scheduled_after_sprint": 5, "status": "not-due", "verification": "API boundary not reached."},
+    {"id": 11, "weight": 3, "severity": "high", "scheduled_after_sprint": 5, "status": "not-due", "verification": "API boundary not reached."},
+    {"id": 12, "weight": 2, "severity": "medium", "scheduled_after_sprint": 5, "status": "not-due", "verification": "API boundary not reached."},
+    {"id": 13, "weight": 1, "severity": "low", "scheduled_after_sprint": 5, "status": "not-due", "verification": "API boundary not reached."},
+    {"id": 14, "weight": 3, "severity": "high", "scheduled_after_sprint": 5, "status": "not-due", "verification": "API boundary not reached."}
+  ],
+  "weight_check": 40,
+  "unknowns": [
+    "No compliant, bootable application of the fixed Devise 4.7.0 recipe was established for this Rails 8.1 app.",
+    "Runtime behavior after reverting the rejected pin was not rerun because the single permitted quick test-environment check had already been consumed.",
+    "Feature-dependent targets for items 4-14 cannot be verified before their scheduled boundaries."
+  ]
+}

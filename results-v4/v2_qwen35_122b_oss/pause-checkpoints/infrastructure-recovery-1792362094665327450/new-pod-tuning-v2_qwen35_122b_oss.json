@@ -1,0 +1,26 @@
+{
+  "trials": [
+    {
+      "index": 0,
+      "serve_args": "--reasoning-parser qwen3 --enable-auto-tool-choice --tool-call-parser qwen3_coder --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity --language-model-only",
+      "exit_code": 0,
+      "started_at": 1792278342.4088657,
+      "finished_at": 1792278448.6367364,
+      "passed": true,
+      "decode_tokens_per_second": 180.41743893148185,
+      "tool_preflight_passed": true,
+      "serving_fingerprint": "777c1f45d10fd0b5e3eb878a3714fc2a775c43fe3a5ad3321cd0ab3285a3fb54",
+      "evidence": [
+        "results-v4/_b300_campaign/migration-20261017/perf-v2_qwen35_122b_oss-restored-pod-0-1792278441091235319.json",
+        "results-v4/_b300_campaign/migration-20261017/preflight-v2_qwen35_122b_oss-1792278438829536796.json",
+        "results-v4/_b300_campaign/model-cards/v2_qwen35_122b_oss.md"
+      ],
+      "revision": "a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9"
+    }
+  ],
+  "deadline": 1792281031.3440259,
+  "resumed_frozen_recipe": true,
+  "official_card": "results-v4/_b300_campaign/model-cards/v2_qwen35_122b_oss.md",
+  "research_source": "https://docs.vllm.ai/en/latest/configuration/optimization/",
+  "rationale": "Native MTP when model card supplies recipe; otherwise bounded smaller prefill batch tests for latency. No context/output/reasoning reduction."
+}

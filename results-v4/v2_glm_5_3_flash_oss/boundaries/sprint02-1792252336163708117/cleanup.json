@@ -1,0 +1,55 @@
+{
+  "timestamp": "2026-10-17T12:55:15-03:00",
+  "task": "fresh isolated v4 sprint02 boundary review and injection",
+  "scope": "results-v4/v2_glm_5_3_flash_oss",
+  "inventory": {
+    "persistent_processes_created": [],
+    "containers_or_networks_created_or_used": [],
+    "test_environments_started": [],
+    "scratch_paths": [
+      "/tmp/v4_glm53flash_oss_s02_tool_inputs.tsv"
+    ],
+    "preexisting_pid_files": [
+      {
+        "path": "project/tmp/pids/server.pid",
+        "pid": 4060837,
+        "process_present_at_cleanup": false
+      }
+    ]
+  },
+  "removed": [
+    {
+      "path": "/tmp/v4_glm53flash_oss_s02_tool_inputs.tsv",
+      "classification": "reviewer-created regenerable transcript-input extraction",
+      "verification": "path absent at cleanup"
+    }
+  ],
+  "retained": [
+    {
+      "path": "project/",
+      "reason": "candidate source, planted Casey commits, databases, logs, screenshots, temporary files, and git evidence must be preserved"
+    },
+    {
+      "path": "sprints/",
+      "reason": "raw prompts, transcripts, stderr, metadata, and git-log evidence"
+    },
+    {
+      "path": "pause-checkpoints/ and RESUME.md",
+      "reason": "paused/resumption evidence explicitly preserved"
+    },
+    {
+      "path": "project/tmp/pids/server.pid",
+      "reason": "preexisting stale evidence file; referenced process 4060837 was absent, and project temp evidence is retained by instruction"
+    },
+    {
+      "path": "boundaries/sprint02-1792252336163708117/agent.ndjson, prompt.txt, schema.json, report.md, cleanup.json",
+      "reason": "boundary provenance, raw reviewer transcript, verdict, and cleanup evidence"
+    }
+  ],
+  "notes": [
+    "No Docker command, server, HTTP loop, or test environment was run.",
+    "All reviewer shell processes completed normally; there was no task-owned persistent process to stop.",
+    "No images, containers, volumes, networks, caches, project logs, databases, sessions, or evidence were deleted.",
+    "No reclaimed-space claim was made because no material resource was removed."
+  ]
+}

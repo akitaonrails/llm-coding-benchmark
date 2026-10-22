@@ -1,0 +1,17 @@
+{
+  "index": 0,
+  "serve_args": "--trust-remote-code --tool-call-parser qwen3_coder --reasoning-parser nemotron_v3 --enable-auto-tool-choice --max-model-len 131072 --kv-cache-dtype fp8 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity",
+  "exit_code": 0,
+  "started_at": 1792409868.88181,
+  "finished_at": 1792410873.9482772,
+  "passed": true,
+  "decode_tokens_per_second": 220.13032685731943,
+  "tool_preflight_passed": true,
+  "serving_fingerprint": "0c806a3c7e12f6d5b64fb9dc9ece7e48309104dd5f73edb9381390719ab8aade",
+  "evidence": [
+    "results-v4/_b300_campaign/migration-20261017/perf-v2_nemotron35_super_vl_oss-restored-pod-0-1792410867191871916.json",
+    "results-v4/_b300_campaign/migration-20261017/preflight-v2_nemotron35_super_vl_oss-1792410863450868351.json",
+    "results-v4/_b300_campaign/model-cards/v2_nemotron35_super_vl_oss.md"
+  ],
+  "revision": "59b8721646c38111a242da18218859fb2b454322"
+}

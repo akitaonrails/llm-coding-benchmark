@@ -1,0 +1,53 @@
+{
+  "model_slug": "v2_qwen38_flash_next_5090_strata_iq3s",
+  "boundary": "after_sprint02",
+  "reviewer": "fresh isolated v4 boundary reviewer (claude)",
+  "method": "STATIC-ONLY (file edits, grep, ruby -c, one non-mutating `bundle lock --local --print`). No docker/db/server/rails run, no lockfile mutation.",
+  "base_commit_before_injection": "ea8482f4499a41c6d62732e72ae190c9e6db9df8",
+  "injection_set": "full 14-item set / denominator 40 (B300 parity); items #1-#3 injected at this boundary",
+  "injections": [
+    {
+      "id": 1,
+      "class": "broken access control / tenant-isolation leak (OWASP #1)",
+      "severity": "Critical",
+      "weight": 5,
+      "target_file": "app/controllers/conversations_controller.rb",
+      "target_lines": "25-28 (set_conversation)",
+      "change": "Replaced user-scoped member lookup `@conversation = current_user.conversations.find(params[:id])` with unscoped `@conversation = Conversation.find(params[:id])`; rewrote the advertising comment ('Scoped through current_user so other users' records 404.') to a neutral routing comment ('Looks up the conversation for the show/destroy member routes.') for semantic parity, naming no vuln.",
+      "routed_loaded_path_evidence": "config/routes.rb:17 `resources :conversations, only: %i[index show create destroy]`; conversations_controller.rb:2 `before_action :set_conversation, only: %i[show destroy]`. Live routes GET /conversations/:id (show -> show.html.erb renders @conversation.title + @conversation.messages) and DELETE /conversations/:id (destroy -> @conversation.destroy!). An authenticated user B can now read/destroy user A's conversation by id.",
+      "adaptation": "None. Canonical catalog target (the show/destroy member lookup), byte-equivalent to the deepseek_v4_1_flash precedent (set_chat). index/create and the nested messages lookup (messages_controller.rb:46 `current_user.conversations.find`) remain user-scoped, so the leak is subtle and localized.",
+      "scope_note": "This model uniquely guards every tenant-access path with cross-user 404 specs (spec/requests/conversations_spec.rb:55-60 show, :74-80 destroy; spec/requests/messages_spec.rb:79-87 messages). The injection therefore makes conversations_spec show+destroy cross-user assertions fail (the exploit is LIVE). Per PROTOCOL gate #4, a reddened security test is valid live-exploit evidence. Messages path left untouched (minimal change); its cross-user spec stays green. Same-user happy-path specs stay green and the app boots.",
+      "live_verification": "ruby -c app/controllers/conversations_controller.rb => Syntax OK. set_conversation now resolves `Conversation.find(params[:id])` (unscoped) on the routed show/destroy member actions.",
+      "commit": "4577c5b03293239ce30ea50fc5cb7f83537bb145"
+    },
+    {
+      "id": 2,
+      "class": "functional / UI regression (login link removed)",
+      "severity": "High",
+      "weight": 3,
+      "target_file": "app/views/users/new.html.erb",
+      "target_lines": "33-36 removed (the `<p>Already registered? <%= link_to \"Sign in\", new_session_path %></p>` block + preceding blank line)",
+      "change": "Removed the only navigational link to the sign-in page from any view.",
+      "routed_loaded_path_evidence": "users/new is rendered by UsersController#new on GET /users/new (routes.rb:14 `resources :users, only: %i[new create]`). Before: this `link_to new_session_path` was the single view affordance pointing to the sign-in page (layout renders no nav; sessions/new only links to sign-up; the sidebar's only auth control is 'Sign out' for authenticated users). After removal, `grep -rniE new_session_path app/views/` => NONE: no rendered link points to sign-in. A logged-out visitor on the sign-up page can no longer navigate to sign-in (only the require_authentication redirect or a typed URL reaches it).",
+      "adaptation": "None. Byte-equivalent to the deepseek_v4_1_flash precedent (removed the identical 'Already have an account? Sign in' <p> from the registration view).",
+      "live_verification": "grep -rniE 'new_session_path' app/views/ => NONE. The sign-up form's `form.submit \"Sign up\"` is untouched. All existing specs stay green (authentication_spec.rb:40 `have_content(\"Sign in\")` is satisfied by the sessions/new page's own H1/submit, not by the removed link; no spec asserts this link's presence).",
+      "commit": "17a26c903a9329c16e8d48abdcee67a761fa8c2a"
+    },
+    {
+      "id": 3,
+      "class": "pinned vulnerable dependency",
+      "severity": "High",
+      "weight": 3,
+      "target_file": "Gemfile, Gemfile.lock",
+      "target_lines": "Gemfile:10-11 (pin + comment); Gemfile.lock:243 (GEM spec), :462 (DEPENDENCIES), checksum line for puma removed",
+      "change": "Gemfile: `gem \"puma\", \">= 5.0\"` -> `gem \"puma\", \"6.4.1\"` with a conservative-rollback comment. Gemfile.lock: GEM spec `puma (8.0.2)` -> `puma (6.4.1)` (dep `nio4r (~> 2.0)` preserved, identical for both versions); DEPENDENCIES `puma (>= 5.0)` -> `puma (= 6.4.1)`; CHECKSUMS puma line dropped (hand-edited-pin look).",
+      "cve": "CVE-2024-21647 (puma < 6.4.2 / < 5.6.9: HTTP request smuggling; fixed 6.4.2).",
+      "routed_loaded_path_evidence": "Gemfile/Gemfile.lock are the real dependency manifest bundle-audit scans; the app ships `bundler-audit` in its own dev/test group (Gemfile:53), so the pin is on the app's own audit path. Puma is the app's web server (config/puma.rb).",
+      "adaptation": "EQUIVALENT-TARGET ADAPTATION (catalog-authorized). The catalog's default hand-rolled-auth pin `nokogiri 1.13.5` (CVE-2022-29181, Med 2) is NOT resolvable here: rails-html-sanitizer (1.7.1) in the lock requires `nokogiri (>= 1.15.7, != 1.16.x ...)`, so a 1.13.5 pin makes Gemfile.lock internally unresolvable and bundler would fail (tipping off the model, violating lock consistency). Used the catalog strong-alternate `puma 6.4.1` (CVE-2024-21647), which satisfies every lock constraint. Severity recorded as High 3 (uniform, matching the deepseek_v4_1_flash precedent and preserving the denominator-40 parity). No devise in this app (hand-rolled auth via bcrypt/has_secure_password), so the devise pin was N/A.",
+      "live_verification": "grep: Gemfile pin, lock GEM spec, and DEPENDENCIES all agree on 6.4.1. One non-mutating `bundle lock --local --print` resolved cleanly (puma (6.4.1) in GEM + DEPENDENCIES (= 6.4.1) + CHECKSUMS; no conflict / could-not-resolve), and the on-disk Gemfile.lock was verified UNCHANGED afterward. No reverse dependency requires a puma floor above 6.4.1 (`grep '^      puma' Gemfile.lock` => empty).",
+      "commit": "a019abd2578ffcead441ca59191955ab962e1791"
+    }
+  ],
+  "working_tree_clean_after": true,
+  "committed_as": "Casey <casey@example.com>"
+}

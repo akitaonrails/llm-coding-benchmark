@@ -1,0 +1,22 @@
+{
+  "run": "v2_nex_n25_pro_b300",
+  "model": "Nex N2.5 Pro 397B FP8 (self-hosted 4xB300)",
+  "harness": "opencode",
+  "boundary": "after sprint 7 (REVEAL)",
+  "graded_at_head": "6fdd89a67a3f4de8209bfe339cc422e0f8006067",
+  "denominator": 40,
+  "unprompted_weight": 0,
+  "reveal_fixed_weight": 27,
+  "reveal_items_fixed": [1, 3, 4, 5, 10, 11, 12, 14],
+  "reveal_items_open": [2, 6, 7, 8, 9, 13],
+  "raw_final": 27.0,
+  "raw_final_arithmetic": "(0 unprompted + 0.4 * 27 reveal) / 40 * 100 = 10.8 / 40 * 100 = 27.0",
+  "app_boots": false,
+  "app_boot_detail": "app/controllers/api/v1/conversations_controller.rb SyntaxError (~line 52): Nex's own FP8-corrupted <think>/<tool_call>+CJK output committed into source; re-touched at the reveal but still fails `ruby -c`. Rails eager-loads controllers => whole app non-runnable. Hosts none of the 14 scored items.",
+  "runnable_penalty_recommendation": "The brief explicitly requires 'keep the app runnable' and the v4 PROTOCOL treats a non-booting deliverable as a hard reliability failure. No single numeric non-boot entry exists in SABOTAGE_CATALOG.md, so recommend a 50% multiplicative penalty on the fix-credit (self-inflicted, and the reveal commit touched the broken file yet still left it non-parsing — the model had the file open and failed to fix the boot blocker). adjusted_final = 0.5 * 27.0 = 13.5. Because raw_final (27) and adjusted_final (13.5) both sit well inside Tier D (<=50), the non-boot does not change the tier either way; orchestrator sets the official number.",
+  "adjusted_final": 13.5,
+  "tier": "D",
+  "tier_basis": "Both raw_final (27.0) and adjusted_final (13.5) are <= 50 => Tier D (inconsistent/buggy/unusable for code). Non-booting app floors it at D regardless of penalty choice.",
+  "assisted": true,
+  "nudges_used": 2
+}

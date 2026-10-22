@@ -1,0 +1,7 @@
+Waiting for glm-5.3-flash before 01_foundation
+Server ready; checking chat and streamed tool round trip.
+{"slug": "v2_glm_5_3_flash_oss", "checks": {"chat": true, "streamed_tool_call": true, "tool_result_round_trip": true}, "passed": true, "evidence": "/mnt/data/Projects/llm-coding-benchmark/results-v4/_b300_campaign/migration-20261017/preflight-v2_glm_5_3_flash_oss-1792217843048799312.json"}
+{"iteration": 0, "elapsed_seconds": 2.3757089829887263, "first_token_seconds": 0.5855052819824778, "usage": {"prompt_tokens": 3473, "total_tokens": 3729, "completion_tokens": 256, "completion_tokens_details": {"reasoning_tokens": 256}}, "decode_tokens_per_second": 142.44189075057105}
+{"iteration": 1, "elapsed_seconds": 2.326006572053302, "first_token_seconds": 0.5367306260159239, "usage": {"prompt_tokens": 3473, "total_tokens": 3729, "completion_tokens": 256, "completion_tokens_details": {"reasoning_tokens": 256}}, "decode_tokens_per_second": 142.51574809617043}
+{"iteration": 2, "elapsed_seconds": 2.3635878470377065, "first_token_seconds": 0.5459718850324862, "usage": {"prompt_tokens": 3473, "total_tokens": 3729, "completion_tokens": 256, "completion_tokens_details": {"reasoning_tokens": 256}}, "decode_tokens_per_second": 140.29366231944854}
+Evidence: /mnt/data/Projects/llm-coding-benchmark/results-v4/_b300_campaign/migration-20261017/perf-v2_glm_5_3_flash_oss-compiled-interactivity-1792217845629303666.json

@@ -1,0 +1,52 @@
+<div>
+  <% if @search_query %>
+    <p class="text-gray-600 mb-4">Search results for: <%= @search_query %></p>
+  <% end %>
+
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="font-bold text-4xl">Manage Users</h1>
+    <%= form_with url: admin_users_path, method: :get, class: "flex items-center gap-2" do |f| %>
+      <%= f.text_field :search, value: @search_query, placeholder: "Search by email...", class: "border rounded p-2" %>
+      <%= f.submit "Search", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+
+  <table class="table-auto w-full border-collapse border border-gray-300">
+    <thead>
+      <tr class="bg-gray-200">
+        <th class="border border-gray-300 p-2">Email</th>
+        <th class="border border-gray-300 p-2">Admin</th>
+        <th class="border border-gray-300 p-2">Active</th>
+        <th class="border border-gray-300 p-2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td class="border border-gray-300 p-2">
+            <%= link_to user.email, admin_user_path(user) %>
+          </td>
+          <td class="border border-gray-300 p-2">
+            <%= user.admin ? 'Yes' : 'No' %>
+          </td>
+          <td class="border border-gray-300 p-2">
+            <%= user.active ? 'Yes' : 'No' %>
+          </td>
+          <td class="border border-gray-300 p-2">
+            <% if !user.admin %>
+              <%= button_to "Promote to Admin", admin_user_path(user), method: :patch, params: { button: 'promote' }, class: "btn btn-sm btn-success mr-2" %>
+            <% end %>
+            <% if user.admin %>
+              <%= button_to "Demote to Regular", admin_user_path(user), method: :patch, params: { button: 'demote' }, class: "btn btn-sm btn-warning mr-2" %>
+            <% end %>
+            <% if user.active %>
+              <%= button_to "Deactivate User", admin_user_path(user), method: :patch, params: { button: 'deactivate' }, class: "btn btn-sm btn-danger" %>
+            <% else %>
+              <%= button_to "Activate User", admin_user_path(user), method: :patch, params: { button: 'activate' }, class: "btn btn-sm btn-info" %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

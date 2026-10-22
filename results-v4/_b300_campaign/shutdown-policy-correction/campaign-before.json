@@ -1,0 +1,197 @@
+{
+  "pod": {
+    "rate_usd_per_hour": 9.09,
+    "ssh_target_file": "/tmp/runpod.txt",
+    "exec_helper": "scripts/pod_exec.py",
+    "weights_dir": "/root/models",
+    "vllm_port": 8000,
+    "serve_script": "/root/serve_model.sh",
+    "vllm_log": "/root/logs/vllm.log"
+  },
+  "guard": {
+    "per_model_sprint_budget_seconds": 14400,
+    "note": "User revised guard to 4h on 2026-10-17: cumulative sprint execution per clean model attempt, with elapsed time retained when updating an active watchdog. Download, serving calibration and grading are excluded from sprint budget but tracked in pod costs. On timeout preserve partial evidence and report failure to finish within this workflow budget, not universal model unusability."
+  },
+  "harness": {
+    "provider": "runpod-vllm",
+    "opencode_base_url": "http://localhost:8100/v1",
+    "tunnel_note": "SSH port-forward localhost:8100 -> pod:8000 (RunPod proxy SSH cannot -L without PTY; use public proxy URL or pexpect-driven tunnel)"
+  },
+  "queue": [
+    {
+      "slug": "v2_glm_5_3_flash_oss",
+      "hf_repo": "RedHatAI/GLM-5.3-Flash-NVFP4",
+      "local_dir": "glm53flash-nvfp4",
+      "size_gb": 198,
+      "served_name": "glm-5.3-flash",
+      "serve_args": "--tool-call-parser glm47 --reasoning-parser glm47 --enable-auto-tool-choice --max-model-len 131072 --kv-cache-dtype fp8 --gpu-memory-utilization 0.92 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity",
+      "notes": "Open-weights consistency check vs cloud 84.25; glm47 reasoning parser per current official GLM-5.3-Flash recipe."
+    },
+    {
+      "slug": "v2_qwen35_122b_oss",
+      "hf_repo": "Qwen/Qwen3.5-122B-A10B-FP8",
+      "local_dir": "qwen35-122b-fp8",
+      "size_gb": 125,
+      "served_name": "qwen3.5-122b",
+      "serve_args": "--reasoning-parser qwen3 --enable-auto-tool-choice --tool-call-parser qwen3_coder --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity --language-model-only",
+      "notes": "Never v4-tested; official FP8",
+      "run_only_if_dnf": "v2_qwen35_397b_oss"
+    },
+    {
+      "slug": "v2_qwen35_397b_oss",
+      "hf_repo": "nvidia/Qwen3.5-397B-A17B-NVFP4",
+      "local_dir": "qwen35-397b-nvfp4",
+      "size_gb": 251,
+      "served_name": "qwen3.5-397b",
+      "serve_args": "--quantization modelopt --kv-cache-dtype fp8 --reasoning-parser qwen3 --enable-auto-tool-choice --tool-call-parser qwen3_coder --max-model-len 131072 --gpu-memory-utilization 0.95 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity --language-model-only",
+      "notes": "Tight fit: 251GB weights on 275GB. First ~400B flagship row."
+    },
+    {
+      "slug": "v2_dsv4_flash_oss",
+      "hf_repo": "deepseek-ai/DeepSeek-V4-Flash",
+      "local_dir": "dsv4-flash",
+      "size_gb": 167,
+      "served_name": "dsv4-flash",
+      "serve_args": "--trust-remote-code --tokenizer-mode deepseek_v4 --reasoning-parser deepseek_v4 --enable-auto-tool-choice --tool-call-parser deepseek_v4 --max-model-len 131072 --gpu-memory-utilization 0.92 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity",
+      "notes": "Official mixed FP4/FP8 0731; consistency vs cloud wave-3 runs"
+    },
+    {
+      "slug": "v2_nemotron35_super_vl_oss",
+      "hf_repo": "nvidia/NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-NVFP4",
+      "local_dir": "nemotron35-supervl-nvfp4",
+      "size_gb": 70,
+      "served_name": "nemotron-3.5-super-vl",
+      "serve_args": "--trust-remote-code --tool-call-parser qwen3_coder --reasoning-parser nemotron_v3 --enable-auto-tool-choice --max-model-len 131072 --kv-cache-dtype fp8 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity",
+      "notes": "Swapped per user 2026-10-16 (was Nemotron-3-Super): 3.5 Super VL (Oct 15 2026) is 2x smarter (AA 26.5 vs 13), NVFP4 near-lossless, leading US open-weight model. Rescues the NVIDIA infra-DNF row AND tests their current best.",
+      "runtime_venv": "/root/venv-nemotron032",
+      "cuda_home": "/usr/local/cuda-13.0",
+      "runtime_source": "https://wheels.vllm.ai/3f1bcfd82bb2e93fcd364fc7a5491718453a77e2/"
+    },
+    {
+      "slug": "v2_qwen3_8_27b_oss",
+      "hf_repo": "Qwen/Qwen3.8-27B",
+      "local_dir": "qwen38-27b-bf16",
+      "size_gb": 54,
+      "served_name": "qwen3.8-27b",
+      "serve_args": "--reasoning-parser qwen3 --enable-auto-tool-choice --tool-call-parser qwen3_coder --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity --language-model-only --speculative-config '{\"method\":\"mtp\",\"num_speculative_tokens\":3}'",
+      "notes": "Full-fidelity redo of the sprint-3 coherence wall",
+      "recovery_candidates": [
+        "--reasoning-parser qwen3 --enable-auto-tool-choice --tool-call-parser qwen3_coder --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity --language-model-only --speculative-config '{\"method\":\"mtp\",\"num_speculative_tokens\":3}'",
+        "--reasoning-parser qwen3 --enable-auto-tool-choice --tool-call-parser qwen3_coder --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity --language-model-only --speculative-config '{\"method\":\"mtp\",\"num_speculative_tokens\":1}'",
+        "--reasoning-parser qwen3 --enable-auto-tool-choice --tool-call-parser qwen3_coder --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity --language-model-only --speculative-config '{\"method\":\"mtp\",\"num_speculative_tokens\":5}'"
+      ]
+    },
+    {
+      "slug": "v2_glm_4_7_flash_bf16_oss",
+      "hf_repo": "zai-org/GLM-4.7-Flash",
+      "local_dir": "glm47flash-bf16",
+      "size_gb": 60,
+      "served_name": "glm-4.7-flash",
+      "serve_args": "--tool-call-parser glm47 --reasoning-parser glm45 --enable-auto-tool-choice --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity",
+      "notes": "Quant-vs-model A/B vs local Q5_K_M 24.0"
+    },
+    {
+      "slug": "v2_qwen3_8_flash_next_oss",
+      "hf_repo": "nvidia/Qwen3.8-Flash-Next-NVFP4",
+      "local_dir": "qwen38-flashnext-nvfp4",
+      "size_gb": 100,
+      "served_name": "qwen3.8-flash-next",
+      "serve_args": "--quantization modelopt --reasoning-parser qwen3 --enable-auto-tool-choice --tool-call-parser qwen3_coder --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity",
+      "notes": "Qwen4-architecture preview: 125B-A6B + 51B PLE n-gram + 4B MTP"
+    },
+    {
+      "slug": "v2_muse_glimmer_30b_oss",
+      "hf_repo": "meta-models/Muse-Glimmer-30B",
+      "local_dir": "muse-glimmer-30b-bf16",
+      "size_gb": 60,
+      "served_name": "muse-glimmer",
+      "serve_args": "--dtype bfloat16 --tool-call-parser muse_glimmer --reasoning-parser muse_glimmer --enable-auto-tool-choice --generation-config auto --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity --speculative-config '{\"method\":\"dflash\",\"model\":\"/root/models/muse-glimmer-assistant\",\"num_speculative_tokens\":15}'",
+      "notes": "User-added Apache-2.0 30B dense model distilled from Muse Spark. BF16, cumulative 4h sprint budget. Current official recipe supports vLLM >=0.28; paired muse_glimmer parsers required. If baseline is below 100 tok/s, test official pinned DFlash assistant within tuning limits.",
+      "draft_repo": "meta-models/Muse-Glimmer-30B-assistant",
+      "draft_revision": "e8192f3a8f617f74be2ce220360c89ef4789f39f"
+    },
+    {
+      "slug": "v2_command_a_plus_oss",
+      "hf_repo": "CohereLabs/command-a-plus-05-2026-w4a4",
+      "local_dir": "command-a-plus-w4a4",
+      "size_gb": 132.0,
+      "served_name": "command-a-plus",
+      "serve_args": "--tool-call-parser cohere_command4 --reasoning-parser cohere_command4 --enable-auto-tool-choice --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity",
+      "notes": "User-approved 2026-10-17. Official W4A4 recommended by Cohere for single Blackwell GPU; 218B total/25B active; Apache-2.0. Requires vLLM >=0.25 and cohere_melody. Same cumulative 4h guard; preflight required."
+    },
+    {
+      "slug": "v2_ornith_1_5_35b_oss",
+      "hf_repo": "ornith-ai/Ornith-1.5-35B-A3B",
+      "local_dir": "ornith15-35b-bf16",
+      "size_gb": 70,
+      "served_name": "ornith-1.5-35b",
+      "serve_args": "--dtype bfloat16 --tool-call-parser qwen3_xml --reasoning-parser qwen3 --enable-auto-tool-choice --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity",
+      "notes": "User-approved 2026-10-17. MIT 35B total/3B active agentic MoE. Official BF16 checkpoint and bundled chat template; standard 128K context and 4h guard. Independent test of reported post-training improvements."
+    },
+    {
+      "slug": "v2_nex_n2_5_mini_oss",
+      "hf_repo": "nex-agi/Nex-N2.5-mini",
+      "local_dir": "nex-n25-mini-bf16",
+      "size_gb": 71,
+      "served_name": "nex-n2.5-mini",
+      "serve_args": "--dtype bfloat16 --tool-call-parser qwen3_coder --reasoning-parser qwen3 --enable-auto-tool-choice --chat-template /root/models/nex-n25-mini-bf16/chat_template.jinja --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity --language-model-only",
+      "notes": "User-approved 2026-10-17. Original Apache-2.0 BF16 35B agentic MoE. Bundled template default adaptive/medium reasoning (undefined matches medium); never disable reasoning for speed. 100 tok/s admission, max 3 configs/45 min tuning, cumulative 4h sprint guard. Official SGLang recipe reviewed; vLLM Qwen3.5 path requires actual tool preflight."
+    },
+    {
+      "slug": "v2_swift_1_5_27b_oss",
+      "hf_repo": "ukisai/Swift-1.5-Qwen3.8-27b",
+      "local_dir": "swift15-27b-bf16",
+      "size_gb": 56,
+      "served_name": "swift-1.5-27b",
+      "serve_args": "--dtype bfloat16 --tool-call-parser qwen3_coder --reasoning-parser qwen3 --enable-auto-tool-choice --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity --language-model-only --speculative-config '{\"method\":\"mtp\",\"num_speculative_tokens\":3}'",
+      "notes": "User-approved 2026-10-17. Original BF16 reasoning-efficient Qwen3.8-27B derivative. Preserve bundled default thinking mode. 128K context/32K output, 100 tok/s admission, max 3 configs/45min optimization, cumulative 4h sprint guard. Official MTP3 recipe is first below-threshold alternative; never disable reasoning to pass throughput."
+    },
+    {
+      "slug": "v2_thinkingcap_3_8_27b_oss",
+      "hf_repo": "bottlecapai/ThinkingCap-Qwen3.8-27B",
+      "local_dir": "thinkingcap38-27b-bf16",
+      "size_gb": 56,
+      "served_name": "thinkingcap-3.8-27b",
+      "serve_args": "--dtype bfloat16 --tool-call-parser qwen3_xml --reasoning-parser qwen3 --enable-auto-tool-choice --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity --language-model-only --speculative-config '{\"method\":\"mtp\",\"num_speculative_tokens\":3,\"draft_sample_method\":\"probabilistic\"}'",
+      "notes": "User-approved 2026-10-17. Original BF16 reasoning-efficient Qwen3.8-27B derivative. Preserve bundled default thinking mode. 128K context/32K output, 100 tok/s admission, max 3 configs/45min optimization, cumulative 4h sprint guard. Official MTP3 recipe is first below-threshold alternative; never disable reasoning to pass throughput."
+    }
+  ],
+  "optimization_policy": {
+    "require_per_model_validation": true,
+    "checks": [
+      "CUDA graphs/compilation active or documented compatibility exception",
+      "prefix and KV caching verified",
+      "native quantized attention/MoE kernels verified",
+      "fixed cold/warm prompt throughput probes",
+      "streamed tool-call round trip",
+      "MTP evaluated where checkpoint and backend support it"
+    ],
+    "note": "Do not lower reasoning effort/context/output budget to improve timing. Freeze validated serving settings for each clean attempt.",
+    "minimum_decode_tokens_per_second": 100,
+    "max_configurations_per_model": 3,
+    "max_tuning_wall_seconds": 2700,
+    "probe_definition": "Median of two warm single-request 256-output-token probes after one cold probe; same fixed 3473-token GLM prompt (token counts vary by tokenizer). Decode rate excludes time to first token.",
+    "on_failure": "Preserve evidence; annotate throughput infrastructure skip, never model-quality failure; continue next model.",
+    "threshold_note": "User raised provisional threshold from 50 to 100 tok/s on 2026-10-17. Admission uses two warm fixed single-request measurements; their median equals their arithmetic mean. Report sustained benchmark decode separately.",
+    "official_model_card_review": "Always inspect the official Hugging Face model card, even when the first throughput probe is >=100 tok/s. Record applicable inexpensive serving recommendations and adopted or deferred settings. Below 100 tok/s, do additional research and bounded optimization tests. Stop tuning once >=100 tok/s and the mandatory card review/tool checks are complete; maximum three configurations and 45 minutes remain."
+  },
+  "pause_policy": {
+    "cutoffs": "Pause pending post-batch review; retain workspace, generated code, temporary execution files, sessions, grading and injection state, logs and configuration. DNF is queue control, not final abandonment.",
+    "checkpoint": "Write PAUSED, RESUME.md and timestamped pause-checkpoints/state.json at each cutoff; export available OpenCode sessions.",
+    "weights_exception": "May remove downloaded model weights when space is needed after recording exact Hugging Face repository and immutable revision. Preserve all other resumable execution state.",
+    "gpu": "Archive logs and launch metadata before stopping owned inference process; GPU KV cache can be rebuilt."
+  },
+  "billing_safety": {
+    "paid_execution_enabled": true,
+    "blocked_reason": null,
+    "require_independent_remote_watchdog": true,
+    "require_persistent_supervisor": true,
+    "maximum_orphaned_compute_seconds": 300,
+    "watchdog_deployment": {
+      "host": "3d759a112ffc",
+      "pid": 1776,
+      "verified_at": 1792249957.6078897,
+      "verification": "remote PID alive; runpodctl stop pod syntax available; local 22-test suite passed; real shutdown not triggered on active pod"
+    }
+  }
+}

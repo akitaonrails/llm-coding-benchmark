@@ -1,0 +1,19 @@
+{
+  "slug": "v2_glm_4_7_flash_bf16_oss",
+  "sprint": "repair03_1792376285507471783",
+  "harness": "opencode",
+  "elapsed_seconds": 21.08,
+  "cost_usd": 0.0,
+  "tokens_total": 192085,
+  "exit_code": 0,
+  "stall_aborted": false,
+  "assistance": {
+    "sprint": "repair03_1792376285507471783",
+    "classification": "assisted",
+    "source": "/mnt/data/Projects/llm-coding-benchmark/results-v4/v2_glm_4_7_flash_bf16_oss/boundaries/sprint03-1792361950560738607/assistance.json",
+    "prompt": "Fix the admin users routes so GET /admin/users reaches index and member actions carry a user id; verify the controller and view helper names against bin/rails routes.",
+    "issued_at": 1792376285.5074933,
+    "timing": "Dedicated repair, capped at ten minutes and charged to cumulative sprint budget"
+  },
+  "assisted_run": true
+}

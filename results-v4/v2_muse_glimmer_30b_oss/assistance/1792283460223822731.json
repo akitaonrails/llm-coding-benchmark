@@ -1,0 +1,8 @@
+{
+  "sprint": "03_admin",
+  "prompt": "Fix the existing system-test driver setup error so the required system tests can run.",
+  "source": "/mnt/data/Projects/llm-coding-benchmark/results-v4/v2_muse_glimmer_30b_oss/boundaries/sprint02-1792283247121250307/assistance.json",
+  "issued_at": 1792283460.2237668,
+  "classification": "assisted",
+  "timing": "Included in this sprint and existing cumulative four-hour budget; no causal extra-time estimate"
+}
