@@ -1,0 +1,41 @@
+{
+  "created_at": 1792274368.932786,
+  "models": [
+    {
+      "slug": "v2_qwen35_397b_oss",
+      "boundary": 2,
+      "reason": "False root-only Rails detection; resume missed review then sprint03"
+    },
+    {
+      "slug": "v2_qwen35_122b_oss",
+      "boundary": 2,
+      "reason": "False root-only Rails detection; resume missed review then sprint03"
+    },
+    {
+      "slug": "v2_qwen3_8_27b_oss",
+      "reason": "CUDA12 loader resolution repaired and verified; restart from original serving baseline, preserve failed attempts"
+    },
+    {
+      "slug": "v2_glm_4_7_flash_bf16_oss",
+      "reason": "CUDA12 loader resolution repaired and verified; restart from original serving baseline, preserve failed attempts"
+    },
+    {
+      "slug": "v2_qwen3_8_flash_next_oss",
+      "reason": "CUDA12 loader resolution repaired and verified; restart from original serving baseline, preserve failed attempts"
+    },
+    {
+      "slug": "v2_muse_glimmer_30b_oss",
+      "reason": "CUDA12 loader resolution repaired and verified; restart from original serving baseline, preserve failed attempts"
+    },
+    {
+      "slug": "v2_command_a_plus_oss",
+      "reason": "CUDA12 loader resolution repaired and verified; restart from original serving baseline, preserve failed attempts"
+    },
+    {
+      "slug": "v2_ornith_1_5_35b_oss",
+      "reason": "CUDA12 loader resolution repaired and verified; restart from original serving baseline, preserve failed attempts"
+    }
+  ],
+  "nemotron": "Separate boundary reviewer security rejection; retain partial injections, do not automatically retry flagged injection operation",
+  "budget": "One bounded recovery pass; existing cumulative sprint budget retained; max3 configs/45min tuning per repaired infrastructure attempt"
+}

@@ -1,0 +1,15 @@
+{
+  "command_kind": "bash -lc",
+  "cost_usd": null,
+  "elapsed_seconds": 573.32,
+  "ended_at": "2026-10-14T07:37:20+00:00",
+  "exit_code": 1,
+  "file_count_after": 4532,
+  "harness": "muse",
+  "phase": "sprint06_production",
+  "session_id": "01a1394f-6619-7d43-af17-d69ab3f914c3",
+  "stall_aborted": false,
+  "started_at": "2026-10-14T07:27:47+00:00",
+  "timed_out": false,
+  "tokens": {}
+}

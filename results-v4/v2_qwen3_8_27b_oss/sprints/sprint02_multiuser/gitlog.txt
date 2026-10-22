@@ -1,0 +1,161 @@
+3a46963 docs: document sign-up and the bin/ci test entry point
+ README.md | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+60feaa2 ci: run the documented RSpec suite from the CI entry point
+ bin/rspec    | 16 ++++++++++++++++
+ config/ci.rb |  7 +++----
+ 2 files changed, 19 insertions(+), 4 deletions(-)
+9378e97 feat(auth): add self-service sign-up
+ app/controllers/application_controller.rb |  9 +++++
+ app/controllers/sessions_controller.rb    |  9 -----
+ app/controllers/users_controller.rb       | 24 +++++++++++++
+ app/views/sessions/new.html.erb           |  4 +++
+ app/views/users/new.html.erb              | 38 +++++++++++++++++++++
+ config/routes.rb                          |  1 +
+ spec/requests/users_spec.rb               | 56 +++++++++++++++++++++++++++++++
+ spec/system/sign_up_spec.rb               | 51 ++++++++++++++++++++++++++++
+ 8 files changed, 183 insertions(+), 9 deletions(-)
+fa75ce0 chore: add Docker build, compose, and docs
+ .env.example          |  24 ++++++++++
+ Dockerfile            |  64 +++++++++++++++++++++++++++
+ README.md             | 119 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ bin/docker-entrypoint |   9 ++++
+ docker-compose.yml    |  37 ++++++++++++++++
+ 5 files changed, 253 insertions(+)
+c6992f4 test: add RSpec setup, fake OpenRouter server, and system specs
+ .rspec                                 |   1 +
+ spec/rails_helper.rb                   |  75 ++++++++++++++++++++++
+ spec/spec_helper.rb                    | 110 +++++++++++++++++++++++++++++++++
+ spec/support/capybara.rb               |  21 +++++++
+ spec/support/fake_openrouter_server.rb |  90 +++++++++++++++++++++++++++
+ spec/system/chat_spec.rb               |  80 ++++++++++++++++++++++++
+ 6 files changed, 377 insertions(+)
+634378a feat(chat): add Conversation and Message models with streaming
+ app/controllers/conversations_controller.rb | 32 +++++++++++++++
+ app/controllers/messages_controller.rb      | 28 +++++++++++++
+ app/jobs/conversation_response_job.rb       | 25 +++++++++++
+ app/models/conversation.rb                  | 16 ++++++++
+ app/models/message.rb                       | 16 ++++++++
+ app/views/conversations/index.html.erb      |  8 ++++
+ app/views/conversations/show.html.erb       | 21 ++++++++++
+ app/views/layouts/_flashes.html.erb         | 12 ++++++
+ app/views/layouts/_sidebar.html.erb         | 20 +++++++++
+ app/views/layouts/application.html.erb      | 24 +++++++++++
+ app/views/messages/_assistant.html.erb      |  5 +++
+ app/views/messages/_form.html.erb           |  7 ++++
+ app/views/messages/_user.html.erb           |  5 +++
+ app/views/messages/create.turbo_stream.erb  |  3 ++
+ spec/factories/conversations.rb             |  7 ++++
+ spec/factories/messages.rb                  | 11 +++++
+ spec/models/conversation_spec.rb            | 64 +++++++++++++++++++++++++++++
+ spec/models/message_spec.rb                 | 62 ++++++++++++++++++++++++++++
+ 18 files changed, 366 insertions(+)
+00be50c feat(auth): add User model and session-based sign in/out
+ app/controllers/application_controller.rb | 25 +++++++++++++
+ app/controllers/sessions_controller.rb    | 38 +++++++++++++++++++
+ app/models/user.rb                        | 11 ++++++
+ app/views/sessions/new.html.erb           | 19 ++++++++++
+ db/seeds.rb                               |  8 ++++
+ spec/factories/users.rb                   |  6 +++
+ spec/models/user_spec.rb                  | 61 +++++++++++++++++++++++++++++++
+ 7 files changed, 168 insertions(+)
+090aa03 feat(db): add schema for users, conversations, and messages
+ db/cable_schema.rb                                 |  10 ++
+ db/cache_schema.rb                                 |  12 ++
+ db/migrate/20261018184230_create_users.rb          |  11 ++
+ .../20261018184231_create_ruby_llm_records.rb      | 118 ++++++++++++
+ db/migrate/20261018184232_create_conversations.rb  |  11 ++
+ db/migrate/20261018184233_create_messages.rb       |  21 +++
+ ..._create_active_storage_tables.active_storage.rb |  57 ++++++
+ db/queue_schema.rb                                 | 160 +++++++++++++++++
+ db/schema.rb                                       | 198 +++++++++++++++++++++
+ 9 files changed, 598 insertions(+)
+954c427 chore: scaffold Rails 8.1 app with Hotwire, Tailwind, and ruby_llm
+ .dockerignore                                   |  37 ++
+ .gitignore                                      |  34 ++
+ .rubocop.yml                                    |   8 +
+ .ruby-version                                   |   1 +
+ Gemfile                                         |  65 +++
+ Gemfile.lock                                    | 606 ++++++++++++++++++++++++
+ Procfile.dev                                    |   2 +
+ Rakefile                                        |   6 +
+ app/agents/.gitkeep                             |   0
+ app/assets/builds/.keep                         |   0
+ app/assets/images/.keep                         |   0
+ app/assets/stylesheets/application.css          |  10 +
+ app/assets/tailwind/application.css             |   1 +
+ app/controllers/concerns/.keep                  |   0
+ app/helpers/application_helper.rb               |   2 +
+ app/javascript/application.js                   |   3 +
+ app/javascript/controllers/application.js       |   9 +
+ app/javascript/controllers/hello_controller.js  |   7 +
+ app/javascript/controllers/index.js             |   4 +
+ app/jobs/application_job.rb                     |   7 +
+ app/mailers/application_mailer.rb               |   4 +
+ app/models/application_record.rb                |   3 +
+ app/models/concerns/.keep                       |   0
+ app/prompts/.gitkeep                            |   0
+ app/schemas/.gitkeep                            |   0
+ app/tools/.gitkeep                              |   0
+ app/views/layouts/mailer.html.erb               |  13 +
+ app/views/layouts/mailer.text.erb               |   1 +
+ app/views/pwa/manifest.json.erb                 |  22 +
+ app/views/pwa/service-worker.js                 |  26 +
+ bin/brakeman                                    |   7 +
+ bin/bundler-audit                               |   6 +
+ bin/ci                                          |   6 +
+ bin/dev                                         |  16 +
+ bin/importmap                                   |   4 +
+ bin/jobs                                        |   6 +
+ bin/rails                                       |   4 +
+ bin/rake                                        |   4 +
+ bin/rubocop                                     |   8 +
+ bin/setup                                       |  35 ++
+ config.ru                                       |   6 +
+ config/application.rb                           |  39 ++
+ config/boot.rb                                  |   4 +
+ config/bundler-audit.yml                        |   5 +
+ config/cable.yml                                |  19 +
+ config/cache.yml                                |  16 +
+ config/ci.rb                                    |  24 +
+ config/credentials.yml.enc                      |   1 +
+ config/database.yml                             |  44 ++
+ config/environment.rb                           |   5 +
+ config/environments/development.rb              |  78 +++
+ config/environments/production.rb               |  90 ++++
+ config/environments/test.rb                     |  57 +++
+ config/importmap.rb                             |   7 +
+ config/initializers/assets.rb                   |   7 +
+ config/initializers/content_security_policy.rb  |  29 ++
+ config/initializers/filter_parameter_logging.rb |   8 +
+ config/initializers/inflections.rb              |  16 +
+ config/initializers/ruby_llm.rb                 |   8 +
+ config/locales/en.yml                           |  31 ++
+ config/puma.rb                                  |  42 ++
+ config/queue.yml                                |  18 +
+ config/recurring.yml                            |  15 +
+ config/routes.rb                                |  13 +
+ config/storage.yml                              |  27 ++
+ lib/tasks/.keep                                 |   0
+ log/.keep                                       |   0
+ public/400.html                                 | 135 ++++++
+ public/404.html                                 | 135 ++++++
+ public/406-unsupported-browser.html             | 135 ++++++
+ public/422.html                                 | 135 ++++++
+ public/500.html                                 | 135 ++++++
+ public/icon.png                                 | Bin 0 -> 4166 bytes
+ public/icon.svg                                 |   3 +
+ public/robots.txt                               |   1 +
+ script/.keep                                    |   0
+ storage/.keep                                   |   0
+ test/controllers/.keep                          |   0
+ test/fixtures/files/.keep                       |   0
+ test/helpers/.keep                              |   0
+ test/integration/.keep                          |   0
+ test/mailers/.keep                              |   0
+ test/models/.keep                               |   0
+ test/test_helper.rb                             |  15 +
+ tmp/.keep                                       |   0
+ vendor/.keep                                    |   0
+ vendor/javascript/.keep                         |   0
+ 87 files changed, 2270 insertions(+)

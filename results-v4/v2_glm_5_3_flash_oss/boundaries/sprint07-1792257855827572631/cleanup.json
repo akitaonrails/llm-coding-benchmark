@@ -1,0 +1,67 @@
+{
+  "timestamp": "2026-10-17T14:25:15-03:00",
+  "task": "fresh isolated v4 sprint07 final boundary review",
+  "scope": "results-v4/v2_glm_5_3_flash_oss",
+  "inventory": {
+    "persistent_processes_created": [],
+    "containers_or_networks_created_or_used": [],
+    "images_or_volumes_created_or_used": [],
+    "test_environments_started": [
+      {
+        "command": "bin/rails test test/services/admin/reports/dashboard_test.rb",
+        "result": "completed; 8 runs, 28 assertions, 0 failures, 0 errors, 0 skips",
+        "persistent_process_after_completion": false
+      }
+    ],
+    "reviewer_scratch_paths": [],
+    "candidate_external_temp_paths": [
+      {
+        "path": "/tmp/opencode/composer_repro_test.rb",
+        "size_bytes": 598,
+        "classification": "candidate-created sprint-07 diagnostic evidence; retained by explicit evidence-preservation instruction"
+      }
+    ],
+    "project_pid_files": [
+      {
+        "path": "project/tmp/pids/.keep",
+        "classification": "retained project evidence/placeholder; no server.pid present"
+      }
+    ],
+    "task_owned_project_processes_at_cleanup": []
+  },
+  "removed": [],
+  "retained": [
+    {
+      "path": "project/",
+      "reason": "candidate source, git history, uncommitted generated Tailwind evidence, test databases, logs, temporary files, and all planted/fixed code must be preserved"
+    },
+    {
+      "path": "sprints/",
+      "reason": "raw prompts, transcripts, stderr, metadata, and git-log evidence"
+    },
+    {
+      "path": "pause-checkpoints/ and RESUME.md",
+      "reason": "historical pause/resumption evidence explicitly preserved"
+    },
+    {
+      "path": "boundaries/sprint02-* through boundaries/sprint07-1792257855827572631/",
+      "reason": "boundary manifests, reports, raw reviewer transcripts, verdicts, and cleanup provenance"
+    },
+    {
+      "path": "project/storage/, project/log/, project/tmp/ and /tmp/opencode/composer_repro_test.rb",
+      "reason": "user required preservation of databases, logs, temp files, sessions, and evidence; disposability was not inferred from names or ignored status"
+    }
+  ],
+  "verification": {
+    "project_server_pid_file_present": false,
+    "task_owned_project_processes_present": false,
+    "safe_disposable_reviewer_resources_found": false,
+    "reclaimed_bytes": null
+  },
+  "notes": [
+    "No Docker command, application server loop, browser, remote pod, campaign operation, or agent spawning was used.",
+    "The one targeted Rails test command exited normally and left no persistent task-owned process.",
+    "No images, containers, volumes, networks, caches, project logs, databases, sessions, temporary files, screenshots, source, transcripts, or evidence were deleted.",
+    "Nothing safe and reviewer-owned was available to remove; no reclaimed-space claim is made."
+  ]
+}

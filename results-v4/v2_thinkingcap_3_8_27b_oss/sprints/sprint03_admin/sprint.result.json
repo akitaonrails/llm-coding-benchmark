@@ -1,0 +1,12 @@
+{
+  "slug": "v2_thinkingcap_3_8_27b_oss",
+  "sprint": "sprint03_admin",
+  "harness": "opencode",
+  "elapsed_seconds": 429.06,
+  "cost_usd": 0.0,
+  "tokens_total": 6097041,
+  "exit_code": 1,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": true
+}

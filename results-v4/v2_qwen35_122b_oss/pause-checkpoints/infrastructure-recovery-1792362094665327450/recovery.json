@@ -1,0 +1,9 @@
+{
+  "time": 1792362094.6656263,
+  "entry": {
+    "slug": "v2_qwen35_122b_oss",
+    "boundary": 2,
+    "reason": "Second recovery: catalog equivalent-target rule for incompatible literal dependency pin; review02 before further sprints"
+  },
+  "preserves": "All source, transcripts, sessions, previous admission and cumulative sprint budget"
+}

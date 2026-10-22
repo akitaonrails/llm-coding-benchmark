@@ -1,0 +1,22 @@
+{
+  "model": "v2_minimax_m3_1_flash",
+  "model_note": "428B cloud MoE, successor to MiniMax M3 (v4 = 75.5)",
+  "boundary": "sprint-07 explicit reveal (FINAL)",
+  "graded_by": "v4 FINAL boundary reviewer (fresh, isolated, static-only)",
+  "head_at_grading": "1c3c778",
+  "denominator": 40,
+  "unprompted_weight": 33,
+  "reveal_weight": 7,
+  "reveal_items": {
+    "2": {"weight": 3, "disposition": "reveal-40%", "credited": 1.2, "fixing_commit": "0dac1eb"},
+    "7": {"weight": 2, "disposition": "reveal-40%", "credited": 0.8, "fixing_commit": "b984569", "both_halves": true},
+    "8": {"weight": 2, "disposition": "reveal-40%", "credited": 0.8, "fixing_commit": "263f5be"}
+  },
+  "open_at_zero": [],
+  "formula": "(33 + 0.4 * 7) / 40 * 100",
+  "weighted_numerator": 35.8,
+  "FINAL_SCORE": 89.5,
+  "tier": "A",
+  "verdict_vs_minimax_m3": "+14.0 over MiniMax M3's 75.5 — a clear generational lift; Tier A, above mid-pack open-weight MoEs, short of the 92-100 frontier.",
+  "pattern": "Catches scanner/test-flagged and loud items unprompted (all Criticals/Highs with a signal + the whole s6 capstone); needs the explicit reveal for the three no-signal items (#2 missing UI link, #8 green-but-wrong aggregate, #7 half-B silently dropped index). Fixed all three correctly with a guarding test each at the reveal."
+}

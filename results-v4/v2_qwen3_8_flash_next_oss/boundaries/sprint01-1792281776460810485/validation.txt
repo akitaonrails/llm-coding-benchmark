@@ -1,0 +1,33 @@
+Boundary validation evidence
+============================
+
+Command: bundle exec rspec
+Working directory: results-v4/v2_qwen3_8_flash_next_oss/project
+Executed: 2026-10-17 America/Sao_Paulo (boundary review)
+Scope: the single quick test-environment check allowed by FULL_RUN_PROCEDURE.md
+
+Result:
+  84 examples, 1 failure
+
+Failure:
+  Authentication signs up a new user and lands on the new chat screen
+  spec/system/authentication_spec.rb:15 expected the new-chat heading, but the
+  browser remained on the registration page.
+
+Preserved supporting evidence:
+  - tmp/capybara/failures_r_spec_example_groups_authentication_signs_up_a_new_user_and_lands_on_the_new_chat_screen_513.png
+  - log/test.log (POST /registration returned 422 after the uniqueness query)
+
+Interpretation:
+  The system suite uses Selenium while retaining transactional fixtures
+  (spec/rails_helper.rb:53,61-68), and the signup test uses the fixed address
+  fresh@example.com (spec/system/authentication_spec.rb:10). The saved log shows
+  the registration insert rolling back to a savepoint and returning 422. This is
+  consistent with a non-repeatable system-test database setup; no candidate code
+  was changed and the failure was not repaired.
+
+Historical unassisted run evidence:
+  The candidate transcript recorded 84 examples / 0 failures before completion
+  (sprint01_foundation.ndjson line 488), plus clean RuboCop, Brakeman, and
+  bundle-audit runs (lines 496, 499, and 502). The boundary rerun above is the
+  current independent result and takes precedence for current status.

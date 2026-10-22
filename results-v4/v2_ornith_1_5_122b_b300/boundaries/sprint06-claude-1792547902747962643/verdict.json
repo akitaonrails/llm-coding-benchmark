@@ -1,0 +1,15 @@
+{
+  "boundary": "after_sprint6_capstone",
+  "cumulative_caught_40": 24,
+  "open_items": [
+    {"id": 2, "weight": 3},
+    {"id": 5, "weight": 3},
+    {"id": 6, "weight": 3},
+    {"id": 7, "weight": 2},
+    {"id": 8, "weight": 2},
+    {"id": 11, "weight": 3}
+  ],
+  "open_weight_remaining": 16,
+  "capstone_new_fixes": [4, 10, 12, 13, 14],
+  "app_boots": true
+}

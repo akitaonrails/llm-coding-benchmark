@@ -1,0 +1,34 @@
+{
+  "model": "v2_qwen3_8_flash_next_oss",
+  "boundary": "after_sprint_01",
+  "batch": "B300",
+  "required_action": "review_only_no_injections",
+  "injections_applied": 0,
+  "casey_commit": null,
+  "planned_item_count": 14,
+  "planned_severity_denominator": 40,
+  "parity_basis": "User-specified B300 full-set parity; GLM cloud/zcode ledger baseline. No parity adaptation is due at sprint 01.",
+  "items": [
+    {"id": 1, "weight": 5, "severity": "critical", "status": "not-yet-injected", "scheduled_after_sprint": 2, "verification": "Not applicable at sprint 01; target exists in the routed ConversationsController show/destroy path."},
+    {"id": 2, "weight": 3, "severity": "high", "status": "not-yet-injected", "scheduled_after_sprint": 2, "verification": "Not applicable at sprint 01; authentication views exist."},
+    {"id": 3, "weight": 3, "severity": "high", "status": "not-yet-injected", "scheduled_after_sprint": 2, "verification": "Not applicable at sprint 01; exact dependency target is deferred to the sprint-02 injection boundary while preserving the batch denominator."},
+    {"id": 4, "weight": 5, "severity": "critical", "status": "not-yet-injected", "scheduled_after_sprint": 3, "verification": "Not applicable before the admin sprint."},
+    {"id": 5, "weight": 3, "severity": "high", "status": "not-yet-injected", "scheduled_after_sprint": 3, "verification": "Not applicable before the admin sprint."},
+    {"id": 6, "weight": 3, "severity": "high", "status": "not-yet-injected", "scheduled_after_sprint": 3, "verification": "Not applicable before the admin sprint."},
+    {"id": 7, "weight": 2, "severity": "medium", "status": "not-yet-injected", "scheduled_after_sprint": 4, "verification": "Not applicable before the reports sprint."},
+    {"id": 8, "weight": 2, "severity": "medium", "status": "not-yet-injected", "scheduled_after_sprint": 4, "verification": "Not applicable before the reports sprint."},
+    {"id": 9, "weight": 2, "severity": "medium", "status": "not-yet-injected", "scheduled_after_sprint": 4, "verification": "Not applicable before the reports sprint."},
+    {"id": 10, "weight": 3, "severity": "high", "status": "not-yet-injected", "scheduled_after_sprint": 5, "verification": "Not applicable before the API sprint."},
+    {"id": 11, "weight": 3, "severity": "high", "status": "not-yet-injected", "scheduled_after_sprint": 5, "verification": "Not applicable before the API sprint."},
+    {"id": 12, "weight": 2, "severity": "medium", "status": "not-yet-injected", "scheduled_after_sprint": 5, "verification": "Not applicable before the API sprint."},
+    {"id": 13, "weight": 1, "severity": "low", "status": "not-yet-injected", "scheduled_after_sprint": 5, "verification": "Not applicable before the API sprint."},
+    {"id": 14, "weight": 3, "severity": "high", "status": "not-yet-injected", "scheduled_after_sprint": 5, "verification": "Not applicable before the API sprint."}
+  ],
+  "boundary_verification": {
+    "project_is_direct_rails_app": true,
+    "prior_boundary_injection_found": false,
+    "prior_casey_commit_found": false,
+    "candidate_source_changed_by_boundary": false,
+    "test_evidence_changed_by_boundary": "RSpec updated ignored log/test DB/tmp artifacts; retained as required evidence."
+  }
+}

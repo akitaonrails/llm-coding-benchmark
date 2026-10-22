@@ -1,0 +1,34 @@
+{
+  "model": "v2_dsv4_flash_oss",
+  "boundary": "after-sprint-05",
+  "parity_profile": "B300-full",
+  "planned_item_count": 14,
+  "planned_severity_denominator": 40,
+  "applied_item_count": 14,
+  "applied_severity_denominator": 40,
+  "injection_commit": "ca51a281c13635654fe8071df1c405dfb434d86a",
+  "items": [
+    {"id": 1, "weight": 5, "due_after_sprint": 2, "status": "applied-live", "bug_status": "present-uncaught-through-sprint-05", "verification": "The routed HTML index still queries Conversation.all at app/controllers/conversations_controller.rb:6 and renders the collection."},
+    {"id": 2, "weight": 3, "due_after_sprint": 2, "status": "applied-live", "bug_status": "present-uncaught-through-sprint-05", "verification": "The anonymous nav at app/views/layouts/application.html.erb:31-33 still contains only Sign up; /login remains routed."},
+    {"id": 3, "weight": 3, "due_after_sprint": 2, "status": "adapted", "bug_status": "present-uncaught-through-sprint-05", "verification": "The Rails-8.1-compatible vulnerable Nokogiri equivalent remains pinned at Gemfile:22; preserved sprint-05 bundle-audit output reports findings."},
+    {"id": 4, "weight": 5, "due_after_sprint": 3, "status": "applied-live", "bug_status": "fixed-unprompted-sprint-04", "verification": "The search remains parameterized with sanitize_sql_like at app/controllers/admin/users_controller.rb:5-11."},
+    {"id": 5, "weight": 3, "due_after_sprint": 3, "status": "adapted", "bug_status": "present-uncaught-through-sprint-05", "verification": "JSON deactivation still bypasses require_admin! at app/controllers/admin/users_controller.rb:3 and destroys the target at lines 36-43."},
+    {"id": 6, "weight": 3, "due_after_sprint": 3, "status": "applied-live", "bug_status": "present-uncaught-through-sprint-05", "verification": "Promotion still bypasses admin authorization at app/controllers/application_controller.rb:25-29 and the guarding test remains assert true at test/controllers/admin/users_controller_test.rb:94-96."},
+    {"id": 7, "weight": 2, "due_after_sprint": 4, "status": "applied-live", "bug_status": "present-uncaught-through-sprint-05", "verification": "The dashboard loads User.order(:email) and calls user.conversations.count per row; the included_in_reports migration has no index."},
+    {"id": 8, "weight": 2, "due_after_sprint": 4, "status": "applied-live", "bug_status": "present-uncaught-through-sprint-05", "verification": "The per-user Messages cell still renders global Message.count at app/views/admin/dashboard/index.html.erb:39."},
+    {"id": 9, "weight": 2, "due_after_sprint": 4, "status": "applied-live", "bug_status": "fixed-unprompted-sprint-05-recreated-not-git-restored", "verification": "Candidate commit da4d401 recreated app/jobs/ai_response_job.rb. Transcript input 84 directly wrote the file; no git restore or git checkout input exists."},
+    {"id": 10, "weight": 3, "due_after_sprint": 5, "status": "applied-live", "bug_status": "present", "verification": "GET /api/v1/conversations is routed and authenticated, but app/controllers/api/v1/conversations_controller.rb:5 now queries all Conversation rows and line 6 serializes them."},
+    {"id": 11, "weight": 3, "due_after_sprint": 5, "status": "applied-live", "bug_status": "present", "verification": "The routed conversation view renders @messages and app/views/messages/_message.html.erb:4 passes persisted content through raw."},
+    {"id": 12, "weight": 2, "due_after_sprint": 5, "status": "adapted", "bug_status": "present", "verification": "config/initializers/cors.rb:1-6 accepts every origin via /.*/, every resource/header/method, and credentials. Regex is the bootable semantic equivalent because rack-cors rejects literal wildcard plus credentials."},
+    {"id": 13, "weight": 1, "due_after_sprint": 5, "status": "applied-live", "bug_status": "present", "verification": "rack-cors 2.0.1 is pinned at Gemfile:23 and locked; bundle check passed and bundle-audit reported CVE-2024-27456."},
+    {"id": 14, "weight": 3, "due_after_sprint": 5, "status": "applied-live", "bug_status": "present", "verification": "config/initializers/secret_token.rb:1 assigns a literal secret_key_base. Value-redacted grep confirmed it; Brakeman 8.1.0 emitted no warning, which is recorded as a detection limit."}
+  ],
+  "verification": {
+    "method": "static inspection plus one bounded test-environment check",
+    "candidate_sprint_check": "Preserved transcript: 84 runs, 203 assertions, 0 failures; RuboCop clean; Brakeman zero warnings; existing Nokogiri audit findings",
+    "post_injection_check": "bin/rails test test/controllers test/models: 84 runs, 203 assertions, 0 failures, 0 errors, 0 skips",
+    "dependency_check": "bundle check passed; bundle-audit identified rack-cors 2.0.1 / CVE-2024-27456",
+    "syntax": "Ruby syntax OK for the modified controller and both initializers",
+    "http_docker_browser_or_provider": "not used"
+  }
+}

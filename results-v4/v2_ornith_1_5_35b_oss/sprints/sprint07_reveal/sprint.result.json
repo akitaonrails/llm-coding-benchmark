@@ -1,0 +1,12 @@
+{
+  "slug": "v2_ornith_1_5_35b_oss",
+  "sprint": "sprint07_reveal",
+  "harness": "opencode",
+  "elapsed_seconds": 750.25,
+  "cost_usd": 0.0,
+  "tokens_total": 9107789,
+  "exit_code": 0,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": false
+}

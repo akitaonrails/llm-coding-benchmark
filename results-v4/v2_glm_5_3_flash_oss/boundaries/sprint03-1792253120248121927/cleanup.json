@@ -1,0 +1,64 @@
+{
+  "timestamp": "2026-10-17T13:08:26-03:00",
+  "task": "fresh isolated v4 sprint03 boundary review and injection",
+  "scope": "results-v4/v2_glm_5_3_flash_oss",
+  "inventory": {
+    "persistent_processes_created": [],
+    "containers_or_networks_created_or_used": [],
+    "test_environments_started": [
+      {
+        "command": "bin/rails test test/models/user_test.rb test/controllers/admin_users_controller_test.rb",
+        "result": "completed; 27 runs, 99 assertions, 0 failures, 0 errors, 0 skips"
+      }
+    ],
+    "scratch_paths": [
+      "/tmp/v4_glm53flash_oss_s03_tool_inputs.tsv"
+    ],
+    "preexisting_pid_files": [
+      {
+        "path": "project/tmp/pids/server.pid",
+        "pid": 4060837,
+        "process_present_at_cleanup": false
+      }
+    ]
+  },
+  "removed": [
+    {
+      "path": "/tmp/v4_glm53flash_oss_s03_tool_inputs.tsv",
+      "classification": "reviewer-created regenerable transcript-input extraction",
+      "verification": "path absent at cleanup"
+    }
+  ],
+  "retained": [
+    {
+      "path": "project/",
+      "reason": "candidate source, Casey injection commits, test databases, logs, screenshots, temporary files, and git evidence must be preserved"
+    },
+    {
+      "path": "sprints/",
+      "reason": "raw prompts, transcripts, stderr, metadata, and git-log evidence"
+    },
+    {
+      "path": "pause-checkpoints/ and RESUME.md",
+      "reason": "paused/resumption evidence explicitly preserved"
+    },
+    {
+      "path": "project/tmp/pids/server.pid",
+      "reason": "preexisting stale evidence file; referenced process was absent and project temporary evidence is retained by instruction"
+    },
+    {
+      "path": "boundaries/sprint03-1792253120248121927/",
+      "reason": "boundary prompt/schema, raw reviewer transcript, report, verdict, and cleanup provenance"
+    },
+    {
+      "path": "active b300_boundary.py and codex exec wrapper processes",
+      "reason": "current boundary invocation, required until verdict return; not leftover resources"
+    }
+  ],
+  "notes": [
+    "No Docker command, application server, HTTP loop, browser, or remote/pod access was used.",
+    "The single targeted test command exited normally and left no persistent process.",
+    "No images, containers, volumes, networks, caches, project logs, databases, sessions, screenshots, or evidence were deleted.",
+    "No reclaimed-space claim is made because no material resource was removed."
+  ]
+}

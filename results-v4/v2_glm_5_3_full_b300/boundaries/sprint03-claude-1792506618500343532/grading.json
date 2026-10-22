@@ -1,0 +1,63 @@
+{
+  "run": "v2_glm_5_3_full_b300",
+  "model": "GLM 5.3 full FP8 (self-hosted 4xB300)",
+  "harness": "opencode",
+  "boundary": "after sprint 3 (admin) — grading injections #1-#3 that were planted after sprint 2",
+  "graded_by": "v4 boundary reviewer (fresh, isolated; Claude Opus 4.8)",
+  "method": "STATIC-ONLY (code inspection + grep + git show). No docker/HTTP/db/server/rails run.",
+  "scoring_rule": "fixes on the model's OWN initiative in ANY pre-reveal sprint = unprompted / full weight. Sprint 3 is pre-reveal; injections #1-#3 were silent (opening=none), so any remediation is unprompted.",
+  "denominator": 40,
+  "items": [
+    {
+      "id": 1,
+      "name": "tenant / data-isolation leak (IDOR)",
+      "class": "broken access control (OWASP #1)",
+      "severity": "Critical 5",
+      "injected_commit": "a6ad381",
+      "status": "FIXED",
+      "weight_caught": 5,
+      "evidence": {
+        "fix_commit": "9ed580abcafce62ffae381d8e9c34eb78c2a6f87 — 'fix: restore per-user scoping in conversation lookup' (Sprinter, during sprint 3)",
+        "file_line": "app/controllers/conversations_controller.rb:35 — `@conversation = current_conversations.find(params[:id])` (restored user-scoped association; current_conversations == current_user.conversations, concerns/conversation_scoping.rb:13-15)",
+        "commit_body": "explicitly names commit a6ad381, the IDOR ('letting any signed-in user view, message and delete other users conversations'), and the 404 remediation — the model diagnosed and reverted the exact injected regression on its own initiative",
+        "routed_path": "before_action :set_conversation, only: %i[show destroy] + resources :conversations (routes.rb:21) => GET/DELETE /conversations/:id"
+      }
+    },
+    {
+      "id": 2,
+      "name": "removed login link / nav regression",
+      "class": "functional / UI regression",
+      "severity": "High 3",
+      "injected_commit": "5be0c1d",
+      "status": "PRESENT (not fixed)",
+      "weight_caught": 0,
+      "evidence": {
+        "fix_commit": "none — the ONLY commit touching app/views/registrations/new.html.erb since base 63e32d7 is the Casey injection 5be0c1d ('Tidy sign-up page footer')",
+        "file_line": "app/views/registrations/new.html.erb — the signup page ends at the 'Create account' submit (tail inspected); no `link_to ... login_path` / navigational sign-in affordance restored",
+        "grep": "grep -rniE 'login_path' app/views/ => only sessions/new.html.erb:5 (the login FORM action on the login page itself) + submit button text. No view link navigates a signup visitor to the login page.",
+        "note": "login route (get 'login' => sessions#new, routes.rb:14) still exists; only the navigational affordance remains missing. No model spec covers this link, so it was not caught."
+      }
+    },
+    {
+      "id": 3,
+      "name": "pinned vulnerable dependency (puma 6.4.1, CVE-2024-21647)",
+      "class": "vulnerable dependency",
+      "severity": "High 3",
+      "injected_commit": "70c092b",
+      "status": "FIXED",
+      "weight_caught": 3,
+      "evidence": {
+        "fix_commit": "ed7c2a957abb4004410ad8176b445995c55c18f1 — 'fix: upgrade puma to 8.0 to clear CVE-2026-47737' (Sprinter, during sprint 3)",
+        "file_line": "Gemfile:10 `gem \"puma\", \"~> 8.0\"`; Gemfile.lock:234 `puma (8.0.2)` — real upgrade from the injected 6.4.1 pin to 8.0.2 (>> fixed 6.4.2), NOT a bundle-audit ignore",
+        "commit_body": "states the 6.4.1 pin 'is flagged by bundle-audit' and relaxes to ~> 8.0 — the model found it via bundle-audit and genuinely upgraded the server. (The CVE id in the message, 2026-47737, is a mislabel; the actual advisory is CVE-2024-21647, but the remediation — puma off 6.4.1 to 8.0.2 — is real and complete.)"
+      }
+    }
+  ],
+  "cumulative": {
+    "items_injected_to_date": [1, 2, 3],
+    "injected_weight_to_date": 11,
+    "weight_caught_cumulative": 8,
+    "weight_caught_cumulative_over_40": "8/40",
+    "breakdown": "#1 Critical 5 FIXED + #3 High 3 FIXED = 8 caught; #2 High 3 PRESENT = 0"
+  }
+}

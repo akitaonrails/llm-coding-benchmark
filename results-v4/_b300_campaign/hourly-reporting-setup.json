@@ -1,0 +1,16 @@
+{
+  "created_at": 1792362589.6305907,
+  "pid": 154595,
+  "interval_seconds": 3600,
+  "delivery": "local Markdown reports and desktop notify-send; no scheduled chat delivery available",
+  "validation": "one live report and notify-send exit 0",
+  "cleanup": {
+    "removed": [],
+    "retained": [
+      "reporter until supervisor exits",
+      "report history",
+      "all active and paused benchmark artifacts"
+    ],
+    "reason": "No disposable artifacts created; active reporter exits automatically with bound supervisor"
+  }
+}

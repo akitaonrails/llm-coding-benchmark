@@ -1,0 +1,10 @@
+{
+  "slug": "v2_glm_5_3_flash_oss",
+  "sprint": "sprint03_admin",
+  "harness": "opencode",
+  "elapsed_seconds": 574.49,
+  "cost_usd": 0.0,
+  "tokens_total": 5218037,
+  "exit_code": 1,
+  "stall_aborted": false
+}

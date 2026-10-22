@@ -68,3 +68,35 @@
 13:26:09 RUN  v2_nex_n2_5_pro sprint 06_production ...
 13:49:24 DONE v2_nex_n2_5_pro — ok exit=1 tokens=6176760 cost=$0.0
 13:49:24 === WAVE sprint 06_production complete ===
+00:50:31 === WAVE sprint 06_production : 1 models ===
+00:50:31 RUN  v2_muse_wonder sprint 06_production ...
+02:04:29 DNF  v2_muse_wonder — stall_aborted (dropped from remaining sprints)
+02:04:29 === WAVE sprint 06_production complete ===
+02:04:52 === WAVE sprint 06_production : 1 models ===
+02:04:52 RUN  v2_muse_wonder sprint 06_production ...
+03:14:01 DNF  v2_muse_wonder — stall_aborted (dropped from remaining sprints)
+03:14:01 === WAVE sprint 06_production complete ===
+03:15:09 === WAVE sprint 06_production : 1 models ===
+03:15:09 RUN  v2_muse_wonder sprint 06_production ...
+04:26:34 DNF  v2_muse_wonder — stall_aborted (dropped from remaining sprints)
+04:26:34 === WAVE sprint 06_production complete ===
+04:27:47 === WAVE sprint 06_production : 1 models ===
+04:27:47 RUN  v2_muse_wonder sprint 06_production ...
+04:37:20 DNF  v2_muse_wonder — exit=1 tokens=0 (crash/auth, no real work) (dropped from remaining sprints)
+04:37:20 === WAVE sprint 06_production complete ===
+05:46:21 === WAVE sprint 06_production : 1 models ===
+05:46:21 RUN  v2_muse_wonder sprint 06_production ...
+06:47:45 DNF  v2_muse_wonder — stall_aborted (dropped from remaining sprints)
+06:47:45 === WAVE sprint 06_production complete ===
+06:50:08 === WAVE sprint 06_production : 1 models ===
+06:50:08 RUN  v2_muse_wonder sprint 06_production ...
+07:43:53 DNF  v2_muse_wonder — stall_aborted (dropped from remaining sprints)
+07:43:53 === WAVE sprint 06_production complete ===
+16:02:31 === WAVE sprint 06_production : 1 models ===
+16:02:31 RUN  v2_muse_wonder sprint 06_production ...
+16:58:41 DNF  v2_muse_wonder — stall_aborted (dropped from remaining sprints)
+16:58:41 === WAVE sprint 06_production complete ===
+17:01:21 === WAVE sprint 06_production : 1 models ===
+17:01:21 RUN  v2_muse_wonder sprint 06_production ...
+17:40:17 DONE v2_muse_wonder — ok exit=0 tokens=0 cost=$None
+17:40:17 === WAVE sprint 06_production complete ===

@@ -1,0 +1,17 @@
+{
+  "index": 0,
+  "serve_args": "--tool-call-parser glm47 --reasoning-parser glm45 --enable-auto-tool-choice --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity",
+  "exit_code": 0,
+  "started_at": 1792375664.7457178,
+  "finished_at": 1792376273.0854692,
+  "passed": true,
+  "decode_tokens_per_second": 217.384709738999,
+  "tool_preflight_passed": true,
+  "serving_fingerprint": "5707ac709330dd1b072c5285248e7f8e38ac291f84b70fafc3eb46982e258daa",
+  "evidence": [
+    "results-v4/_b300_campaign/migration-20261017/perf-v2_glm_4_7_flash_bf16_oss-restored-pod-0-1792376266135673856.json",
+    "results-v4/_b300_campaign/migration-20261017/preflight-v2_glm_4_7_flash_bf16_oss-1792376263957602445.json",
+    "results-v4/_b300_campaign/model-cards/v2_glm_4_7_flash_bf16_oss.md"
+  ],
+  "revision": "7dd20894a642a0aa287e9827cb1a1f7f91386b67"
+}

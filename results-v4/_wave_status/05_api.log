@@ -85,3 +85,11 @@
 11:13:42 RUN  v2_nex_n2_5_pro sprint 05_api ...
 12:43:43 DONE v2_nex_n2_5_pro — ok exit=-15 tokens=10498430 cost=$0.0
 12:43:43 === WAVE sprint 05_api complete ===
+23:32:12 === WAVE sprint 05_api : 1 models ===
+23:32:12 RUN  v2_muse_wonder sprint 05_api ...
+00:37:54 DNF  v2_muse_wonder — stall_aborted (dropped from remaining sprints)
+00:37:54 === WAVE sprint 05_api complete ===
+00:38:37 === WAVE sprint 05_api : 1 models ===
+00:38:37 RUN  v2_muse_wonder sprint 05_api ...
+00:45:25 DONE v2_muse_wonder — ok exit=0 tokens=0 cost=$None
+00:45:25 === WAVE sprint 05_api complete ===

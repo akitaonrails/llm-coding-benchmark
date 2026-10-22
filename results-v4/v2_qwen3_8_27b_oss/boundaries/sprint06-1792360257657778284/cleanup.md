@@ -1,0 +1,12 @@
+# Cleanup ledger — sprint 06 boundary review
+
+- **Completed at:** 2026-10-18T18:53:12-03:00
+- **Scope:** `results-v4/v2_qwen3_8_27b_oss/project` and boundary `sprint06-1792360257657778284` only.
+- **Processes:** Exact-path inventories before and after cleanup found no running process whose command referenced this model project. The reviewer's yielded RSpec invocation had exited; no process was stopped.
+- **Containers/networks/images/volumes:** Exact Docker inventories found no container with this project's Compose working-directory label, no `rubyllm-smoke` container, no `rubyllm-chat-test` image, no `rubyllm-smoke-storage` volume, and no matching scratch network. The candidate transcript records that it removed its smoke container, volume, and test image. This reviewer did not build, start, stop, or remove Docker resources.
+- **Scratch removed:** `/tmp/v2_qwen3_8_27b_oss_sprint06_tool_inputs.tsv`, a reviewer-created, regenerable transcript-input extraction used only for contamination scanning. It contained no unique evidence; the authoritative NDJSON transcript is retained. No reclaimed-byte measurement was taken for this small text file.
+- **Candidate temporary evidence retained:** candidate-generated logs, databases, screenshots, ignored files, `/tmp/opencode/ff.log` mentioned in the transcript, and the repository's dangling investigation commit `d0333c9b6ae188471196f48ac4debd5658502ddc` were preserved under the user's explicit evidence-preservation rule. No candidate temp file was treated as disposable.
+- **Shared resources retained:** installed Ruby gems, browser binaries, gem caches, and Docker/build caches were not exclusively attributable to this review and were not modified or removed.
+- **Evidence intentionally retained:** the complete generated application, all candidate and Casey commits, raw sprint transcripts and stderr, result metadata, sprint git logs, prior boundary ledgers, the sprint-06 report, injection manifest, verdict, and this cleanup ledger.
+- **Verification after cleanup:** project worktree clean; `git fsck --no-progress` completed with only the intentionally retained dangling investigation commit; report non-empty; verdict and manifest parse as JSON; manifest has 14 items, weights summing to denominator 40, fixed weight 27, and unresolved weight 13; no exact-project process or Compose container remained.
+- **Measured reclaimed space:** not measured; only the small derived TSV was removed.

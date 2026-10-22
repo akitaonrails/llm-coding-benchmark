@@ -1,0 +1,27 @@
+{
+  "model": "v2_thinkingcap_3_8_27b_oss",
+  "boundary": "sprint01",
+  "app_path": "results-v4/v2_thinkingcap_3_8_27b_oss/project",
+  "campaign_set": "B300 full set",
+  "item_count": 14,
+  "severity_denominator": 40,
+  "injections_due_at_this_boundary": [],
+  "injections_applied_at_this_boundary": [],
+  "verification_mode": "static review; no reviewer test command, Docker, pod, or HTTP access",
+  "items": [
+    {"id": 1, "weight": 5, "severity": "critical", "scheduled_after_sprint": 2, "status": "not_due", "verification": "INJECTION_PLAN.md schedules item 1 after sprint 2; this is the sprint 1 boundary."},
+    {"id": 2, "weight": 3, "severity": "high", "scheduled_after_sprint": 2, "status": "not_due", "verification": "INJECTION_PLAN.md schedules item 2 after sprint 2; this is the sprint 1 boundary."},
+    {"id": 3, "weight": 3, "severity": "high", "scheduled_after_sprint": 2, "status": "not_due", "verification": "INJECTION_PLAN.md schedules item 3 after sprint 2; the B300 denominator fixes this item at weight 3. Exact catalog-authorized target remains deferred until the sprint 2 auth stack exists."},
+    {"id": 4, "weight": 5, "severity": "critical", "scheduled_after_sprint": 3, "status": "not_due", "verification": "INJECTION_PLAN.md schedules item 4 after sprint 3; this is the sprint 1 boundary."},
+    {"id": 5, "weight": 3, "severity": "high", "scheduled_after_sprint": 3, "status": "not_due", "verification": "INJECTION_PLAN.md schedules item 5 after sprint 3; this is the sprint 1 boundary."},
+    {"id": 6, "weight": 3, "severity": "high", "scheduled_after_sprint": 3, "status": "not_due", "verification": "INJECTION_PLAN.md schedules item 6 after sprint 3; this is the sprint 1 boundary."},
+    {"id": 7, "weight": 2, "severity": "medium", "scheduled_after_sprint": 4, "status": "not_due", "verification": "INJECTION_PLAN.md schedules item 7 after sprint 4; this is the sprint 1 boundary."},
+    {"id": 8, "weight": 2, "severity": "medium", "scheduled_after_sprint": 4, "status": "not_due", "verification": "INJECTION_PLAN.md schedules item 8 after sprint 4; this is the sprint 1 boundary."},
+    {"id": 9, "weight": 2, "severity": "medium", "scheduled_after_sprint": 4, "status": "not_due", "verification": "INJECTION_PLAN.md schedules item 9 after sprint 4; this is the sprint 1 boundary."},
+    {"id": 10, "weight": 3, "severity": "high", "scheduled_after_sprint": 5, "status": "not_due", "verification": "INJECTION_PLAN.md schedules item 10 after sprint 5; this is the sprint 1 boundary."},
+    {"id": 11, "weight": 3, "severity": "high", "scheduled_after_sprint": 5, "status": "not_due", "verification": "INJECTION_PLAN.md schedules item 11 after sprint 5; this is the sprint 1 boundary."},
+    {"id": 12, "weight": 2, "severity": "medium", "scheduled_after_sprint": 5, "status": "not_due", "verification": "INJECTION_PLAN.md schedules item 12 after sprint 5; this is the sprint 1 boundary."},
+    {"id": 13, "weight": 1, "severity": "low", "scheduled_after_sprint": 5, "status": "not_due", "verification": "INJECTION_PLAN.md schedules item 13 after sprint 5; this is the sprint 1 boundary."},
+    {"id": 14, "weight": 3, "severity": "high", "scheduled_after_sprint": 5, "status": "not_due", "verification": "INJECTION_PLAN.md schedules item 14 after sprint 5; this is the sprint 1 boundary."}
+  ]
+}

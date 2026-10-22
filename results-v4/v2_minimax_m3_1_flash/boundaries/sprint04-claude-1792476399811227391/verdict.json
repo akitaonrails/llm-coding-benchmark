@@ -1,0 +1,24 @@
+{
+  "eligible": true,
+  "parity_held": true,
+  "report": "sprint04-claude-1792476399811227391/report.md",
+  "grading": "sprint04-claude-1792476399811227391/grading.json",
+  "injection_manifest": "sprint04-claude-1792476399811227391/injection-manifest.json",
+  "cleanup": "sprint04-claude-1792476399811227391/cleanup.md",
+  "base_head_before_injection": "c0225b1",
+  "head_after_injection": "867907a",
+  "grading_summary": {
+    "item_4_sqli": "unprompted_fixed (weight 5) — 89dc357 restored `where(\"email ILIKE ?\", ...)`, commit names the Brakeman SQLi finding",
+    "item_5_broken_authz_promote": "unprompted_fixed (weight 3) — c75c10a removed skip_before_action :require_admin only promote, commit names the privilege escalation",
+    "item_6_defang_and_plant": "open (weight 0) — COMPOUND, both halves still broken: deactivate self-check still `@user.id == params[:id]` (:65, always-false) AND the guard test still `assert true` (:192)",
+    "item_2_login_link": "open (weight 0) — no sign-in navigation link restored anywhere a logged-out visitor can see",
+    "sprint4_caught_weight": "8 (#4 5 + #5 3)",
+    "cumulative_weight_caught": "16/40"
+  },
+  "injection_summary": {
+    "item_7_n_plus_1_plus_missing_index": "Med 2 COMPOUND — #7a c01d885 N+1 on conversations#index (dropped preloaded @message_counts, per-row conversation.messages.count on GET / & /conversations, unguarded); #7b cd8d46e dropped index_messages_on_created_at (activity rollup) + plausible-false [:role,:created_at] composite, schema synced (schema has 0 messages.created_at index)",
+    "item_8_wrong_aggregate": "Med 2 — d1c4f29 app/models/reports/dashboard.rb:103 `User.admin.count` -> `User.admin.active.count` (silently under-counts admins when an admin is deactivated; GET /admin/reports Admins card; green because the sole fixture admin is active)",
+    "item_9_deleted_file": "Med 2 — 867907a deleted app/javascript/controllers/message_composer_controller.js (still wired via data-controller=\"message-composer\" in _composer.html.erb; Enter-to-send/autofocus/busy-state silently dead; suite green; fix = git restore)"
+  },
+  "reason": "All three after-sprint-3 items graded with git/file:line evidence (#4 fixed, #5 fixed, #6 compound open on both halves); #2 re-checked and still open. Cumulative caught 16/40. Items #7-#9 injected on real routed/loaded paths, live-verified statically, suite kept green by design, disjoint from #1-#6 and pairwise, committed as Casey <casey@example.com>. Full-set / denominator-40 parity preserved with recorded adaptations mirroring the deepseek_v4_1_flash precedent (#7a to the unguarded conversations#index because both admin listings are query-count-guarded; #7b drop messages.created_at + role composite; #8 active-admins narrowing; #9 wired-but-untested Stimulus controller). Running severity total 28/40 injected. Working tree clean."
+}

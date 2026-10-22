@@ -1,0 +1,294 @@
+a524ff5 test: make the system tests patient
+ test/application_system_test_case.rb |  6 ++++++
+ test/system/account_test.rb          |  3 +++
+ test/system/chat_test.rb             | 13 ++++++++++---
+ 3 files changed, 19 insertions(+), 3 deletions(-)
+43c194f docs: document the deployment of the application
+ README.md | 81 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 80 insertions(+), 1 deletion(-)
+61228d8 ci: build the image of the application
+ .github/workflows/ci.yml | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+e8183b6 test: cover the behaviour of the application and of the API
+ test/application_system_test_case.rb      | 15 +++++++
+ test/jobs/chat_response_job_test.rb       | 20 +++++++++
+ test/models/chat_model_test.rb            | 16 +++++++
+ test/models/current_test.rb               | 32 +++++++++++++
+ test/models/messages/safe_content_test.rb | 75 +++++++++++++++++++++++++++++++
+ test/models/reports/totals_test.rb        | 21 +++++++++
+ test/models/reports/user_stat_test.rb     | 46 +++++++++++++++++++
+ test/requests/api/v1/cors_test.rb         | 54 ++++++++++++++++++++++
+ test/requests/api/v1/csrf_test.rb         | 38 ++++++++++++++++
+ test/system/account_test.rb               | 12 +++++
+ test/system/chat_test.rb                  | 21 +++++++++
+ 11 files changed, 350 insertions(+)
+b916169 build: harden the image of the application and the stack of Docker Compose
+ Dockerfile                                   |  28 +++++++-
+ bin/docker-entrypoint                        |  19 +++--
+ docker-compose.yml                           | 100 +++++++++++++++++++++------
+ docker/postgres/init/01-create-databases.sql |  28 ++++++--
+ 4 files changed, 141 insertions(+), 34 deletions(-)
+78704b3 feat: harden the configuration of the production environment
+ .env.example                                   | 60 +++++++++++++++++++++++---
+ app/controllers/concerns/current_session.rb    | 14 +++++-
+ config/environments/production.rb              | 41 +++++++++++-------
+ config/initializers/content_security_policy.rb | 53 +++++++++++++----------
+ config/initializers/host_authorization.rb      | 10 +++++
+ config/initializers/session_store.rb           | 11 +++--
+ config/puma.rb                                 | 20 +++++++++
+ 7 files changed, 163 insertions(+), 46 deletions(-)
+d929fe0 security: clean the content of a message before the browser shows it
+ app/serializers/api/v1/message_serializer.rb |  6 +++-
+ app/services/messages/safe_content.rb        | 54 ++++++++++++++++++++++++++++
+ 2 files changed, 59 insertions(+), 1 deletion(-)
+a37386f fix: tell the browser when the model cannot answer
+ app/javascript/controllers/chat_controller.js | 31 ++++++++++++++++++++++++++-
+ app/jobs/chat_response_job.rb                 | 17 ++++++++++++++-
+ 2 files changed, 46 insertions(+), 2 deletions(-)
+d035cf1 fix: let a program sign in to the API without the token of the page
+ app/controllers/api/v1/base_controller.rb | 21 ++++++++++++++++-----
+ 1 file changed, 16 insertions(+), 5 deletions(-)
+716b04e fix: keep the conversations of a user private in the API
+ app/controllers/api/v1/conversations_controller.rb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+317fae7 security: take the API key of OpenRouter out of the repository
+ config/initializers/ruby_llm.rb | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+cf2be06 security: upgrade rack-cors to a release without the known weakness
+ Gemfile      | 4 +++-
+ Gemfile.lock | 6 +++---
+ 2 files changed, 6 insertions(+), 4 deletions(-)
+5f97a5c fix: name the origins that may call the API of the application
+ config/initializers/cors.rb | 45 ++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 34 insertions(+), 11 deletions(-)
+bae02ed Configure RubyLLM with a default OpenRouter key for local dev
+ config/initializers/ruby_llm.rb | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+3a445a6 Render the formatting of a chat message
+ app/javascript/controllers/chat_controller.js | 4 +++-
+ app/javascript/ui/dom.js                      | 6 ++++--
+ 2 files changed, 7 insertions(+), 3 deletions(-)
+553804a Look up API conversations directly for show and destroy
+ app/controllers/api/v1/conversations_controller.rb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+242ba2d Allow cross-origin requests to the JSON API
+ config/initializers/cors.rb | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+d156e10 Add rack-cors for the versioned JSON API
+ Gemfile      | 3 +++
+ Gemfile.lock | 4 ++++
+ 2 files changed, 7 insertions(+)
+410e627 refactor: tidy the pages that hold the data of the API
+ app/controllers/accounts_controller.rb                    |  1 -
+ app/controllers/admin/users_controller.rb                 | 15 ---------------
+ app/controllers/api/v1/base_controller.rb                 |  4 +++-
+ app/controllers/messages_controller.rb                    |  1 -
+ app/javascript/controllers/admin_users_controller.js      |  8 +++++---
+ .../controllers/conversation_list_controller.js           |  4 ++--
+ 6 files changed, 10 insertions(+), 23 deletions(-)
+67fe2dc test: cover the services, the streams and the data of the API
+ README.md                                        | 122 +++++++++++++++++++++--
+ app/javascript/controllers/chat_controller.js    |   2 +-
+ config/cable.yml                                 |   5 +-
+ test/jobs/chat_response_job_test.rb              |  71 +++++++++++++
+ test/services/accounts/update_test.rb            |  62 ++++++++++++
+ test/services/admin/manage_user_test.rb          | 108 ++++++++++++++++++++
+ test/services/conversations/send_message_test.rb |  56 +++++++++++
+ test/services/conversations/start_test.rb        |  51 ++++++++++
+ test/system/chat_test.rb                         |   7 ++
+ 9 files changed, 474 insertions(+), 10 deletions(-)
+17a689c feat: read the data of the admin area from the API
+ app/controllers/accounts_controller.rb             |   2 +-
+ app/controllers/admin/reports_controller.rb        |  14 +-
+ app/controllers/admin/users_controller.rb          |  18 +-
+ app/controllers/application_controller.rb          |   9 -
+ app/controllers/conversations_controller.rb        |   5 +-
+ app/helpers/admin/reports_helper.rb                |  23 --
+ .../controllers/admin_reports_controller.js        | 241 +++++++++++++++++++++
+ .../controllers/admin_user_controller.js           |  96 ++++++++
+ .../controllers/admin_users_controller.js          | 137 ++++++++++++
+ .../controllers/conversation_list_controller.js    |  13 +-
+ app/javascript/ui/dom.js                           |  12 +-
+ app/views/admin/reports/_card.html.erb             |   5 -
+ app/views/admin/reports/index.html.erb             | 126 +----------
+ app/views/admin/users/index.html.erb               |  94 +++-----
+ app/views/admin/users/show.html.erb                |  56 +----
+ test/application_system_test_case.rb               |   7 +
+ test/integration/admin/reports_test.rb             |  80 +------
+ test/integration/admin/users_test.rb               |  73 ++-----
+ test/requests/api/v1/admin/reports_test.rb         |  28 +++
+ test/requests/api/v1/admin/users_test.rb           |  11 +
+ test/system/conversations_test.rb                  |  64 ++++++
+ 21 files changed, 681 insertions(+), 433 deletions(-)
+58f0fd0 feat: read the data of the chat from the API
+ app/controllers/api/v1/account_controller.rb       |   3 +-
+ app/controllers/api/v1/base_controller.rb          |  13 +-
+ app/controllers/api/v1/conversations_controller.rb |   3 +-
+ app/controllers/api/v1/messages_controller.rb      |   3 +-
+ app/controllers/api/v1/sessions_controller.rb      |   8 +-
+ app/controllers/api/v1/users_controller.rb         |   6 +-
+ app/controllers/concerns/authentication.rb         |   6 +-
+ app/controllers/concerns/current_session.rb        |  11 ++
+ app/helpers/application_helper.rb                  |  10 --
+ app/javascript/api/client.js                       |  85 ++++++++++
+ app/javascript/application.js                      |   1 +
+ app/javascript/controllers/account_controller.js   | 110 ++++++++++++
+ app/javascript/controllers/auth_controller.js      |  53 ++++++
+ app/javascript/controllers/chat_controller.js      | 188 +++++++++++++++++++++
+ .../controllers/chat_scroll_controller.js          |  18 --
+ .../controllers/conversation_list_controller.js    | 109 ++++++++++++
+ .../controllers/new_conversation_controller.js     |  27 +++
+ app/javascript/ui/chat_stream.js                   |  28 +++
+ app/javascript/ui/dom.js                           |  43 +++++
+ app/javascript/ui/flash.js                         |  73 ++++++++
+ app/jobs/chat_response_job.rb                      |  75 +++++---
+ app/views/accounts/show.html.erb                   |  46 ++---
+ app/views/conversations/_composer.html.erb         |   6 +-
+ app/views/conversations/_conversation.html.erb     |  15 --
+ app/views/conversations/_message.html.erb          |   5 -
+ app/views/conversations/_messages.html.erb         |  19 ---
+ app/views/conversations/index.html.erb             |  17 +-
+ app/views/conversations/new.html.erb               |   4 +-
+ app/views/conversations/show.html.erb              |  22 ++-
+ app/views/layouts/_sidebar.html.erb                |  17 +-
+ app/views/layouts/application.html.erb             |   5 +-
+ app/views/registrations/new.html.erb               |   3 +-
+ app/views/sessions/new.html.erb                    |   3 +-
+ config/importmap.rb                                |   2 +
+ test/integration/account_test.rb                   |  11 +-
+ test/integration/authentication_test.rb            |   2 +-
+ test/system/authorization_test.rb                  |  15 +-
+ 37 files changed, 873 insertions(+), 192 deletions(-)
+1cfcfcd feat: expose a versioned JSON API for the application
+ app/controllers/accounts_controller.rb             |  11 +-
+ app/controllers/admin/users_controller.rb          |  50 ++-----
+ app/controllers/api/v1/account_controller.rb       |  74 ++++++++++
+ app/controllers/api/v1/admin/base_controller.rb    |  25 ++++
+ app/controllers/api/v1/admin/reports_controller.rb |  34 +++++
+ app/controllers/api/v1/admin/users_controller.rb   | 110 ++++++++++++++
+ app/controllers/api/v1/api_tokens_controller.rb    |  40 +++++
+ app/controllers/api/v1/base_controller.rb          | 139 ++++++++++++++++++
+ app/controllers/api/v1/conversations_controller.rb |  74 ++++++++++
+ app/controllers/api/v1/me_controller.rb            |  14 ++
+ app/controllers/api/v1/messages_controller.rb      |  49 +++++++
+ app/controllers/api/v1/sessions_controller.rb      |  61 ++++++++
+ app/controllers/api/v1/users_controller.rb         |  52 +++++++
+ app/controllers/concerns/authentication.rb         |  52 +------
+ app/controllers/concerns/current_session.rb        |  63 ++++++++
+ app/controllers/conversations_controller.rb        |  41 ++----
+ app/controllers/messages_controller.rb             |  29 +---
+ app/models/api_token.rb                            |  77 ++++++++++
+ app/models/current.rb                              |  11 +-
+ app/models/user.rb                                 |   1 +
+ app/serializers/api/v1/admin_user_serializer.rb    |  46 ++++++
+ app/serializers/api/v1/api_token_serializer.rb     |  25 ++++
+ app/serializers/api/v1/base_serializer.rb          |  25 ++++
+ app/serializers/api/v1/conversation_serializer.rb  |  40 +++++
+ app/serializers/api/v1/dashboard_serializer.rb     |  66 +++++++++
+ app/serializers/api/v1/message_serializer.rb       |  22 +++
+ app/serializers/api/v1/session_serializer.rb       |  26 ++++
+ app/serializers/api/v1/user_serializer.rb          |  27 ++++
+ app/services/accounts/update.rb                    |  37 +++++
+ app/services/admin/manage_user.rb                  |  78 ++++++++++
+ app/services/conversations/send_message.rb         |  37 +++++
+ app/services/conversations/start.rb                |  46 ++++++
+ config/routes.rb                                   |  50 +++++++
+ db/migrate/20261020000009_create_api_tokens.rb     |  29 ++++
+ db/schema.rb                                       |  14 +-
+ test/models/api_token_test.rb                      |  89 +++++++++++
+ test/requests/api/v1/account_test.rb               |  91 ++++++++++++
+ test/requests/api/v1/admin/reports_test.rb         |  66 +++++++++
+ test/requests/api/v1/admin/users_test.rb           | 147 +++++++++++++++++++
+ test/requests/api/v1/api_tokens_test.rb            |  87 +++++++++++
+ test/requests/api/v1/authentication_test.rb        | 162 +++++++++++++++++++++
+ test/requests/api/v1/conversations_test.rb         | 134 +++++++++++++++++
+ test/requests/api/v1/csrf_test.rb                  |  76 ++++++++++
+ test/requests/api/v1/messages_test.rb              |  90 ++++++++++++
+ test/test_helper.rb                                |  19 +++
+ 45 files changed, 2396 insertions(+), 140 deletions(-)
+867907a Remove the leftover message composer controller
+ .../controllers/message_composer_controller.js     | 35 ----------------------
+ 1 file changed, 35 deletions(-)
+d1c4f29 Count only the active admins in the totals
+ app/models/reports/dashboard.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+cd8d46e Retune the message indexes for the activity rollup
+ .../20261020000008_retune_message_indexes.rb       | 22 ++++++++++++++++++++++
+ db/schema.rb                                       |  4 ++--
+ 2 files changed, 24 insertions(+), 2 deletions(-)
+c01d885 Count the messages of a conversation on the list directly
+ app/controllers/conversations_controller.rb | 1 -
+ app/views/conversations/index.html.erb      | 2 +-
+ 2 files changed, 1 insertion(+), 2 deletions(-)
+c0225b1 docs: document the dashboard of the admin area
+ README.md | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+bcf7b1a feat: add the dashboard of the admin area
+ app/controllers/admin/reports_controller.rb |  24 ++++
+ app/helpers/admin/reports_helper.rb         |  23 +++
+ app/models/reports/activity_point.rb        |   8 ++
+ app/models/reports/dashboard.rb             | 211 ++++++++++++++++++++++++++++
+ app/models/reports/totals.rb                |  21 +++
+ app/models/reports/user_stat.rb             |  24 ++++
+ app/views/admin/reports/_card.html.erb      |   5 +
+ app/views/admin/reports/index.html.erb      | 170 ++++++++++++++++++++++
+ app/views/admin/users/index.html.erb        |   2 +
+ app/views/layouts/_sidebar.html.erb         |   2 +
+ config/routes.rb                            |   2 +
+ test/integration/admin/reports_test.rb      | 109 ++++++++++++++
+ test/models/reports/dashboard_test.rb       | 174 +++++++++++++++++++++++
+ test/system/admin_reports_test.rb           |  73 ++++++++++
+ 14 files changed, 848 insertions(+)
+b502522 chore: add the indexes of the activity of the application
+ db/migrate/20261020000007_add_activity_indexes.rb | 25 +++++++++++++++++++++++
+ db/schema.rb                                      |  5 ++++-
+ 2 files changed, 29 insertions(+), 1 deletion(-)
+89dc357 fix: bind the term of the user search to the query
+ app/models/user.rb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+c75c10a fix: keep the admin area closed for everybody but an admin
+ app/controllers/admin/users_controller.rb | 1 -
+ 1 file changed, 1 deletion(-)
+d34df45 Compare the account ids directly when closing an account and tidy the tests
+ app/controllers/admin/users_controller.rb | 2 +-
+ test/integration/admin/users_test.rb      | 8 +-------
+ 2 files changed, 2 insertions(+), 8 deletions(-)
+d78383c Adjust the callbacks of the admin accounts
+ app/controllers/admin/users_controller.rb | 1 +
+ 1 file changed, 1 insertion(+)
+f2d8ef8 Inline the escaped term in the admin user search
+ app/models/user.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+e7ce087 chore: patch puma and skip the advisories that do not apply
+ Gemfile                  | 2 +-
+ Gemfile.lock             | 5 +++--
+ config/bundler-audit.yml | 7 +++++++
+ 3 files changed, 11 insertions(+), 3 deletions(-)
+91c1e27 chore: add the missing configuration of Active Storage
+ config/storage.yml | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+7f4b100 feat: add the admin area for the accounts of the users
+ README.md                                 |  31 ++++
+ app/controllers/admin/base_controller.rb  |  19 +++
+ app/controllers/admin/users_controller.rb | 103 +++++++++++++
+ app/views/admin/users/index.html.erb      |  92 ++++++++++++
+ app/views/admin/users/show.html.erb       |  70 +++++++++
+ app/views/layouts/_sidebar.html.erb       |   5 +
+ config/routes.rb                          |  14 ++
+ lib/tasks/admin.rake                      |  21 +++
+ test/integration/admin/users_test.rb      | 233 ++++++++++++++++++++++++++++++
+ test/system/admin_test.rb                 |  94 ++++++++++++
+ 10 files changed, 682 insertions(+)
+013c085 feat: give the users a role and the possibility to close an account
+ app/controllers/concerns/authentication.rb      |   8 +-
+ app/models/user.rb                              |  67 +++++++++++++-
+ db/migrate/20261020000006_add_admin_to_users.rb |  29 ++++++
+ db/schema.rb                                    |   9 +-
+ test/fixtures/users.yml                         |  12 +++
+ test/integration/authentication_test.rb         |  18 ++++
+ test/models/user_test.rb                        | 116 ++++++++++++++++++++++++
+ test/system/authentication_test.rb              |   9 ++
+ 8 files changed, 261 insertions(+), 7 deletions(-)
+b9edbf2 fix: look up the conversations through the signed in user
+ app/controllers/conversations_controller.rb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)

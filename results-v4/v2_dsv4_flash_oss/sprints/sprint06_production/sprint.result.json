@@ -1,0 +1,10 @@
+{
+  "slug": "v2_dsv4_flash_oss",
+  "sprint": "sprint06_production",
+  "harness": "opencode",
+  "elapsed_seconds": 337.58,
+  "cost_usd": 0.0,
+  "tokens_total": 4684286,
+  "exit_code": 0,
+  "stall_aborted": false
+}

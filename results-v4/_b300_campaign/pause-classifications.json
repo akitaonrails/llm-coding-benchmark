@@ -1,0 +1,38 @@
+{
+  "v2_qwen35_122b_oss": {
+    "state": "review-service blocked",
+    "evidence": "results-v4/v2_qwen35_122b_oss/boundaries/sprint03-1792363250556953446/agent.ndjson"
+  },
+  "v2_qwen35_397b_oss": {
+    "state": "review-service blocked",
+    "evidence": "results-v4/v2_qwen35_397b_oss/boundaries/sprint03-1792278054322552383/agent.ndjson"
+  },
+  "v2_nemotron35_super_vl_oss": {
+    "state": "review-service blocked",
+    "evidence": "results-v4/v2_nemotron35_super_vl_oss/boundaries/sprint03-1792269900700752474/agent.ndjson"
+  },
+  "v2_qwen3_8_flash_next_oss": {
+    "state": "review-service blocked",
+    "evidence": "results-v4/v2_qwen3_8_flash_next_oss/boundaries/sprint02-1792282412634613924/agent.ndjson"
+  },
+  "v2_muse_glimmer_30b_oss": {
+    "state": "review-service blocked",
+    "evidence": "results-v4/v2_muse_glimmer_30b_oss/boundaries/sprint03-1792283730608351267/agent.ndjson"
+  },
+  "v2_ornith_1_5_35b_oss": {
+    "state": "review-service blocked",
+    "evidence": "results-v4/v2_ornith_1_5_35b_oss/boundaries/sprint03-1792348124651551167/agent.ndjson"
+  },
+  "v2_thinkingcap_3_8_27b_oss": {
+    "state": "review-service blocked",
+    "evidence": "results-v4/v2_thinkingcap_3_8_27b_oss/boundaries/sprint03-1792371062840782472/agent.ndjson"
+  },
+  "v2_command_a_plus_oss": {
+    "state": "review-service blocked (3 assisted attempts)",
+    "evidence": "results-v4/v2_command_a_plus_oss/boundaries/sprint03-1792386956310333100/agent.ndjson"
+  },
+  "v2_nex_n2_5_mini_oss": {
+    "state": "valid poor implementation result (partial, assisted)",
+    "evidence": "results-v4/v2_nex_n2_5_mini_oss/boundaries/sprint01-1792386212958023017/verdict.json"
+  }
+}

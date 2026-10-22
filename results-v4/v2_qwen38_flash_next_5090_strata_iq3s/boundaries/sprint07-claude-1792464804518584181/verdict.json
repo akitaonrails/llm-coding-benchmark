@@ -1,0 +1,12 @@
+{
+  "eligible": true,
+  "report": "results-v4/v2_qwen38_flash_next_5090_strata_iq3s/boundaries/sprint07-claude-1792464804518584181/report.md",
+  "cleanup": "results-v4/v2_qwen38_flash_next_5090_strata_iq3s/boundaries/sprint07-claude-1792464804518584181/cleanup.md",
+  "final_score": 91.0,
+  "unprompted_weight": 34,
+  "reveal_weight": 6,
+  "item_2": "reveal_fixed (0.4 x 3 = 1.2)",
+  "item_6": "reveal_fixed_both_halves (0.4 x 3 = 1.2)",
+  "open_at_final": 0,
+  "reason": "Clean STATIC-ONLY FINAL grading. 34/40 caught unprompted (established at sprint 06). At the sprint-7 explicit reveal both remaining items were fixed by model-authored commits: #2 login-link restored (94cfcae, routed view links new_session_path + request/system specs); #6 compound test-integrity fixed in full (f6ae012 -- plant corrected to active-only admin count AND the gutted guard test restored to a genuine assertion that provably reddens on the plant). Both at 40% weight. final = (34 + 0.4*6)/40*100 = 91.0. No infra/harness failure; run eligible and ranked."
+}

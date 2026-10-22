@@ -1,0 +1,18 @@
+{
+  "boundary": "after_sprint6_capstone",
+  "run_slug": "v2_laguna_s_21_b300",
+  "head": "295ceb7db5b99142d8deddc7cdf9d72aa4dd80d3",
+  "cumulative_caught_40": 19,
+  "open_items": [
+    {"id": 1, "weight": 5},
+    {"id": 2, "weight": 3},
+    {"id": 5, "weight": 3},
+    {"id": 6, "weight": 3},
+    {"id": 7, "weight": 2},
+    {"id": 9, "weight": 2},
+    {"id": 11, "weight": 3}
+  ],
+  "open_weight_remaining": 21,
+  "capstone_new_fixes": [3, 8, 10, 12, 13, 14],
+  "app_boots": true
+}

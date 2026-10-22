@@ -1,0 +1,6 @@
+{
+  "eligible": true,
+  "report": "results-v4/v2_qwen3_8_flash_next_oss/boundaries/sprint02-claude-verify-1792403001438999702/report.md",
+  "cleanup": "results-v4/v2_qwen3_8_flash_next_oss/boundaries/sprint02-claude-verify-1792403001438999702/cleanup.md",
+  "reason": "Sprint-02 boundary baseline documented by the Claude replacement reviewer. Codex had committed items 1-3 as three Casey commits (c34521d tenant leak, dcaebdc removed Sign-in link, 2678704 nokogiri 1.15.7 pin) but was security-blocked before writing a verdict. Claude verified all three are correct and live (static + bundle-audit) on real routed paths; no grading at this boundary (sprint 1 had no injection); no new injection added. Denominator 40 preserved; items 4-14 not_due."
+}

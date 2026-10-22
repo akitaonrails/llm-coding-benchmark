@@ -1,0 +1,19 @@
+{
+  "boundary": "after_sprint7_reveal",
+  "slug": "v2_ornith_1_5_122b_b300",
+  "harness": "opencode",
+  "head": "96fbcb1522169faf2261fb596de148a8cb4b41d4",
+  "unprompted_weight": 24,
+  "reveal_fixed_weight": 16,
+  "reveal_items_fixed": [2, 5, 6, 7, 8, 11],
+  "reveal_items_open": [],
+  "reveal_weight_available": 16,
+  "app_boots": true,
+  "final_score": 76.0,
+  "max_if_all_16": 76.0,
+  "tier": "B",
+  "assisted": false,
+  "nudges_used": 0,
+  "static_only": true,
+  "notes": "final_score = (24 + 0.4 * 16) / 40 * 100 = 76.0. All 6 open reveal items genuinely fixed (both compound halves satisfied for #6 and #7). #6 Half B caveat: the originally-defanged admin_users_test.rb:79-87 spec was not itself un-defanged, but an equivalent genuine live-session spec (re-hits a protected path after deactivation) was added in auth_test.rb in the same reveal commit 8147be3, closing the detection gap. Strict-alternative if #6 Half B is required to be the same-file un-defang: reveal_fixed_weight 13 -> final 73.0 (still Tier B)."
+}

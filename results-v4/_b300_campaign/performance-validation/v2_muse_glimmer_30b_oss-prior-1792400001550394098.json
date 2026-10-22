@@ -1,0 +1,17 @@
+{
+  "index": 1,
+  "serve_args": "--dtype bfloat16 --tool-call-parser muse_glimmer --reasoning-parser muse_glimmer --enable-auto-tool-choice --generation-config auto --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity --speculative-config '{\"method\":\"dflash\",\"model\":\"/root/models/muse-glimmer-assistant\",\"num_speculative_tokens\":15}'",
+  "exit_code": 0,
+  "started_at": 1792282750.8197598,
+  "finished_at": 1792282840.8362024,
+  "passed": true,
+  "decode_tokens_per_second": 295.0493174821408,
+  "tool_preflight_passed": true,
+  "serving_fingerprint": "84b236cdf9d6ddbdfa627157ef24970e67f683f0633fba51995ee6b5e10e77be",
+  "evidence": [
+    "results-v4/_b300_campaign/migration-20261017/perf-v2_muse_glimmer_30b_oss-restored-pod-1-1792282834087822391.json",
+    "results-v4/_b300_campaign/migration-20261017/preflight-v2_muse_glimmer_30b_oss-1792282832024399444.json",
+    "results-v4/_b300_campaign/model-cards/v2_muse_glimmer_30b_oss.md"
+  ],
+  "revision": "a4e59da52a7bc87ae7251dd5545c0dd437c44b68"
+}

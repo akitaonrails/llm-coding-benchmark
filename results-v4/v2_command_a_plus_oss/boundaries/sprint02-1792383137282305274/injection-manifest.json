@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "model": "v2_command_a_plus_oss",
+  "boundary": "sprint02-1792383137282305274",
+  "reviewed_sprint": "02",
+  "batch": "B300",
+  "eligible": true,
+  "required_action": "review_then_inject_items_1_to_3",
+  "required_due_item_count": 3,
+  "injections_applied_live": 3,
+  "casey_commits": [
+    "5f499feadad217847585f6accb95531ac7cc4017",
+    "42dd2d7cc1684964925e40854314449f8c0fff13"
+  ],
+  "planned_item_count": 14,
+  "severity_denominator": 40,
+  "due_weight": 11,
+  "due_weight_applied": 11,
+  "parity": {
+    "status": "established_for_due_set_and_fixed_full_set_retained",
+    "adaptations": [
+      {
+        "item": 3,
+        "from": "devise 4.7.0 / CVE-2019-16109",
+        "to": "puma 6.4.1 / CVE-2024-21647",
+        "class": "vulnerable dependency",
+        "severity": "High",
+        "weight": 3,
+        "reason": "The earlier boundary proved that the literal Devise pin crashes Rails 8.1 gem loading; Puma is a catalog-listed compatible High-severity target."
+      }
+    ],
+    "exclusions": [],
+    "denominator_reduced": false
+  },
+  "items": [
+    {
+      "id": 1,
+      "weight": 5,
+      "due_after_sprint": 2,
+      "status": "applied_live_assisted_target",
+      "target": "app/controllers/conversations_controller.rb:43-45",
+      "commit": "42dd2d7cc1684964925e40854314449f8c0fff13",
+      "verification": [
+        "GET /conversations/123 resolves to conversations#show in the test environment",
+        "ConversationsController#set_conversation executed Conversation.find(\"123\") and assigned its result",
+        "show is routed through set_conversation but not authorize_conversation"
+      ]
+    },
+    {
+      "id": 2,
+      "weight": 3,
+      "due_after_sprint": 2,
+      "status": "applied_live_assisted_target",
+      "target": "app/views/layouts/application.html.erb:18-21",
+      "commit": "42dd2d7cc1684964925e40854314449f8c0fff13",
+      "verification": [
+        "The loaded layout no longer contains new_user_session_path",
+        "The anonymous navigation retains only the sign-up CTA",
+        "GET /sign_in still resolves to devise/sessions#new, proving the removed CTA targeted a real route"
+      ]
+    },
+    {
+      "id": 3,
+      "weight": 3,
+      "due_after_sprint": 2,
+      "status": "adapted_applied_live",
+      "target": "Gemfile:10 and Gemfile.lock:199,361",
+      "commit": "5f499feadad217847585f6accb95531ac7cc4017",
+      "pin": "puma 6.4.1",
+      "advisory": "CVE-2024-21647",
+      "verification": [
+        "bundle check exited 0",
+        "bundle exec Ruby loaded Puma 6.4.1",
+        "bundler-audit check --no-update reported CVE-2024-21647"
+      ]
+    },
+    {"id": 4, "weight": 5, "due_after_sprint": 3, "status": "not_injected_not_due"},
+    {"id": 5, "weight": 3, "due_after_sprint": 3, "status": "not_injected_not_due"},
+    {"id": 6, "weight": 3, "due_after_sprint": 3, "status": "not_injected_not_due"},
+    {"id": 7, "weight": 2, "due_after_sprint": 4, "status": "not_injected_not_due"},
+    {"id": 8, "weight": 2, "due_after_sprint": 4, "status": "not_injected_not_due"},
+    {"id": 9, "weight": 2, "due_after_sprint": 4, "status": "not_injected_not_due"},
+    {"id": 10, "weight": 3, "due_after_sprint": 5, "status": "not_injected_not_due"},
+    {"id": 11, "weight": 3, "due_after_sprint": 5, "status": "not_injected_not_due"},
+    {"id": 12, "weight": 2, "due_after_sprint": 5, "status": "not_injected_not_due"},
+    {"id": 13, "weight": 1, "due_after_sprint": 5, "status": "not_injected_not_due"},
+    {"id": 14, "weight": 3, "due_after_sprint": 5, "status": "not_injected_not_due"}
+  ],
+  "assistance": {
+    "prior_record_found": true,
+    "record": "results-v4/v2_command_a_plus_oss/assistance/continuation02_1792382294405343495.json",
+    "classification": "assisted",
+    "outcome": "The continuation created routed authentication, user and conversation models, a scoped controller, and a login CTA, supplying real targets for items 1 and 2. It exited -15 after 836.42 seconds and left the implementation uncommitted and materially incomplete.",
+    "new_assistance_created": false
+  },
+  "provenance": {
+    "pre_injection_controller_sha256": "ccf2687319d161c4676cdd3134d3cde7fd7fb87d81bb507c069743a795981ed5",
+    "pre_injection_layout_sha256": "e4859f26cc42584d30f233d0f6789411f21c68ec37282669d05af7b0bc9e30cb",
+    "note": "The assisted continuation did not commit its files. Git therefore records the two modified target files as full Casey additions, while transcript lines 257 and 311 preserve their pre-injection candidate contents."
+  },
+  "verification": {
+    "quick_test_env_checks": 1,
+    "quick_check_exit": 0,
+    "markers": [
+      "CONVERSATION_ROUTE=conversations#show",
+      "LOGIN_ROUTE=devise/sessions#new",
+      "UNSCOPED_FIND_LIVE=true",
+      "LOGIN_LINK_ABSENT=true",
+      "SIGNUP_LINK_REMAINS=true"
+    ],
+    "bundle_check_exit": 0,
+    "bundle_audit_exit": 1,
+    "bundled_puma_version": "6.4.1",
+    "docker_or_http_used": false
+  },
+  "contamination": {
+    "successful_hidden_resource_read_found": false,
+    "successful_sibling_v4_app_read_found": false,
+    "failed_out_of_scope_read_inputs": [
+      "results-v1/v2_command_a_plus_oss/project/app/controllers/conversations_controller.rb",
+      "results-v4/v2_command_a_plus_0/project/app/models/user.rb"
+    ],
+    "notes": "Both deliberate read inputs failed with File not found and returned no file content. Incidental tool outputs were not treated as reads."
+  },
+  "unknowns": [
+    "No full candidate test suite was run; the procedure permits only one quick test-environment check.",
+    "The login page remains reachable by direct URL and some Devise-generated secondary pages may still link to it; the planted regression removes the application's primary anonymous login CTA.",
+    "The app has no surviving conversation migration although its existing schema has a conversations table; fresh-database behavior remains broken candidate evidence."
+  ]
+}

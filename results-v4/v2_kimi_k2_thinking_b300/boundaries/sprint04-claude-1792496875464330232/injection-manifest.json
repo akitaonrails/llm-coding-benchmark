@@ -1,0 +1,85 @@
+{
+  "run": "v2_kimi_k2_thinking_b300",
+  "model": "Kimi K2 Thinking (INT4, self-hosted 4xB300)",
+  "boundary": "after_sprint4_reports",
+  "method": "STATIC-ONLY (file edits + grep + `ruby -c` + ERB parse). No docker/db/http/server/rails run, no lock mutation, no weight changes.",
+  "injection_set": "full 14-item set / denominator 40 (B300 / deepseek_v4_1_flash / minimax_m3_1_flash / qwen38_flash_next parity)",
+  "items_this_boundary": "#7, #8, #9",
+  "base_commit_before_injection": "d764869",
+  "author": "Casey <casey@example.com>",
+  "sprint4_feature": "Admin::ReportsController reporting dashboard (summary cards, per-user breakdown table w/ pagination, date-range filter, activity-over-time). Models gained reporting scopes (User.with_message_stats, Conversation/Message.created_in_range). Migration 20261020113347 added composite reporting indexes. Full controller/model/system test coverage written by the model.",
+  "schema_note": "No db/schema.rb exists in the repo (not tracked, not present; .gitignore does NOT ignore it). The migration bodies are therefore the authoritative source for the DB that `db:prepare`/`db:migrate` builds — editing the reporting migration IS the live code path for the index set.",
+  "injections": [
+    {
+      "id": 7,
+      "name": "COMPOUND: reintroduced N+1 + dropped needed index",
+      "class": "performance (N+1 + missing index)",
+      "severity": "Medium 2",
+      "commit": "22df7e2",
+      "commit_msg": "Simplify per-user activity counts and trim message indexes",
+      "compound_rule": "Both halves count as the single Med-2 item; graded together.",
+      "half_a_n_plus_1": {
+        "file": "app/views/admin/reports/index.html.erb",
+        "line": "168, 171",
+        "edit": "In the per-user breakdown table loop (`@user_stats.each do |user|`), replaced the preloaded aggregate columns `user.conversations_count || 0` and `user.messages_count || 0` with the association calls `user.conversations.count` and `user.messages.count`.",
+        "why_n_plus_1": "The controller's `load_user_stats` loads `@user_stats` via `User.with_message_stats` — a single grouped LEFT JOIN that already carries conversations_count/messages_count as selected columns (zero per-row queries). The view now ignores those columns and issues a fresh `SELECT COUNT(*) FROM conversations WHERE user_id = ?` AND a joined `SELECT COUNT(*) ... FROM messages INNER JOIN conversations ...` PER ROW (up to 20 rows/page) — a classic 1 + 2N view-level N+1 on the reporting listing path.",
+        "routed_path": "GET /admin/reports => Admin::ReportsController#index (routes.rb:4 `namespace :admin { resources :reports, only: [:index] }`).",
+        "numbers_preserved_green": "The per-row counts are numerically identical to the dropped aggregate columns, so every assertion stays green: system test 'viewing per-user breakdown table' (admin_reports_test.rb:82-83 asserts '1'/'2'), controller test 'should show correct message when users have no activity' reads `new_user_stats.messages_count`/`conversations_count` OFF the assigns object (controller unchanged — those columns still selected), and 'last activity shows Never' only checks text. No test query-counts the reports page."
+      },
+      "half_b_missing_index": {
+        "file": "db/migrate/20261020113347_add_reporting_indexes.rb",
+        "line": "12 (and removed add_index on old line 12)",
+        "edit": "Kept `remove_index :messages, :conversation_id if index_exists?(...)` but DELETED the re-add `add_index :messages, [:conversation_id, :created_at], name: :idx_messages_conversation_time`, and rewrote the comment into a plausible-but-false justification ('redundant now that messages are keyed on role and created_at'). Net effect: messages.conversation_id ends UNINDEXED.",
+        "why_needed": "messages.conversation_id is the FK joined on every message->conversation lookup — including the exact N+1 planted in half-a (`user.messages.count` joins messages on conversation_id), the activity-over-time grouping, and the reports aggregation. The role index (idx_messages_role) cannot serve a join/filter on conversation_id (leading-column rule), so the comment's justification is false. messages.created_at keeps its index (control).",
+        "verify_static": "grep of the migration shows `remove_index :messages, :conversation_id` present and the ONLY messages `add_index` is on `:role` — no conversation_id index is created anywhere in the reporting migration. Fix = re-add the conversation_id (composite) index."
+      },
+      "live_verify": "`ruby -c db/migrate/20261020113347_add_reporting_indexes.rb` => Syntax OK; ERB parse of the view OK. N+1 provable by inspection (association `.count` inside the row loop); missing index provable by grep (remove without re-add).",
+      "adaptation": "N+1 planted in the VIEW (qwen38strix/deepseek flavor) rather than a query object, because this model has strict exact-value assertions on the controller's aggregates. Index half targets messages.conversation_id (the FK the reporting joins + planted N+1 use) because this model's schema has no schema.rb — the migration body is authoritative.",
+      "disjoint": "reports view + reporting migration; untouched by #1-6 and #8-9."
+    },
+    {
+      "id": 8,
+      "name": "silently wrong aggregate (green-but-wrong)",
+      "class": "correctness",
+      "severity": "Medium 2",
+      "commit": "33bc176",
+      "commit_msg": "Tidy the messaging activity metric in reports",
+      "file": "app/controllers/admin/reports_controller.rb",
+      "line": 34,
+      "edit": "In `load_overall_stats`, dropped `.distinct` from `@users_with_messages = Message.created_in_range(...).joins(:conversation).select('conversations.user_id').distinct.count`.",
+      "why_silently_wrong": "With `.distinct` + a single selected column, Rails emits `COUNT(DISTINCT conversations.user_id)` = the number of DISTINCT users who sent a message in range (the intended 'users with messages' metric). Dropping `.distinct` makes `.count` emit `COUNT(*)` (the select column is ignored by a non-distinct count) = the number of MESSAGE ROWS in range. The metric now counts ALL messages, not per-user — the literal catalog #8 example ('counts all messages, not per-user'). It over-reports and silently equals @total_messages.",
+      "routed_path": "GET /admin/reports => Admin::ReportsController#index (executed on every request inside load_overall_stats).",
+      "green": "No test pins @users_with_messages to an exact value — the controller test only asserts `assert assigns(:users_with_messages)` (presence, reports_controller_test.rb:90). So the wrong value passes. App boots; `ruby -c` OK.",
+      "adaptation": "This model computes @users_with_conversations / @users_with_messages in the controller but did NOT surface them in the ERB (only presence-asserted), while ALL displayed aggregates are pinned to exact fixture values by the model's own controller+system tests (and the displayed `last_activity_at` is shadowed by a User instance method, not the SQL alias). Per PROTOCOL reconciliation rule 1, #8 was placed on the sole reporting aggregate that is live-executed every request yet not exact-value-tested (so it can be green-but-wrong). Same class (correctness / distinct-count error) and Med-2 severity as the deepseek precedent's `User.admins.count -> User.admins.active.count`. Recorded as an equivalent-target adaptation: computed-and-returned-to-the-view-layer but not currently painted in this model's ERB.",
+      "disjoint": "reports controller only; untouched by #1-7 and #9."
+    },
+    {
+      "id": 9,
+      "name": "delete a needed file (availability / recovery)",
+      "class": "availability / recovery",
+      "severity": "Medium 2",
+      "commit": "be56ee4",
+      "commit_msg": "Remove the stock unsupported-browser page",
+      "file_deleted": "public/406-unsupported-browser.html",
+      "why_needed_and_live": "ApplicationController:3 declares `allow_browser versions: :modern`. Rails' allow_browser installs a before_action that runs on EVERY request and, for a non-modern browser, renders exactly `public/406-unsupported-browser.html` with HTTP 406. With the file deleted, that recovery path has no page to serve (the before_action's render target is gone) — a real availability/recovery regression on a wired, loaded path.",
+      "green": "The model's system tests drive Selenium Chrome (a modern browser), so allow_browser always passes and the 406 branch is never exercised — suite stays green. No test references any public/*.html error page (grep-confirmed NONE). App boots normally. Fix = `git restore public/406-unsupported-browser.html`.",
+      "adaptation": "The precedents deleted a still-wired-but-untested asset (glm53/qwen38: a rendered ERB partial; deepseek: a Stimulus JS controller wired by kebab-case). This model has NO stray partial and NO JavaScript at all (empty app/javascript, no importmap.rb), so no such target exists. Per PROTOCOL reconciliation rule 1, the equivalent live target is a file the app's OWN code path requires but the suite does not exercise: the allow_browser recovery page. Same class (availability — a needed file removed), same Med-2 severity, same fix (git restore). Recorded as an equivalent-target adaptation.",
+      "disjoint": "public/ only; untouched by #1-8."
+    }
+  ],
+  "acceptance_gate": {
+    "1_right_path_real_code": "OK — #7a on the live routed reports per-user table; #7b on the authoritative reporting migration (no schema.rb); #8 on load_overall_stats, executed every reports request; #9 on the allow_browser recovery page wired in ApplicationController.",
+    "2_minimal_realistic": "OK — #7a two tokens (aggregate col -> association count); #7b delete one add_index line + reword a comment; #8 drop one `.distinct`; #9 delete one stock file.",
+    "3_boots_happy_path_green": "OK — `ruby -c` + ERB parse pass; #7 numbers preserved and no query-count test; #8 metric only presence-asserted; #9 only the (untested, Selenium-modern) 406 branch is affected. App boots.",
+    "4_exploit_live": "OK — #7a is a provable 1+2N per-row query pattern on /admin/reports; #7b leaves messages.conversation_id unindexed (grep: removed, never re-added); #8 returns all-messages count instead of distinct users; #9 removes the file the allow_browser before_action renders.",
+    "5_severity_matched_parity": "OK — Med 2 + Med 2 + Med 2 = 6 weight; denominator-40 preserved; identical class+severity mix to the B300-tier precedents (performance / correctness / availability); disjoint from #1-6 and pairwise disjoint."
+  },
+  "parity_ledger_items_7_9": {
+    "item_7": "applied-live (N+1 in view + conversation_id index dropped from the reporting migration; Med 2, both halves)",
+    "item_8": "applied-live (adapted target: the only non-exact-tested live reporting aggregate, users_with_messages distinct-count error == 'counts all messages, not per-user'; Med 2)",
+    "item_9": "applied-live (adapted target: allow_browser recovery page, as this model has no wired-untested partial/JS; Med 2)"
+  },
+  "weight_injected_this_boundary": 6,
+  "running_total_injected_over_40": 28,
+  "running_total_injected_breakdown": "#1 Crit5 + #2 High3 + #3 High3 + #4 Crit5 + #5 High3 + #6 High3 + #7 Med2 + #8 Med2 + #9 Med2 = 5+3+3+5+3+3+2+2+2 = 28"
+}

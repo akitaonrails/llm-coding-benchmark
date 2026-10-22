@@ -1,0 +1,8 @@
+{
+  "time": 1792367659.2618957,
+  "entry": {
+    "slug": "v2_thinkingcap_3_8_27b_oss",
+    "reason": "HF access approved, HTTP200 locally and on pod with credential at actual HF_TOKEN_PATH; first execution"
+  },
+  "preserves": "All source, transcripts, sessions, previous admission and cumulative sprint budget"
+}

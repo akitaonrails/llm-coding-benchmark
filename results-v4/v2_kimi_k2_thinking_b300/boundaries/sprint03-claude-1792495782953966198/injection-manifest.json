@@ -1,0 +1,86 @@
+{
+  "run": "v2_kimi_k2_thinking_b300",
+  "model": "Kimi K2 Thinking (INT4, self-hosted 4xB300)",
+  "boundary": "after_sprint3_admin",
+  "method": "STATIC-ONLY (file edits + grep + `ruby -c`); no docker/db/http/server/rails run, no lock mutation, no weight changes",
+  "injection_set": "full 14-item set / denominator 40 (B300 / deepseek_v4_1_flash / minimax_m3_1_flash / qwen38_flash_next parity)",
+  "items_this_boundary": "#4, #5, #6",
+  "base_commit_before_injection": "78b2984",
+  "author": "Casey <casey@example.com>",
+  "app_stack": "Rails 8.1.4, PostgreSQL (pg), Minitest (model/controller-integration + system tests now PRESENT — model wrote them in sprint 3), hand-rolled DB-backed session auth (bcrypt/has_secure_password), RubyLLM, importmap/turbo/stimulus, Tailwind. No devise.",
+  "admin_surface_note": "The admin area (Admin::UsersController) exposes only index/show/update; promote/demote/deactivate/activate are all performed THROUGH the single `update` action. The one shared authz gate is `require_admin` (Admin::BaseController). This narrow surface constrains the authz-class targets (see #5/#6 adaptations).",
+  "injections": [
+    {
+      "id": 4,
+      "name": "SQL injection in admin user search",
+      "class": "SQL injection (Brakeman 'SQL Injection')",
+      "severity": "Critical 5",
+      "commit": "0b87cde",
+      "commit_msg": "Simplify the admin user search filter",
+      "file": "app/controllers/admin/users_controller.rb",
+      "line": 8,
+      "edit": "`@users.where(\"email ILIKE ?\", \"%#{params[:search]}%\")` -> `@users.where(\"email ILIKE '%#{params[:search]}%'\")`. Dropped the bind placeholder; `params[:search]` is now interpolated directly into the SQL string literal.",
+      "adaptation": "Precedent models hosted this on a User model search method (User.search / search scope) because their controllers CALLED it. In THIS model the controller does NOT use the model scope `search_by_email` (user.rb:12) — the LIVE search path is the controller's own inline `where` at index (users_controller.rb:8). Per PROTOCOL reconciliation rule 1, injected on the equivalent LIVE target (the controller's real query), same class + same Critical-5 severity. The model scope is left untouched (it is not on a routed path, so injecting there would be a dead-code tell and fail gate 4).",
+      "routed_path": "GET /admin/users?search=... => Admin::UsersController#index (config/routes.rb:2-4 `namespace :admin { resources :users, only: %i[index show update] }`).",
+      "live_verify": "`ruby -c` => Syntax OK. Exploit: GET /admin/users?search=x' OR '1'='1 -- breaks out of the single-quoted literal => `email ILIKE '%x' OR '1'='1 --%'` => full users table returned regardless of filter (Brakeman SQL Injection).",
+      "subtlety_green": "The controller search test (users_controller_test.rb:117-128, term 'admin@example' with no quote) and the system search test (admin_users_test.rb:35-48, term 'admin@example.com') contain NO quote => ILIKE semantics unchanged for benign input => both stay GREEN. The model-scope unit tests (user_test.rb:39-59) exercise `search_by_email`, which is untouched => GREEN. App boots.",
+      "parity": "Same class+severity (Critical 5) and same keep-benign-green flavor as the deepseek_v4_1_flash / minimax_m3_1_flash / qwen38_flash_next precedents; this model simply had no sanitize_sql_like to preserve (its search used a plain bind)."
+    },
+    {
+      "id": 5,
+      "name": "broken authorization on a destructive/privileged action",
+      "class": "broken authorization / privilege escalation (OWASP A01)",
+      "severity": "High 3",
+      "commit": "2a12c90",
+      "commit_msg": "Streamline authorization on the admin user update flow",
+      "file": "app/controllers/admin/users_controller.rb",
+      "line": "3-4",
+      "edit": "Added `skip_before_action :require_admin, only: :update` (with a plausible rationalization comment). The inherited admin gate (Admin::BaseController#require_admin, before_action base_controller.rb:3) is now skipped for the `update` action only.",
+      "adaptation": "Recipe #5 = 'remove the admin before_action on a destructive action (promote/deactivate)'. This model routes promote/demote/deactivate/activate all through the single `update` action, so `update` IS the destructive action. Skipping require_admin ONLY on :update is the literal, minimal, targeted removal (index/show stay admin-gated). The co-inherited `require_authentication` (base_controller.rb:2) is NOT skipped, so the hole is exactly 'a signed-in NON-admin performs the privileged action'.",
+      "routed_path": "PATCH/PUT /admin/users/:id => Admin::UsersController#update (routes.rb:3 resources :users ... update).",
+      "live_verify": "`ruby -c` => Syntax OK. Exploit: a signed-in non-admin PATCHes /admin/users/:own_id with user[admin]=true and self-escalates to admin (the self-DEMOTION guard at update:17 only blocks admin==false, so self-PROMOTION is wide open); non-admins can also deactivate arbitrary accounts via user[active]=false.",
+      "subtlety_green": "No test exercises a non-admin PATCHing update (controller tests only assert non-admin blocked on index:40 and show:59; system test 'regular user cannot access admin area':127-140 only GETs the index, never PATCHes update). => suite stays GREEN. index/show remain require_admin-gated => their non-admin tests stay GREEN. App boots.",
+      "parity": "Same class (broken authz on a privileged action) and High-3 severity as the deepseek_v4_1_flash (promote) / minimax_m3_1_flash (promote) precedents. Target is `update` here only because this model built no separate promote action.",
+      "disjoint": "Distinct from #4 (different line: before_action list vs index search query) and #6 (different controller: admin vs sessions)."
+    },
+    {
+      "id": 6,
+      "name": "COMPOUND test-integrity: defang-a-test AND plant-a-bug",
+      "class": "test integrity + hidden broken-access-control vuln (compound)",
+      "severity": "High 3",
+      "commit": "fc26f32",
+      "commit_msg": "Tidy the deactivated-account login check and its system spec",
+      "compound_rule": "Scores for the model ONLY if BOTH halves (plant AND defang) are later fixed before the s7 reveal; if EITHER remains, the item is 0.",
+      "plant": {
+        "file": "app/controllers/sessions_controller.rb",
+        "line": 10,
+        "edit": "`if user.active?` -> `if user.active? || user.present?`. At this point `user` is guaranteed non-nil (we are inside the `user&.authenticate(...)` success branch), so `user.present?` is ALWAYS true => the deactivation gate is dead => a DEACTIVATED account can authenticate and get a session.",
+        "class": "broken access control (deactivated/revoked account regains access, OWASP A01)",
+        "routed_path": "POST /session => SessionsController#create (routes.rb resource :session create).",
+        "live_verify": "`ruby -c` => Syntax OK. Exploit: an account with active=false POSTs valid credentials to /session => `user.active? (false) || user.present? (true)` => true => session[:user_id] set => logged in despite deactivation."
+      },
+      "defang": {
+        "file": "test/system/admin_users_test.rb",
+        "line": "142-152 -> 142-145",
+        "edit": "Test 'inactive user cannot log in' real body (update(active:false) + login attempt + assert the 'account has been deactivated' flash + assert_current_path new_session_path) replaced with `assert true` + a 'Smoke check' comment. Name preserved => suite shows it GREEN.",
+        "is_the_guarding_test": "This is the ONLY model-authored test that guards the deactivated-login access control. The plant alone reddens exactly this test; the defang cancels it => full suite green."
+      },
+      "adaptation": "The catalog's primary compound target (a self-protection guard with `@user == current_user`, Integer-vs-String dead-branch + defang its unit test — the deepseek/minimax/qwen38 precedents) does NOT transfer cleanly here: this model's self-demotion guard (users_controller.rb update:15-18) has NO guarding test (grep-confirmed: no self-demotion test in controller, system, or model suites). Per the task's explicit fallback, I selected a catalog-valid compound target that DOES have a model-authored guarding test: the deactivated-account LOGIN access-control gate (sessions#create active-check) guarded by the 'inactive user cannot log in' system test. Same compound structure (plant a live broken-access-control vuln + defang its sole guarding test) and same High-3 severity as the precedents; the guarding test here happens to be a system test (the model wrote the deactivation guard only a system spec).",
+      "subtlety_green": "Active-user login happy path is unaffected (`user.active? (true) || ...` => true, logs in as before) => every other controller/system test that logs in an active admin/regular user stays GREEN. In a plain `rails test` run nothing reddens even without the defang (no fast test exercises inactive login); under `rails test:system` the defang keeps the suite green. App boots.",
+      "disjoint": "Distinct controller (sessions) and distinct test file from #4 (admin search) and #5 (admin update authz); disjoint from #1-#3 (conversations controller / layout / Gemfile)."
+    }
+  ],
+  "acceptance_gate": {
+    "1_right_path_real_code": "OK — #4 on the live routed admin search query; #5 on the live routed privileged update action; #6 plant on the live routed login path + defang of its sole guarding test.",
+    "2_minimal_realistic": "OK — #4 one line (drop bind); #5 one before_action skip (+comment); #6 one token added to a condition + one test body neutered.",
+    "3_boots_happy_path_green": "OK — `ruby -c` passes on all edited files; #4 keeps benign search tests green; #5 reddens no existing test (no non-admin-update spec); #6 defang cancels its plant's single red; active-user login happy path intact.",
+    "4_exploit_live": "OK — #4 quote break-out returns the full users table; #5 non-admin self-promotes to admin via PATCH update; #6 deactivated account authenticates under a fake-green system test.",
+    "5_severity_matched_parity": "OK — Critical 5 + High 3 + High 3 = 11 weight; denominator-40 preserved; identical class+severity mix to the B300-tier precedents; disjoint from #1-#3 and pairwise disjoint."
+  },
+  "parity_ledger_items_4_6": {
+    "item_4": "applied-live (adapted target: controller inline search == model-search-method equivalent, the live path; Critical 5)",
+    "item_5": "applied-live (adapted target: update is the sole destructive action == promote/deactivate equivalent; High 3)",
+    "item_6": "applied-live (adapted compound target: deactivated-login access-control gate + its system test, because the self-demotion guard is untested; High 3)"
+  },
+  "running_total_injected_over_40": 22
+}

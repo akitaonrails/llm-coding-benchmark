@@ -1,0 +1,10 @@
+{
+  "slug": "v2_qwen35_397b_oss",
+  "sprint": "sprint02_multiuser",
+  "harness": "opencode",
+  "elapsed_seconds": 410.54,
+  "cost_usd": 0.0,
+  "tokens_total": 5343983,
+  "exit_code": 0,
+  "stall_aborted": false
+}

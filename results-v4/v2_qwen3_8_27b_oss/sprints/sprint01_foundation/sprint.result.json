@@ -1,0 +1,12 @@
+{
+  "slug": "v2_qwen3_8_27b_oss",
+  "sprint": "sprint01_foundation",
+  "harness": "opencode",
+  "elapsed_seconds": 1441.59,
+  "cost_usd": 0.0,
+  "tokens_total": 18557669,
+  "exit_code": 1,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": false
+}

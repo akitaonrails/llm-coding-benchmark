@@ -1,0 +1,12 @@
+{
+  "slug": "v2_nex_n25_pro_b300",
+  "sprint": "sprint05_api",
+  "harness": "opencode",
+  "elapsed_seconds": 336.61,
+  "cost_usd": 0.0,
+  "tokens_total": 1144877,
+  "exit_code": 1,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": true
+}

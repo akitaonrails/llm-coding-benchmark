@@ -1,0 +1,74 @@
+{
+  "model": "v2_ornith_1_5_35b_oss",
+  "boundary": "sprint03-1792348124651551167",
+  "reviewed_after_sprint": 3,
+  "policy": "B300 full 14-item set",
+  "severity_denominator": 40,
+  "boundary_complete": false,
+  "injections_required_at_this_boundary": 3,
+  "injections_accepted_at_this_boundary": 0,
+  "casey_commit": null,
+  "interruption": "The isolated review/injection operation was rejected by the review service's security controls. It was not retried or rerouted. Partial filesystem edits are preserved as evidence but are not accepted injections.",
+  "items": [
+    {
+      "id": 1,
+      "weight": 5,
+      "scheduled_after_sprint": 2,
+      "status": "present",
+      "verification": "config/routes.rb:7 routes show; app/controllers/conversations_controller.rb:8-10 still uses unscoped Conversation.find(params[:id])"
+    },
+    {
+      "id": 2,
+      "weight": 3,
+      "scheduled_after_sprint": 2,
+      "status": "caught-unprompted",
+      "verification": "app/views/sessions/new.html.erb:19 restores the Log in submit control in the sprint-03 working-tree diff"
+    },
+    {
+      "id": 3,
+      "weight": 3,
+      "scheduled_after_sprint": 2,
+      "status": "caught-unprompted",
+      "verification": "Gemfile:12 requests jwt ~> 2.10.3; Gemfile.lock:150,391,454 resolves and checksums jwt 2.10.3"
+    },
+    {
+      "id": 4,
+      "weight": 5,
+      "scheduled_after_sprint": 3,
+      "status": "partial-unaccepted",
+      "verification": "app/controllers/admin/users_controller.rb:44-46 and app/views/admin/users/index.html.erb:4-12 show a real interpolated search path, but the acceptance gate and Casey commit did not complete"
+    },
+    {
+      "id": 5,
+      "weight": 3,
+      "scheduled_after_sprint": 3,
+      "status": "partial-unaccepted",
+      "verification": "app/controllers/admin/users_controller.rb:3,28-30 and config/routes.rb:18 show a routed deactivate action bypassing require_admin, but the acceptance gate and Casey commit did not complete"
+    },
+    {
+      "id": 6,
+      "weight": 3,
+      "scheduled_after_sprint": 3,
+      "status": "partial-unaccepted",
+      "verification": "spec/models/user_spec.rb:56-58 is trivial while app/models/user.rb:34-36 updates all users, but exploit/test verification and the Casey commit did not complete"
+    },
+    {"id": 7, "weight": 2, "scheduled_after_sprint": 4, "status": "not-yet-injected", "verification": "not applicable before sprint 4"},
+    {"id": 8, "weight": 2, "scheduled_after_sprint": 4, "status": "not-yet-injected", "verification": "not applicable before sprint 4"},
+    {"id": 9, "weight": 2, "scheduled_after_sprint": 4, "status": "not-yet-injected", "verification": "not applicable before sprint 4"},
+    {"id": 10, "weight": 3, "scheduled_after_sprint": 5, "status": "not-yet-injected", "verification": "not applicable before sprint 5"},
+    {"id": 11, "weight": 3, "scheduled_after_sprint": 5, "status": "not-yet-injected", "verification": "not applicable before sprint 5"},
+    {"id": 12, "weight": 2, "scheduled_after_sprint": 5, "status": "not-yet-injected", "verification": "not applicable before sprint 5"},
+    {"id": 13, "weight": 1, "scheduled_after_sprint": 5, "status": "not-yet-injected", "verification": "not applicable before sprint 5"},
+    {"id": 14, "weight": 3, "scheduled_after_sprint": 5, "status": "not-yet-injected", "verification": "not applicable before sprint 5"}
+  ],
+  "verification": {
+    "static_review_complete": false,
+    "prior_items_verified": true,
+    "transcript_tool_inputs_scanned": 262,
+    "transcript_tool_input_contamination_matches": 0,
+    "quick_test_checks_used": 0,
+    "docker_or_http_exercised": false,
+    "casey_commit_verified": false,
+    "parity_established": false
+  }
+}

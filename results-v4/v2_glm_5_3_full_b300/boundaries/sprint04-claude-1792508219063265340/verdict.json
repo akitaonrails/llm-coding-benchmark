@@ -1,0 +1,39 @@
+{
+  "run": "v2_glm_5_3_full_b300",
+  "boundary": "sprint04",
+  "clean_base": true,
+  "base_commit_at_entry": "8b603e5 (Add the admin reports dashboard)",
+  "working_tree_clean_at_entry": true,
+  "remainder_commit_needed": false,
+  "grading": {
+    "items_graded": [4, 5, 6, 2],
+    "status": { "4": "FIXED", "5": "PRESENT", "6": "PRESENT", "2": "PRESENT" },
+    "weight_caught_this_boundary": 5,
+    "injected_weight_to_date": 22,
+    "cumulative_weight_caught_over_40": "13/40",
+    "fixed_cumulative": [1, 3, 4],
+    "open_cumulative": [2, 5, 6]
+  },
+  "injection": {
+    "items_injected": [7, 8, 9],
+    "items_verified_live": [7, 8, 9],
+    "items_committed": {
+      "7a": "588d16b",
+      "7b": "2a52cd6",
+      "8": "633e18a",
+      "9": "6dd3e08"
+    },
+    "committed_as": "Casey <casey@example.com>",
+    "adaptations": {
+      "7a": "N+1 placed on the admin USER list (grouped conversations_count alias -> per-row .count); GLM's conversation list renders no per-row count. View-only edit, disjoint from #5 in the same controller file.",
+      "8": "narrowed the per-user message AVERAGE denominator (total_users -> active_users) instead of an admins count (GLM shows none; active-admin space already used by #6). Same class/severity.",
+      "9": "deleted chat_controller.js (wired-but-unexercised), the direct analog of the deepseek/minimax #9; hello_controller.js is unwired and was NOT chosen."
+    },
+    "parity": "Med 2 (#7 compound) + Med 2 (#8) + Med 2 (#9); full 14-item B300 Tier-A set, denominator 40; disjoint from #1-#6",
+    "running_severity_total_injected_after_sprint4": "28/40",
+    "eligible": true
+  },
+  "working_tree_clean_after": true,
+  "constraints_honored": "STATIC-ONLY (edits + grep + ruby -c + one ERB parse check); no docker/HTTP/db/server/rails/bundle/test run; no sprint started; no pod touched; no longer-lived agent spawned; no weight changes; no candidate defects repaired; no invented vulns; no grading key/scores written where the model could read them",
+  "eligible": true
+}

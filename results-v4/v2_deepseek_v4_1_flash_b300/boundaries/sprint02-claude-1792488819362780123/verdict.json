@@ -1,0 +1,6 @@
+{
+  "eligible": true,
+  "report": true,
+  "cleanup": true,
+  "reason": "All three after-sprint-2 items (#1 Critical-5 tenant leak at conversations_controller.rb:34; #2 High-3 login-link removal at users/new.html.erb:56-59; #3 High-3 puma 6.4.1 pin in Gemfile/Gemfile.lock) were placed on real routed/loaded paths, live-verified, and committed as Casey <casey@example.com> (70bdb55, 455c22a, 212ffc7). Parity holds with the minimax_m3_1_flash and qwen38_flash_next sprint-2 precedents (full 14-item set / denominator 40; same gem-pin adaptation to puma 6.4.1). Working tree clean, no boot break, no weight changes, no candidate-defect repair."
+}

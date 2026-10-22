@@ -1,0 +1,12 @@
+{
+  "slug": "v2_qwen3_8_flash_next_oss",
+  "sprint": "sprint01_foundation",
+  "harness": "opencode",
+  "elapsed_seconds": 989.48,
+  "cost_usd": 0.0,
+  "tokens_total": 9542191,
+  "exit_code": 0,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": false
+}

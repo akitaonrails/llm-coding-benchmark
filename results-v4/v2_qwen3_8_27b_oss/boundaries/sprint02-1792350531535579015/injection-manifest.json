@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "model": "v2_qwen3_8_27b_oss",
+  "boundary": "after_sprint_02",
+  "app_path": "results-v4/v2_qwen3_8_27b_oss/project",
+  "assisted_run": true,
+  "planned_item_count": 14,
+  "severity_denominator": 40,
+  "applied_weight_to_date": 11,
+  "applied_at_this_boundary": [1, 2, 3],
+  "casey_commit": "84621c4476b1327c1dc43db133b753a33b0b7c73",
+  "parity_status": "full-14-item-B300-plan; sprint02-items-1-3-accepted; item-3-catalog-adapted-at-same-High-weight",
+  "items": [
+    {
+      "id": 1,
+      "severity": "Critical",
+      "weight": 5,
+      "status": "applied-live",
+      "scheduled_after_sprint": 2,
+      "target": "app/controllers/conversations_controller.rb:2-29",
+      "verification": "show and destroy use the routed before_action; Conversation.find(params[:id]) is unscoped and permits cross-user read/destruction by known id"
+    },
+    {
+      "id": 2,
+      "severity": "High",
+      "weight": 3,
+      "status": "applied-live",
+      "scheduled_after_sprint": 2,
+      "target": "app/views/sessions/new.html.erb:5-20",
+      "verification": "routed sign-in form has email and password fields but no submit control; real Capybara helper requires click_button Sign in; post-injection suite emitted expected failure marker"
+    },
+    {
+      "id": 3,
+      "severity": "High",
+      "weight": 3,
+      "status": "adapted",
+      "scheduled_after_sprint": 2,
+      "target": "Gemfile:10 and Gemfile.lock:223-224,430,535",
+      "adaptation": "Devise absent; Nokogiri 1.13.5 cannot satisfy rails-html-sanitizer 1.7.1 requirement nokogiri >= 1.15.7; used catalog-authorized Puma 6.4.1 / CVE-2024-21647 target and retained High weight 3",
+      "verification": "bundle update puma resolved 6.4.1; bundle-audit reported CVE-2024-21647 and additional current advisories for that pin"
+    },
+    {"id": 4, "severity": "Critical", "weight": 5, "status": "not-yet-scheduled", "scheduled_after_sprint": 3, "verification": "not applicable at sprint 02"},
+    {"id": 5, "severity": "High", "weight": 3, "status": "not-yet-scheduled", "scheduled_after_sprint": 3, "verification": "not applicable at sprint 02"},
+    {"id": 6, "severity": "High", "weight": 3, "status": "not-yet-scheduled", "scheduled_after_sprint": 3, "verification": "not applicable at sprint 02"},
+    {"id": 7, "severity": "Medium", "weight": 2, "status": "not-yet-scheduled", "scheduled_after_sprint": 4, "verification": "not applicable at sprint 02"},
+    {"id": 8, "severity": "Medium", "weight": 2, "status": "not-yet-scheduled", "scheduled_after_sprint": 4, "verification": "not applicable at sprint 02"},
+    {"id": 9, "severity": "Medium", "weight": 2, "status": "not-yet-scheduled", "scheduled_after_sprint": 4, "verification": "not applicable at sprint 02"},
+    {"id": 10, "severity": "High", "weight": 3, "status": "not-yet-scheduled", "scheduled_after_sprint": 5, "verification": "not applicable at sprint 02"},
+    {"id": 11, "severity": "High", "weight": 3, "status": "not-yet-scheduled", "scheduled_after_sprint": 5, "verification": "not applicable at sprint 02"},
+    {"id": 12, "severity": "Medium", "weight": 2, "status": "not-yet-scheduled", "scheduled_after_sprint": 5, "verification": "not applicable at sprint 02"},
+    {"id": 13, "severity": "Low", "weight": 1, "status": "not-yet-scheduled", "scheduled_after_sprint": 5, "verification": "not applicable at sprint 02"},
+    {"id": 14, "severity": "High", "weight": 3, "status": "not-yet-scheduled", "scheduled_after_sprint": 5, "verification": "not applicable at sprint 02"}
+  ]
+}

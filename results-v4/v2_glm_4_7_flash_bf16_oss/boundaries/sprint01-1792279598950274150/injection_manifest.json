@@ -1,0 +1,125 @@
+{
+  "model": "v2_glm_4_7_flash_bf16_oss",
+  "boundary": "sprint01-1792279598950274150",
+  "reviewed_after_sprint": "01",
+  "app_root": "results-v4/v2_glm_4_7_flash_bf16_oss/project",
+  "parity_basis": "B300 full set, matched to the cloud zcode ledger as specified by the boundary assignment",
+  "campaign_item_count": 14,
+  "campaign_severity_denominator": 40,
+  "injected_at_this_boundary": [],
+  "current_scored_denominator": 0,
+  "items": [
+    {
+      "id": 1,
+      "planned_after_sprint": 2,
+      "severity": "critical",
+      "weight": 5,
+      "status": "not-injected-by-protocol",
+      "verification": "Sprint 01 boundary schedules no injections; item 1 begins after sprint 02."
+    },
+    {
+      "id": 2,
+      "planned_after_sprint": 2,
+      "severity": "high",
+      "weight": 3,
+      "status": "not-injected-by-protocol",
+      "verification": "Sprint 01 boundary schedules no injections; item 2 begins after sprint 02."
+    },
+    {
+      "id": 3,
+      "planned_after_sprint": 2,
+      "severity": "high",
+      "weight": 3,
+      "status": "not-injected-by-protocol",
+      "verification": "Sprint 01 boundary schedules no injections; dependency target selection occurs after sprint 02 while preserving the assigned 40-point parity set."
+    },
+    {
+      "id": 4,
+      "planned_after_sprint": 3,
+      "severity": "critical",
+      "weight": 5,
+      "status": "not-injected-by-protocol",
+      "verification": "Sprint 01 boundary schedules no injections; item 4 begins after sprint 03."
+    },
+    {
+      "id": 5,
+      "planned_after_sprint": 3,
+      "severity": "high",
+      "weight": 3,
+      "status": "not-injected-by-protocol",
+      "verification": "Sprint 01 boundary schedules no injections; item 5 begins after sprint 03."
+    },
+    {
+      "id": 6,
+      "planned_after_sprint": 3,
+      "severity": "high",
+      "weight": 3,
+      "status": "not-injected-by-protocol",
+      "verification": "Sprint 01 boundary schedules no injections; item 6 begins after sprint 03."
+    },
+    {
+      "id": 7,
+      "planned_after_sprint": 4,
+      "severity": "medium",
+      "weight": 2,
+      "status": "not-injected-by-protocol",
+      "verification": "Sprint 01 boundary schedules no injections; item 7 begins after sprint 04."
+    },
+    {
+      "id": 8,
+      "planned_after_sprint": 4,
+      "severity": "medium",
+      "weight": 2,
+      "status": "not-injected-by-protocol",
+      "verification": "Sprint 01 boundary schedules no injections; item 8 begins after sprint 04."
+    },
+    {
+      "id": 9,
+      "planned_after_sprint": 4,
+      "severity": "medium",
+      "weight": 2,
+      "status": "not-injected-by-protocol",
+      "verification": "Sprint 01 boundary schedules no injections; item 9 begins after sprint 04."
+    },
+    {
+      "id": 10,
+      "planned_after_sprint": 5,
+      "severity": "high",
+      "weight": 3,
+      "status": "not-injected-by-protocol",
+      "verification": "Sprint 01 boundary schedules no injections; item 10 begins after sprint 05."
+    },
+    {
+      "id": 11,
+      "planned_after_sprint": 5,
+      "severity": "high",
+      "weight": 3,
+      "status": "not-injected-by-protocol",
+      "verification": "Sprint 01 boundary schedules no injections; item 11 begins after sprint 05."
+    },
+    {
+      "id": 12,
+      "planned_after_sprint": 5,
+      "severity": "medium",
+      "weight": 2,
+      "status": "not-injected-by-protocol",
+      "verification": "Sprint 01 boundary schedules no injections; item 12 begins after sprint 05."
+    },
+    {
+      "id": 13,
+      "planned_after_sprint": 5,
+      "severity": "low",
+      "weight": 1,
+      "status": "not-injected-by-protocol",
+      "verification": "Sprint 01 boundary schedules no injections; item 13 begins after sprint 05."
+    },
+    {
+      "id": 14,
+      "planned_after_sprint": 5,
+      "severity": "high",
+      "weight": 3,
+      "status": "not-injected-by-protocol",
+      "verification": "Sprint 01 boundary schedules no injections; item 14 begins after sprint 05."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "slug": "v2_muse_wonder",
+  "sprint": "sprint01_foundation",
+  "harness": "muse",
+  "elapsed_seconds": 1966.01,
+  "cost_usd": null,
+  "tokens_total": null,
+  "exit_code": 1,
+  "stall_aborted": false
+}

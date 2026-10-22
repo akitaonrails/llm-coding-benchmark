@@ -1,0 +1,33 @@
+{
+  "trials": [
+    {
+      "index": 0,
+      "serve_args": "--tool-call-parser cohere_command4 --reasoning-parser cohere_command4 --enable-auto-tool-choice --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity",
+      "exit_code": 2,
+      "started_at": 1792273315.8865252,
+      "finished_at": 1792273446.587949,
+      "passed": false
+    },
+    {
+      "index": 1,
+      "serve_args": "--tool-call-parser cohere_command4 --reasoning-parser cohere_command4 --enable-auto-tool-choice --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity --max-num-batched-tokens 1024",
+      "exit_code": 2,
+      "started_at": 1792273467.287426,
+      "finished_at": 1792273531.991686,
+      "passed": false
+    },
+    {
+      "index": 2,
+      "serve_args": "--tool-call-parser cohere_command4 --reasoning-parser cohere_command4 --enable-auto-tool-choice --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity --max-num-batched-tokens 2048",
+      "exit_code": 2,
+      "started_at": 1792273552.259263,
+      "finished_at": 1792273617.5179746,
+      "passed": false
+    }
+  ],
+  "deadline": 1792276004.6561863,
+  "resumed_frozen_recipe": false,
+  "official_card": "results-v4/_b300_campaign/model-cards/v2_command_a_plus_oss.md",
+  "research_source": "https://docs.vllm.ai/en/latest/configuration/optimization/",
+  "rationale": "Native MTP when model card supplies recipe; otherwise bounded smaller prefill batch tests for latency. No context/output/reasoning reduction."
+}

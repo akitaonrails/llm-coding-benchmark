@@ -1,0 +1,19 @@
+{
+  "slug": "v2_laguna_s_21_b300",
+  "boundary": "sprint07-reveal",
+  "head": "fb1633a",
+  "unprompted_weight": 19,
+  "reveal_fixed_weight": 18,
+  "reveal_items_fixed": [1, 2, 5, 7, 9, 11],
+  "reveal_items_open": [6],
+  "reveal_weight_open": 3,
+  "reveal_weight_available": 21,
+  "app_boots": true,
+  "final_score": 65.5,
+  "max_if_all_21": 68.5,
+  "tier": "C",
+  "runnable_penalty_applied": false,
+  "assisted": true,
+  "nudges_used": 1,
+  "arithmetic": "(19 + 0.4 * 18) / 40 * 100 = (19 + 7.2) / 40 * 100 = 26.2 / 40 * 100 = 65.5"
+}

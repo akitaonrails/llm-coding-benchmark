@@ -1,0 +1,6 @@
+{
+  "eligible": true,
+  "report": "report.md",
+  "cleanup": "cleanup.md",
+  "reason": "All three sprint-2 injections (#1 Critical tenant leak, #2 High login-link regression, #3 High puma vulnerable-dep pin) are placed on real routed/loaded code paths, verified live (ruby -c OK; no new_session_path link in any view; bundle lock --local --print resolves the puma 6.4.1 pin with the on-disk lock unchanged), and committed as Casey <casey@example.com> with neutral non-revealing messages (4577c5b, 17a26c9, a019abd). #3 used the catalog-authorized equivalent-target adaptation (puma 6.4.1 / CVE-2024-21647 instead of the unresolvable nokogiri 1.13.5), same High-3 severity, denominator-40 parity preserved. NOTE flagged in report.md: this model guards every tenant-access path with cross-user 404 specs, so #1 necessarily reddens its own show/destroy security specs (valid live-exploit evidence per gate #4); no green-staying placement of the Critical leak exists and no test was gutted."
+}

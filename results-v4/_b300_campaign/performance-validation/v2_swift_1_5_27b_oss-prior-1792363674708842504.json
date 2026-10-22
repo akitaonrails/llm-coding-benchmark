@@ -1,0 +1,17 @@
+{
+  "index": 1,
+  "serve_args": "--dtype bfloat16 --tool-call-parser qwen3_coder --reasoning-parser qwen3 --enable-auto-tool-choice --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity --language-model-only --speculative-config '{\"method\":\"mtp\",\"num_speculative_tokens\":3}'",
+  "exit_code": 0,
+  "started_at": 1792275452.3599207,
+  "finished_at": 1792275573.4078665,
+  "passed": true,
+  "decode_tokens_per_second": 202.69881794729594,
+  "tool_preflight_passed": true,
+  "serving_fingerprint": "4d2fbd70d1f4771b96fbf3eb79123ec35c67ba396862d4465ee4cae670398323",
+  "evidence": [
+    "results-v4/_b300_campaign/migration-20261017/perf-v2_swift_1_5_27b_oss-restored-pod-1-1792275565808754116.json",
+    "results-v4/_b300_campaign/migration-20261017/preflight-v2_swift_1_5_27b_oss-1792275563774642279.json",
+    "results-v4/_b300_campaign/model-cards/v2_swift_1_5_27b_oss.md"
+  ],
+  "revision": "b4c84d42903a8646b25857eb2827288d92ed85a4"
+}

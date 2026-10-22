@@ -1,0 +1,12 @@
+{
+  "slug": "v2_swift_1_5_27b_oss",
+  "sprint": "sprint03_admin",
+  "harness": "opencode",
+  "elapsed_seconds": 411.92,
+  "cost_usd": 0.0,
+  "tokens_total": 5153663,
+  "exit_code": 0,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": true
+}

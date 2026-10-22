@@ -1,0 +1,1 @@
+{"category":"ordinary_minor_defect","prompt":"Fix config/routes.rb so bin/rails routes compiles, then run it to verify the admin routes."}

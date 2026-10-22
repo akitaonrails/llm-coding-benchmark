@@ -1,0 +1,8 @@
+{
+  "sprint": "repair03_1792361926412474839",
+  "classification": "assisted",
+  "source": "/mnt/data/Projects/llm-coding-benchmark/results-v4/v2_glm_4_7_flash_bf16_oss/boundaries/sprint03-1792280179062653818/assistance.json",
+  "prompt": "Fix config/routes.rb so bin/rails routes compiles, then run it to verify the admin routes.",
+  "issued_at": 1792361926.4125514,
+  "timing": "Dedicated repair, capped at ten minutes and charged to cumulative sprint budget"
+}

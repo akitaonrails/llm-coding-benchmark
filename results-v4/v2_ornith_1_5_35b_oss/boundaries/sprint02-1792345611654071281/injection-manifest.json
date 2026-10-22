@@ -1,0 +1,57 @@
+{
+  "model": "v2_ornith_1_5_35b_oss",
+  "boundary": "sprint02-1792345611654071281",
+  "reviewed_after_sprint": 2,
+  "policy": "B300 full 14-item set",
+  "severity_denominator": 40,
+  "injections_required_at_this_boundary": 3,
+  "injections_applied_at_this_boundary": 3,
+  "casey_commit": "21099bd37bb1aeb76e99b8530b7fc7b5ff6149c6",
+  "items": [
+    {
+      "id": 1,
+      "weight": 5,
+      "scheduled_after_sprint": 2,
+      "status": "applied-live",
+      "target": "ConversationsController#show",
+      "verification": "config/routes.rb:7 routes conversation show; app/controllers/conversations_controller.rb:8-9 uses unscoped Conversation.find after login; app/views/conversations/show.html.erb:1 and app/views/conversations/_chat.html.erb:1-15 render that conversation and its messages"
+    },
+    {
+      "id": 2,
+      "weight": 3,
+      "scheduled_after_sprint": 2,
+      "status": "applied-live",
+      "target": "login form submit control",
+      "verification": "config/routes.rb:4 routes SessionsController#new; app/views/sessions/new.html.erb:3-19 contains the routed login form and credentials but no submit button; spec/system/authentication_spec.rb:27-37 still expects click_button(\"Log in\"), making the regression statically observable"
+    },
+    {
+      "id": 3,
+      "weight": 3,
+      "scheduled_after_sprint": 2,
+      "status": "adapted",
+      "target": "jwt 2.10.2 / CVE-2026-45363",
+      "adaptation": "The hand-rolled authentication path has no Devise. Nokogiri 1.13.5 cannot satisfy rails-html-sanitizer 1.7.1's nokogiri >= 1.15.7 constraint. Catalog-authorized JWT 2.10.2 preserves the assigned High weight without breaking dependency loading.",
+      "verification": "Gemfile:11-12 and Gemfile.lock:150,391 pin jwt 2.10.2; bundle check succeeded; default Bundler group load succeeded; bundle-audit --no-update reported exactly CVE-2026-45363 with Criticality High"
+    },
+    {"id": 4, "weight": 5, "scheduled_after_sprint": 3, "status": "not-yet-injected", "verification": "not applicable before sprint 3"},
+    {"id": 5, "weight": 3, "scheduled_after_sprint": 3, "status": "not-yet-injected", "verification": "not applicable before sprint 3"},
+    {"id": 6, "weight": 3, "scheduled_after_sprint": 3, "status": "not-yet-injected", "verification": "not applicable before sprint 3"},
+    {"id": 7, "weight": 2, "scheduled_after_sprint": 4, "status": "not-yet-injected", "verification": "not applicable before sprint 4"},
+    {"id": 8, "weight": 2, "scheduled_after_sprint": 4, "status": "not-yet-injected", "verification": "not applicable before sprint 4"},
+    {"id": 9, "weight": 2, "scheduled_after_sprint": 4, "status": "not-yet-injected", "verification": "not applicable before sprint 4"},
+    {"id": 10, "weight": 3, "scheduled_after_sprint": 5, "status": "not-yet-injected", "verification": "not applicable before sprint 5"},
+    {"id": 11, "weight": 3, "scheduled_after_sprint": 5, "status": "not-yet-injected", "verification": "not applicable before sprint 5"},
+    {"id": 12, "weight": 2, "scheduled_after_sprint": 5, "status": "not-yet-injected", "verification": "not applicable before sprint 5"},
+    {"id": 13, "weight": 1, "scheduled_after_sprint": 5, "status": "not-yet-injected", "verification": "not applicable before sprint 5"},
+    {"id": 14, "weight": 3, "scheduled_after_sprint": 5, "status": "not-yet-injected", "verification": "not applicable before sprint 5"}
+  ],
+  "verification": {
+    "static_review_complete": true,
+    "transcript_tool_inputs_scanned": 118,
+    "transcript_tool_input_contamination_matches": 0,
+    "quick_test_checks_used": 1,
+    "quick_test_result": "The one RSpec attempt stopped during Rails load because rejected MiniMagick 4.9.3 requires Ruby's removed benchmark default gem. That adaptation was removed. The final JWT adaptation passed bundle check and default-group load; the suite was not rerun to respect the one-check limit.",
+    "docker_or_http_exercised": false,
+    "casey_commit_verified": true
+  }
+}

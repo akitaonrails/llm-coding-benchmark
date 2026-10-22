@@ -1,0 +1,19 @@
+{
+  "slug": "v2_qwen3_8_flash_next_oss",
+  "sprint": "sprint02_multiuser",
+  "harness": "opencode",
+  "elapsed_seconds": 442.34,
+  "cost_usd": 0.0,
+  "tokens_total": 2885111,
+  "exit_code": 0,
+  "stall_aborted": false,
+  "assistance": {
+    "sprint": "02_multiuser",
+    "prompt": "Make the system suite rerunnable from a dirty test database, then commit all existing sprint work atomically.",
+    "source": "/mnt/data/Projects/llm-coding-benchmark/results-v4/v2_qwen3_8_flash_next_oss/boundaries/sprint01-1792281776460810485/assistance.json",
+    "issued_at": 1792281966.448594,
+    "classification": "assisted",
+    "timing": "Included in this sprint and existing cumulative four-hour budget; no causal extra-time estimate"
+  },
+  "assisted_run": true
+}

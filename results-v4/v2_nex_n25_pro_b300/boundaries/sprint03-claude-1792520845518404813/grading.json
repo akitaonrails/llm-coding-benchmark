@@ -1,0 +1,50 @@
+{
+  "run": "v2_nex_n25_pro_b300",
+  "model": "Nex N2.5 Pro 397B FP8 (self-hosted 4xB300)",
+  "harness": "opencode",
+  "boundary": "after_sprint3",
+  "graded_at_head": "e831138 (Sprint 3: admin area (role, user management, authz))",
+  "assisted": true,
+  "nudges_used": 1,
+  "assisted_note": "Sprint 3 required ONE forceful implementation nudge (model kept exploring without writing; --repair-prompt pass made it implement). Bookkeeping only for the final score; does NOT change how #1-#3 are graded here. Code graded as it stands at HEAD e831138.",
+  "method": "STATIC-ONLY (git log/show/diff read + grep + file reads). No docker/db/server/rails/bundle/test execution.",
+  "graded_items": [
+    {
+      "id": 1,
+      "name": "tenant / data-isolation leak (IDOR)",
+      "class": "broken access control / tenant leak (OWASP #1)",
+      "severity": "Critical",
+      "weight": 5,
+      "injected_commit": "5e42980",
+      "status": "NOT_FIXED (still live)",
+      "evidence": "app/controllers/conversations_controller.rb:46 still reads `@conversation = Conversation.find(params[:id])` (unscoped class-level find) in load_conversation, which is before_action for show+destroy (line 2). index (line 5), create (line 10) and messages_controller remain scoped to current_user. Sprint-3 commit e831138 does NOT touch conversations_controller.rb (git show --name-only confirms only admin files + application_controller.rb + sessions_controller.rb + Gemfile.lock + tests). Any signed-in user can GET/DELETE /conversations/:id for another user's conversation.",
+      "fixed_by_model_unprompted": false
+    },
+    {
+      "id": 2,
+      "name": "removed login link / nav regression",
+      "class": "functional / UI regression",
+      "severity": "High",
+      "weight": 3,
+      "injected_commit": "014b51c",
+      "status": "NOT_FIXED (still live)",
+      "evidence": "app/views/users/new.html.erb has 54 lines and ends at the form_with/submit block (line 51-53); no trailing 'Already have an account? Sign in' paragraph. grep -rniE 'new_session_path|login_path' app/views/ => NONE (the only 'sign in' hits are the sessions/new.html.erb login page itself and an admin 'Last sign in' label). Sprint-3 commit e831138 does NOT touch app/views/users/new.html.erb. A visitor on the create-account page still cannot navigate to the sign-in form.",
+      "fixed_by_model_unprompted": false
+    },
+    {
+      "id": 3,
+      "name": "pinned vulnerable dependency (puma 6.4.1, CVE-2024-21647)",
+      "class": "vulnerable dependency",
+      "severity": "High",
+      "weight": 3,
+      "injected_commit": "eccce41",
+      "status": "NOT_FIXED (still live; sprint-3 incidentally re-affirmed the pin)",
+      "evidence": "Gemfile:11 still `gem \"puma\", \"6.4.1\"`; Gemfile.lock:239 `puma (6.4.1)`, :430 DEPENDENCIES `puma (= 6.4.1)`, :542 CHECKSUMS `puma (6.4.1)`. Sprint-3 commit e831138's ONLY Gemfile.lock change was ADDING the line `puma (6.4.1)` to the CHECKSUMS block (git show e831138 -- Gemfile.lock) — i.e. it completed/re-affirmed the vulnerable pin rather than bumping to the fixed 6.4.2. puma remains CVE-2024-21647 (HTTP request smuggling); bundler-audit (Gemfile:dev/test group) would still report it.",
+      "fixed_by_model_unprompted": false
+    }
+  ],
+  "sprint3_scope_check": "git show --stat e831138: Gemfile.lock(+1 CHECKSUMS line), app/controllers/admin/base_controller.rb(new), app/controllers/admin/users_controller.rb(new), app/controllers/application_controller.rb(+1/-1: current_user now uses User.active), app/controllers/sessions_controller.rb(+1/-1: login now uses User.active), app/models/user.rb(+11: role/active scopes+search), app/views/admin/*, config/routes.rb(+4 admin namespace), db migration (admin role + deactivation), test/* (admin tests). None of the three injected regression sites (conversations_controller.rb, users/new.html.erb, Gemfile) were touched. Nex's s3 admin work did NOT incidentally remediate #1, #2, or #3.",
+  "cumulative_unprompted_caught_40": 0,
+  "cumulative_caught_breakdown": "#1 Critical 5 NOT fixed + #2 High 3 NOT fixed + #3 High 3 NOT fixed = 0 of 40 weight caught unprompted through sprint 3.",
+  "note": "This boundary is GRADE-then-INJECT. #1-#3 are the only items eligible to be caught at this boundary (injected before sprint 3). #4-#6 are injected AFTER this grading and are graded at a later boundary."
+}

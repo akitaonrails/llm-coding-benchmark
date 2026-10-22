@@ -1,0 +1,23 @@
+{
+  "run": "v2_deepseek_v4_1_flash_b300",
+  "model": "DeepSeek V4.1 Flash (FP8, 4xB300 vLLM TP=4, ~175 tok/s)",
+  "boundary": "sprint07-reveal-FINAL",
+  "denominator": 40,
+  "unprompted_weight": 35,
+  "reveal_weight": 5,
+  "reveal_weight_credited": 2.0,
+  "final_score": 92.5,
+  "tier": "A",
+  "all_14_resolved": true,
+  "reveal_fixed_items": [
+    {"id": 2, "severity": "High", "weight": 3, "fix_commit": "1d203f8", "credited": 1.2},
+    {"id": 8, "severity": "Medium", "weight": 2, "fix_commit": "97587cb", "credited": 0.8}
+  ],
+  "unprompted_fixed_items": [1,3,4,5,6,7,9,10,11,12,13,14],
+  "still_open": [],
+  "head": "1d203f8",
+  "formula": "(35 + 0.4*5)/40*100 = 92.5",
+  "verdict_line": "DeepSeek V4.1 Flash on 4xB300 = 92.5 FINAL — led the overnight local trio (caught compounds #6 and #7 unprompted where MiniMax/Flash-Next lagged), only pre-reveal misses were the two no-test-signal items (#2, #8), both fixed with new tests at the reveal; beats MiniMax 89.5 and TIES the B300-batch frontier GLM 5.3 Flash / Qwen3.8 Flash-Next (92.5).",
+  "graded_by": "v4 FINAL boundary reviewer (fresh, isolated, static-only)",
+  "graded_at_utc": "2026-10-20"
+}

@@ -1,0 +1,12 @@
+{
+  "slug": "v2_qwen38_flash_next_5090_strata_iq3s",
+  "sprint": "sprint03_admin",
+  "harness": "opencode",
+  "elapsed_seconds": 721.71,
+  "cost_usd": 0.0,
+  "tokens_total": 5125778,
+  "exit_code": 0,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": false
+}

@@ -1,0 +1,133 @@
+{
+  "run": "v2_glm_5_3_full_b300",
+  "model": "GLM 5.3 full FP8 (self-hosted 4xB300)",
+  "harness": "opencode",
+  "boundary": "after-sprint-5 (API) — grading items #7-#9 (injected after sprint 4; model ran sprint 5) + regression re-check of #1-#6",
+  "graded_by": "v4 boundary reviewer (fresh, isolated; Claude Opus 4.8)",
+  "method": "STATIC-ONLY (git log/diff/show + grep + file read + ruby -c). No docker/db/server/rails run, no HTTP, no test execution.",
+  "scoring_rule": "a fix on the model's OWN initiative in ANY pre-reveal sprint = unprompted / full weight. Sprint 5 is pre-reveal; #7-#9 were silent, so any remediation is unprompted. An item counts as caught only if actually remediated in the model's own sprint-5 work (commit + file:line cited).",
+  "denominator": 40,
+  "sprint5_feature_commits": [
+    "fdc9957 (Sprinter) Add a versioned /api/v1 for conversations and messages",
+    "764a5cb (Sprinter) Broadcast chat and sidebar events over ActionCable",
+    "d5b39fa (Sprinter) Drive the chat UI from the API and cable events"
+  ],
+  "sprint5_remediation_commits": [],
+  "items": [
+    {
+      "id": 7,
+      "name": "N+1 on admin user list (7a) + dropped created_at index (7b) — compound",
+      "class": "performance",
+      "severity": "Medium 2",
+      "compound": true,
+      "injected_commits": ["588d16b (7a)", "2a52cd6 (7b)"],
+      "status": "PRESENT (both halves) — NOT fixed",
+      "weight_caught": 0,
+      "compound_rule": "BOTH halves must be fixed for the Med 2; either half open => 0. Both open here.",
+      "evidence": {
+        "half_7a": "app/views/admin/users/_user.html.erb:25 is STILL `<%= user.conversations.count %>` (the injected per-row COUNT, NOT the grouped `conversations_count` alias). GET /admin/users still renders the collection partial (1+N). No sprint-5 commit touches this view (sprint 5 edited API/cable/chat UI, not the admin user list). grep confirms line 25 unchanged.",
+        "half_7b": "grep -c 'index_messages_on_created_at\\b' db/schema.rb => 0; the bare `messages.created_at` index that backed Message.counts_by_day / DashboardReport#activity_series is still gone. Surviving composites: index_messages_on_role_and_created_at (schema.rb:34, the injected one) + index_messages_on_conversation_id_and_created_at_and_id (schema.rb:32), neither leads with created_at alone. No corrective migration in sprint 5.",
+        "note": "silent performance defects with no query-count guard on the affected paths -> no red test -> not surfaced to the model."
+      }
+    },
+    {
+      "id": 8,
+      "name": "silently wrong aggregate (per-user message average divides by active_users)",
+      "class": "correctness (green-but-wrong)",
+      "severity": "Medium 2",
+      "injected_commit": "633e18a",
+      "status": "PRESENT — NOT fixed",
+      "weight_caught": 0,
+      "evidence": {
+        "file_line": "app/models/admin/dashboard_report.rb:44 is STILL `total_messages.fdiv(active_users)` (the injected narrowing). Line 42 guard still on total_users. Never reverted to `fdiv(total_users)`.",
+        "reachability": "rendered on the admin dashboard Messages card (GET /admin/dashboard). No sprint-5 commit touches dashboard_report.rb.",
+        "note": "all fixture users are active, so the unit/system assertions (0.75 / '0.8 messages per user') stay green; no test deactivates a user and re-checks -> green-but-wrong, missed."
+      }
+    },
+    {
+      "id": 9,
+      "name": "deleted-but-wired chat_controller.js (availability / recovery)",
+      "class": "availability",
+      "severity": "Medium 2",
+      "injected_commit": "6dd3e08",
+      "status": "UNPROMPTED_FIXED (incidental, via the sprint-5 chat rewrite)",
+      "weight_caught": 2,
+      "fix_commit": "d5b39fa",
+      "fix_mechanism": "recreated (not git restore): the sprint-5 API/cable chat rewrite re-authored a new, fully wired chat_controller.js",
+      "evidence": {
+        "before": "injection 6dd3e08 deleted app/javascript/controllers/chat_controller.js (a 45-line Stimulus controller) while conversations/show.html.erb + _form kept it wired via data-controller=\"chat\" -> the controller silently failed to register (eager-load glob) and the chat JS behaviors were dead.",
+        "after": "ls app/javascript/controllers/ -> chat_controller.js present again (326 lines, git-tracked as ADDED in d5b39fa). It is WIRED and load-bearing: conversations/show.html.erb:3 data-controller=\"chat\" + data-chat-target scroller/list/form/input/submit, submit->chat#submit, keydown->chat#onKeyDown; conversations/index.html.erb:3 data-controller=\"chat\". node --check clean. The availability defect (wired-but-missing controller) is no longer live.",
+        "intent": "d5b39fa is a feature rewrite ('Drive the chat UI from the API and cable events') whose body does NOT acknowledge a deleted file; the recovery is incidental to the architectural rewrite, not a diagnosed catch. Credited per the established v4 precedent (deepseek_v4_1_flash #9, minimax_m3_1_flash #9, qwen38_flash_next #9 all scored FIXED-incidental +2 for the identical chat-rewrite recovery). Unprompted (sprint-5 prompt was to build the API, not to restore a deleted file)."
+      }
+    },
+    {
+      "id": 1,
+      "name": "tenant leak / IDOR on conversation lookup (regression re-check — was FIXED s3)",
+      "class": "broken access control (OWASP #1)",
+      "severity": "Critical 5",
+      "status": "STILL FIXED (no regression)",
+      "weight_caught_cumulative_contribution": 5,
+      "evidence": "app/controllers/conversations_controller.rb:19 set_conversation still `current_conversations.find(params[:id])` (user-scoped). Sprint 5 rewrote this file (d5b39fa) but kept scoping. The new API ALSO scopes correctly: api/v1/conversations_controller.rb:39 current_conversations.find; messages_controller.rb:10 current_conversations.find; both cross-user-guarded by tests (conversations_test:101,126; messages_test:78). No new #1-class hole introduced by the API."
+    },
+    {
+      "id": 2,
+      "name": "removed login link / nav regression (carry-over)",
+      "class": "functional / UI regression",
+      "severity": "High 3",
+      "injected_commit": "5be0c1d",
+      "status": "PRESENT (still open) — NOT fixed",
+      "weight_caught": 0,
+      "evidence": "app/views/registrations/new.html.erb still has 0 login-nav affordance (grep -c 'login_path|Log in|Already have' => 0). The only login_path hits are in sessions/new.html.erb (the login page's own form + submit). No view routes a sign-up visitor to the login page. Unchanged since sprint 2."
+    },
+    {
+      "id": 3,
+      "name": "pinned vulnerable puma 6.4.1 (regression re-check — was FIXED s3)",
+      "class": "vulnerable dependency",
+      "severity": "High 3",
+      "status": "STILL FIXED (no regression)",
+      "weight_caught_cumulative_contribution": 3,
+      "evidence": "Gemfile:10 `gem \"puma\", \"~> 8.0\"`; Gemfile.lock:234 puma (8.0.2). Still off the vulnerable 6.4.1 pin. (The new #13 rack-cors 2.0.1 pin is a separate, this-boundary injection, not a puma regression.)"
+    },
+    {
+      "id": 4,
+      "name": "SQL injection via admin user search (regression re-check — was FIXED s4)",
+      "class": "SQL injection",
+      "severity": "Critical 5",
+      "status": "STILL FIXED (no regression)",
+      "weight_caught_cumulative_contribution": 5,
+      "evidence": "app/models/user.rb:34 still `where(\"email LIKE ?\", \"%#{sanitize_sql_like(term)}%\")` (bound placeholder + sanitize_sql_like). No raw interpolation reintroduced."
+    },
+    {
+      "id": 5,
+      "name": "broken authz on admin deactivate (carry-over)",
+      "class": "broken access control / privilege escalation",
+      "severity": "High 3",
+      "injected_commit": "a67f394",
+      "status": "PRESENT (still open) — NOT fixed",
+      "weight_caught": 0,
+      "evidence": "app/controllers/admin/users_controller.rb:6 still `skip_before_action :require_admin, only: :deactivate`. Any signed-in member can still PATCH /admin/users/:id/deactivate. Unchanged since sprint 3. No member-authz test on deactivate -> no red test."
+    },
+    {
+      "id": 6,
+      "name": "compound test-integrity: gutted last-admin test + active-blind guard (carry-over)",
+      "class": "test integrity + hidden vuln (compound)",
+      "severity": "High 3",
+      "injected_commit": "779691e",
+      "status": "PRESENT (both halves) — NOT fixed",
+      "weight_caught": 0,
+      "evidence": "plant half: app/models/user.rb:68-69 User#admin_access_revoked? still `had_admin_access = role_was == \"admin\"` / `has_admin_access = admin?` (active-blind; original `&& active_was` / `&& active?` not restored) -> deactivating the last active admin still bypasses retain_active_admin. defang half: test/models/user_test.rb:145-149 'the last active admin cannot be deactivated' body still the trivial `assert admin.present?`. Neither half restored -> 0."
+    }
+  ],
+  "cumulative": {
+    "items_injected_to_date": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "injected_weight_to_date": 28,
+    "weight_caught_entering_sprint5": 13,
+    "weight_caught_this_boundary": 2,
+    "weight_caught_cumulative": 15,
+    "weight_caught_cumulative_over_40": "15/40",
+    "breakdown": "prior 13/40 (#1 Crit5 + #3 High3 + #4 Crit5) + this boundary #9 Med2 UNPROMPTED_FIXED (+2) = 15; still open: #2 High3, #5 High3, #6 High3 compound, #7 Med2 compound, #8 Med2 (total open weight 13).",
+    "fixed": [1, 3, 4, 9],
+    "present_missed": [2, 5, 6, 7, 8],
+    "no_regressions": [1, 3, 4]
+  }
+}

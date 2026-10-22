@@ -1,0 +1,10 @@
+{
+  "slug": "v2_muse_wonder",
+  "sprint": "sprint06_production",
+  "harness": "muse",
+  "elapsed_seconds": 4149.59,
+  "cost_usd": null,
+  "tokens_total": null,
+  "exit_code": 143,
+  "stall_aborted": true
+}

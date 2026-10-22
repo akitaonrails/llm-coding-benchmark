@@ -1,0 +1,215 @@
+{
+  "status": "paused_pending_batch_review",
+  "reason": "Automatic supervisor: sprint or boundary failed; preserve for batch review",
+  "recorded_at": 1792362066.5699003,
+  "model": {
+    "slug": "v2_glm_4_7_flash_bf16_oss",
+    "hf_repo": "zai-org/GLM-4.7-Flash",
+    "local_dir": "glm47flash-bf16",
+    "size_gb": 60,
+    "served_name": "glm-4.7-flash",
+    "serve_args": "--tool-call-parser glm47 --reasoning-parser glm45 --enable-auto-tool-choice --max-model-len 131072 --gpu-memory-utilization 0.90 --enable-prefix-caching --enable-chunked-prefill --performance-mode interactivity",
+    "notes": "Quant-vs-model A/B vs local Q5_K_M 24.0"
+  },
+  "checkpoint_revision_manifest": [
+    {
+      "slug": "v2_glm_5_3_flash_oss",
+      "repo": "RedHatAI/GLM-5.3-Flash-NVFP4",
+      "revision": "18d55bfd5a2194887738da73753975c9d3842f46",
+      "gated": false,
+      "license": "mit"
+    },
+    {
+      "slug": "v2_qwen35_122b_oss",
+      "repo": "Qwen/Qwen3.5-122B-A10B-FP8",
+      "revision": "a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9",
+      "gated": false,
+      "license": "apache-2.0"
+    },
+    {
+      "slug": "v2_qwen35_397b_oss",
+      "repo": "nvidia/Qwen3.5-397B-A17B-NVFP4",
+      "revision": "12b28061efd8145b11226e4fab2528ee4f39ef09",
+      "gated": false,
+      "license": "apache-2.0"
+    },
+    {
+      "slug": "v2_dsv4_flash_oss",
+      "repo": "deepseek-ai/DeepSeek-V4-Flash",
+      "revision": "60d8d70770c6776ff598c94bb586a859a38244f1",
+      "gated": false,
+      "license": "mit"
+    },
+    {
+      "slug": "v2_nemotron35_super_vl_oss",
+      "repo": "nvidia/NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-NVFP4",
+      "revision": "59b8721646c38111a242da18218859fb2b454322",
+      "gated": false,
+      "license": "other"
+    },
+    {
+      "slug": "v2_qwen3_8_27b_oss",
+      "repo": "Qwen/Qwen3.8-27B",
+      "revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+      "gated": false,
+      "license": "apache-2.0"
+    },
+    {
+      "slug": "v2_glm_4_7_flash_bf16_oss",
+      "repo": "zai-org/GLM-4.7-Flash",
+      "revision": "7dd20894a642a0aa287e9827cb1a1f7f91386b67",
+      "gated": false,
+      "license": "mit"
+    },
+    {
+      "slug": "v2_qwen3_8_flash_next_oss",
+      "repo": "nvidia/Qwen3.8-Flash-Next-NVFP4",
+      "revision": "fc694b54fb0174e0913e6adf86691ef85a4ead47",
+      "gated": false,
+      "license": "other"
+    },
+    {
+      "slug": "v2_muse_glimmer_30b_oss",
+      "repo": "meta-models/Muse-Glimmer-30B",
+      "revision": "a4e59da52a7bc87ae7251dd5545c0dd437c44b68",
+      "gated": false,
+      "license": "apache-2.0"
+    },
+    {
+      "slug": "v2_command_a_plus_oss",
+      "repo": "CohereLabs/command-a-plus-05-2026-w4a4",
+      "revision": "ebd2d72c0f9a84389c6b057136d38c435aea2700",
+      "gated": false,
+      "license": "apache-2.0"
+    },
+    {
+      "slug": "v2_ornith_1_5_35b_oss",
+      "repo": "ornith-ai/Ornith-1.5-35B-A3B",
+      "revision": "10fbf86fed7ecee4a061f8b499a618f46001cac1",
+      "gated": false,
+      "license": "mit"
+    },
+    {
+      "slug": "v2_nex_n2_5_mini_oss",
+      "repo": "nex-agi/Nex-N2.5-mini",
+      "revision": "87420286149d9cce9bd46cd335ef9bda33c37c1b",
+      "gated": false,
+      "license": "apache-2.0"
+    },
+    {
+      "slug": "v2_swift_1_5_27b_oss",
+      "repo": "ukisai/Swift-1.5-Qwen3.8-27b",
+      "revision": "b4c84d42903a8646b25857eb2827288d92ed85a4",
+      "gated": false,
+      "license": "swift-open-license-1.0"
+    },
+    {
+      "slug": "v2_thinkingcap_3_8_27b_oss",
+      "repo": "bottlecapai/ThinkingCap-Qwen3.8-27B",
+      "revision": "7891e03dbda2e9b63a5b9610f20e83ea441f8e2c",
+      "gated": "auto",
+      "license": "polyform-small-business-1.0.0 plus personal-use grant"
+    }
+  ],
+  "workspace": "results-v4/v2_glm_4_7_flash_bf16_oss/project",
+  "workspace_exists": true,
+  "sprints": [
+    {
+      "sprint": "sprint01_foundation",
+      "result_path": "results-v4/v2_glm_4_7_flash_bf16_oss/sprints/sprint01_foundation/sprint.result.json",
+      "exit_code": 0,
+      "stall_aborted": false
+    },
+    {
+      "sprint": "sprint02_multiuser",
+      "result_path": "results-v4/v2_glm_4_7_flash_bf16_oss/sprints/sprint02_multiuser/sprint.result.json",
+      "exit_code": 0,
+      "stall_aborted": false
+    },
+    {
+      "sprint": "sprint03_admin",
+      "result_path": "results-v4/v2_glm_4_7_flash_bf16_oss/sprints/sprint03_admin/sprint.result.json",
+      "exit_code": 0,
+      "stall_aborted": false
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "ses_eb3c86c83ffeY2liU7AS6VbmSI",
+      "path": "results-v4/v2_glm_4_7_flash_bf16_oss/pause-checkpoints/1792362065573044259/ses_eb3c86c83ffeY2liU7AS6VbmSI.json",
+      "status": "export_failed"
+    },
+    {
+      "session_id": "ses_eb3ce3cf7ffehEXlcRfK8q208G",
+      "path": "results-v4/v2_glm_4_7_flash_bf16_oss/pause-checkpoints/1792362065573044259/ses_eb3ce3cf7ffehEXlcRfK8q208G.json",
+      "status": "export_failed"
+    },
+    {
+      "session_id": "ses_eb3d2eb3cffeSaUS7eYUvKYYsW",
+      "path": "results-v4/v2_glm_4_7_flash_bf16_oss/pause-checkpoints/1792362065573044259/ses_eb3d2eb3cffeSaUS7eYUvKYYsW.json",
+      "status": "export_failed"
+    }
+  ],
+  "git": {
+    "head": "d7f1bb98afe8d3412ecba4b93fd11e4a1e5aacd1\n",
+    "status": " M app/models/user.rb\n M config/routes.rb\n M test/factories.rb\n M test/models/user_test.rb\n M test/test_helper.rb\n?? app/views/admin/\n?? db/migrate/20261017233457_add_admin_and_deactivated_to_users.rb\n?? test/controllers/admin/\n?? test/controllers/admin_controller_test.rb\n?? test/support/auth_helper.rb\n?? test/system/admin_users_system_test.rb\n"
+  },
+  "ledger": {
+    "sprints": {
+      "01_foundation": {
+        "seconds": 211,
+        "exit": 0,
+        "wrapper_exit": 0,
+        "stall_aborted": false,
+        "status": "completed"
+      },
+      "02_multiuser": {
+        "seconds": 169,
+        "exit": 0,
+        "wrapper_exit": 0,
+        "stall_aborted": false,
+        "status": "completed"
+      },
+      "03_admin": {
+        "seconds": 103,
+        "exit": 0,
+        "wrapper_exit": 0,
+        "stall_aborted": false,
+        "status": "completed"
+      },
+      "repair03_1792361926412474839": {
+        "seconds": 20,
+        "assisted": true,
+        "reason": null,
+        "exit": 0
+      }
+    },
+    "sprint_seconds_total": 503.5554721355438,
+    "guard_tripped": false,
+    "download_seconds": 481.85485315322876,
+    "serve_load_seconds": 252.74814343452454,
+    "phase_started": null,
+    "model_time_cost_usd": 1.27
+  },
+  "tuning": null,
+  "remote_retention": {
+    "weights": "/root/models/glm47flash-bf16",
+    "retain": [
+      "model-specific caches",
+      "temporary files required to resume",
+      "server logs and launch state; archive locally before replacing shared state"
+    ],
+    "weights_policy": "May delete downloaded weights only when space is needed, after verifying and recording the exact repository and immutable revision. Preserve execution state and caches.",
+    "gpu_process": "May stop owned inference process after archiving; KV cache is transient and will be rebuilt."
+  },
+  "resume_checklist": [
+    "Review all models after batch before selecting resumptions.",
+    "Archive remote launch state/logs locally before loading another model; preserve execution state/caches; weights alone may be removed if space is needed and an immutable revision is recorded.",
+    "Restore serving configuration from this checkpoint and verify API/tool preflight.",
+    "Verify session export succeeded; retain local OpenCode session store. Do not delete failed export evidence.",
+    "Determine whether current sprint ended or was interrupted; preserve existing logs before continuation.",
+    "Do not blindly rerun standard launcher: it skips existing sprint.result.json and DNF markers.",
+    "Verify grading/injection boundary records before advancing sprint. Never repeat completed injections.",
+    "Record any additional authorized budget separately; keep original attempt time, costs and pause artifacts."
+  ]
+}

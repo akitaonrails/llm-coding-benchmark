@@ -149,3 +149,19 @@
 20:09:37 RUN  v2_gpt_4o sprint 01_foundation ...
 20:12:25 DONE v2_gpt_4o — ok exit=0 tokens=2397803 cost=$3.1953
 20:12:25 === WAVE sprint 01_foundation complete ===
+14:43:13 === WAVE sprint 01_foundation : 1 models ===
+14:43:13 RUN  v2_muse_wonder sprint 01_foundation ...
+15:16:01 DNF  v2_muse_wonder — exit=1 tokens=0 (crash/auth, no real work) (dropped from remaining sprints)
+15:16:01 === WAVE sprint 01_foundation complete ===
+15:21:14 === WAVE sprint 01_foundation : 1 models ===
+15:21:14 RUN  v2_muse_wonder sprint 01_foundation ...
+15:50:53 DNF  v2_muse_wonder — stall_aborted (dropped from remaining sprints)
+15:50:53 === WAVE sprint 01_foundation complete ===
+15:54:36 === WAVE sprint 01_foundation : 1 models ===
+15:54:36 RUN  v2_muse_wonder sprint 01_foundation ...
+16:06:31 DONE v2_muse_wonder — ok exit=0 tokens=0 cost=$None
+16:06:31 === WAVE sprint 01_foundation complete ===
+20:31:03 === WAVE sprint 01_foundation : 1 models ===
+20:31:03 RUN  v2_qwen3_8_27b_strix_q4 sprint 01_foundation ...
+20:31:04 DNF  v2_qwen3_8_27b_strix_q4 — exit=1 tokens=0 (crash/auth, no real work) (dropped from remaining sprints)
+20:31:04 === WAVE sprint 01_foundation complete ===

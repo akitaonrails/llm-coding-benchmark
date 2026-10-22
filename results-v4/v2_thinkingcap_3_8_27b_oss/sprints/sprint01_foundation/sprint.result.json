@@ -1,0 +1,12 @@
+{
+  "slug": "v2_thinkingcap_3_8_27b_oss",
+  "sprint": "sprint01_foundation",
+  "harness": "opencode",
+  "elapsed_seconds": 825.01,
+  "cost_usd": 0.0,
+  "tokens_total": 14126588,
+  "exit_code": 1,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": false
+}

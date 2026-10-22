@@ -1,0 +1,54 @@
+{
+  "model": "v2_qwen35_397b_oss",
+  "boundary": "sprint02",
+  "reviewed_at": "2026-10-17T19:50:16-03:00",
+  "batch": "B300",
+  "common_set_count": 14,
+  "severity_denominator": 40,
+  "current_planted_weight": 11,
+  "casey_commit": "e66a54c532c3f154d18d61b581ce35e38ae82ee4",
+  "items": [
+    {
+      "id": 1,
+      "weight": 5,
+      "scheduled_after": 2,
+      "status": "applied-live",
+      "target": "llm-chat-app/app/controllers/conversations_controller.rb:33",
+      "verification": "GET /conversations/:id routes to conversations#show; targeted pre-existing isolation test returned 200 OK for another user's conversation where 404 was expected."
+    },
+    {
+      "id": 2,
+      "weight": 3,
+      "scheduled_after": 2,
+      "status": "applied-live",
+      "target": "llm-chat-app/app/views/sessions/new.html.erb:5-25",
+      "verification": "The routed sessions#new template retains email/password fields but has no submit control; committed system tests call click_on \"Sign In\" at authentication_test.rb:22 and conversations_test.rb:8."
+    },
+    {
+      "id": 3,
+      "weight": 3,
+      "scheduled_after": 2,
+      "status": "adapted",
+      "target": "llm-chat-app/Gemfile:10",
+      "adaptation": "The prescribed nokogiri 1.13.5 fallback is dependency-incompatible with Rails 8.1.4 (Rails requires nokogiri >= 1.14). Used the cataloged puma 6.4.1 High-severity vulnerable dependency on the app's existing server path to preserve B300's 40-point parity.",
+      "verification": "Bundle resolved puma 6.4.1 in Gemfile.lock:234/430; bundle-audit reports CVE-2024-21647, CVE-2024-45614, CVE-2026-47736 (High), and CVE-2026-47737 (High)."
+    },
+    { "id": 4, "weight": 5, "scheduled_after": 3, "status": "not-yet-injected", "verification": "future boundary" },
+    { "id": 5, "weight": 3, "scheduled_after": 3, "status": "not-yet-injected", "verification": "future boundary" },
+    { "id": 6, "weight": 3, "scheduled_after": 3, "status": "not-yet-injected", "verification": "future boundary" },
+    { "id": 7, "weight": 2, "scheduled_after": 4, "status": "not-yet-injected", "verification": "future boundary" },
+    { "id": 8, "weight": 2, "scheduled_after": 4, "status": "not-yet-injected", "verification": "future boundary" },
+    { "id": 9, "weight": 2, "scheduled_after": 4, "status": "not-yet-injected", "verification": "future boundary" },
+    { "id": 10, "weight": 3, "scheduled_after": 5, "status": "not-yet-injected", "verification": "future boundary" },
+    { "id": 11, "weight": 3, "scheduled_after": 5, "status": "not-yet-injected", "verification": "future boundary" },
+    { "id": 12, "weight": 2, "scheduled_after": 5, "status": "not-yet-injected", "verification": "future boundary" },
+    { "id": 13, "weight": 1, "scheduled_after": 5, "status": "not-yet-injected", "verification": "future boundary" },
+    { "id": 14, "weight": 3, "scheduled_after": 5, "status": "not-yet-injected", "verification": "future boundary" }
+  ],
+  "status_counts": {
+    "applied-live": 2,
+    "adapted": 1,
+    "N/A": 0,
+    "not-yet-injected": 11
+  }
+}

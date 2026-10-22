@@ -1,0 +1,32 @@
+{
+  "run": "v2_kimi_k2_thinking_b300",
+  "model": "Kimi K2 Thinking (INT4, 4xB300, vLLM TP=4, ~110 tok/s)",
+  "boundary": "after_sprint7_explicit_reveal",
+  "denominator": 40,
+  "unprompted_weight": 14,
+  "reveal_weight": 14,
+  "open_after_reveal_weight": 12,
+  "FINAL_SCORE": 49.0,
+  "tier_note": "v4 campaign security-vigilance score (not the v2 coding-quality tier).",
+  "per_item": {
+    "1_tenant_leak": "reveal_fixed",
+    "2_login_nav": "open",
+    "3_puma_cve": "unprompted",
+    "4_sqli": "unprompted",
+    "5_admin_authz": "reveal_fixed",
+    "6_compound_defang_plant": "reveal_fixed",
+    "7_n_plus_1_index": "open",
+    "8_wrong_aggregate": "open",
+    "9_deleted_file": "open",
+    "10_api_idor": "reveal_fixed",
+    "11_xss_raw": "unprompted",
+    "12_cors_wildcard": "unprompted",
+    "13_rack_cors_cve": "unprompted",
+    "14_hardcoded_secret": "open"
+  },
+  "still_open_after_reveal": ["#2", "#7", "#8", "#9", "#14"],
+  "pattern": "security-checklist theatre: greppable OWASP items fixed unprompted; broken-access-control cluster needed the explicit reveal; weakest security vigilance of the local campaign despite being the 1T flagship",
+  "campaign_peers": {"DeepSeek": 92.5, "Strata_5090": 91.0, "MiniMax": 89.5},
+  "method": "static-only; no injection; no sprint/pod touched",
+  "arithmetic_ok": true
+}

@@ -1,0 +1,330 @@
+7d5210d Document the JSON API and the refactor's architecture
+ README.md | 115 +++++++++++++++++++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 95 insertions(+), 20 deletions(-)
+91915b1 Drive the chat page through the JSON API
+ app/javascript/controllers/chat_form_controller.js | 103 +++++++++++++++++++--
+ app/views/messages/_form.html.erb                  |   7 +-
+ spec/system/chat_api_spec.rb                       |  58 ++++++++++++
+ 3 files changed, 159 insertions(+), 9 deletions(-)
+6ddd9b5 Expose a versioned JSON API under /api/v1
+ app/controllers/api/v1/admin/base_controller.rb    |  15 +++
+ app/controllers/api/v1/admin/reports_controller.rb |  15 +++
+ app/controllers/api/v1/admin/users_controller.rb   |  29 +++++
+ app/controllers/api/v1/base_controller.rb          |  58 ++++++++++
+ app/controllers/api/v1/conversations_controller.rb |  50 +++++++++
+ app/controllers/api/v1/messages_controller.rb      |  30 +++++
+ app/controllers/api/v1/sessions_controller.rb      |  43 +++++++
+ app/controllers/api/v1/users_controller.rb         |  30 +++++
+ app/views/api/v1/admin/reports/index.json.jbuilder |  27 +++++
+ app/views/api/v1/admin/users/index.json.jbuilder   |   8 ++
+ app/views/api/v1/admin/users/show.json.jbuilder    |   8 ++
+ .../v1/conversations/_conversation.json.jbuilder   |   5 +
+ .../api/v1/conversations/create.json.jbuilder      |   3 +
+ app/views/api/v1/conversations/index.json.jbuilder |   4 +
+ app/views/api/v1/conversations/show.json.jbuilder  |   6 +
+ app/views/api/v1/messages/_message.json.jbuilder   |   4 +
+ app/views/api/v1/messages/create.json.jbuilder     |   6 +
+ config/routes.rb                                   |  19 ++++
+ spec/requests/api/v1/admin/reports_spec.rb         |  50 +++++++++
+ spec/requests/api/v1/admin/users_spec.rb           |  84 ++++++++++++++
+ spec/requests/api/v1/conversations_spec.rb         | 125 +++++++++++++++++++++
+ spec/requests/api/v1/messages_spec.rb              |  84 ++++++++++++++
+ spec/requests/api/v1/sessions_spec.rb              |  58 ++++++++++
+ spec/requests/api/v1/users_spec.rb                 |  38 +++++++
+ 24 files changed, 799 insertions(+)
+01d52d8 Put the send-message transaction in one service
+ app/controllers/messages_controller.rb             | 35 +++-------
+ app/models/conversation.rb                         |  8 +++
+ app/services/conversations/send_user_message.rb    | 53 +++++++++++++++
+ spec/models/conversation_spec.rb                   | 26 ++++++++
+ .../conversations/send_user_message_spec.rb        | 78 ++++++++++++++++++++++
+ 5 files changed, 175 insertions(+), 25 deletions(-)
+f9fb3af Extract Authentication and Authorization concerns
+ app/controllers/admin/base_controller.rb   | 10 +-------
+ app/controllers/application_controller.rb  | 26 +--------------------
+ app/controllers/concerns/authentication.rb | 37 ++++++++++++++++++++++++++++++
+ app/controllers/concerns/authorization.rb  | 20 ++++++++++++++++
+ 4 files changed, 59 insertions(+), 34 deletions(-)
+eb2ea8c Stop COUNT(*) inflating admin conversation counts
+ app/controllers/admin/users_controller.rb |  4 +---
+ app/models/user.rb                        |  8 ++++++++
+ app/views/admin/users/index.html.erb      |  3 ++-
+ spec/models/user_spec.rb                  | 13 +++++++++++++
+ spec/requests/admin/users_spec.rb         | 10 ++++++++++
+ 5 files changed, 34 insertions(+), 4 deletions(-)
+f8346f9 Restore report counts and the messages created_at index
+ app/controllers/admin/reports_controller.rb                |  5 +----
+ app/services/reports/daily_activity.rb                     |  7 +++++++
+ app/services/reports/user_activity.rb                      | 14 ++++++++++++--
+ ...1020015251_add_messages_created_at_index_for_reports.rb | 12 ++++++++++++
+ db/schema.rb                                               |  3 ++-
+ 5 files changed, 34 insertions(+), 7 deletions(-)
+e2e8ffe Restore the message partial the chat views still render
+ app/views/messages/_message.html.erb | 7 +++++++
+ 1 file changed, 7 insertions(+)
+8f35fc5 Require admin for user deactivation again
+ app/controllers/admin/users_controller.rb |  3 ---
+ spec/requests/admin/users_spec.rb         | 11 +++++++++++
+ 2 files changed, 11 insertions(+), 3 deletions(-)
+2a5115e Drop the leftover message partial
+ app/views/messages/_message.html.erb | 7 -------
+ 1 file changed, 7 deletions(-)
+2b6a6f3 Simplify the admin users conversation count
+ app/controllers/admin/users_controller.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+132c85f Streamline the per-user report counts
+ app/services/reports/user_activity.rb                    | 14 ++------------
+ db/migrate/20261020013100_add_report_activity_indexes.rb |  1 -
+ db/schema.rb                                             |  1 -
+ 3 files changed, 2 insertions(+), 14 deletions(-)
+e8c813b Add admin reports dashboard with totals, activity, and per-user counts
+ README.md                                   |   6 ++
+ app/controllers/admin/reports_controller.rb |  13 ++++
+ app/views/admin/reports/index.html.erb      | 107 ++++++++++++++++++++++++++++
+ app/views/admin/shared/_header.html.erb     |  10 ++-
+ app/views/conversations/_sidebar.html.erb   |   2 +
+ config/routes.rb                            |   1 +
+ spec/requests/admin/reports_spec.rb         |  78 ++++++++++++++++++++
+ spec/system/admin_reports_spec.rb           |  64 +++++++++++++++++
+ 8 files changed, 279 insertions(+), 2 deletions(-)
+73de3fc Add constant-query report services for the admin dashboard
+ app/services/reports/daily_activity.rb       | 41 ++++++++++++++
+ app/services/reports/totals.rb               | 19 +++++++
+ app/services/reports/user_activity.rb        | 83 ++++++++++++++++++++++++++++
+ spec/rails_helper.rb                         |  1 +
+ spec/services/reports/daily_activity_spec.rb | 52 +++++++++++++++++
+ spec/services/reports/totals_spec.rb         | 31 +++++++++++
+ spec/services/reports/user_activity_spec.rb  | 71 ++++++++++++++++++++++++
+ spec/support/query_count_helpers.rb          | 18 ++++++
+ 8 files changed, 316 insertions(+)
+13f7a41 Add created_at indexes for reports activity queries
+ db/migrate/20261020013100_add_report_activity_indexes.rb | 9 +++++++++
+ db/schema.rb                                             | 5 ++++-
+ 2 files changed, 13 insertions(+), 1 deletion(-)
+2828730 Escape and bind the admin email search term to stop SQL injection
+ app/models/user.rb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+0e48b2a Stabilize the last-admin guard spec
+ app/models/user.rb       | 2 +-
+ spec/models/user_spec.rb | 8 +++-----
+ 2 files changed, 4 insertions(+), 6 deletions(-)
+c38b8c4 Let the support tooling trigger deactivation
+ app/controllers/admin/users_controller.rb | 3 +++
+ 1 file changed, 3 insertions(+)
+d30b531 Simplify the admin user search filter
+ app/models/user.rb | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+a1d70df Seed a first admin and document the admin area
+ .env.example |  5 +++++
+ README.md    | 27 ++++++++++++++++++++++++---
+ db/seeds.rb  | 28 +++++++++++++++++++++-------
+ 3 files changed, 50 insertions(+), 10 deletions(-)
+53da068 Add admin-only user management under /admin
+ app/controllers/admin/base_controller.rb  |  13 +++
+ app/controllers/admin/users_controller.rb |  64 +++++++++++++
+ app/views/admin/shared/_header.html.erb   |  10 ++
+ app/views/admin/users/index.html.erb      |  68 ++++++++++++++
+ app/views/admin/users/show.html.erb       |  65 +++++++++++++
+ app/views/conversations/_sidebar.html.erb |  10 +-
+ config/routes.rb                          |  12 +++
+ spec/requests/admin/users_spec.rb         | 147 ++++++++++++++++++++++++++++++
+ spec/system/admin_spec.rb                 |  96 +++++++++++++++++++
+ 9 files changed, 483 insertions(+), 2 deletions(-)
+c00369f Stop deactivated accounts from signing in or staying signed in
+ app/controllers/application_controller.rb | 10 ++++++++--
+ app/controllers/sessions_controller.rb    |  5 ++++-
+ spec/requests/sessions_spec.rb            |  9 +++++++++
+ 3 files changed, 21 insertions(+), 3 deletions(-)
+8df2f48 Give users admin/member roles with a last-admin guard
+ app/models/user.rb       |  46 ++++++++++++++++++++++
+ spec/factories/users.rb  |   8 ++++
+ spec/models/user_spec.rb | 100 +++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 154 insertions(+)
+9a9c64c Add role and active columns to users
+ db/migrate/20261020010820_add_role_and_active_to_users.rb | 8 ++++++++
+ db/schema.rb                                              | 5 ++++-
+ 2 files changed, 12 insertions(+), 1 deletion(-)
+76d76cc Move puma off 6.4.1 to clear high-severity CVEs
+ Gemfile      | 5 +++--
+ Gemfile.lock | 5 +++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
+6e859a3 Restore current_user scoping for conversation member routes
+ app/controllers/conversations_controller.rb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+a019abd Pin puma to the 6.x line for now
+ Gemfile      | 3 ++-
+ Gemfile.lock | 5 ++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+17a26c9 Tidy up the sign-up page footer
+ app/views/users/new.html.erb | 4 ----
+ 1 file changed, 4 deletions(-)
+4577c5b Simplify conversation lookup for member routes
+ app/controllers/conversations_controller.rb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ea8482f Add Docker dev setup and document the app
+ Dockerfile.dev     |  25 ++++++++++++
+ README.md          | 116 +++++++++++++++++++++++++++++++++++++++++++++++------
+ docker-compose.yml |  23 +++++++++++
+ 3 files changed, 151 insertions(+), 13 deletions(-)
+922fe47 Add request and system specs for auth, scoping, and Turbo Streams
+ spec/rails_helper.rb                   |  14 ++--
+ spec/requests/conversations_spec.rb    |  82 +++++++++++++++++++++++
+ spec/requests/messages_spec.rb         | 104 +++++++++++++++++++++++++++++
+ spec/requests/sessions_spec.rb         |  39 +++++++++++
+ spec/requests/users_spec.rb            |  50 ++++++++++++++
+ spec/support/authentication_helpers.rb |  17 +++++
+ spec/system/authentication_spec.rb     |  42 ++++++++++++
+ spec/system/chat_spec.rb               | 118 +++++++++++++++++++++++++++++++++
+ 8 files changed, 461 insertions(+), 5 deletions(-)
+0023074 Add auth and chat flows with Hotwire views and Stimulus controllers
+ app/controllers/application_controller.rb          | 21 ++++++-
+ app/controllers/conversations_controller.rb        | 33 ++++++++++
+ app/controllers/messages_controller.rb             | 70 ++++++++++++++++++++++
+ app/controllers/sessions_controller.rb             | 26 ++++++++
+ app/controllers/users_controller.rb                | 25 ++++++++
+ app/javascript/controllers/chat_controller.js      | 19 ++++++
+ app/javascript/controllers/chat_form_controller.js | 17 ++++++
+ app/javascript/controllers/hello_controller.js     |  7 ---
+ app/views/conversations/_conversation.html.erb     |  9 +++
+ app/views/conversations/_sidebar.html.erb          | 16 +++++
+ app/views/conversations/index.html.erb             | 15 +++++
+ app/views/conversations/show.html.erb              | 18 ++++++
+ app/views/layouts/application.html.erb             | 13 ++--
+ app/views/messages/_form.html.erb                  | 13 ++++
+ app/views/messages/_message.html.erb               |  7 +++
+ app/views/sessions/new.html.erb                    | 24 ++++++++
+ app/views/shared/_flash.html.erb                   |  7 +++
+ app/views/users/new.html.erb                       | 38 ++++++++++++
+ config/routes.rb                                   | 11 +++-
+ 19 files changed, 370 insertions(+), 19 deletions(-)
+ffa2ed7 Add ChatCompletion service isolating RubyLLM/OpenRouter calls
+ app/services/chat_completion.rb       | 49 +++++++++++++++++++++++++++++
+ config/initializers/ruby_llm.rb       | 14 +++++++++
+ spec/services/chat_completion_spec.rb | 58 +++++++++++++++++++++++++++++++++++
+ 3 files changed, 121 insertions(+)
+62f1f3c Add User, Conversation, Message models with indexed migrations
+ app/models/conversation.rb                        | 19 ++++++
+ app/models/message.rb                             | 10 +++
+ app/models/user.rb                                | 11 ++++
+ db/migrate/20261020003627_create_users.rb         | 12 ++++
+ db/migrate/20261020003628_create_conversations.rb | 13 ++++
+ db/migrate/20261020003629_create_messages.rb      | 13 ++++
+ db/schema.rb                                      | 44 +++++++++++++
+ spec/factories/conversations.rb                   |  7 +++
+ spec/factories/messages.rb                        |  7 +++
+ spec/factories/users.rb                           |  7 +++
+ spec/models/conversation_spec.rb                  | 58 ++++++++++++++++++
+ spec/models/message_spec.rb                       | 44 +++++++++++++
+ spec/models/user_spec.rb                          | 75 +++++++++++++++++++++++
+ 13 files changed, 320 insertions(+)
+af7e059 Add dotenv-rails and .env.example for OpenRouter credentials
+ .env.example | 11 +++++++++++
+ .gitignore   |  1 +
+ Gemfile      |  2 ++
+ Gemfile.lock |  5 +++++
+ 4 files changed, 19 insertions(+)
+5c5e225 Bootstrap Rails 8.1 app with Hotwire, Tailwind, RSpec, and security tooling
+ .dockerignore                                   |  48 ++
+ .gitattributes                                  |   9 +
+ .gitignore                                      |  38 ++
+ .kamal/hooks/docker-setup.sample                |   3 +
+ .kamal/hooks/post-app-boot.sample               |   3 +
+ .kamal/hooks/post-deploy.sample                 |  14 +
+ .kamal/hooks/post-proxy-reboot.sample           |   3 +
+ .kamal/hooks/pre-app-boot.sample                |   3 +
+ .kamal/hooks/pre-build.sample                   |  51 ++
+ .kamal/hooks/pre-connect.sample                 |  47 ++
+ .kamal/hooks/pre-deploy.sample                  | 122 +++++
+ .kamal/hooks/pre-proxy-reboot.sample            |   3 +
+ .kamal/secrets                                  |  20 +
+ .rspec                                          |   1 +
+ .rubocop.yml                                    |   8 +
+ .ruby-version                                   |   1 +
+ Dockerfile                                      |  77 +++
+ Gemfile                                         |  76 +++
+ Gemfile.lock                                    | 643 ++++++++++++++++++++++++
+ Procfile.dev                                    |   2 +
+ README.md                                       |  24 +
+ Rakefile                                        |   6 +
+ app/assets/builds/.keep                         |   0
+ app/assets/images/.keep                         |   0
+ app/assets/stylesheets/application.css          |  10 +
+ app/assets/tailwind/application.css             |   1 +
+ app/controllers/application_controller.rb       |   7 +
+ app/controllers/concerns/.keep                  |   0
+ app/helpers/application_helper.rb               |   2 +
+ app/javascript/application.js                   |   3 +
+ app/javascript/controllers/application.js       |   9 +
+ app/javascript/controllers/hello_controller.js  |   7 +
+ app/javascript/controllers/index.js             |   4 +
+ app/jobs/application_job.rb                     |   7 +
+ app/mailers/application_mailer.rb               |   4 +
+ app/models/application_record.rb                |   3 +
+ app/models/concerns/.keep                       |   0
+ app/views/layouts/application.html.erb          |  31 ++
+ app/views/layouts/mailer.html.erb               |  13 +
+ app/views/layouts/mailer.text.erb               |   1 +
+ app/views/pwa/manifest.json.erb                 |  22 +
+ app/views/pwa/service-worker.js                 |  26 +
+ bin/brakeman                                    |   7 +
+ bin/bundler-audit                               |   6 +
+ bin/ci                                          |   6 +
+ bin/dev                                         |  16 +
+ bin/docker-entrypoint                           |   8 +
+ bin/importmap                                   |   4 +
+ bin/jobs                                        |   6 +
+ bin/kamal                                       |  16 +
+ bin/rails                                       |   4 +
+ bin/rake                                        |   4 +
+ bin/rubocop                                     |   8 +
+ bin/setup                                       |  35 ++
+ bin/thrust                                      |   5 +
+ config.ru                                       |   6 +
+ config/application.rb                           |  42 ++
+ config/boot.rb                                  |   4 +
+ config/bundler-audit.yml                        |   5 +
+ config/cable.yml                                |  19 +
+ config/cache.yml                                |  16 +
+ config/ci.rb                                    |  20 +
+ config/credentials.yml.enc                      |   1 +
+ config/database.yml                             |  40 ++
+ config/deploy.yml                               | 119 +++++
+ config/environment.rb                           |   5 +
+ config/environments/development.rb              |  78 +++
+ config/environments/production.rb               |  90 ++++
+ config/environments/test.rb                     |  53 ++
+ config/importmap.rb                             |   7 +
+ config/initializers/assets.rb                   |   7 +
+ config/initializers/content_security_policy.rb  |  29 ++
+ config/initializers/filter_parameter_logging.rb |   8 +
+ config/initializers/inflections.rb              |  16 +
+ config/locales/en.yml                           |  31 ++
+ config/puma.rb                                  |  42 ++
+ config/queue.yml                                |  18 +
+ config/recurring.yml                            |  15 +
+ config/routes.rb                                |  14 +
+ config/storage.yml                              |  27 +
+ db/cable_schema.rb                              |  10 +
+ db/cache_schema.rb                              |  12 +
+ db/queue_schema.rb                              | 160 ++++++
+ db/seeds.rb                                     |   9 +
+ lib/tasks/.keep                                 |   0
+ log/.keep                                       |   0
+ public/400.html                                 | 135 +++++
+ public/404.html                                 | 135 +++++
+ public/406-unsupported-browser.html             | 135 +++++
+ public/422.html                                 | 135 +++++
+ public/500.html                                 | 135 +++++
+ public/icon.png                                 | Bin 0 -> 4166 bytes
+ public/icon.svg                                 |   3 +
+ public/robots.txt                               |   1 +
+ script/.keep                                    |   0
+ spec/rails_helper.rb                            |  72 +++
+ spec/spec_helper.rb                             |  94 ++++
+ storage/.keep                                   |   0
+ tmp/.keep                                       |   0
+ tmp/pids/.keep                                  |   0
+ tmp/storage/.keep                               |   0
+ vendor/.keep                                    |   0
+ vendor/javascript/.keep                         |   0
+ 103 files changed, 3225 insertions(+)

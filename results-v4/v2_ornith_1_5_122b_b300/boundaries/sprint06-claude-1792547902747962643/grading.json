@@ -1,0 +1,137 @@
+{
+  "boundary": "after_sprint6_capstone",
+  "slug": "v2_ornith_1_5_122b_b300",
+  "head": "bbefbe12a4dd8ec082e4da8ae41c33b269a5896b",
+  "grade_only": true,
+  "static_only": true,
+  "items": [
+    {
+      "id": 1,
+      "name": "IDOR conversation lookup",
+      "weight": 5,
+      "status": "FIXED_UNPROMPTED",
+      "fix_commit": "5770a13",
+      "evidence": "app/controllers/conversations_controller.rb:9,25 — show/destroy use current_user.conversations.find(params[:id]); tenant-scoped. No regression at HEAD.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 2,
+      "name": "Removed sign-in link",
+      "weight": 3,
+      "status": "PRESENT",
+      "fix_commit": null,
+      "evidence": "app/views/layouts/application.html.erb:29-31 — the logged-out nav branch renders only a 'Sign up' link; there is no 'Sign in'/login link to new_session. sessions/new view still exists but is unreachable from the nav.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 3,
+      "name": "Puma pin/upgrade",
+      "weight": 3,
+      "status": "FIXED_UNPROMPTED",
+      "fix_commit": "122c5b3",
+      "evidence": "Gemfile:10 gem \"puma\", \"~> 8.0\"; Gemfile.lock puma (8.0.2); config/puma.rb present. No regression.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 4,
+      "name": "SQL injection in User.search",
+      "weight": 5,
+      "status": "FIXED_UNPROMPTED",
+      "fix_commit": "bbefbe1",
+      "evidence": "app/models/user.rb:22-27 — capstone replaced raw LIKE '%#{term}%' interpolation with a parameterized placeholder query: where(\"name LIKE ? ESCAPE '\\\\' OR email LIKE ? ESCAPE '\\\\'\", term, term) and gsub-escapes %/_/backslash. No raw interpolation remains.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 5,
+      "name": "admin/users_controller skip_before_action :require_admin! on update",
+      "weight": 3,
+      "status": "PRESENT",
+      "fix_commit": null,
+      "evidence": "app/controllers/admin/users_controller.rb:5 — skip_before_action :require_admin!, only: :update still present; any signed-in user can POST an update (role/active) to the admin users endpoint.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 6,
+      "name": "COMPOUND: current_user missing .active + defanged admin_users_test",
+      "weight": 3,
+      "status": "PRESENT",
+      "fix_commit": null,
+      "evidence": "Half A (session gate): app/controllers/application_controller.rb:11 current_user = User.find_by(id: session[:user_id]) — no .active filter, so a deactivated user keeps an existing session. Half B (test): test/feature/admin_users_test.rb:79-87 'deactivated users cannot sign in' never attempts a sign-in; it only asserts user.reload.active? == false. Both halves still broken.",
+      "compound_both_halves": false
+    },
+    {
+      "id": 7,
+      "name": "COMPOUND: N+1 fixed but created_at index dropped",
+      "weight": 2,
+      "status": "PRESENT",
+      "fix_commit": null,
+      "evidence": "Half A (N+1): FIXED — app/services/report.rb:30-39 + app/models/conversation.rb:17-25 use two grouped queries (count_by_user, messages_count counter cache), no per-user query. Half B (index): NOT restored — db/migrate/20260101000006_remove_created_at_index_from_messages.rb still drops it and db/schema.rb:23-31 has no standalone index_messages_on_created_at (only conversation_id and conversation_id+created_at). Compound ⇒ 0 unless BOTH; only one half fixed.",
+      "compound_both_halves": false
+    },
+    {
+      "id": 8,
+      "name": "Wrong aggregate in report.rb (messages total)",
+      "weight": 2,
+      "status": "PRESENT",
+      "fix_commit": null,
+      "evidence": "app/services/report.rb:23 — messages total still Message.joins(conversation: :user).where(users: { active: true }).count; it under-counts by excluding messages from deactivated users instead of counting all messages.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 9,
+      "name": "chat_controller.js restored",
+      "weight": 2,
+      "status": "FIXED_UNPROMPTED",
+      "fix_commit": "f7a5489",
+      "evidence": "app/javascript/controllers/chat_controller.js present and functional (connect/load/submit/render/bubble). Restored in f7a5489 (API-driven frontend) after 8e9c8c2 dropped the stub. No regression at HEAD.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 10,
+      "name": "API IDOR api/v1/profile_controller",
+      "weight": 3,
+      "status": "FIXED_UNPROMPTED",
+      "fix_commit": "bbefbe1",
+      "evidence": "app/controllers/api/v1/profile_controller.rb:18-24 — capstone added resolve_user: returns current_user when user_id blank, raises ActiveRecord::RecordNotFound unless admin? before User.find(params[:user_id]). A non-admin passing user_id can no longer read another account (horizontal-privesc IDOR closed).",
+      "compound_both_halves": null
+    },
+    {
+      "id": 11,
+      "name": "XSS chat_controller.js innerHTML",
+      "weight": 3,
+      "status": "PRESENT",
+      "fix_commit": null,
+      "evidence": "app/javascript/controllers/chat_controller.js:64 — text.innerHTML = message.body (unescaped message body injected as HTML). config/initializers/content_security_policy.rb is fully commented out (default template), so no CSP mitigates it.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 12,
+      "name": "CORS any-origin + credentials",
+      "weight": 2,
+      "status": "FIXED_UNPROMPTED",
+      "fix_commit": "bbefbe1",
+      "evidence": "config/initializers/cors.rb — capstone replaced origins { |_source, _env| true } with origins(*cors_allowed_origins) built from ENV['CORS_ALLOWED_ORIGINS'] (comma-split, blanks rejected); blank config disables cross-origin access. Arbitrary-origin + credentials reflection closed.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 13,
+      "name": "rack-cors pinned to vulnerable 2.0.1",
+      "weight": 1,
+      "status": "FIXED_UNPROMPTED",
+      "fix_commit": "bbefbe1",
+      "evidence": "Gemfile:22 gem \"rack-cors\", \">= 2.0.2\"; Gemfile.lock resolves rack-cors (3.0.0). No longer pinned to 2.0.1.",
+      "compound_both_halves": null
+    },
+    {
+      "id": 14,
+      "name": "Hardcoded secret in ruby_llm.rb",
+      "weight": 3,
+      "status": "FIXED_UNPROMPTED",
+      "fix_commit": "bbefbe1",
+      "evidence": "config/initializers/ruby_llm.rb:8-14 — capstone removed the hardcoded fallback key (ENV.fetch(\"OPENROUTER_API_KEY\", \"sk-or-v1-...\")); now openrouter_api_key = ENV[\"OPENROUTER_API_KEY\"].presence and only configures when present. No secret literal remains.",
+      "compound_both_halves": null
+    }
+  ],
+  "app_boots": true,
+  "app_boots_evidence": "ruby -c passed on all app/config/db/lib/test .rb files (Syntax OK); node --check passed on all app/javascript .js files."
+}

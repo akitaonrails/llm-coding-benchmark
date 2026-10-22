@@ -1,0 +1,116 @@
+{
+  "run": "v2_deepseek_v4_1_flash_b300",
+  "model": "DeepSeek V4.1 Flash (self-hosted 4xB300)",
+  "boundary": "after-sprint-6 (capstone/production-hardening) grading of the FINAL batch #10-#14 (injected after sprint 5) + re-assess long-open #2, #7, #8. Sprint 6 was a vague 'harden for production' steer (no explicit reveal) => all sprint-6 fixes are unprompted/full weight.",
+  "graded_by": "v4 boundary reviewer (fresh, isolated; static-only)",
+  "method": "git log/diff + grep + file read + ruby -c + node --check; no execution, no injection. Fixes on the model's OWN initiative in any sprint before the s7 explicit reveal = unprompted/full weight.",
+  "protocol": "06 unprompted audit only",
+  "denominator": 40,
+  "capstone_commits": {
+    "bf40934": "Harden API authorization, CORS, and chat rendering (Sprinter) — fixes #10, #11, #12, #13, #14",
+    "b4953ca": "Use the message counter cache and restore the timestamp index (Sprinter) — fixes #7 (both halves)",
+    "32e6634": "Make the production Docker image deployable (Sprinter)"
+  },
+  "items": [
+    {
+      "id": 10,
+      "name": "API broken-authz / IDOR on admin user show",
+      "class": "broken access control (OWASP #1)",
+      "severity": "High",
+      "weight": 3,
+      "status": "unprompted_fixed",
+      "weight_caught": 3,
+      "fix_commit": "bf40934",
+      "evidence": "Injection (76b048d) added `skip_before_action :require_admin, only: %i[show]` at app/controllers/api/v1/admin/users_controller.rb:8. At HEAD that line is GONE: `git show bf40934` shows `-        skip_before_action :require_admin, only: %i[show]`; `grep -rn skip_before_action app/controllers/api/` => no hits. The inherited gate Api::V1::Admin::BaseController:5 `before_action :require_admin` (renders :forbidden unless current_user&.admin?) again covers #show. GET /api/v1/admin/users/:id no longer leaks another user's PII + recent conversations to a non-admin member. Unprompted (sprint-6 steer was vague 'harden for production'). +3."
+    },
+    {
+      "id": 11,
+      "name": "Stored XSS — chat message body rendered via innerHTML",
+      "class": "XSS",
+      "severity": "High",
+      "weight": 3,
+      "status": "unprompted_fixed",
+      "weight_caught": 3,
+      "fix_commit": "bf40934",
+      "evidence": "Injection (a66ff92) changed chat_controller.js:341 `content.textContent = message.content` -> `content.innerHTML = message.content`. At HEAD line 341 is back to `content.textContent = message.content`; `git show bf40934` shows `-    content.innerHTML = message.content` / `+    content.textContent = message.content`. message.content (served unescaped by MessageSerializer) is now assigned as text, so markup no longer executes. The remaining `innerHTML` at :378 (buildEmptyState) is a static template literal with no user content — not a vector. node --check clean. Unprompted. +3."
+    },
+    {
+      "id": 12,
+      "name": "Permissive CORS — any-origin with credentials",
+      "class": "CORS misconfiguration",
+      "severity": "Medium",
+      "weight": 2,
+      "status": "unprompted_fixed",
+      "weight_caught": 2,
+      "fix_commit": "bf40934",
+      "evidence": "Injection (b779cdb) wrote config/initializers/cors.rb with `origins { |_s,_e| true }` + `credentials: true` (any origin reflected with credentials). At HEAD cors.rb reads an explicit allowlist from ENV `CORS_ORIGINS` (comma-split, stripped), actively subtracts `\"*\"` (`cors_origins -= [ \"*\" ]`), and only inserts the Rack::Cors middleware `if cors_origins.any?`. credentials:true now applies only to an operator-configured explicit origin list — NOT any-origin-with-credentials. Default (unset) = no CORS middleware at all. ruby -c OK. Unprompted. +2."
+    },
+    {
+      "id": 13,
+      "name": "rack-cors pinned to vulnerable 2.0.1 (CVE-2024-27456)",
+      "class": "vulnerable dependency",
+      "severity": "Low",
+      "weight": 1,
+      "status": "unprompted_fixed",
+      "weight_caught": 1,
+      "upgrade_vs_ignore_verdict": "REAL UPGRADE -> credit",
+      "fix_commit": "bf40934",
+      "evidence": "Injection (40dcc30) pinned `gem \"rack-cors\", \"2.0.1\"`. At HEAD Gemfile:22 `gem \"rack-cors\", \"~> 2.0\", \">= 2.0.2\"`; `git show bf40934` shows `-gem \"rack-cors\", \"2.0.1\"` / `+gem \"rack-cors\", \"~> 2.0\", \">= 2.0.2\"`. Gemfile.lock: GEM `rack-cors (2.0.2)`, DEPENDENCIES `rack-cors (~> 2.0, >= 2.0.2)`, CHECKSUMS `rack-cors (2.0.2) sha256=...`. 2.0.2 is the fixed version for CVE-2024-27456 (only 2.0.1 affected). REAL version upgrade, not a bundle-audit ignore/suppression. +1."
+    },
+    {
+      "id": 14,
+      "name": "Hardcoded API key literal in initializer",
+      "class": "secret exposure",
+      "severity": "High",
+      "weight": 3,
+      "status": "unprompted_fixed",
+      "weight_caught": 3,
+      "fix_commit": "bf40934",
+      "evidence": "Injection (dcd15c0) set config/initializers/ruby_llm.rb:2 to `ENV.fetch(\"OPENROUTER_API_KEY\", \"sk-or-v1-9c3f7a1e...fedcba987\")` (fake literal key as ENV fallback). At HEAD ruby_llm.rb:2 `config.openrouter_api_key = ENV[\"OPENROUTER_API_KEY\"]` — no literal fallback. `grep -rn 'sk-or-v1' config/` => no hits in this file (literal removed). ruby -c OK. Unprompted. +3."
+    },
+    {
+      "id": 2,
+      "name": "removed login link / nav regression",
+      "class": "functional / UI regression",
+      "severity": "High",
+      "weight": 3,
+      "status": "open",
+      "weight_caught": 0,
+      "fix_commit": null,
+      "evidence": "STILL OPEN at sprint 6. `grep -rniE 'sign_in_path|new_session_path|session_path|Sign in|Log in' app/views/`: the only routed sign-IN affordance is sessions/new.html.erb itself (its own title/header/submit). Every other `session_path` view hit is a Sign OUT button (method: :delete) in layouts/admin.html.erb:45, conversations/_sidebar.html.erb:52, conversations/index.html.erb:22. app/views/users/new.html.erb (sign-up) still ends at the 'Create account' submit with NO 'Already have an account? Sign in' footer link (the affordance injection 455c22a removed). No routed navigation points a visitor to the sign-in page. Unchanged since sprint 3. OPEN — can still earn 40% weight if fixed after the s7 reveal."
+    },
+    {
+      "id": 7,
+      "name": "COMPOUND N+1 (messages.count) + dropped messages.created_at index",
+      "class": "performance (compound, two halves)",
+      "severity": "Medium",
+      "weight": 2,
+      "status": "unprompted_fixed",
+      "weight_caught": 2,
+      "compound_rule": "credit ONLY if BOTH halves fixed; either half open => item 0. BOTH halves fixed here.",
+      "fix_commit": "b4953ca",
+      "evidence": "HALF 7a (N+1) FIXED: app/views/conversations/_conversation.html.erb:9 is back to `pluralize(conversation.messages_count, \"message\")` (the counter_cache column), NOT the injected `conversation.messages.count` association call. Message model (message.rb:5) `belongs_to :conversation, counter_cache: true, touch: true`; schema.rb:16 conversations `messages_count` integer default 0 null:false. No per-row `SELECT COUNT(*)` on the server-rendered collection. HALF 7b (index) FIXED: new migration db/migrate/20261020130000_restore_message_created_at_index.rb `add_index :messages, :created_at`; schema.rb:34 `t.index [\"created_at\"], name: \"index_messages_on_created_at\"` present again. This bare index backs AdminReport#activity (admin_report.rb:111 `Message.where(created_at: start_time..)` -> :190 `scope.group(\"DATE(created_at)\").count`). Commit b4953ca title: 'Use the message counter cache and restore the timestamp index' names both halves; it also added conversations_controller_test.rb coverage. BOTH halves fixed unprompted -> full credit. +2."
+    },
+    {
+      "id": 8,
+      "name": "silently wrong aggregate — admins total counts only ACTIVE admins",
+      "class": "correctness (green-but-wrong)",
+      "severity": "Medium",
+      "weight": 2,
+      "status": "present",
+      "weight_caught": 0,
+      "fix_commit": null,
+      "evidence": "STILL PRESENT at sprint 6. app/services/admin_report.rb:11 TOTALS_SQL is still `(SELECT SUM(CASE WHEN admin AND active THEN 1 ELSE 0 END) FROM users) AS admins_count` — the injected `AND active` narrowing was never reverted to count ALL admins. Still rendered on the dashboard Admins card and served via AdminReportSerializer through GET /api/v1/admin/dashboard. No test deactivates an admin and checks the total, so it stays green-but-wrong. 0 — can still earn 40% weight if fixed after the s7 reveal."
+    }
+  ],
+  "sprint6_weight_caught": 14,
+  "sprint6_breakdown": "#10 High-3 FIXED, #11 High-3 FIXED, #12 Med-2 FIXED, #13 Low-1 FIXED (real upgrade), #14 High-3 FIXED, #7 Med-2 compound FIXED-BOTH-HALVES = 14. #8 Med-2 still present, #2 High-3 still open.",
+  "cumulative_weight_caught_after_sprint6": 35,
+  "cumulative_denominator": 40,
+  "still_open_entering_sprint7_reveal": [
+    {"id": 2, "name": "removed login link / nav regression", "severity": "High", "weight": 3},
+    {"id": 8, "name": "wrong admins aggregate (active-only under-count)", "severity": "Medium", "weight": 2}
+  ],
+  "open_weight_entering_reveal": 5,
+  "tally": "Prior cumulative after s5 = 21/40 (#1 5, #3 3, #4 5, #5 3, #6 3, #9 2). Sprint-6 capstone caught 14 more: the entire final /api/v1 batch #10 (3), #11 (3), #12 (2), #13 (1), #14 (3) AND the long-open compound #7 (2, both halves). FINAL PRE-REVEAL cumulative unprompted weight-caught = 21 + 14 = 35/40. Open entering the s7 reveal: #2 High-3 (silent nav/UI regression, no test) and #8 Med-2 (silent green-but-wrong aggregate, no test) = 5 weight — exactly the two defects no failing test or broken flow surfaces, the model's consistent blind spot. Both remain eligible for 40% reveal-weight if fixed after the explicit sprint-7 disclosure."
+}

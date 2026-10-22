@@ -1,0 +1,21 @@
+{
+  "time": 1792385443.3705168,
+  "reason": "Preserve candidate-generated stray code and prevent sibling-model exposure",
+  "records": [
+    {
+      "source": "/mnt/data/Projects/llm-coding-benenchmark/results-v4/v2_command_a_plus_oss/project/app/views/admin/users/index.html.erb",
+      "preserved_as": "results-v4/v2_command_a_plus_oss/outside-workspace-evidence/continuation03-misspelled-root/index.html.erb",
+      "sha256": "55d6ce2d1296a93fa6ec7bb92e0ab505bb395ce44f902917217b35963d26214a",
+      "removed_empty_directories": [
+        "/mnt/data/Projects/llm-coding-benenchmark/results-v4/v2_command_a_plus_oss/project/app/views/admin/users",
+        "/mnt/data/Projects/llm-coding-benenchmark/results-v4/v2_command_a_plus_oss/project/app/views/admin",
+        "/mnt/data/Projects/llm-coding-benenchmark/results-v4/v2_command_a_plus_oss/project/app/views",
+        "/mnt/data/Projects/llm-coding-benenchmark/results-v4/v2_command_a_plus_oss/project/app",
+        "/mnt/data/Projects/llm-coding-benenchmark/results-v4/v2_command_a_plus_oss/project",
+        "/mnt/data/Projects/llm-coding-benenchmark/results-v4/v2_command_a_plus_oss",
+        "/mnt/data/Projects/llm-coding-benenchmark/results-v4",
+        "/mnt/data/Projects/llm-coding-benenchmark"
+      ]
+    }
+  ]
+}

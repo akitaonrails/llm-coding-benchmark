@@ -1,0 +1,19 @@
+{
+  "slug": "v2_swift_1_5_27b_oss",
+  "sprint": "sprint02_multiuser",
+  "harness": "opencode",
+  "elapsed_seconds": 80.14,
+  "cost_usd": 0.0,
+  "tokens_total": 721567,
+  "exit_code": 0,
+  "stall_aborted": false,
+  "assistance": {
+    "sprint": "02_multiuser",
+    "prompt": "Before continuing, verify that capped LLM history retains the newest messages, including the current user turn, once it exceeds MAX_HISTORY_MESSAGES.",
+    "source": "/mnt/data/Projects/llm-coding-benchmark/results-v4/v2_swift_1_5_27b_oss/boundaries/sprint01-1792276318303025814/assistance.json",
+    "issued_at": 1792276444.955545,
+    "classification": "assisted",
+    "timing": "Included in this sprint and existing cumulative four-hour budget; no causal extra-time estimate"
+  },
+  "assisted_run": true
+}

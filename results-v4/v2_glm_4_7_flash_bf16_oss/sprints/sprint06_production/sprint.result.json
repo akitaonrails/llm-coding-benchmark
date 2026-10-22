@@ -1,0 +1,12 @@
+{
+  "slug": "v2_glm_4_7_flash_bf16_oss",
+  "sprint": "sprint06_production",
+  "harness": "opencode",
+  "elapsed_seconds": 115.3,
+  "cost_usd": 0.0,
+  "tokens_total": 2066219,
+  "exit_code": 0,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": true
+}

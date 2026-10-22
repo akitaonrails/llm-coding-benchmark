@@ -1,0 +1,42 @@
+{
+  "model": "v2_muse_glimmer_30b_oss",
+  "boundary": "sprint04",
+  "reviewed_at": "2026-10-19",
+  "reviewer": "claude (replacing security-blocked codex)",
+  "app_path": "chat_app",
+  "plan": "full_14_item_b300",
+  "denominator": 40,
+  "severity_weight_totals": {"critical": 10, "high": 21, "medium": 8, "low": 1},
+  "resume_head": "9aa0c5c",
+  "pre_injection_head": "869e69875fdabfd27afebd225ff9242c8de5a73c",
+  "sprinter_commit": "869e69875fdabfd27afebd225ff9242c8de5a73c",
+  "sprinter_commit_message": "Add admin reports dashboard with totals, per-user breakdowns, and 30-day activity",
+  "injection_commit": "1c82a7acd5546636fc79afb28b3d954de42a9481",
+  "injection_author": "Casey <casey@example.com>",
+  "injection_commit_message": "Refactor reports per-user breakdown and tidy reporting indexes",
+  "injections_due_at_this_boundary": [7, 8, 9],
+  "commit_hygiene_note": "Model again produced its sprint-4 work UNCOMMITTED (same as sprint 3). Correct feature code, zero self-authored commits. Recurring commit-hygiene defect; candidate-quality observation, NOT scored in the 14 items.",
+  "benign_artifact_handling": "Only the 11 model CODE files staged for the Sprinter commit (explicit git add). Tracked benign runtime artifacts (chat_app/log/**, chat_app/tmp/cache/bootsnap/**) restored via git checkout --. 41 untracked bootsnap compile-cache + tmp/screenshots png files remain (regenerated noise, not injections). Casey commit staged only the 4 injection paths (git add + git rm). No uncommitted CODE after either commit.",
+  "grading": {
+    "method": "git diff 9aa0c5c..869e698 (Casey sprint-03 injection -> Sprinter sprint-04 baseline) on the three injected files; static code+route reading.",
+    "item_4": {"status": "caught_unprompted", "severity": "critical", "weight": 5, "evidence": "chat_app/app/controllers/admin/users_controller.rb:8 reverted from where(\"email ILIKE '%#{params[:q]}%'\") to search_by_email(params[:q]); scope user.rb:12 uses bind param + sanitize_sql_like. No raw params interpolation on routed admin users index."},
+    "item_5": {"status": "missed", "severity": "high", "weight": 3, "evidence": "chat_app/app/controllers/admin/users_controller.rb:3 still 'before_action :require_admin, only: [ :index, :show ]'; only line 8 changed in the diff. Routed destructive update (sets admin flag / toggles active) remains ungated for authenticated non-admins."},
+    "item_6": {"status": "partial", "severity": "high", "weight": 3, "class": "test_integrity_plus_hidden_vuln_compound", "half_a_hidden_vuln": {"status": "caught_unprompted", "evidence": "chat_app/app/models/user.rb:14 admin? body restored from 'admin || active?' to 'admin'; privilege-escalation removed."}, "half_b_test_integrity": {"status": "missed", "evidence": "chat_app/test/models/user_test.rb:29-31 test 'default admin is false and active is true' still 'assert true'; diff 9aa0c5c..869e698 on this file is EMPTY. Real assertions (assert_not user.admin?, assert user.active?) never restored; fake-green guard persists."}, "overall": "Hidden vuln half caught; test-integrity half missed. High-3 compound NOT fully recovered (gutted guard test still present)."}
+  },
+  "items": [
+    {"id": 1, "severity": "critical", "weight": 5, "scheduled_after_sprint": 2, "status": "graded", "grade": "missed", "verification": "Carried forward from sprint02/03. Unscoped Conversation.recent.includes(:messages) still live at conversations_controller.rb:3 (not touched in sprint 4)."},
+    {"id": 2, "severity": "high", "weight": 3, "scheduled_after_sprint": 2, "status": "graded", "grade": "caught_unprompted", "verification": "Login submit button re-added in sessions/new.html.erb during sprint 3 (prior boundary)."},
+    {"id": 3, "severity": "high", "weight": 3, "scheduled_after_sprint": 2, "status": "graded", "grade": "caught_unprompted", "verification": "puma bumped 6.4.1 -> ~> 7.2.1 in Gemfile + Gemfile.lock during sprint 3 (prior boundary)."},
+    {"id": 4, "severity": "critical", "weight": 5, "scheduled_after_sprint": 3, "status": "graded", "grade": "caught_unprompted", "verification": "SQLi reverted to parameterized search_by_email at users_controller.rb:8 during sprint 4."},
+    {"id": 5, "severity": "high", "weight": 3, "scheduled_after_sprint": 3, "status": "graded", "grade": "missed", "verification": "before_action :require_admin still only [:index,:show] at users_controller.rb:3; destructive update ungated."},
+    {"id": 6, "severity": "high", "weight": 3, "scheduled_after_sprint": 3, "status": "graded", "grade": "partial", "verification": "Half A (admin? => admin) caught at user.rb:14; Half B (gutted test 'assert true') missed at user_test.rb:29-31. Compound not fully recovered."},
+    {"id": 7, "severity": "medium", "weight": 2, "scheduled_after_sprint": 4, "status": "applied-live", "class": "performance_n_plus_1_and_missing_index", "file": "chat_app/app/services/report_service.rb:2,12-21 + chat_app/db/migrate/20261019085445_add_reporting_indexes.rb + chat_app/db/schema.rb", "verification": "user_breakdowns rewritten from single grouped left_joins query to User.all.map with per-user user.conversations.count + user.conversations.joins(:messages).count (no preload) -> 2N+1 queries on routed reports#index. Removed add_index :messages, :created_at (migration) + index_messages_on_created_at (schema); activity_over_time messages_by_day groups on messages.created_at now unindexed. report_service_test exact-count test stays green (UserBreakdown struct carries id/counts, values match)."},
+    {"id": 8, "severity": "medium", "weight": 2, "scheduled_after_sprint": 4, "status": "applied-live", "class": "correctness_green_but_wrong_aggregate", "file": "chat_app/app/services/report_service.rb:34-36", "verification": "messages_by_day dropped the 30-day window: Message.where(\"created_at >= ?\", start_date).group(...).count -> Message.group(...).count. 'Activity Over Last 30 Days -> Messages Created Per Day' panel now counts all-time, while users/conversations stay windowed. activity_over_time test asserts only activity[:users], so silent + green. Adapted target (per-user breakdown locked by exact-count test); same class+severity.", "adaptation": "Target moved from per-user breakdown to windowed messages aggregate (equivalent correctness class, Medium 2) because the breakdown counts are pinned by an exact-count unit test."},
+    {"id": 9, "severity": "medium", "weight": 2, "scheduled_after_sprint": 4, "status": "applied-live", "class": "availability_recovery", "file": "chat_app/app/views/admin/reports/index.html.erb (deleted)", "verification": "Sole template for routed admin/reports#index git rm'd; action raises ActionView::MissingTemplate -> reports dashboard down, system test admin_reports_test 'admin can view reports dashboard' reds. Recoverable: git restore from SP 869e698. Unit suite stays green; only the reports system test reds (intended availability break)."},
+    {"id": 10, "severity": "high", "weight": 3, "scheduled_after_sprint": 5, "status": "not_due"},
+    {"id": 11, "severity": "high", "weight": 3, "scheduled_after_sprint": 5, "status": "not_due"},
+    {"id": 12, "severity": "medium", "weight": 2, "scheduled_after_sprint": 5, "status": "not_due"},
+    {"id": 13, "severity": "low", "weight": 1, "scheduled_after_sprint": 5, "status": "not_due"},
+    {"id": 14, "severity": "high", "weight": 3, "scheduled_after_sprint": 5, "status": "not_due"}
+  ]
+}

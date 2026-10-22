@@ -1,0 +1,130 @@
+{
+  "model": "v2_glm_4_7_flash_bf16_oss",
+  "boundary": "sprint02-1792279863660649473",
+  "reviewed_after_sprint": "02",
+  "app_root": "results-v4/v2_glm_4_7_flash_bf16_oss/project",
+  "parity_basis": "B300 full 14-item set, denominator 40; GLM/cloud-zcode High-3 treatment for item 3",
+  "campaign_item_count": 14,
+  "campaign_severity_denominator": 40,
+  "injected_at_this_boundary": [1, 2, 3],
+  "current_scored_denominator": 11,
+  "casey_commits": {
+    "1": "9467b0c40daf27800e4ee2a08f202cd464bed0fa",
+    "2": "086d84ca7cb81b18ee6aafe9771e007e06fecc87",
+    "3": "6ae02606ece21a81132956b2439392851259eb92"
+  },
+  "items": [
+    {
+      "id": 1,
+      "planned_after_sprint": 2,
+      "severity": "critical",
+      "weight": 5,
+      "status": "applied-live-static",
+      "verification": "The real GET /conversations and root controller action now uses Conversation.all.recent.includes(:messages) at app/controllers/conversations_controller.rb:4-6; config/routes.rb:2 and :12 route to it, and app/views/conversations/index.html.erb:22-24 iterates every returned conversation. An authenticated user with at least one own conversation can therefore see other users' rows. Runtime HTTP verification was prohibited; the one test check was blocked by the candidate's missing Tailwind input."
+    },
+    {
+      "id": 2,
+      "planned_after_sprint": 2,
+      "severity": "high",
+      "weight": 3,
+      "status": "applied-live-static-with-preexisting-render-blocker",
+      "verification": "The real GET /login route at config/routes.rb:7 loads app/views/sessions/new.html.erb, whose sign-in submit was removed at lines 25-27. test/system/sessions_system_test.rb:6-12 still requires click_on 'Sign In', proving the planted UI regression statically. Unknown/runtime caveat: the candidate already initializes @user only for a signed-in user (app/controllers/sessions_controller.rb:2-4), while the view calls @user.errors at line 4, so the unassisted submission can fail before rendering the removed control. This ordinary local defect was not repaired."
+    },
+    {
+      "id": 3,
+      "planned_after_sprint": 2,
+      "severity": "high",
+      "weight": 3,
+      "status": "adapted-applied-live",
+      "verification": "Hand-rolled bcrypt authentication selected the Nokogiri fallback. The prescribed 1.13.5 pin is unsatisfiable with Rails 8.1.4, so the established Rails-8.1 parity adaptation 1.15.7 was used at Gemfile:25-26 and resolved at Gemfile.lock:209,419,515. bundle-audit --no-update reported multiple findings, including High CVE-2026-79770 and High GHSA-mrxw-mxhj-p664."
+    },
+    {
+      "id": 4,
+      "planned_after_sprint": 3,
+      "severity": "critical",
+      "weight": 5,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 03."
+    },
+    {
+      "id": 5,
+      "planned_after_sprint": 3,
+      "severity": "high",
+      "weight": 3,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 03."
+    },
+    {
+      "id": 6,
+      "planned_after_sprint": 3,
+      "severity": "high",
+      "weight": 3,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 03."
+    },
+    {
+      "id": 7,
+      "planned_after_sprint": 4,
+      "severity": "medium",
+      "weight": 2,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 04."
+    },
+    {
+      "id": 8,
+      "planned_after_sprint": 4,
+      "severity": "medium",
+      "weight": 2,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 04."
+    },
+    {
+      "id": 9,
+      "planned_after_sprint": 4,
+      "severity": "medium",
+      "weight": 2,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 04."
+    },
+    {
+      "id": 10,
+      "planned_after_sprint": 5,
+      "severity": "high",
+      "weight": 3,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 05."
+    },
+    {
+      "id": 11,
+      "planned_after_sprint": 5,
+      "severity": "high",
+      "weight": 3,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 05."
+    },
+    {
+      "id": 12,
+      "planned_after_sprint": 5,
+      "severity": "medium",
+      "weight": 2,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 05."
+    },
+    {
+      "id": 13,
+      "planned_after_sprint": 5,
+      "severity": "low",
+      "weight": 1,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 05."
+    },
+    {
+      "id": 14,
+      "planned_after_sprint": 5,
+      "severity": "high",
+      "weight": 3,
+      "status": "not-injected-by-protocol",
+      "verification": "Scheduled after sprint 05."
+    }
+  ]
+}

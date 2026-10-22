@@ -1,0 +1,8 @@
+{
+  "time": 1792282575.0808675,
+  "entry": {
+    "slug": "v2_muse_glimmer_30b_oss",
+    "reason": "CUDA12 loader resolution repaired and verified; restart from original serving baseline, preserve failed attempts"
+  },
+  "preserves": "All source, transcripts, sessions, previous admission and cumulative sprint budget"
+}

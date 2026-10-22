@@ -1,0 +1,12 @@
+{
+  "slug": "v2_kimi_k2_thinking_b300",
+  "sprint": "sprint02_multiuser",
+  "harness": "opencode",
+  "elapsed_seconds": 626.55,
+  "cost_usd": 0.0,
+  "tokens_total": 1347574,
+  "exit_code": 0,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": false
+}

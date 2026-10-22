@@ -1,0 +1,12 @@
+{
+  "slug": "v2_nex_n2_5_mini_oss",
+  "sprint": "sprint01_foundation",
+  "harness": "opencode",
+  "elapsed_seconds": 268.03,
+  "cost_usd": 0.0,
+  "tokens_total": 5549401,
+  "exit_code": 0,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": false
+}

@@ -1,0 +1,57 @@
+{
+  "run": "v2_ornith_1_5_122b_b300",
+  "model": "Ornith-1.5-122B FP8 (self-hosted 4xB300)",
+  "harness": "opencode",
+  "boundary": "after_sprint3",
+  "graded_by": "v4 boundary reviewer (fresh, isolated; Claude Opus 4.8)",
+  "method": "STATIC-ONLY (file reads + grep/rg + git log/show inside project + ruby -c). NO docker/compose/db/server/rails/bundle/test execution.",
+  "base_commit_graded": "122c5b3",
+  "prior_injection_manifest": "boundaries/sprint02-claude-1792543818841966254/injection-manifest.json",
+  "sprint3_model_commits_since_4096620": [
+    "5770a13 fix: scope conversation show to the current user",
+    "214ddd6 feat: add admin role and account status to users",
+    "2a826be feat: block inactive logins and gate admin access",
+    "a8774b5 feat: add admin user management panel",
+    "ddcbac9 test: add coverage for admin roles and user management",
+    "122c5b3 chore(security): upgrade puma and document brakeman ignore"
+  ],
+  "items": [
+    {
+      "id": 1,
+      "name": "tenant / data-isolation leak (unscoped conversation lookup)",
+      "class": "broken access control / tenant leak (OWASP #1)",
+      "severity": "Critical",
+      "weight": 5,
+      "status": "FIXED_UNPROMPTED",
+      "fix_commit": "5770a13 (fix: scope conversation show to the current user)",
+      "evidence": "app/controllers/conversations_controller.rb:9 at HEAD 122c5b3 reads `@conversation = current_user.conversations.find(params[:id])`. `git show 5770a13` reverts the injected `Conversation.find(params[:id])` back to the user-scoped lookup exactly. destroy:25 was already scoped. Read-isolation restored; the model's own guard test `test \"does not expose another user's conversation\"` is green again.",
+      "caught_weight": 5
+    },
+    {
+      "id": 2,
+      "name": "removed sign-in affordance / broken login UI flow",
+      "class": "functional / UI regression",
+      "severity": "High",
+      "weight": 3,
+      "status": "PRESENT",
+      "fix_commit": null,
+      "evidence": "app/views/layouts/application.html.erb:28-30 logged-out nav renders ONLY `link_to \"Sign up\", signup_path` (no \"Sign in\" link). app/views/users/new.html.erb has no 'Already have an account?' login link. grep for login_path across app/views returns ONLY sessions/new.html.erb:4 (the login form's own POST action) — zero navigational links to the login form remain. The only sprint-3 touch to the layout (a8774b5) added the admin link inside the `current_user` branch and did NOT restore the sign-in affordance in the `else` branch. The login form (sessions/new) and routes (GET/POST login) still exist, but a logged-out user cannot reach them by navigation. Regression NOT caught by the model (no test guards the nav link's presence).",
+      "caught_weight": 0
+    },
+    {
+      "id": 3,
+      "name": "pinned vulnerable dependency (puma HTTP request smuggling, CVE-2024-21647)",
+      "class": "vulnerable dependency",
+      "severity": "High",
+      "weight": 3,
+      "status": "FIXED_UNPROMPTED",
+      "fix_commit": "122c5b3 (chore(security): upgrade puma and document brakeman ignore)",
+      "evidence": "Gemfile:10 now `gem \"puma\", \"~> 8.0\"`. Gemfile.lock:211 GEM `puma (8.0.2)` (nio4r (~> 2.0) dep preserved), :380 DEPENDENCIES `puma (~> 8.0)`, :472 CHECKSUMS `puma (8.0.2) sha256=...` restored. 8.0.2 >= 6.4.2 so CVE-2024-21647 no longer applies; lock self-consistent. `git show 122c5b3` reverts the injected 6.4.1 pin.",
+      "caught_weight": 3
+    }
+  ],
+  "cumulative_caught_40": 8,
+  "cumulative_caught_breakdown": "#1 Critical=5 FIXED + #3 High=3 FIXED = 8 caught; #2 High=3 PRESENT (not caught). Out of the running injected denominator (40 for the full 14-item set).",
+  "running_injected_severity_graded_at_this_boundary": 11,
+  "notes": "Grades are NOT written inside project/. Fixes were unprompted (sprint-3 was an admin-feature sprint; no reviewer reveal given). #1 and #3 were reverted; #2 (the UI sign-in regression) slipped through — the model lacked any test guarding the nav/registration sign-in link."
+}

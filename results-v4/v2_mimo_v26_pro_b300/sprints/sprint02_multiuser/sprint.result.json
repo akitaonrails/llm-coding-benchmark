@@ -1,0 +1,12 @@
+{
+  "slug": "v2_mimo_v26_pro_b300",
+  "sprint": "sprint02_multiuser",
+  "harness": "opencode",
+  "elapsed_seconds": 1466.5,
+  "cost_usd": 0.0,
+  "tokens_total": 10755852,
+  "exit_code": 0,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": true
+}

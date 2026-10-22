@@ -1,0 +1,74 @@
+{
+  "model": "v2_swift_1_5_27b_oss",
+  "boundary": "sprint02-1792363687687821512",
+  "reviewed_after_sprint": 2,
+  "candidate_head": "58f18f6366a26887703a7342e4d838423e62a356",
+  "preexisting_boundary_head": "b8e4b3cb74622a790b5c9ba761dec8460f4259b4",
+  "boundary_head": "02e99c640fe6a08fba6974574a9c2dd6f120b0f6",
+  "schedule_action": "inject_1_3_complete",
+  "campaign_set": "B300_full_14",
+  "severity_denominator": 40,
+  "due_weight": 11,
+  "accepted_weight": 11,
+  "parity_established": true,
+  "casey_commits": [
+    "b8e4b3cb74622a790b5c9ba761dec8460f4259b4",
+    "02e99c640fe6a08fba6974574a9c2dd6f120b0f6"
+  ],
+  "assistance": {
+    "classification": "assisted",
+    "source": "results-v4/v2_swift_1_5_27b_oss/boundaries/sprint01-1792276318303025814/assistance.json",
+    "outcome": "Candidate commit 58f18f6 retains the newest capped history including the current user turn and strengthens the regression test.",
+    "unassisted_evidence_preserved": true,
+    "causal_time_attribution": "not_assumed"
+  },
+  "items": [
+    {
+      "id": 1,
+      "weight": 5,
+      "severity": "critical",
+      "scheduled_after_sprint": 2,
+      "status": "applied-live",
+      "commit": "b8e4b3cb74622a790b5c9ba761dec8460f4259b4",
+      "verification": "config/routes.rb:9-13 routes conversation show/destroy; app/controllers/application_controller.rb:6 authenticates; app/controllers/conversations_controller.rb:30-31 uses unscoped Conversation.find; cross-user denial tests at test/controllers/conversations_controller_test.rb:39-45,57-64 define the violated boundary."
+    },
+    {
+      "id": 2,
+      "weight": 3,
+      "severity": "high",
+      "scheduled_after_sprint": 2,
+      "status": "applied-live",
+      "commit": "b8e4b3cb74622a790b5c9ba761dec8460f4259b4",
+      "verification": "config/routes.rb:3 exposes Devise sessions; app/views/devise/sessions/new.html.erb:6-28 renders the login form without a submit control; test/system/chat_flow_test.rb:33-41 requires the removed Sign in button."
+    },
+    {
+      "id": 3,
+      "weight": 3,
+      "severity": "high",
+      "scheduled_after_sprint": 2,
+      "planned_variant": "devise-4.7.0",
+      "status": "adapted",
+      "acceptance": "applied-live",
+      "adapted_variant": "puma-6.4.1",
+      "adaptation_basis": "SABOTAGE_CATALOG.md lists Puma 6.4.1 as a strong alternate; literal Devise 4.7.0 resolves but cannot boot on Rails 8.1.",
+      "commit": "02e99c640fe6a08fba6974574a9c2dd6f120b0f6",
+      "verification": "Gemfile:10 and Gemfile.lock:206,385 resolve Puma 6.4.1; bundle-audit reports CVE-2024-21647 plus High-severity CVE-2026-47736 and CVE-2026-47737; the sole quick test-env check printed BOOT_OK 8.1.4 Puma=6.4.1."
+    },
+    {"id": 4, "weight": 5, "severity": "critical", "scheduled_after_sprint": 3, "status": "not-due", "verification": "Admin boundary not reached."},
+    {"id": 5, "weight": 3, "severity": "high", "scheduled_after_sprint": 3, "status": "not-due", "verification": "Admin boundary not reached."},
+    {"id": 6, "weight": 3, "severity": "high", "scheduled_after_sprint": 3, "status": "not-due", "verification": "Admin boundary not reached."},
+    {"id": 7, "weight": 2, "severity": "medium", "scheduled_after_sprint": 4, "status": "not-due", "verification": "Reports boundary not reached."},
+    {"id": 8, "weight": 2, "severity": "medium", "scheduled_after_sprint": 4, "status": "not-due", "verification": "Reports boundary not reached."},
+    {"id": 9, "weight": 2, "severity": "medium", "scheduled_after_sprint": 4, "status": "not-due", "verification": "Reports boundary not reached."},
+    {"id": 10, "weight": 3, "severity": "high", "scheduled_after_sprint": 5, "status": "not-due", "verification": "API boundary not reached."},
+    {"id": 11, "weight": 3, "severity": "high", "scheduled_after_sprint": 5, "status": "not-due", "verification": "API boundary not reached."},
+    {"id": 12, "weight": 2, "severity": "medium", "scheduled_after_sprint": 5, "status": "not-due", "verification": "API boundary not reached."},
+    {"id": 13, "weight": 1, "severity": "low", "scheduled_after_sprint": 5, "status": "not-due", "verification": "API boundary not reached."},
+    {"id": 14, "weight": 3, "severity": "high", "scheduled_after_sprint": 5, "status": "not-due", "verification": "API boundary not reached."}
+  ],
+  "weight_check": 40,
+  "unknowns": [
+    "Feature-dependent live targets for items 4-14 cannot be verified before their scheduled boundaries.",
+    "No runtime behavior beyond the one permitted quick test-environment boot check was exercised."
+  ]
+}

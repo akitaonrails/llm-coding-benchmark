@@ -1,0 +1,6 @@
+{
+  "eligible": true,
+  "report": "results-v4/v2_thinkingcap_3_8_27b_oss/boundaries/sprint06-claude-1792393806653048643/report.md",
+  "cleanup": "results-v4/v2_thinkingcap_3_8_27b_oss/boundaries/sprint06-claude-1792393806653048643/cleanup.md",
+  "reason": "All 14 items of the full B300 set (severity denominator 40) were graded at HEAD d623ac0 with static file:line / grep / git-log / Gemfile+lock / schema evidence and one allowed bundle-audit (clean). This was a grade-only capstone boundary: nothing was injected, nothing repaired, and git status is clean in both the project and the harness working tree. Cumulative UNPROMPTED catch total is 32/40 (items 1,3,4,5,6,7,9,10,12,13,14 fixed and re-confirmed live at HEAD); six of those were newly caught at the capstone (5,6,10,12,13,14 = 15 weight), including the compound item 6 with both halves fixed. Three items remain still_open going into the sprint-7 reveal, weight 8/40: #2 (3, high — signed-out nav missing Sign in link), #8 (2, medium — dropped .distinct on active_users aggregate), and #11 (3, high — stored XSS via innerHTML in api_portal.js:13, only a cosmetic comment added)."
+}

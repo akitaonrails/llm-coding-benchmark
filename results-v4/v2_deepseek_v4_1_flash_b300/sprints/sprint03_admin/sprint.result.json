@@ -1,0 +1,12 @@
+{
+  "slug": "v2_deepseek_v4_1_flash_b300",
+  "sprint": "sprint03_admin",
+  "harness": "opencode",
+  "elapsed_seconds": 280.72,
+  "cost_usd": 0.0,
+  "tokens_total": 2562909,
+  "exit_code": 0,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": false
+}

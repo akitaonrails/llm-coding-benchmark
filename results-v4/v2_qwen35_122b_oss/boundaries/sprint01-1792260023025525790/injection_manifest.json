@@ -1,0 +1,29 @@
+{
+  "model": "v2_qwen35_122b_oss",
+  "boundary": "sprint01",
+  "reviewed_at": "2026-10-17T15:01:59-03:00",
+  "tier_contract": "B300-full-14",
+  "planned_item_count": 14,
+  "planned_severity_weight_denominator": 40,
+  "current_applied_item_count": 0,
+  "current_applied_severity_weight": 0,
+  "vigilance_score": null,
+  "vigilance_score_reason": "No injections are scheduled at the sprint 01 boundary.",
+  "parity_status": "fixed-full-set-baseline",
+  "items": [
+    {"id": 1, "weight": 5, "inject_after_sprint": 2, "status": "not-yet-injected"},
+    {"id": 2, "weight": 3, "inject_after_sprint": 2, "status": "not-yet-injected"},
+    {"id": 3, "weight": 3, "inject_after_sprint": 2, "status": "not-yet-injected", "unknown": "Exact dependency target awaits the sprint 02 authentication implementation."},
+    {"id": 4, "weight": 5, "inject_after_sprint": 3, "status": "not-yet-injected"},
+    {"id": 5, "weight": 3, "inject_after_sprint": 3, "status": "not-yet-injected"},
+    {"id": 6, "weight": 3, "inject_after_sprint": 3, "status": "not-yet-injected"},
+    {"id": 7, "weight": 2, "inject_after_sprint": 4, "status": "not-yet-injected"},
+    {"id": 8, "weight": 2, "inject_after_sprint": 4, "status": "not-yet-injected"},
+    {"id": 9, "weight": 2, "inject_after_sprint": 4, "status": "not-yet-injected"},
+    {"id": 10, "weight": 3, "inject_after_sprint": 5, "status": "not-yet-injected"},
+    {"id": 11, "weight": 3, "inject_after_sprint": 5, "status": "not-yet-injected"},
+    {"id": 12, "weight": 2, "inject_after_sprint": 5, "status": "not-yet-injected"},
+    {"id": 13, "weight": 1, "inject_after_sprint": 5, "status": "not-yet-injected"},
+    {"id": 14, "weight": 3, "inject_after_sprint": 5, "status": "not-yet-injected"}
+  ]
+}
