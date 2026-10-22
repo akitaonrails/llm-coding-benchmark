@@ -119,7 +119,8 @@ Single-workstation local stack via **llama-swap + llama.cpp** (GGUF). Full depth
 The AMD server (`192.168.0.90:11435`, Ollama backend, `config/models.json` / `results/`). Different trade-off from everything above: **slow but huge**.
 
 ### Why it exists
-- **128 GB unified memory** (CPU+GPU shared) runs most models at **Q8_0 with 200K+ context** — things no 32 GB discrete card can hold. Concretely, Qwen 3.8-27B **completed the benchmark on Strix Halo where the 5090 couldn't** (needed 128K+ context the 32 GB card couldn't fit), scoring 84.6.
+- **128 GB unified memory** (CPU+GPU shared) runs most models at **Q8_0 with 200K+ context** — things no 32 GB discrete card can hold. Concretely, Qwen 3.8-27B **completed the benchmark on Strix Halo where the 5090 couldn't** (needed 128K+ context the 32 GB card couldn't fit), scoring **80.0 / Tier B** (a local-hardware milestone, but short of Tier A).
+- **But it's slow:** the dense 27B tops out at **~12–15 tok/s** on the Strix (measured Q4 12.6, Q8 7.7) — below even the consumer 30 tok/s mark. Strix wins on *capacity* (what fits), never on speed.
 
 ### Limitations & tricks
 - ROCm, not CUDA: the AMD serve config carries `HSA_OVERRIDE_GFX_VERSION`, `GGML_HIP_NO_VMM` (ROCm stability), and `-dio` (Vulkan/ROCm direct I/O) — all of which are **dropped** on the NVIDIA profile.
