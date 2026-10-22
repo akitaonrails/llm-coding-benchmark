@@ -33,38 +33,63 @@ def load_bench_level(path):
     out_tput = g(d, "output_throughput", "output_throughput_tok_s", default=0.0)
     # per-stream decode tok/s from TPOT (ms/token) -> tok/s
     per_stream = round(1000.0 / median_tpot, 1) if median_tpot else 0.0
+    # goodput fraction = requests meeting BOTH ttft & tpot SLO / all completed req.
+    # This is the AUTHORITATIVE capacity gate (stricter than median latency, which
+    # ignores the p99 queueing tail). vLLM reports goodput and throughput in req/s.
+    req_goodput = g(d, "request_goodput", "goodput", default=None)
+    req_tput = g(d, "request_throughput", default=None)
+    goodput_frac = (round(req_goodput / req_tput, 4)
+                    if (req_goodput is not None and req_tput) else None)
     return {
         "N": int(N),
         "median_ttft_ms": round(median_ttft, 1),
         "p99_ttft_ms": round(p99_ttft, 1),
         "median_tpot_ms": round(median_tpot, 2),
+        "p99_tpot_ms": round(g(d, "p99_tpot_ms", default=0.0), 2),
         "per_stream_tok_s": per_stream,
         "aggregate_tok_s": round(out_tput, 1),
-        "goodput_req_s": g(d, "request_goodput", "goodput", default=None),
+        "goodput_req_s": req_goodput,
+        "goodput_frac": goodput_frac,
         "completed": g(d, "completed", default=None),
+        "failed": g(d, "failed", default=None),
     }
 
 
-def analyze_dir(d, label, vram_gb, ttft_ms, tpot_ms, pod_cost_hr):
+def analyze_dir(d, label, vram_gb, ttft_ms, tpot_ms, pod_cost_hr, goodput_slo=0.95):
     levels = sorted((load_bench_level(p) for p in glob.glob(os.path.join(d, "bench_c*.json"))),
                     key=lambda x: x["N"])
-    # capacity@SLO = max N where median TTFT and median TPOT both within SLO
-    comfortable = 0
+    # PRIMARY capacity gate = max N where per-request goodput fraction >= goodput_slo
+    # (fraction of requests meeting BOTH ttft & tpot SLO). Falls back to the median
+    # gate only for levels a vLLM version didn't emit goodput for.
+    comfortable = 0          # goodput-based (authoritative)
+    median_slo_n = 0         # looser median-latency gate (secondary, for comparison)
     for L in levels:
-        ok = (L["median_ttft_ms"] <= ttft_ms) and (L["median_tpot_ms"] <= tpot_ms)
+        median_ok = (L["median_ttft_ms"] <= ttft_ms) and (L["median_tpot_ms"] <= tpot_ms)
+        gf = L.get("goodput_frac")
+        # primary gate = goodput fraction when the bench emitted it, else the median gate
+        ok = (gf >= goodput_slo) if gf is not None else median_ok
         L["within_slo"] = ok
         if ok:
             comfortable = max(comfortable, L["N"])
+        if median_ok:
+            median_slo_n = max(median_slo_n, L["N"])
     # saturation knee = last N where aggregate still rises >5% over previous
     knee = levels[0]["N"] if levels else 0
     for i in range(1, len(levels)):
         if levels[i]["aggregate_tok_s"] > levels[i - 1]["aggregate_tok_s"] * 1.05:
             knee = levels[i]["N"]
+    max_n = levels[-1]["N"] if levels else 0
+    knee_reached = knee < max_n          # if knee == top level, the ramp didn't saturate
     cost_per_user = round(pod_cost_hr / comfortable, 4) if comfortable else None
     out = {
-        "label": label, "vram_gb": vram_gb, "slo": {"ttft_ms": ttft_ms, "tpot_ms": tpot_ms},
+        "label": label, "vram_gb": vram_gb,
+        "slo": {"ttft_ms": ttft_ms, "tpot_ms": tpot_ms, "goodput_frac": goodput_slo},
         "comfortable_concurrent_users": comfortable,
+        "median_slo_N": median_slo_n,
         "saturation_knee_N": knee,
+        "knee_reached": knee_reached,
+        "max_ramp_N": max_n,
+        "peak_aggregate_tok_s": max((L["aggregate_tok_s"] for L in levels), default=0.0),
         "cost_per_comfortable_user_hr": cost_per_user,
         "pod_cost_hr": pod_cost_hr,
         "levels": levels,
@@ -77,12 +102,13 @@ def analyze_dir(d, label, vram_gb, ttft_ms, tpot_ms, pod_cost_hr):
 
 
 def md_table(levels):
-    rows = ["| N | med TTFT ms | med TPOT ms | per-stream tok/s | aggregate tok/s | goodput req/s | SLO |",
-            "|---|---|---|---|---|---|---|"]
+    rows = ["| N | med TTFT ms | p99 TTFT ms | med TPOT ms | per-stream tok/s | aggregate tok/s | goodput% | SLO |",
+            "|---|---|---|---|---|---|---|---|"]
     for L in levels:
-        rows.append("| {N} | {median_ttft_ms} | {median_tpot_ms} | {per_stream_tok_s} | "
+        gf = L.get("goodput_frac")
+        rows.append("| {N} | {median_ttft_ms} | {p99_ttft_ms} | {median_tpot_ms} | {per_stream_tok_s} | "
                     "{aggregate_tok_s} | {gp} | {slo} |".format(
-                        gp=L.get("goodput_req_s", "-"),
+                        gp=(f"{gf*100:.1f}" if gf is not None else "-"),
                         slo="OK" if L.get("within_slo") else "—", **L))
     return "\n".join(rows)
 
@@ -95,6 +121,8 @@ def main():
     ap.add_argument("--compare", nargs=2, metavar=("DIR_HEAVY", "DIR_LIGHT"))
     ap.add_argument("--ttft-ms", type=float, default=2000)
     ap.add_argument("--tpot-ms", type=float, default=20)
+    ap.add_argument("--goodput-slo", type=float, default=0.95,
+                    help="min per-request goodput fraction for the comfortable-N gate")
     ap.add_argument("--pod-cost-hr", type=float, default=9.09)
     a = ap.parse_args()
 
@@ -103,16 +131,19 @@ def main():
         for d in a.compare:
             lbl = json.load(open(os.path.join(d, "label.json")))["label"] if os.path.exists(
                 os.path.join(d, "label.json")) else os.path.basename(d.rstrip("/"))
-            res.append(analyze_dir(d, lbl, 0, a.ttft_ms, a.tpot_ms, a.pod_cost_hr))
+            res.append(analyze_dir(d, lbl, 0, a.ttft_ms, a.tpot_ms, a.pod_cost_hr, a.goodput_slo))
         heavy, light = res
         ratio = (round(light["comfortable_concurrent_users"] / heavy["comfortable_concurrent_users"], 2)
                  if heavy["comfortable_concurrent_users"] else None)
         report = ["# v4.2 concurrency — head-to-head (equal quality, VRAM varied)",
                   f"SLO: TTFT ≤ {a.ttft_ms} ms, TPOT ≤ {a.tpot_ms} ms (≥ {round(1000/a.tpot_ms)} tok/s/stream)\n"]
         for r in res:
+            knee_note = (f"N={r['saturation_knee_N']}" if r["knee_reached"]
+                         else f"NOT reached by N={r['max_ramp_N']} (still climbing)")
             report += [f"## {r['label']}",
-                       f"- comfortable concurrent users: **{r['comfortable_concurrent_users']}**",
-                       f"- saturation knee: N={r['saturation_knee_N']}",
+                       f"- comfortable concurrent users (goodput ≥{int(a.goodput_slo*100)}%): **{r['comfortable_concurrent_users']}**",
+                       f"- median-latency gate N (looser): {r['median_slo_N']}",
+                       f"- saturation knee: {knee_note}; peak aggregate {r['peak_aggregate_tok_s']} tok/s",
                        f"- cost/comfortable-user: ${r['cost_per_comfortable_user_hr']}/hr",
                        md_table(r["levels"]), ""]
         report.append(f"**Head-to-head:** the LIGHT model serves ~{ratio}× the comfortable "
@@ -123,12 +154,15 @@ def main():
 
     if not a.dir:
         ap.error("need --dir or --compare")
-    r = analyze_dir(a.dir, a.label, a.vram_gb, a.ttft_ms, a.tpot_ms, a.pod_cost_hr)
+    r = analyze_dir(a.dir, a.label, a.vram_gb, a.ttft_ms, a.tpot_ms, a.pod_cost_hr, a.goodput_slo)
     Path(os.path.join(a.dir, "analysis.json")).write_text(json.dumps(r, indent=2))
+    knee_note = (f"N={r['saturation_knee_N']}" if r["knee_reached"]
+                 else f"NOT reached by N={r['max_ramp_N']} (still climbing)")
     report = [f"# v4.2 concurrency — {a.label} (~{a.vram_gb} GB VRAM)",
-              f"SLO: TTFT ≤ {a.ttft_ms} ms, TPOT ≤ {a.tpot_ms} ms",
-              f"- **comfortable concurrent users: {r['comfortable_concurrent_users']}**",
-              f"- saturation knee: N={r['saturation_knee_N']}",
+              f"SLO: TTFT ≤ {a.ttft_ms} ms, TPOT ≤ {a.tpot_ms} ms, goodput ≥ {int(a.goodput_slo*100)}%",
+              f"- **comfortable concurrent users (goodput ≥{int(a.goodput_slo*100)}%): {r['comfortable_concurrent_users']}**",
+              f"- median-latency gate N (looser): {r['median_slo_N']}",
+              f"- saturation knee: {knee_note}; peak aggregate {r['peak_aggregate_tok_s']} tok/s",
               f"- cost/comfortable-user: ${r['cost_per_comfortable_user_hr']}/hr", "",
               md_table(r["levels"])]
     Path(os.path.join(a.dir, "report.md")).write_text("\n".join(report))
