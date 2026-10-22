@@ -1,0 +1,12 @@
+{
+  "slug": "v2_ornith_1_5_35b_5090_strata",
+  "sprint": "sprint06_production",
+  "harness": "opencode",
+  "elapsed_seconds": 1806.53,
+  "cost_usd": 0.0,
+  "tokens_total": 4296667,
+  "exit_code": 0,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": false
+}
