@@ -2,7 +2,7 @@
 
 Field notes on **Strata**, the native expert-offload inference engine we use to run Qwen3.8 Flash-Next locally on the RTX 5090. Everything here was learned hands-on (2026-10-22). Companion: [`docs/hardware-serving-playbook.md`](hardware-serving-playbook.md) (cross-hardware), [`docs/llama-swap.md`](llama-swap.md) (the other 5090 path).
 
-> TL;DR: Strata runs a big MoE on a consumer GPU by keeping only the **hot experts** in VRAM and **streaming the cold ones from system RAM/SSD**. It serves an OpenAI/Anthropic API on `:8080`. We run **Qwen3.8 Flash-Next IQ3_S** (benchmark score 91.0 / Tier A) at **~176 tok/s** (full cache) / **~147 tok/s** (with a 2.5 GB desktop VRAM reserve), **256K context**, as an on-demand systemd service that lazy-loads and idle-unloads.
+> TL;DR: Strata runs a big MoE on a consumer GPU by keeping only the **hot experts** in VRAM and **streaming the cold ones from system RAM/SSD**. It serves an OpenAI/Anthropic API on `:8080`. We run **Qwen3.8 Flash-Next IQ3_S** (benchmark score 91.0 / Tier A) at **~176 tok/s** (full cache) / **~147 tok/s** (with a 2.5 GB desktop VRAM reserve), **256K context**. Those throughput figures are historical; the current desktop reserve is **4096 MiB** (see the validation below). Serving uses an on-demand systemd service that lazy-loads and idle-unloads.
 
 ---
 
@@ -79,7 +79,7 @@ This box has an **AMD Radeon 610M** iGPU (`card0`, from the 7950X3D), unused for
 ## On-demand service (lazy-load + idle-unload + auto-reserve)
 Strata has **no native idle-unload**, so a small proxy wraps it:
 - `~/.local/bin/qwen-strata-ondemand` — stdlib Python proxy on **:8080** (public, always up, ~no VRAM). Answers `GET /v1/models` locally *without* loading the model; on the first **chat** request it starts Strata on **:8781** (cold-start ~35 s), proxies (streaming), and after `QWEN_IDLE_TTL` idle **unloads** it (frees the whole GPU + ~52 GB RAM). After load it auto-POSTs the `QWEN_VRAM_RESERVE_MIB` reserve.
-- `~/.config/systemd/user/qwen-strata.service` — runs the proxy; `enabled` + `loginctl enable-linger` (survives reboot). Env: `QWEN_IDLE_TTL=600`, `QWEN_VRAM_RESERVE_MIB=2560` (set `0` for full speed / no reserve), `QWEN_UP_PORT=8781`, `QWEN_PROXY_PORT=8080`.
+- `~/.config/systemd/user/qwen-strata.service` — runs the proxy; `enabled` + `loginctl enable-linger` (survives reboot). Env: `QWEN_IDLE_TTL=600`, `QWEN_VRAM_RESERVE_MIB=4096` in the current controller (verify the service environment separately before switching launch methods), `QWEN_UP_PORT=8781`, `QWEN_PROXY_PORT=8080`.
 - `~/.local/bin/qwen-strata` — manual shim (`start|stop|restart|status`) that serves Strata **directly** on :8080 (bypasses the proxy; stop the service first — only one can own :8080).
 - opencode uses it unchanged: provider `strata-5090` → `http://127.0.0.1:8080/v1`, model `qwen3.8-flash-next-iq3_s`.
 
@@ -142,3 +142,43 @@ failed; even the TUI was unusable.
 Engine facts: `/v1/vram` POST `{"reserve_mib": N}` → engine evicts expert-cache slots until
 ~N MiB free; response reports `expert_slots`, `vram_free_mib`. `--vram-elastic` is required in
 the launch profile (present in `~/.local/state/strata/launch/iq3_s-128k.json`).
+
+### Follow-up load test and retained running state
+
+The final OpenCode load test on 2026-10-22 used the 4096 MiB reserve. Its captured
+session output reported:
+
+| Workload | Wall time | Minimum free VRAM | Peak GPU utilization | Engine-reported decode |
+|---|---:|---:|---:|---:|
+| One generation, up to 3,000 output tokens | 18.2 s | 4,247 MiB | 100% | 225.3 tok/s |
+| Three concurrent requests, up to 2,000 tokens each | 40.4 s | 3,949 MiB | 100% | 172.8–178.5 tok/s |
+
+All four requests succeeded. A separate 1 GiB CUDA allocation probe also succeeded.
+These figures come from OpenCode session `799c4886-967f-507b-a575-6e4c6cd7e21c`,
+observations at 18:45 UTC; they were not regenerated during the documentation follow-up.
+Concurrent requests do not prove simultaneous engine decoding, and these short prompts
+do not exercise the full 256K context. Timing differences from earlier measurements are
+not a controlled performance comparison.
+
+Reproduce the generation test with
+`python3 scripts/strata_vram_loadtest.py` against the already configured local proxy.
+The script samples GPU memory every two seconds and requires at least **3400 MiB** free
+and successful responses. This is an empirical acceptance threshold, not a hard VRAM
+reservation or proof that the desktop cannot freeze. Sampling can miss brief allocation
+spikes; additional desktop applications or longer contexts can consume more memory.
+The script sends inference requests and **does not unload the engine afterward**.
+
+During the follow-up, a read-only inspection of the running proxy's environment confirmed
+`QWEN_VRAM_RESERVE_MIB=4096`. A live GPU snapshot showed **4232 MiB free at 99% utilization**.
+The user explicitly requested leaving the loaded engine running with these settings, so
+no stop, restart, reserve mutation or additional stress request was issued. Automatic idle
+unloading remains governed by the existing proxy configuration.
+
+The uncommitted `park` addition in `strata_proxy_ctl.py` is not part of this documented
+release: it uses broad process-name matching and needs exact process-ownership validation
+before it can safely be recommended. Do not use blanket `pkill` commands to reclaim VRAM.
+
+Cleanup for this documentation task: no temporary files, containers or services were
+created; nothing was removed. The active engine, proxy, model files, existing test evidence
+and unfinished controller edit were intentionally retained. Python source syntax and the
+local documentation link were checked without loading or stopping the model.
