@@ -36,7 +36,15 @@ def mark_dnf(model: str, reason: str) -> None:
 
 def project_has_rails(model: str) -> bool:
     proj = OUT / model / "project"
-    return (proj / "Gemfile").exists() and (proj / "app").is_dir()
+    if (proj / "Gemfile").exists() and (proj / "app").is_dir():
+        return True
+    # A single nested Rails app is real work, not a missing application. Do not
+    # follow symlinks or mistake vendored dependencies for candidate output.
+    candidates = [p for p in proj.iterdir() if p.is_dir() and not p.is_symlink()
+                  and p.name not in ('vendor', 'node_modules', '.git', 'tmp')
+                  and (p/'Gemfile').is_file() and (p/'app').is_dir()
+                  and (p/'config/application.rb').is_file()] if proj.is_dir() else []
+    return len(candidates) == 1
 
 
 def evaluate(model: str, sprint: str) -> tuple[bool, str]:

@@ -17,12 +17,12 @@ from run_v41_frontier import MANIFEST, ROOT, summarize_result, write_json
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cranelift-memory-mb", type=int)
-    parser.add_argument("--models", nargs="+", choices=["genesys", "astra", "fable"], default=["genesys"])
+    parser.add_argument("--models", nargs="+", choices=["genesys", "astra", "fable", "sol_medium", "genesys_repeat2", "genesys_repeat3"], default=["genesys"])
     args = parser.parse_args()
     manifest = json.loads(MANIFEST.read_text())
     out = ROOT / "results-v4.1/frontier"
     out.mkdir(parents=True, exist_ok=True)
-    state = out / ("queue.json" if args.models == ["genesys"] else "anchors-queue.json")
+    state = out / ("queue.json" if args.models == ["genesys"] else "genesys-repeat3-queue.json" if args.models == ["genesys_repeat3"] else "genesys-repeat2-queue.json" if args.models == ["genesys_repeat2"] else "anchors-queue.json")
     for model, task in [(model, task) for model in args.models for task in manifest["tasks"]]:
         spec = manifest["tasks"][task]
         memory = args.cranelift_memory_mb if task == "cranelift-codegen-opt" else None
@@ -54,7 +54,7 @@ def main():
             data = json.loads(record.read_text())
             # Reconcile runs started by an older controller using the original
             # Harbor result. An exhausted agent budget still gets graded.
-            if mode in ("genesys", "astra", "fable") and data.get("result_path"):
+            if mode in ("genesys", "astra", "fable", "sol_medium", "genesys_repeat2", "genesys_repeat3") and data.get("result_path"):
                 data.update(summarize_result(json.loads(Path(data["result_path"]).read_text())))
                 write_json(record, data)
             if (data.get("status") != "completed" or data.get("revision") != manifest["revision"]
@@ -70,7 +70,7 @@ if __name__ == "__main__":
     try:
         raise SystemExit(main())
     except Exception as error:
-        state = ROOT / "results-v4.1/frontier" / ("anchors-queue.json" if "--models" in sys.argv else "queue.json")
+        state = ROOT / "results-v4.1/frontier" / ("genesys-repeat3-queue.json" if "genesys_repeat3" in sys.argv else "genesys-repeat2-queue.json" if "genesys_repeat2" in sys.argv else "anchors-queue.json" if "--models" in sys.argv else "queue.json")
         data = json.loads(state.read_text()) if state.exists() else {}
         data.update(status="error", error=str(error))
         write_json(state, data)

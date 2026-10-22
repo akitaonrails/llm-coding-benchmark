@@ -1,0 +1,8 @@
+{
+  "status": "paused",
+  "paused_at": "2026-10-08T23:53:03.836179+00:00",
+  "process_group": 2648571,
+  "container": "crash-proof-flash-filesystem__hfljq2f__env-main-1",
+  "reason": "User requested prioritizing model forensics",
+  "resume_caveat": "Host and container clocks continue advancing while suspended. Review Harbor deadlines and elapsed-time comparability before resume; do not treat this as an uninterrupted scored attempt."
+}

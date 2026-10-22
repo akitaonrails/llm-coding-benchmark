@@ -1,0 +1,24 @@
+{
+  "command_kind": "opencode",
+  "cost_usd": 4.0995,
+  "elapsed_seconds": 385.76,
+  "ended_at": "2026-10-03T21:35:38+00:00",
+  "exit_code": 0,
+  "file_count_after": 50,
+  "harness": "opencode",
+  "phase": "sprint01_parser",
+  "session_id": "ses_efc5431eeffexG5NheSL5q8krj",
+  "stall_aborted": false,
+  "started_at": "2026-10-03T21:29:12+00:00",
+  "timed_out": false,
+  "tokens": {
+    "cache": {
+      "read": 1811350,
+      "write": 0
+    },
+    "input": 56486,
+    "output": 15093,
+    "reasoning": 11106,
+    "total": 1894035
+  }
+}

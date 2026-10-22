@@ -1,0 +1,228 @@
+[v41_genesys_house_repeat2/sprint01_election] done elapsed=726.91s exit=0 tokens=1579566 cost=$3.7444
+[v41_genesys_house_repeat2] v4.1/raft sprint sprint01_election done elapsed=726.91s exit=0 tokens=1579566 cost=$3.7444
+[v41_genesys_house_repeat2/sprint02_replication] done elapsed=562.66s exit=0 tokens=1908855 cost=$3.8212
+[v41_genesys_house_repeat2] v4.1/raft sprint sprint02_replication done elapsed=562.66s exit=0 tokens=1908855 cost=$3.8212
+[v41_genesys_house_repeat2/sprint03_persistence] done elapsed=683.53s exit=0 tokens=1955413 cost=$4.2791
+[v41_genesys_house_repeat2] v4.1/raft sprint sprint03_persistence done elapsed=683.53s exit=0 tokens=1955413 cost=$4.2791
+[v41_genesys_house_repeat2/sprint04_snapshots] done elapsed=539.29s exit=0 tokens=1690916 cost=$3.6399
+[v41_genesys_house_repeat2] v4.1/raft sprint sprint04_snapshots done elapsed=539.29s exit=0 tokens=1690916 cost=$3.6399
+[v41_genesys_house_repeat2/sprint05_membership] done elapsed=1455.09s exit=0 tokens=4919054 cost=$9.6001
+[v41_genesys_house_repeat2] v4.1/raft sprint sprint05_membership done elapsed=1455.09s exit=0 tokens=4919054 cost=$9.6001
+[v41_genesys_house_repeat2/sprint06_learners] done elapsed=2148.8s exit=0 tokens=12185137 cost=$18.4728
+[v41_genesys_house_repeat2] v4.1/raft sprint sprint06_learners done elapsed=2148.8s exit=0 tokens=12185137 cost=$18.4728
+[v41_genesys_house_repeat2/sprint07_kv] done elapsed=549.09s exit=0 tokens=1446274 cost=$3.7188
+[v41_genesys_house_repeat2] v4.1/raft sprint sprint07_kv done elapsed=549.09s exit=0 tokens=1446274 cost=$3.7188
+[v41_genesys_house_repeat2/sprint08_reveal] done elapsed=1271.57s exit=0 tokens=4200984 cost=$8.2546
+[v41_genesys_house_repeat2] v4.1/raft sprint sprint08_reveal done elapsed=1271.57s exit=0 tokens=4200984 cost=$8.2546
+{
+  "problem": "raft",
+  "slug": "v41_genesys_house_repeat2",
+  "src": "/mnt/data/Projects/llm-coding-benchmark/results-v4.1/v41_genesys_house_repeat2/project",
+  "tests": {
+    "TestInitialElection": "pass",
+    "TestReElection": "pass",
+    "TestPreVote": "pass",
+    "TestCheckQuorum": "pass",
+    "TestBasicAgree": "fail",
+    "TestFailAgree": "pass",
+    "TestFailNoAgree": "fail",
+    "TestConcurrentStarts": "pass",
+    "TestRejoin": "pass",
+    "TestBackup": "pass",
+    "TestPersist1": "pass",
+    "TestPersist2": "pass",
+    "TestPersist3": "pass",
+    "TestSnapshotBasic": "pass",
+    "TestSnapshotInstall": "pass",
+    "TestSnapshotCrash": "pass",
+    "TestMembershipJoint": "pass",
+    "TestLearnerCatchup": "fail",
+    "TestLeadershipTransfer": "pass",
+    "TestKVBasic": "pass",
+    "TestKVConcurrent": "pass",
+    "TestKVPartition": "pass",
+    "TestKVSnapshotSize": "pass",
+    "TestKVLinearizable": "pass"
+  },
+  "score": 87.5,
+  "max_sprint_cleared": 1,
+  "compile_ok": true,
+  "error": null,
+  "elapsed_s": 116.8,
+  "earned_raw": 91
+}
+
+==> [raft] v41_genesys_house_repeat2: score 87.5/100, cleared 1, compile=True
+
+########## v4.1/raft MODEL: v41_genesys_house_repeat2 ##########
+[raft/v41_genesys_house_repeat2] === sprint 01_election ===
+[raft/v41_genesys_house_repeat2] === sprint 02_replication ===
+[raft/v41_genesys_house_repeat2] === sprint 03_persistence ===
+[raft/v41_genesys_house_repeat2] === sprint 04_snapshots ===
+[raft/v41_genesys_house_repeat2] === sprint 05_membership ===
+[raft/v41_genesys_house_repeat2] === sprint 06_learners ===
+[raft/v41_genesys_house_repeat2] === sprint 07_kv ===
+[raft/v41_genesys_house_repeat2] === sprint 08_reveal ===
+[v41_genesys_house_repeat2] grading ...
+[v41_genesys_house_repeat2] DONE dnf=False score=87.5 cleared=1
+
+========== v4.1/raft WAVE SUMMARY ==========
+  v41_genesys_house_repeat2    score=87.5 cleared=1 dnf=False 
+[v41_genesys_house_repeat2/sprint01_btree] done elapsed=286.11s exit=0 tokens=872500 cost=$2.4306
+[v41_genesys_house_repeat2] v4.1/storage sprint sprint01_btree done elapsed=286.11s exit=0 tokens=872500 cost=$2.4306
+[v41_genesys_house_repeat2/sprint02_wal] done elapsed=338.87s exit=0 tokens=952138 cost=$2.685
+[v41_genesys_house_repeat2] v4.1/storage sprint sprint02_wal done elapsed=338.87s exit=0 tokens=952138 cost=$2.685
+[v41_genesys_house_repeat2/sprint03_mvcc] done elapsed=267.69s exit=0 tokens=1438467 cost=$2.8642
+[v41_genesys_house_repeat2] v4.1/storage sprint sprint03_mvcc done elapsed=267.69s exit=0 tokens=1438467 cost=$2.8642
+[v41_genesys_house_repeat2/sprint04_ssi] done elapsed=1270.4s exit=0 tokens=6592176 cost=$11.817
+[v41_genesys_house_repeat2] v4.1/storage sprint sprint04_ssi done elapsed=1270.4s exit=0 tokens=6592176 cost=$11.817
+[v41_genesys_house_repeat2/sprint05_predicate] done elapsed=604.12s exit=0 tokens=1334192 cost=$4.1493
+[v41_genesys_house_repeat2] v4.1/storage sprint sprint05_predicate done elapsed=604.12s exit=0 tokens=1334192 cost=$4.1493
+[v41_genesys_house_repeat2/sprint06_atomic] done elapsed=687.43s exit=0 tokens=3920385 cost=$7.0567
+[v41_genesys_house_repeat2] v4.1/storage sprint sprint06_atomic done elapsed=687.43s exit=0 tokens=3920385 cost=$7.0567
+[v41_genesys_house_repeat2/sprint07_reveal] done elapsed=568.6s exit=0 tokens=1387376 cost=$3.9929
+[v41_genesys_house_repeat2] v4.1/storage sprint sprint07_reveal done elapsed=568.6s exit=0 tokens=1387376 cost=$3.9929
+{
+  "problem": "storage",
+  "slug": "v41_genesys_house_repeat2",
+  "src": "/mnt/data/Projects/llm-coding-benchmark/results-v4.1/storage/v41_genesys_house_repeat2/project",
+  "tests": {
+    "TestBasicPutGet": "pass",
+    "TestScan": "pass",
+    "TestCommitDurable": "pass",
+    "TestAbortNoTrace": "pass",
+    "TestCrashMidCommitAtomic": "pass",
+    "TestRecoveryManyTxns": "pass",
+    "TestSnapshotIsolation": "pass",
+    "TestLostUpdate": "pass",
+    "TestWriteSkew": "pass",
+    "TestReadOnlyAnomaly": "pass",
+    "TestG2Cycle": "pass",
+    "TestSerializableFuzz": "pass"
+  },
+  "score": 100.0,
+  "max_sprint_cleared": 7,
+  "compile_ok": true,
+  "error": null,
+  "elapsed_s": 14.3,
+  "earned_raw": 100
+}
+
+==> [storage] v41_genesys_house_repeat2: score 100.0/100, cleared 7, compile=True
+
+########## v4.1/storage MODEL: v41_genesys_house_repeat2 ##########
+[storage/v41_genesys_house_repeat2] === sprint 01_btree ===
+[storage/v41_genesys_house_repeat2] === sprint 02_wal ===
+[storage/v41_genesys_house_repeat2] === sprint 03_mvcc ===
+[storage/v41_genesys_house_repeat2] === sprint 04_ssi ===
+[storage/v41_genesys_house_repeat2] === sprint 05_predicate ===
+[storage/v41_genesys_house_repeat2] === sprint 06_atomic ===
+[storage/v41_genesys_house_repeat2] === sprint 07_reveal ===
+[v41_genesys_house_repeat2] grading ...
+[v41_genesys_house_repeat2] DONE dnf=False score=100.0 cleared=7
+
+========== v4.1/storage WAVE SUMMARY ==========
+  v41_genesys_house_repeat2    score=100.0 cleared=7 dnf=False 
+[v41_genesys_house_repeat2/sprint01_parser] done elapsed=220.46s exit=0 tokens=659439 cost=$2.0036
+[v41_genesys_house_repeat2] v4.1/typedlang sprint sprint01_parser done elapsed=220.46s exit=0 tokens=659439 cost=$2.0036
+[v41_genesys_house_repeat2/sprint02_hm] done elapsed=135.3s exit=0 tokens=489639 cost=$1.4166
+[v41_genesys_house_repeat2] v4.1/typedlang sprint sprint02_hm done elapsed=135.3s exit=0 tokens=489639 cost=$1.4166
+[v41_genesys_house_repeat2/sprint03_rows] done elapsed=335.07s exit=0 tokens=1573080 cost=$3.3872
+[v41_genesys_house_repeat2] v4.1/typedlang sprint sprint03_rows done elapsed=335.07s exit=0 tokens=1573080 cost=$3.3872
+[v41_genesys_house_repeat2/sprint04_vm] done elapsed=279.13s exit=0 tokens=1069604 cost=$2.7015
+[v41_genesys_house_repeat2] v4.1/typedlang sprint sprint04_vm done elapsed=279.13s exit=0 tokens=1069604 cost=$2.7015
+[v41_genesys_house_repeat2/sprint05_gc] done elapsed=428.06s exit=0 tokens=1622657 cost=$3.7965
+[v41_genesys_house_repeat2] v4.1/typedlang sprint sprint05_gc done elapsed=428.06s exit=0 tokens=1622657 cost=$3.7965
+[v41_genesys_house_repeat2/sprint06_builtins] done elapsed=365.01s exit=0 tokens=1877313 cost=$3.8741
+[v41_genesys_house_repeat2] v4.1/typedlang sprint sprint06_builtins done elapsed=365.01s exit=0 tokens=1877313 cost=$3.8741
+[v41_genesys_house_repeat2/sprint07_reveal] done elapsed=881.75s exit=0 tokens=3639305 cost=$7.5436
+[v41_genesys_house_repeat2] v4.1/typedlang sprint sprint07_reveal done elapsed=881.75s exit=0 tokens=3639305 cost=$7.5436
+{
+  "problem": "typedlang",
+  "slug": "v41_genesys_house_repeat2",
+  "src": "/mnt/data/Projects/llm-coding-benchmark/results-v4.1/typedlang/v41_genesys_house_repeat2/project",
+  "tests": {
+    "TestBasicEval": "pass",
+    "TestClosures": "pass",
+    "TestRecursion": "pass",
+    "TestRecords": "pass",
+    "TestRecordUpdate": "pass",
+    "TestLists": "pass",
+    "TestLetPolymorphism": "pass",
+    "TestOccursCheck": "pass",
+    "TestValueRestriction": "pass",
+    "TestRowPolymorphism": "pass",
+    "TestTypeErrors": "pass",
+    "TestGCNoLeak": "pass",
+    "TestGCCycles": "pass",
+    "TestGCStressMixed": "pass"
+  },
+  "score": 100.0,
+  "max_sprint_cleared": 7,
+  "compile_ok": true,
+  "error": null,
+  "elapsed_s": 51.5,
+  "earned_raw": 100
+}
+
+==> [typedlang] v41_genesys_house_repeat2: score 100.0/100, cleared 7, compile=True
+
+########## v4.1/typedlang MODEL: v41_genesys_house_repeat2 ##########
+[typedlang/v41_genesys_house_repeat2] === sprint 01_parser ===
+[typedlang/v41_genesys_house_repeat2] === sprint 02_hm ===
+[typedlang/v41_genesys_house_repeat2] === sprint 03_rows ===
+[typedlang/v41_genesys_house_repeat2] === sprint 04_vm ===
+[typedlang/v41_genesys_house_repeat2] === sprint 05_gc ===
+[typedlang/v41_genesys_house_repeat2] === sprint 06_builtins ===
+[typedlang/v41_genesys_house_repeat2] === sprint 07_reveal ===
+[v41_genesys_house_repeat2] grading ...
+[v41_genesys_house_repeat2] DONE dnf=False score=100.0 cleared=7
+
+========== v4.1/typedlang WAVE SUMMARY ==========
+  v41_genesys_house_repeat2    score=100.0 cleared=7 dnf=False 
+QUEUE crash-proof-flash-filesystem / oracle
+QUEUE OK crash-proof-flash-filesystem / oracle: 100.0
+QUEUE crash-proof-flash-filesystem / baseline
+QUEUE OK crash-proof-flash-filesystem / baseline: 0.0
+QUEUE crash-proof-flash-filesystem / genesys_repeat2
+START crash-proof-flash-filesystem: genesys_repeat2; job=genesys_repeat2-crash-proof-flash-filesystem-b2349988
+  1/1 Mean: 0.000 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 0:06:17 0:00:00DONE crash-proof-flash-filesystem: error reward=None
+Traceback (most recent call last):
+  File "/mnt/data/Projects/llm-coding-benchmark/scripts/run_v41_frontier_wave.py", line 71, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/mnt/data/Projects/llm-coding-benchmark/scripts/run_v41_frontier_wave.py", line 63, in main
+    raise RuntimeError(f"Invalid or failed {mode} result; inspect {record}")
+RuntimeError: Invalid or failed genesys_repeat2 result; inspect /mnt/data/Projects/llm-coding-benchmark/results-v4.1/frontier/crash-proof-flash-filesystem/genesys_repeat2.json
+Traceback (most recent call last):
+  File "/mnt/data/Projects/llm-coding-benchmark/scripts/run_v41_sol_wave.py", line 45, in <module>
+    main()
+  File "/mnt/data/Projects/llm-coding-benchmark/scripts/run_v41_sol_wave.py", line 35, in main
+    subprocess.run([sys.executable, str(ROOT / 'scripts/run_v41_frontier_wave.py'),
+  File "/home/akitaonrails/.local/share/uv/python/cpython-3.12.8-linux-x86_64-gnu/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/tmp/px-eval-inspect/.venv/bin/python', '/mnt/data/Projects/llm-coding-benchmark/scripts/run_v41_frontier_wave.py', '--models', 'genesys_repeat2', '--cranelift-memory-mb', '32768']' returned non-zero exit status 1.
+QUEUE crash-proof-flash-filesystem / oracle
+QUEUE OK crash-proof-flash-filesystem / oracle: 100.0
+QUEUE crash-proof-flash-filesystem / baseline
+QUEUE OK crash-proof-flash-filesystem / baseline: 0.0
+QUEUE crash-proof-flash-filesystem / genesys_repeat2
+START crash-proof-flash-filesystem: genesys_repeat2; job=genesys_repeat2-crash-proof-flash-filesystem-0da3cd2e
+  1/1 Bd_Gate: 1.000 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2:00:30 0:00:00DONE crash-proof-flash-filesystem: completed reward=0.01726
+QUEUE OK crash-proof-flash-filesystem / genesys_repeat2: 1.7260000000000002
+QUEUE lean-4-kernel-type-checker-in-pascal / oracle
+QUEUE OK lean-4-kernel-type-checker-in-pascal / oracle: 100.0
+QUEUE lean-4-kernel-type-checker-in-pascal / baseline
+QUEUE OK lean-4-kernel-type-checker-in-pascal / baseline: 0.0
+QUEUE lean-4-kernel-type-checker-in-pascal / genesys_repeat2
+START lean-4-kernel-type-checker-in-pascal: genesys_repeat2; job=genesys_repeat2-lean-4-kernel-type-checker-in-pascal-a08f357b
+  1/1 Accept_Ok: 474.000 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2:53:49 0:00:00DONE lean-4-kernel-type-checker-in-pascal: completed reward=0.0
+QUEUE OK lean-4-kernel-type-checker-in-pascal / genesys_repeat2: 0.0
+QUEUE cranelift-codegen-opt / oracle
+QUEUE OK cranelift-codegen-opt / oracle: 0.0
+QUEUE cranelift-codegen-opt / baseline
+QUEUE OK cranelift-codegen-opt / baseline: 0.0
+QUEUE cranelift-codegen-opt / genesys_repeat2
+START cranelift-codegen-opt: genesys_repeat2; job=genesys_repeat2-cranelift-codegen-opt-9d4ac693
+  1/1 Build_Ok: 1.000 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1:32:15 0:00:00DONE cranelift-codegen-opt: completed reward=0.0
+QUEUE OK cranelift-codegen-opt / genesys_repeat2: 0.0

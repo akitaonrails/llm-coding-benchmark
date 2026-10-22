@@ -95,5 +95,53 @@
     "dnf_reason": "2 consecutive non-compiling sprints (through 02_wal)",
     "score": 0.0,
     "sprints_cleared": 0
+  },
+  {
+    "slug": "v41_gpt_6_sol_medium",
+    "sprints_run": [
+      "01_btree",
+      "02_wal",
+      "03_mvcc",
+      "04_ssi",
+      "05_predicate",
+      "06_atomic",
+      "07_reveal"
+    ],
+    "dnf": false,
+    "dnf_reason": null,
+    "score": 100.0,
+    "sprints_cleared": 7
+  },
+  {
+    "slug": "v41_genesys_house_repeat2",
+    "sprints_run": [
+      "01_btree",
+      "02_wal",
+      "03_mvcc",
+      "04_ssi",
+      "05_predicate",
+      "06_atomic",
+      "07_reveal"
+    ],
+    "dnf": false,
+    "dnf_reason": null,
+    "score": 100.0,
+    "sprints_cleared": 7
+  },
+  {
+    "slug": "v41_genesys_house_repeat3",
+    "sprints_run": [
+      "01_btree",
+      "02_wal",
+      "03_mvcc",
+      "04_ssi",
+      "05_predicate",
+      "06_atomic",
+      "07_reveal"
+    ],
+    "dnf": false,
+    "dnf_reason": null,
+    "score": 100.0,
+    "sprints_cleared": 7
   }
 ]

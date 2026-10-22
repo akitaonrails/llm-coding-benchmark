@@ -1,0 +1,110 @@
+# Strata Serving (RTX 5090 — Qwen3.8 Flash-Next)
+
+Field notes on **Strata**, the native expert-offload inference engine we use to run Qwen3.8 Flash-Next locally on the RTX 5090. Everything here was learned hands-on (2026-10-22). Companion: [`docs/hardware-serving-playbook.md`](hardware-serving-playbook.md) (cross-hardware), [`docs/llama-swap.md`](llama-swap.md) (the other 5090 path).
+
+> TL;DR: Strata runs a big MoE on a consumer GPU by keeping only the **hot experts** in VRAM and **streaming the cold ones from system RAM/SSD**. It serves an OpenAI/Anthropic API on `:8080`. We run **Qwen3.8 Flash-Next IQ3_S** (benchmark score 91.0 / Tier A) at **~176 tok/s** (full cache) / **~147 tok/s** (with a 2.5 GB desktop VRAM reserve), **256K context**, as an on-demand systemd service that lazy-loads and idle-unloads.
+
+---
+
+## What Strata is
+- A **native install** (NOT a container): the engine binary + a Python terminal/serve wrapper + a GUI app, under `~/.local/share/strata`. It's an expert-offload MoE engine — dense weights + hot experts live in VRAM, cold experts stream from pinned host RAM (and SSD via mmap).
+- It serves OpenAI-compatible (`/v1/chat/completions`) + Anthropic (`/v1/messages`) on a port.
+
+## Paths
+| What | Path |
+|---|---|
+| CLI | `~/.local/bin/strata` (subcommands: `serve, launch, presets, profile, tune, runtime, status, models, …`) |
+| Engine binary | `~/.local/share/strata/components/engine/<ver>/strata` (ours: `0.1.45.3-linux-x86_64-cuda-cuda13`) |
+| Serve wrapper | `~/.local/share/strata/terminal/<ver>/strata.py serve …` |
+| Data dir (weights/packs) | `/mnt/data/strata-models` (set in `~/.config/strata/settings.json`) |
+| Config/presets/profiles | `~/.config/strata/` (`presets/<hash>.json`, `profiles/*.json`) |
+| Qwen model (IQ3_S GGUF, 2 shards) | `/mnt/data/strata-models/models/IQ3_S/Qwen3.8-Flash-Next-GSQ-RCO-IQ3_S-0000{1,2}-of-00002.gguf` |
+| Expert-offload pack | `/mnt/data/strata-models/packs/iq3_s/` (`dense.bin`, `native_experts.txt`, tokenizer, …) |
+
+## Serving: the run-config, not the overrides profile ⚠️
+Strata serves from a **run-config JSON** (`exe` + `args[]` array):
+```
+strata serve --config /home/akitaonrails/.local/state/strata/launch/iq3_s-128k.json --host 127.0.0.1 --port 8080
+```
+**Gotcha:** `~/.config/strata/profiles/launch-iq3_s-128k.json` is a *serving-overrides* profile (`{host,parallel,port}`), **NOT** a run-config — passing it to `serve --config` fails with `run config needs an args array of strings`. The real run-config is the `source_config` it points at: `~/.local/state/strata/launch/iq3_s-128k.json`. (The preset file is still *named* `iq3_s-128k` even though we now serve 256K — cosmetic; don't rename, the profile references it by path.)
+
+The Qwen run-config `args` (the expert-offload invocation):
+```
+--pack  /mnt/data/strata-models/packs/iq3_s
+--native   …/Qwen3.8-Flash-Next-…-IQ3_S-00001-of-00002.gguf
+--ple-gguf …/Qwen3.8-Flash-Next-…-IQ3_S-00002-of-00002.gguf
+--expert-profile ~/.local/share/strata/terminal/<ver>/data/expert-profile.bin
+--expert-cache auto          # fills the GPU with hot experts (see VRAM section)
+--prefill auto               # prompt chunking up to 8192 (auto:16384/32768 raise it)
+--spec 4 --spec-min-p 0.5    # MTP speculative decode (draft 4 tokens/verify)
+--mtp /mnt/data/strata-models/mtp/rt
+--max-context 262144         # 256K (native max; see below)
+--kv int8 --kv-resident 32768  # int8 KV, keep 32K cells/layer resident, stream the rest from RAM
+--vram-elastic               # opt-in: lets us hand VRAM back to the desktop (see below)
+```
+`strata launch` is the guided/TUI alternative (`--preset`, `--set KEY=VALUE`, `--save-preset`, `--no-tui`). Our saved presets live as `~/.config/strata/presets/<hash>.json` + `active.json`.
+
+## Context window
+- Native max per the GGUF (`qwen4exp.context_length`) = **262144 (256K)**; Qwen's vLLM recipe + Unsloth agree.
+- We run the full **262144**. Bumping 128K→256K cost **zero** speed (196→196 tok/s synthetic): the window past the 32K-resident KV is **streamed**, so VRAM is unchanged. Set `--max-context 262144` and the opencode `limit.context` to match.
+
+## Sampling & anti-loop (thinking-confusion)
+- The GGUF ships **non-greedy defaults** — `general.sampling.temp=1.0, top_p=0.95, top_k=20` (= Unsloth's Flash-Next preset). **Non-greedy is the #1 loop-avoider** (greedy → endless repetition on Qwen3-family).
+- Strata separates `<think>` into a `reasoning_content` field (no bleed into `content` or tool-calls); `finish_reason=stop` is reliable. Tool-calls parse clean (qwen3_coder-style). This is why it ran 7 clean v4 sprints without looping.
+- **Client-side knobs** (opencode doesn't expose sampling in provider config — these are agent-level, only needed *if* a loop ever appears): `min_p=0` (Qwen rec; llama.cpp-family wrongly defaults 0.1), `presence_penalty` 0 for coding (1.0–1.5 to break loops, but higher risks language-mixing).
+
+## Expert cache & VRAM — the important part
+- The IQ3_S expert set is **46.84 GiB total**; `--expert-cache auto` keeps the **hottest ~11,560 experts (~22 GiB) resident in VRAM** and streams the rest from RAM. Measured **98.3% cache hit** (only ~0.1% of routed experts go over PCIe) → ~176 tok/s.
+- **VRAM footprint when loaded: ~29.5 GB** (≈97% of the 32 GB card): ~22 GB expert cache + ~7.6 GB fixed floor (dense weights + KV + MTP head + CUDA context + prompt buffers). **System RAM: ~52 GB** held for the streamed experts (of 91 GB).
+- Strata **fills the card by design** → only ~0.3 GB free → **the desktop (Hyprland) chokes** while the model is loaded.
+
+### `--expert-cache N` is a FLOOR, not a cap ⚠️
+Setting `--expert-cache 10240` did **not** reduce VRAM — the serve layer still auto-filled to ~22 GiB, and it *dropped* hit rate (98%→94%) and speed (176→141 tok/s). Don't use it to reserve VRAM.
+
+### `--vram-elastic` — reserving VRAM for the desktop (the right way)
+Opt-in flag (NVIDIA-only; upstream Strata issue #533 — "hot VRAM resize for a shared desktop GPU"). Allocates the expert cache in **512 MiB segments** so it can give VRAM back:
+```
+POST http://127.0.0.1:8781/v1/vram   {"reserve_mib": 2560}   # no auth needed
+# -> {"status":"ok","reserve_mib":2560,"expert_slots":10278,"expert_cache_mib":19968,"vram_free_mib":2726,...}
+```
+- `reserve_mib` = **free VRAM to keep on the card** (across all programs). `null` restores the startup size, `0` keeps nothing free. Freed memory comes in whole 512 MiB segments, so actual-free can land a segment short of the request.
+- **Only the expert cache moves** (weights/KV/MTP/context/buffers stay) — it can't give back "everything".
+- **Measured on our box:** `reserve_mib=2560` → cache 22→~20 GB (10278 vs 11514 experts) → **~2.3–2.7 GB free**, and **the reserve HOLDS steadily — before, during, AND after generation** (free stayed 2727 MiB through a full response; it does *not* reclaim mid-generation here, despite the docs' "between requests" wording). Cost: **~147 tok/s / 94% hit** (vs ~176 / 98%) — roughly **15–20% slower** for ~2.5 GB of steady desktop headroom.
+- **Must be re-applied after every (re)load** (a fresh cold-start comes up at full cache). Our on-demand proxy POSTs it automatically — see below.
+- Upstream caveat (open issue #1034): failure/partial-free/re-acquire semantics *while another process holds the VRAM* aren't fully nailed down. A newer Strata also adds a **static `--vram-reserve-mib`** flag (not in our 0.1.45.3).
+
+### Alternative: offload the desktop to the iGPU
+This box has an **AMD Radeon 610M** iGPU (`card0`, from the 7950X3D), unused for display; the 5090 is `card1` and drives all 3 monitors. Rendering Hyprland on the iGPU (reverse-PRIME: `env = AQ_DRM_DEVICES,/dev/dri/by-path/pci-0000:18:00.0-card:/dev/dri/by-path/pci-0000:01:00.0-card`) frees the whole 5090 — no VRAM cap, no speed cost. Trade-offs: weak 610M, NVIDIA-Wayland multi-GPU quirks, a display restart to apply. We chose the `--vram-elastic` reserve instead (less hassle, games unaffected since the model idle-unloads).
+
+## On-demand service (lazy-load + idle-unload + auto-reserve)
+Strata has **no native idle-unload**, so a small proxy wraps it:
+- `~/.local/bin/qwen-strata-ondemand` — stdlib Python proxy on **:8080** (public, always up, ~no VRAM). Answers `GET /v1/models` locally *without* loading the model; on the first **chat** request it starts Strata on **:8781** (cold-start ~35 s), proxies (streaming), and after `QWEN_IDLE_TTL` idle **unloads** it (frees the whole GPU + ~52 GB RAM). After load it auto-POSTs the `QWEN_VRAM_RESERVE_MIB` reserve.
+- `~/.config/systemd/user/qwen-strata.service` — runs the proxy; `enabled` + `loginctl enable-linger` (survives reboot). Env: `QWEN_IDLE_TTL=600`, `QWEN_VRAM_RESERVE_MIB=2560` (set `0` for full speed / no reserve), `QWEN_UP_PORT=8781`, `QWEN_PROXY_PORT=8080`.
+- `~/.local/bin/qwen-strata` — manual shim (`start|stop|restart|status`) that serves Strata **directly** on :8080 (bypasses the proxy; stop the service first — only one can own :8080).
+- opencode uses it unchanged: provider `strata-5090` → `http://127.0.0.1:8080/v1`, model `qwen3.8-flash-next-iq3_s`.
+
+**Concurrency:** both opencode instances share the one Strata (single proxy + lock; no double-load). We don't set `--parallel`, so the engine runs at its default slot count — two *simultaneous* generations may serialize; add `--parallel 2` to the run-config for true concurrent decode (splits the ~176 tok/s between them).
+
+## Performance (Qwen3.8 Flash-Next IQ3_S, RTX 5090)
+| Metric | Value |
+|---|---|
+| Single-stream decode (synthetic burst) | ~196 tok/s |
+| Real-world decode, full cache | ~165–176 tok/s |
+| Real-world decode, 2.5 GB reserve | ~140–147 tok/s |
+| Expert-cache hit (full / reserved) | 98.3% / 94% |
+| Cold-start (load) | ~30–35 s |
+| VRAM loaded (full / reserved) | ~29.5 GB / ~27 GB |
+| System RAM held | ~52 GB |
+| Context | 256K (262144) |
+
+## Gotchas (all hit this session)
+- `serve --config` wants the **run-config** (`~/.local/state/strata/launch/*.json`), not the overrides **profile** (`~/.config/strata/profiles/*.json`).
+- `--expert-cache N` is a **floor, not a cap** (doesn't reserve VRAM; hurts speed).
+- The on-demand proxy must call `shutdown()` **off** the `serve_forever` thread or SIGTERM deadlocks (leaves `:8080` bound) — spawn a thread in the signal handler.
+- When *scripting* `pkill -f <pattern>` for Strata, keep the pattern literals **out of your own command's argv** or you SIGTERM your own shell. Prefer stopping via `systemctl` or by the `:8080`/`:8781` listener PID (`ss -ltnp`).
+- The shell's `ls` is aliased to `eza` (prints a header) — reading a path via `ls … | head -1` yields garbage; use a glob/`find`/explicit path.
+- `--vram-elastic` reserve is **not persistent across reloads** — re-apply after each cold-start.
+
+## See also
+- [`docs/hardware-serving-playbook.md`](hardware-serving-playbook.md) · [`docs/llama-swap.md`](llama-swap.md) · [`docs/v4.2-concurrency-report.md`](v4.2-concurrency-report.md)
+- Upstream: Strata issue #533 (hot VRAM resize), #1034 (vram elastic semantics), #3140 (`--vram-reserve-mib`).

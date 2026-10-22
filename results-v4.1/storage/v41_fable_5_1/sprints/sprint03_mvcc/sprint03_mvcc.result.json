@@ -1,0 +1,23 @@
+{
+  "command_kind": "claude",
+  "cost_usd": 3.5276667499999994,
+  "elapsed_seconds": 579.34,
+  "ended_at": "2026-10-03T18:51:55+00:00",
+  "exit_code": 0,
+  "file_count_after": 79,
+  "harness": "claude",
+  "phase": "sprint03_mvcc",
+  "session_id": "cf238abb-90af-4b0b-9add-fc94b261e49c",
+  "stall_aborted": false,
+  "started_at": "2026-10-03T18:42:16+00:00",
+  "timed_out": false,
+  "tokens": {
+    "cache": {
+      "read": 1188907,
+      "write": 80943
+    },
+    "input": 548,
+    "output": 32122,
+    "total": 1302520
+  }
+}

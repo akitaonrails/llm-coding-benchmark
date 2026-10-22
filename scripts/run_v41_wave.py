@@ -93,7 +93,11 @@ def main() -> int:
     for r in summary:
         print(f"  {r['slug']:28} score={r.get('score')} cleared={r.get('sprints_cleared')} dnf={r['dnf']} {r.get('dnf_reason') or ''}")
     (OUT / "_wave_summary.json").parent.mkdir(parents=True, exist_ok=True)
-    (OUT / "_wave_summary.json").write_text(json.dumps(summary, indent=2))
+    summary_path = OUT / "_wave_summary.json"
+    previous = json.loads(summary_path.read_text()) if summary_path.exists() else []
+    merged = {row["slug"]: row for row in previous}
+    merged.update({row["slug"]: row for row in summary})
+    summary_path.write_text(json.dumps(list(merged.values()), indent=2))
     return 0
 
 

@@ -1,0 +1,8 @@
+{
+  "status": "paused",
+  "task": "frontier P4\u2013P6",
+  "model": "lua/genesys-pi-house",
+  "attempt": 3,
+  "reason": "Independent fresh attempt; preserve prior results",
+  "paused_at": "2026-10-08T23:53:03.836179+00:00"
+}

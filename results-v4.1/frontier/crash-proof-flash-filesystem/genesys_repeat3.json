@@ -1,0 +1,21 @@
+{
+  "revision": "da83f84f8fbcec3cbf0f2b17c98ebc811355c2df",
+  "task": "crash-proof-flash-filesystem",
+  "mode": "genesys_repeat3",
+  "model": "lua/genesys-pi-house",
+  "harness": "Harbor OpenCode",
+  "native_version": "1.18.34",
+  "reasoning_effort": null,
+  "harbor_version": "0.23.0",
+  "opencode_version": "1.18.34",
+  "agent_image": "us-west1-docker.pkg.dev/proximal-core-0/proximal-evals-public/crash-proof-flash-filesystem@sha256:c7f7db75191e50b83dab378cd1b658dd257fee43b72342a0744b49625324a63f",
+  "verifier_image": "us-west1-docker.pkg.dev/proximal-core-0/proximal-evals-public/crash-proof-flash-filesystem@sha256:bc71b5fad64de580c747e72d124a1445ed15389e6f1b376a937b2cb8207eed44",
+  "memory_mb": 4096,
+  "resource_deviation": false,
+  "job_dir": "/mnt/data/Projects/llm-coding-benchmark/results-v4.1/frontier/jobs/genesys_repeat3-crash-proof-flash-filesystem-44277372",
+  "status": "prepared",
+  "started_at": "2026-10-08T19:19:08.175427+00:00",
+  "runner_pid": 3382756,
+  "runner_sha256": "129aac866fa17b7bd55ca169247f81f924534c7b965255aaad5999dae8b4c237",
+  "adapter_sha256": "97b9fa19376b390f3dcdd4c5c065638584b4a115f916eb60f2ccd313b2bf4d43"
+}

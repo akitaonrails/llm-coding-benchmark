@@ -1,0 +1,13 @@
+# End-of-task cleanup procedure
+
+Standing user instruction, added 2026-10-12: clean up disposable execution resources after finishing work, while preserving test results and analysis.
+
+1. Inventory resources created or used by the task: processes, containers, Compose networks, application images, scratch directories and build caches. Establish ownership with run manifests, Compose working-directory labels, mounts and recorded process IDs; names alone are insufficient.
+2. Preserve all results, raw responses/transcripts, grades, reports, source submissions, manifests, frozen source copies and provenance. Never delete a results directory to prepare a rerun: use a new attempt directory. This supersedes older destructive rerun advice in CLAUDE.md.
+3. Distinguish completed, active and explicitly paused runs. Preserve resources needed to resume paused work, including container writable layers and backing images, unless the user explicitly ends that run. Do not touch shared model servers, occupied GPUs or other projects' resources.
+4. Before removing a completed container, preserve logs and any unique writable-layer evidence outside it. If uniqueness cannot be determined, export the stopped filesystem to a restricted local evidence archive first. Keep database volumes unless verified to contain only disposable fixtures or archived and explicitly classified disposable. Never print environment variables, credentials or full unfiltered Docker inspection output.
+5. Stop only verified task-owned leftover services/processes; validate PID identity before signaling. Remove exact completed container IDs without deleting attached volumes. Remove unused task-owned images by exact reference without force, then exact empty task-owned networks. Preserve image digests/build recipes in the cleanup ledger. Do not use global docker system/image/volume/builder prune, blanket kill commands, or git clean.
+6. Delete only explicitly identified regenerable scratch/build files. Never infer disposability solely from gitignored status or a directory named tmp: these can contain evidence or paused-run dependencies. Shared caches require separate ownership evidence.
+7. Verify removal and retained evidence. Write a cleanup ledger with timestamps, exact resource IDs, actions, failures and reasons for retention. Keep evidence archives restricted and out of Git. Report actual reclaimed space only if measured; image virtual sizes do not measure reclaimed bytes.
+
+If there is nothing safe to delete, state that after inventory. Routine scoped cleanup is already authorized; do not request repeated approval. Ambiguous resources should be retained and identified rather than deleted speculatively.

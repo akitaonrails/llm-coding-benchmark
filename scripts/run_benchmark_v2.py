@@ -23,6 +23,7 @@ import subprocess
 import sys
 import time
 from pathlib import Path
+from pathlib import Path
 from shlex import quote as shlex_quote
 from typing import Any, cast
 
@@ -143,6 +144,13 @@ def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
     (out_dir / f"{phase_name}.prompt.txt").write_text(prompt)
 
     env = os.environ.copy()
+    # PIN opencode to 1.19.0 (2026-10-16): mise 'latest' auto-jumped to opencode 2.0.31,
+    # which REMOVED `--dir` (v2 CLI/permission redesign). Every prior v4 run used the 1.x
+    # CLI; pinning keeps the harness byte-identical. Remove only via deliberate migration
+    # + re-baselining. See docs/runpod-b300-openweights-runbook.md.
+    _oc_pin = Path.home() / ".local/share/mise/installs/opencode/1.19.0"
+    if (_oc_pin / "opencode").exists():
+        env["PATH"] = str(_oc_pin) + os.pathsep + env.get("PATH", "")
     # Benchmark-integrity: stop git from traversing above the results dir, so even
     # if a model cd's out of project/ it cannot reach the benchmark repo's history
     # (which leaks scores via commit subjects). GIT_CEILING blocks chdir ABOVE the
@@ -305,7 +313,7 @@ def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
     with open(stdout_path, "w") as out_f:
         while True:
             now = time.monotonic()
-            if now - wall_start > PHASE_TIMEOUT:
+            if PHASE_TIMEOUT > 0 and now - wall_start > PHASE_TIMEOUT:
                 timed_out = True
                 os.killpg(process.pid, signal.SIGTERM)
                 break

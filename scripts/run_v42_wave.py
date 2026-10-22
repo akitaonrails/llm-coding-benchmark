@@ -28,10 +28,10 @@ def main() -> int:
     summary = []
     for slug in slugs:
         print(f"\n########## v4.2/{a.problem} MODEL: {slug} ##########", flush=True)
-        sprint_dir = OUT / slug / "sprints"
-        done = sprint_dir.exists() and any(sprint_dir.iterdir())
+        ds_dir = OUT / slug / "project" / "ds"
+        done = ds_dir.exists() and any(ds_dir.glob("*.go"))
         if done:
-            print(f"[{slug}] sprint present — skipping (resume)", flush=True)
+            print(f"[{slug}] model source present (project/ds/*.go) — skipping (resume)", flush=True)
         else:
             subprocess.run([sys.executable, str(REPO / "scripts" / "run_v42_sprint.py"),
                             "--problem", a.problem, "--model", slug, "--sprint", a.sprint,

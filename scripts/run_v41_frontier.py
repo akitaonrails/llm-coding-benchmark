@@ -79,15 +79,15 @@ def build_config(task: Path, spec: dict, manifest: dict, args):
         agent = AgentConfig(name="oracle")
     elif args.mode == "baseline":
         agent = AgentConfig(name="nop")
-    elif args.mode in ("astra", "fable"):
-        astra = args.mode == "astra"
+    elif args.mode in ("astra", "fable", "sol_medium"):
+        astra = args.mode in ("astra", "sol_medium")
         agent = AgentConfig(
             import_path="frontier_native:" + ("FrontierCodex" if astra else "FrontierClaude"),
-            model_name="gpt-6-astra" if astra else "claude-fable-5-1",
+            model_name=("gpt-6-sol" if args.mode == "sol_medium" else "gpt-6-astra") if astra else "claude-fable-5-1",
             env={},
             extra_allowed_hosts=(["chatgpt.com", "auth.openai.com"] if astra else
                                  ["api.anthropic.com", "claude.ai", "platform.claude.com"]),
-            kwargs=({"version": "0.156.0", "reasoning_effort": "high", "web_search": "disabled"}
+            kwargs=({"version": "0.156.0", "reasoning_effort": "medium" if args.mode == "sol_medium" else "high", "web_search": "disabled"}
                     if astra else {"version": "2.1.280"}),
         )
     else:
@@ -128,7 +128,7 @@ async def run(args) -> int:
         out = ROOT / "results-v4.1/frontier" / name
         out.mkdir(parents=True, exist_ok=True)
         config = build_config(source / "tasks" / name, spec, manifest, args)
-        if args.mode in ("genesys", "astra", "fable") and not args.dry_run:
+        if args.mode in ("genesys", "astra", "fable", "sol_medium", "genesys_repeat2", "genesys_repeat3") and not args.dry_run:
             for control in ("oracle", "baseline"):
                 evidence = out / f"{control}.json"
                 validation = json.loads(evidence.read_text()) if evidence.exists() else {}
@@ -138,8 +138,9 @@ async def run(args) -> int:
         provenance = {
             "revision": manifest["revision"], "task": name, "mode": args.mode,
             "model": config.agents[0].model_name,
-            "harness": {"genesys": "Harbor OpenCode", "astra": "Harbor Codex", "fable": "Harbor Claude Code"}.get(args.mode, args.mode),
+            "harness": {"genesys": "Harbor OpenCode", "genesys_repeat2": "Harbor OpenCode", "genesys_repeat3": "Harbor OpenCode", "astra": "Harbor Codex", "fable": "Harbor Claude Code", "sol_medium": "Harbor Codex"}.get(args.mode, args.mode),
             "native_version": config.agents[0].kwargs.get("version"),
+            "reasoning_effort": config.agents[0].kwargs.get("reasoning_effort"),
             "harbor_version": manifest["harbor_version"], "opencode_version": manifest["opencode_version"],
             "agent_image": spec["agent_image"], "verifier_image": spec["verifier_image"],
             "memory_mb": args.memory_mb or spec["memory_mb"],
@@ -147,13 +148,13 @@ async def run(args) -> int:
             "job_dir": str(config.jobs_dir / config.job_name), "status": "prepared",
             "started_at": datetime.now(timezone.utc).isoformat(), "runner_pid": os.getpid(),
             "runner_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-            "adapter_sha256": hashlib.sha256((ROOT / ("scripts/frontier_native.py" if args.mode in ("astra", "fable") else "scripts/frontier_opencode.py")).read_bytes()).hexdigest(),
+            "adapter_sha256": hashlib.sha256((ROOT / ("scripts/frontier_native.py" if args.mode in ("astra", "fable", "sol_medium") else "scripts/frontier_opencode.py")).read_bytes()).hexdigest(),
         }
         if args.dry_run:
             print(json.dumps(provenance, indent=2))
             continue
         record = out / f"{args.mode}.json"
-        if record.exists() and args.mode in ("genesys", "astra", "fable"):
+        if record.exists() and args.mode in ("genesys", "astra", "fable", "sol_medium", "genesys_repeat2", "genesys_repeat3"):
             raise RuntimeError(f"Refusing to overwrite an existing model attempt: {record}")
         write_json(record, provenance)
         print(f"START {name}: {args.mode}; job={config.job_name}", flush=True)
@@ -183,7 +184,7 @@ async def run(args) -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--mode", choices=["oracle", "baseline", "genesys", "astra", "fable"], required=True)
+    parser.add_argument("--mode", choices=["oracle", "baseline", "genesys", "astra", "fable", "sol_medium", "genesys_repeat2", "genesys_repeat3"], required=True)
     parser.add_argument("--task", action="append", choices=list(json.loads(MANIFEST.read_text())["tasks"]))
     parser.add_argument("--memory-mb", type=int, help="Explicit local resource deviation, recorded in results")
     parser.add_argument("--dry-run", action="store_true")

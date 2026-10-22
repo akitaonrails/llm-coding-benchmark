@@ -1,0 +1,14 @@
+{
+  "results-v4.1/v2_genesys_pi_house/grade.json": "a5e8465792ecc70cf5a729e7fb58265951bb0d6747928e0a6da2d4ae47dcf0c3",
+  "results-v4.1/v41_genesys_house_repeat2/grade.json": "5d39c095167318c3066f4fd0328f5ab11999493776c39ab03d5dba8292c1fbc3",
+  "results-v4.1/storage/v2_genesys_pi_house/grade.json": "67ae682f38648af1ab6f48dba22f97141f5a07dfef111c0de4e09a599be21b94",
+  "results-v4.1/storage/v41_genesys_house_repeat2/grade.json": "0079d2fda2f5b42623cb763a4469cc8c4af98e7490d3ab0097eff6cfdf8dbaf8",
+  "results-v4.1/typedlang/v2_genesys_pi_house/grade.json": "cf45a259f979529c30afecba8c79a1088c8e0ce2726d4a301165c33ca9a04a9f",
+  "results-v4.1/typedlang/v41_genesys_house_repeat2/grade.json": "2ef2e72676583cdb3a4900cced50a2f95d8166cf5d92f1b8df8658ae1df88418",
+  "results-v4.1/frontier/crash-proof-flash-filesystem/genesys.json": "28848eb40ede62cb20c3bcb4cb05b54d16238f4af9fa2de302c97581690770c9",
+  "results-v4.1/frontier/lean-4-kernel-type-checker-in-pascal/genesys.json": "db00011987b1d4b1826f3928669430fb2678e61197c3e0e0aa092fcc985d3121",
+  "results-v4.1/frontier/cranelift-codegen-opt/genesys.json": "d19b14321194bf5b7fc85323ffa73ecb846a9055017ecb3e7bd70475cd83203a",
+  "results-v4.1/frontier/crash-proof-flash-filesystem/genesys_repeat2.json": "92171a5209b83ba5cbfdea1644741efb2c8a93ac429ebb26e1c26533f1b5fa87",
+  "results-v4.1/frontier/lean-4-kernel-type-checker-in-pascal/genesys_repeat2.json": "33a3590fa315458dcf702a24cda9827a4789f738082f1b49a3c9774b3c84824c",
+  "results-v4.1/frontier/cranelift-codegen-opt/genesys_repeat2.json": "2a06b91ced196f4b7bdc5512172f1899abfaaa5ef534ff33d37371450f442610"
+}
