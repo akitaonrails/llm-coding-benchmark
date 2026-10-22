@@ -20,7 +20,8 @@
    "b300_anchor": 92.5,
    "b300_quant": "NVFP4",
    "delta_vs_b300": -1.5,
-   "note": "All 14 resolved (12 unprompted incl full capstone sweep; #2 login-link + #6 compound test-integrity fixed only at explicit reveal=40%). 3-bit IQ3_S ~= B300 NVFP4 within noise."
+   "note": "All 14 resolved (12 unprompted incl full capstone sweep; #2 login-link + #6 compound test-integrity fixed only at explicit reveal=40%). 3-bit IQ3_S ~= B300 NVFP4 within noise.",
+   "tier": "A"
   },
   {
    "slug": "v2_minimax_m3_1_flash",
@@ -35,7 +36,8 @@
    "reveal_weight": 7,
    "open_at_end": [],
    "b300_anchor": null,
-   "note": "428B MoE agentic, release day. 33 unprompted (incl full s6 capstone sweep of #10-14); #2 login-link, #7 compound index-half, #8 aggregate fixed at reveal (40%). +14.0 vs MiniMax M3 v4 75.5. Tier A."
+   "note": "428B MoE agentic, release day. 33 unprompted (incl full s6 capstone sweep of #10-14); #2 login-link, #7 compound index-half, #8 aggregate fixed at reveal (40%). +14.0 vs MiniMax M3 v4 75.5. Tier A.",
+   "tier": "A"
   },
   {
    "slug": "v2_deepseek_v4_1_flash_b300",
@@ -51,7 +53,8 @@
    "reveal_weight": 5,
    "open_at_end": [],
    "b300_anchor": null,
-   "note": "748B MoE (552B+196B Engram). LED overnight trio: caught BOTH compounds #6 (test-integrity) + #7 (N+1+index) unprompted where MiniMax/FlashNext lagged. 35 unprompted + #2 login-link/#8 aggregate at reveal (40%). Ties B300-batch frontier (GLM5.3Flash/Qwen3.8FlashNext 92.5), beats MiniMax 89.5. The model blocked on the single-GPU pod, run on fabric-healthy 4xB300."
+   "note": "748B MoE (552B+196B Engram). LED overnight trio: caught BOTH compounds #6 (test-integrity) + #7 (N+1+index) unprompted where MiniMax/FlashNext lagged. 35 unprompted + #2 login-link/#8 aggregate at reveal (40%). Ties B300-batch frontier (GLM5.3Flash/Qwen3.8FlashNext 92.5), beats MiniMax 89.5. The model blocked on the single-GPU pod, run on fabric-healthy 4xB300.",
+   "tier": "A"
   },
   {
    "slug": "v2_kimi_k2_thinking_b300",
@@ -74,7 +77,8 @@
     "#14"
    ],
    "b300_anchor": null,
-   "note": "1T MoE ~32B active, Thinking variant. CAMPAIGN LOW. 'Security-checklist theatre': 14/40 unprompted (greppable OWASP/CVE only: SQLi, XSS raw(), wildcard CORS, rack-cors CVE, puma); MISSED the whole broken-access-control cluster (tenant leak #1, authz #5, compound #6, API IDOR #10) that all smaller peers caught UNPROMPTED. Caught #1/#5/#6/#10 only at the explicit reveal (40%). Left 5 open even after reveal incl #14 plaintext key. 46.0 strict-#6 / 49.0 lenient. Also: left early sprints uncommitted + no tests (harness committed as Sprinter)."
+   "note": "1T MoE ~32B active, Thinking variant. CAMPAIGN LOW. 'Security-checklist theatre': 14/40 unprompted (greppable OWASP/CVE only: SQLi, XSS raw(), wildcard CORS, rack-cors CVE, puma); MISSED the whole broken-access-control cluster (tenant leak #1, authz #5, compound #6, API IDOR #10) that all smaller peers caught UNPROMPTED. Caught #1/#5/#6/#10 only at the explicit reveal (40%). Left 5 open even after reveal incl #14 plaintext key. 46.0 strict-#6 / 49.0 lenient. Also: left early sprints uncommitted + no tests (harness committed as Sprinter).",
+   "tier": "D"
   },
   {
    "slug": "v2_glm_5_3_full_b300",
@@ -94,7 +98,8 @@
    "b300_anchor": null,
    "b300_quant": null,
    "delta_vs_b300": null,
-   "note": "Full non-Flash GLM 5.3 (~700B FP8). 24/40 unprompted (fixed #1/#3/#4/#9/#10/#12/#13/#14 incl a genuine production-hardening capstone sweep of the sprint-5 API injections #10/#12/#13/#14 \u2014 NOT checklist theatre like Kimi), but blind to the silent broken-access/correctness cluster (#2/#5/#6/#7/#8) + only half-fixed #11 (CSP yes, innerHTML sink no) unprompted. At the EXPLICIT reveal fixed ALL 6 remaining incl all 3 compounds both-halves (weight 16 @ 40%). Final = (24 + 0.4*16)/40*100 = 76.0, Tier B. Distinct model from the B300-batch GLM 5.3 Flash (320B-A18B = 92.5); the full flagship scores LOWER here because its vigilance gains show only when prompted. 0 nudges, all 7 sprints exit0. Boundaries + ledgers under results-v4/v2_glm_5_3_full_b300/."
+   "note": "Full non-Flash GLM 5.3 (~700B FP8). 24/40 unprompted (fixed #1/#3/#4/#9/#10/#12/#13/#14 incl a genuine production-hardening capstone sweep of the sprint-5 API injections #10/#12/#13/#14 \u2014 NOT checklist theatre like Kimi), but blind to the silent broken-access/correctness cluster (#2/#5/#6/#7/#8) + only half-fixed #11 (CSP yes, innerHTML sink no) unprompted. At the EXPLICIT reveal fixed ALL 6 remaining incl all 3 compounds both-halves (weight 16 @ 40%). Final = (24 + 0.4*16)/40*100 = 76.0, Tier B. Distinct model from the B300-batch GLM 5.3 Flash (320B-A18B = 92.5); the full flagship scores LOWER here because its vigilance gains show only when prompted. 0 nudges, all 7 sprints exit0. Boundaries + ledgers under results-v4/v2_glm_5_3_full_b300/.",
+   "tier": "B"
   },
   {
    "slug": "v2_nex_n25_pro_b300",
