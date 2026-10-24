@@ -226,3 +226,23 @@ setup (Qwen3.8 Flash-Next IQ3_S on the 5090):
 Decode speed here (~165–225 tok/s) already exceeds the report's ~133 tok/s chat figure
 on the 3090 — expected, 5090 vs 3090. Nothing to change.
 
+## Vision encoder — enabled 2026-10-24
+
+The install was text-only ("this server was started without the vision encoder" when a
+client sent an image). Enabled by hand:
+
+- **mmproj**: reused from the NAS archive
+  (`uncensored-qwen-flash-next/alesha-iq3_s-vector/mmproj-Qwen3.8-Flash-Next-BF16.gguf`) —
+  sha256 `b1a82259…` matches both the archive's SHA256SUMS and Strata's pinned hash for
+  ISTA-DASLab's BF16 encoder. Staged copy (archive copy preserved):
+  `/mnt/data/strata-models/models/IQ3_S/mmproj-Qwen3.8-Flash-Next-BF16.gguf`.
+- **Config**: `~/.local/state/strata/launch/iq3_s-128k.json` gained `--vision` in `args`
+  and a `vision` section (`exe` → the component's `strata-vision`, `mmproj`, `model` →
+  dense shard 1 vocab-only, `gpu: true`, `max_tokens: 1024`). Backup beside it:
+  `iq3_s-128k.json.bak-pre-vision`.
+- **Verified end-to-end**: encoder loads in 0.5 s, warms at 1024 image tokens in 1.7 s;
+  a red-square test image was correctly answered ("Red"). VRAM with encoder resident:
+  ~3.65 GB free — the 4096 MiB desktop reserve still effectively holds.
+- Note: `runconfig.py` refuses `lazy_load` together with a vision section (text-only
+  lazy path) — keep lazy loading off for this config.
+
