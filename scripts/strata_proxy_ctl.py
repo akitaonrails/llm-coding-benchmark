@@ -69,6 +69,28 @@ def stop() -> int:
     return 0
 
 
+def park() -> int:
+    """Stop the ENGINE (free all VRAM) but keep the on-demand proxy up.
+
+    Mirrors the wrapper's stop_up() patterns — they live here so callers never
+    put them in a harness command line (self-match kills, 2026-10-22).
+    """
+    import subprocess as sp
+    for pat in ("iq3_s-128k.json", "packs/iq3_s ", "Qwen3.8-Flash-Next"):
+        sp.run(["pkill", "-TERM", "-f", pat], capture_output=True)
+    time.sleep(4)
+    for _ in range(20):
+        out = sp.run(["nvidia-smi", "--query-gpu=memory.used", "--format=csv,noheader"],
+                     capture_output=True, text=True).stdout.strip()
+        used = int(out.split()[0]) if out else 0
+        if used < 1500:
+            print(f"ENGINE_PARKED vram_used={used}MiB")
+            return 0
+        time.sleep(2)
+    print(f"ENGINE_STILL_LOADED vram_used={out}")
+    return 1
+
+
 def main() -> int:
     cmd = sys.argv[1] if len(sys.argv) > 1 else "status"
     if cmd == "start":
@@ -78,6 +100,8 @@ def main() -> int:
     if cmd == "restart":
         stop()
         return start()
+    if cmd == "park":
+        return park()
     print("up" if port_up() else "down", f"pids={pids()}")
     return 0 if port_up() else 1
 
