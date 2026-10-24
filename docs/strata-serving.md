@@ -182,3 +182,47 @@ Cleanup for this documentation task: no temporary files, containers or services 
 created; nothing was removed. The active engine, proxy, model files, existing test evidence
 and unfinished controller edit were intentionally retained. Python source syntax and the
 local documentation link were checked without loading or stopping the model.
+
+### Local archive of uncensored Flash-Next variants
+
+The five variants discussed on 2026-10-22 are archived under
+`/mnt/gigachad/huggingface/archives/uncensored-qwen-flash-next/`. Use these local
+files for future Strata trials instead of downloading the same weights again. The
+archive's `manifest.json` records exact Hugging Face revisions, included files,
+expected sizes and verification status. Run `python3 download.py` from that
+directory to resume an incomplete download. A `verified` entry means the pinned
+files are present at their published sizes; it does not mean the model has passed
+an inference or coding benchmark.
+
+| Directory | Variant archived |
+|---|---|
+| `alesha-iq3_s-vector/` | Original GSQ-RCO IQ3_S weights, refusal-direction control vector and vision projector |
+| `sc117-iq3_s/` | SC117 abliterated GSQ-RCO IQ3_S, vision projector and draft weights |
+| `rvn-iq3_s/` | RVN abliterated/uncensored Strata IQ3_S merged GGUF |
+| `orcarouter-iq3_xxs/` | OrcaRouter uncensored IQ3_XXS, vision projector and draft weights |
+| `coder-iq1_m/` | DatKurai uncensored Coder IQ1_M |
+
+These are the quantizations discussed as Strata options, not every quantization
+published in each upstream repository. The Alesha vector can be turned off to
+recover the original model's behavior. The other four are separate checkpoints
+or quants. Keep the current running vanilla Qwen setup as the measured baseline
+until a variant is tested in a separate configuration.
+The broader [Hugging Face archive index](HF_MODEL_ARCHIVE.md) also lists the
+official Flash checkpoints and completed local-model quants.
+
+## TeksEdge-style optimization review — 2026-10-24 (verdict: already optimized)
+
+Prompted by the Qwen3.8-27B 82→381 tok/s report (see
+`docs/qwen38-27b-inference-optimizations.md`), each technique was checked against this
+setup (Qwen3.8 Flash-Next IQ3_S on the 5090):
+
+| Technique | Status here |
+|---|---|
+| Speculative decoding / MTP | **Already on and tuned**: `--spec 4 --spec-min-p 0.5 --mtp`. Tuner NEVER-list shows spec ≥6 is 4–16% slower and ≤2 is 4–11% slower for flash-next — 4 is the measured sweet spot |
+| Context lookup (`--lookup-chain`) | **Tested and rejected by the tuner on this machine**: 3–8.5% slower. Matches the report's own caveat (their +176 tok/s came from a 25k-token document-copy workload; chat sees little) |
+| Prefix caching | **Already inherent**: measured 17k-token repeat prompt prefill 4004 ms → ~130 ms (30×) with zero config; growing-history (agentic) prompts also only pay the delta (~140–200 ms). Test: `scripts/strata_convcache_test.py` |
+| `--conversation-cache-mib` (opt-in) | **Left off deliberately**: it parks whole conversations across eviction/idle — a scenario our workload doesn't hit, and it would spend VRAM against the 4096 MiB desktop reserve |
+
+Decode speed here (~165–225 tok/s) already exceeds the report's ~133 tok/s chat figure
+on the 3090 — expected, 5090 vs 3090. Nothing to change.
+

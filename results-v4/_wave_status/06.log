@@ -1,0 +1,20 @@
+13:41:30 === WAVE sprint 06 : 4 models ===
+13:41:30 RUN  v2_qwen3_8_max sprint 06 ...
+13:41:34 DNF  v2_qwen3_8_max — exit=1 tokens=0 (crash/auth, no real work) (dropped from remaining sprints)
+13:41:34 RUN  v2_tencent_hy4 sprint 06 ...
+13:41:36 DNF  v2_tencent_hy4 — exit=1 tokens=0 (crash/auth, no real work) (dropped from remaining sprints)
+13:41:36 RUN  v2_nemotron_3_5_lightning sprint 06 ...
+13:41:37 DNF  v2_nemotron_3_5_lightning — exit=1 tokens=0 (crash/auth, no real work) (dropped from remaining sprints)
+13:41:37 RUN  v2_kimi_k2_6 sprint 06 ...
+13:41:39 DNF  v2_kimi_k2_6 — exit=1 tokens=0 (crash/auth, no real work) (dropped from remaining sprints)
+13:41:39 === WAVE sprint 06 complete ===
+13:45:15 === WAVE sprint 06 : 4 models ===
+13:45:15 SKIP v2_qwen3_8_max (sprint 06 already done)
+13:45:15 SKIP v2_tencent_hy4 (sprint 06 already done)
+13:45:15 SKIP v2_nemotron_3_5_lightning (sprint 06 already done)
+13:45:15 SKIP v2_kimi_k2_6 (sprint 06 already done)
+13:45:15 === WAVE sprint 06 complete ===
+13:46:05 === WAVE sprint 06 : 4 models ===
+13:46:05 RUN  v2_qwen3_8_max sprint 06 ...
+13:49:51 DNF  v2_qwen3_8_max — exit=1 tokens=0 (crash/auth, no real work) (dropped from remaining sprints)
+13:49:51 RUN  v2_tencent_hy4 sprint 06 ...
