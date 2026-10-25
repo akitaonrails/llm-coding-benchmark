@@ -1,5 +1,7 @@
 # Strata Serving (RTX 5090 — Qwen3.8 Flash-Next)
 
+Current local serving operations are documented in the machine knowledge base at [my-omarchy-config-next/docs/machine/strata-llm-serving.md](../../my-omarchy-config-next/docs/machine/strata-llm-serving.md).
+
 Field notes on **Strata**, the native expert-offload inference engine we use to run Qwen3.8 Flash-Next locally on the RTX 5090. Everything here was learned hands-on (2026-10-22). Companion: [`docs/hardware-serving-playbook.md`](hardware-serving-playbook.md) (cross-hardware), [`docs/llama-swap.md`](llama-swap.md) (the other 5090 path).
 
 > TL;DR: Strata runs a big MoE on a consumer GPU by keeping only the **hot experts** in VRAM and **streaming the cold ones from system RAM/SSD**. It serves an OpenAI/Anthropic API on `:8080`. We run **Qwen3.8 Flash-Next IQ3_S** (benchmark score 91.0 / Tier A) at **~176 tok/s** (full cache) / **~147 tok/s** (with a 2.5 GB desktop VRAM reserve), **256K context**. Those throughput figures are historical; the current desktop reserve is **4096 MiB** (see the validation below). Serving uses an on-demand systemd service that lazy-loads and idle-unloads.

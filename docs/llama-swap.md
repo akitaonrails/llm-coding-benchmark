@@ -1,5 +1,7 @@
 # Local llama-swap Setup (NVIDIA RTX 5090)
 
+Current machine setup is maintained at [my-omarchy-config-next/docs/machine/llama-swap-5090.md](../../my-omarchy-config-next/docs/machine/llama-swap-5090.md). This page is retained as a benchmark-era snapshot.
+
 This document covers the **NVIDIA RTX 5090 / Blackwell** llama-swap setup that runs the local model subset of this benchmark on a single workstation. The companion AMD Strix Halo (gfx1151) server setup is documented in [the main README](../README.md).
 
 The Docker stack lives at [`~/Projects/llama-swap-docker`](../../llama-swap-docker) (separate repo). This document explains:

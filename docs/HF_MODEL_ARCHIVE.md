@@ -1,5 +1,7 @@
 # Hugging Face model archive
 
+Current local model archive operations, source reviews and serving trials are documented in the machine knowledge base at [my-omarchy-config-next/docs/machine/llm-model-archive.md](../../my-omarchy-config-next/docs/machine/llm-model-archive.md). This page retains historical benchmark archive context.
+
 The reusable local archive is `/mnt/gigachad/huggingface/archives/`. Future
 downloads and serving trials must first check the pinned files there. Reuse a
 verified checkpoint when model, revision and quantization match, without

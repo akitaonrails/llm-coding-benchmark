@@ -1,5 +1,7 @@
 # Local Provider Status
 
+Current local provider setup belongs to the [machine knowledge base](../../my-omarchy-config-next/docs/machine/local-llm-provider-status-2026-06.md). This dated inventory is retained for benchmark provenance.
+
 Last checked: 2026-06-13.
 
 ## Homeserver: 192.168.0.90

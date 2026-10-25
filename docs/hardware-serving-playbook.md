@@ -1,5 +1,7 @@
 # Hardware Serving Playbook — B300 vs H200 vs Local (5090 / Strix Halo)
 
+Current local hardware serving notes are maintained at [my-omarchy-config-next/docs/machine/llm-hardware-serving-playbook.md](../../my-omarchy-config-next/docs/machine/llm-hardware-serving-playbook.md). This benchmark-era comparison remains for provenance.
+
 Cross-hardware field notes for serving open-weight coding models for this benchmark:
 the hurdles, limitations, and the tricks that actually made each tier run optimally.
 Four tiers, two worlds:
