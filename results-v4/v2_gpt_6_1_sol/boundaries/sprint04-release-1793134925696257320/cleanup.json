@@ -1,0 +1,22 @@
+{
+  "boundary": "sprint04-release-1793134925696257320",
+  "slug": "v2_gpt_6_1_sol",
+  "owned_scratch_created": [],
+  "owned_scratch_removed": [],
+  "notes": [
+    "Reviewer verification used sqlite3 :memory: databases only; no files, containers, volumes or images were created.",
+    "No suite run, no Docker, no live HTTP."
+  ],
+  "retained_evidence": [
+    "results-v4/v2_gpt_6_1_sol/boundaries/sprint04-release-1793134925696257320/report.md",
+    "results-v4/v2_gpt_6_1_sol/boundaries/sprint04-release-1793134925696257320/verdict.json",
+    "results-v4/v2_gpt_6_1_sol/boundaries/sprint04-release-1793134925696257320/prompt.txt",
+    "results-v4/v2_gpt_6_1_sol/boundaries/sprint04-release-1793134925696257320/agent.ndjson",
+    "results-v4/v2_gpt_6_1_sol/boundaries/sprint04-release-1793134925696257320/agent.stderr.log",
+    "project git commits 52e20bb, 647edd3, 9d2c889 (Casey injections #7, #8, #9)"
+  ],
+  "intentionally_retained_candidate_work": [
+    "results-v4/v2_gpt_6_1_sol/project/tmp/verification/sprint-4/ (candidate's own gitignored verification logs, untouched)"
+  ],
+  "docker_resources_checked": "no ember* containers, volumes or images present"
+}

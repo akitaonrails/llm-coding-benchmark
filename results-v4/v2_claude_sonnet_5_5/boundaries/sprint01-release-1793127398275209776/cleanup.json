@@ -1,0 +1,18 @@
+{
+  "boundary": "sprint01-release-1793127398275209776",
+  "slug": "v2_claude_sonnet_5_5",
+  "owned_scratch_removed": [],
+  "owned_scratch_note": "Reviewer created no scratch files, containers, servers or temp dirs. The single bounded `bin/rails test` run used only the candidate's own gitignored tmp/ and test DB inside project/ (candidate runtime state, retained); git status remained clean.",
+  "retained_evidence": [
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint01-release-1793127398275209776/report.md",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint01-release-1793127398275209776/verdict.json",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint01-release-1793127398275209776/prompt.txt",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint01-release-1793127398275209776/agent.ndjson",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint01-release-1793127398275209776/agent.stderr.log",
+    "results-v4/v2_claude_sonnet_5_5/sprints/sprint01_foundation/",
+    "results-v4/v2_claude_sonnet_5_5/project/ (candidate repo, HEAD 0d97559, untouched)"
+  ],
+  "candidate_repo_modified": false,
+  "casey_commits": [],
+  "docker_resources_touched": false
+}

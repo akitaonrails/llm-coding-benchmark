@@ -1,0 +1,21 @@
+{
+  "boundary": "sprint07-release-1793160520636445040",
+  "slug": "v2_gpt_6_1_terra",
+  "removed": [
+    {"path": "/tmp/terra_s07_audit.RGlr", "kind": "reviewer-owned scratch dir (copy of Gemfile.lock for the single bundle-audit check)", "verified_removed": true}
+  ],
+  "retained": [
+    {"path": "results-v4/v2_gpt_6_1_terra/project", "reason": "candidate workspace; untouched (HEAD 024237a, git status clean)"},
+    {"path": "results-v4/v2_gpt_6_1_terra/sprints/sprint07_reveal", "reason": "graded sprint-07 transcript and result evidence"},
+    {"path": "results-v4/v2_gpt_6_1_terra/_failed_sprints/sprint07_reveal.failed-capacity-1793160216", "reason": "infra-failed (model at capacity) sprint-07 attempt; preserved provenance, not charged"},
+    {"path": "results-v4/v2_gpt_6_1_terra/boundaries/sprint0[1-6]-*", "reason": "earlier boundary attempts and evidence, left untouched"},
+    {"path": "results-v4/v2_gpt_6_1_terra/boundaries/sprint07-release-1793160520636445040/{prompt.txt,mode.json,agent.ndjson,agent.stderr.log,report.md,verdict.json,cleanup.json}", "reason": "this boundary's evidence"},
+    {"path": "results-v4/v2_gpt_6_1_terra/grade.json", "reason": "final per-model grade written at this boundary"}
+  ],
+  "not_touched": [
+    "Docker (no builds, containers or prune by the reviewer; no leftover lumen-* candidate containers found)",
+    "candidate project git state (no edit, commit, stage, stash or reset)",
+    "candidate tmp/screenshots debris (candidate-owned, gitignored; recorded in report)",
+    "sibling generated apps (only same-wave grade.json metadata was read, for the compound-item convention)"
+  ]
+}

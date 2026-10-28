@@ -1,0 +1,18 @@
+{
+  "boundary": "sprint03-release-1793134190677238133",
+  "slug": "v2_gpt_6_1_sol",
+  "removed": [],
+  "moved_into_evidence": [],
+  "stopped": [],
+  "scratch": "none created on disk; the SQLi and session-scope liveness checks ran in in-memory sqlite3 (:memory:) and left no files",
+  "candidate_workspace_changes": "only the 3 Casey injection commits 0be6033 (#4), 9a34b18 (#5) and 3fbbb7e (#6) on top of candidate HEAD 6b17fd8; working tree clean before and after; no candidate work modified",
+  "shared_environment_changes": "none: no gems installed, ruby-advisory-db not updated (bundle-audit read the existing local db), no reviewer files left in project/",
+  "docker": "none created or removed; verified no leftover candidate ember* containers, volumes or images",
+  "retained": [
+    "results-v4/v2_gpt_6_1_sol/project (HEAD 3fbbb7e)",
+    "results-v4/v2_gpt_6_1_sol/project/tmp/verification/sprint-3/* (candidate's own gitignored verification evidence, untouched)",
+    "results-v4/v2_gpt_6_1_sol/sprints/sprint03_admin/* (stream, results, gitlog, stderr, prompt)",
+    "results-v4/v2_gpt_6_1_sol/boundaries/sprint01-*/ and sprint02-*/ (untouched)",
+    "this boundary's report.md, verdict.json, cleanup.json, prompt.txt, agent transcript and stderr"
+  ]
+}

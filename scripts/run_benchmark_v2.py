@@ -170,17 +170,18 @@ def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
                 if name and name not in env:
                     env[name] = value.strip().strip('"').strip("'")
     stdin_data: str | None = None
+    claude_temp_home: Path | None = None
 
     if harness == "claude":
         command = build_claude_command(model["model_id"], prompt)
-        # Isolate HOME so user-level ~/.claude/agents don't leak into the run —
-        # but copy the SUBSCRIPTION credentials in, and strip ANTHROPIC_API_KEY
-        # so the CLI can never silently fall back to API billing. (Learned the
-        # expensive way: without this, every run bills the API account.)
-        env["HOME"] = str(out_dir.resolve())
-        import shutil
+        # Isolate HOME so user-level agents do not leak into the run. Keep the
+        # subscription credential outside candidate-visible results and remove
+        # this execution-only copy as soon as the phase process exits.
+        import shutil, tempfile
+        claude_temp_home = Path(tempfile.mkdtemp(prefix="v4-claude-home-"))
+        env["HOME"] = str(claude_temp_home)
         real_creds = Path.home() / ".claude" / ".credentials.json"
-        iso_claude = out_dir / ".claude"
+        iso_claude = claude_temp_home / ".claude"
         iso_claude.mkdir(parents=True, exist_ok=True)
         if real_creds.exists():
             shutil.copy2(real_creds, iso_claude / ".credentials.json")
@@ -351,6 +352,9 @@ def run_phase(model: dict[str, Any], phase_name: str, prompt: str,
         process.wait(timeout=15)
     except subprocess.TimeoutExpired:
         os.killpg(process.pid, signal.SIGKILL)
+        process.wait()
+    if claude_temp_home is not None:
+        shutil.rmtree(claude_temp_home)
     if process.stderr:
         stderr_chunks.append(process.stderr.read() or "")
     stderr_path.write_text("".join(stderr_chunks))

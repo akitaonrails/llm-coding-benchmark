@@ -1,0 +1,1 @@
+{"removed": [], "retained": ["prompt.txt", "agent.ndjson", "agent.stderr.log", "report.md", "verdict.json"], "notes": "No reviewer scratch was created; the single failed test-env check created no files (storage/ and tmp/ mtimes predate this boundary). Candidate repo working tree clean; three Casey commits f890442, 5f1bccb, 01e1dc2 retained for recovery-boundary verification."}

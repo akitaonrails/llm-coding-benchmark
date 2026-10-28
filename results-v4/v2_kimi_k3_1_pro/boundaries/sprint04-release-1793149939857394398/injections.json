@@ -1,0 +1,5 @@
+[
+  {"item": 7, "commit": null, "planted_by": "human", "accepted": false, "note": "Missing. boundaries/human_injections.json does not exist and no Casey commit follows the sprint-04 candidate HEAD 4bf02c0 (git log: newest Casey commit is 01e1dc2, item #6 from sprint 03). No earlier sprint-04 attempt exists to credit. Not N/A: the candidate built a reporting dashboard (app/models/reporting/dashboard.rb, migration 20261027220000_add_reporting_indexes.rb), so a target exists."},
+  {"item": 8, "commit": null, "planted_by": "human", "accepted": false, "note": "Missing. No human_injections.json entry and no Casey commit after 4bf02c0. Not N/A: the aggregates live in app/models/reporting/dashboard.rb."},
+  {"item": 9, "commit": null, "planted_by": "human", "accepted": false, "note": "Missing. No human_injections.json entry and no Casey commit after 4bf02c0. Not N/A: any required app file is a valid target."}
+]

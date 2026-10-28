@@ -1,0 +1,12 @@
+{
+  "slug": "v2_gpt_6_1_sol",
+  "sprint": "sprint03_admin",
+  "harness": "codex",
+  "elapsed_seconds": 361.89,
+  "cost_usd": 0.861,
+  "tokens_total": 3400082,
+  "exit_code": 0,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": false
+}

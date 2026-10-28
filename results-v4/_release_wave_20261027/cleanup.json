@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-28T00:43:32.689037+00:00",
+  "removed": [],
+  "retained": [
+    "candidate workspaces",
+    "sprint streams/results",
+    "boundary reports/verdicts",
+    "grades",
+    "direct Argon billing-failure evidence",
+    "Antigravity Argon attempt",
+    "OpenRouter fallback evidence if used",
+    "/tmp/v4-release-wave-20261027"
+  ],
+  "reason": "No task-owned container, image, network, or verified disposable process was identified for removal; ambiguous or paused evidence remains retained."
+}

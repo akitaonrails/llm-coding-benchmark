@@ -1,0 +1,25 @@
+{
+  "boundary": "sprint07-release-1793152155000060626",
+  "slug": "v2_claude_sonnet_5_5",
+  "owned_scratch_created": [],
+  "owned_scratch_removed": [],
+  "candidate_project_modified": false,
+  "candidate_git_state": {
+    "head": "259b2a0",
+    "status_porcelain_empty": true
+  },
+  "retained_evidence": [
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint07-release-1793152155000060626/report.md",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint07-release-1793152155000060626/verdict.json",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint07-release-1793152155000060626/cleanup.json",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint07-release-1793152155000060626/bundle-audit.txt",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint07-release-1793152155000060626/agent.ndjson",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint07-release-1793152155000060626/agent.stderr.log",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint07-release-1793152155000060626/prompt.txt",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint07-release-1793152155000060626/mode.json",
+    "results-v4/v2_claude_sonnet_5_5/grade.json"
+  ],
+  "untouched_prior_evidence": "all earlier boundary directories (sprint01-sprint06, including failed/ineligible attempts) and sprints/ left as-is",
+  "docker_resources_created_by_reviewer": [],
+  "notes": "Static review only; single bounded check (bundle-audit check --no-update) wrote bundle-audit.txt. No scratch files created; no docker, no prune, no shared-server or other-project actions. Read-only reads of other models' release-wave grade.json/boundary reports (ledgers only, no apps) for compound-rule consistency."
+}

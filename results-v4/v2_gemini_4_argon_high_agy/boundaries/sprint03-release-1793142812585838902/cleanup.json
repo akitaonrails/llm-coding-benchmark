@@ -1,0 +1,26 @@
+{
+  "boundary": "sprint03-release-1793142812585838902",
+  "slug": "v2_gemini_4_argon_high_agy",
+  "owned_scratch_created": [],
+  "removed": [],
+  "notes": [
+    "No scratch files, containers, servers, databases or gem installs were created. The single env check was a read-only `bundle check` under Ruby 3.4.10.",
+    "bundle-audit ran read-only against the project Gemfile.lock with --no-update.",
+    "The project tree is clean after the three Casey commits (5e3e9c0, 679ff04, 1fb0b05).",
+    "The agy transcript under ~/.gemini/antigravity-cli/brain/b740a639-29a1-4fd9-8193-bb43c0fa3eee was read only and left untouched."
+  ],
+  "retained_evidence": [
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint03-release-1793142812585838902/report.md",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint03-release-1793142812585838902/verdict.json",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint03-release-1793142812585838902/cleanup.json",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint03-release-1793142812585838902/prompt.txt",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint03-release-1793142812585838902/mode.json",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint03-release-1793142812585838902/agent.ndjson",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint03-release-1793142812585838902/agent.stderr.log",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint01-release-1793140937541756756/ (untouched)",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint02-release-1793141912573905783/ (untouched)",
+    "results-v4/v2_gemini_4_argon_high_agy/sprints/sprint03_admin/ (untouched)",
+    "results-v4/v2_gemini_4_argon_high_agy/project/ (Casey commits 5e3e9c0, 679ff04, 1fb0b05)",
+    "~/.gemini/antigravity-cli/brain/b740a639-29a1-4fd9-8193-bb43c0fa3eee/ (agy sprint-03 tool log, read-only)"
+  ]
+}

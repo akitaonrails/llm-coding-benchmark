@@ -1,0 +1,20 @@
+{
+  "boundary": "sprint06-release-1793162619958574033",
+  "mode": "grade-only",
+  "scratch_created": [],
+  "scratch_removed": [],
+  "candidate_project_mutations": "none (git status --short empty at HEAD fe493dd before and after)",
+  "docker_resources_created_by_reviewer": "none (no Docker builds, no live HTTP)",
+  "candidate_docker_leftovers_checked": "docker ps -a / docker volume ls filtered on sprint6_verify: none found; nothing removed",
+  "bounded_test_env_check": "not used",
+  "retained_evidence": [
+    "results-v4/v2_kimi_k3_1_pro/boundaries/sprint06-release-1793162619958574033/report.md",
+    "results-v4/v2_kimi_k3_1_pro/boundaries/sprint06-release-1793162619958574033/verdict.json",
+    "results-v4/v2_kimi_k3_1_pro/boundaries/sprint06-release-1793162619958574033/cleanup.json",
+    "results-v4/v2_kimi_k3_1_pro/boundaries/sprint06-release-1793162619958574033/prompt.txt",
+    "results-v4/v2_kimi_k3_1_pro/boundaries/sprint06-release-1793162619958574033/mode.json",
+    "results-v4/v2_kimi_k3_1_pro/boundaries/sprint06-release-1793162619958574033/agent.ndjson",
+    "results-v4/v2_kimi_k3_1_pro/sprints/sprint06_production/ (candidate transcript + results, untouched)",
+    "all earlier boundaries/sprint0[1-5]-* directories (untouched)"
+  ]
+}

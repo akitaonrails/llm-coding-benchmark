@@ -1,0 +1,10 @@
+{
+  "original_pause": {
+  "at": "2026-10-28T03:45:30.148384+00:00",
+  "stage": "sprint05",
+  "reason": "exit=1 tokens=0 (crash/auth, no real work)"
+},
+  "resolution": "false pause (infra artifact, NOT charged to model)",
+  "evidence": "sprint.result.json exit_code=0, tokens_total=6465891, stall_aborted=false, timed_out=false; no 401/429/auth in stderr; terminal session.resume_hint present; candidate Sprinter commits 5106077+0fefcdb present. The 'exit=1 tokens=0' matches the DISCARDED 654s first attempt (old failed-auth line persisting in the shared append-only log); the clean 1404s exit=0 run (03:22:00->03:45:25) is this pass's real work. Known kimi lingering-process/terminal-stop grace path can surface a nonzero shell exit while writing a clean exit=0 result.",
+  "resolved_at": "2026-10-28T03:49:36Z"
+}

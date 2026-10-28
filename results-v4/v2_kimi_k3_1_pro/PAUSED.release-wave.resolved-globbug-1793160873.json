@@ -1,0 +1,10 @@
+{
+  "original_pause": {
+  "at": "2026-10-28T04:05:10.607240+00:00",
+  "stage": "sprint05",
+  "reason": "exit=1 tokens=0 (crash/auth, no real work)"
+},
+  "resolution": "false pause from evaluate() glob bug (NOT charged to model)",
+  "evidence": "run_v4_wave.py evaluate() uses sprints.glob('sprint05*') and takes cand[-1]; the archived 'sprint05_api.failed-auth-1793157373' dir sorted AFTER the real 'sprint05_api', so evaluate read the discarded first-attempt result (exit=1, 0 tokens) instead of the clean sprint05 (exit_code=0, 6465891 tokens). Fixed by relocating all archived .failed-* dirs out of sprints/ into _failed_sprints/. Clean sprint05 content verified: exit 0, no auth errors, candidate Sprinter commits present.",
+  "resolved_at": "2026-10-28T04:14:33Z"
+}

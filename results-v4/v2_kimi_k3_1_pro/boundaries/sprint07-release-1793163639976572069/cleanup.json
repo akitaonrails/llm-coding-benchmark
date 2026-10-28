@@ -1,0 +1,24 @@
+{
+  "boundary": "sprint07-release-1793163639976572069",
+  "slug": "v2_kimi_k3_1_pro",
+  "mode": "grade-only",
+  "scratch_created": [],
+  "scratch_removed": [],
+  "candidate_project_modified": false,
+  "candidate_git_status_at_end": "clean (HEAD cb0000a)",
+  "docker_resources_created": [],
+  "bounded_test_env_check": "not used",
+  "candidate_owned_scratch_observed": "tmp/migration-check.sqlite3 was created and already removed by the candidate during sprint 07; absent at review time; nothing for this reviewer to remove",
+  "retained_evidence": [
+    "results-v4/v2_kimi_k3_1_pro/boundaries/sprint07-release-1793163639976572069/report.md",
+    "results-v4/v2_kimi_k3_1_pro/boundaries/sprint07-release-1793163639976572069/verdict.json",
+    "results-v4/v2_kimi_k3_1_pro/boundaries/sprint07-release-1793163639976572069/cleanup.json",
+    "results-v4/v2_kimi_k3_1_pro/boundaries/sprint07-release-1793163639976572069/prompt.txt",
+    "results-v4/v2_kimi_k3_1_pro/boundaries/sprint07-release-1793163639976572069/mode.json",
+    "results-v4/v2_kimi_k3_1_pro/boundaries/sprint07-release-1793163639976572069/agent.ndjson",
+    "results-v4/v2_kimi_k3_1_pro/grade.json",
+    "results-v4/v2_kimi_k3_1_pro/sprints/sprint07_reveal/ (candidate transcript, untouched)",
+    "all earlier boundary directories sprint01..sprint06 (untouched)"
+  ],
+  "notes": "Static review only. No files outside this boundary directory and results-v4/v2_kimi_k3_1_pro/grade.json were written."
+}

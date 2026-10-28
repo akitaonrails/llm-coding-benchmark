@@ -1,0 +1,15 @@
+{
+  "removed": ["/tmp/scan_s5_1793151359.py (reviewer-owned transcript scan helper)"],
+  "retained": [
+    "boundaries/sprint05-release-1793151359981466811/report.md",
+    "boundaries/sprint05-release-1793151359981466811/verdict.json",
+    "boundaries/sprint05-release-1793151359981466811/injections.json",
+    "boundaries/sprint05-release-1793151359981466811/bundle-audit.txt (bounded static check evidence)",
+    "boundaries/sprint05-release-1793151359981466811/agent.ndjson, agent.stderr.log, prompt.txt, mode.json (harness-owned)",
+    "boundaries/sprint05-release-1793148784831393836/* (prior attempt evidence, untouched)"
+  ],
+  "candidate_project_modified": false,
+  "docker_resources_created": false,
+  "servers_started": false,
+  "notes": "No edits, commits, stashes or resets in results-v4/v2_claude_sonnet_5_5/project; git status --short empty before and after."
+}

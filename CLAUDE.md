@@ -167,6 +167,16 @@ Qwen 3.8-27B is a hybrid SSM/Mamba architecture — the tuned `~/Projects/llama-
 
 A full sweep (2026-08-15) found only ONE official run contaminated: Grok 4.5 (92, read Opus 4.7 as a reference) — annotated with a ᶜ caveat in the report, not re-run (user decision). All other official runs verified clean.
 
+## Gemini benchmark routing
+
+For every Gemini benchmark run, try the authenticated Antigravity CLI first
+when the exact model is listed for the account and a short live smoke test
+succeeds. This includes Google AI Pro access. If Antigravity cannot run the
+model, try the direct Google API, then OpenRouter as the last fallback. Record
+each route under a distinct model slug/result directory and preserve failed
+attempts and provider provenance; never silently substitute one route for
+another. A benchmark score belongs to the specific model and harness pair.
+
 ## Open-weight model benchmark batches
 
 Before any open-weight batch or recovery, read and follow

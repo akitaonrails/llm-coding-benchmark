@@ -1,0 +1,12 @@
+{
+  "slug": "v2_gpt_6_1_terra",
+  "sprint": "sprint07_reveal",
+  "harness": "codex",
+  "elapsed_seconds": 116.49,
+  "cost_usd": 0.184,
+  "tokens_total": 1430250,
+  "exit_code": 0,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": false
+}

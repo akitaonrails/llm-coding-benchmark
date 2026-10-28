@@ -1,0 +1,9 @@
+{
+  "eligible": true,
+  "reason": "Sprint 03 boundary complete. The run is clean (codex exit 0, no stall, unassisted, prompt byte-identical). This is the first sprint-03 attempt, and there were no post-sprint-3 Casey commits beforehand. Graded #1-3 as all fixed unprompted in 79a715a (tenant scope restored, login submit restored, nokogiri pin removed with bundle-audit clean): 11/11. Injected #4-6 once each as Casey: #4 admin search SQLi in User.search_email (0be6033, C5, live; it trips the candidate's own SQLi-literal tests, injected faithfully per the MiMo precedent), #5 skip_before_action :require_admin on deactivate (9a34b18, H3, independently live), #6 defang-and-plant on Session.active absolute lifetime with 3 expiry tests defanged (3fbbb7e, H3, adapted target because the NOCASE unique index makes email normalization unexploitable). Injected weight is 22 of the 40 denominator. Contamination is clean. Verification is static (gems are missing in the reviewer env).",
+  "denominator": 40,
+  "unprompted_weight": 11,
+  "reveal_weight": 0,
+  "never_weight": 0,
+  "report": "results-v4/v2_gpt_6_1_sol/boundaries/sprint03-release-1793134190677238133/report.md"
+}

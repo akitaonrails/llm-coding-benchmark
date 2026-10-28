@@ -1687,6 +1687,77 @@
       "notes": "Added 2026-10-21 (overnight 4xB300, last-but-one). stepfun-ai/Step-5-Preview-NVFP4 (~395GB, 95 shards), arch Step5ForConditionalGeneration (model_type step5_vl, head_dim 192). REQUIRES vLLM nightly 0.32.1rc1.dev195 in isolated /root/vllm-next-venv + assembled CUDA 12.9 toolkit (/root/cuda-12.9) for sm_103a FlashInfer head_dim-192 prefill JIT (CUDA 12.8 cannot target compute_103a; M3-class wall). step5 reasoning+tool parser (validated CLEAN tool-calls) + --enable-auto-tool-choice. Single-stream 74 tok/s (aggregate 623@16-way); MTP speculative-decode tuning attempted for the >=100 gate. Full v4, Claude reviewers, capped<=2-nudge + extended."
     },
     {
+      "slug": "v2_gemini_4_argon_high",
+      "label": "Gemini 4 Argon @ high (opencode/direct Gemini API)",
+      "harness": "opencode",
+      "model_id": "google/gemini-4-argon",
+      "billing": "Direct Gemini API, pay-per-token",
+      "rates_per_m": {"input": 2.0, "cache_read": 0.0, "cache_write": 0.0, "output": 10.0},
+      "wave": 8,
+      "notes": "2026-10-27 release wave. Explicit high thinking; direct Google API model access verified by GET /v1beta/models/gemini-4-argon. Introductory prices through 2026-11-30; provider-reported actual cost preferred. Full 14-item v4 set."
+    },
+    {
+      "slug": "v2_gemini_4_argon_high_agy",
+      "label": "Gemini 4 Argon @ high (Antigravity CLI)",
+      "harness": "agy",
+      "model_id": "gemini-4-argon-high",
+      "billing": "Google AI Pro subscription (Antigravity CLI)",
+      "wave": 8,
+      "notes": "2026-10-27 release wave. Antigravity-first Gemini route; model listed by agy 1.4.8 and live Argon High smoke test succeeded. Full 14-item v4 set."
+    },
+    {
+      "slug": "v2_gemini_4_argon_high_or",
+      "label": "Gemini 4 Argon @ high (opencode/OpenRouter fallback)",
+      "harness": "opencode",
+      "model_id": "openrouter/google/gemini-4-argon",
+      "billing": "OpenRouter API, pay-per-token",
+      "rates_per_m": {"input": 2.0, "cache_read": 0.1, "cache_write": 0.1875, "output": 10.0},
+      "wave": 8,
+      "notes": "2026-10-27 fallback: direct Google API first sprint failed HTTP 402 prepayment depleted before any tokens. OpenRouter completed a minimal live response. Separate attempt and provider provenance; full 14-item v4 set."
+    },
+    {
+      "slug": "v2_claude_sonnet_5_5",
+      "label": "Claude Sonnet 5.5 (Claude Code)",
+      "harness": "claude",
+      "model_id": "claude-sonnet-5-5",
+      "billing": "Claude Max subscription",
+      "rates_per_m": {"input": 2.0, "cache_read": 0.1, "cache_write": 2.5, "output": 10.0},
+      "wave": 8,
+      "notes": "2026-10-27 release wave. Full 14-item v4 set."
+    },
+    {
+      "slug": "v2_kimi_k3_1_pro",
+      "label": "Kimi K3.1 Pro (Kimi Code CLI)",
+      "harness": "kimi",
+      "model_id": "kimi-code/k3.1-pro",
+      "billing": "Kimi Code subscription",
+      "rates_per_m": {"input": 2.0, "cache_read": 0.2, "cache_write": 2.0, "output": 10.0},
+      "wave": 8,
+      "notes": "2026-10-27 release wave. Kimi Code managed provider lists k3.1-pro as the default. Full 14-item v4 set."
+    },
+    {
+      "slug": "v2_gpt_6_1_sol",
+      "label": "GPT-6.1 Sol xHigh (Codex)",
+      "harness": "codex",
+      "model_id": "gpt-6.1-sol",
+      "codex_reasoning_effort": "xhigh",
+      "billing": "ChatGPT subscription credits",
+      "rates_per_m": {"input": 2.0, "cache_read": 0.1, "cache_write": 0.0, "output": 10.0},
+      "wave": 8,
+      "notes": "2026-10-27 release wave. Full 14-item v4 set."
+    },
+    {
+      "slug": "v2_gpt_6_1_terra",
+      "label": "GPT-6.1 Terra xHigh (Codex)",
+      "harness": "codex",
+      "model_id": "gpt-6.1-terra",
+      "codex_reasoning_effort": "xhigh",
+      "billing": "ChatGPT subscription credits",
+      "rates_per_m": {"input": 1.0, "cache_read": 0.05, "cache_write": 0.0, "output": 5.0},
+      "wave": 8,
+      "notes": "2026-10-27 release wave. Full 14-item v4 set."
+    },
+    {
       "slug": "v2_muse_spark_open_b300",
       "label": "Muse Spark Open 816B-A42B NVFP4 (RunPod 4xB300 vLLM TP4)",
       "harness": "opencode",

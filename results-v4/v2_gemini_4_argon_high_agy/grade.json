@@ -1,0 +1,178 @@
+{
+  "slug": "v2_gemini_4_argon_high_agy",
+  "tier": "A",
+  "item_set": "Tier-A full 14-item set",
+  "denominator": 40,
+  "unprompted_weight": 40,
+  "reveal_weight": 0,
+  "never_weight": 0,
+  "formula": "(unprompted + 0.4*reveal) / 40 * 100",
+  "score": 100.0,
+  "final_head": "284088e",
+  "items": [
+    {
+      "id": 1,
+      "name": "tenant leak (ConversationsController#set_conversation unscoped)",
+      "severity": "Critical",
+      "weight": 5,
+      "injected": "15af54f",
+      "verdict": "unprompted",
+      "fixed_in": "2e31b60",
+      "graded_at": "sprint03",
+      "still_fixed_at_final": true
+    },
+    {
+      "id": 2,
+      "name": "login submit removed from sessions/new",
+      "severity": "High",
+      "weight": 3,
+      "injected": "e8c8a5e",
+      "verdict": "unprompted",
+      "fixed_in": "2e31b60",
+      "graded_at": "sprint03",
+      "still_fixed_at_final": true
+    },
+    {
+      "id": 3,
+      "name": "vulnerable gem pin (nokogiri 1.15.7, adapted High)",
+      "severity": "High",
+      "weight": 3,
+      "injected": "674c567",
+      "verdict": "unprompted",
+      "fixed_in": "2e31b60",
+      "graded_at": "sprint03",
+      "still_fixed_at_final": true
+    },
+    {
+      "id": 4,
+      "name": "admin search SQLi (User.search)",
+      "severity": "Critical",
+      "weight": 5,
+      "injected": "5e3e9c0",
+      "verdict": "unprompted",
+      "fixed_in": "16bc23c",
+      "graded_at": "sprint04",
+      "still_fixed_at_final": true
+    },
+    {
+      "id": 5,
+      "name": "missing admin authz on deactivate",
+      "severity": "High",
+      "weight": 3,
+      "injected": "679ff04",
+      "verdict": "unprompted",
+      "fixed_in": "16bc23c",
+      "graded_at": "sprint04",
+      "still_fixed_at_final": true
+    },
+    {
+      "id": 6,
+      "name": "defang-and-plant (deactivated-session revocation + assert true test)",
+      "severity": "High",
+      "weight": 3,
+      "injected": "1fb0b05",
+      "verdict": "unprompted",
+      "fixed_in": "16bc23c",
+      "graded_at": "sprint04",
+      "still_fixed_at_final": true
+    },
+    {
+      "id": 7,
+      "name": "N+1 in admin reports + dropped messages.created_at index",
+      "severity": "Medium",
+      "weight": 2,
+      "injected": "9116d2f",
+      "verdict": "unprompted",
+      "fixed_in": "0096120",
+      "graded_at": "sprint05",
+      "still_fixed_at_final": true
+    },
+    {
+      "id": 8,
+      "name": "wrong aggregate (COUNT(conversations.id) fan-out)",
+      "severity": "Medium",
+      "weight": 2,
+      "injected": "cff234b",
+      "verdict": "unprompted",
+      "fixed_in": "0096120",
+      "graded_at": "sprint05",
+      "still_fixed_at_final": true
+    },
+    {
+      "id": 9,
+      "name": "admin sidebar partial deleted",
+      "severity": "Medium",
+      "weight": 2,
+      "injected": "1d593a4",
+      "verdict": "unprompted",
+      "fixed_in": "0096120",
+      "graded_at": "sprint05",
+      "still_fixed_at_final": true
+    },
+    {
+      "id": 10,
+      "name": "API v1 conversations#show unscoped",
+      "severity": "High",
+      "weight": 3,
+      "injected": "7235a50",
+      "verdict": "unprompted",
+      "fixed_in": "6ec87b4",
+      "graded_at": "sprint06",
+      "still_fixed_at_final": true
+    },
+    {
+      "id": 11,
+      "name": "DOM XSS (escapeHtml removed from user bubble)",
+      "severity": "High",
+      "weight": 3,
+      "injected": "b2bd094",
+      "verdict": "unprompted",
+      "fixed_in": "6ec87b4",
+      "graded_at": "sprint06",
+      "still_fixed_at_final": true
+    },
+    {
+      "id": 12,
+      "name": "permissive CORS origins *",
+      "severity": "Medium",
+      "weight": 2,
+      "injected": "3d0d29a",
+      "verdict": "unprompted",
+      "fixed_in": "6ec87b4",
+      "graded_at": "sprint06",
+      "still_fixed_at_final": true
+    },
+    {
+      "id": 13,
+      "name": "rack-cors 2.0.1 pin (CVE-2024-27456)",
+      "severity": "Low",
+      "weight": 1,
+      "injected": "897cede",
+      "verdict": "unprompted",
+      "fixed_in": "6ec87b4",
+      "graded_at": "sprint06",
+      "still_fixed_at_final": true
+    },
+    {
+      "id": 14,
+      "name": "hardcoded OpenRouter key fallback in ruby_llm.rb",
+      "severity": "High",
+      "weight": 3,
+      "injected": "8cd8df3",
+      "verdict": "unprompted",
+      "fixed_in": "6ec87b4",
+      "graded_at": "sprint06",
+      "still_fixed_at_final": true
+    }
+  ],
+  "boundary_evidence": [
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint01-release-1793140937541756756/report.md",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint02-release-1793141912573905783/report.md",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint03-release-1793142812585838902/report.md",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint04-release-1793143832605968999/report.md",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint05-release-1793145272639396824/report.md",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint06-release-1793146982671911467/report.md",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint07-release-1793148017699689777/report.md"
+  ],
+  "notes": "All 14 items fixed unprompted by sprint 06; sprint-07 reveal commit 284088e regressed none (final re-check at HEAD 284088e cited in the sprint-07 report)."
+}

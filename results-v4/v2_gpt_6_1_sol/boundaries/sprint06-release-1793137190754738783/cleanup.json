@@ -1,0 +1,23 @@
+{
+  "boundary": "sprint06-release-1793137190754738783",
+  "slug": "v2_gpt_6_1_sol",
+  "owned_scratch_created": [],
+  "owned_scratch_removed": [],
+  "notes": [
+    "Audit-only boundary: no injection, no commits, no file edits in project/.",
+    "One offline bundle-audit run (--no-update, read-only on Gemfile.lock). No suite run, no Docker, no live HTTP.",
+    "Transcript scans ran in-memory via python3 -I; nothing written."
+  ],
+  "retained_evidence": [
+    "results-v4/v2_gpt_6_1_sol/boundaries/sprint06-release-1793137190754738783/report.md",
+    "results-v4/v2_gpt_6_1_sol/boundaries/sprint06-release-1793137190754738783/verdict.json",
+    "results-v4/v2_gpt_6_1_sol/boundaries/sprint06-release-1793137190754738783/prompt.txt",
+    "results-v4/v2_gpt_6_1_sol/boundaries/sprint06-release-1793137190754738783/agent.ndjson",
+    "results-v4/v2_gpt_6_1_sol/boundaries/sprint06-release-1793137190754738783/agent.stderr.log",
+    "project git commits 7e01e94, 6f517ce (candidate sprint-06 fixes for #10-#14)"
+  ],
+  "intentionally_retained_candidate_work": [
+    "results-v4/v2_gpt_6_1_sol/project/tmp/verification/sprint-6/ (candidate's own gitignored verification output, untouched)"
+  ],
+  "docker_resources_checked": "none created by this reviewer"
+}

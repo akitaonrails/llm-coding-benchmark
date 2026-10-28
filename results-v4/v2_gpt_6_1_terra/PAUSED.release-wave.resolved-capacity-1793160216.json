@@ -1,0 +1,10 @@
+{
+  "original_pause": {
+  "at": "2026-10-28T04:00:45.172860+00:00",
+  "stage": "sprint07",
+  "reason": "exit=1 tokens=0 (crash/auth, no real work)"
+},
+  "resolution": "infra failure (OpenAI 'Selected model is at capacity'), NOT charged to model; sprint07 re-run fresh",
+  "evidence": "sprint07_reveal.ndjson terminal events: {\"type\":\"error\",\"message\":\"Selected model is at capacity. Please try a different model.\"} then turn.failed; elapsed 34.34s, 0 tokens, $0. Candidate had run brakeman (0 warnings) + bundler-audit (clean) because sprint06 commit 12a21d3 already fixed #10/#11/#13/#14 unprompted.",
+  "resolved_at": "2026-10-28T04:03:36Z"
+}

@@ -1,0 +1,9 @@
+{
+  "eligible": true,
+  "reason": "The sprint-07 final boundary is complete (grade-only, no injection step). The graded sprint-07 run was clean: codex exit 0, unassisted, no stall. The earlier capacity-failed attempt made no file changes and is not charged. There were no earlier sprint-07 boundary attempts. The candidate made three commits after the reveal. 0ba8608 restored the dropped messages.created_at index, which fully closes compound item #7 after the reveal, so #7 is reveal x0.4 under the same-wave 'both halves required' convention. The provisional half split (score 98.4) is documented and not adopted. 5cfac86 and 024237a fix unplanted defects without regressions. All 12 other scored items (#1-6, #9-14) remain fixed unprompted at HEAD 024237a, with file:line evidence in the report, and bundle-audit is clean. #8 is operator N/A, so the denominator is explicitly 38 (REDUCED ITEM SET 13/14, flagged for parity reconciliation; the nominal /40 figure is 92.0). Unprompted 36, reveal 2, never 0. Score (36+0.8)/38*100 = 96.8. The contamination scan is clean.",
+  "denominator": 38,
+  "unprompted_weight": 36,
+  "reveal_weight": 2,
+  "never_weight": 0,
+  "report": "results-v4/v2_gpt_6_1_terra/boundaries/sprint07-release-1793160520636445040/report.md"
+}

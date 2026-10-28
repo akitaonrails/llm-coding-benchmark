@@ -1,0 +1,12 @@
+{
+  "removed": [
+    {"path": "/tmp/terra_s05_audit.EjFs", "kind": "reviewer-owned scratch dir (a copy of Gemfile.lock used for the bundle-audit check)", "verified_removed": true}
+  ],
+  "retained": [
+    {"path": "results-v4/v2_gpt_6_1_terra/boundaries/sprint05-release-1793157075104833921/", "reason": "earlier sprint-05 attempt evidence; untouched"},
+    {"path": "results-v4/v2_gpt_6_1_terra/boundaries/sprint05-release-1793159190183818902/", "reason": "this attempt's evidence (report, verdict, injections, cleanup, prompt, transcript)"},
+    {"path": "results-v4/v2_gpt_6_1_terra/project/", "reason": "candidate workspace; no edits, stage, stash, reset or commit by this reviewer; git status clean"}
+  ],
+  "docker_or_servers_started": false,
+  "notes": "No containers, servers, or DB processes were started. The test suite was not run."
+}

@@ -1,0 +1,20 @@
+{
+  "boundary": "sprint01-release-1793138285788648806",
+  "slug": "v2_gpt_6_1_terra",
+  "removed": [
+    {"path": "/tmp/terra_pre_status.txt", "reason": "reviewer-owned scratch (pre-check git status snapshot)", "verified_owned": true}
+  ],
+  "stopped_processes": [
+    {"task": "bf0msz9e6", "what": "reviewer-owned filesystem find for ruby_llm source (timed out, stopped via TaskStop)"}
+  ],
+  "retained": [
+    {"path": "results-v4/v2_gpt_6_1_terra/boundaries/sprint01-release-1793138285788648806/agent.ndjson", "reason": "boundary transcript evidence"},
+    {"path": "results-v4/v2_gpt_6_1_terra/boundaries/sprint01-release-1793138285788648806/prompt.txt", "reason": "boundary prompt evidence"},
+    {"path": "results-v4/v2_gpt_6_1_terra/boundaries/sprint01-release-1793138285788648806/agent.stderr.log", "reason": "boundary stderr evidence"},
+    {"path": "results-v4/v2_gpt_6_1_terra/sprints/sprint01_foundation/", "reason": "candidate sprint transcript, result, gitlog"},
+    {"path": "results-v4/v2_gpt_6_1_terra/project/", "reason": "candidate workspace incl. ignored runtime artifacts (log/, storage/, tmp/, master.key) — candidate-owned, untouched"}
+  ],
+  "docker_resources": [],
+  "commits_made": [],
+  "notes": "No Docker, servers, or databases were started by the reviewer. The single bounded test check failed at Bundler setup (reviewer Ruby 4.0.9 vs project 3.4.10) and wrote nothing."
+}

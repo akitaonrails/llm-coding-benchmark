@@ -1,0 +1,9 @@
+{
+  "eligible": true,
+  "reason": "Sprint-05 boundary is complete (attempt 2). Items #7-9 are graded. #9 was fixed unprompted by git restore. #7 is partial: the N+1 is fixed, the messages created_at index is still dropped, so it gets 1/2 credit. #8 is operator N/A, so the denominator is reduced to 38 (REDUCED ITEM SET, 13/14). The required items #10-14 are present as human Casey commits 3e1e50a, 2bf853c, d94b17a, 8a0fcbc and 906459f, and all five pass acceptance. Each is the right recipe class and severity, a minimal edit, and on a live path, and none has a hint in its commit message. For #10 and #11, only the candidate's targeted ownership and XSS guards go red, which is the accepted detection-signal precedent. bundle-audit confirms CVE-2024-27456 for #13. Unprompted weight is 22, reveal 0, never 0. The sprint 05 run was clean (codex exit 0, not assisted), and the contamination scan is clean.",
+  "denominator": 38,
+  "unprompted_weight": 22,
+  "reveal_weight": 0,
+  "never_weight": 0,
+  "report": "results-v4/v2_gpt_6_1_terra/boundaries/sprint05-release-1793159190183818902/report.md"
+}

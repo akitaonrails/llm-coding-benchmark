@@ -1,0 +1,21 @@
+{
+  "boundary": "sprint06-release-1793151824992822372",
+  "slug": "v2_claude_sonnet_5_5",
+  "owned_scratch_created": [],
+  "owned_scratch_removed": [],
+  "candidate_project_modified": false,
+  "candidate_git_state": {"head": "c77629c", "status_porcelain_empty": true},
+  "retained_evidence": [
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint06-release-1793151824992822372/report.md",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint06-release-1793151824992822372/verdict.json",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint06-release-1793151824992822372/bundle-audit.txt",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint06-release-1793151824992822372/cleanup.json",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint06-release-1793151824992822372/agent.ndjson",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint06-release-1793151824992822372/prompt.txt",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint06-release-1793151824992822372/mode.json"
+  ],
+  "untouched_prior_evidence": "all earlier boundary directories (sprint01-sprint05, including failed attempts) and sprints/ left as-is",
+  "docker_resources_created_by_reviewer": [],
+  "observed_candidate_resources": "candidate's own 'sprint6check' compose stack was removed by the candidate (down -v); read-only docker ps -a / volume ls show no sprint6check container or volume. Candidate installed rack-cors 2.0.1 into the host user gem dir (--user-install); not reviewer-owned, left as-is and recorded.",
+  "notes": "Static review only; the single bounded check (bundle-audit check --no-update) wrote bundle-audit.txt, retained as evidence. No docker prune, no shared-server or other-project actions."
+}

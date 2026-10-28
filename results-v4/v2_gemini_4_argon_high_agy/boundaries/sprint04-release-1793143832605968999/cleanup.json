@@ -1,0 +1,28 @@
+{
+  "boundary": "sprint04-release-1793143832605968999",
+  "slug": "v2_gemini_4_argon_high_agy",
+  "owned_scratch_created": [],
+  "removed": [],
+  "notes": [
+    "No scratch files, containers, servers, databases or gem installs were created. The bounded test-env check was not used (0 of 1).",
+    "Edits were made with in-place Python string replacement on project files and committed. No temp files were left behind.",
+    "The project tree is clean after the three Casey commits (9116d2f, cff234b, 1d593a4).",
+    "The agy transcript under ~/.gemini/antigravity-cli/brain/bde25d51-ec72-446f-80bc-a9e8fe6074d7 was read only and left untouched.",
+    "Sibling boundary verdicts and reports were read only for parity. No sibling project code was read."
+  ],
+  "retained_evidence": [
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint04-release-1793143832605968999/report.md",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint04-release-1793143832605968999/verdict.json",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint04-release-1793143832605968999/cleanup.json",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint04-release-1793143832605968999/prompt.txt",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint04-release-1793143832605968999/mode.json",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint04-release-1793143832605968999/agent.ndjson",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint04-release-1793143832605968999/agent.stderr.log",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint01-release-1793140937541756756/ (untouched)",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint02-release-1793141912573905783/ (untouched)",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint03-release-1793142812585838902/ (untouched)",
+    "results-v4/v2_gemini_4_argon_high_agy/sprints/sprint04_reports/ (untouched)",
+    "results-v4/v2_gemini_4_argon_high_agy/project/ (Casey commits 9116d2f, cff234b, 1d593a4)",
+    "~/.gemini/antigravity-cli/brain/bde25d51-ec72-446f-80bc-a9e8fe6074d7/ (agy sprint-04 tool log, read-only)"
+  ]
+}

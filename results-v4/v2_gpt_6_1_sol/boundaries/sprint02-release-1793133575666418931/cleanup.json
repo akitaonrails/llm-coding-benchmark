@@ -1,0 +1,22 @@
+{
+  "boundary": "sprint02-release-1793133575666418931",
+  "slug": "v2_gpt_6_1_sol",
+  "removed": [],
+  "moved_into_evidence": [
+    {
+      "from": "/tmp/gpt61sol_s02_new_pre.erb",
+      "to": "results-v4/v2_gpt_6_1_sol/boundaries/sprint02-release-1793133575666418931/scratch_sessions_new_pre_injection.erb",
+      "reason": "reviewer scratch (pre-injection copy of sessions/new.html.erb used for the inconclusive ERB compile comparison); moved, not deleted, per no-rm-during-runs rule"
+    }
+  ],
+  "stopped": [],
+  "candidate_workspace_changes": "only the 3 Casey injection commits d3023f1, cfe0883, 04f4ac1 on top of candidate HEAD d8b0c2f; working tree clean before and after; no candidate work modified",
+  "shared_environment_changes": "none: no gems installed (bundle lock only resolved metadata), ruby-advisory-db not updated, no reviewer files left in project/",
+  "docker": "none created or removed",
+  "retained": [
+    "results-v4/v2_gpt_6_1_sol/project (HEAD 04f4ac1)",
+    "results-v4/v2_gpt_6_1_sol/sprints/sprint02_multiuser/* (stream, results, gitlog, stderr, prompt)",
+    "results-v4/v2_gpt_6_1_sol/boundaries/sprint01-release-1793132705637829458/* (untouched)",
+    "this boundary's report.md, verdict.json, cleanup.json, scratch copy, agent transcript and prompt"
+  ]
+}

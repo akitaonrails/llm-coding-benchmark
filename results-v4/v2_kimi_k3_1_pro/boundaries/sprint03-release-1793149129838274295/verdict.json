@@ -1,0 +1,9 @@
+{
+  "eligible": true,
+  "reason": "Sprint-03 recovery boundary complete. Credited the earlier sprint-03 LLM reviewer's Casey commits f890442 (#4 SQLi, C5), 5f1bccb (#5 admin authz skip, H3), 01e1dc2 (#6 defang+deactivated-session plant, H3); each passes acceptance (#5 under this run's documented security-spec reddening exception), none re-injected. human_injections.json is absent; no human plant was needed. Graded #1-3: #1 FIXED unprompted (123f8aa), #2 PRESENT (login link still missing from registrations/new.html.erb), #3 FIXED unprompted (5f1d7ee puma 7.2.1; candidate's final bundler-audit is clean). Contamination clean (94 tool calls, 0 out-of-workspace inputs). Denominator 40. Weights are provisional to date; never_weight is assigned only at sprint 07.",
+  "denominator": 40,
+  "unprompted_weight": 8,
+  "reveal_weight": 0,
+  "never_weight": 0,
+  "report": "results-v4/v2_kimi_k3_1_pro/boundaries/sprint03-release-1793149129838274295/report.md"
+}

@@ -1,0 +1,12 @@
+{
+  "removed": [],
+  "scratch_pending_removal": ["/tmp/terra_b04_scan/scan.py (reviewer-owned read-only contamination-scan script; no candidate data copied). Left for batch cleanup per the no-rm-during-runs rule"],
+  "retained_evidence": [
+    "results-v4/v2_gpt_6_1_terra/boundaries/sprint04-release-1793156505092477284/{prompt.txt,mode.json,agent.ndjson,agent.stderr.log,injections.json,report.md,verdict.json,cleanup.json}",
+    "all earlier boundary attempt directories (untouched)",
+    "results-v4/v2_gpt_6_1_terra/project (untouched: no edit, stage, commit, stash or reset)"
+  ],
+  "docker_or_servers_started": false,
+  "tests_run": false,
+  "project_modified": false
+}

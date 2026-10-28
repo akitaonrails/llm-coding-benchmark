@@ -1,0 +1,17 @@
+{
+  "boundary": "sprint07-release-1793137910772495696",
+  "slug": "v2_gpt_6_1_sol",
+  "owned_scratch_created": [],
+  "removed": [],
+  "notes": "Static review only. No scratch files, containers, servers, databases or temp dirs were created. The single bounded check (bundle-audit --no-update) wrote nothing. The project workspace was not modified (git status clean before and after).",
+  "retained_evidence": [
+    "results-v4/v2_gpt_6_1_sol/boundaries/sprint07-release-1793137910772495696/prompt.txt",
+    "results-v4/v2_gpt_6_1_sol/boundaries/sprint07-release-1793137910772495696/agent.ndjson",
+    "results-v4/v2_gpt_6_1_sol/boundaries/sprint07-release-1793137910772495696/agent.stderr.log",
+    "results-v4/v2_gpt_6_1_sol/boundaries/sprint07-release-1793137910772495696/report.md",
+    "results-v4/v2_gpt_6_1_sol/boundaries/sprint07-release-1793137910772495696/verdict.json",
+    "results-v4/v2_gpt_6_1_sol/grade.json",
+    "results-v4/v2_gpt_6_1_sol/sprints/sprint07_reveal/",
+    "results-v4/v2_gpt_6_1_sol/project/ (candidate workspace, HEAD 480f844)"
+  ]
+}

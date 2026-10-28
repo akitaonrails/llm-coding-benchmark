@@ -1,0 +1,14 @@
+<%= render layout: "shared/authentication", locals: { heading: "Log in to Ember", description: "Pick up where your curiosity left off." } do %>
+  <%= form_with scope: :user, url: session_path, class: "auth-form", data: { turbo_frame: "_top" } do |form| %>
+    <div>
+      <%= form.label :email_address, "Email address" %>
+      <%= form.email_field :email_address, value: params.dig(:user, :email_address), required: true, autofocus: true, autocomplete: "username", maxlength: 254 %>
+    </div>
+    <div>
+      <%= form.label :password %>
+      <%= form.password_field :password, required: true, autocomplete: "current-password" %>
+    </div>
+    <%= form.submit "Log in", class: "auth-submit" %>
+  <% end %>
+  <p class="auth-switch">New to Ember? <%= link_to "Create an account", new_registration_path %></p>
+<% end %>

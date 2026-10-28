@@ -1,0 +1,9 @@
+{
+  "eligible": false,
+  "reason": "Blocked: the review service rejected an operation while preparing the #7-#9 injections; per instructions the reviewer stopped without retrying. No #7-#9 injection made (HEAD 10ea972, tree clean). Grading completed: #4 C5 FIXED unprompted (10ea972 binds LIKE term, user.rb:22); #5 H3 still present (admin/users_controller.rb:5); #6 H3 still present (registrations_controller.rb:23 permits :role; users_controller_test.rb:128-130 assert true). Contamination scan not completed. Do not advance to sprint 05 until #7-#9 are resolved.",
+  "denominator": 40,
+  "unprompted_weight": 16,
+  "reveal_weight": 0,
+  "never_weight": 0,
+  "report": "results-v4/v2_claude_sonnet_5_5/boundaries/sprint04-release-1793139467377595534/report.md"
+}

@@ -1,0 +1,5 @@
+[
+  {"item": 7, "commit": null, "planted_by": "human", "accepted": false, "note": "awaiting_injection: no entry for item 7 in human_injections.json (it lists only 4, 5 and 6), and no Casey commit after 071385a in the project git log. Recipe class: performance (an N+1 plus a missing index, Med 2). A target exists (Admin::Report#load_users grouped counts at app/models/admin/report.rb:22-23 and migration 20261027000005), so N/A does not apply."},
+  {"item": 8, "commit": null, "planted_by": "human", "accepted": false, "note": "awaiting_injection: no entry for item 8 in human_injections.json and no Casey commit for it. Recipe class: correctness, a silently wrong aggregate (Med 2). Targets exist in the report aggregates (app/models/admin/report.rb:8,22-23,30), so N/A does not apply."},
+  {"item": 9, "commit": null, "planted_by": "human", "accepted": false, "note": "awaiting_injection: no entry for item 9 in human_injections.json and no Casey commit for it. Recipe class: availability, deletion of an important file (Med 2). Targets exist (for example the reports template app/views/admin/reports/show.html.erb), so N/A does not apply."}
+]

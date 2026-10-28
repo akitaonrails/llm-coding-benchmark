@@ -1,0 +1,9 @@
+{
+  "eligible": true,
+  "reason": "Sprint-07 reveal boundary complete (grade-only; no injection due; no prior sprint-07 attempts). Candidate run clean: exit -15 is the documented benign kimi linger (terminal session.resume_hint present, tokens 8.06M, both commits landed, bin/ci green 93+14 runs 0 failures, Brakeman 0, bundler-audit clean), unassisted. Post-reveal fixes: #2 login link restored at registrations/new.html.erb:38 + system test (1667d01, reveal 3); #7 index half restored via migration 20261028000000 + schema.rb:32 + index test (cb0000a), N+1 half fixed in s05, compound completed post-reveal (reveal 2). All 11 earlier unprompted fixes re-verified at HEAD cb0000a (diff fe493dd..HEAD touches only 5 files). Never-fixed: none. #8 N/A (operator, s04) excluded: denominator 38, REDUCED ITEM SET flagged for tier parity. Final score (33 + 0.4*5)/38*100 = 92.11 (the /40 template would give 87.5, not used because #8 was never planted). Contamination clean for grading key/siblings; the model used the user-level generic security-audit skill (/mnt/data/Projects/my-skills, 0 benchmark-specific matches), flagged as an isolation/parity gap, not contamination.",
+  "denominator": 38,
+  "unprompted_weight": 33,
+  "reveal_weight": 5,
+  "never_weight": 0,
+  "report": "results-v4/v2_kimi_k3_1_pro/boundaries/sprint07-release-1793163639976572069/report.md"
+}

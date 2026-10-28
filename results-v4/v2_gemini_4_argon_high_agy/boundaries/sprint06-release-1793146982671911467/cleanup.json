@@ -1,0 +1,28 @@
+{
+  "boundary": "sprint06",
+  "reviewer": "independent boundary reviewer (Claude Opus 5.5)",
+  "date": "2026-10-27",
+  "removed": [
+    {"path": "/tmp/s6rev", "kind": "reviewer scratch dir", "action": "contents moved into results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint06-release-1793146982671911467/scan/, then empty dir removed with rmdir"}
+  ],
+  "retained_evidence": [
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint06-release-1793146982671911467/report.md",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint06-release-1793146982671911467/verdict.json",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint06-release-1793146982671911467/cleanup.json",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint06-release-1793146982671911467/scan/scan.py",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint06-release-1793146982671911467/scan/out.py",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint06-release-1793146982671911467/scan/list.py",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint06-release-1793146982671911467/scan/res.py",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint06-release-1793146982671911467/scan/tools.txt (sanitized agy tool-call listing; project path replaced by <proj>; no secrets)",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint06-release-1793146982671911467/prompt.txt, mode.json, agent.ndjson, agent.stderr.log (controller-owned, untouched)"
+  ],
+  "not_touched": [
+    "results-v4/v2_gemini_4_argon_high_agy/project (no edits, no commits; tree clean)",
+    "earlier boundary dirs sprint01-05 (read-only)",
+    "~/.gemini/antigravity-cli/brain/66301d5a-33e6-4b92-a3ab-d34693df2892 agy transcript (read-only, candidate evidence)",
+    "Docker: no containers/images/volumes created by this reviewer; candidate's rubyllm_sprint6_test stack verified already torn down (read-only check)"
+  ],
+  "docker_builds": 0,
+  "live_http": 0,
+  "bounded_test_env_checks": ["bundle-audit check --no-update --gemfile-lock Gemfile.lock (HEAD) -> No vulnerabilities found"]
+}

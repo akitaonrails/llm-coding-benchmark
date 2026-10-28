@@ -1,0 +1,10 @@
+{
+  "10": "41756184bc4d9ad262cf4a6c96c1ed85707de393",
+  "11": "bdc56c004db102855fe193265c0e115b095de0e1",
+  "12": "66850a31c8a6ba35b6b092596427162a3c3d9174",
+  "13": "b540b854e7ea2ae93ce3afdf3ea8d046538eef56",
+  "14": "c4cc0cbe5093aa771ca9a66937daf2c4a454d43c",
+  "7": "5bce200517fde162ff9575712462d537394621f4",
+  "8": "N/A: no subtle green-but-wrong target; every reported aggregate (totals, per-user counts, 30-day activity) is exact-pinned by test/models/reporting/dashboard_test.rb, so any wrong value reddens a test and breaks the silently-wrong class",
+  "9": "27de99f42715fea16cc8b0cf1d894a8071356554"
+}

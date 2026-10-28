@@ -1,0 +1,2 @@
+No vulnerabilities found
+exit=0

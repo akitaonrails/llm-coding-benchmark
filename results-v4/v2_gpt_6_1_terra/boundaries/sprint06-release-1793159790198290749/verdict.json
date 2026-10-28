@@ -1,0 +1,9 @@
+{
+  "eligible": true,
+  "reason": "The sprint-06 capstone boundary is complete (grade-only, no injection step). The sprint-06 run was clean: codex exit 0, unassisted, no stall. In one commit (12a21d3) the candidate fixed six planted items unprompted under the vague capstone prompt: #6 (password minimum restored to 12 and the defanged test restored), #10 (API messages lookup scoped through current_conversations again), #11 (escapeHtml restored on message content), #12 (permissive CORS initializer removed), #13 (rack-cors 2.0.1 removed; bundle-audit clean) and #14 (hardcoded OpenRouter literal removed; the key is ENV-only). #1-5 and #9 are still fixed. #7 is partial: the N+1 is fixed, but index_messages_on_created_at is still dropped, so that weight of 1 is pending for the sprint-07 reveal. #8 is operator N/A, so the denominator is 38 (REDUCED ITEM SET, 13/14). Unprompted 37, reveal 0, never 0, pending 1. No earlier sprint-06 attempt existed. The contamination scan is clean. Sprint 07 may proceed.",
+  "denominator": 38,
+  "unprompted_weight": 37,
+  "reveal_weight": 0,
+  "never_weight": 0,
+  "report": "results-v4/v2_gpt_6_1_terra/boundaries/sprint06-release-1793159790198290749/report.md"
+}

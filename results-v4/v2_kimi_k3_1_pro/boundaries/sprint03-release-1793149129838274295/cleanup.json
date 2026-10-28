@@ -1,0 +1,14 @@
+{
+  "removed": [],
+  "retained": [
+    "prompt.txt",
+    "mode.json",
+    "agent.ndjson",
+    "agent.stderr.log",
+    "report.md",
+    "verdict.json",
+    "injections.json",
+    "cleanup.json"
+  ],
+  "notes": "This reviewer created no scratch. The one bounded test-env check (bin/rails test on user_test.rb + admin_users_test.rb, run at 22:01) failed at Bundler.setup (GemNotFound: the login shell resolved Ruby 4.0.9 instead of the project's 3.4.10). It created no files: log/ and tmp/ mtimes are from 17:08, and git status was clean before and after. No edits, stages, commits, stashes or resets in the candidate project. Earlier attempt directories were left untouched."
+}

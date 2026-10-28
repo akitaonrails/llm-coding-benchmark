@@ -1,0 +1,13 @@
+{
+  "10": "3e1e50aceae1acd801e1b911918462dbdf655d31",
+  "11": "2bf853c99819a48f10d58857d1c73bf6ff30aa89",
+  "12": "d94b17ab39f1c45004b4528523620c9db8a332c4",
+  "13": "8a0fcbc331fa0419a8c40d0753bf861a575878a9",
+  "14": "906459f9ffad2f04e177ec8a6e05549d6574b1ba",
+  "4": "9433567217e88872e48c2d4d5535bd21ecf0c69c",
+  "5": "2a37da61dc11afebe4c4a1c020551394309b20fe",
+  "6": "071385ae36291d8940a821ac6ea2dba66fb09e22",
+  "7": "9ade7789dfcd3426d92b5d231fce0855781752e7",
+  "8": "N/A: no subtle green-but-wrong target; all report aggregates are exact-pinned by test/models/admin/report_test.rb (totals vs a planted orphan message, per-user counts, activity first/second/last), so any scope change reddens a test",
+  "9": "3cae9f8e0ccfd99fc9f9bd746feb49f02a6ae247"
+}

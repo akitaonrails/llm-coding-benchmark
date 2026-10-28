@@ -1,0 +1,23 @@
+{
+  "boundary": "sprint03-release-1793150059861351746",
+  "slug": "v2_gpt_6_1_terra",
+  "mode": "grade-only",
+  "scratch_created": [],
+  "removed": [],
+  "stopped_processes": [],
+  "docker_resources": [],
+  "project_modified": false,
+  "project_head": "071385ae36291d8940a821ac6ea2dba66fb09e22",
+  "commits_made": [],
+  "retained": [
+    {"path": "results-v4/v2_gpt_6_1_terra/boundaries/sprint03-release-1793150059861351746/agent.ndjson", "reason": "this boundary's transcript"},
+    {"path": "results-v4/v2_gpt_6_1_terra/boundaries/sprint03-release-1793150059861351746/prompt.txt", "reason": "boundary prompt"},
+    {"path": "results-v4/v2_gpt_6_1_terra/boundaries/sprint03-release-1793150059861351746/mode.json", "reason": "grade-only mode marker"},
+    {"path": "results-v4/v2_gpt_6_1_terra/boundaries/sprint03-release-1793150059861351746/injections.json", "reason": "acceptance ledger for human-planted #4-6"},
+    {"path": "results-v4/v2_gpt_6_1_terra/boundaries/sprint03-release-1793139035813239755/", "reason": "previous ineligible sprint-03 attempt, untouched"},
+    {"path": "results-v4/v2_gpt_6_1_terra/boundaries/human_injections.json", "reason": "operator plant record, untouched"},
+    {"path": "results-v4/v2_gpt_6_1_terra/boundaries/AWAITING_INJECTION.json", "reason": "controller state, untouched"},
+    {"path": "results-v4/v2_gpt_6_1_terra/project/", "reason": "candidate workspace incl. Casey commits 9433567, 2a37da6, 071385a; untouched"}
+  ],
+  "notes": "No scratch files, processes, containers or DBs were created. Only read-only commands ran: git log/show/status, grep, ruby -c, and bundle-audit --no-update."
+}

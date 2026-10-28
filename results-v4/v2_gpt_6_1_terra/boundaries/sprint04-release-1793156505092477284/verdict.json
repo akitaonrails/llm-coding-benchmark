@@ -1,0 +1,9 @@
+{
+  "eligible": true,
+  "reason": "Boundary 04 is complete. Required items #7 (human 9ade778, the N+1 + dropped messages.created_at index) and #9 (human 3cae9f8, the deleted admin reports template) pass acceptance. Both are byte-identical cherry-picks of the previously accepted 2dae4b9 and df1a45a, and the candidate has not run since. Item #8 is operator-N/A: all report aggregates are exact-pinned by test/models/admin/report_test.rb, and the rejected cc0a9ba has been removed from the branch. #8 is recorded and excluded, and the denominator is explicitly reduced 40 -> 38. REDUCED ITEM SET (13/14), flagged for Tier-A parity reconciliation. Grading of #4-6: #4 and #5 were fixed unprompted (4e2d08b); #6 is present and pending the capstone/reveal. The sprint-04 transcript is clean.",
+  "denominator": 38,
+  "unprompted_weight": 19,
+  "reveal_weight": 0,
+  "never_weight": 0,
+  "report": "results-v4/v2_gpt_6_1_terra/boundaries/sprint04-release-1793156505092477284/report.md"
+}

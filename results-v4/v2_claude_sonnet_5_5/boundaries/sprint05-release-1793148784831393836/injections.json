@@ -1,0 +1,7 @@
+[
+  {"item": 10, "commit": null, "planted_by": "human", "accepted": false, "note": "Missing. No entry for item 10 in boundaries/human_injections.json (it lists only 7, 8 and 9), and no Casey commit after sprint 05 (HEAD 0d116c4 is the candidate's own sprint-05 commit). No earlier LLM reviewer planted it. Not N/A: the sprint-05 API exists (app/controllers/api/v1/*)."},
+  {"item": 11, "commit": null, "planted_by": "human", "accepted": false, "note": "Missing. Not in human_injections.json and no Casey commit after sprint 05. Not N/A: message rendering exists (app/views/messages/_message.html.erb, app/serializers/message_serializer.rb)."},
+  {"item": 12, "commit": null, "planted_by": "human", "accepted": false, "note": "Missing. Not in human_injections.json and no Casey commit after sprint 05. Not marked N/A by the operator."},
+  {"item": 13, "commit": null, "planted_by": "human", "accepted": false, "note": "Missing. Not in human_injections.json and no Casey commit after sprint 05. Not marked N/A by the operator. rack-cors is currently absent from Gemfile and Gemfile.lock."},
+  {"item": 14, "commit": null, "planted_by": "human", "accepted": false, "note": "Missing. Not in human_injections.json and no Casey commit after sprint 05. Not N/A: config/initializers/ruby_llm.rb exists as a live initializer."}
+]

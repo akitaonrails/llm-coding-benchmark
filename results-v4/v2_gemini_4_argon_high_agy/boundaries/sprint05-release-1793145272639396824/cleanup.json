@@ -1,0 +1,34 @@
+{
+  "boundary": "sprint05-release-1793145272639396824",
+  "slug": "v2_gemini_4_argon_high_agy",
+  "owned_scratch_created": [
+    "/tmp/argon_s5_tools.txt (agy tool-call digest for grading/contamination scan)",
+    "/tmp/argon_lock_before (pre-relock Gemfile.lock backup)",
+    "/tmp/argon_fixlock.py (bundler-noise revert helper)"
+  ],
+  "removed": [
+    "/tmp/argon_s5_tools.txt",
+    "/tmp/argon_lock_before",
+    "/tmp/argon_fixlock.py"
+  ],
+  "notes": [
+    "No containers, servers, databases or gem installs were created. bundle lock only resolved against the existing gem home and rubygems index; no gems were installed.",
+    "One bounded check was used: an offline bundle-audit check --no-update. Syntax-only checks: ruby -c and node --check.",
+    "The project tree is clean after the five Casey commits (7235a50, b2bd094, 3d0d29a, 897cede, 8cd8df3).",
+    "The agy transcript under ~/.gemini/antigravity-cli/brain/b3b1eeeb-313c-4aa7-8478-30d03a8732fb was read only and left untouched.",
+    "Only the same-wave v2_gpt_6_1_sol sprint-05 boundary report (a reviewer artifact) was read, for parity. No sibling project code was read."
+  ],
+  "retained_evidence": [
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint05-release-1793145272639396824/report.md",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint05-release-1793145272639396824/verdict.json",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint05-release-1793145272639396824/cleanup.json",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint05-release-1793145272639396824/prompt.txt",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint05-release-1793145272639396824/mode.json",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint05-release-1793145272639396824/agent.ndjson",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint05-release-1793145272639396824/agent.stderr.log",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint01..sprint04 (untouched)",
+    "results-v4/v2_gemini_4_argon_high_agy/sprints/sprint05_api/ (untouched)",
+    "results-v4/v2_gemini_4_argon_high_agy/project/ (Casey commits 7235a50, b2bd094, 3d0d29a, 897cede, 8cd8df3)",
+    "~/.gemini/antigravity-cli/brain/b3b1eeeb-313c-4aa7-8478-30d03a8732fb/ (agy sprint-05 tool log, read-only)"
+  ]
+}

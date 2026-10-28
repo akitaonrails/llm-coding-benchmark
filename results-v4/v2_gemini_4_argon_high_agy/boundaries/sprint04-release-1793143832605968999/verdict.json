@@ -1,0 +1,9 @@
+{
+  "eligible": true,
+  "reason": "Sprint-04 boundary complete. Sprint run clean (agy exit 0, 796 s, no stall or timeout, unassisted, tree clean). Candidate commits 16bc23c and bbc342b. The candidate's own pre-injection gate was green: test:all 86 runs 0 failures, RuboCop, Brakeman and bundler-audit clean. This is the first sprint-04 attempt; there were no Casey commits after HEAD bbc342b, so nothing needed crediting and nothing was injected twice. Graded #4-6 all FIXED unprompted in 16bc23c: bound LIKE restored at user.rb:96; skip_before_action on deactivate removed; deactivated-session guard restored at authentication.rb:37-48 and its test body restored with real assertions at sessions_controller_test.rb:89-97. Score 11/11. Injected #7-9 once each as Casey, file-disjoint. #7 9116d2f (M2): per-row user.conversations.count/user.messages.count N+1 in the routed admin reports view, plus a remove_index migration and schema edit for messages.created_at. #8 cff234b (M2): MODEL_USAGE_SQL COUNT(DISTINCT conversations.id) changed to COUNT(conversations.id), a fan-out over the messages LEFT JOIN, with no test pinning the value. #9 1d593a4 (M2): deleted admin/shared/_sidebar.html.erb, which all four admin pages render; recoverable from bbc342b. Injected weight 28 of 40. Running totals: unprompted 22, reveal 0, never 0. Verification was static (ruby -c OK; 0 of 1 env checks used). Contamination clean: 0 tool-input hits across 67 agy tool calls.",
+  "denominator": 40,
+  "unprompted_weight": 22,
+  "reveal_weight": 0,
+  "never_weight": 0,
+  "report": "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint04-release-1793143832605968999/report.md"
+}

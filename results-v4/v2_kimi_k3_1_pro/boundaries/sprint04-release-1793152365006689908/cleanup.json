@@ -1,0 +1,16 @@
+{
+  "removed": [],
+  "owned_scratch": "none created. The single bounded test-env check (mise exec ruby@3.4.10 -- bin/rails test test/models/reporting/dashboard_test.rb test/integration/admin_dashboard_test.rb, 22:54) aborted in Bundler.setup (GemNotFound: native extensions missing for the reviewer environment) before Rails booted. find log tmp storage -newermt 22:54 returned nothing; git status is clean; HEAD unchanged at 09a83a8.",
+  "retained_evidence": [
+    "boundaries/sprint04-release-1793152365006689908/prompt.txt",
+    "boundaries/sprint04-release-1793152365006689908/mode.json",
+    "boundaries/sprint04-release-1793152365006689908/agent.ndjson",
+    "boundaries/sprint04-release-1793152365006689908/agent.stderr.log",
+    "boundaries/sprint04-release-1793152365006689908/injections.json",
+    "boundaries/sprint04-release-1793152365006689908/report.md",
+    "boundaries/sprint04-release-1793152365006689908/verdict.json",
+    "boundaries/sprint04-release-1793152365006689908/cleanup.json"
+  ],
+  "untouched": ["all earlier boundary attempt directories", "boundaries/human_injections.json", "boundaries/AWAITING_INJECTION.json", "candidate project (no edit/stage/commit/stash/reset)"],
+  "docker_or_processes": "none started"
+}

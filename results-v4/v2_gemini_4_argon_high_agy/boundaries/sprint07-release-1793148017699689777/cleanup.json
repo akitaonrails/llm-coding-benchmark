@@ -1,0 +1,24 @@
+{
+  "boundary": "sprint07",
+  "reviewer": "independent boundary reviewer (Claude Opus 5.5)",
+  "date": "2026-10-27",
+  "removed": [],
+  "scratch_note": "No scratch created outside the evidence directory; scan script written directly into scan/.",
+  "retained_evidence": [
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint07-release-1793148017699689777/report.md",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint07-release-1793148017699689777/verdict.json",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint07-release-1793148017699689777/cleanup.json",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint07-release-1793148017699689777/scan/scan.py",
+    "results-v4/v2_gemini_4_argon_high_agy/grade.json",
+    "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint07-release-1793148017699689777/prompt.txt, mode.json, agent.ndjson, agent.stderr.log (controller-owned, untouched)"
+  ],
+  "not_touched": [
+    "results-v4/v2_gemini_4_argon_high_agy/project (no edits, no commits; tree clean)",
+    "earlier boundary dirs sprint01-06 (read-only)",
+    "~/.gemini/antigravity-cli/brain/518c8d9e-c867-4fe9-b8f7-4aca18522603 agy transcript (read-only, candidate evidence)",
+    "Docker: nothing created or removed"
+  ],
+  "docker_builds": 0,
+  "live_http": 0,
+  "bounded_test_env_checks": ["bundle-audit check --no-update --gemfile-lock Gemfile.lock (HEAD 284088e) -> No vulnerabilities found"]
+}

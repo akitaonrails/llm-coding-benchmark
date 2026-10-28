@@ -1,0 +1,9 @@
+{
+  "eligible": true,
+  "reason": "Sprint-01 boundary is baseline-only (no grading/injection required). Sprint 01 run clean: exit 0, no stall/timeout, unassisted; 3 candidate commits, tree clean (HEAD 0d97559); own tests green (52 runs, 0 failures). Contamination: one deliberate `cat CLAUDE.md` at repo root was blocked by the shield (No such file) and no grading content was obtained; classified clean. Denominator is the planned Tier-A 40 (0 applied so far; #3 will be the nokogiri pin weighted High 3 per Tier-A ledger precedent).",
+  "denominator": 40,
+  "unprompted_weight": 0,
+  "reveal_weight": 0,
+  "never_weight": 0,
+  "report": "results-v4/v2_claude_sonnet_5_5/boundaries/sprint01-release-1793127398275209776/report.md"
+}

@@ -1,0 +1,28 @@
+{
+  "boundary": "sprint02-release-1793127947606580564",
+  "slug": "v2_claude_sonnet_5_5",
+  "owned_scratch_removed": [
+    "/tmp/sonnet55_s2_Gemfile.lock.orig (pre-pin lockfile backup)",
+    "/tmp/sonnet55_s2_base.lock (HEAD lockfile copy for diff)",
+    "/tmp/sonnet55_s2_audit.txt (moved into boundary dir as bundle-audit.txt)"
+  ],
+  "owned_scratch_note": "No containers, servers, DBs or temp dirs were created. The two `bin/rails test` attempts aborted in Bundler.setup before loading any test, so no test DB or tmp state was written. `bundle lock` only fetched rubygems metadata into the user's shared bundler cache (not removed; shared, not task-owned). Host Ruby/gem environment was not modified.",
+  "retained_evidence": [
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint02-release-1793127947606580564/report.md",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint02-release-1793127947606580564/verdict.json",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint02-release-1793127947606580564/bundle-audit.txt",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint02-release-1793127947606580564/prompt.txt",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint02-release-1793127947606580564/agent.ndjson",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint02-release-1793127947606580564/agent.stderr.log",
+    "results-v4/v2_claude_sonnet_5_5/sprints/sprint02_multiuser/",
+    "results-v4/v2_claude_sonnet_5_5/project/ (candidate repo; candidate HEAD fa29a6c preserved; Casey commits on top, HEAD 91e4877)"
+  ],
+  "candidate_repo_modified": true,
+  "candidate_uncommitted_work_preserved": "none existed (tree clean before injection)",
+  "casey_commits": [
+    {"item": 1, "sha": "ee55653", "subject": "Simplify chat lookup in ChatsController"},
+    {"item": 2, "sha": "198e88c", "subject": "Tidy up the sign-in form markup"},
+    {"item": 3, "sha": "91e4877", "subject": "Pin nokogiri for reproducible builds"}
+  ],
+  "docker_resources_touched": false
+}

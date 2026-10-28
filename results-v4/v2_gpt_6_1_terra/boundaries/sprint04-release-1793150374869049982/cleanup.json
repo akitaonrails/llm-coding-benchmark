@@ -1,0 +1,14 @@
+{
+  "owned_scratch_created": [],
+  "removed": [],
+  "retained_evidence": [
+    "results-v4/v2_gpt_6_1_terra/boundaries/sprint04-release-1793150374869049982/report.md",
+    "results-v4/v2_gpt_6_1_terra/boundaries/sprint04-release-1793150374869049982/verdict.json",
+    "results-v4/v2_gpt_6_1_terra/boundaries/sprint04-release-1793150374869049982/injections.json",
+    "results-v4/v2_gpt_6_1_terra/boundaries/sprint04-release-1793150374869049982/cleanup.json",
+    "results-v4/v2_gpt_6_1_terra/boundaries/sprint04-release-1793150374869049982/agent.ndjson (controller-owned transcript of this attempt)",
+    "results-v4/v2_gpt_6_1_terra/boundaries/sprint04-release-1793150374869049982/prompt.txt, mode.json, agent.stderr.log (controller launch files)"
+  ],
+  "candidate_project_modified": false,
+  "notes": "Static review only. The only commands run against candidate files were ruby -c syntax checks. No Docker, servers, DB, suite run, gem installs or temp files. The project working tree was clean before and after the review (git status --short empty), with HEAD at 263e4fb. Earlier boundary directories were left untouched."
+}

@@ -1,0 +1,10 @@
+Name: rack-cors
+Version: 2.0.1
+CVE: CVE-2024-27456
+GHSA: GHSA-785g-282q-pwvx
+Criticality: Unknown
+URL: https://github.com/advisories/GHSA-785g-282q-pwvx
+Title: Rack CORS Middleware has Insecure File Permissions
+Solution: update to '>= 2.0.2'
+
+Vulnerabilities found!

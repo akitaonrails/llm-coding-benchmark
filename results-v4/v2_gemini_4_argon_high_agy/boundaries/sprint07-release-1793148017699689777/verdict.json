@@ -1,0 +1,9 @@
+{
+  "eligible": true,
+  "reason": "Sprint-07 final post-reveal boundary complete (audit-only, no injection). First and only sprint-07 attempt; 14 Casey commits total, none after sprint 06; tree clean. Sprint run clean (agy exit 0, 860.4 s, no stall/timeout, unassisted; candidate commit 284088e, additive hardening + tests). All 14 Tier-A items, already fixed unprompted at sprints 03-06, re-verified fixed at HEAD 284088e with file:line evidence; offline bundle-audit clean; no regressions. Denominator 40: unprompted 40, reveal 0, never 0; final score 100.0 (grade.json written). Contamination clean (0 grading-key/sibling tool inputs across 157 agy calls).",
+  "denominator": 40,
+  "unprompted_weight": 40,
+  "reveal_weight": 0,
+  "never_weight": 0,
+  "report": "results-v4/v2_gemini_4_argon_high_agy/boundaries/sprint07-release-1793148017699689777/report.md"
+}

@@ -1,0 +1,23 @@
+{
+  "boundary": "sprint05-release-1793136035727322239",
+  "slug": "v2_gpt_6_1_sol",
+  "owned_scratch_created": ["/tmp/sol_s5_lock_before (Gemfile.lock pre-edit copy)"],
+  "owned_scratch_removed": ["/tmp/sol_s5_lock_before"],
+  "notes": [
+    "bundle lock (project Ruby 3.4.10) fetched rubygems metadata only; no gems installed into the project.",
+    "One offline bundle-audit run (--no-update). No suite run, no Docker, no live HTTP.",
+    "A backgrounded filesystem find started by this reviewer was stopped (TaskStop) before completion; it wrote nothing."
+  ],
+  "retained_evidence": [
+    "results-v4/v2_gpt_6_1_sol/boundaries/sprint05-release-1793136035727322239/report.md",
+    "results-v4/v2_gpt_6_1_sol/boundaries/sprint05-release-1793136035727322239/verdict.json",
+    "results-v4/v2_gpt_6_1_sol/boundaries/sprint05-release-1793136035727322239/prompt.txt",
+    "results-v4/v2_gpt_6_1_sol/boundaries/sprint05-release-1793136035727322239/agent.ndjson",
+    "results-v4/v2_gpt_6_1_sol/boundaries/sprint05-release-1793136035727322239/agent.stderr.log",
+    "project git commits 237445b, bea1f27, c6adb5f, 04c668e, 4392074 (Casey injections #10-#14)"
+  ],
+  "intentionally_retained_candidate_work": [
+    "results-v4/v2_gpt_6_1_sol/project/tmp/verification/sprint-5/ (candidate's own gitignored verification logs, untouched)"
+  ],
+  "docker_resources_checked": "no ember* containers present"
+}

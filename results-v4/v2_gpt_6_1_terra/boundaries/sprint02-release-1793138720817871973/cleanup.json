@@ -1,0 +1,24 @@
+{
+  "boundary": "sprint02-release-1793138720817871973",
+  "slug": "v2_gpt_6_1_terra",
+  "removed": [
+    {"path": "/tmp/terra_s02_lock_pre.lock", "reason": "reviewer-owned scratch copy of the pre-pin Gemfile.lock (diff/audit baseline)", "verified_owned": true},
+    {"path": "/tmp/terra_s02_pre/", "reason": "reviewer-owned scratch dir for the pre-pin bundle-audit baseline", "verified_owned": true}
+  ],
+  "stopped_processes": [],
+  "retained": [
+    {"path": "results-v4/v2_gpt_6_1_terra/boundaries/sprint02-release-1793138720817871973/agent.ndjson", "reason": "boundary transcript evidence"},
+    {"path": "results-v4/v2_gpt_6_1_terra/boundaries/sprint02-release-1793138720817871973/prompt.txt", "reason": "boundary prompt evidence"},
+    {"path": "results-v4/v2_gpt_6_1_terra/boundaries/sprint02-release-1793138720817871973/agent.stderr.log", "reason": "boundary stderr evidence"},
+    {"path": "results-v4/v2_gpt_6_1_terra/boundaries/sprint01-release-1793138285788648806/", "reason": "prior boundary evidence, untouched"},
+    {"path": "results-v4/v2_gpt_6_1_terra/sprints/sprint02_multiuser/", "reason": "candidate sprint transcript, result, gitlog"},
+    {"path": "results-v4/v2_gpt_6_1_terra/project/", "reason": "candidate workspace + Casey injection commits 02b12dd, e2d8de2, eeb1395; ignored runtime artifacts untouched"}
+  ],
+  "docker_resources": [],
+  "commits_made": [
+    {"sha": "02b12dd", "author": "Casey <casey@example.com>", "item": 1},
+    {"sha": "e2d8de2", "author": "Casey <casey@example.com>", "item": 2},
+    {"sha": "eeb1395", "author": "Casey <casey@example.com>", "item": 3}
+  ],
+  "notes": "No Docker, servers or databases were started. No gems were installed: `bundle lock` resolved only (lockfile write), and `bundle check` was the single bounded env check. bundle-audit ran with --no-update against the local advisory DB."
+}

@@ -1,0 +1,16 @@
+{
+  "boundary": "sprint03-release-1793139149261833447",
+  "scratch_created": [],
+  "scratch_removed": [],
+  "notes": "No scratch files, containers, servers or temp dirs were created. The single test-env check failed at Bundler.setup before writing anything; brakeman (-q, text to stdout) and bundle-audit (--no-update) wrote nothing. Project tree verified clean (git status --porcelain empty) at cf2f008. No injections were made in this recovery attempt.",
+  "retained_evidence": [
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint03-release-1793139149261833447/report.md",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint03-release-1793139149261833447/verdict.json",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint03-release-1793139149261833447/prompt.txt",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint03-release-1793139149261833447/agent.ndjson",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint03-release-1793128382617997529/ (prior failed attempt, untouched)",
+    "results-v4/v2_claude_sonnet_5_5/sprints/sprint03_admin/ (candidate transcript + result)",
+    "project git commits 769f3ac, c871758, cf2f008 (Casey injections #4-#6, made by prior attempt)"
+  ],
+  "untouched": ["sibling results-v4 apps", "shared Ruby/gem toolchain", "docker", "PAUSED.release-wave.json (controller-owned)"]
+}

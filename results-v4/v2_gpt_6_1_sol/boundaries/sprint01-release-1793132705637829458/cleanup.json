@@ -1,0 +1,23 @@
+{
+  "boundary": "sprint01-release-1793132705637829458",
+  "slug": "v2_gpt_6_1_sol",
+  "removed": [],
+  "moved_into_evidence": [
+    {
+      "from": "/tmp/gpt61sol_s01_ignored_before.txt",
+      "to": "results-v4/v2_gpt_6_1_sol/boundaries/sprint01-release-1793132705637829458/scratch_ignored_before.txt",
+      "reason": "reviewer scratch (pre-check ignored-file snapshot); moved, not deleted, per no-rm-during-runs rule"
+    }
+  ],
+  "stopped": [
+    "two reviewer-owned background shell tasks (a hung eza listing and a filesystem-wide find), stopped via TaskStop; no candidate processes touched"
+  ],
+  "candidate_workspace_changes": "none: git status clean before and after, ignored-file set unchanged, HEAD e99431b",
+  "docker": "none created or removed",
+  "retained": [
+    "results-v4/v2_gpt_6_1_sol/project (candidate workspace, HEAD e99431b)",
+    "results-v4/v2_gpt_6_1_sol/sprints/sprint01_foundation/* (stream, results, gitlog, stderr)",
+    "this boundary's report.md, verdict.json, cleanup.json, agent transcript and prompt"
+  ],
+  "notes": "The bounded test-env check failed at Bundler (reviewer Ruby 4.0.9 vs project 3.4.10) and created no files."
+}

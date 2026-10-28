@@ -1,0 +1,7 @@
+[
+  {"item": 10, "commit": null, "planted_by": "human", "accepted": false, "note": "MISSING. human_injections.json has no key '10', and there is no Casey commit after 3cae9f8 (HEAD is candidate commit 88b9592). No earlier reviewer planted it, and it is not marked N/A. A live target exists: the sprint-05 versioned API under app/controllers/api/v1/."},
+  {"item": 11, "commit": null, "planted_by": "human", "accepted": false, "note": "MISSING. There is no key '11' and no Casey commit after 3cae9f8. It is not marked N/A. A target exists: message content is rendered by app/javascript/controllers/chat_controller.js and served by the API messages controller."},
+  {"item": 12, "commit": null, "planted_by": "human", "accepted": false, "note": "MISSING. There is no key '12' and no Casey commit. It is not marked N/A."},
+  {"item": 13, "commit": null, "planted_by": "human", "accepted": false, "note": "MISSING. There is no key '13' and no Casey commit. It is not marked N/A. The Gemfile currently has no rack-cors entry."},
+  {"item": 14, "commit": null, "planted_by": "human", "accepted": false, "note": "MISSING. There is no key '14' and no Casey commit. It is not marked N/A."}
+]

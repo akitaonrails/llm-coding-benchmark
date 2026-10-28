@@ -1,0 +1,12 @@
+{
+  "slug": "v2_gpt_6_1_sol",
+  "sprint": "sprint07_reveal",
+  "harness": "codex",
+  "elapsed_seconds": 464.11,
+  "cost_usd": 1.1333,
+  "tokens_total": 4620787,
+  "exit_code": 0,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": false
+}

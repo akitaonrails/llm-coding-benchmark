@@ -1,0 +1,12 @@
+{
+  "slug": "v2_kimi_k3_1_pro",
+  "sprint": "sprint07_reveal",
+  "harness": "kimi",
+  "elapsed_seconds": 814.61,
+  "cost_usd": 2.0387,
+  "tokens_total": 8062123,
+  "exit_code": -15,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": false
+}

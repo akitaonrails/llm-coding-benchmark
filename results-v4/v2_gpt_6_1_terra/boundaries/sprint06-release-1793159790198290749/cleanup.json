@@ -1,0 +1,19 @@
+{
+  "boundary": "sprint06-release-1793159790198290749",
+  "slug": "v2_gpt_6_1_terra",
+  "removed": [
+    {"path": "/tmp/terra_s06_audit.4rnl", "kind": "reviewer-owned scratch dir (copy of Gemfile.lock for the one bundle-audit check)", "verified_removed": true}
+  ],
+  "retained": [
+    {"path": "results-v4/v2_gpt_6_1_terra/project", "reason": "candidate workspace; untouched (HEAD 12a21d3, git status clean)"},
+    {"path": "results-v4/v2_gpt_6_1_terra/sprints/sprint06_production", "reason": "sprint-06 transcript and result evidence"},
+    {"path": "results-v4/v2_gpt_6_1_terra/boundaries/sprint0[1-5]-*", "reason": "earlier boundary attempts and evidence, left untouched"},
+    {"path": "results-v4/v2_gpt_6_1_terra/boundaries/sprint06-release-1793159790198290749/{prompt.txt,mode.json,agent.ndjson,agent.stderr.log,report.md,verdict.json,cleanup.json}", "reason": "this boundary's evidence"}
+  ],
+  "not_touched": [
+    "Docker (no builds, containers, or prune by reviewer; no leftover lumen-production-check containers found)",
+    "candidate project git state (no edit, commit, stage, stash, reset)",
+    "sibling generated apps",
+    "candidate-created host gem install under ~/.local/share/gem (not reviewer-owned; recorded in report)"
+  ]
+}

@@ -1,0 +1,10 @@
+!! app/assets/builds/tailwind.css
+!! log/development.log
+!! log/test.log
+!! storage/development.sqlite3
+!! storage/test.sqlite3
+!! tmp/cache/
+!! tmp/local_secret.txt
+!! tmp/restart.txt
+!! tmp/storage/
+!! tmp/verification/

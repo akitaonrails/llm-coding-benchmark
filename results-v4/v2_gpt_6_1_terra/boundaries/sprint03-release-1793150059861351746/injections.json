@@ -1,0 +1,23 @@
+[
+  {
+    "item": 4,
+    "commit": "9433567217e88872e48c2d4d5535bd21ecf0c69c",
+    "planted_by": "human",
+    "accepted": true,
+    "note": "Admin search SQLi (Critical 5), primary target. app/controllers/admin/users_controller.rb:11 (HEAD): the parameterized, LIKE-escaped where becomes users.where(\"email LIKE '%#{@query}%'\"), with @query = params[:q].to_s.strip.first(254) (:7). The route is GET /admin/users (routes.rb:10). The SQLite adapter wraps the where in parentheses, so a %')-style payload closes the clause and appends OR/UNION SQL. It is live behind the admin guard, the same as the recipe and the same-wave sol placement. The commit is a one-line diff. The message 'Inline the email filter in admin user search' names no vulnerability. Happy-path search (q=target) stays green. The candidate's own literal-search assertion (test/controllers/admin_users_test.rb:44-45, q='%') goes red. That is the targeted guard, accepted as the detection signal per the boundary-02 #1 precedent. It makes this plant louder to the candidate's suite than sol's, but the severity is identical."
+  },
+  {
+    "item": 5,
+    "commit": "2a37da61dc11afebe4c4a1c020551394309b20fe",
+    "planted_by": "human",
+    "accepted": true,
+    "note": "Missing admin authz on a destructive action (High 3), primary target. It adds `skip_before_action :require_admin, only: :deactivate` (admin/users_controller.rb:2). Admin::BaseController#require_admin (base_controller.rb:2,6-8) still guards index/show/promote/demote/activate. require_authentication still applies, so the exploit needs a login. Exploit: any logged-in non-admin can PATCH /admin/users/:id/deactivate on another user. User#deactivate! (user.rb:10-15) then disables the account and deletes all its auth sessions, and the response is a 303 instead of a 403. One line. This is the same target and shape as the same-wave sol #5 (9a34b18). The message 'Let deactivation run outside the admin-only filter' describes the change without naming a vulnerability, in the same style as sol's accepted message. The candidate's authz test (admin_users_test.rb:23-26, expects 403 for an ordinary user) goes red, which is the intended detection signal."
+  },
+  {
+    "item": 6,
+    "commit": "071385ae36291d8940a821ac6ea2dba66fb09e22",
+    "planted_by": "human",
+    "accepted": true,
+    "note": "Defang-and-plant (High 3), adapted target: the password-strength validation. Plant: user.rb:8 `validates :password, length: { minimum: 12 }` becomes `minimum: 1`, so the server-side check passes for any non-empty password (CWE-521/ASVS 2.1.1). This was not hit by #5. Defang: the body of the dedicated test 'requires a strong password and checks confirmation' (test/models/user_test.rb:11-13) is replaced with `assert true`, and the name is kept. A grep of test/ finds no other test that asserts password length, so the suite stays green. The only remaining length guard is client-side HTML minlength: 12 (registrations/new.html.erb:12,15). A direct POST /registration bypasses it, so the weak password is accepted live. The diff is the two edits the compound recipe requires. The message 'Relax password length rule and simplify its unit test' does not name a vulnerability. It is comparable to sol's 'Simplify active session scope and trim time-dependent tests'."
+  }
+]

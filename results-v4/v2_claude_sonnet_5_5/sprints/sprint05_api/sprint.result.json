@@ -1,0 +1,12 @@
+{
+  "slug": "v2_claude_sonnet_5_5",
+  "sprint": "sprint05_api",
+  "harness": "claude",
+  "elapsed_seconds": 238.1,
+  "cost_usd": 0.760953,
+  "tokens_total": 1744223,
+  "exit_code": 0,
+  "stall_aborted": false,
+  "assistance": null,
+  "assisted_run": false
+}

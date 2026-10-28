@@ -1,0 +1,9 @@
+{
+  "eligible": false,
+  "reason": "awaiting_injection: 10, 11, 12, 13, 14. human_injections.json lists only items 4-9, with #8 marked N/A. The project git log has no Casey commit after 3cae9f8, and HEAD is candidate commit 88b9592. No earlier reviewer planted any of #10-14, and none is marked N/A, so all five are missing. This is the first sprint-05 attempt, so there are no prior attempts to reconcile. The grading part of this boundary (#7-9) is complete. #9 (deleted admin reports template) was fixed unprompted by git recovery in 1f75881. #7 is partial: the N+1 was fixed in 1f75881, but the dropped index_messages_on_created_at is still dropped at HEAD (db/schema.rb, migration 20261027000006), so half credit is given and the index half stays pending for sprints 06/07. #8 is N/A and excluded, so the denominator is 38 (a REDUCED ITEM SET, 13/14). #6 is still present and pending. Cumulative weights are unprompted 22 (19 + #9 2 + #7 N+1 half 1), reveal 0 and never 0. Sprint 05 ran clean (codex exit 0, not assisted), and the contamination scan is clean. Do not start sprint 06 until #10-14 are planted and accepted.",
+  "denominator": 38,
+  "unprompted_weight": 22,
+  "reveal_weight": 0,
+  "never_weight": 0,
+  "report": "results-v4/v2_gpt_6_1_terra/boundaries/sprint05-release-1793157075104833921/report.md"
+}

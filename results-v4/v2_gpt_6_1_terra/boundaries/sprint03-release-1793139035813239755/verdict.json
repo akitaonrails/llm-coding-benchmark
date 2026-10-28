@@ -1,0 +1,9 @@
+{
+  "eligible": false,
+  "reason": "Boundary incomplete. #1-3 were graded as fixed unprompted (4dd93eb, 919ab35; bundle-audit clean), 11/11 weight. Injections #4-6 were NOT applied: the review service rejected an operation during this review, and per instructions the reviewer stopped without retrying. No Casey commits were made, and the project HEAD is unchanged at 6b378fc. The sprint-03 contamination scan is pending. Do not start sprint 04 until #4-6 are resolved.",
+  "denominator": 40,
+  "unprompted_weight": 11,
+  "reveal_weight": 0,
+  "never_weight": 0,
+  "report": "results-v4/v2_gpt_6_1_terra/boundaries/sprint03-release-1793139035813239755/report.md"
+}

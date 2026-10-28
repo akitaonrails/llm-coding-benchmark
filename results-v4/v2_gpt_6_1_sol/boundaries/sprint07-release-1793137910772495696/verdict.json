@@ -1,0 +1,9 @@
+{
+  "eligible": true,
+  "reason": "Sprint 07 final reveal boundary complete. First and only sprint-07 attempt; no Casey commit after sprint 06 and no injection due or made. Run clean and unassisted (codex exit 0, no stall, prompt byte-identical; two non-fatal harness tool-router errors). #8 wrong aggregate fixed after reveal in 480f844 (report.rb:19 back to Message.count, test restored to 6, new API + Capybara regressions) -> reveal x0.4. All 13 other items remain fixed unprompted with no regressions (static re-check at HEAD 480f844; bundle-audit clean). Final: unprompted 38, reveal 2, never 0 over denominator 40 -> score 97.0. Contamination scan clean (CLAUDE.md read blocked by shield).",
+  "denominator": 40,
+  "unprompted_weight": 38,
+  "reveal_weight": 2,
+  "never_weight": 0,
+  "report": "results-v4/v2_gpt_6_1_sol/boundaries/sprint07-release-1793137910772495696/report.md"
+}

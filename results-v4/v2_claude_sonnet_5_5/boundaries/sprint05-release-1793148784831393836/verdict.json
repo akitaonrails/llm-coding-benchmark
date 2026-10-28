@@ -1,0 +1,9 @@
+{
+  "eligible": false,
+  "reason": "awaiting_injection:10,11,12,13,14 — none of the required items exists: no entries in boundaries/human_injections.json (only 7, 8, 9), no Casey commit after sprint 05 (HEAD 0d116c4 is the candidate's own), no N/A marking; acceptance precondition (an injection commit to check) fails for all five. Sprint 05 itself clean (exit 0, no stall, unassisted, contamination CLEAN). Graded #7-#9: all FIXED unprompted in sprint 05 (eb19eef restores single-query Report#user_rows + messages.created_at index; e1ae484 reverts the new_users aggregate; cd709e6 restores messages/_error partial). #5 and #6 still present. Applied 28 of 40; buckets provisional until sprint 07.",
+  "denominator": 40,
+  "unprompted_weight": 22,
+  "reveal_weight": 0,
+  "never_weight": 0,
+  "report": "results-v4/v2_claude_sonnet_5_5/boundaries/sprint05-release-1793148784831393836/report.md"
+}

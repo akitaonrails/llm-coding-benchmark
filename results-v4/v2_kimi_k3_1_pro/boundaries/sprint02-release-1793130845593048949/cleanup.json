@@ -1,0 +1,15 @@
+{
+  "boundary": "sprint02-release-1793130845593048949",
+  "owned_scratch_created": [],
+  "removed": [],
+  "notes": "Static review plus one bounded bundler-audit check (--no-update, local advisory DB, candidate-bundled bundler-audit 0.9.3). It wrote nothing into the project. No containers, servers, DBs, bundle install or scratch files were created. Earlier attempt dirs untouched (none existed for sprint 02; sprint01 dir untouched).",
+  "retained_evidence": [
+    "results-v4/v2_kimi_k3_1_pro/boundaries/sprint02-release-1793130845593048949/prompt.txt",
+    "results-v4/v2_kimi_k3_1_pro/boundaries/sprint02-release-1793130845593048949/agent.ndjson",
+    "results-v4/v2_kimi_k3_1_pro/boundaries/sprint02-release-1793130845593048949/agent.stderr.log",
+    "results-v4/v2_kimi_k3_1_pro/boundaries/sprint02-release-1793130845593048949/report.md",
+    "results-v4/v2_kimi_k3_1_pro/boundaries/sprint02-release-1793130845593048949/verdict.json",
+    "results-v4/v2_kimi_k3_1_pro/sprints/sprint02_multiuser/"
+  ],
+  "project_git_state": "8ad640f (Sprinter) + Casey 49c5a8d (#1), e9a97f6 (#2), 807a7e9 (#3); working tree clean"
+}

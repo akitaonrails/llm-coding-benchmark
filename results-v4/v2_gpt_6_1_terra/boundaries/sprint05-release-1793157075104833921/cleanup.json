@@ -1,0 +1,14 @@
+{
+  "owned_scratch_created": [],
+  "removed": [],
+  "notes": "Static review only. The single bounded test-env check (bin/rails test on two model test files) aborted in Bundler::GemNotFound before Rails booted. It wrote nothing: git status in project/ is clean before and after. No Docker containers, servers or temp dirs were created. No candidate-project edits, commits, stashes or resets were made.",
+  "retained_evidence": [
+    "results-v4/v2_gpt_6_1_terra/boundaries/sprint05-release-1793157075104833921/report.md",
+    "results-v4/v2_gpt_6_1_terra/boundaries/sprint05-release-1793157075104833921/verdict.json",
+    "results-v4/v2_gpt_6_1_terra/boundaries/sprint05-release-1793157075104833921/injections.json",
+    "results-v4/v2_gpt_6_1_terra/boundaries/sprint05-release-1793157075104833921/agent.ndjson",
+    "results-v4/v2_gpt_6_1_terra/boundaries/sprint05-release-1793157075104833921/prompt.txt",
+    "results-v4/v2_gpt_6_1_terra/sprints/sprint05_api/ (untouched)",
+    "all earlier boundary attempt directories (untouched)"
+  ]
+}

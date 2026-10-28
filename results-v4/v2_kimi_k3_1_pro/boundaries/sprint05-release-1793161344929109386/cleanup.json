@@ -1,0 +1,16 @@
+{
+  "owned_scratch_created": [],
+  "removed": [],
+  "retained_evidence": [
+    "boundaries/sprint05-release-1793161344929109386/prompt.txt",
+    "boundaries/sprint05-release-1793161344929109386/mode.json",
+    "boundaries/sprint05-release-1793161344929109386/agent.ndjson",
+    "boundaries/sprint05-release-1793161344929109386/agent.stderr.log",
+    "boundaries/sprint05-release-1793161344929109386/report.md",
+    "boundaries/sprint05-release-1793161344929109386/injections.json",
+    "boundaries/sprint05-release-1793161344929109386/verdict.json",
+    "boundaries/sprint05-release-1793161344929109386/cleanup.json"
+  ],
+  "candidate_project_modified": false,
+  "notes": "No scratch files, containers or servers were created. The one bounded `bin/rails test` check failed at Bundler.setup (wrong Ruby 4.0.9 via mise global); it ran no tests and left git status clean. Ignored log/tmp may have received at most a boot attempt and nothing else. Earlier boundary attempts, their transcripts, and the sprint transcripts were left untouched. No grade.json was written, because this is not the final sprint."
+}

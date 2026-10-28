@@ -1,0 +1,89 @@
+Name: nokogiri
+Version: 1.15.7
+GHSA: GHSA-353f-x4gh-cqq8
+Criticality: Unknown
+Title: Nokogiri patches vendored libxml2 to resolve multiple CVEs
+Name: nokogiri
+Version: 1.15.7
+GHSA: GHSA-5prr-v3j2-97mh
+Criticality: Unknown
+Title: Nokogiri: Possible Out-of-Bounds Read in `Nokogiri::XML::NodeSet#[]`
+Name: nokogiri
+Version: 1.15.7
+GHSA: GHSA-5v8h-3h3q-446p
+Criticality: Unknown
+Title: Nokogiri: Possible Use-After-Free when `Nokogiri::XML::Document#encoding=` raises an exception
+Name: nokogiri
+Version: 1.15.7
+GHSA: GHSA-5w6v-399v-w3cc
+Criticality: Unknown
+Title: Nokogiri updates packaged libxml2 to v2.13.8 to resolve CVE-2025-32414 and CVE-2025-32415
+Name: nokogiri
+Version: 1.15.7
+GHSA: GHSA-8678-w3jw-xfc2
+Criticality: Low
+Title: Nokogiri: XML::Schema on JRuby allows network requests when NONET is set, bypassing CVE-2020-26247
+Name: nokogiri
+Version: 1.15.7
+GHSA: GHSA-9cv2-cfxc-v4v2
+Criticality: Unknown
+Title: Nokogiri: Null Pointer Dereference calling methods on uninitialized wrapper classes
+Name: nokogiri
+Version: 1.15.7
+CVE: CVE-2026-79770
+GHSA: GHSA-c4rq-3m3g-8wgx
+Criticality: High
+Title: Nokogiri CSS selector tokenizer has regular expression backtracking
+Name: nokogiri
+Version: 1.15.7
+GHSA: GHSA-g9g8-vgvw-g3vf
+Criticality: Unknown
+Title: Possible invalid memory read when calling `Nokogiri::XML::Node#initialize_copy_with_args` with incorrect argument type
+Name: nokogiri
+Version: 1.15.7
+GHSA: GHSA-mrxw-mxhj-p664
+Criticality: High
+Title: Nokogiri updates packaged libxslt to v1.1.43 to resolve multiple CVEs
+Name: nokogiri
+Version: 1.15.7
+GHSA: GHSA-p67v-3w7g-wjg7
+Criticality: Unknown
+Title: Nokogiri: Possible Use-After-Free when directly using `NokogirI::XML::XPathContext` beyond document lifetime
+Name: nokogiri
+Version: 1.15.7
+GHSA: GHSA-phwj-rprq-35pp
+Criticality: Unknown
+Title: Nokogiri: Possible Use-After-Free when setting an attribute value via `Nokogiri::XML::Attr#value=` or `#content=`
+Name: nokogiri
+Version: 1.15.7
+GHSA: GHSA-r95h-9x8f-r3f7
+Criticality: Unknown
+Title: Nokogiri updates packaged libxml2 to v2.12.7 to resolve CVE-2024-34459
+Name: nokogiri
+Version: 1.15.7
+CVE: CVE-2026-79771
+GHSA: GHSA-v2fc-qm4h-8hqv
+Criticality: Medium
+Title: Nokogiri XSLT transform has a memory leak
+Name: nokogiri
+Version: 1.15.7
+GHSA: GHSA-vvfq-8hwr-qm4m
+Criticality: Unknown
+Title: Nokogiri updates packaged libxml2 to 2.13.6 to resolve CVE-2025-24928 and CVE-2024-56171
+Name: nokogiri
+Version: 1.15.7
+GHSA: GHSA-wfpw-mmfh-qq69
+Criticality: Unknown
+Title: Nokogiri: Possible Use-After-Free in XInclude Processing
+Name: nokogiri
+Version: 1.15.7
+GHSA: GHSA-wjv4-x9w8-wm3h
+Criticality: Unknown
+Title: Nokogiri: Possible Use-After-Free when setting `Document#root=` to an invalid node type
+Name: nokogiri
+Version: 1.15.7
+CVE: CVE-2026-79772
+GHSA: GHSA-wx95-c6cv-8532
+Criticality: Medium
+Title: Nokogiri does not check the return value from xmlC14NExecute
+Vulnerabilities found!

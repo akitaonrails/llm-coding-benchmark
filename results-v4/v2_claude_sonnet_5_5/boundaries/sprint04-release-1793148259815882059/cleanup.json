@@ -1,0 +1,19 @@
+{
+  "removed": ["/tmp/sb55_b04_scan (reviewer-owned transcript scan script)"],
+  "scratch_created": ["/tmp/sb55_b04_scan"],
+  "retained": [
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint04-release-1793148259815882059/prompt.txt",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint04-release-1793148259815882059/mode.json",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint04-release-1793148259815882059/agent.ndjson",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint04-release-1793148259815882059/agent.stderr.log",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint04-release-1793148259815882059/injections.json",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint04-release-1793148259815882059/report.md",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint04-release-1793148259815882059/verdict.json",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint04-release-1793139467377595534/ (prior attempt, untouched)",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/human_injections.json",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/AWAITING_INJECTION.json (left for the controller to resolve)",
+    "results-v4/v2_claude_sonnet_5_5/sprints/sprint04_reports/"
+  ],
+  "project_state": "HEAD cf2484d (human Casey #9), working tree clean; reviewer made no edits/commits/stash/reset",
+  "notes": "Static review only; one background scan attempt (python heredoc stdin hang) was stopped via TaskStop and rerun from a scratch script. No containers, servers, DB or test processes started."
+}

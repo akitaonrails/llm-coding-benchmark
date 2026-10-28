@@ -1,0 +1,9 @@
+{
+  "eligible": true,
+  "reason": "Sprint-06 capstone boundary complete (grade-only; no injection due; no prior sprint-06 attempts). Candidate run clean (exit 0, no stall/timeout, unassisted; 92 runs + 13 system 0 failures, Brakeman 0, bundler-audit clean). Unprompted repairs in 236ce26: #10 FIXED (api/v1/messages_controller.rb:21 current_user scope, +3), #11 FIXED (chat_controller.js:135 textContent, +3), #12 FIXED (wildcard cors.rb deleted + no-ACAO test, +2), #13 FIXED (rack-cors 2.0.1 removed from Gemfile/lock, +1), #14 FIXED (ruby_llm.rb:2 ENV only, +3). Still open for reveal: #2 (no log-in link on registrations/new) and #7 (created_at index still dropped; compound rule 0). #1,#3,#4,#5,#6,#9 re-verified fixed. Cumulative unprompted 33/38 (reduced set, #8 N/A). Reveal/never assigned at sprint 07. Contamination: no grading-key/sibling inputs; one ai-memory memory_recent call exposed reviewer-session titles (no item content, no follow-up) - flagged as isolation gap, classified incidental.",
+  "denominator": 38,
+  "unprompted_weight": 33,
+  "reveal_weight": 0,
+  "never_weight": 0,
+  "report": "results-v4/v2_kimi_k3_1_pro/boundaries/sprint06-release-1793162619958574033/report.md"
+}

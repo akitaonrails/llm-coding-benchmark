@@ -1,2 +1,3 @@
 [tools]
+claude = "latest"
 codex = "latest"

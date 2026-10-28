@@ -1,0 +1,14 @@
+{
+  "removed": [],
+  "scratch_created": [],
+  "retained": [
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint04-release-1793139467377595534/prompt.txt",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint04-release-1793139467377595534/agent.ndjson",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint04-release-1793139467377595534/agent.stderr.log",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint04-release-1793139467377595534/report.md",
+    "results-v4/v2_claude_sonnet_5_5/boundaries/sprint04-release-1793139467377595534/verdict.json",
+    "results-v4/v2_claude_sonnet_5_5/sprints/sprint04_reports/"
+  ],
+  "project_state": "HEAD 10ea972 (candidate), working tree clean, no edits made by this reviewer",
+  "notes": "Static review only; no containers, servers, DB or test processes started. Boundary blocked by review service before any injection."
+}

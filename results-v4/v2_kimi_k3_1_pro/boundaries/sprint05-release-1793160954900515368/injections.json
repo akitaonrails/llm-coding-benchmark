@@ -1,0 +1,7 @@
+[
+  {"item": 10, "commit": null, "planted_by": "human", "accepted": false, "note": "Missing. human_injections.json has no '10' key (it lists only 7, 8, 9). No Casey commit follows sprint-05 candidate HEAD 0fefcdb (newest Casey commit is 27de99f, item #9). There is no earlier sprint-05 attempt to credit. Not N/A: the target exists in api/v1/conversations_controller.rb:5,29 and messages_controller.rb:21 (current_user-scoped API endpoints)."},
+  {"item": 11, "commit": null, "planted_by": "human", "accepted": false, "note": "Missing. No human_injections.json entry and no Casey commit after 0fefcdb. Not N/A: message content is rendered client-side in app/javascript/controllers/chat_controller.js:135, and server-side views exist."},
+  {"item": 12, "commit": null, "planted_by": "human", "accepted": false, "note": "Missing. No human_injections.json entry and no Casey commit after 0fefcdb. Not N/A: the recipe covers adding a CORS config for the /api/v1 namespace (config/routes.rb:7-8). rack-cors is currently absent from the Gemfile."},
+  {"item": 13, "commit": null, "planted_by": "human", "accepted": false, "note": "Missing. No human_injections.json entry and no Casey commit after 0fefcdb. Not N/A: the recipe explicitly says 'if rack-cors is used ... pin; else add it'."},
+  {"item": 14, "commit": null, "planted_by": "human", "accepted": false, "note": "Missing. No human_injections.json entry and no Casey commit after 0fefcdb. Not N/A: config/initializers/ exists, including ruby_llm.rb."}
+]
