@@ -1,0 +1,16 @@
+3058549:M 20 Nov 2026 00:35:30.386 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+3058550:M 20 Nov 2026 00:35:30.386 * oO0OoO0OoO0Oo Valkey is starting oO0OoO0OoO0Oo
+3058550:M 20 Nov 2026 00:35:30.386 * Valkey version=9.1.2, bits=64, commit=7f1dffed, modified=1, pid=3058550, just started
+3058550:M 20 Nov 2026 00:35:30.386 * Configuration loaded
+3058550:M 20 Nov 2026 00:35:30.417 * monotonic clock: X86 TSC @ 4200.60 ticks/us
+3058550:M 20 Nov 2026 00:35:30.417 * Running mode=standalone, port=16397.
+3058550:M 20 Nov 2026 00:35:30.418 * Static Module 'lua' successfully loaded
+3058550:M 20 Nov 2026 00:35:30.418 * Server initialized
+3058550:M 20 Nov 2026 00:35:30.419 * Creating AOF base file appendonly.aof.1.base.rdb on server start
+3058550:M 20 Nov 2026 00:35:30.420 * Creating AOF incr file appendonly.aof.1.incr.aof on server start
+3058550:M 20 Nov 2026 00:35:30.420 * Ready to accept connections tcp
+3058550:M 20 Nov 2026 00:38:32.364 * User requested shutdown... (user request from 'id=20 addr=127.0.0.1:46976 laddr=127.0.0.1:16397 fd=12 name=*redacted* user=*redacted* lib-name= lib-ver=')
+3058550:M 20 Nov 2026 00:38:32.364 * Calling fsync() on the AOF file.
+3058550:M 20 Nov 2026 00:38:32.364 * Removing the pid file.
+3058550:M 20 Nov 2026 00:38:32.364 * Module lua unloaded
+3058550:M 20 Nov 2026 00:38:32.364 # Valkey is now ready to exit, bye bye...

@@ -1,0 +1,30 @@
+HTTP/1.1 302 Found
+x-frame-options: SAMEORIGIN
+x-xss-protection: 0
+x-content-type-options: nosniff
+x-permitted-cross-domain-policies: none
+referrer-policy: no-referrer
+location: http://127.0.0.1:13681/chats/46d6ef8f5d06bb45395df36fc662c217
+content-type: text/html; charset=utf-8
+cache-control: no-store
+x-request-id: 1c400eb8-5b74-4e83-b37c-9b766f3d728b
+x-runtime: 0.029116
+server-timing: start_processing.action_controller;dur=0.01, redirect_to.action_controller;dur=0.11, process_action.action_controller;dur=8.97
+content-length: 0
+
+HTTP/1.1 200 OK
+x-frame-options: SAMEORIGIN
+x-xss-protection: 0
+x-content-type-options: nosniff
+x-permitted-cross-domain-policies: none
+referrer-policy: no-referrer
+link: </assets/application-8b441ae0.css>; rel=preload; as=style; nopush,</assets/tailwind-2d0f3f1e.css>; rel=preload; as=style; nopush
+content-type: text/html; charset=utf-8
+vary: Accept, X-Requested-With
+cache-control: no-store
+etag: W/"62424fee66c694d471520327ac4c41f5"
+x-request-id: bbed9b3f-355b-471d-8022-ea0b9d855664
+x-runtime: 0.021776
+server-timing: start_processing.action_controller;dur=0.00, render_partial.action_view;dur=4.26, render_template.action_view;dur=6.42, render_layout.action_view;dur=13.32, process_action.action_controller;dur=20.22
+content-length: 9367
+

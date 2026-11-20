@@ -1,0 +1,40 @@
+{
+  "cost_breakdown": {
+    "actual_cost_usd": 5.320963,
+    "cache_savings_pct": 79.35,
+    "cache_savings_usd": 20.450469,
+    "components_usd": {
+      "cache_read": 4.664142,
+      "cache_write": 0.0,
+      "input_uncached": 0.239539,
+      "output": 0.417283
+    },
+    "no_cache_cost_usd": 25.771433
+  },
+  "elapsed_seconds": 1244.26,
+  "ended_at": "2026-11-20T09:01:16+00:00",
+  "exit_code": 0,
+  "file_count_after": 3011,
+  "harness": "opencode",
+  "model_id": "openrouter/z-ai/glm-5.3",
+  "native_cost_usd": 3.356542,
+  "phase": "phase1",
+  "session_id": "ses_e07e2b35affepgDyzPOMDuqogK",
+  "stall_aborted": false,
+  "started_at": "2026-11-20T08:40:32+00:00",
+  "timed_out": false,
+  "tokens": {
+    "billable_output": 94837,
+    "cache_hit_ratio": 0.9906,
+    "cache_read": 17939008,
+    "cache_write": 0,
+    "cache_write_1h": 0,
+    "cache_write_5m": 0,
+    "input_uncached": 171099,
+    "output": 48819,
+    "reasoning": 46018,
+    "total": 18204944,
+    "total_prompt": 18110107
+  },
+  "turns": 185
+}

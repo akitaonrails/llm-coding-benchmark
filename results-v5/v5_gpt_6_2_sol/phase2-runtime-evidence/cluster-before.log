@@ -1,0 +1,16 @@
+CHAT /chats/f359d6128fa2e15980c59de880c9a215
+cluster-first POST worker 3063598; Cable worker 3063607
+cluster-first +0.015s POST pending <turbo-stream action="append" target="pending_turns">
+cluster-first +0.856s POST pending <turbo-stream action="append" target="turn_f18416b0c76f1ddc62c1d645_reply">
+cluster-first +2.151s POST pending <turbo-stream action="update" target="chat_messages"> <turbo-stream action="remove" target="turn_f18416b0c76f1ddc62c1d645"> <turbo-stream action="update" target="conversation_title"> <turbo-stream action="update" target="token_usage"> <turbo-stream action="update" target="chat_notice">
+cluster-first +2.187s POST HTTP 200; 1 reply appends
+cluster-first first append +0.856s; last append +0.856s; 1 arrived before POST finished
+cluster-first reply fragments <span>Acknowledged.</span>
+cluster-second POST worker 3063607; Cable worker 3063598
+cluster-second +0.010s POST pending <turbo-stream action="append" target="pending_turns">
+cluster-second +0.981s POST pending <turbo-stream action="append" target="turn_f6f15bdcaa3a67d1d30c15d0_reply">
+cluster-second +0.987s POST pending <turbo-stream action="update" target="chat_messages"> <turbo-stream action="remove" target="turn_f6f15bdcaa3a67d1d30c15d0"> <turbo-stream action="update" target="conversation_title"> <turbo-stream action="update" target="token_usage"> <turbo-stream action="update" target="chat_notice">
+cluster-second +1.022s POST HTTP 200; 1 reply appends
+cluster-second first append +0.981s; last append +0.981s; 1 arrived before POST finished
+cluster-second reply fragments <span>READY.</span>
+Identical rendered messages, title, and usage from workers [3063598, 3063607]: {"messages": ["For this conversation, remember the reference code maple-b57688baa4. Reply with just Acknowledged.", "Acknowledged.", "Reply with just READY. Keep the reference code in mind.", "READY."], "title": "Acknowledging a Reference Code", "usage": "45 / 12,000 estimated tokens\n"}

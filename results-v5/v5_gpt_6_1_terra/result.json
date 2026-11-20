@@ -1,0 +1,132 @@
+{
+  "alt_cost_breakdowns": {},
+  "billing": "chatgpt-pro-subscription",
+  "cost_breakdown": {
+    "actual_cost_usd": 0.500657,
+    "cache_savings_pct": 89.51,
+    "cache_savings_usd": 4.270227,
+    "components_usd": {
+      "cache_read": 0.224749,
+      "cache_write": 0.0,
+      "input_uncached": 0.147303,
+      "output": 0.128605
+    },
+    "no_cache_cost_usd": 4.770884
+  },
+  "elapsed_seconds_total": 443.9,
+  "ended_at": "2026-11-20T03:50:08+00:00",
+  "family": "OpenAI",
+  "harness": "codex",
+  "label": "GPT-6.1 Terra",
+  "model_id": "gpt-6.1-terra",
+  "native_cost_usd_total": null,
+  "nudges_used": 0,
+  "phases": [
+    {
+      "cost_breakdown": {
+        "actual_cost_usd": 0.260558,
+        "cache_savings_pct": 87.23,
+        "cache_savings_usd": 1.779859,
+        "components_usd": {
+          "cache_read": 0.093677,
+          "cache_write": 0.0,
+          "input_uncached": 0.067831,
+          "output": 0.09905
+        },
+        "no_cache_cost_usd": 2.040417
+      },
+      "elapsed_seconds": 198.03,
+      "ended_at": "2026-11-20T03:46:00+00:00",
+      "exit_code": 0,
+      "file_count_after": 2181,
+      "harness": "codex",
+      "model_id": "gpt-6.1-terra",
+      "native_cost_usd": null,
+      "phase": "phase1",
+      "session_id": "01a1f70c-a23a-7332-8176-f78d85cc6508",
+      "stall_aborted": false,
+      "started_at": "2026-11-20T03:42:42+00:00",
+      "timed_out": false,
+      "tokens": {
+        "billable_output": 19810,
+        "cache_hit_ratio": 0.9651,
+        "cache_read": 1873536,
+        "cache_write": 0,
+        "cache_write_1h": 0,
+        "cache_write_5m": 0,
+        "input_uncached": 67831,
+        "output": 19810,
+        "reasoning": 3403,
+        "total": 1961177,
+        "total_prompt": 1941367
+      },
+      "turns": 1
+    },
+    {
+      "cost_breakdown": {
+        "actual_cost_usd": 0.240099,
+        "cache_savings_pct": 91.21,
+        "cache_savings_usd": 2.490368,
+        "components_usd": {
+          "cache_read": 0.131072,
+          "cache_write": 0.0,
+          "input_uncached": 0.079472,
+          "output": 0.029555
+        },
+        "no_cache_cost_usd": 2.730467
+      },
+      "elapsed_seconds": 245.87,
+      "ended_at": "2026-11-20T03:50:06+00:00",
+      "exit_code": 0,
+      "file_count_after": 2293,
+      "harness": "codex",
+      "model_id": "gpt-6.1-terra",
+      "native_cost_usd": null,
+      "phase": "phase2",
+      "session_id": "01a1f70f-a7d1-7a02-ab37-4f55837c1d73",
+      "stall_aborted": false,
+      "started_at": "2026-11-20T03:46:00+00:00",
+      "timed_out": false,
+      "tokens": {
+        "billable_output": 5911,
+        "cache_hit_ratio": 0.9706,
+        "cache_read": 2621440,
+        "cache_write": 0,
+        "cache_write_1h": 0,
+        "cache_write_5m": 0,
+        "input_uncached": 79472,
+        "output": 5911,
+        "reasoning": 706,
+        "total": 2706823,
+        "total_prompt": 2700912
+      },
+      "turns": 1
+    }
+  ],
+  "quality_gate": {
+    "checks": {
+      "brakeman_pass": true,
+      "compose_present": true,
+      "dockerfile_present": true,
+      "gemfile_present": true,
+      "rubocop_pass": true,
+      "tests_pass": true
+    },
+    "passed": true
+  },
+  "slug": "v5_gpt_6_1_terra",
+  "tokens_total": {
+    "billable_output": 25721,
+    "cache_hit_ratio": 0.9683,
+    "cache_read": 4494976,
+    "cache_write": 0,
+    "cache_write_1h": 0,
+    "cache_write_5m": 0,
+    "input_uncached": 147303,
+    "output": 25721,
+    "reasoning": 4109,
+    "total": 4668000,
+    "total_prompt": 4642279
+  },
+  "turns_total": 2
+}

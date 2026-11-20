@@ -1,0 +1,132 @@
+<!-- BEGIN app/views/layouts/application.html.erb
+--><!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Stillwater</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="turbo-cache-control" content="no-cache">
+    <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="[redacted]" />
+    
+    <link rel="stylesheet" href="/assets/application-8b441ae0.css" data-turbo-track="reload" />
+<link rel="stylesheet" href="/assets/tailwind-2d0f3f1e.css" data-turbo-track="reload" />
+    <script type="importmap" data-turbo-track="reload">{
+  "imports": {
+    "ruby_llm/chat_message_controller": "/assets/ruby_llm/chat_message_controller-205f6e18.js",
+    "marked": "/assets/ruby_llm/marked-0843e99c.js",
+    "dompurify": "/assets/ruby_llm/dompurify-270fff15.js",
+    "application": "/assets/application-bfcdf840.js",
+    "@hotwired/turbo-rails": "/assets/turbo.min-9fd88cd5.js",
+    "@hotwired/stimulus": "/assets/stimulus.min-4b1e420e.js",
+    "@hotwired/stimulus-loading": "/assets/stimulus-loading-1fc53fe7.js",
+    "controllers/application": "/assets/controllers/application-3affb389.js",
+    "controllers/chat_composer_controller": "/assets/controllers/chat_composer_controller-69b41641.js",
+    "controllers/chat_scroll_controller": "/assets/controllers/chat_scroll_controller-65195693.js",
+    "controllers": "/assets/controllers/index-ee64e1f1.js"
+  }
+}</script>
+<link rel="modulepreload" href="/assets/application-bfcdf840.js">
+<link rel="modulepreload" href="/assets/turbo.min-9fd88cd5.js">
+<link rel="modulepreload" href="/assets/stimulus.min-4b1e420e.js">
+<link rel="modulepreload" href="/assets/stimulus-loading-1fc53fe7.js">
+<link rel="modulepreload" href="/assets/controllers/application-3affb389.js">
+<link rel="modulepreload" href="/assets/controllers/chat_composer_controller-69b41641.js">
+<link rel="modulepreload" href="/assets/controllers/chat_scroll_controller-65195693.js">
+<link rel="modulepreload" href="/assets/controllers/index-ee64e1f1.js">
+<script type="module">import "application"</script>
+  </head>
+  <body class="bg-paper text-ink antialiased">
+    <!-- BEGIN app/views/conversations/show.html.erb
+--><div class="flex h-dvh overflow-hidden" data-controller="chat-composer chat-scroll">
+  <turbo-cable-stream-source data-chat-composer-target="stream" channel="Turbo::StreamsChannel" signed-stream-name="[redacted]"></turbo-cable-stream-source>
+
+  <aside class="hidden w-60 shrink-0 flex-col border-r border-line bg-sidebar px-5 py-7 sm:flex">
+    <!-- BEGIN app/views/conversations/_brand.html.erb
+--><div class="flex items-center gap-2.5">
+  <span class="grid size-8 place-items-center rounded-lg bg-accent text-white" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" class="size-5">
+      <path d="M4 9.5c3 0 4-2.5 8-2.5s5 2.5 8 2.5M4 14c3 0 4-2.5 8-2.5s5 2.5 8 2.5M4 18.5c3 0 4-2.5 8-2.5s5 2.5 8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </span>
+  <span class="text-sm font-semibold tracking-tight">Stillwater</span>
+</div>
+<!-- END app/views/conversations/_brand.html.erb -->
+    <form class="button_to" method="post" action="/chats"><button class="mt-11 flex w-full items-center gap-2.5 rounded-lg border border-line bg-white/60 px-3 py-2.5 text-sm font-semibold hover:bg-white" type="submit">
+      <span aria-hidden="true" class="text-lg/4">+</span> New chat
+</button><input type="hidden" name="authenticity_token" value="[redacted]" /></form>    <div class="mt-auto px-2">
+      <p class="text-xs font-semibold text-accent">OpenRouter</p>
+      <p class="mt-1 break-all text-xs text-muted">anthropic/claude-sonnet-5.5</p>
+    </div>
+  </aside>
+
+  <div class="flex min-w-0 flex-1 flex-col">
+    <header class="flex h-16 shrink-0 items-center justify-between gap-3 border-b border-line px-4 sm:px-8">
+      <div class="sm:hidden"><!-- BEGIN app/views/conversations/_brand.html.erb
+--><div class="flex items-center gap-2.5">
+  <span class="grid size-8 place-items-center rounded-lg bg-accent text-white" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" class="size-5">
+      <path d="M4 9.5c3 0 4-2.5 8-2.5s5 2.5 8 2.5M4 14c3 0 4-2.5 8-2.5s5 2.5 8 2.5M4 18.5c3 0 4-2.5 8-2.5s5 2.5 8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </span>
+  <span class="text-sm font-semibold tracking-tight">Stillwater</span>
+</div>
+<!-- END app/views/conversations/_brand.html.erb --></div>
+      <h1 id="conversation_title" class="min-w-0 truncate text-sm font-semibold">New conversation</h1>
+      <form class="button_to" method="post" action="/chats"><button class="whitespace-nowrap rounded-lg border border-line px-2.5 py-1.5 text-xs font-semibold sm:hidden" type="submit">New chat</button><input type="hidden" name="authenticity_token" value="[redacted]" /></form>
+    </header>
+
+    <main id="chat_transcript" class="min-h-0 flex-1 overflow-y-auto" data-chat-scroll-target="viewport">
+      <div class="transcript mx-auto flex min-h-full max-w-3xl flex-col px-4 sm:px-8" data-chat-scroll-target="content">
+        <div id="chat_messages" class="flex flex-1 flex-col">
+          <!-- BEGIN app/views/conversations/_transcript.html.erb
+-->  <!-- BEGIN app/views/conversations/_welcome.html.erb
+--><section class="my-auto py-10 text-center" data-empty-chat>
+  <h2 class="font-serif text-4xl leading-tight tracking-tight sm:text-5xl">What’s on your mind?</h2>
+  <p class="mx-auto mt-4 max-w-sm text-sm leading-relaxed text-muted">Ask a question, work through an idea, or try one of these prompts.</p>
+  <div class="mt-7 flex flex-wrap justify-center gap-2">
+      <button type="button" class="rounded-full border border-line bg-white px-3.5 py-2 text-xs font-medium hover:border-accent/50"
+              data-action="chat-composer#suggest" data-chat-composer-prompt-param="What time is it in UTC?">What time is it in UTC?</button>
+      <button type="button" class="rounded-full border border-line bg-white px-3.5 py-2 text-xs font-medium hover:border-accent/50"
+              data-action="chat-composer#suggest" data-chat-composer-prompt-param="Calculate (17 + 5) × 3">Calculate (17 + 5) × 3</button>
+      <button type="button" class="rounded-full border border-line bg-white px-3.5 py-2 text-xs font-medium hover:border-accent/50"
+              data-action="chat-composer#suggest" data-chat-composer-prompt-param="Explain how tides work">Explain how tides work</button>
+  </div>
+</section>
+<!-- END app/views/conversations/_welcome.html.erb -->
+<!-- END app/views/conversations/_transcript.html.erb -->
+        </div>
+        <div id="pending_turns"></div>
+      </div>
+    </main>
+
+    <footer class="shrink-0 px-4 pb-4 sm:px-8 sm:pb-5">
+      <div class="mx-auto max-w-2xl">
+        <div id="chat_notice" role="status">
+          <!-- BEGIN app/views/conversations/_notice.html.erb
+--><!-- END app/views/conversations/_notice.html.erb -->
+        </div>
+        <!-- BEGIN app/views/conversations/_composer.html.erb
+--><form class="flex items-end gap-2 rounded-2xl border border-line bg-white p-2 shadow-sm focus-within:border-accent/50" data-action="input-&gt;chat-composer#sync keydown.enter-&gt;chat-composer#sendOnEnter turbo:submit-start-&gt;chat-composer#start turbo:submit-end-&gt;chat-composer#end" action="/chats/46d6ef8f5d06bb45395df36fc662c217/messages" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="[redacted]" />
+  <label class="sr-only" for="prompt">Message</label>
+  <textarea rows="2" required="required" maxlength="4000" placeholder="Message Stillwater" class="min-h-11 max-h-40 min-w-0 flex-1 resize-y px-2 py-2 text-sm placeholder:text-muted focus:outline-none" data-chat-composer-target="input" name="prompt" id="prompt">
+</textarea>
+  <button name="button" type="submit" disabled="disabled" class="grid size-10 shrink-0 place-items-center rounded-xl bg-accent text-white hover:bg-accent-dark disabled:cursor-not-allowed disabled:bg-line disabled:text-muted" aria-label="Send message" data-chat-composer-target="button">
+    <svg viewBox="0 0 24 24" fill="none" class="size-5" aria-hidden="true">
+      <path d="M12 19V5m-6 6 6-6 6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+</button></form><!-- END app/views/conversations/_composer.html.erb -->
+        <div class="mt-2 flex justify-between gap-2 px-1 text-xs text-muted">
+          <span data-chat-composer-target="connection" role="status">Connecting to live replies…</span>
+          <span id="token_usage"><!-- BEGIN app/views/conversations/_usage.html.erb
+-->0 / 12,000 estimated tokens
+<!-- END app/views/conversations/_usage.html.erb --></span>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
+<!-- END app/views/conversations/show.html.erb -->
+  </body>
+</html>
+<!-- END app/views/layouts/application.html.erb -->

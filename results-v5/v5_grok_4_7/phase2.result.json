@@ -1,0 +1,41 @@
+{
+  "cost_breakdown": {
+    "actual_cost_usd": 4.675886,
+    "no_cache_cost_usd": 16.130414,
+    "cache_savings_usd": 11.454528,
+    "cache_savings_pct": 71.01,
+    "components_usd": {
+      "input_uncached": 0.520036,
+      "cache_read": 3.818176,
+      "cache_write": 0.0,
+      "output": 0.337674
+    }
+  },
+  "elapsed_seconds": 2289.12,
+  "ended_at": "2026-11-20T07:33:06+00:00",
+  "exit_code": 1,
+  "file_count_after": 2088,
+  "harness": "grok",
+  "model_id": "grok-4.7",
+  "native_cost_usd": null,
+  "phase": "phase2",
+  "session_id": null,
+  "stall_aborted": false,
+  "started_at": "2026-11-20T06:54:57+00:00",
+  "timed_out": false,
+  "tokens": {
+    "input_uncached": 260018,
+    "cache_read": 7636352,
+    "cache_write": 0,
+    "cache_write_5m": 0,
+    "cache_write_1h": 0,
+    "output": 56279,
+    "reasoning": 40599,
+    "billable_output": 56279,
+    "total_prompt": 7896370,
+    "total": 7952649,
+    "cache_hit_ratio": 0.9671
+  },
+  "turns": 87,
+  "recovered_from_step_usage": true
+}

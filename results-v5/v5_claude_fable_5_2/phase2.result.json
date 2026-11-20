@@ -1,0 +1,40 @@
+{
+  "cost_breakdown": {
+    "actual_cost_usd": 4.104554,
+    "cache_savings_pct": 86.79,
+    "cache_savings_usd": 26.96467,
+    "components_usd": {
+      "cache_read": 0.713658,
+      "cache_write": 1.736016,
+      "input_uncached": 0.00072,
+      "output": 1.65416
+    },
+    "no_cache_cost_usd": 31.069224
+  },
+  "elapsed_seconds": 840.35,
+  "ended_at": "2026-11-20T02:20:44+00:00",
+  "exit_code": 0,
+  "file_count_after": 2226,
+  "harness": "claude",
+  "model_id": "claude-fable-5-2",
+  "native_cost_usd": 4.1045544000000005,
+  "phase": "phase2",
+  "session_id": "de97691f-5f2a-42dc-a547-e14bb5ddd2a6",
+  "stall_aborted": false,
+  "started_at": "2026-11-20T02:06:44+00:00",
+  "timed_out": false,
+  "tokens": {
+    "billable_output": 41354,
+    "cache_hit_ratio": 0.9705,
+    "cache_read": 3568292,
+    "cache_write": 108501,
+    "cache_write_1h": 108501,
+    "cache_write_5m": 0,
+    "input_uncached": 90,
+    "output": 41354,
+    "reasoning": 10686,
+    "total": 3718237,
+    "total_prompt": 3676883
+  },
+  "turns": 46
+}

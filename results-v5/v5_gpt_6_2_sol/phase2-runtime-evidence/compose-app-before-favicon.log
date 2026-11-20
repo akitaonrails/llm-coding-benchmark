@@ -1,0 +1,43 @@
+=> Booting Puma
+=> Rails 8.1.4.1 application starting in production 
+=> Run `bin/rails server --help` for more startup options
+[1] Puma starting in cluster mode...
+[1] * Puma version: 8.1.2 ("Puma Psychosis")
+[1] * Ruby version: ruby 4.0.10 (2026-11-19 revision a704b7cd95) +YJIT +PRISM [x86_64-linux]
+[1] *  Min threads: 5
+[1] *  Max threads: 5
+[1] *  Environment: production
+[1] *   Master PID: 1
+[1] *      Workers: 2
+[1] *     Restarts: (✔) hot (✖) phased (✖) refork
+[1] * Preloading application
+[1] * Listening on http://0.0.0.0:3000
+[1] Use Ctrl-C to stop
+[1] - Worker 0 (PID: 11) booted in 0.0s, phase: 0
+[1] - Worker 1 (PID: 15) booted in 0.0s, phase: 0
+[53b756f7-9569-4812-bb0d-49b897e3614e] Started GET "/" for 172.23.0.1 at 2026-11-20 03:39:47 +0000
+[53b756f7-9569-4812-bb0d-49b897e3614e] Processing by ConversationsController#index as HTML
+[53b756f7-9569-4812-bb0d-49b897e3614e] Redirected to http://127.0.0.1:13682/chats/1d905fd7a6f7d6e4d73413b2e1705f70
+[53b756f7-9569-4812-bb0d-49b897e3614e] Completed 302 Found in 9ms (GC: 0.2ms)
+[805ec09a-7ac7-4615-aa3a-1008f28a943e] Started GET "/chats/1d905fd7a6f7d6e4d73413b2e1705f70" for 172.23.0.1 at 2026-11-20 03:39:47 +0000
+[805ec09a-7ac7-4615-aa3a-1008f28a943e] Processing by ConversationsController#show as HTML
+[805ec09a-7ac7-4615-aa3a-1008f28a943e]   Parameters: {"id" => "1d905fd7a6f7d6e4d73413b2e1705f70"}
+[805ec09a-7ac7-4615-aa3a-1008f28a943e]   Rendered layout layouts/application.html.erb (Duration: 35.4ms | GC: 0.0ms)
+[805ec09a-7ac7-4615-aa3a-1008f28a943e] Completed 200 OK in 41ms (Views: 36.3ms | GC: 0.0ms)
+[f2db9588-0cb7-4945-8f35-425486e95ad4] Started GET "/cable" for 172.23.0.1 at 2026-11-20 03:39:47 +0000
+[f2db9588-0cb7-4945-8f35-425486e95ad4] Started GET "/cable" [WebSocket] for 172.23.0.1 at 2026-11-20 03:39:48 +0000
+[f2db9588-0cb7-4945-8f35-425486e95ad4] Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+[03144854-f40b-4941-b427-03faf5fda891] Started GET "/favicon.ico" for 172.23.0.1 at 2026-11-20 03:39:48 +0000
+Turbo::StreamsChannel is streaming from conversation:1d905fd7a6f7d6e4d73413b2e1705f70
+[03144854-f40b-4941-b427-03faf5fda891]   
+[03144854-f40b-4941-b427-03faf5fda891] ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+[03144854-f40b-4941-b427-03faf5fda891]   
+[b1909179-d01d-4e51-96ee-b6d31673739b] Started GET "/" for 172.23.0.1 at 2026-11-20 03:40:01 +0000
+[b1909179-d01d-4e51-96ee-b6d31673739b] Processing by ConversationsController#index as */*
+[b1909179-d01d-4e51-96ee-b6d31673739b] Redirected to http://127.0.0.1:13682/chats/4ad03dac72d264d22fa24a5a6de4d501
+[b1909179-d01d-4e51-96ee-b6d31673739b] Completed 302 Found in 8ms (GC: 0.0ms)
+[f2a25062-05e9-4451-acef-42e7e4b78128] Started GET "/chats/4ad03dac72d264d22fa24a5a6de4d501" for 172.23.0.1 at 2026-11-20 03:40:01 +0000
+[f2a25062-05e9-4451-acef-42e7e4b78128] Processing by ConversationsController#show as */*
+[f2a25062-05e9-4451-acef-42e7e4b78128]   Parameters: {"id" => "4ad03dac72d264d22fa24a5a6de4d501"}
+[f2a25062-05e9-4451-acef-42e7e4b78128]   Rendered layout layouts/application.html.erb (Duration: 37.0ms | GC: 1.1ms)
+[f2a25062-05e9-4451-acef-42e7e4b78128] Completed 200 OK in 46ms (Views: 38.0ms | GC: 6.1ms)

@@ -1,0 +1,40 @@
+{
+  "cost_breakdown": {
+    "actual_cost_usd": 0.0,
+    "cache_savings_pct": 0.0,
+    "cache_savings_usd": 0.0,
+    "components_usd": {
+      "cache_read": 0.0,
+      "cache_write": 0.0,
+      "input_uncached": 0.0,
+      "output": 0.0
+    },
+    "no_cache_cost_usd": 0.0
+  },
+  "elapsed_seconds": 5.08,
+  "ended_at": "2026-11-20T10:31:47+00:00",
+  "exit_code": 1,
+  "file_count_after": 0,
+  "harness": "muse",
+  "model_id": "muse-wonder-1.0",
+  "native_cost_usd": null,
+  "phase": "phase2",
+  "session_id": "01a1f883-147c-7db2-8d34-fbc535d59254",
+  "stall_aborted": false,
+  "started_at": "2026-11-20T10:31:42+00:00",
+  "timed_out": false,
+  "tokens": {
+    "billable_output": 0,
+    "cache_hit_ratio": 0.0,
+    "cache_read": 0,
+    "cache_write": 0,
+    "cache_write_1h": 0,
+    "cache_write_5m": 0,
+    "input_uncached": 0,
+    "output": 0,
+    "reasoning": 0,
+    "total": 0,
+    "total_prompt": 0
+  },
+  "turns": 0
+}

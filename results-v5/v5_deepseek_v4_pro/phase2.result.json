@@ -1,0 +1,40 @@
+{
+  "cost_breakdown": {
+    "actual_cost_usd": 1.373215,
+    "cache_savings_pct": 91.25,
+    "cache_savings_usd": 14.329092,
+    "components_usd": {
+      "cache_read": 0.494107,
+      "cache_write": 0.0,
+      "input_uncached": 0.479211,
+      "output": 0.399897
+    },
+    "no_cache_cost_usd": 15.702307
+  },
+  "elapsed_seconds": 959.44,
+  "ended_at": "2026-11-20T10:29:37+00:00",
+  "exit_code": 0,
+  "file_count_after": 2395,
+  "harness": "opencode",
+  "model_id": "openrouter/deepseek/deepseek-v4-pro-0813",
+  "native_cost_usd": 1.373215,
+  "phase": "phase2",
+  "session_id": "ses_e078d7556ffedquKGKZSnb6Vs1",
+  "stall_aborted": false,
+  "started_at": "2026-11-20T10:13:38+00:00",
+  "timed_out": false,
+  "tokens": {
+    "billable_output": 100984,
+    "cache_hit_ratio": 0.9687,
+    "cache_read": 11229696,
+    "cache_write": 0,
+    "cache_write_1h": 0,
+    "cache_write_5m": 0,
+    "input_uncached": 363039,
+    "output": 29484,
+    "reasoning": 71500,
+    "total": 11693719,
+    "total_prompt": 11592735
+  },
+  "turns": 102
+}

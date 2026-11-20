@@ -1,0 +1,145 @@
+{
+  "alt_cost_breakdowns": {
+    "post_2026_12_01": {
+      "actual_cost_usd": 6.577999,
+      "cache_savings_pct": 84.58,
+      "cache_savings_usd": 36.068893,
+      "components_usd": {
+        "cache_read": 1.898363,
+        "cache_write": 0.0,
+        "input_uncached": 1.817856,
+        "output": 2.86178
+      },
+      "no_cache_cost_usd": 42.646892
+    }
+  },
+  "billing": "google-ai-oauth",
+  "cost_breakdown": {
+    "actual_cost_usd": 3.288999,
+    "cache_savings_pct": 84.58,
+    "cache_savings_usd": 18.034447,
+    "components_usd": {
+      "cache_read": 0.949181,
+      "cache_write": 0.0,
+      "input_uncached": 0.908928,
+      "output": 1.43089
+    },
+    "no_cache_cost_usd": 21.323446
+  },
+  "elapsed_seconds_total": 2346.64,
+  "ended_at": "2026-11-20T05:25:17+00:00",
+  "family": "Google",
+  "harness": "agy",
+  "label": "Gemini 4 Carbon",
+  "model_id": "gemini-4-carbon-high",
+  "native_cost_usd_total": null,
+  "nudges_used": 0,
+  "phases": [
+    {
+      "cost_breakdown": {
+        "actual_cost_usd": 2.082196,
+        "cache_savings_pct": 83.7,
+        "cache_savings_usd": 10.690576,
+        "components_usd": {
+          "cache_read": 0.562662,
+          "cache_write": 0.0,
+          "input_uncached": 0.549764,
+          "output": 0.96977
+        },
+        "no_cache_cost_usd": 12.772772
+      },
+      "elapsed_seconds": 1481.54,
+      "ended_at": "2026-11-20T05:10:48+00:00",
+      "exit_code": 0,
+      "file_count_after": 2225,
+      "harness": "agy",
+      "model_id": "gemini-4-carbon-high",
+      "native_cost_usd": null,
+      "phase": "phase1",
+      "session_id": "c908a22b-9454-46b5-ae1b-2d126013f768",
+      "stall_aborted": false,
+      "started_at": "2026-11-20T04:46:07+00:00",
+      "timed_out": false,
+      "tokens": {
+        "billable_output": 96977,
+        "cache_hit_ratio": 0.9534,
+        "cache_read": 5626619,
+        "cache_write": 0,
+        "cache_write_1h": 0,
+        "cache_write_5m": 0,
+        "input_uncached": 274882,
+        "output": 96977,
+        "reasoning": 40186,
+        "total": 5998478,
+        "total_prompt": 5901501
+      },
+      "turns": 1
+    },
+    {
+      "cost_breakdown": {
+        "actual_cost_usd": 1.206803,
+        "cache_savings_pct": 85.89,
+        "cache_savings_usd": 7.34387,
+        "components_usd": {
+          "cache_read": 0.38652,
+          "cache_write": 0.0,
+          "input_uncached": 0.359164,
+          "output": 0.46112
+        },
+        "no_cache_cost_usd": 8.550674
+      },
+      "elapsed_seconds": 865.1,
+      "ended_at": "2026-11-20T05:25:13+00:00",
+      "exit_code": 0,
+      "file_count_after": 2320,
+      "harness": "agy",
+      "model_id": "gemini-4-carbon-high",
+      "native_cost_usd": null,
+      "phase": "phase2",
+      "session_id": "61dea028-af9e-4a5e-9704-147975f8ee2f",
+      "stall_aborted": false,
+      "started_at": "2026-11-20T05:10:48+00:00",
+      "timed_out": false,
+      "tokens": {
+        "billable_output": 46112,
+        "cache_hit_ratio": 0.9556,
+        "cache_read": 3865195,
+        "cache_write": 0,
+        "cache_write_1h": 0,
+        "cache_write_5m": 0,
+        "input_uncached": 179582,
+        "output": 46112,
+        "reasoning": 22057,
+        "total": 4090889,
+        "total_prompt": 4044777
+      },
+      "turns": 1
+    }
+  ],
+  "quality_gate": {
+    "checks": {
+      "brakeman_pass": true,
+      "compose_present": true,
+      "dockerfile_present": true,
+      "gemfile_present": true,
+      "rubocop_pass": true,
+      "tests_pass": true
+    },
+    "passed": true
+  },
+  "slug": "v5_gemini_4_carbon",
+  "tokens_total": {
+    "billable_output": 143089,
+    "cache_hit_ratio": 0.9543,
+    "cache_read": 9491814,
+    "cache_write": 0,
+    "cache_write_1h": 0,
+    "cache_write_5m": 0,
+    "input_uncached": 454464,
+    "output": 143089,
+    "reasoning": 62243,
+    "total": 10089367,
+    "total_prompt": 9946278
+  },
+  "turns_total": 2
+}

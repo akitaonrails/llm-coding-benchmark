@@ -1,0 +1,40 @@
+{
+  "cost_breakdown": {
+    "actual_cost_usd": 1.216865,
+    "cache_savings_pct": 79.96,
+    "cache_savings_usd": 4.854989,
+    "components_usd": {
+      "cache_read": 0.539443,
+      "cache_write": 0.0,
+      "input_uncached": 0.433502,
+      "output": 0.24392
+    },
+    "no_cache_cost_usd": 6.071854
+  },
+  "elapsed_seconds": 377.43,
+  "ended_at": "2026-11-20T09:25:07+00:00",
+  "exit_code": 0,
+  "file_count_after": 2674,
+  "harness": "opencode",
+  "model_id": "openrouter/moonshotai/kimi-k3.1-pro",
+  "native_cost_usd": 1.216865,
+  "phase": "phase2",
+  "session_id": "ses_e07bfa468ffeNHPNOpQ6WCdrOe",
+  "stall_aborted": false,
+  "started_at": "2026-11-20T09:18:49+00:00",
+  "timed_out": false,
+  "tokens": {
+    "billable_output": 24392,
+    "cache_hit_ratio": 0.9256,
+    "cache_read": 2697216,
+    "cache_write": 0,
+    "cache_write_1h": 0,
+    "cache_write_5m": 0,
+    "input_uncached": 216751,
+    "output": 13392,
+    "reasoning": 11000,
+    "total": 2938359,
+    "total_prompt": 2913967
+  },
+  "turns": 48
+}

@@ -1,0 +1,34 @@
+App health HTTP 200
+Favicon HTTP 200 image/svg+xml
+✓ Stillwater
+  http://127.0.0.1:13682/chats/6944c6e0a609ef8ca77cb6f8aa2cb22b
+true
+- button "New chat" [ref=e2]
+- heading "New conversation" [level=1, ref=e1]
+- heading "What’s on your mind?" [level=2, ref=e5]
+- button "What time is it in UTC?" [ref=e6]
+- button "Calculate (17 + 5) × 3" [ref=e7]
+- button "Explain how tides work" [ref=e8]
+- textbox "Message" [required, ref=e3]
+- button "Send message" [disabled, ref=e4]
+true
+✓ Done
+✓ Done
+true
+{
+  "cableReplyAppendsBeforePost": 39,
+  "firstReplyAppendMs": 1291,
+  "http": 200,
+  "postMs": 3870,
+  "reply": "Rayleigh scattering is the process by which air molecules scatter sunlight in all directions, and it affects shorter wavelengths like blue far more strongly than longer wavelengths like red. As sunlight passes through the atmosphere, blue light is scattered across the whole sky, so it reaches your eyes from every direction. The sky doesn't look violet, even though violet scatters even more, because the sun emits less violet light, the upper atmosphere absorbs some of it, and our eyes are less sensitive to it.",
+  "title": "Why the Sky Looks Blue"
+}
+http://127.0.0.1:13682/chats/6944c6e0a609ef8ca77cb6f8aa2cb22b
+true
+true
+You
+In three short sentences, explain why the sky looks blue. Start with the words Rayleigh scattering.
+
+Stillwater
+
+Rayleigh scattering is the process by which air molecules scatter sunlight in all directions, and it affects shorter wavelengths like blue far more strongly than longer wavelengths like red. As sunlight passes through the atmosphere, blue light is scattered across the whole sky, so it reaches your eyes from every direction. The sky doesn't look violet, even though violet scatters even more, because the sun emits less violet light, the upper atmosphere absorbs some of it, and our eyes are less sensitive to it.

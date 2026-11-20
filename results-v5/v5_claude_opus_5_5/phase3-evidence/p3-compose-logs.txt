@@ -1,0 +1,51 @@
+redis-1  | 1:C 20 Nov 2026 02:42:04.716 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+redis-1  | 1:C 20 Nov 2026 02:42:04.716 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+redis-1  | 1:C 20 Nov 2026 02:42:04.716 * Redis version=7.4.11, bits=64, commit=00000000, modified=0, pid=1, just started
+redis-1  | 1:C 20 Nov 2026 02:42:04.716 * Configuration loaded
+redis-1  | 1:M 20 Nov 2026 02:42:04.716 * monotonic clock: POSIX clock_gettime
+redis-1  | 1:M 20 Nov 2026 02:42:04.717 * Running mode=standalone, port=6379.
+redis-1  | 1:M 20 Nov 2026 02:42:04.717 * Server initialized
+redis-1  | 1:M 20 Nov 2026 02:42:04.717 * Reading RDB base file on AOF loading...
+redis-1  | 1:M 20 Nov 2026 02:42:04.717 * Loading RDB produced by version 7.4.11
+redis-1  | 1:M 20 Nov 2026 02:42:04.717 * RDB age 168 seconds
+redis-1  | 1:M 20 Nov 2026 02:42:04.717 * RDB memory usage when created 0.90 Mb
+redis-1  | 1:M 20 Nov 2026 02:42:04.717 * RDB is base AOF
+redis-1  | 1:M 20 Nov 2026 02:42:04.717 * Done loading RDB, keys loaded: 0, keys expired: 0.
+redis-1  | 1:M 20 Nov 2026 02:42:04.717 * DB loaded from base file appendonly.aof.1.base.rdb: 0.000 seconds
+redis-1  | 1:M 20 Nov 2026 02:42:04.717 * DB loaded from incr file appendonly.aof.1.incr.aof: 0.000 seconds
+redis-1  | 1:M 20 Nov 2026 02:42:04.717 * DB loaded from append only file: 0.000 seconds
+redis-1  | 1:M 20 Nov 2026 02:42:04.717 * Opening AOF incr file appendonly.aof.1.incr.aof on server start
+redis-1  | 1:M 20 Nov 2026 02:42:04.717 * Ready to accept connections tcp
+web-1    | [1] Puma starting in cluster mode...
+web-1    | [1] * Puma version: 8.1.2 ("Puma Psychosis")
+web-1    | [1] * Ruby version: ruby 4.0.10 (2026-11-19 revision a704b7cd95) +PRISM [x86_64-linux]
+web-1    | [1] *  Min threads: 5
+web-1    | [1] *  Max threads: 5
+web-1    | [1] *  Environment: production
+web-1    | [1] *   Master PID: 1
+web-1    | [1] *      Workers: 2
+web-1    | [1] *     Restarts: (✔) hot (✖) phased (✖) refork
+web-1    | [1] * Preloading application
+web-1    | [1] * Listening on http://0.0.0.0:3000
+web-1    | [1] Use Ctrl-C to stop
+web-1    | [1] - Worker 0 (PID: 10) booted in 0.0s, phase: 0
+web-1    | [1] - Worker 1 (PID: 13) booted in 0.0s, phase: 0
+web-1    | [e2959aba-fc43-4240-8473-3705d0709a2d] Started GET "/" for 172.22.0.1 at 2026-11-20 02:42:15 +0000
+web-1    | [e2959aba-fc43-4240-8473-3705d0709a2d] Processing by ConversationsController#index as */*
+web-1    | [e2959aba-fc43-4240-8473-3705d0709a2d] Redirected to http://127.0.0.1:3092/conversations/b2727660-524c-491b-b6d4-15a862d8b569
+web-1    | [e2959aba-fc43-4240-8473-3705d0709a2d] Completed 302 Found in 9ms (GC: 3.7ms)
+web-1    | [f0fc7fbd-575f-4099-ba21-c931e05a7c6e] Started GET "/conversations/b2727660-524c-491b-b6d4-15a862d8b569" for 172.22.0.1 at 2026-11-20 02:42:15 +0000
+web-1    | [f0fc7fbd-575f-4099-ba21-c931e05a7c6e] Processing by ConversationsController#show as */*
+web-1    | [f0fc7fbd-575f-4099-ba21-c931e05a7c6e]   Parameters: {"id" => "b2727660-524c-491b-b6d4-15a862d8b569"}
+web-1    | [f0fc7fbd-575f-4099-ba21-c931e05a7c6e]   Rendered layout layouts/application.html.erb (Duration: 47.4ms | GC: 12.3ms)
+web-1    | [f0fc7fbd-575f-4099-ba21-c931e05a7c6e] Completed 200 OK in 64ms (Views: 49.5ms | GC: 18.4ms)
+web-1    | [3e7c3148-06bc-4364-b157-ca7ce2049b47] Started GET "/cable" for 172.22.0.1 at 2026-11-20 02:42:15 +0000
+web-1    | [3e7c3148-06bc-4364-b157-ca7ce2049b47] Started GET "/cable" [WebSocket] for 172.22.0.1 at 2026-11-20 02:42:15 +0000
+web-1    | [3e7c3148-06bc-4364-b157-ca7ce2049b47] Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+web-1    | Turbo::StreamsChannel is streaming from conversation_b2727660-524c-491b-b6d4-15a862d8b569
+web-1    | [197ce3a0-4087-48a9-a989-adf516051857] Started POST "/conversations/b2727660-524c-491b-b6d4-15a862d8b569/messages" for 172.22.0.1 at 2026-11-20 02:42:15 +0000
+web-1    | [197ce3a0-4087-48a9-a989-adf516051857] Processing by MessagesController#create as TURBO_STREAM
+web-1    | [197ce3a0-4087-48a9-a989-adf516051857]   Parameters: {"message" => {"content" => "Compute 1234 * 5678 with the calculator and reply in one sentence."}, "authenticity_token" => "[FILTERED]", "conversation_id" => "b2727660-524c-491b-b6d4-15a862d8b569"}
+web-1    | [197ce3a0-4087-48a9-a989-adf516051857] Completed 200 OK in 26ms (Views: 0.1ms | GC: 0.0ms)
+web-1    | Finished "/cable" [WebSocket] for 172.22.0.1 at 2026-11-20 02:42:18 +0000
+web-1    | Turbo::StreamsChannel stopped streaming from conversation_b2727660-524c-491b-b6d4-15a862d8b569

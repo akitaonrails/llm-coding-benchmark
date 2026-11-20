@@ -1,0 +1,13 @@
+≈ tailwindcss v4.3.4
+
+Done in 30ms
+Run options: --seed 44109
+
+# Running:
+
+...........................
+
+Finished in 0.351383s, 76.8393 runs/s, 526.4915 assertions/s.
+27 runs, 185 assertions, 0 failures, 0 errors, 0 skips
+Coverage report generated for Minitest to coverage/index.html
+Line coverage: 235 / 235 (100.00%)

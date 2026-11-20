@@ -1,0 +1,61 @@
+=> Booting Puma
+=> Rails 8.1.4.1 application starting in development 
+=> Run `bin/rails server --help` for more startup options
+* Enabling systemd notification integration
+Puma starting in single mode...
+* Puma version: 8.1.2 ("Puma Psychosis")
+* Ruby version: ruby 4.0.10 (2026-11-19 revision a704b7cd95) +PRISM [x86_64-linux]
+*  Min threads: 5
+*  Max threads: 5
+*  Environment: development
+*          PID: 3061480
+* Listening on http://127.0.0.1:13681
+Sending status to systemd every 1.0 sec
+Use Ctrl-C to stop
+Started GET "/" for 127.0.0.1 at 2026-11-20 00:36:40 -0300
+Processing by ConversationsController#index as */*
+Redirected to http://127.0.0.1:13681/chats/51a98d177e92aea39c665e7a07766b69
+↳ app/controllers/conversations_controller.rb:6:in 'ConversationsController#index'
+Completed 302 Found in 4ms (GC: 0.0ms)
+
+
+Started GET "/chats/51a98d177e92aea39c665e7a07766b69" for 127.0.0.1 at 2026-11-20 00:36:40 -0300
+Processing by ConversationsController#show as */*
+  Parameters: {"id" => "51a98d177e92aea39c665e7a07766b69"}
+  Rendered layout layouts/application.html.erb (Duration: 9.1ms | GC: 0.0ms)
+Completed 200 OK in 14ms (Views: 10.4ms | GC: 0.0ms)
+
+
+Started GET "/cable" for 127.0.0.1 at 2026-11-20 00:36:40 -0300
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2026-11-20 00:36:40 -0300
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+Turbo::StreamsChannel is streaming from conversation:51a98d177e92aea39c665e7a07766b69
+Started POST "/chats/51a98d177e92aea39c665e7a07766b69/messages" for 127.0.0.1 at 2026-11-20 00:36:40 -0300
+Processing by ConversationsController#message as TURBO_STREAM
+  Parameters: {"prompt" => "[FILTERED]", "id" => "51a98d177e92aea39c665e7a07766b69"}
+Completed 200 OK in 3114ms (Views: 0.9ms | GC: 42.0ms)
+
+
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2026-11-20 00:36:43 -0300
+Turbo::StreamsChannel stopped streaming from conversation:51a98d177e92aea39c665e7a07766b69
+Started GET "/chats/51a98d177e92aea39c665e7a07766b69" for 127.0.0.1 at 2026-11-20 00:36:59 -0300
+Processing by ConversationsController#show as */*
+  Parameters: {"id" => "51a98d177e92aea39c665e7a07766b69"}
+  Rendered layout layouts/application.html.erb (Duration: 1.8ms | GC: 0.0ms)
+Completed 200 OK in 3ms (Views: 2.1ms | GC: 0.0ms)
+
+
+Started GET "/cable" for 127.0.0.1 at 2026-11-20 00:36:59 -0300
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2026-11-20 00:36:59 -0300
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+Turbo::StreamsChannel is streaming from conversation:51a98d177e92aea39c665e7a07766b69
+Started POST "/chats/51a98d177e92aea39c665e7a07766b69/messages" for 127.0.0.1 at 2026-11-20 00:36:59 -0300
+Processing by ConversationsController#message as TURBO_STREAM
+  Parameters: {"prompt" => "[FILTERED]", "id" => "51a98d177e92aea39c665e7a07766b69"}
+Completed 200 OK in 1885ms (Views: 0.7ms | GC: 0.1ms)
+
+
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2026-11-20 00:37:01 -0300
+Turbo::StreamsChannel stopped streaming from conversation:51a98d177e92aea39c665e7a07766b69
+- Gracefully stopping, waiting for requests to finish
+Exiting

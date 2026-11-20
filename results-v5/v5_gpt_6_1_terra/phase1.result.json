@@ -1,0 +1,40 @@
+{
+  "cost_breakdown": {
+    "actual_cost_usd": 0.260558,
+    "cache_savings_pct": 87.23,
+    "cache_savings_usd": 1.779859,
+    "components_usd": {
+      "cache_read": 0.093677,
+      "cache_write": 0.0,
+      "input_uncached": 0.067831,
+      "output": 0.09905
+    },
+    "no_cache_cost_usd": 2.040417
+  },
+  "elapsed_seconds": 198.03,
+  "ended_at": "2026-11-20T03:46:00+00:00",
+  "exit_code": 0,
+  "file_count_after": 2181,
+  "harness": "codex",
+  "model_id": "gpt-6.1-terra",
+  "native_cost_usd": null,
+  "phase": "phase1",
+  "session_id": "01a1f70c-a23a-7332-8176-f78d85cc6508",
+  "stall_aborted": false,
+  "started_at": "2026-11-20T03:42:42+00:00",
+  "timed_out": false,
+  "tokens": {
+    "billable_output": 19810,
+    "cache_hit_ratio": 0.9651,
+    "cache_read": 1873536,
+    "cache_write": 0,
+    "cache_write_1h": 0,
+    "cache_write_5m": 0,
+    "input_uncached": 67831,
+    "output": 19810,
+    "reasoning": 3403,
+    "total": 1961177,
+    "total_prompt": 1941367
+  },
+  "turns": 1
+}

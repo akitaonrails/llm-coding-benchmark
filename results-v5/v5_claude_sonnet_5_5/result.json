@@ -1,0 +1,132 @@
+{
+  "alt_cost_breakdowns": {},
+  "billing": "claude-max-subscription",
+  "cost_breakdown": {
+    "actual_cost_usd": 2.13815,
+    "cache_savings_pct": 81.41,
+    "cache_savings_usd": 9.360556,
+    "components_usd": {
+      "cache_read": 0.511904,
+      "cache_write": 0.731252,
+      "input_uncached": 0.000324,
+      "output": 0.89467
+    },
+    "no_cache_cost_usd": 11.498706
+  },
+  "elapsed_seconds_total": 943.87,
+  "ended_at": "2026-11-20T03:01:21+00:00",
+  "family": "Anthropic",
+  "harness": "claude",
+  "label": "Claude Sonnet 5.5",
+  "model_id": "claude-sonnet-5-5",
+  "native_cost_usd_total": 2.13815,
+  "nudges_used": 0,
+  "phases": [
+    {
+      "cost_breakdown": {
+        "actual_cost_usd": 1.098416,
+        "cache_savings_pct": 76.91,
+        "cache_savings_usd": 3.659268,
+        "components_usd": {
+          "cache_read": 0.202728,
+          "cache_write": 0.385124,
+          "input_uncached": 0.000124,
+          "output": 0.51044
+        },
+        "no_cache_cost_usd": 4.757684
+      },
+      "elapsed_seconds": 347.72,
+      "ended_at": "2026-11-20T02:51:22+00:00",
+      "exit_code": 0,
+      "file_count_after": 2216,
+      "harness": "claude",
+      "model_id": "claude-sonnet-5-5",
+      "native_cost_usd": 1.0984159,
+      "phase": "phase1",
+      "session_id": "137c687e-af04-4ea6-8f24-40b367a1281b",
+      "stall_aborted": false,
+      "started_at": "2026-11-20T02:45:35+00:00",
+      "timed_out": false,
+      "tokens": {
+        "billable_output": 51044,
+        "cache_hit_ratio": 0.9546,
+        "cache_read": 2027279,
+        "cache_write": 96281,
+        "cache_write_1h": 96281,
+        "cache_write_5m": 0,
+        "input_uncached": 62,
+        "output": 51044,
+        "reasoning": 11340,
+        "total": 2174666,
+        "total_prompt": 2123622
+      },
+      "turns": 32
+    },
+    {
+      "cost_breakdown": {
+        "actual_cost_usd": 1.039734,
+        "cache_savings_pct": 84.58,
+        "cache_savings_usd": 5.701288,
+        "components_usd": {
+          "cache_read": 0.309176,
+          "cache_write": 0.346128,
+          "input_uncached": 0.0002,
+          "output": 0.38423
+        },
+        "no_cache_cost_usd": 6.741022
+      },
+      "elapsed_seconds": 596.15,
+      "ended_at": "2026-11-20T03:01:18+00:00",
+      "exit_code": 0,
+      "file_count_after": 2337,
+      "harness": "claude",
+      "model_id": "claude-sonnet-5-5",
+      "native_cost_usd": 1.0397343999999997,
+      "phase": "phase2",
+      "session_id": "b32c9fdb-f2a8-43ce-b332-e84bc050a059",
+      "stall_aborted": false,
+      "started_at": "2026-11-20T02:51:22+00:00",
+      "timed_out": false,
+      "tokens": {
+        "billable_output": 38423,
+        "cache_hit_ratio": 0.9727,
+        "cache_read": 3091764,
+        "cache_write": 86532,
+        "cache_write_1h": 86532,
+        "cache_write_5m": 0,
+        "input_uncached": 100,
+        "output": 38423,
+        "reasoning": 13073,
+        "total": 3216819,
+        "total_prompt": 3178396
+      },
+      "turns": 50
+    }
+  ],
+  "quality_gate": {
+    "checks": {
+      "brakeman_pass": true,
+      "compose_present": true,
+      "dockerfile_present": true,
+      "gemfile_present": true,
+      "rubocop_pass": true,
+      "tests_pass": true
+    },
+    "passed": true
+  },
+  "slug": "v5_claude_sonnet_5_5",
+  "tokens_total": {
+    "billable_output": 89467,
+    "cache_hit_ratio": 0.9655,
+    "cache_read": 5119043,
+    "cache_write": 182813,
+    "cache_write_1h": 182813,
+    "cache_write_5m": 0,
+    "input_uncached": 162,
+    "output": 89467,
+    "reasoning": 24413,
+    "total": 5391485,
+    "total_prompt": 5302018
+  },
+  "turns_total": 82
+}

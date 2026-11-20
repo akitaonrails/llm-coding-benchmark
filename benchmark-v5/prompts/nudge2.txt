@@ -1,0 +1,1 @@
+Run the full test suite, RuboCop, Brakeman, bundle-audit, local server boot, `docker build`, and `docker compose up --build` in this directory. Investigate any remaining failures and fix them in place until the entire application builds, boots, and passes all checks cleanly.

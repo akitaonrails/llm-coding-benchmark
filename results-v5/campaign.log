@@ -1,0 +1,116 @@
+[v5_claude_fable_5_2/phase1] elapsed=1258.19s exit=0 tok=5914319 hit=96.7% cost=$8.8529 (no-cache=$51.0679, saved=82.7%)
+[v5_claude_fable_5_2/phase2] elapsed=840.35s exit=0 tok=3718237 hit=97.0% cost=$4.1046 (no-cache=$31.0692, saved=86.8%)
+[v5_claude_fable_5_2] COMPLETE gate=PASS nudges=0 elapsed=2098.54s cost=$12.9575 (no-cache=$82.1371, hit=96.9%)
+[v5_claude_opus_5_5/phase1] elapsed=871.77s exit=0 tok=8042396 hit=98.0% cost=$4.6783 (no-cache=$33.6260, saved=86.1%)
+[v5_claude_opus_5_5/phase2] elapsed=309.73s exit=0 tok=1539879 hit=96.6% cost=$1.0555 (no-cache=$6.4351, saved=83.6%)
+[v5_claude_opus_5_5] quality gate failed ({'gemfile_present': True, 'dockerfile_present': True, 'compose_present': True, 'tests_pass': False, 'rubocop_pass': True, 'brakeman_pass': True}); running nudge1
+[v5_claude_opus_5_5/nudge1] elapsed=137.22s exit=0 tok=1081066 hit=95.2% cost=$0.8262 (no-cache=$4.4904, saved=81.6%)
+[v5_claude_opus_5_5] quality gate failed ({'gemfile_present': True, 'dockerfile_present': True, 'compose_present': True, 'tests_pass': False, 'rubocop_pass': True, 'brakeman_pass': True}); running nudge2
+[v5_claude_opus_5_5/nudge2] elapsed=162.38s exit=0 tok=1206899 hit=95.7% cost=$0.8606 (no-cache=$5.0031, saved=82.8%)
+[v5_claude_opus_5_5] COMPLETE gate=FAIL nudges=2 elapsed=1481.1s cost=$7.4205 (no-cache=$49.5546, hit=97.3%)
+[v5_claude_sonnet_5_5/phase1] elapsed=347.72s exit=0 tok=2174666 hit=95.5% cost=$1.0984 (no-cache=$4.7577, saved=76.9%)
+[v5_claude_sonnet_5_5/phase2] elapsed=596.15s exit=0 tok=3216819 hit=97.3% cost=$1.0397 (no-cache=$6.7410, saved=84.6%)
+[v5_claude_sonnet_5_5] COMPLETE gate=PASS nudges=0 elapsed=943.87s cost=$2.1381 (no-cache=$11.4987, hit=96.5%)
+[v5_gpt_6_2_astra/phase1] elapsed=709.26s exit=0 tok=5118162 hit=97.6% cost=$4.2979 (no-cache=$42.0114, saved=89.8%)
+[v5_gpt_6_2_astra/phase2] elapsed=247.61s exit=0 tok=2086170 hit=97.6% cost=$1.4826 (no-cache=$16.9063, saved=91.2%)
+[v5_gpt_6_2_astra] COMPLETE gate=PASS nudges=0 elapsed=956.87s cost=$5.7805 (no-cache=$58.9178, hit=97.6%)
+[v5_gpt_6_2_sol/phase1] elapsed=717.65s exit=0 tok=4029934 hit=96.5% cost=$1.1132 (no-cache=$8.4197, saved=86.8%)
+[v5_gpt_6_2_sol/phase2] elapsed=801.26s exit=0 tok=4303260 hit=96.8% cost=$0.9076 (no-cache=$8.7807, saved=89.7%)
+[v5_gpt_6_2_sol] COMPLETE gate=PASS nudges=0 elapsed=1518.91s cost=$2.0208 (no-cache=$17.2004, hit=96.7%)
+[v5_gpt_6_1_terra/phase1] elapsed=198.03s exit=0 tok=1961177 hit=96.5% cost=$0.2606 (no-cache=$2.0404, saved=87.2%)
+[v5_gpt_6_1_terra/phase2] elapsed=245.87s exit=0 tok=2706823 hit=97.1% cost=$0.2401 (no-cache=$2.7305, saved=91.2%)
+[v5_gpt_6_1_terra] COMPLETE gate=PASS nudges=0 elapsed=443.9s cost=$0.5007 (no-cache=$4.7709, hit=96.8%)
+[v5_gpt_6_luna/phase1] elapsed=531.7s exit=0 tok=5892534 hit=98.0% cost=$0.0859 (no-cache=$0.6025, saved=85.7%)
+[v5_gpt_6_luna/phase2] elapsed=633.35s exit=0 tok=4207642 hit=97.5% cost=$0.0632 (no-cache=$0.4303, saved=85.3%)
+[v5_gpt_6_luna] COMPLETE gate=PASS nudges=0 elapsed=1165.05s cost=$0.1491 (no-cache=$1.0328, hit=97.8%)
+[v5_gemini_4_carbon/phase1] STALL after 1200s
+Traceback (most recent call last):
+  File "/mnt/data/Projects/llm-coding-benchmark/scripts/run_benchmark_v5.py", line 569, in <module>
+    selected = [m for m in cfg["models"] if m["slug"] in wanted]
+^^^^^^
+  File "/mnt/data/Projects/llm-coding-benchmark/scripts/run_benchmark_v5.py", line 558, in main
+    
+    
+  File "/mnt/data/Projects/llm-coding-benchmark/scripts/run_benchmark_v5.py", line 470, in run_model
+    def run_model(
+                   
+  File "/mnt/data/Projects/llm-coding-benchmark/scripts/run_benchmark_v5.py", line 395, in run_phase
+    f"tok={tokens['total']} hit={tokens['cache_hit_ratio']*100:.1f}% "
+                                 ~~~~~~^^^^^^^^^^^^^^^^^^^
+KeyError: 'cache_hit_ratio'
+[v5_claude_fable_5_2] already has result.json; skipping (--resume)
+[v5_claude_opus_5_5] already has result.json; skipping (--resume)
+[v5_claude_sonnet_5_5] already has result.json; skipping (--resume)
+[v5_gpt_6_2_astra] already has result.json; skipping (--resume)
+[v5_gpt_6_2_sol] already has result.json; skipping (--resume)
+[v5_gpt_6_1_terra] already has result.json; skipping (--resume)
+[v5_gpt_6_luna] already has result.json; skipping (--resume)
+[v5_gemini_4_carbon/phase1] elapsed=1481.54s exit=0 tok=5998478 hit=95.3% cost=$2.0822 (no-cache=$12.7728, saved=83.7%)
+[v5_gemini_4_carbon/phase2] elapsed=865.1s exit=0 tok=4090889 hit=95.6% cost=$1.2068 (no-cache=$8.5507, saved=85.9%)
+[v5_gemini_4_carbon] COMPLETE gate=PASS nudges=0 elapsed=2346.64s cost=$3.2890 (no-cache=$21.3234, hit=95.4%)
+[v5_gemini_4_neon/phase1] elapsed=814.18s exit=0 tok=2344114 hit=93.2% cost=$1.8282 (no-cache=$7.8682, saved=76.8%)
+[v5_gemini_4_neon/phase2] elapsed=630.38s exit=0 tok=2579975 hit=94.5% cost=$1.2763 (no-cache=$8.1387, saved=84.3%)
+[v5_gemini_4_neon] COMPLETE gate=PASS nudges=0 elapsed=1444.56s cost=$3.1045 (no-cache=$16.0069, hit=93.9%)
+[v5_gemini_4_hydrogen/phase1] elapsed=544.75s exit=0 tok=4246385 hit=95.4% cost=$1.0879 (no-cache=$6.7679, saved=83.9%)
+[v5_gemini_4_hydrogen/phase2] elapsed=427.52s exit=0 tok=3944994 hit=95.5% cost=$0.8055 (no-cache=$6.1248, saved=86.8%)
+[v5_gemini_4_hydrogen] COMPLETE gate=PASS nudges=0 elapsed=972.27s cost=$1.8934 (no-cache=$12.8926, hit=95.4%)
+[v5_grok_4_7/phase1] elapsed=2956.46s exit=0 tok=14645746 hit=94.1% cost=$9.5129 (no-cache=$29.9594, saved=68.2%)
+[v5_grok_4_7/phase2] elapsed=2289.12s exit=1 tok=0 hit=0.0% cost=$0.0000 (no-cache=$0.0000, saved=0.0%)
+[v5_grok_4_7] COMPLETE gate=PASS nudges=0 elapsed=5245.58s cost=$9.5129 (no-cache=$29.9594, hit=94.1%)
+[v5_glm_5_3/phase1] elapsed=0.11s exit=1 tok=0 hit=0.0% cost=$0.0000 (no-cache=$0.0000, saved=0.0%)
+[v5_glm_5_3/phase2] elapsed=0.05s exit=1 tok=0 hit=0.0% cost=$0.0000 (no-cache=$0.0000, saved=0.0%)
+[v5_glm_5_3] quality gate failed ({'gemfile_present': False, 'dockerfile_present': False, 'compose_present': False, 'tests_pass': False, 'rubocop_pass': False, 'brakeman_pass': False}); running nudge1
+[v5_glm_5_3/nudge1] elapsed=0.06s exit=1 tok=0 hit=0.0% cost=$0.0000 (no-cache=$0.0000, saved=0.0%)
+[v5_glm_5_3] quality gate failed ({'gemfile_present': False, 'dockerfile_present': False, 'compose_present': False, 'tests_pass': False, 'rubocop_pass': False, 'brakeman_pass': False}); running nudge2
+[v5_glm_5_3/nudge2] elapsed=0.06s exit=1 tok=0 hit=0.0% cost=$0.0000 (no-cache=$0.0000, saved=0.0%)
+[v5_glm_5_3] COMPLETE gate=FAIL nudges=2 elapsed=0.28s cost=$0.0000 (no-cache=$0.0000, hit=0.0%)
+[v5_kimi_k3_1_pro/phase1] elapsed=0.06s exit=1 tok=0 hit=0.0% cost=$0.0000 (no-cache=$0.0000, saved=0.0%)
+[v5_kimi_k3_1_pro/phase2] elapsed=0.06s exit=1 tok=0 hit=0.0% cost=$0.0000 (no-cache=$0.0000, saved=0.0%)
+[v5_kimi_k3_1_pro] quality gate failed ({'gemfile_present': False, 'dockerfile_present': False, 'compose_present': False, 'tests_pass': False, 'rubocop_pass': False, 'brakeman_pass': False}); running nudge1
+[v5_kimi_k3_1_pro/nudge1] elapsed=0.06s exit=1 tok=0 hit=0.0% cost=$0.0000 (no-cache=$0.0000, saved=0.0%)
+[v5_kimi_k3_1_pro] quality gate failed ({'gemfile_present': False, 'dockerfile_present': False, 'compose_present': False, 'tests_pass': False, 'rubocop_pass': False, 'brakeman_pass': False}); running nudge2
+[v5_kimi_k3_1_pro/nudge2] elapsed=0.05s exit=1 tok=0 hit=0.0% cost=$0.0000 (no-cache=$0.0000, saved=0.0%)
+[v5_kimi_k3_1_pro] COMPLETE gate=FAIL nudges=2 elapsed=0.23s cost=$0.0000 (no-cache=$0.0000, hit=0.0%)
+[v5_qwen_4_max/phase1] elapsed=1580.3s exit=0 tok=6684158 hit=97.5% cost=$1.0367 (no-cache=$10.2282, saved=89.9%)
+[v5_qwen_4_max/phase2] elapsed=1049.58s exit=0 tok=5249767 hit=97.6% cost=$0.7398 (no-cache=$7.9887, saved=90.7%)
+[v5_qwen_4_max] COMPLETE gate=PASS nudges=0 elapsed=2629.88s cost=$1.7765 (no-cache=$18.2169, hit=97.5%)
+[v5_deepseek_v4_1_flash/phase1] elapsed=0.05s exit=1 tok=0 hit=0.0% cost=$0.0000 (no-cache=$0.0000, saved=0.0%)
+[v5_deepseek_v4_1_flash/phase2] elapsed=0.06s exit=1 tok=0 hit=0.0% cost=$0.0000 (no-cache=$0.0000, saved=0.0%)
+[v5_deepseek_v4_1_flash] quality gate failed ({'gemfile_present': False, 'dockerfile_present': False, 'compose_present': False, 'tests_pass': False, 'rubocop_pass': False, 'brakeman_pass': False}); running nudge1
+[v5_deepseek_v4_1_flash/nudge1] elapsed=0.05s exit=1 tok=0 hit=0.0% cost=$0.0000 (no-cache=$0.0000, saved=0.0%)
+[v5_deepseek_v4_1_flash] quality gate failed ({'gemfile_present': False, 'dockerfile_present': False, 'compose_present': False, 'tests_pass': False, 'rubocop_pass': False, 'brakeman_pass': False}); running nudge2
+[v5_deepseek_v4_1_flash/nudge2] elapsed=0.05s exit=1 tok=0 hit=0.0% cost=$0.0000 (no-cache=$0.0000, saved=0.0%)
+[v5_deepseek_v4_1_flash] COMPLETE gate=FAIL nudges=2 elapsed=0.21s cost=$0.0000 (no-cache=$0.0000, hit=0.0%)
+[v5_deepseek_v4_pro/phase1] elapsed=0.06s exit=1 tok=0 hit=0.0% cost=$0.0000 (no-cache=$0.0000, saved=0.0%)
+[v5_deepseek_v4_pro/phase2] elapsed=0.05s exit=1 tok=0 hit=0.0% cost=$0.0000 (no-cache=$0.0000, saved=0.0%)
+[v5_deepseek_v4_pro] quality gate failed ({'gemfile_present': False, 'dockerfile_present': False, 'compose_present': False, 'tests_pass': False, 'rubocop_pass': False, 'brakeman_pass': False}); running nudge1
+[v5_deepseek_v4_pro/nudge1] elapsed=0.05s exit=1 tok=0 hit=0.0% cost=$0.0000 (no-cache=$0.0000, saved=0.0%)
+[v5_deepseek_v4_pro] quality gate failed ({'gemfile_present': False, 'dockerfile_present': False, 'compose_present': False, 'tests_pass': False, 'rubocop_pass': False, 'brakeman_pass': False}); running nudge2
+[v5_deepseek_v4_pro/nudge2] elapsed=0.05s exit=1 tok=0 hit=0.0% cost=$0.0000 (no-cache=$0.0000, saved=0.0%)
+[v5_deepseek_v4_pro] COMPLETE gate=FAIL nudges=2 elapsed=0.21s cost=$0.0000 (no-cache=$0.0000, hit=0.0%)
+[v5_muse_wonder/phase1] STALL after 1200s
+[v5_muse_wonder/phase1] elapsed=1226.39s exit=143 tok=0 hit=0.0% cost=$0.0000 (no-cache=$0.0000, saved=0.0%)
+[v5_muse_wonder] quality gate failed ({'gemfile_present': False, 'dockerfile_present': False, 'compose_present': False, 'tests_pass': False, 'rubocop_pass': False, 'brakeman_pass': False}); running nudge1
+[v5_muse_wonder/nudge1] elapsed=71.96s exit=0 tok=264935 hit=61.1% cost=$0.4685 (no-cache=$1.0807, saved=56.6%)
+[v5_muse_wonder] quality gate failed ({'gemfile_present': False, 'dockerfile_present': False, 'compose_present': False, 'tests_pass': False, 'rubocop_pass': False, 'brakeman_pass': False}); running nudge2
+[v5_muse_wonder/nudge2] elapsed=45.69s exit=0 tok=65449 hit=0.0% cost=$0.2714 (no-cache=$0.2714, saved=0.0%)
+[v5_muse_wonder] COMPLETE gate=FAIL nudges=2 elapsed=1344.04s cost=$0.7399 (no-cache=$1.3520, hit=49.0%)
+[v5_glm_5_3/phase1] elapsed=1244.26s exit=0 tok=18204944 hit=99.1% cost=$5.3210 (no-cache=$25.7714, saved=79.3%)
+[v5_glm_5_3/phase2] elapsed=467.58s exit=0 tok=2590708 hit=99.1% cost=$0.7547 (no-cache=$3.6675, saved=79.4%)
+[v5_glm_5_3] COMPLETE gate=PASS nudges=0 elapsed=1711.84s cost=$6.0757 (no-cache=$29.4390, hit=99.1%)
+[v5_kimi_k3_1_pro/phase1] elapsed=581.52s exit=0 tok=3864420 hit=97.9% cost=$1.4413 (no-cache=$8.1544, saved=82.3%)
+[v5_kimi_k3_1_pro/phase2] elapsed=377.43s exit=0 tok=2938359 hit=92.6% cost=$1.2169 (no-cache=$6.0719, saved=80.0%)
+[v5_kimi_k3_1_pro] COMPLETE gate=PASS nudges=0 elapsed=958.95s cost=$2.6582 (no-cache=$14.2262, hit=95.6%)
+[v5_deepseek_v4_1_flash/phase1] elapsed=1202.52s exit=0 tok=26402453 hit=98.3% cost=$0.4556 (no-cache=$8.0479, saved=94.3%)
+[v5_deepseek_v4_1_flash/phase2] elapsed=549.21s exit=0 tok=5943205 hit=98.7% cost=$0.1085 (no-cache=$1.8202, saved=94.0%)
+[v5_deepseek_v4_1_flash] COMPLETE gate=PASS nudges=0 elapsed=1751.73s cost=$0.5641 (no-cache=$9.8682, hit=98.4%)
+[v5_deepseek_v4_pro/phase1] elapsed=1153.73s exit=0 tok=25119165 hit=99.0% cost=$2.0155 (no-cache=$33.5503, saved=94.0%)
+[v5_deepseek_v4_pro/phase2] elapsed=959.44s exit=0 tok=11693719 hit=96.9% cost=$1.3732 (no-cache=$15.7023, saved=91.2%)
+[v5_deepseek_v4_pro] COMPLETE gate=PASS nudges=0 elapsed=2113.17s cost=$3.3887 (no-cache=$49.2526, hit=98.3%)
+[v5_muse_wonder/phase1] elapsed=121.79s exit=1 tok=496578 hit=66.0% cost=$0.7832 (no-cache=$2.0236, saved=61.3%)
+[v5_muse_wonder/phase2] elapsed=5.08s exit=1 tok=0 hit=0.0% cost=$0.0000 (no-cache=$0.0000, saved=0.0%)
+[v5_muse_wonder] quality gate failed ({'gemfile_present': False, 'dockerfile_present': False, 'compose_present': False, 'tests_pass': False, 'rubocop_pass': False, 'brakeman_pass': False}); running nudge1
+[v5_muse_wonder/nudge1] elapsed=8.47s exit=1 tok=32357 hit=0.0% cost=$0.1317 (no-cache=$0.1317, saved=0.0%)
+[v5_muse_wonder] quality gate failed ({'gemfile_present': False, 'dockerfile_present': False, 'compose_present': False, 'tests_pass': False, 'rubocop_pass': False, 'brakeman_pass': False}); running nudge2
+[v5_muse_wonder/nudge2] elapsed=4.89s exit=1 tok=0 hit=0.0% cost=$0.0000 (no-cache=$0.0000, saved=0.0%)
+[v5_muse_wonder] COMPLETE gate=FAIL nudges=2 elapsed=140.23s cost=$0.9149 (no-cache=$2.1553, hit=62.0%)

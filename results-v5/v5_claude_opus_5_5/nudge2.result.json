@@ -1,0 +1,40 @@
+{
+  "cost_breakdown": {
+    "actual_cost_usd": 0.860608,
+    "cache_savings_pct": 82.8,
+    "cache_savings_usd": 4.142508,
+    "components_usd": {
+      "cache_read": 0.228872,
+      "cache_write": 0.412136,
+      "input_uncached": 0.0002,
+      "output": 0.2194
+    },
+    "no_cache_cost_usd": 5.003116
+  },
+  "elapsed_seconds": 162.38,
+  "ended_at": "2026-11-20T02:45:32+00:00",
+  "exit_code": 0,
+  "file_count_after": 1859,
+  "harness": "claude",
+  "model_id": "claude-opus-5-5",
+  "native_cost_usd": 0.8606083999999999,
+  "phase": "nudge2",
+  "session_id": "6cc82a7e-735b-47c2-8ea1-ae9c07436312",
+  "stall_aborted": false,
+  "started_at": "2026-11-20T02:42:50+00:00",
+  "timed_out": false,
+  "tokens": {
+    "billable_output": 10970,
+    "cache_hit_ratio": 0.9569,
+    "cache_read": 1144362,
+    "cache_write": 51517,
+    "cache_write_1h": 51517,
+    "cache_write_5m": 0,
+    "input_uncached": 50,
+    "output": 10970,
+    "reasoning": 2392,
+    "total": 1206899,
+    "total_prompt": 1195929
+  },
+  "turns": 25
+}

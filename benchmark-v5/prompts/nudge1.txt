@@ -1,0 +1,1 @@
+Review the original requirements (G1–G14) and phase 2 validation checklist against the current codebase in this directory. Continue any unfinished work, fix any failing tests, linters, boot issues, or Docker/Compose failures, and verify everything passes before concluding.

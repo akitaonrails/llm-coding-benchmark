@@ -1,0 +1,145 @@
+{
+  "alt_cost_breakdowns": {
+    "openrouter_rates": {
+      "actual_cost_usd": 10.588464,
+      "cache_savings_pct": 16.92,
+      "cache_savings_usd": 2.156605,
+      "components_usd": {
+        "cache_read": 7.548119,
+        "cache_write": 0.0,
+        "input_uncached": 0.1673,
+        "output": 2.873045
+      },
+      "no_cache_cost_usd": 12.74507
+    }
+  },
+  "billing": "openrouter-api",
+  "cost_breakdown": {
+    "actual_cost_usd": 3.388749,
+    "cache_savings_pct": 93.12,
+    "cache_savings_usd": 45.863809,
+    "components_usd": {
+      "cache_read": 1.581511,
+      "cache_write": 0.0,
+      "input_uncached": 0.817912,
+      "output": 0.989327
+    },
+    "no_cache_cost_usd": 49.252558
+  },
+  "elapsed_seconds_total": 2113.17,
+  "ended_at": "2026-11-20T10:29:40+00:00",
+  "family": "DeepSeek",
+  "harness": "opencode",
+  "label": "DeepSeek V4 Pro (0813)",
+  "model_id": "openrouter/deepseek/deepseek-v4-pro-0813",
+  "native_cost_usd_total": 3.388749,
+  "nudges_used": 0,
+  "phases": [
+    {
+      "cost_breakdown": {
+        "actual_cost_usd": 2.015534,
+        "cache_savings_pct": 93.99,
+        "cache_savings_usd": 31.534717,
+        "components_usd": {
+          "cache_read": 1.087404,
+          "cache_write": 0.0,
+          "input_uncached": 0.3387,
+          "output": 0.58943
+        },
+        "no_cache_cost_usd": 33.550251
+      },
+      "elapsed_seconds": 1153.73,
+      "ended_at": "2026-11-20T10:13:38+00:00",
+      "exit_code": 0,
+      "file_count_after": 2327,
+      "harness": "opencode",
+      "model_id": "openrouter/deepseek/deepseek-v4-pro-0813",
+      "native_cost_usd": 2.015534,
+      "phase": "phase1",
+      "session_id": "ses_e079f100fffeJB501qyGYHN4L0",
+      "stall_aborted": false,
+      "started_at": "2026-11-20T09:54:24+00:00",
+      "timed_out": false,
+      "tokens": {
+        "billable_output": 148846,
+        "cache_hit_ratio": 0.9897,
+        "cache_read": 24713728,
+        "cache_write": 0,
+        "cache_write_1h": 0,
+        "cache_write_5m": 0,
+        "input_uncached": 256591,
+        "output": 48981,
+        "reasoning": 99865,
+        "total": 25119165,
+        "total_prompt": 24970319
+      },
+      "turns": 166
+    },
+    {
+      "cost_breakdown": {
+        "actual_cost_usd": 1.373215,
+        "cache_savings_pct": 91.25,
+        "cache_savings_usd": 14.329092,
+        "components_usd": {
+          "cache_read": 0.494107,
+          "cache_write": 0.0,
+          "input_uncached": 0.479211,
+          "output": 0.399897
+        },
+        "no_cache_cost_usd": 15.702307
+      },
+      "elapsed_seconds": 959.44,
+      "ended_at": "2026-11-20T10:29:37+00:00",
+      "exit_code": 0,
+      "file_count_after": 2395,
+      "harness": "opencode",
+      "model_id": "openrouter/deepseek/deepseek-v4-pro-0813",
+      "native_cost_usd": 1.373215,
+      "phase": "phase2",
+      "session_id": "ses_e078d7556ffedquKGKZSnb6Vs1",
+      "stall_aborted": false,
+      "started_at": "2026-11-20T10:13:38+00:00",
+      "timed_out": false,
+      "tokens": {
+        "billable_output": 100984,
+        "cache_hit_ratio": 0.9687,
+        "cache_read": 11229696,
+        "cache_write": 0,
+        "cache_write_1h": 0,
+        "cache_write_5m": 0,
+        "input_uncached": 363039,
+        "output": 29484,
+        "reasoning": 71500,
+        "total": 11693719,
+        "total_prompt": 11592735
+      },
+      "turns": 102
+    }
+  ],
+  "quality_gate": {
+    "checks": {
+      "brakeman_pass": true,
+      "compose_present": true,
+      "dockerfile_present": true,
+      "gemfile_present": true,
+      "rubocop_pass": true,
+      "tests_pass": true
+    },
+    "passed": true
+  },
+  "slug": "v5_deepseek_v4_pro",
+  "tokens_total": {
+    "billable_output": 249830,
+    "cache_hit_ratio": 0.9831,
+    "cache_read": 35943424,
+    "cache_write": 0,
+    "cache_write_1h": 0,
+    "cache_write_5m": 0,
+    "input_uncached": 619630,
+    "output": 78465,
+    "reasoning": 171365,
+    "total": 36812884,
+    "total_prompt": 36563054
+  },
+  "turns_total": 268
+}

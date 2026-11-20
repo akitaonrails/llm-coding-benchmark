@@ -1,0 +1,40 @@
+{
+  "cost_breakdown": {
+    "actual_cost_usd": 1.206803,
+    "cache_savings_pct": 85.89,
+    "cache_savings_usd": 7.34387,
+    "components_usd": {
+      "cache_read": 0.38652,
+      "cache_write": 0.0,
+      "input_uncached": 0.359164,
+      "output": 0.46112
+    },
+    "no_cache_cost_usd": 8.550674
+  },
+  "elapsed_seconds": 865.1,
+  "ended_at": "2026-11-20T05:25:13+00:00",
+  "exit_code": 0,
+  "file_count_after": 2320,
+  "harness": "agy",
+  "model_id": "gemini-4-carbon-high",
+  "native_cost_usd": null,
+  "phase": "phase2",
+  "session_id": "61dea028-af9e-4a5e-9704-147975f8ee2f",
+  "stall_aborted": false,
+  "started_at": "2026-11-20T05:10:48+00:00",
+  "timed_out": false,
+  "tokens": {
+    "billable_output": 46112,
+    "cache_hit_ratio": 0.9556,
+    "cache_read": 3865195,
+    "cache_write": 0,
+    "cache_write_1h": 0,
+    "cache_write_5m": 0,
+    "input_uncached": 179582,
+    "output": 46112,
+    "reasoning": 22057,
+    "total": 4090889,
+    "total_prompt": 4044777
+  },
+  "turns": 1
+}

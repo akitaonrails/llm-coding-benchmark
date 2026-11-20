@@ -1,0 +1,402 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-11-19",
+  "notes": "Official first-party API rates (USD per 1M tokens) verified 2026-11-19 against vendor pricing pages and cross-checked with OpenRouter /api/v1/models. Includes cache read, cache write (standard short TTL), and long-context step-ups where applicable.",
+  "models": {
+    "claude_fable_5_2": {
+      "family": "Anthropic",
+      "display_name": "Claude Fable 5.2",
+      "provider": "Anthropic",
+      "preferred_harness": "claude",
+      "native_model_id": "claude-fable-5-2",
+      "openrouter_id": "anthropic/claude-fable-5.2",
+      "context_window": 1000000,
+      "rates_per_m": {
+        "input": 8.0,
+        "output": 40.0,
+        "cache_read": 0.2,
+        "cache_write_5m": 10.0,
+        "cache_write_1h": 16.0,
+        "cache_write": 10.0
+      },
+      "cache_type": "explicit",
+      "long_context_threshold": null,
+      "source": "Anthropic official API pricing (Nov 2026); 0.025x cache read, 1.25x 5m / 2.0x 1h cache write"
+    },
+    "claude_mythos_5_2": {
+      "family": "Anthropic",
+      "display_name": "Claude Mythos 5.2",
+      "provider": "Anthropic",
+      "preferred_harness": "claude",
+      "native_model_id": "claude-mythos-5-2",
+      "openrouter_id": null,
+      "context_window": 1000000,
+      "rates_per_m": {
+        "input": 8.0,
+        "output": 40.0,
+        "cache_read": 0.2,
+        "cache_write_5m": 10.0,
+        "cache_write_1h": 16.0,
+        "cache_write": 10.0
+      },
+      "cache_type": "explicit",
+      "long_context_threshold": null,
+      "access_note": "Gated on Anthropic Cyber/Life Sciences Verification Program; returned 404 on current account",
+      "source": "Anthropic official API pricing (Nov 2026)"
+    },
+    "claude_opus_5_5": {
+      "family": "Anthropic",
+      "display_name": "Claude Opus 5.5",
+      "provider": "Anthropic",
+      "preferred_harness": "claude",
+      "native_model_id": "claude-opus-5-5",
+      "openrouter_id": "anthropic/claude-opus-5.5",
+      "context_window": 1000000,
+      "rates_per_m": {
+        "input": 4.0,
+        "output": 20.0,
+        "cache_read": 0.2,
+        "cache_write_5m": 5.0,
+        "cache_write_1h": 8.0,
+        "cache_write": 5.0
+      },
+      "cache_type": "explicit",
+      "long_context_threshold": null,
+      "source": "Anthropic official API pricing (2026); 0.05x cache read, 1.25x 5m / 2.0x 1h cache write"
+    },
+    "claude_sonnet_5_5": {
+      "family": "Anthropic",
+      "display_name": "Claude Sonnet 5.5",
+      "provider": "Anthropic",
+      "preferred_harness": "claude",
+      "native_model_id": "claude-sonnet-5-5",
+      "openrouter_id": "anthropic/claude-sonnet-5.5",
+      "context_window": 1000000,
+      "rates_per_m": {
+        "input": 2.0,
+        "output": 10.0,
+        "cache_read": 0.1,
+        "cache_write_5m": 2.5,
+        "cache_write_1h": 4.0,
+        "cache_write": 2.5
+      },
+      "cache_type": "explicit",
+      "long_context_threshold": null,
+      "source": "Anthropic official API pricing (2026); 0.05x cache read, 1.25x 5m / 2.0x 1h cache write"
+    },
+    "gpt_6_2_astra": {
+      "family": "OpenAI",
+      "display_name": "GPT-6.2 Astra",
+      "provider": "OpenAI",
+      "preferred_harness": "codex",
+      "native_model_id": "gpt-6.2-astra",
+      "openrouter_id": "openai/gpt-6.2-astra",
+      "context_window": 1050000,
+      "rates_per_m": {
+        "input": 8.0,
+        "output": 40.0,
+        "cache_read": 0.4,
+        "cache_write": 10.0,
+        "cache_write_12h": 20.0
+      },
+      "cache_type": "automatic_with_write_fee",
+      "long_context_threshold": 272000,
+      "long_context_multipliers": {
+        "input": 2.0,
+        "cache_read": 2.0,
+        "output": 1.5
+      },
+      "source": "OpenAI official API pricing (Nov 17, 2026)"
+    },
+    "gpt_6_2_sol": {
+      "family": "OpenAI",
+      "display_name": "GPT-6.2 Sol",
+      "provider": "OpenAI",
+      "preferred_harness": "codex",
+      "native_model_id": "gpt-6.2-sol",
+      "openrouter_id": "openai/gpt-6.2-sol",
+      "context_window": 1050000,
+      "rates_per_m": {
+        "input": 2.0,
+        "output": 10.0,
+        "cache_read": 0.1,
+        "cache_write": 2.5,
+        "cache_write_12h": 5.0
+      },
+      "cache_type": "automatic_with_write_fee",
+      "long_context_threshold": 272000,
+      "long_context_multipliers": {
+        "input": 2.0,
+        "cache_read": 2.0,
+        "output": 1.5
+      },
+      "source": "OpenAI official API pricing (Nov 2026)"
+    },
+    "gpt_6_1_terra": {
+      "family": "OpenAI",
+      "display_name": "GPT-6.1 Terra",
+      "provider": "OpenAI",
+      "preferred_harness": "codex",
+      "native_model_id": "gpt-6.1-terra",
+      "openrouter_id": "openai/gpt-6.1-terra",
+      "context_window": 1050000,
+      "rates_per_m": {
+        "input": 1.0,
+        "output": 5.0,
+        "cache_read": 0.05,
+        "cache_write": 1.25
+      },
+      "cache_type": "automatic_with_write_fee",
+      "long_context_threshold": null,
+      "source": "OpenAI official API pricing (2026)"
+    },
+    "gpt_6_luna": {
+      "family": "OpenAI",
+      "display_name": "GPT-6 Luna",
+      "provider": "OpenAI",
+      "preferred_harness": "codex",
+      "native_model_id": "gpt-6-luna",
+      "openrouter_id": "openai/gpt-6-luna",
+      "context_window": 1050000,
+      "rates_per_m": {
+        "input": 0.1,
+        "output": 0.5,
+        "cache_read": 0.01,
+        "cache_write": 0.125
+      },
+      "cache_type": "automatic_with_write_fee",
+      "long_context_threshold": null,
+      "source": "OpenAI official API pricing (2026)"
+    },
+    "gemini_4_carbon": {
+      "family": "Google",
+      "display_name": "Gemini 4 Carbon",
+      "provider": "Google",
+      "preferred_harness": "agy",
+      "native_model_id": "gemini-4-carbon-high",
+      "openrouter_id": "google/gemini-4-carbon",
+      "context_window": 1048576,
+      "rates_per_m": {
+        "input": 2.0,
+        "output": 10.0,
+        "cache_read": 0.1,
+        "cache_write": 0.0
+      },
+      "scheduled_rate_change": {
+        "effective_date": "2026-12-01",
+        "input": 4.0,
+        "output": 20.0,
+        "cache_read": 0.2,
+        "cache_write": 0.0
+      },
+      "cache_type": "implicit",
+      "long_context_threshold": null,
+      "source": "Google Gemini API pricing (intro $2/$10 through 2026-11-30; standard $4/$20 from 2026-12-01; 95% implicit cache discount)"
+    },
+    "gemini_4_neon": {
+      "family": "Google",
+      "display_name": "Gemini 4 Neon",
+      "provider": "Google",
+      "preferred_harness": "agy",
+      "native_model_id": "gemini-4-neon-high",
+      "openrouter_id": "google/gemini-4-neon",
+      "context_window": 1048576,
+      "rates_per_m": {
+        "input": 3.0,
+        "output": 15.0,
+        "cache_read": 0.15,
+        "cache_write": 0.0
+      },
+      "cache_type": "implicit",
+      "long_context_threshold": null,
+      "source": "Google Gemini API pricing (Nov 2026); implicit caching >=4096 tokens at 95% discount"
+    },
+    "gemini_4_hydrogen": {
+      "family": "Google",
+      "display_name": "Gemini 4 Hydrogen",
+      "provider": "Google",
+      "preferred_harness": "agy",
+      "native_model_id": "gemini-4-hydrogen-high",
+      "openrouter_id": "google/gemini-4-hydrogen",
+      "context_window": 1048576,
+      "rates_per_m": {
+        "input": 1.5,
+        "output": 7.5,
+        "cache_read": 0.075,
+        "cache_write": 0.0
+      },
+      "cache_type": "implicit",
+      "long_context_threshold": null,
+      "source": "Google Gemini API pricing (Nov 2026); 95% implicit cache discount"
+    },
+    "grok_4_7": {
+      "family": "xAI",
+      "display_name": "Grok 4.7",
+      "provider": "xAI",
+      "preferred_harness": "grok",
+      "native_model_id": "grok-4.7",
+      "openrouter_id": "x-ai/grok-4.7",
+      "context_window": 500000,
+      "rates_per_m": {
+        "input": 2.0,
+        "output": 6.0,
+        "cache_read": 0.5,
+        "cache_write": 0.0
+      },
+      "cache_type": "implicit",
+      "long_context_threshold": 200000,
+      "long_context_multipliers": {
+        "input": 2.0,
+        "cache_read": 2.0,
+        "output": 2.0
+      },
+      "source": "xAI official API pricing (2026); 2x >=200K context"
+    },
+    "glm_5_3": {
+      "family": "Z.ai",
+      "display_name": "GLM-5.3",
+      "provider": "Z.ai",
+      "preferred_harness": "zcode",
+      "native_model_id": "zai/glm-5.3",
+      "openrouter_id": "z-ai/glm-5.3",
+      "context_window": 1000000,
+      "rates_per_m": {
+        "input": 1.4,
+        "output": 4.4,
+        "cache_read": 0.26,
+        "cache_write": 0.0
+      },
+      "openrouter_rates_per_m": {
+        "input": 0.0699,
+        "output": 1.4,
+        "cache_read": 0.0689,
+        "cache_write": 0.0
+      },
+      "cache_type": "implicit",
+      "long_context_threshold": null,
+      "source": "Z.ai official API pricing (2026); also available on flat-rate GLM Coding Plan and discounted OpenRouter providers"
+    },
+    "kimi_k3_1_pro": {
+      "family": "Moonshot",
+      "display_name": "Kimi K3.1 Pro",
+      "provider": "Moonshot AI",
+      "preferred_harness": "kimi",
+      "native_model_id": "kimi-code/k3.1-pro",
+      "openrouter_id": "moonshotai/kimi-k3.1-pro",
+      "context_window": 1000000,
+      "rates_per_m": {
+        "input": 2.0,
+        "output": 10.0,
+        "cache_read": 0.2,
+        "cache_write": 0.0
+      },
+      "openrouter_rates_per_m": {
+        "input": 0.253,
+        "output": 8.8,
+        "cache_read": 0.18,
+        "cache_write": 0.0
+      },
+      "cache_type": "implicit",
+      "long_context_threshold": null,
+      "source": "Moonshot official API pricing (2026); 90% cache read discount"
+    },
+    "qwen_4_max": {
+      "family": "Alibaba",
+      "display_name": "Qwen 4 Max",
+      "provider": "Alibaba Cloud",
+      "preferred_harness": "qwen",
+      "native_model_id": "qwen4-max",
+      "openrouter_id": "qwen/qwen4-max",
+      "context_window": 1000000,
+      "rates_per_m": {
+        "input": 1.5,
+        "output": 4.5,
+        "cache_read": 0.075,
+        "cache_write_5m": 1.875,
+        "cache_write_1h": 3.0,
+        "cache_write": 1.875
+      },
+      "cache_type": "explicit",
+      "long_context_threshold": null,
+      "source": "Alibaba Cloud International / Model Studio official pricing (2026)"
+    },
+    "deepseek_v4_1_flash": {
+      "family": "DeepSeek",
+      "display_name": "DeepSeek V4.1 Flash (1017)",
+      "provider": "DeepSeek",
+      "preferred_harness": "opencode",
+      "native_model_id": "openrouter/deepseek/deepseek-v4.1-flash-1017",
+      "openrouter_id": "deepseek/deepseek-v4.1-flash-1017",
+      "context_window": 1048576,
+      "rates_per_m": {
+        "input": 0.3,
+        "output": 1.2,
+        "cache_read": 0.006,
+        "cache_write": 0.0
+      },
+      "offpeak_rates_per_m": {
+        "input": 0.15,
+        "output": 0.6,
+        "cache_read": 0.003,
+        "cache_write": 0.0
+      },
+      "openrouter_rates_per_m": {
+        "input": 0.036,
+        "output": 0.5,
+        "cache_read": 0.01,
+        "cache_write": 0.0
+      },
+      "cache_type": "implicit",
+      "long_context_threshold": null,
+      "source": "DeepSeek official API pricing (peak/off-peak) & OpenRouter live catalog (Nov 2026)"
+    },
+    "deepseek_v4_pro": {
+      "family": "DeepSeek",
+      "display_name": "DeepSeek V4 Pro (0813)",
+      "provider": "DeepSeek",
+      "preferred_harness": "opencode",
+      "native_model_id": "openrouter/deepseek/deepseek-v4-pro-0813",
+      "openrouter_id": "deepseek/deepseek-v4-pro-0813",
+      "context_window": 1048576,
+      "rates_per_m": {
+        "input": 1.32,
+        "output": 3.96,
+        "cache_read": 0.044,
+        "cache_write": 0.0
+      },
+      "offpeak_rates_per_m": {
+        "input": 0.66,
+        "output": 1.98,
+        "cache_read": 0.022,
+        "cache_write": 0.0
+      },
+      "openrouter_rates_per_m": {
+        "input": 0.27,
+        "output": 11.5,
+        "cache_read": 0.21,
+        "cache_write": 0.0
+      },
+      "cache_type": "implicit",
+      "long_context_threshold": null,
+      "source": "DeepSeek official API pricing (peak/off-peak) & OpenRouter live catalog (Nov 2026)"
+    },
+    "muse_wonder": {
+      "family": "Meta",
+      "display_name": "Muse Wonder 1.0",
+      "provider": "Meta",
+      "preferred_harness": "muse",
+      "native_model_id": "muse-wonder-1.0",
+      "openrouter_id": "meta/muse-wonder",
+      "context_window": 1000000,
+      "rates_per_m": {
+        "input": 4.0,
+        "output": 20.0,
+        "cache_read": 0.2,
+        "cache_write": 0.0
+      },
+      "cache_type": "implicit",
+      "long_context_threshold": null,
+      "source": "Meta API & OpenRouter live catalog (Nov 2026)"
+    }
+  }
+}

@@ -128,3 +128,16 @@ results-v4/_b300_campaign/reboot-pause-*/
 # muse harness internals (credentials + CLI state) — NEVER commit (auth.json lives here)
 results-v4/**/.muse-config/
 results-v4/**/.muse-home/
+
+# results-v5 (commit only normalized result.json files + campaign.log)
+results-v5/*/project/
+results-v5/**/*.ndjson
+results-v5/**/*.stderr.log
+results-v5/**/*.prompt.txt
+results-v5/*.harness-err/
+results-v5/*.interrupted-*/
+results-v5/**/.claude/
+results-v5/**/.claude.json
+results-v5/**/.muse-config/
+results-v5/**/.muse-home/
+results-v5/**/.muse-data/

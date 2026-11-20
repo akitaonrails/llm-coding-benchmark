@@ -1,0 +1,155 @@
+=> Booting Puma
+=> Rails 8.1.4.1 application starting in development 
+=> Run `bin/rails server --help` for more startup options
+[3063543] * Enabling systemd notification integration
+[3063543] Puma starting in cluster mode...
+[3063543] * Puma version: 8.1.2 ("Puma Psychosis")
+[3063543] * Ruby version: ruby 4.0.10 (2026-11-19 revision a704b7cd95) +PRISM [x86_64-linux]
+[3063543] *  Min threads: 5
+[3063543] *  Max threads: 5
+[3063543] *  Environment: development
+[3063543] *   Master PID: 3063543
+[3063543] *      Workers: 2
+[3063543] *     Restarts: (✔) hot (✖) phased (✖) refork
+[3063543] * Preloading application
+[3063543] * Listening on http://127.0.0.1:13681
+[3063543] Use Ctrl-C to stop
+[3063543] - Worker 0 (PID: 3063598) booted in 0.0s, phase: 0
+[3063543] Sending status to systemd every 1.0 sec
+[3063543] - Worker 1 (PID: 3063607) booted in 0.0s, phase: 0
+Started GET "/" for 127.0.0.1 at 2026-11-20 00:37:33 -0300
+Processing by ConversationsController#index as */*
+Redirected to http://127.0.0.1:13681/chats/f359d6128fa2e15980c59de880c9a215
+↳ app/controllers/conversations_controller.rb:6:in 'ConversationsController#index'
+Completed 302 Found in 5ms (GC: 0.8ms)
+
+
+Started GET "/chats/f359d6128fa2e15980c59de880c9a215" for 127.0.0.1 at 2026-11-20 00:37:33 -0300
+Processing by ConversationsController#show as */*
+  Parameters: {"id" => "f359d6128fa2e15980c59de880c9a215"}
+  Rendered layout layouts/application.html.erb (Duration: 8.7ms | GC: 0.5ms)
+Completed 200 OK in 14ms (Views: 10.7ms | GC: 1.3ms)
+
+
+Started GET "/cable" for 127.0.0.1 at 2026-11-20 00:37:33 -0300
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2026-11-20 00:37:33 -0300
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+Turbo::StreamsChannel is streaming from conversation:f359d6128fa2e15980c59de880c9a215
+Started GET "/up" for 127.0.0.1 at 2026-11-20 00:37:33 -0300
+Processing by Rails::HealthController#show as HTML
+Completed 200 OK in 2ms (Views: 1.1ms | GC: 0.0ms)
+
+
+Started POST "/chats/f359d6128fa2e15980c59de880c9a215/messages" for 127.0.0.1 at 2026-11-20 00:37:33 -0300
+Processing by ConversationsController#message as TURBO_STREAM
+  Parameters: {"prompt" => "[FILTERED]", "id" => "f359d6128fa2e15980c59de880c9a215"}
+Completed 200 OK in 2148ms (Views: 0.8ms | GC: 41.7ms)
+
+
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2026-11-20 00:37:35 -0300
+Started GET "/cable" for 127.0.0.1 at 2026-11-20 00:37:35 -0300
+Turbo::StreamsChannel stopped streaming from conversation:f359d6128fa2e15980c59de880c9a215
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2026-11-20 00:37:35 -0300
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+Turbo::StreamsChannel is streaming from conversation:f359d6128fa2e15980c59de880c9a215
+Started GET "/up" for 127.0.0.1 at 2026-11-20 00:37:35 -0300
+Processing by Rails::HealthController#show as HTML
+Completed 200 OK in 0ms (Views: 0.1ms | GC: 0.0ms)
+
+
+Started GET "/up" for 127.0.0.1 at 2026-11-20 00:37:35 -0300
+Processing by Rails::HealthController#show as HTML
+Completed 200 OK in 2ms (Views: 1.0ms | GC: 1.1ms)
+
+
+Started POST "/chats/f359d6128fa2e15980c59de880c9a215/messages" for 127.0.0.1 at 2026-11-20 00:37:36 -0300
+Processing by ConversationsController#message as TURBO_STREAM
+  Parameters: {"prompt" => "[FILTERED]", "id" => "f359d6128fa2e15980c59de880c9a215"}
+Completed 200 OK in 983ms (Views: 0.9ms | GC: 36.5ms)
+
+
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2026-11-20 00:37:37 -0300
+Turbo::StreamsChannel stopped streaming from conversation:f359d6128fa2e15980c59de880c9a215
+Started GET "/up" for 127.0.0.1 at 2026-11-20 00:37:37 -0300
+Processing by Rails::HealthController#show as HTML
+Completed 200 OK in 0ms (Views: 0.1ms | GC: 0.0ms)
+
+
+Started GET "/chats/f359d6128fa2e15980c59de880c9a215" for 127.0.0.1 at 2026-11-20 00:37:37 -0300
+Processing by ConversationsController#show as HTML
+  Parameters: {"id" => "f359d6128fa2e15980c59de880c9a215"}
+  Rendered layout layouts/application.html.erb (Duration: 6.4ms | GC: 0.0ms)
+Completed 200 OK in 7ms (Views: 6.7ms | GC: 0.0ms)
+
+
+Started GET "/up" for 127.0.0.1 at 2026-11-20 00:37:37 -0300
+Processing by Rails::HealthController#show as HTML
+Completed 200 OK in 0ms (Views: 0.1ms | GC: 0.0ms)
+
+
+Started GET "/up" for 127.0.0.1 at 2026-11-20 00:37:37 -0300
+Processing by Rails::HealthController#show as HTML
+Completed 200 OK in 0ms (Views: 0.1ms | GC: 0.0ms)
+
+
+Started GET "/up" for 127.0.0.1 at 2026-11-20 00:37:37 -0300
+Processing by Rails::HealthController#show as HTML
+Completed 200 OK in 0ms (Views: 0.1ms | GC: 0.0ms)
+
+
+Started GET "/up" for 127.0.0.1 at 2026-11-20 00:37:37 -0300
+Processing by Rails::HealthController#show as HTML
+Completed 200 OK in 0ms (Views: 0.1ms | GC: 0.0ms)
+
+
+Started GET "/up" for 127.0.0.1 at 2026-11-20 00:37:37 -0300
+Processing by Rails::HealthController#show as HTML
+Completed 200 OK in 0ms (Views: 0.1ms | GC: 0.0ms)
+
+
+Started GET "/up" for 127.0.0.1 at 2026-11-20 00:37:37 -0300
+Processing by Rails::HealthController#show as HTML
+Completed 200 OK in 0ms (Views: 0.1ms | GC: 0.0ms)
+
+
+Started GET "/up" for 127.0.0.1 at 2026-11-20 00:37:37 -0300
+Processing by Rails::HealthController#show as HTML
+Completed 200 OK in 0ms (Views: 0.1ms | GC: 0.0ms)
+
+
+Started GET "/up" for 127.0.0.1 at 2026-11-20 00:37:37 -0300
+Processing by Rails::HealthController#show as HTML
+Completed 200 OK in 0ms (Views: 0.1ms | GC: 0.0ms)
+
+
+Started GET "/up" for 127.0.0.1 at 2026-11-20 00:37:37 -0300
+Processing by Rails::HealthController#show as HTML
+Completed 200 OK in 0ms (Views: 0.1ms | GC: 0.0ms)
+
+
+Started GET "/up" for 127.0.0.1 at 2026-11-20 00:37:37 -0300
+Processing by Rails::HealthController#show as HTML
+Completed 200 OK in 0ms (Views: 0.1ms | GC: 0.0ms)
+
+
+Started GET "/up" for 127.0.0.1 at 2026-11-20 00:37:37 -0300
+Processing by Rails::HealthController#show as HTML
+Completed 200 OK in 0ms (Views: 0.1ms | GC: 0.0ms)
+
+
+Started GET "/up" for 127.0.0.1 at 2026-11-20 00:37:37 -0300
+Processing by Rails::HealthController#show as HTML
+Completed 200 OK in 0ms (Views: 0.2ms | GC: 0.0ms)
+
+
+Started GET "/chats/f359d6128fa2e15980c59de880c9a215" for 127.0.0.1 at 2026-11-20 00:37:37 -0300
+Processing by ConversationsController#show as HTML
+  Parameters: {"id" => "f359d6128fa2e15980c59de880c9a215"}
+  Rendered layout layouts/application.html.erb (Duration: 1.3ms | GC: 0.0ms)
+Completed 200 OK in 2ms (Views: 1.5ms | GC: 0.0ms)
+
+
+[3063543] === puma shutdown: 2026-11-20 00:37:44 -0300 ===
+[3063543] - Goodbye!
+[3063543] - Gracefully shutting down workers...
+Exiting

@@ -1,0 +1,212 @@
+{
+  "alt_cost_breakdowns": {},
+  "billing": "meta-muse-subscription",
+  "cost_breakdown": {
+    "actual_cost_usd": 0.914944,
+    "cache_savings_pct": 57.55,
+    "cache_savings_usd": 1.240396,
+    "components_usd": {
+      "cache_read": 0.065284,
+      "cache_write": 0.0,
+      "input_uncached": 0.80016,
+      "output": 0.0495
+    },
+    "no_cache_cost_usd": 2.15534
+  },
+  "elapsed_seconds_total": 140.23,
+  "ended_at": "2026-11-20T10:32:00+00:00",
+  "family": "Meta",
+  "harness": "muse",
+  "label": "Muse Wonder 1.0",
+  "model_id": "muse-wonder-1.0",
+  "native_cost_usd_total": null,
+  "nudges_used": 2,
+  "phases": [
+    {
+      "cost_breakdown": {
+        "actual_cost_usd": 0.783212,
+        "cache_savings_pct": 61.3,
+        "cache_savings_usd": 1.240396,
+        "components_usd": {
+          "cache_read": 0.065284,
+          "cache_write": 0.0,
+          "input_uncached": 0.671308,
+          "output": 0.04662
+        },
+        "no_cache_cost_usd": 2.023608
+      },
+      "elapsed_seconds": 121.79,
+      "ended_at": "2026-11-20T10:31:42+00:00",
+      "exit_code": 1,
+      "file_count_after": 0,
+      "harness": "muse",
+      "model_id": "muse-wonder-1.0",
+      "native_cost_usd": null,
+      "phase": "phase1",
+      "session_id": "01a1f881-3a62-7c71-9fe3-234766ee8614",
+      "stall_aborted": false,
+      "started_at": "2026-11-20T10:29:40+00:00",
+      "timed_out": false,
+      "tokens": {
+        "billable_output": 2331,
+        "cache_hit_ratio": 0.6604,
+        "cache_read": 326420,
+        "cache_write": 0,
+        "cache_write_1h": 0,
+        "cache_write_5m": 0,
+        "input_uncached": 167827,
+        "output": 2331,
+        "reasoning": 29,
+        "total": 496578,
+        "total_prompt": 494247
+      },
+      "turns": 12
+    },
+    {
+      "cost_breakdown": {
+        "actual_cost_usd": 0.0,
+        "cache_savings_pct": 0.0,
+        "cache_savings_usd": 0.0,
+        "components_usd": {
+          "cache_read": 0.0,
+          "cache_write": 0.0,
+          "input_uncached": 0.0,
+          "output": 0.0
+        },
+        "no_cache_cost_usd": 0.0
+      },
+      "elapsed_seconds": 5.08,
+      "ended_at": "2026-11-20T10:31:47+00:00",
+      "exit_code": 1,
+      "file_count_after": 0,
+      "harness": "muse",
+      "model_id": "muse-wonder-1.0",
+      "native_cost_usd": null,
+      "phase": "phase2",
+      "session_id": "01a1f883-147c-7db2-8d34-fbc535d59254",
+      "stall_aborted": false,
+      "started_at": "2026-11-20T10:31:42+00:00",
+      "timed_out": false,
+      "tokens": {
+        "billable_output": 0,
+        "cache_hit_ratio": 0.0,
+        "cache_read": 0,
+        "cache_write": 0,
+        "cache_write_1h": 0,
+        "cache_write_5m": 0,
+        "input_uncached": 0,
+        "output": 0,
+        "reasoning": 0,
+        "total": 0,
+        "total_prompt": 0
+      },
+      "turns": 0
+    },
+    {
+      "cost_breakdown": {
+        "actual_cost_usd": 0.131732,
+        "cache_savings_pct": 0.0,
+        "cache_savings_usd": 0.0,
+        "components_usd": {
+          "cache_read": 0.0,
+          "cache_write": 0.0,
+          "input_uncached": 0.128852,
+          "output": 0.00288
+        },
+        "no_cache_cost_usd": 0.131732
+      },
+      "elapsed_seconds": 8.47,
+      "ended_at": "2026-11-20T10:31:55+00:00",
+      "exit_code": 1,
+      "file_count_after": 0,
+      "harness": "muse",
+      "model_id": "muse-wonder-1.0",
+      "native_cost_usd": null,
+      "phase": "nudge1",
+      "session_id": "01a1f883-2850-7440-b69c-9b7dd23bbc6d",
+      "stall_aborted": false,
+      "started_at": "2026-11-20T10:31:47+00:00",
+      "timed_out": false,
+      "tokens": {
+        "billable_output": 144,
+        "cache_hit_ratio": 0.0,
+        "cache_read": 0,
+        "cache_write": 0,
+        "cache_write_1h": 0,
+        "cache_write_5m": 0,
+        "input_uncached": 32213,
+        "output": 144,
+        "reasoning": 5,
+        "total": 32357,
+        "total_prompt": 32213
+      },
+      "turns": 1
+    },
+    {
+      "cost_breakdown": {
+        "actual_cost_usd": 0.0,
+        "cache_savings_pct": 0.0,
+        "cache_savings_usd": 0.0,
+        "components_usd": {
+          "cache_read": 0.0,
+          "cache_write": 0.0,
+          "input_uncached": 0.0,
+          "output": 0.0
+        },
+        "no_cache_cost_usd": 0.0
+      },
+      "elapsed_seconds": 4.89,
+      "ended_at": "2026-11-20T10:32:00+00:00",
+      "exit_code": 1,
+      "file_count_after": 0,
+      "harness": "muse",
+      "model_id": "muse-wonder-1.0",
+      "native_cost_usd": null,
+      "phase": "nudge2",
+      "session_id": "01a1f883-4966-7722-8d06-5fd02947387b",
+      "stall_aborted": false,
+      "started_at": "2026-11-20T10:31:55+00:00",
+      "timed_out": false,
+      "tokens": {
+        "billable_output": 0,
+        "cache_hit_ratio": 0.0,
+        "cache_read": 0,
+        "cache_write": 0,
+        "cache_write_1h": 0,
+        "cache_write_5m": 0,
+        "input_uncached": 0,
+        "output": 0,
+        "reasoning": 0,
+        "total": 0,
+        "total_prompt": 0
+      },
+      "turns": 0
+    }
+  ],
+  "quality_gate": {
+    "checks": {
+      "brakeman_pass": false,
+      "compose_present": false,
+      "dockerfile_present": false,
+      "gemfile_present": false,
+      "rubocop_pass": false,
+      "tests_pass": false
+    },
+    "passed": false
+  },
+  "slug": "v5_muse_wonder",
+  "tokens_total": {
+    "billable_output": 2475,
+    "cache_hit_ratio": 0.62,
+    "cache_read": 326420,
+    "cache_write": 0,
+    "cache_write_1h": 0,
+    "cache_write_5m": 0,
+    "input_uncached": 200040,
+    "output": 2475,
+    "reasoning": 34,
+    "total": 528935,
+    "total_prompt": 526460
+  },
+  "turns_total": 13
+}

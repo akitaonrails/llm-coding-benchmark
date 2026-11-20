@@ -1,0 +1,132 @@
+{
+  "alt_cost_breakdowns": {},
+  "billing": "chatgpt-pro-subscription",
+  "cost_breakdown": {
+    "actual_cost_usd": 0.149106,
+    "cache_savings_pct": 85.56,
+    "cache_savings_usd": 0.883688,
+    "components_usd": {
+      "cache_read": 0.098188,
+      "cache_write": 0.0,
+      "input_uncached": 0.022448,
+      "output": 0.028469
+    },
+    "no_cache_cost_usd": 1.032793
+  },
+  "elapsed_seconds_total": 1165.05,
+  "ended_at": "2026-11-20T04:09:38+00:00",
+  "family": "OpenAI",
+  "harness": "codex",
+  "label": "GPT-6 Luna",
+  "model_id": "gpt-6-luna",
+  "native_cost_usd_total": null,
+  "nudges_used": 0,
+  "phases": [
+    {
+      "cost_breakdown": {
+        "actual_cost_usd": 0.085911,
+        "cache_savings_pct": 85.74,
+        "cache_savings_usd": 0.516626,
+        "components_usd": {
+          "cache_read": 0.057403,
+          "cache_write": 0.0,
+          "input_uncached": 0.011904,
+          "output": 0.016605
+        },
+        "no_cache_cost_usd": 0.602537
+      },
+      "elapsed_seconds": 531.7,
+      "ended_at": "2026-11-20T03:59:00+00:00",
+      "exit_code": 0,
+      "file_count_after": 890,
+      "harness": "codex",
+      "model_id": "gpt-6-luna",
+      "native_cost_usd": null,
+      "phase": "phase1",
+      "session_id": "01a1f713-71ae-7c22-8951-f3236b30807d",
+      "stall_aborted": false,
+      "started_at": "2026-11-20T03:50:08+00:00",
+      "timed_out": false,
+      "tokens": {
+        "billable_output": 33209,
+        "cache_hit_ratio": 0.9797,
+        "cache_read": 5740288,
+        "cache_write": 0,
+        "cache_write_1h": 0,
+        "cache_write_5m": 0,
+        "input_uncached": 119037,
+        "output": 33209,
+        "reasoning": 13496,
+        "total": 5892534,
+        "total_prompt": 5859325
+      },
+      "turns": 1
+    },
+    {
+      "cost_breakdown": {
+        "actual_cost_usd": 0.063194,
+        "cache_savings_pct": 85.31,
+        "cache_savings_usd": 0.367062,
+        "components_usd": {
+          "cache_read": 0.040785,
+          "cache_write": 0.0,
+          "input_uncached": 0.010545,
+          "output": 0.011865
+        },
+        "no_cache_cost_usd": 0.430256
+      },
+      "elapsed_seconds": 633.35,
+      "ended_at": "2026-11-20T04:09:33+00:00",
+      "exit_code": 0,
+      "file_count_after": 3150,
+      "harness": "codex",
+      "model_id": "gpt-6-luna",
+      "native_cost_usd": null,
+      "phase": "phase2",
+      "session_id": "01a1f71b-8edf-7eb2-ab8a-2d1b86773c78",
+      "stall_aborted": false,
+      "started_at": "2026-11-20T03:59:00+00:00",
+      "timed_out": false,
+      "tokens": {
+        "billable_output": 23730,
+        "cache_hit_ratio": 0.9748,
+        "cache_read": 4078464,
+        "cache_write": 0,
+        "cache_write_1h": 0,
+        "cache_write_5m": 0,
+        "input_uncached": 105448,
+        "output": 23730,
+        "reasoning": 9915,
+        "total": 4207642,
+        "total_prompt": 4183912
+      },
+      "turns": 1
+    }
+  ],
+  "quality_gate": {
+    "checks": {
+      "brakeman_pass": true,
+      "compose_present": true,
+      "dockerfile_present": true,
+      "gemfile_present": true,
+      "rubocop_pass": true,
+      "tests_pass": true
+    },
+    "passed": true
+  },
+  "slug": "v5_gpt_6_luna",
+  "tokens_total": {
+    "billable_output": 56939,
+    "cache_hit_ratio": 0.9776,
+    "cache_read": 9818752,
+    "cache_write": 0,
+    "cache_write_1h": 0,
+    "cache_write_5m": 0,
+    "input_uncached": 224485,
+    "output": 56939,
+    "reasoning": 23411,
+    "total": 10100176,
+    "total_prompt": 10043237
+  },
+  "turns_total": 2
+}

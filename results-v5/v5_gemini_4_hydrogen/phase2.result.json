@@ -1,0 +1,40 @@
+{
+  "cost_breakdown": {
+    "actual_cost_usd": 0.805501,
+    "cache_savings_pct": 86.85,
+    "cache_savings_usd": 5.31929,
+    "components_usd": {
+      "cache_read": 0.279963,
+      "cache_write": 0.0,
+      "input_uncached": 0.266413,
+      "output": 0.259125
+    },
+    "no_cache_cost_usd": 6.124791
+  },
+  "elapsed_seconds": 427.52,
+  "ended_at": "2026-11-20T06:05:37+00:00",
+  "exit_code": 0,
+  "file_count_after": 2407,
+  "harness": "agy",
+  "model_id": "gemini-4-hydrogen-high",
+  "native_cost_usd": null,
+  "phase": "phase2",
+  "session_id": "190b53ae-16ea-4866-b8a0-369596a86280",
+  "stall_aborted": false,
+  "started_at": "2026-11-20T05:58:30+00:00",
+  "timed_out": false,
+  "tokens": {
+    "billable_output": 34550,
+    "cache_hit_ratio": 0.9546,
+    "cache_read": 3732835,
+    "cache_write": 0,
+    "cache_write_1h": 0,
+    "cache_write_5m": 0,
+    "input_uncached": 177609,
+    "output": 34550,
+    "reasoning": 16447,
+    "total": 3944994,
+    "total_prompt": 3910444
+  },
+  "turns": 1
+}

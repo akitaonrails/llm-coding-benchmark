@@ -1,0 +1,145 @@
+{
+  "alt_cost_breakdowns": {
+    "openrouter_rates": {
+      "actual_cost_usd": 1.577244,
+      "cache_savings_pct": 1.28,
+      "cache_savings_usd": 0.020494,
+      "components_usd": {
+        "cache_read": 1.412047,
+        "cache_write": 0.0,
+        "input_uncached": 0.013501,
+        "output": 0.151696
+      },
+      "no_cache_cost_usd": 1.597738
+    }
+  },
+  "billing": "openrouter-api",
+  "cost_breakdown": {
+    "actual_cost_usd": 6.075651,
+    "cache_savings_pct": 79.36,
+    "cache_savings_usd": 23.363324,
+    "components_usd": {
+      "cache_read": 5.328477,
+      "cache_write": 0.0,
+      "input_uncached": 0.270416,
+      "output": 0.476758
+    },
+    "no_cache_cost_usd": 29.438975
+  },
+  "elapsed_seconds_total": 1711.84,
+  "ended_at": "2026-11-20T09:09:08+00:00",
+  "family": "Z.ai",
+  "harness": "opencode",
+  "label": "GLM-5.3",
+  "model_id": "openrouter/z-ai/glm-5.3",
+  "native_cost_usd_total": 3.553056,
+  "nudges_used": 0,
+  "phases": [
+    {
+      "cost_breakdown": {
+        "actual_cost_usd": 5.320963,
+        "cache_savings_pct": 79.35,
+        "cache_savings_usd": 20.450469,
+        "components_usd": {
+          "cache_read": 4.664142,
+          "cache_write": 0.0,
+          "input_uncached": 0.239539,
+          "output": 0.417283
+        },
+        "no_cache_cost_usd": 25.771433
+      },
+      "elapsed_seconds": 1244.26,
+      "ended_at": "2026-11-20T09:01:16+00:00",
+      "exit_code": 0,
+      "file_count_after": 3011,
+      "harness": "opencode",
+      "model_id": "openrouter/z-ai/glm-5.3",
+      "native_cost_usd": 3.356542,
+      "phase": "phase1",
+      "session_id": "ses_e07e2b35affepgDyzPOMDuqogK",
+      "stall_aborted": false,
+      "started_at": "2026-11-20T08:40:32+00:00",
+      "timed_out": false,
+      "tokens": {
+        "billable_output": 94837,
+        "cache_hit_ratio": 0.9906,
+        "cache_read": 17939008,
+        "cache_write": 0,
+        "cache_write_1h": 0,
+        "cache_write_5m": 0,
+        "input_uncached": 171099,
+        "output": 48819,
+        "reasoning": 46018,
+        "total": 18204944,
+        "total_prompt": 18110107
+      },
+      "turns": 185
+    },
+    {
+      "cost_breakdown": {
+        "actual_cost_usd": 0.754687,
+        "cache_savings_pct": 79.42,
+        "cache_savings_usd": 2.912855,
+        "components_usd": {
+          "cache_read": 0.664335,
+          "cache_write": 0.0,
+          "input_uncached": 0.030877,
+          "output": 0.059475
+        },
+        "no_cache_cost_usd": 3.667542
+      },
+      "elapsed_seconds": 467.58,
+      "ended_at": "2026-11-20T09:09:03+00:00",
+      "exit_code": 0,
+      "file_count_after": 3037,
+      "harness": "opencode",
+      "model_id": "openrouter/z-ai/glm-5.3",
+      "native_cost_usd": 0.196514,
+      "phase": "phase2",
+      "session_id": "ses_e07cfb726ffefpok0mI805lnYX",
+      "stall_aborted": false,
+      "started_at": "2026-11-20T09:01:16+00:00",
+      "timed_out": false,
+      "tokens": {
+        "billable_output": 13517,
+        "cache_hit_ratio": 0.9914,
+        "cache_read": 2555136,
+        "cache_write": 0,
+        "cache_write_1h": 0,
+        "cache_write_5m": 0,
+        "input_uncached": 22055,
+        "output": 8125,
+        "reasoning": 5392,
+        "total": 2590708,
+        "total_prompt": 2577191
+      },
+      "turns": 67
+    }
+  ],
+  "quality_gate": {
+    "checks": {
+      "brakeman_pass": true,
+      "compose_present": true,
+      "dockerfile_present": true,
+      "gemfile_present": true,
+      "rubocop_pass": true,
+      "tests_pass": true
+    },
+    "passed": true
+  },
+  "slug": "v5_glm_5_3",
+  "tokens_total": {
+    "billable_output": 108354,
+    "cache_hit_ratio": 0.9907,
+    "cache_read": 20494144,
+    "cache_write": 0,
+    "cache_write_1h": 0,
+    "cache_write_5m": 0,
+    "input_uncached": 193154,
+    "output": 56944,
+    "reasoning": 51410,
+    "total": 20795652,
+    "total_prompt": 20687298
+  },
+  "turns_total": 252
+}

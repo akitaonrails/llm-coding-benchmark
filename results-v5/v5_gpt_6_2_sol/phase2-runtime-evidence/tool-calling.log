@@ -1,0 +1,24 @@
+CHAT /chats/51a98d177e92aea39c665e7a07766b69
+server-time +0.040s POST pending <turbo-stream action="append" target="pending_turns">
+server-time +1.783s POST pending <turbo-stream action="append" target="turn_aaeecd12329f04c6cfa3fe72_reply">
+server-time +1.787s POST pending <turbo-stream action="append" target="turn_aaeecd12329f04c6cfa3fe72_reply">
+server-time +1.787s POST pending <turbo-stream action="append" target="turn_aaeecd12329f04c6cfa3fe72_reply">
+server-time +1.787s POST pending <turbo-stream action="append" target="turn_aaeecd12329f04c6cfa3fe72_reply">
+server-time +1.788s POST pending <turbo-stream action="append" target="turn_aaeecd12329f04c6cfa3fe72_reply">
+server-time +3.117s POST pending <turbo-stream action="update" target="chat_messages"> <turbo-stream action="remove" target="turn_aaeecd12329f04c6cfa3fe72"> <turbo-stream action="update" target="conversation_title"> <turbo-stream action="update" target="token_usage"> <turbo-stream action="update" target="chat_notice">
+server-time +3.118s POST HTTP 200; 5 reply appends
+server-time first append +1.783s; last append +1.788s; 5 arrived before POST finished
+server-time reply fragments <span>The server time</span><span> is 03</span><span>:36:41 UTC</span><span> on November 20, 2026</span><span>.</span>
+Traceback (most recent call last):
+  File "<stdin>", line 16, in <module>
+AssertionError: ('2026-11-20T03:36:41Z', 'The server time is 03:36:41 UTC on November 20, 2026.')
+MATCH server_time 2026-11-20T03:36:41Z appears in reply 'The server time is 03:36:41 UTC on November 20, 2026.'
+CHAT /chats/51a98d177e92aea39c665e7a07766b69
+calculator +0.041s POST pending <turbo-stream action="append" target="pending_turns">
+calculator +1.876s POST pending <turbo-stream action="append" target="turn_005011991d3cc1bca69646c7_reply">
+calculator +1.878s POST pending <turbo-stream action="append" target="turn_005011991d3cc1bca69646c7_reply">
+calculator +1.887s POST pending <turbo-stream action="update" target="chat_messages"> <turbo-stream action="remove" target="turn_005011991d3cc1bca69646c7"> <turbo-stream action="update" target="conversation_title"> <turbo-stream action="update" target="token_usage"> <turbo-stream action="update" target="chat_notice">
+calculator +1.888s POST HTTP 200; 2 reply appends
+calculator first append +1.876s; last append +1.878s; 2 arrived before POST finished
+calculator reply fragments <span>The result</span><span> is 2797.</span>
+MATCH calculator 2797 appears in reply 'The result is 2797.'

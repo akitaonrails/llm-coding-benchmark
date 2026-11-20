@@ -1,0 +1,91 @@
+ Image rubyllm-chat:latest Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 607B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 2.31kB done
+#2 DONE 0.0s
+
+#3 resolve image config for docker-image://docker.io/docker/dockerfile:1
+#3 DONE 0.2s
+
+#4 docker-image://docker.io/docker/dockerfile:1@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+#4 CACHED
+
+#5 [internal] load metadata for docker.io/library/ruby:4.0.10-slim
+#5 DONE 0.2s
+
+#6 [internal] load .dockerignore
+#6 transferring context: 768B done
+#6 DONE 0.0s
+
+#7 [base 1/3] FROM docker.io/library/ruby:4.0.10-slim@sha256:a4b3e62bfe56bd267a3aeacc1b89aea96be919faa0c7d77c6346e2ac14f6c175
+#7 DONE 0.0s
+
+#8 [internal] load build context
+#8 transferring context: 5.72kB done
+#8 DONE 0.0s
+
+#9 [build 5/7] COPY . .
+#9 CACHED
+
+#10 [build 2/7] COPY vendor/* ./vendor/
+#10 CACHED
+
+#11 [build 4/7] RUN bundle install &&     rm -rf ~/.bundle/ "/usr/local/bundle"/ruby/*/cache "/usr/local/bundle"/ruby/*/bundler/gems/*/.git &&     bundle exec bootsnap precompile -j 1 --gemfile
+#11 CACHED
+
+#12 [build 7/7] RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+#12 CACHED
+
+#13 [build 3/7] COPY Gemfile Gemfile.lock ./
+#13 CACHED
+
+#14 [stage-2 1/4] RUN groupadd --system --gid 1000 rails &&     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash
+#14 CACHED
+
+#15 [stage-2 3/4] COPY --chown=rails:rails --from=build /rails /rails
+#15 CACHED
+
+#16 [base 2/3] WORKDIR /rails
+#16 CACHED
+
+#17 [build 6/7] RUN bundle exec bootsnap precompile -j 1 app/ lib/
+#17 CACHED
+
+#18 [build 1/7] RUN apt-get update -qq &&     apt-get install --no-install-recommends -y build-essential git libyaml-dev pkg-config &&     rm -rf /var/lib/apt/lists /var/cache/apt/archives
+#18 CACHED
+
+#19 [stage-2 2/4] COPY --chown=rails:rails --from=build /usr/local/bundle /usr/local/bundle
+#19 CACHED
+
+#20 [base 3/3] RUN apt-get update -qq &&     apt-get install --no-install-recommends -y curl libjemalloc2 &&     ln -s /usr/lib/$(uname -m)-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so &&     rm -rf /var/lib/apt/lists /var/cache/apt/archives
+#20 CACHED
+
+#21 [stage-2 4/4] RUN mkdir -p /rails/storage /rails/tmp/pids /rails/log &&     chown -R rails:rails /rails/storage /rails/tmp /rails/log
+#21 CACHED
+
+#22 exporting to image
+#22 exporting layers done
+#22 writing image sha256:3711633b1e86b111aea02e68157e7da4978d7a2da5c996d45b3f36d5c0045f4c 0.0s done
+#22 naming to docker.io/library/rubyllm-chat:latest done
+#22 DONE 0.0s
+
+#23 resolving provenance for metadata file
+#23 DONE 0.0s
+ Image rubyllm-chat:latest Built 
+ Network rubyllm-chat_default Creating 
+ Network rubyllm-chat_default Creating 
+ Network rubyllm-chat_default Created 
+ Network rubyllm-chat_default Created 
+ Container rubyllm-chat-redis-1 Creating 
+ Container rubyllm-chat-redis-1 Created 
+ Container rubyllm-chat-web-1 Creating 
+ Container rubyllm-chat-web-1 Created 
+ Container rubyllm-chat-redis-1 Starting 
+ Container rubyllm-chat-redis-1 Started 
+ Container rubyllm-chat-redis-1 Waiting 
+ Container rubyllm-chat-redis-1 Healthy 
+ Container rubyllm-chat-web-1 Starting 
+ Container rubyllm-chat-web-1 Started 

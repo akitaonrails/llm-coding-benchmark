@@ -1,0 +1,11 @@
+Workspace /mnt/data/Projects/llm-coding-benchmark/results-v5/v5_gpt_6_2_sol/project
+app Up 29 seconds (healthy) 77a5de9716ab stillwater-phase2-runtime-gpt62sol-app
+redis Up 32 seconds (healthy) cc6ad932023b redis:8-alpine
+77a5de9716abe4d9e283ee4a35541d40212d4f59fba562a4d81a5ecbc8d39124 sha256:a7a4e8301890d81e59e33ebf2005c5df738b0b9a6d0f999214d0ea45ef172579 /mnt/data/Projects/llm-coding-benchmark/results-v5/v5_gpt_6_2_sol/project stillwater-phase2-runtime-gpt62sol_app_state=/rails/tmp/local 
+cc6ad932023bd1d808194eccbc961d653155dc5c5204c8425ab68cffd4241565 sha256:a597386e6d2ef50b536ae3c77aa77e8c3772631abe949882f9f2a7d1a3065b79 /mnt/data/Projects/llm-coding-benchmark/results-v5/v5_gpt_6_2_sol/project stillwater-phase2-runtime-gpt62sol_redis_data=/data 
+644e24fea06a6145912ddb4cead657f3c1a6de93bcd6b1da08dbf4711e79a6d9 stillwater-phase2-runtime-gpt62sol_default
+stillwater-phase2-runtime-gpt62sol_app_state
+stillwater-phase2-runtime-gpt62sol_redis_data
+sha256:78225145b51f3533b8fc176b72b95803847ad71ad63bb952a74dfee18c447518 []
+sha256:a7a4e8301890d81e59e33ebf2005c5df738b0b9a6d0f999214d0ea45ef172579 []
+sha256:78225145b51f3533b8fc176b72b95803847ad71ad63bb952a74dfee18c447518

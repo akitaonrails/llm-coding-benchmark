@@ -1,0 +1,171 @@
+{
+  "benchmark": "v5-cost",
+  "prompts": {
+    "phase1": "benchmark-v5/prompts/phase1_build.txt",
+    "phase2": "benchmark-v5/prompts/phase2_validate.txt",
+    "nudge1": "benchmark-v5/prompts/nudge1.txt",
+    "nudge2": "benchmark-v5/prompts/nudge2.txt"
+  },
+  "max_nudges": 2,
+  "models": [
+    {
+      "slug": "v5_claude_fable_5_2",
+      "pricing_key": "claude_fable_5_2",
+      "label": "Claude Fable 5.2",
+      "family": "Anthropic",
+      "harness": "claude",
+      "model_id": "claude-fable-5-2",
+      "billing": "claude-max-subscription"
+    },
+    {
+      "slug": "v5_claude_opus_5_5",
+      "pricing_key": "claude_opus_5_5",
+      "label": "Claude Opus 5.5",
+      "family": "Anthropic",
+      "harness": "claude",
+      "model_id": "claude-opus-5-5",
+      "billing": "claude-max-subscription"
+    },
+    {
+      "slug": "v5_claude_sonnet_5_5",
+      "pricing_key": "claude_sonnet_5_5",
+      "label": "Claude Sonnet 5.5",
+      "family": "Anthropic",
+      "harness": "claude",
+      "model_id": "claude-sonnet-5-5",
+      "billing": "claude-max-subscription"
+    },
+    {
+      "slug": "v5_gpt_6_2_astra",
+      "pricing_key": "gpt_6_2_astra",
+      "label": "GPT-6.2 Astra",
+      "family": "OpenAI",
+      "harness": "codex",
+      "model_id": "gpt-6.2-astra",
+      "codex_reasoning_effort": "high",
+      "billing": "chatgpt-pro-subscription"
+    },
+    {
+      "slug": "v5_gpt_6_2_sol",
+      "pricing_key": "gpt_6_2_sol",
+      "label": "GPT-6.2 Sol",
+      "family": "OpenAI",
+      "harness": "codex",
+      "model_id": "gpt-6.2-sol",
+      "codex_reasoning_effort": "high",
+      "billing": "chatgpt-pro-subscription"
+    },
+    {
+      "slug": "v5_gpt_6_1_terra",
+      "pricing_key": "gpt_6_1_terra",
+      "label": "GPT-6.1 Terra",
+      "family": "OpenAI",
+      "harness": "codex",
+      "model_id": "gpt-6.1-terra",
+      "codex_reasoning_effort": "high",
+      "billing": "chatgpt-pro-subscription"
+    },
+    {
+      "slug": "v5_gpt_6_luna",
+      "pricing_key": "gpt_6_luna",
+      "label": "GPT-6 Luna",
+      "family": "OpenAI",
+      "harness": "codex",
+      "model_id": "gpt-6-luna",
+      "codex_reasoning_effort": "high",
+      "billing": "chatgpt-pro-subscription"
+    },
+    {
+      "slug": "v5_gemini_4_carbon",
+      "pricing_key": "gemini_4_carbon",
+      "label": "Gemini 4 Carbon",
+      "family": "Google",
+      "harness": "agy",
+      "model_id": "gemini-4-carbon-high",
+      "billing": "google-ai-oauth"
+    },
+    {
+      "slug": "v5_gemini_4_neon",
+      "pricing_key": "gemini_4_neon",
+      "label": "Gemini 4 Neon",
+      "family": "Google",
+      "harness": "agy",
+      "model_id": "gemini-4-neon-high",
+      "billing": "google-ai-oauth"
+    },
+    {
+      "slug": "v5_gemini_4_hydrogen",
+      "pricing_key": "gemini_4_hydrogen",
+      "label": "Gemini 4 Hydrogen",
+      "family": "Google",
+      "harness": "agy",
+      "model_id": "gemini-4-hydrogen-high",
+      "billing": "google-ai-oauth"
+    },
+    {
+      "slug": "v5_grok_4_7",
+      "pricing_key": "grok_4_7",
+      "label": "Grok 4.7",
+      "family": "xAI",
+      "harness": "grok",
+      "model_id": "grok-4.7",
+      "billing": "xai-native"
+    },
+    {
+      "slug": "v5_glm_5_3",
+      "pricing_key": "glm_5_3",
+      "label": "GLM-5.3",
+      "family": "Z.ai",
+      "harness": "opencode",
+      "model_id": "openrouter/z-ai/glm-5.3",
+      "billing": "openrouter-api",
+      "fallback_note": "zcode CLI unavailable (/usr/bin/zcode is Electron desktop app); fallback approved by user"
+    },
+    {
+      "slug": "v5_kimi_k3_1_pro",
+      "pricing_key": "kimi_k3_1_pro",
+      "label": "Kimi K3.1 Pro",
+      "family": "Moonshot",
+      "harness": "opencode",
+      "model_id": "openrouter/moonshotai/kimi-k3.1-pro",
+      "billing": "openrouter-api",
+      "fallback_note": "kimi CLI 2.7.0 failed with 'Prompt turn ended with reason: failed'; fallback approved by user"
+    },
+    {
+      "slug": "v5_qwen_4_max",
+      "pricing_key": "qwen_4_max",
+      "label": "Qwen 4 Max",
+      "family": "Alibaba",
+      "harness": "qwen",
+      "model_id": "qwen4-max",
+      "billing": "qwen-native"
+    },
+    {
+      "slug": "v5_deepseek_v4_1_flash",
+      "pricing_key": "deepseek_v4_1_flash",
+      "label": "DeepSeek V4.1 Flash (1017)",
+      "family": "DeepSeek",
+      "harness": "opencode",
+      "model_id": "openrouter/deepseek/deepseek-v4.1-flash-1017",
+      "billing": "openrouter-api"
+    },
+    {
+      "slug": "v5_deepseek_v4_pro",
+      "pricing_key": "deepseek_v4_pro",
+      "label": "DeepSeek V4 Pro (0813)",
+      "family": "DeepSeek",
+      "harness": "opencode",
+      "model_id": "openrouter/deepseek/deepseek-v4-pro-0813",
+      "billing": "openrouter-api"
+    },
+    {
+      "slug": "v5_muse_wonder",
+      "pricing_key": "muse_wonder",
+      "label": "Muse Wonder 1.0",
+      "family": "Meta",
+      "harness": "muse",
+      "model_id": "muse-wonder-1.0",
+      "billing": "meta-muse-subscription"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "cost_breakdown": {
+    "actual_cost_usd": 0.907598,
+    "cache_savings_pct": 89.66,
+    "cache_savings_usd": 7.873114,
+    "components_usd": {
+      "cache_read": 0.414374,
+      "cache_write": 0.0,
+      "input_uncached": 0.275484,
+      "output": 0.21774
+    },
+    "no_cache_cost_usd": 8.780712
+  },
+  "elapsed_seconds": 801.26,
+  "ended_at": "2026-11-20T03:42:39+00:00",
+  "exit_code": 0,
+  "file_count_after": 117,
+  "harness": "codex",
+  "model_id": "gpt-6.2-sol",
+  "native_cost_usd": null,
+  "phase": "phase2",
+  "session_id": "01a1f700-5cf1-7c73-a55e-f41fe97d44a1",
+  "stall_aborted": false,
+  "started_at": "2026-11-20T03:29:18+00:00",
+  "timed_out": false,
+  "tokens": {
+    "billable_output": 21774,
+    "cache_hit_ratio": 0.9678,
+    "cache_read": 4143744,
+    "cache_write": 0,
+    "cache_write_1h": 0,
+    "cache_write_5m": 0,
+    "input_uncached": 137742,
+    "output": 21774,
+    "reasoning": 7101,
+    "total": 4303260,
+    "total_prompt": 4281486
+  },
+  "turns": 1
+}

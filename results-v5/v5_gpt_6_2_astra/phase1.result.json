@@ -1,0 +1,40 @@
+{
+  "cost_breakdown": {
+    "actual_cost_usd": 4.29793,
+    "cache_savings_pct": 89.77,
+    "cache_savings_usd": 37.71351,
+    "components_usd": {
+      "cache_read": 1.984922,
+      "cache_write": 0.0,
+      "input_uncached": 0.980328,
+      "output": 1.33268
+    },
+    "no_cache_cost_usd": 42.01144
+  },
+  "elapsed_seconds": 709.26,
+  "ended_at": "2026-11-20T03:13:10+00:00",
+  "exit_code": 0,
+  "file_count_after": 2088,
+  "harness": "codex",
+  "model_id": "gpt-6.2-astra",
+  "native_cost_usd": null,
+  "phase": "phase1",
+  "session_id": "01a1f6e6-c719-7be3-b8ae-2e238274e5a3",
+  "stall_aborted": false,
+  "started_at": "2026-11-20T03:01:21+00:00",
+  "timed_out": false,
+  "tokens": {
+    "billable_output": 33317,
+    "cache_hit_ratio": 0.9759,
+    "cache_read": 4962304,
+    "cache_write": 0,
+    "cache_write_1h": 0,
+    "cache_write_5m": 0,
+    "input_uncached": 122541,
+    "output": 33317,
+    "reasoning": 6846,
+    "total": 5118162,
+    "total_prompt": 5084845
+  },
+  "turns": 1
+}

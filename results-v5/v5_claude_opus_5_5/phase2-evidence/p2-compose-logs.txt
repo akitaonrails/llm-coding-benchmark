@@ -1,0 +1,102 @@
+redis-1  | 1:C 20 Nov 2026 02:39:16.216 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+redis-1  | 1:C 20 Nov 2026 02:39:16.216 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+redis-1  | 1:C 20 Nov 2026 02:39:16.216 * Redis version=7.4.11, bits=64, commit=00000000, modified=0, pid=1, just started
+redis-1  | 1:C 20 Nov 2026 02:39:16.216 * Configuration loaded
+redis-1  | 1:M 20 Nov 2026 02:39:16.216 * monotonic clock: POSIX clock_gettime
+redis-1  | 1:M 20 Nov 2026 02:39:16.217 * Running mode=standalone, port=6379.
+redis-1  | 1:M 20 Nov 2026 02:39:16.217 * Server initialized
+redis-1  | 1:M 20 Nov 2026 02:39:16.218 * Creating AOF base file appendonly.aof.1.base.rdb on server start
+redis-1  | 1:M 20 Nov 2026 02:39:16.219 * Creating AOF incr file appendonly.aof.1.incr.aof on server start
+redis-1  | 1:M 20 Nov 2026 02:39:16.219 * Ready to accept connections tcp
+redis-1  | 1:signal-handler (1795142379) Received SIGTERM scheduling shutdown...
+redis-1  | 1:M 20 Nov 2026 02:39:39.688 * User requested shutdown...
+redis-1  | 1:M 20 Nov 2026 02:39:39.688 * Calling fsync() on the AOF file.
+redis-1  | 1:M 20 Nov 2026 02:39:39.688 * Saving the final RDB snapshot before exiting.
+redis-1  | 1:M 20 Nov 2026 02:39:39.689 * DB saved on disk
+redis-1  | 1:M 20 Nov 2026 02:39:39.689 # Redis is now ready to exit, bye bye...
+redis-1  | 1:C 20 Nov 2026 02:39:39.874 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+redis-1  | 1:C 20 Nov 2026 02:39:39.874 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+redis-1  | 1:C 20 Nov 2026 02:39:39.874 * Redis version=7.4.11, bits=64, commit=00000000, modified=0, pid=1, just started
+redis-1  | 1:C 20 Nov 2026 02:39:39.874 * Configuration loaded
+redis-1  | 1:M 20 Nov 2026 02:39:39.875 * monotonic clock: POSIX clock_gettime
+redis-1  | 1:M 20 Nov 2026 02:39:39.875 * Running mode=standalone, port=6379.
+redis-1  | 1:M 20 Nov 2026 02:39:39.875 * Server initialized
+redis-1  | 1:M 20 Nov 2026 02:39:39.875 * Reading RDB base file on AOF loading...
+redis-1  | 1:M 20 Nov 2026 02:39:39.875 * Loading RDB produced by version 7.4.11
+redis-1  | 1:M 20 Nov 2026 02:39:39.875 * RDB age 23 seconds
+redis-1  | 1:M 20 Nov 2026 02:39:39.875 * RDB memory usage when created 0.90 Mb
+redis-1  | 1:M 20 Nov 2026 02:39:39.875 * RDB is base AOF
+redis-1  | 1:M 20 Nov 2026 02:39:39.875 * Done loading RDB, keys loaded: 0, keys expired: 0.
+redis-1  | 1:M 20 Nov 2026 02:39:39.875 * DB loaded from base file appendonly.aof.1.base.rdb: 0.000 seconds
+redis-1  | 1:M 20 Nov 2026 02:39:39.875 * DB loaded from incr file appendonly.aof.1.incr.aof: 0.000 seconds
+redis-1  | 1:M 20 Nov 2026 02:39:39.875 * DB loaded from append only file: 0.000 seconds
+redis-1  | 1:M 20 Nov 2026 02:39:39.875 * Opening AOF incr file appendonly.aof.1.incr.aof on server start
+redis-1  | 1:M 20 Nov 2026 02:39:39.875 * Ready to accept connections tcp
+web-1    | [1] Puma starting in cluster mode...
+web-1    | [1] * Puma version: 8.1.2 ("Puma Psychosis")
+web-1    | [1] * Ruby version: ruby 4.0.10 (2026-11-19 revision a704b7cd95) +PRISM [x86_64-linux]
+web-1    | [1] *  Min threads: 5
+web-1    | [1] *  Max threads: 5
+web-1    | [1] *  Environment: production
+web-1    | [1] *   Master PID: 1
+web-1    | [1] *      Workers: 2
+web-1    | [1] *     Restarts: (✔) hot (✖) phased (✖) refork
+web-1    | [1] * Preloading application
+web-1    | [1] * Listening on http://0.0.0.0:3000
+web-1    | [1] Use Ctrl-C to stop
+web-1    | [1] - Worker 0 (PID: 12) booted in 0.0s, phase: 0
+web-1    | [1] - Worker 1 (PID: 15) booted in 0.0s, phase: 0
+web-1    | [7275636f-78d7-4cd7-a16f-eeffbbda5915] Started GET "/" for 172.22.0.1 at 2026-11-20 02:39:30 +0000
+web-1    | [7275636f-78d7-4cd7-a16f-eeffbbda5915] Processing by ConversationsController#index as */*
+web-1    | [7275636f-78d7-4cd7-a16f-eeffbbda5915] Redirected to http://localhost:3000/conversations/5c931bba-6948-43b9-ac4d-224fed7903ee
+web-1    | [7275636f-78d7-4cd7-a16f-eeffbbda5915] Completed 302 Found in 9ms (GC: 3.2ms)
+web-1    | [dca9217e-55fb-4a3a-907d-8cb557682715] Started GET "/" for 172.22.0.1 at 2026-11-20 02:39:30 +0000
+web-1    | [dca9217e-55fb-4a3a-907d-8cb557682715] Processing by ConversationsController#index as */*
+web-1    | [dca9217e-55fb-4a3a-907d-8cb557682715] Redirected to http://localhost:3000/conversations/cb0b963c-b906-412e-892a-9ea8cb04297f
+web-1    | [dca9217e-55fb-4a3a-907d-8cb557682715] Completed 302 Found in 8ms (GC: 3.1ms)
+web-1    | [edc02c81-ef14-4518-b9ad-db82f6ed81fb] Started GET "/conversations/cb0b963c-b906-412e-892a-9ea8cb04297f" for 172.22.0.1 at 2026-11-20 02:39:30 +0000
+web-1    | [edc02c81-ef14-4518-b9ad-db82f6ed81fb] Processing by ConversationsController#show as */*
+web-1    | [edc02c81-ef14-4518-b9ad-db82f6ed81fb]   Parameters: {"id" => "cb0b963c-b906-412e-892a-9ea8cb04297f"}
+web-1    | [edc02c81-ef14-4518-b9ad-db82f6ed81fb]   Rendered layout layouts/application.html.erb (Duration: 49.6ms | GC: 15.1ms)
+web-1    | [edc02c81-ef14-4518-b9ad-db82f6ed81fb] Completed 200 OK in 60ms (Views: 51.5ms | GC: 17.4ms)
+web-1    | [2e091150-0351-470b-9b66-b2189da899cf] Started GET "/cable" for 172.22.0.1 at 2026-11-20 02:39:30 +0000
+web-1    | [2e091150-0351-470b-9b66-b2189da899cf] Started GET "/cable" [WebSocket] for 172.22.0.1 at 2026-11-20 02:39:30 +0000
+web-1    | [2e091150-0351-470b-9b66-b2189da899cf] Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+web-1    | Turbo::StreamsChannel is streaming from conversation_cb0b963c-b906-412e-892a-9ea8cb04297f
+web-1    | [ac4aadec-9cfe-44c1-aaa9-719e41148d37] Started POST "/conversations/cb0b963c-b906-412e-892a-9ea8cb04297f/messages" for 172.22.0.1 at 2026-11-20 02:39:30 +0000
+web-1    | [ac4aadec-9cfe-44c1-aaa9-719e41148d37] Processing by MessagesController#create as TURBO_STREAM
+web-1    | [ac4aadec-9cfe-44c1-aaa9-719e41148d37]   Parameters: {"message" => {"content" => "In two sentences, explain what Redis is."}, "authenticity_token" => "[FILTERED]", "conversation_id" => "cb0b963c-b906-412e-892a-9ea8cb04297f"}
+web-1    | [ac4aadec-9cfe-44c1-aaa9-719e41148d37] Completed 200 OK in 45ms (Views: 0.1ms | GC: 19.9ms)
+web-1    | [7140a4fb-1eab-46eb-8149-8cd9ebb5b694] Started POST "/conversations/cb0b963c-b906-412e-892a-9ea8cb04297f/messages" for 172.22.0.1 at 2026-11-20 02:39:33 +0000
+web-1    | [7140a4fb-1eab-46eb-8149-8cd9ebb5b694] Processing by MessagesController#create as TURBO_STREAM
+web-1    | [7140a4fb-1eab-46eb-8149-8cd9ebb5b694]   Parameters: {"message" => {"content" => "What is 17 * 23 + 4? Use the calculator."}, "authenticity_token" => "[FILTERED]", "conversation_id" => "cb0b963c-b906-412e-892a-9ea8cb04297f"}
+web-1    | [7140a4fb-1eab-46eb-8149-8cd9ebb5b694] Completed 200 OK in 13ms (Views: 0.6ms | GC: 0.0ms)
+web-1    | Finished "/cable" [WebSocket] for 172.22.0.1 at 2026-11-20 02:39:35 +0000
+web-1    | Turbo::StreamsChannel stopped streaming from conversation_cb0b963c-b906-412e-892a-9ea8cb04297f
+web-1    | [a49e4e11-9649-4a8d-8708-c2d6eac4796b] Started GET "/conversations/cb0b963c-b906-412e-892a-9ea8cb04297f" for 172.22.0.1 at 2026-11-20 02:39:39 +0000
+web-1    | [a49e4e11-9649-4a8d-8708-c2d6eac4796b] Processing by ConversationsController#show as HTML
+web-1    | [a49e4e11-9649-4a8d-8708-c2d6eac4796b]   Parameters: {"id" => "cb0b963c-b906-412e-892a-9ea8cb04297f"}
+web-1    | [a49e4e11-9649-4a8d-8708-c2d6eac4796b]   Rendered layout layouts/application.html.erb (Duration: 17.0ms | GC: 0.0ms)
+web-1    | [a49e4e11-9649-4a8d-8708-c2d6eac4796b] Completed 200 OK in 23ms (Views: 19.4ms | GC: 0.0ms)
+web-1    | [1] === puma shutdown: 2026-11-20 02:39:39 +0000 ===
+web-1    | [1] - Goodbye!
+web-1    | [1] - Gracefully shutting down workers...
+web-1    | [1] Puma starting in cluster mode...
+web-1    | [1] * Puma version: 8.1.2 ("Puma Psychosis")
+web-1    | [1] * Ruby version: ruby 4.0.10 (2026-11-19 revision a704b7cd95) +PRISM [x86_64-linux]
+web-1    | [1] *  Min threads: 5
+web-1    | [1] *  Max threads: 5
+web-1    | [1] *  Environment: production
+web-1    | [1] *   Master PID: 1
+web-1    | [1] *      Workers: 2
+web-1    | [1] *     Restarts: (✔) hot (✖) phased (✖) refork
+web-1    | [1] * Preloading application
+web-1    | [1] * Listening on http://0.0.0.0:3000
+web-1    | [1] Use Ctrl-C to stop
+web-1    | [1] - Worker 0 (PID: 10) booted in 0.0s, phase: 0
+web-1    | [1] - Worker 1 (PID: 13) booted in 0.0s, phase: 0
+web-1    | [ccdbec93-d574-4769-a6f3-f85e88f191b6] Started GET "/conversations/cb0b963c-b906-412e-892a-9ea8cb04297f" for 172.22.0.1 at 2026-11-20 02:39:46 +0000
+web-1    | [ccdbec93-d574-4769-a6f3-f85e88f191b6] Processing by ConversationsController#show as HTML
+web-1    | [ccdbec93-d574-4769-a6f3-f85e88f191b6]   Parameters: {"id" => "cb0b963c-b906-412e-892a-9ea8cb04297f"}
+web-1    | [ccdbec93-d574-4769-a6f3-f85e88f191b6]   Rendered layout layouts/application.html.erb (Duration: 47.0ms | GC: 9.8ms)
+web-1    | [ccdbec93-d574-4769-a6f3-f85e88f191b6] Completed 200 OK in 70ms (Views: 48.4ms | GC: 16.0ms)

@@ -1,0 +1,70 @@
+welcome
+confirm_subscription
+ping
++  1.98s remove empty_state
++  1.98s append messages
++  1.98s append messages
++  2.78s remove assistant_turn_abcf7a2dee91_typing
++  2.78s append assistant_turn_abcf7a2dee91_body
++  2.78s replace assistant_turn_abcf7a2dee91
++  2.79s replace token_usage
+ping
+ping
++  7.90s remove empty_state
++  7.90s append messages
++  7.90s append messages
++  8.73s remove assistant_turn_a9c83a0e3fa5_typing
++  8.73s append assistant_turn_a9c83a0e3fa5_body
++  8.74s replace assistant_turn_a9c83a0e3fa5
++  8.74s replace token_usage
+ping
+ping
++ 13.80s remove empty_state
++ 13.80s append messages
++ 13.80s append messages
++ 14.84s remove assistant_turn_519fc0b0ee51_typing
++ 14.84s append assistant_turn_519fc0b0ee51_body
++ 14.85s replace assistant_turn_519fc0b0ee51
++ 14.85s replace token_usage
+ping
+ping
++ 19.72s remove empty_state
++ 19.72s append messages
++ 19.72s append messages
++ 20.59s remove assistant_turn_d2059baf4425_typing
++ 20.59s append assistant_turn_d2059baf4425_body
++ 20.60s replace assistant_turn_d2059baf4425
++ 20.60s replace token_usage
+ping
+ping
++ 25.64s remove empty_state
++ 25.64s append messages
++ 25.64s append messages
++ 26.50s remove assistant_turn_ee3fbed9375b_typing
++ 26.50s append assistant_turn_ee3fbed9375b_body
++ 26.51s replace assistant_turn_ee3fbed9375b
++ 26.51s replace token_usage
+ping
+ping
++ 31.55s remove empty_state
++ 31.55s append messages
++ 31.55s append messages
++ 32.48s remove assistant_turn_3fa82c450b38_typing
++ 32.48s append assistant_turn_3fa82c450b38_body
++ 32.49s replace assistant_turn_3fa82c450b38
++ 32.49s replace token_usage
+ping
+ping
+ping
+ping
++ 44.23s remove empty_state
++ 44.23s append messages
++ 44.23s append messages
++ 45.09s remove assistant_turn_e5ee53d6564c_typing
++ 45.09s append assistant_turn_e5ee53d6564c_body
++ 45.10s replace assistant_turn_e5ee53d6564c
++ 45.10s replace token_usage
+ping
+ping
+ping
+ping

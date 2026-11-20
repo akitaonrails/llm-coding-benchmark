@@ -1,0 +1,51 @@
+=> Booting Puma
+=> Rails 8.1.4.1 application starting in production 
+=> Run `bin/rails server --help` for more startup options
+[1] Puma starting in cluster mode...
+[1] * Puma version: 8.1.2 ("Puma Psychosis")
+[1] * Ruby version: ruby 4.0.10 (2026-11-19 revision a704b7cd95) +YJIT +PRISM [x86_64-linux]
+[1] *  Min threads: 5
+[1] *  Max threads: 5
+[1] *  Environment: production
+[1] *   Master PID: 1
+[1] *      Workers: 2
+[1] *     Restarts: (✔) hot (✖) phased (✖) refork
+[1] * Preloading application
+[1] * Listening on http://0.0.0.0:3000
+[1] Use Ctrl-C to stop
+[1] - Worker 0 (PID: 11) booted in 0.0s, phase: 0
+[1] - Worker 1 (PID: 17) booted in 0.0s, phase: 0
+[d3e807d8-2f39-4f61-9e8d-e5707cc7229d] Started GET "/" for 172.23.0.1 at 2026-11-20 03:41:25 +0000
+[d3e807d8-2f39-4f61-9e8d-e5707cc7229d] Processing by ConversationsController#index as HTML
+[d3e807d8-2f39-4f61-9e8d-e5707cc7229d] Redirected to http://127.0.0.1:13682/chats/6944c6e0a609ef8ca77cb6f8aa2cb22b
+[d3e807d8-2f39-4f61-9e8d-e5707cc7229d] Completed 302 Found in 15ms (GC: 0.0ms)
+[51607e5b-cdcd-49d2-98bd-e11fc17e5719] Started GET "/chats/6944c6e0a609ef8ca77cb6f8aa2cb22b" for 172.23.0.1 at 2026-11-20 03:41:25 +0000
+[51607e5b-cdcd-49d2-98bd-e11fc17e5719] Processing by ConversationsController#show as HTML
+[51607e5b-cdcd-49d2-98bd-e11fc17e5719]   Parameters: {"id" => "6944c6e0a609ef8ca77cb6f8aa2cb22b"}
+[51607e5b-cdcd-49d2-98bd-e11fc17e5719]   Rendered layout layouts/application.html.erb (Duration: 41.4ms | GC: 3.2ms)
+[51607e5b-cdcd-49d2-98bd-e11fc17e5719] Completed 200 OK in 58ms (Views: 42.5ms | GC: 13.7ms)
+[40a7f1a9-6969-495e-9266-5ba3476bf392] Started GET "/cable" for 172.23.0.1 at 2026-11-20 03:41:25 +0000
+[40a7f1a9-6969-495e-9266-5ba3476bf392] Started GET "/cable" [WebSocket] for 172.23.0.1 at 2026-11-20 03:41:25 +0000
+[40a7f1a9-6969-495e-9266-5ba3476bf392] Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+Turbo::StreamsChannel is streaming from conversation:6944c6e0a609ef8ca77cb6f8aa2cb22b
+[70215c86-4ab7-4dc8-9d9e-a6e334495a69] Started POST "/chats/6944c6e0a609ef8ca77cb6f8aa2cb22b/messages" for 172.23.0.1 at 2026-11-20 03:41:25 +0000
+[70215c86-4ab7-4dc8-9d9e-a6e334495a69] Processing by ConversationsController#message as TURBO_STREAM
+[70215c86-4ab7-4dc8-9d9e-a6e334495a69]   Parameters: {"authenticity_token" => "[FILTERED]", "prompt" => "[FILTERED]", "button" => "", "id" => "6944c6e0a609ef8ca77cb6f8aa2cb22b"}
+[70215c86-4ab7-4dc8-9d9e-a6e334495a69] Completed 200 OK in 3816ms (Views: 8.9ms | GC: 40.7ms)
+[baf43b2f-e631-4af2-ba7a-c47b55999bb6] Started GET "/chats/6944c6e0a609ef8ca77cb6f8aa2cb22b" for 172.23.0.1 at 2026-11-20 03:41:29 +0000
+[baf43b2f-e631-4af2-ba7a-c47b55999bb6] Processing by ConversationsController#show as HTML
+[baf43b2f-e631-4af2-ba7a-c47b55999bb6]   Parameters: {"id" => "6944c6e0a609ef8ca77cb6f8aa2cb22b"}
+[baf43b2f-e631-4af2-ba7a-c47b55999bb6]   Rendered layout layouts/application.html.erb (Duration: 10.9ms | GC: 0.0ms)
+[baf43b2f-e631-4af2-ba7a-c47b55999bb6] Completed 200 OK in 16ms (Views: 13.9ms | GC: 0.0ms)
+Finished "/cable" [WebSocket] for 172.23.0.1 at 2026-11-20 03:41:29 +0000
+Turbo::StreamsChannel stopped streaming from conversation:6944c6e0a609ef8ca77cb6f8aa2cb22b
+[940db604-2be4-4fea-8f1e-6bdebe8c4553] Started GET "/cable" for 172.23.0.1 at 2026-11-20 03:41:29 +0000
+[940db604-2be4-4fea-8f1e-6bdebe8c4553] Started GET "/cable" [WebSocket] for 172.23.0.1 at 2026-11-20 03:41:29 +0000
+[940db604-2be4-4fea-8f1e-6bdebe8c4553] Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+Turbo::StreamsChannel is streaming from conversation:6944c6e0a609ef8ca77cb6f8aa2cb22b
+Finished "/cable" [WebSocket] for 172.23.0.1 at 2026-11-20 03:42:10 +0000
+Turbo::StreamsChannel stopped streaming from conversation:6944c6e0a609ef8ca77cb6f8aa2cb22b
+[1] === puma shutdown: 2026-11-20 03:42:10 +0000 ===
+[1] - Goodbye!
+[1] - Gracefully shutting down workers...
+Exiting

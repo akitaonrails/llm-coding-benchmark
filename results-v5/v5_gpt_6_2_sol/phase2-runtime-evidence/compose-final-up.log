@@ -1,0 +1,122 @@
+ Image stillwater-phase2-runtime-gpt62sol-app Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 640B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.44kB done
+#2 DONE 0.0s
+
+#3 resolve image config for docker-image://docker.io/docker/dockerfile:1
+#3 DONE 0.4s
+
+#4 docker-image://docker.io/docker/dockerfile:1@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+#4 resolve docker.io/docker/dockerfile:1@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e done
+#4 CACHED
+
+#5 [internal] load metadata for docker.io/library/ruby:4.0.10-slim
+#5 DONE 0.2s
+
+#6 [internal] load .dockerignore
+#6 transferring context: 759B done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 DONE 0.0s
+
+#8 [base 1/3] FROM docker.io/library/ruby:4.0.10-slim@sha256:a4b3e62bfe56bd267a3aeacc1b89aea96be919faa0c7d77c6346e2ac14f6c175
+#8 resolve docker.io/library/ruby:4.0.10-slim@sha256:a4b3e62bfe56bd267a3aeacc1b89aea96be919faa0c7d77c6346e2ac14f6c175 done
+#8 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 5.45kB done
+#7 DONE 0.0s
+
+#9 [base 3/3] RUN apt-get update -qq     && apt-get install --no-install-recommends -y ca-certificates curl libjemalloc2     && ln -s /usr/lib/$(uname -m)-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so     && rm -rf /var/lib/apt/lists/*
+#9 CACHED
+
+#10 [base 2/3] WORKDIR /rails
+#10 CACHED
+
+#11 [build 1/5] RUN apt-get update -qq     && apt-get install --no-install-recommends -y build-essential git libyaml-dev pkg-config     && rm -rf /var/lib/apt/lists/*
+#11 CACHED
+
+#12 [build 2/5] COPY Gemfile Gemfile.lock ./
+#12 CACHED
+
+#13 [build 3/5] RUN bundle install     && rm -rf /usr/local/bundle/ruby/*/cache     && bundle exec bootsnap precompile -j 1 --gemfile
+#13 CACHED
+
+#14 [build 4/5] COPY . .
+#14 DONE 0.0s
+
+#15 [build 5/5] RUN bundle exec bootsnap precompile -j 1 app/ lib/     && SECRET_KEY_BASE_DUMMY=1 bin/rails assets:precompile     && rm -f tmp/local_secret.txt
+#15 0.633 ≈ tailwindcss v4.3.4
+#15 0.633 
+#15 0.748 Done in 114ms
+#15 0.781 Writing tailwind-0d8dae9c.css
+#15 0.781 Writing application-8b441ae0.css
+#15 0.781 Writing application-bfcdf840.js
+#15 0.781 Writing controllers/application-3affb389.js
+#15 0.781 Writing controllers/chat_composer_controller-69b41641.js
+#15 0.781 Writing controllers/chat_scroll_controller-65195693.js
+#15 0.781 Writing controllers/index-ee64e1f1.js
+#15 0.781 Writing stimulus-autoloader-9d447422.js
+#15 0.781 Writing stimulus-importmap-autoloader-64cc03e1.js
+#15 0.781 Writing stimulus-loading-1fc53fe7.js
+#15 0.781 Writing stimulus-d59b3b7f.js
+#15 0.781 Writing stimulus.min-4b1e420e.js
+#15 0.781 Writing stimulus.min-2395e199.js.map
+#15 0.781 Writing turbo-736fb387.js
+#15 0.781 Writing turbo.min-9fd88cd5.js
+#15 0.781 Writing turbo.min-5eb167c2.js.map
+#15 0.781 Writing action_cable-5212cfee.js
+#15 0.781 Writing actioncable.esm-e0ec9819.js
+#15 0.781 Writing actioncable-ac25813f.js
+#15 0.781 Writing rails-ujs.esm-e925103b.js
+#15 0.781 Writing rails-ujs-20eaf715.js
+#15 0.781 Writing ruby_llm/chat_message_controller-205f6e18.js
+#15 0.781 Writing ruby_llm/dompurify-270fff15.js
+#15 0.781 Writing ruby_llm/marked-0843e99c.js
+#15 DONE 0.8s
+
+#16 [stage-2 1/4] RUN groupadd --system --gid 1000 rails     && useradd --system --uid 1000 --gid rails --create-home rails
+#16 CACHED
+
+#17 [stage-2 2/4] COPY --from=build /usr/local/bundle /usr/local/bundle
+#17 CACHED
+
+#18 [stage-2 3/4] COPY --from=build --chown=rails:rails /rails /rails
+#18 DONE 0.4s
+
+#19 [stage-2 4/4] RUN mkdir -m 0700 /rails/tmp/local
+#19 DONE 0.1s
+
+#20 exporting to docker image format
+#20 exporting layers
+#20 exporting layers 1.1s done
+#20 exporting manifest sha256:c31f66c287227f02ce223bc5f2bcb983d5d065b819cfea1ffd75bc81cfd3fbaf done
+#20 exporting config sha256:49eae2892e1e61f0c0e59c2efe5ac6d3d641377498528ed0a7a211dcf03f7241 done
+#20 sending tarball
+#20 sending tarball 2.0s done
+#20 DONE 3.1s
+
+#21 importing to docker
+#21 loading layer f0561e5469a6 17.43MB / 17.43MB 1.6s done
+#21 loading layer b80c78c9bca2 144B / 144B 0.5s done
+#21 DONE 1.6s
+
+#22 resolving provenance for metadata file
+#22 DONE 0.0s
+ Image stillwater-phase2-runtime-gpt62sol-app Built 
+ Container stillwater-phase2-runtime-gpt62sol-redis-1 Running 
+ Container stillwater-phase2-runtime-gpt62sol-app-1 Recreate 
+ Container stillwater-phase2-runtime-gpt62sol-app-1 Recreated 
+ Container stillwater-phase2-runtime-gpt62sol-redis-1 Waiting 
+ Container stillwater-phase2-runtime-gpt62sol-redis-1 Healthy 
+ Container stillwater-phase2-runtime-gpt62sol-app-1 Starting 
+ Container stillwater-phase2-runtime-gpt62sol-app-1 Started 
+ Container stillwater-phase2-runtime-gpt62sol-redis-1 Waiting 
+ Container stillwater-phase2-runtime-gpt62sol-app-1 Waiting 
+ Container stillwater-phase2-runtime-gpt62sol-redis-1 Healthy 
+ Container stillwater-phase2-runtime-gpt62sol-app-1 Healthy 

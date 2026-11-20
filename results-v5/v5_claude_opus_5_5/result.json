@@ -1,0 +1,243 @@
+{
+  "alt_cost_breakdowns": {},
+  "billing": "claude-max-subscription",
+  "cost_breakdown": {
+    "actual_cost_usd": 5.733773,
+    "no_cache_cost_usd": 40.061132,
+    "cache_savings_usd": 34.327359,
+    "cache_savings_pct": 85.69,
+    "components_usd": {
+      "input_uncached": 0.000872,
+      "cache_read": 1.851861,
+      "cache_write": 1.716,
+      "output": 2.16504
+    }
+  },
+  "elapsed_seconds_total": 1181.5,
+  "ended_at": "2026-11-20T02:45:35+00:00",
+  "family": "Anthropic",
+  "harness": "claude",
+  "label": "Claude Opus 5.5",
+  "model_id": "claude-opus-5-5",
+  "native_cost_usd_total": 5.733773,
+  "nudges_used": 0,
+  "phases": [
+    {
+      "cost_breakdown": {
+        "actual_cost_usd": 4.678314,
+        "cache_savings_pct": 86.09,
+        "cache_savings_usd": 28.947702,
+        "components_usd": {
+          "cache_read": 1.557758,
+          "cache_write": 1.299408,
+          "input_uncached": 0.000608,
+          "output": 1.82054
+        },
+        "no_cache_cost_usd": 33.626016
+      },
+      "elapsed_seconds": 871.77,
+      "ended_at": "2026-11-20T02:35:19+00:00",
+      "exit_code": 0,
+      "file_count_after": 150,
+      "harness": "claude",
+      "model_id": "claude-opus-5-5",
+      "native_cost_usd": 4.678314200000001,
+      "phase": "phase1",
+      "session_id": "0d760639-f0eb-4e7b-b024-2b11a69299ab",
+      "stall_aborted": false,
+      "started_at": "2026-11-20T02:20:47+00:00",
+      "timed_out": false,
+      "tokens": {
+        "billable_output": 91027,
+        "cache_hit_ratio": 0.9796,
+        "cache_read": 7788791,
+        "cache_write": 162426,
+        "cache_write_1h": 162426,
+        "cache_write_5m": 0,
+        "input_uncached": 152,
+        "output": 91027,
+        "reasoning": 19784,
+        "total": 8042396,
+        "total_prompt": 7951369
+      },
+      "turns": 77
+    },
+    {
+      "cost_breakdown": {
+        "actual_cost_usd": 1.055459,
+        "cache_savings_pct": 83.6,
+        "cache_savings_usd": 5.379657,
+        "components_usd": {
+          "cache_read": 0.294103,
+          "cache_write": 0.416592,
+          "input_uncached": 0.000264,
+          "output": 0.3445
+        },
+        "no_cache_cost_usd": 6.435116
+      },
+      "elapsed_seconds": 309.73,
+      "ended_at": "2026-11-20T02:40:29+00:00",
+      "exit_code": 0,
+      "file_count_after": 2198,
+      "harness": "claude",
+      "model_id": "claude-opus-5-5",
+      "native_cost_usd": 1.0554588,
+      "phase": "phase2",
+      "session_id": "fd988f82-6ba4-4b8a-8230-b73f64d01948",
+      "stall_aborted": false,
+      "started_at": "2026-11-20T02:35:19+00:00",
+      "timed_out": false,
+      "tokens": {
+        "billable_output": 17225,
+        "cache_hit_ratio": 0.9658,
+        "cache_read": 1470514,
+        "cache_write": 52074,
+        "cache_write_1h": 52074,
+        "cache_write_5m": 0,
+        "input_uncached": 66,
+        "output": 17225,
+        "reasoning": 3428,
+        "total": 1539879,
+        "total_prompt": 1522654
+      },
+      "turns": 34
+    },
+    {
+      "cost_breakdown": {
+        "actual_cost_usd": 0.826152,
+        "cache_savings_pct": 81.6,
+        "cache_savings_usd": 3.66424,
+        "components_usd": {
+          "cache_read": 0.203764,
+          "cache_write": 0.414552,
+          "input_uncached": 0.000176,
+          "output": 0.20766
+        },
+        "no_cache_cost_usd": 4.490392
+      },
+      "elapsed_seconds": 137.22,
+      "ended_at": "2026-11-20T02:42:48+00:00",
+      "exit_code": 0,
+      "file_count_after": 2207,
+      "harness": "claude",
+      "model_id": "claude-opus-5-5",
+      "native_cost_usd": 0.826152,
+      "phase": "nudge1",
+      "session_id": "f0d643a6-478c-4725-9bac-7a98a75e016d",
+      "stall_aborted": false,
+      "started_at": "2026-11-20T02:40:31+00:00",
+      "timed_out": false,
+      "tokens": {
+        "billable_output": 10383,
+        "cache_hit_ratio": 0.9516,
+        "cache_read": 1018820,
+        "cache_write": 51819,
+        "cache_write_1h": 51819,
+        "cache_write_5m": 0,
+        "input_uncached": 44,
+        "output": 10383,
+        "reasoning": 1531,
+        "total": 1081066,
+        "total_prompt": 1070683
+      },
+      "turns": 23
+    },
+    {
+      "cost_breakdown": {
+        "actual_cost_usd": 0.860608,
+        "cache_savings_pct": 82.8,
+        "cache_savings_usd": 4.142508,
+        "components_usd": {
+          "cache_read": 0.228872,
+          "cache_write": 0.412136,
+          "input_uncached": 0.0002,
+          "output": 0.2194
+        },
+        "no_cache_cost_usd": 5.003116
+      },
+      "elapsed_seconds": 162.38,
+      "ended_at": "2026-11-20T02:45:32+00:00",
+      "exit_code": 0,
+      "file_count_after": 1859,
+      "harness": "claude",
+      "model_id": "claude-opus-5-5",
+      "native_cost_usd": 0.8606083999999999,
+      "phase": "nudge2",
+      "session_id": "6cc82a7e-735b-47c2-8ea1-ae9c07436312",
+      "stall_aborted": false,
+      "started_at": "2026-11-20T02:42:50+00:00",
+      "timed_out": false,
+      "tokens": {
+        "billable_output": 10970,
+        "cache_hit_ratio": 0.9569,
+        "cache_read": 1144362,
+        "cache_write": 51517,
+        "cache_write_1h": 51517,
+        "cache_write_5m": 0,
+        "input_uncached": 50,
+        "output": 10970,
+        "reasoning": 2392,
+        "total": 1206899,
+        "total_prompt": 1195929
+      },
+      "turns": 25
+    }
+  ],
+  "quality_gate": {
+    "passed": true,
+    "checks": {
+      "gemfile_present": true,
+      "dockerfile_present": true,
+      "compose_present": true,
+      "tests_pass": true,
+      "rubocop_pass": true,
+      "brakeman_pass": true
+    },
+    "verified_with_redis": true
+  },
+  "slug": "v5_claude_opus_5_5",
+  "tokens_total": {
+    "input_uncached": 218,
+    "cache_read": 9259305,
+    "cache_write": 214500,
+    "cache_write_5m": 0,
+    "cache_write_1h": 214500,
+    "output": 108252,
+    "reasoning": 23212,
+    "billable_output": 108252,
+    "total_prompt": 9474023,
+    "total": 9582275,
+    "cache_hit_ratio": 0.9773
+  },
+  "turns_total": 111,
+  "raw_with_false_nudges": {
+    "nudges_used": 2,
+    "elapsed_seconds_total": 1481.1,
+    "tokens_total": {
+      "billable_output": 129605,
+      "cache_hit_ratio": 0.9729,
+      "cache_read": 11422487,
+      "cache_write": 317836,
+      "cache_write_1h": 317836,
+      "cache_write_5m": 0,
+      "input_uncached": 312,
+      "output": 129605,
+      "reasoning": 27135,
+      "total": 11870240,
+      "total_prompt": 11740635
+    },
+    "cost_breakdown": {
+      "actual_cost_usd": 7.420533,
+      "cache_savings_pct": 85.03,
+      "cache_savings_usd": 42.134107,
+      "components_usd": {
+        "cache_read": 2.284497,
+        "cache_write": 2.542688,
+        "input_uncached": 0.001248,
+        "output": 2.5921
+      },
+      "no_cache_cost_usd": 49.55464
+    },
+    "note": "Original runner lacked ephemeral Redis during post-phase2 quality gate; Opus 5.5 passed 135/135 tests in Phase 2 and made zero code edits in nudge1/nudge2."
+  }
+}

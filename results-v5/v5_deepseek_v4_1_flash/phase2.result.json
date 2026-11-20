@@ -1,0 +1,40 @@
+{
+  "cost_breakdown": {
+    "actual_cost_usd": 0.108531,
+    "cache_savings_pct": 94.04,
+    "cache_savings_usd": 1.711692,
+    "components_usd": {
+      "cache_read": 0.034932,
+      "cache_write": 0.0,
+      "input_uncached": 0.023917,
+      "output": 0.049681
+    },
+    "no_cache_cost_usd": 1.820222
+  },
+  "elapsed_seconds": 549.21,
+  "ended_at": "2026-11-20T09:54:21+00:00",
+  "exit_code": 0,
+  "file_count_after": 2622,
+  "harness": "opencode",
+  "model_id": "openrouter/deepseek/deepseek-v4.1-flash-1017",
+  "native_cost_usd": 0.080528,
+  "phase": "phase2",
+  "session_id": "ses_e07a77f3bffeqZ11Ia7Vf7cjVY",
+  "stall_aborted": false,
+  "started_at": "2026-11-20T09:45:12+00:00",
+  "timed_out": false,
+  "tokens": {
+    "billable_output": 41401,
+    "cache_hit_ratio": 0.9865,
+    "cache_read": 5822080,
+    "cache_write": 0,
+    "cache_write_1h": 0,
+    "cache_write_5m": 0,
+    "input_uncached": 79724,
+    "output": 18008,
+    "reasoning": 23393,
+    "total": 5943205,
+    "total_prompt": 5901804
+  },
+  "turns": 72
+}

@@ -1,0 +1,40 @@
+{
+  "cost_breakdown": {
+    "actual_cost_usd": 1.039734,
+    "cache_savings_pct": 84.58,
+    "cache_savings_usd": 5.701288,
+    "components_usd": {
+      "cache_read": 0.309176,
+      "cache_write": 0.346128,
+      "input_uncached": 0.0002,
+      "output": 0.38423
+    },
+    "no_cache_cost_usd": 6.741022
+  },
+  "elapsed_seconds": 596.15,
+  "ended_at": "2026-11-20T03:01:18+00:00",
+  "exit_code": 0,
+  "file_count_after": 2337,
+  "harness": "claude",
+  "model_id": "claude-sonnet-5-5",
+  "native_cost_usd": 1.0397343999999997,
+  "phase": "phase2",
+  "session_id": "b32c9fdb-f2a8-43ce-b332-e84bc050a059",
+  "stall_aborted": false,
+  "started_at": "2026-11-20T02:51:22+00:00",
+  "timed_out": false,
+  "tokens": {
+    "billable_output": 38423,
+    "cache_hit_ratio": 0.9727,
+    "cache_read": 3091764,
+    "cache_write": 86532,
+    "cache_write_1h": 86532,
+    "cache_write_5m": 0,
+    "input_uncached": 100,
+    "output": 38423,
+    "reasoning": 13073,
+    "total": 3216819,
+    "total_prompt": 3178396
+  },
+  "turns": 50
+}

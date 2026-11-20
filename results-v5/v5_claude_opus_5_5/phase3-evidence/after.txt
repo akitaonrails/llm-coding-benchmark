@@ -1,0 +1,7 @@
+title: Two Short Sentences About Rivers · RubyLLM Chat
+user | Write two short sentences about rivers.
+assistant | Rivers carve valleys and carry fresh water from the mountains to the sea. They support rich ecosystems and hav
+user | what time is it on the server?
+assistant | The server time is 02:41:22 UTC on Friday, November 20, 2026.
+user | Use the calculator: (17 * 23) + 4
+assistant | (17 × 23) + 4 = 395.

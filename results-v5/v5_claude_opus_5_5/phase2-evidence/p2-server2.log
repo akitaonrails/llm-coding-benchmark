@@ -1,0 +1,1698 @@
+=> Booting Puma
+=> Rails 8.1.4.1 application starting in development 
+=> Run `bin/rails server --help` for more startup options
+[2823905] * Enabling systemd notification integration
+[2823905] Puma starting in cluster mode...
+[2823905] * Puma version: 8.1.2 ("Puma Psychosis")
+[2823905] * Ruby version: ruby 4.0.10 (2026-11-19 revision a704b7cd95) +PRISM [x86_64-linux]
+[2823905] *  Min threads: 5
+[2823905] *  Max threads: 5
+[2823905] *  Environment: development
+[2823905] *   Master PID: 2823905
+[2823905] *      Workers: 2
+[2823905] *     Restarts: (✔) hot (✖) phased (✖) refork
+[2823905] * Preloading application
+[2823905] * Listening on http://127.0.0.1:3000
+[2823905] * Listening on http://[::1]:3000
+[2823905] Use Ctrl-C to stop
+[2823905] - Worker 0 (PID: 2823930) booted in 0.0s, phase: 0
+[2823905] Sending status to systemd every 1.0 sec
+[2823905] - Worker 1 (PID: 2823939) booted in 0.0s, phase: 0
+Started GET "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f" for 127.0.0.1 at 2026-11-19 23:36:59 -0300
+Processing by ConversationsController#show as HTML
+  Parameters: {"id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+  Rendering layout layouts/application.html.erb
+  Rendering conversations/show.html.erb within layouts/application
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.2ms | GC: 0.0ms)
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_sidebar.html.erb (Duration: 0.9ms | GC: 0.0ms)
+  Rendered conversations/_title.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_token_usage.html.erb (Duration: 0.6ms | GC: 0.0ms)
+  Rendered conversations/_header.html.erb (Duration: 1.0ms | GC: 0.0ms)
+  Rendered collection of messages/_message.html.erb [4 times] (Duration: 0.3ms | GC: 0.0ms)
+  Rendered messages/_list.html.erb (Duration: 0.7ms | GC: 0.0ms)
+  Rendered messages/_composer.html.erb (Duration: 1.2ms | GC: 0.0ms)
+  Rendered conversations/show.html.erb within layouts/application (Duration: 5.1ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 9.4ms | GC: 0.5ms)
+Completed 200 OK in 24ms (Views: 10.6ms | GC: 2.0ms)
+
+
+Started GET "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f" for 127.0.0.1 at 2026-11-19 23:37:04 -0300
+Processing by ConversationsController#show as */*
+  Parameters: {"id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+  Rendering layout layouts/application.html.erb
+  Rendering conversations/show.html.erb within layouts/application
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.5ms | GC: 0.4ms)
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_sidebar.html.erb (Duration: 0.8ms | GC: 0.4ms)
+  Rendered conversations/_title.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_header.html.erb (Duration: 0.6ms | GC: 0.4ms)
+  Rendered collection of messages/_message.html.erb [4 times] (Duration: 0.6ms | GC: 0.4ms)
+  Rendered messages/_list.html.erb (Duration: 0.6ms | GC: 0.4ms)
+  Rendered messages/_composer.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/show.html.erb within layouts/application (Duration: 3.4ms | GC: 2.1ms)
+  Rendered layout layouts/application.html.erb (Duration: 3.7ms | GC: 2.1ms)
+Completed 200 OK in 6ms (Views: 4.0ms | GC: 3.5ms)
+
+
+Started GET "/cable" for 127.0.0.1 at 2026-11-19 23:37:04 -0300
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2026-11-19 23:37:04 -0300
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+Turbo::StreamsChannel is transmitting the subscription confirmation
+Turbo::StreamsChannel is streaming from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f
+Started POST "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f/messages" for 127.0.0.1 at 2026-11-19 23:37:04 -0300
+Processing by MessagesController#create as TURBO_STREAM
+  Parameters: {"message" => {"content" => "What was the exact calculator result you gave me earlier? Just repeat the number."}, "authenticity_token" => "[FILTERED]", "conversation_id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_message.html.erb (Duration: 0.2ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_streaming.html.erb (Duration: 0.2ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_e4c51dadd0ab\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin...
+  Rendered messages/_composer.html.erb (Duration: 0.3ms | GC: 0.0ms)
+Completed 200 OK in 7ms (Views: 0.1ms | GC: 1.9ms)
+
+
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_e4c51dadd0ab\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+request: POST https://openrouter.ai/api/v1/chat/completions
+request: {model: "anthropic/claude-sonnet-5.5",
+ messages:
+  [{role: "developer",
+    content:
+     "You are a concise, friendly assistant inside a small demo chat app. You have two tools. Whenever the user asks for the current date or time, you MUST call the `server_time` tool and answer from its result. Whenever the user asks you to compute or evaluate arithmetic, you MUST call the `calculator` tool and answer from its result instead of doing the math yourself. Tool calls from earlier turns are not replayed in the history: your earlier answers were already based on real tool results, so trust them and do not apologise for or second-guess them. Answer in plain text."},
+   {role: "user", content: "what time is it on the server?"},
+   {role: "assistant",
+    content: "The server time is Friday, November 20, 2026, 02:36:20 UTC."},
+   {role: "user",
+    content: "Use the calculator to compute (1234 * 5678) / 3 + 17.5"},
+   {role: "assistant",
+    content:
+     "(1234 × 5678) / 3 + 17.5 = **2,335,568.1667** (rounded). The exact result is 2335568.166666666667."},
+   {role: "user",
+    content:
+     "What was the exact calculator result you gave me earlier? Just repeat the number."}],
+ stream: true,
+ tools:
+  [{type: "function",
+    function:
+     {name: "server_time",
+      description:
+       "Returns the server's current date and time in UTC (ISO 8601). Use this whenever the user asks for the current time or date.",
+      parameters:
+       {"type" => "object",
+        "properties" => {},
+        "required" => [],
+        "additionalProperties" => false,
+        "strict" => true}}},
+   {type: "function",
+    function:
+     {name: "calculator",
+      description:
+       "Evaluates a basic arithmetic expression and returns the exact result. Supports + - * / % ^ (power), parentheses and decimals. Use this for every calculation the user asks for.",
+      parameters:
+       {"type" => "object",
+        "properties" =>
+         {"expression" =>
+           {"type" => "string",
+            "description" =>
+             "Arithmetic expression, e.g. '(12.5 + 3) * 4 / 2'"}},
+        "required" => ["expression"],
+        "additionalProperties" => false,
+        "strict" => true}}}],
+ stream_options: {include_usage: true}}
+
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"assistant_turn_e4c51dadd0ab_typing\"></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_e4c51dadd0ab_body\"><template>2335568.</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"assistant_turn_e4c51dadd0ab_typing\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_e4c51dadd0ab_body\"><template>166666666667</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_e4c51dadd0ab_body\"><template>2335568.</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Waiting for the remaining JSON response bytes
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_e4c51dadd0ab_body\"><template>166666666667</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+response: Status 200
+response: 
+Stream completed: 2335568.166666666667
+  Rendered messages/_message.html.erb (Duration: 0.1ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"assistant_turn_e4c51dadd0ab\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800...
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"assistant_turn_e4c51dadd0ab\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2026-11-19 23:37:07 -0300
+Turbo::StreamsChannel stopped streaming from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f
+Started GET "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f" for 127.0.0.1 at 2026-11-19 23:37:07 -0300
+Processing by ConversationsController#show as HTML
+  Parameters: {"id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+  Rendering layout layouts/application.html.erb
+  Rendering conversations/show.html.erb within layouts/application
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.2ms | GC: 0.0ms)
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_sidebar.html.erb (Duration: 0.8ms | GC: 0.0ms)
+  Rendered conversations/_title.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_token_usage.html.erb (Duration: 0.6ms | GC: 0.0ms)
+  Rendered conversations/_header.html.erb (Duration: 0.9ms | GC: 0.0ms)
+  Rendered collection of messages/_message.html.erb [6 times] (Duration: 0.3ms | GC: 0.0ms)
+  Rendered messages/_list.html.erb (Duration: 0.7ms | GC: 0.0ms)
+  Rendered messages/_composer.html.erb (Duration: 1.1ms | GC: 0.0ms)
+  Rendered conversations/show.html.erb within layouts/application (Duration: 4.9ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 9.6ms | GC: 0.8ms)
+Completed 200 OK in 23ms (Views: 10.7ms | GC: 2.2ms)
+
+
+Started GET "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f" for 127.0.0.1 at 2026-11-19 23:37:18 -0300
+Processing by ConversationsController#show as */*
+  Parameters: {"id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+  Rendering layout layouts/application.html.erb
+  Rendering conversations/show.html.erb within layouts/application
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_sidebar.html.erb (Duration: 0.8ms | GC: 0.5ms)
+  Rendered conversations/_title.html.erb (Duration: 0.6ms | GC: 0.6ms)
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_header.html.erb (Duration: 1.3ms | GC: 1.1ms)
+  Rendered collection of messages/_message.html.erb [6 times] (Duration: 0.7ms | GC: 0.5ms)
+  Rendered messages/_list.html.erb (Duration: 0.7ms | GC: 0.5ms)
+  Rendered messages/_composer.html.erb (Duration: 1.3ms | GC: 0.9ms)
+  Rendered conversations/show.html.erb within layouts/application (Duration: 4.4ms | GC: 3.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 5.3ms | GC: 3.5ms)
+Completed 200 OK in 9ms (Views: 6.1ms | GC: 6.0ms)
+
+
+Started GET "/cable" for 127.0.0.1 at 2026-11-19 23:37:18 -0300
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2026-11-19 23:37:18 -0300
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+Turbo::StreamsChannel is transmitting the subscription confirmation
+Turbo::StreamsChannel is streaming from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f
+Started POST "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f/messages" for 127.0.0.1 at 2026-11-19 23:37:18 -0300
+Processing by MessagesController#create as TURBO_STREAM
+  Parameters: {"message" => {"content" => "Count from 1 to 40 in words, comma separated."}, "authenticity_token" => "[FILTERED]", "conversation_id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>"
+  Rendered messages/_message.html.erb (Duration: 0.2ms | GC: 0.0ms)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_streaming.html.erb (Duration: 0.2ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_6868e3160629\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin...
+  Rendered messages/_composer.html.erb (Duration: 0.3ms | GC: 0.0ms)
+Completed 200 OK in 6ms (Views: 0.0ms | GC: 0.4ms)
+
+
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_6868e3160629\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+request: POST https://openrouter.ai/api/v1/chat/completions
+request: {model: "anthropic/claude-sonnet-5.5",
+ messages:
+  [{role: "developer",
+    content:
+     "You are a concise, friendly assistant inside a small demo chat app. You have two tools. Whenever the user asks for the current date or time, you MUST call the `server_time` tool and answer from its result. Whenever the user asks you to compute or evaluate arithmetic, you MUST call the `calculator` tool and answer from its result instead of doing the math yourself. Tool calls from earlier turns are not replayed in the history: your earlier answers were already based on real tool results, so trust them and do not apologise for or second-guess them. Answer in plain text."},
+   {role: "user", content: "what time is it on the server?"},
+   {role: "assistant",
+    content: "The server time is Friday, November 20, 2026, 02:36:20 UTC."},
+   {role: "user",
+    content: "Use the calculator to compute (1234 * 5678) / 3 + 17.5"},
+   {role: "assistant",
+    content:
+     "(1234 × 5678) / 3 + 17.5 = **2,335,568.1667** (rounded). The exact result is 2335568.166666666667."},
+   {role: "user",
+    content:
+     "What was the exact calculator result you gave me earlier? Just repeat the number."},
+   {role: "assistant", content: "2335568.166666666667"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."}],
+ stream: true,
+ tools:
+  [{type: "function",
+    function:
+     {name: "server_time",
+      description:
+       "Returns the server's current date and time in UTC (ISO 8601). Use this whenever the user asks for the current time or date.",
+      parameters:
+       {"type" => "object",
+        "properties" => {},
+        "required" => [],
+        "additionalProperties" => false,
+        "strict" => true}}},
+   {type: "function",
+    function:
+     {name: "calculator",
+      description:
+       "Evaluates a basic arithmetic expression and returns the exact result. Supports + - * / % ^ (power), parentheses and decimals. Use this for every calculation the user asks for.",
+      parameters:
+       {"type" => "object",
+        "properties" =>
+         {"expression" =>
+           {"type" => "string",
+            "description" =>
+             "Arithmetic expression, e.g. '(12.5 + 3) * 4 / 2'"}},
+        "required" => ["expression"],
+        "additionalProperties" => false,
+        "strict" => true}}}],
+ stream_options: {include_usage: true}}
+
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"assistant_turn_6868e3160629_typing\"></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>one, two,</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"assistant_turn_6868e3160629_typing\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template> three, four, five, six,</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>one, two,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template> seven, eight, nine</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template> three, four, five, six,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>, ten, eleven,</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template> seven, eight, nine</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template> twelve, thirteen</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>, ten, eleven,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>, fourteen, fif</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template> twelve, thirteen</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>teen, sixteen,</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>, fourteen, fif</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template> seventeen, eighte</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>teen, sixteen,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>en, nineteen, tw</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template> seventeen, eighte</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>enty, tw</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>en, nineteen, tw</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>enty-one, twenty</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>enty, tw</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>-two, twenty-three</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>enty-one, twenty</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>, twenty-four, tw</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>-two, twenty-three</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>enty-five, twenty</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>, twenty-four, tw</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>enty-five, twenty</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>-six, twenty-se</template></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>ven, twenty-eight</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>-six, twenty-se</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>, twenty-nine,</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>ven, twenty-eight</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template> thirty, thirty-</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>, twenty-nine,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>one, thirty-two,</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template> thirty, thirty-</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>one, thirty-two,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template> thirty-three, thir</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template> thirty-three, thir</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>ty-four, thirty-</template></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>five, thirty-six,</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>ty-four, thirty-</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template> thirty-seven, th</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>five, thirty-six,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>irty-eight, thir</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template> thirty-seven, th</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>ty-nine, forty</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>irty-eight, thir</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Waiting for the remaining JSON response bytes
+response: Status 200
+response: 
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_6868e3160629_body\"><template>ty-nine, forty</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Stream completed: one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty
+  Rendered messages/_message.html.erb (Duration: 0.1ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"assistant_turn_6868e3160629\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800...
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"assistant_turn_6868e3160629\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2026-11-19 23:37:21 -0300
+Turbo::StreamsChannel stopped streaming from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f
+Started GET "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f" for 127.0.0.1 at 2026-11-19 23:37:26 -0300
+Processing by ConversationsController#show as */*
+  Parameters: {"id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+  Rendering layout layouts/application.html.erb
+  Rendering conversations/show.html.erb within layouts/application
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_sidebar.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/_title.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_header.html.erb (Duration: 0.2ms | GC: 0.0ms)
+  Rendered collection of messages/_message.html.erb [8 times] (Duration: 0.2ms | GC: 0.0ms)
+  Rendered messages/_list.html.erb (Duration: 0.2ms | GC: 0.0ms)
+  Rendered messages/_composer.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/show.html.erb within layouts/application (Duration: 1.3ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.6ms | GC: 0.0ms)
+Completed 200 OK in 3ms (Views: 1.9ms | GC: 0.0ms)
+
+
+Started GET "/cable" for 127.0.0.1 at 2026-11-19 23:37:26 -0300
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2026-11-19 23:37:26 -0300
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+Turbo::StreamsChannel is transmitting the subscription confirmation
+Turbo::StreamsChannel is streaming from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f
+Started POST "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f/messages" for 127.0.0.1 at 2026-11-19 23:37:26 -0300
+Processing by MessagesController#create as TURBO_STREAM
+  Parameters: {"message" => {"content" => "Count from 1 to 40 in words, comma separated."}, "authenticity_token" => "[FILTERED]", "conversation_id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>"
+  Rendered messages/_message.html.erb (Duration: 0.0ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_streaming.html.erb (Duration: 0.0ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_f4c0d9190279\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_composer.html.erb (Duration: 0.4ms | GC: 0.0ms)
+Completed 200 OK in 3ms (Views: 0.0ms | GC: 0.0ms)
+
+
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_f4c0d9190279\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+request: POST https://openrouter.ai/api/v1/chat/completions
+request: {model: "anthropic/claude-sonnet-5.5",
+ messages:
+  [{role: "developer",
+    content:
+     "You are a concise, friendly assistant inside a small demo chat app. You have two tools. Whenever the user asks for the current date or time, you MUST call the `server_time` tool and answer from its result. Whenever the user asks you to compute or evaluate arithmetic, you MUST call the `calculator` tool and answer from its result instead of doing the math yourself. Tool calls from earlier turns are not replayed in the history: your earlier answers were already based on real tool results, so trust them and do not apologise for or second-guess them. Answer in plain text."},
+   {role: "user", content: "what time is it on the server?"},
+   {role: "assistant",
+    content: "The server time is Friday, November 20, 2026, 02:36:20 UTC."},
+   {role: "user",
+    content: "Use the calculator to compute (1234 * 5678) / 3 + 17.5"},
+   {role: "assistant",
+    content:
+     "(1234 × 5678) / 3 + 17.5 = **2,335,568.1667** (rounded). The exact result is 2335568.166666666667."},
+   {role: "user",
+    content:
+     "What was the exact calculator result you gave me earlier? Just repeat the number."},
+   {role: "assistant", content: "2335568.166666666667"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."}],
+ stream: true,
+ tools:
+  [{type: "function",
+    function:
+     {name: "server_time",
+      description:
+       "Returns the server's current date and time in UTC (ISO 8601). Use this whenever the user asks for the current time or date.",
+      parameters:
+       {"type" => "object",
+        "properties" => {},
+        "required" => [],
+        "additionalProperties" => false,
+        "strict" => true}}},
+   {type: "function",
+    function:
+     {name: "calculator",
+      description:
+       "Evaluates a basic arithmetic expression and returns the exact result. Supports + - * / % ^ (power), parentheses and decimals. Use this for every calculation the user asks for.",
+      parameters:
+       {"type" => "object",
+        "properties" =>
+         {"expression" =>
+           {"type" => "string",
+            "description" =>
+             "Arithmetic expression, e.g. '(12.5 + 3) * 4 / 2'"}},
+        "required" => ["expression"],
+        "additionalProperties" => false,
+        "strict" => true}}}],
+ stream_options: {include_usage: true}}
+
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"assistant_turn_f4c0d9190279_typing\"></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>one, two, three, four,</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"assistant_turn_f4c0d9190279_typing\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>one, two, three, four,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template> five, six, seven, e</template></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>ight, nine, ten,</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template> five, six, seven, e</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template> eleven, twelve,</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>ight, nine, ten,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template> thirteen, fourte</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template> eleven, twelve,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>en, fifteen, s</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template> thirteen, fourte</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>ixteen, seventeen</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>en, fifteen, s</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>ixteen, seventeen</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>, eighteen, nine</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>, eighteen, nine</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>teen, twenty, tw</template></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>enty-one, twenty</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>teen, twenty, tw</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>-two, twenty-three</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>enty-one, twenty</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>, twenty-four, tw</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>-two, twenty-three</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>enty-five, twenty</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>, twenty-four, tw</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>enty-five, twenty</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>-six, twenty-se</template></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>ven, twenty-eight</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>-six, twenty-se</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>, twenty-nine,</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>ven, twenty-eight</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template> thirty, thirty-</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>, twenty-nine,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>one, thirty-two,</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template> thirty, thirty-</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template> thirty-three, thir</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>one, thirty-two,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>ty-four, thirty-</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template> thirty-three, thir</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>ty-four, thirty-</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>five, thirty-six,</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>five, thirty-six,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template> thirty-seven, th</template></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>irty-eight</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template> thirty-seven, th</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>, thirty-nine,</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>irty-eight</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template> forty</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template>, thirty-nine,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Waiting for the remaining JSON response bytes
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_f4c0d9190279_body\"><template> forty</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+response: Status 200
+response: 
+Stream completed: one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty
+  Rendered messages/_message.html.erb (Duration: 0.1ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"assistant_turn_f4c0d9190279\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800...
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"assistant_turn_f4c0d9190279\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2026-11-19 23:37:27 -0300
+Turbo::StreamsChannel stopped streaming from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f
+Started GET "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f" for 127.0.0.1 at 2026-11-19 23:37:33 -0300
+Processing by ConversationsController#show as */*
+  Parameters: {"id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+  Rendering layout layouts/application.html.erb
+  Rendering conversations/show.html.erb within layouts/application
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_sidebar.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/_title.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_header.html.erb (Duration: 0.2ms | GC: 0.0ms)
+  Rendered collection of messages/_message.html.erb [10 times] (Duration: 0.2ms | GC: 0.0ms)
+  Rendered messages/_list.html.erb (Duration: 0.2ms | GC: 0.0ms)
+  Rendered messages/_composer.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/show.html.erb within layouts/application (Duration: 1.3ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.6ms | GC: 0.0ms)
+Completed 200 OK in 3ms (Views: 1.9ms | GC: 0.0ms)
+
+
+Started GET "/cable" for 127.0.0.1 at 2026-11-19 23:37:33 -0300
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2026-11-19 23:37:33 -0300
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+Turbo::StreamsChannel is transmitting the subscription confirmation
+Turbo::StreamsChannel is streaming from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f
+Started POST "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f/messages" for 127.0.0.1 at 2026-11-19 23:37:33 -0300
+Processing by MessagesController#create as TURBO_STREAM
+  Parameters: {"message" => {"content" => "Count from 1 to 40 in words, comma separated."}, "authenticity_token" => "[FILTERED]", "conversation_id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>"
+  Rendered messages/_message.html.erb (Duration: 0.0ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_streaming.html.erb (Duration: 0.0ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_a5577165ff00\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_composer.html.erb (Duration: 0.3ms | GC: 0.0ms)
+Completed 200 OK in 2ms (Views: 0.0ms | GC: 0.0ms)
+
+
+request: POST https://openrouter.ai/api/v1/chat/completions
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_a5577165ff00\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+request: {model: "anthropic/claude-sonnet-5.5",
+ messages:
+  [{role: "developer",
+    content:
+     "You are a concise, friendly assistant inside a small demo chat app. You have two tools. Whenever the user asks for the current date or time, you MUST call the `server_time` tool and answer from its result. Whenever the user asks you to compute or evaluate arithmetic, you MUST call the `calculator` tool and answer from its result instead of doing the math yourself. Tool calls from earlier turns are not replayed in the history: your earlier answers were already based on real tool results, so trust them and do not apologise for or second-guess them. Answer in plain text."},
+   {role: "user", content: "what time is it on the server?"},
+   {role: "assistant",
+    content: "The server time is Friday, November 20, 2026, 02:36:20 UTC."},
+   {role: "user",
+    content: "Use the calculator to compute (1234 * 5678) / 3 + 17.5"},
+   {role: "assistant",
+    content:
+     "(1234 × 5678) / 3 + 17.5 = **2,335,568.1667** (rounded). The exact result is 2335568.166666666667."},
+   {role: "user",
+    content:
+     "What was the exact calculator result you gave me earlier? Just repeat the number."},
+   {role: "assistant", content: "2335568.166666666667"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."}],
+ stream: true,
+ tools:
+  [{type: "function",
+    function:
+     {name: "server_time",
+      description:
+       "Returns the server's current date and time in UTC (ISO 8601). Use this whenever the user asks for the current time or date.",
+      parameters:
+       {"type" => "object",
+        "properties" => {},
+        "required" => [],
+        "additionalProperties" => false,
+        "strict" => true}}},
+   {type: "function",
+    function:
+     {name: "calculator",
+      description:
+       "Evaluates a basic arithmetic expression and returns the exact result. Supports + - * / % ^ (power), parentheses and decimals. Use this for every calculation the user asks for.",
+      parameters:
+       {"type" => "object",
+        "properties" =>
+         {"expression" =>
+           {"type" => "string",
+            "description" =>
+             "Arithmetic expression, e.g. '(12.5 + 3) * 4 / 2'"}},
+        "required" => ["expression"],
+        "additionalProperties" => false,
+        "strict" => true}}}],
+ stream_options: {include_usage: true}}
+
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"assistant_turn_a5577165ff00_typing\"></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>one, two, three, four,</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"assistant_turn_a5577165ff00_typing\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>one, two, three, four,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template> five, six, seven, e</template></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>ight, nine, ten,</template></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template> eleven, twelve,</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template> five, six, seven, e</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template> thirteen, fourte</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template> eleven, twelve,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>ight, nine, ten,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>en, fifteen, s</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template> thirteen, fourte</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>ixteen, seventeen</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>en, fifteen, s</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>, eighteen, nine</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>ixteen, seventeen</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>, eighteen, nine</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>teen, twenty, tw</template></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>enty-one, twenty</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>teen, twenty, tw</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>-two, twenty-three</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>enty-one, twenty</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>, twenty-four, tw</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>-two, twenty-three</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>enty-five, twenty</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>, twenty-four, tw</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>enty-five, twenty</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>-six, twenty-se</template></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>ven, twenty-eight</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>-six, twenty-se</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>, twenty-nine,</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>ven, twenty-eight</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template> thirty, thirty-</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>, twenty-nine,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>one, thirty-two,</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template> thirty, thirty-</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template> thirty-three, thir</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>one, thirty-two,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>ty-four, thirty-</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template> thirty-three, thir</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>ty-four, thirty-</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>five, thirty-six,</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>five, thirty-six,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template> thirty-seven, th</template></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>irty-eight, thir</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template> thirty-seven, th</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>ty-nine, for</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>irty-eight, thir</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>ty</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>ty-nine, for</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Waiting for the remaining JSON response bytes
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a5577165ff00_body\"><template>ty</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+response: Status 200
+response: 
+Stream completed: one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty
+  Rendered messages/_message.html.erb (Duration: 0.1ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"assistant_turn_a5577165ff00\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800...
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"assistant_turn_a5577165ff00\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2026-11-19 23:37:35 -0300
+Turbo::StreamsChannel stopped streaming from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f
+Started GET "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f" for 127.0.0.1 at 2026-11-19 23:37:41 -0300
+Processing by ConversationsController#show as */*
+  Parameters: {"id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+  Rendering layout layouts/application.html.erb
+  Rendering conversations/show.html.erb within layouts/application
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_sidebar.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/_title.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_header.html.erb (Duration: 0.2ms | GC: 0.0ms)
+  Rendered collection of messages/_message.html.erb [12 times] (Duration: 0.2ms | GC: 0.0ms)
+  Rendered messages/_list.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered messages/_composer.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/show.html.erb within layouts/application (Duration: 1.4ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.6ms | GC: 0.0ms)
+Completed 200 OK in 3ms (Views: 1.9ms | GC: 0.0ms)
+
+
+Started GET "/cable" for 127.0.0.1 at 2026-11-19 23:37:41 -0300
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2026-11-19 23:37:41 -0300
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+Turbo::StreamsChannel is transmitting the subscription confirmation
+Turbo::StreamsChannel is streaming from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f
+Started POST "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f/messages" for 127.0.0.1 at 2026-11-19 23:37:41 -0300
+Processing by MessagesController#create as TURBO_STREAM
+  Parameters: {"message" => {"content" => "Count from 1 to 40 in words, comma separated."}, "authenticity_token" => "[FILTERED]", "conversation_id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_message.html.erb (Duration: 0.1ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_streaming.html.erb (Duration: 0.0ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_13b2addae9b1\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_13b2addae9b1\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_composer.html.erb (Duration: 0.4ms | GC: 0.0ms)
+Completed 200 OK in 3ms (Views: 0.0ms | GC: 0.0ms)
+
+
+request: POST https://openrouter.ai/api/v1/chat/completions
+request: {model: "anthropic/claude-sonnet-5.5",
+ messages:
+  [{role: "developer",
+    content:
+     "You are a concise, friendly assistant inside a small demo chat app. You have two tools. Whenever the user asks for the current date or time, you MUST call the `server_time` tool and answer from its result. Whenever the user asks you to compute or evaluate arithmetic, you MUST call the `calculator` tool and answer from its result instead of doing the math yourself. Tool calls from earlier turns are not replayed in the history: your earlier answers were already based on real tool results, so trust them and do not apologise for or second-guess them. Answer in plain text."},
+   {role: "user", content: "what time is it on the server?"},
+   {role: "assistant",
+    content: "The server time is Friday, November 20, 2026, 02:36:20 UTC."},
+   {role: "user",
+    content: "Use the calculator to compute (1234 * 5678) / 3 + 17.5"},
+   {role: "assistant",
+    content:
+     "(1234 × 5678) / 3 + 17.5 = **2,335,568.1667** (rounded). The exact result is 2335568.166666666667."},
+   {role: "user",
+    content:
+     "What was the exact calculator result you gave me earlier? Just repeat the number."},
+   {role: "assistant", content: "2335568.166666666667"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."}],
+ stream: true,
+ tools:
+  [{type: "function",
+    function:
+     {name: "server_time",
+      description:
+       "Returns the server's current date and time in UTC (ISO 8601). Use this whenever the user asks for the current time or date.",
+      parameters:
+       {"type" => "object",
+        "properties" => {},
+        "required" => [],
+        "additionalProperties" => false,
+        "strict" => true}}},
+   {type: "function",
+    function:
+     {name: "calculator",
+      description:
+       "Evaluates a basic arithmetic expression and returns the exact result. Supports + - * / % ^ (power), parentheses and decimals. Use this for every calculation the user asks for.",
+      parameters:
+       {"type" => "object",
+        "properties" =>
+         {"expression" =>
+           {"type" => "string",
+            "description" =>
+             "Arithmetic expression, e.g. '(12.5 + 3) * 4 / 2'"}},
+        "required" => ["expression"],
+        "additionalProperties" => false,
+        "strict" => true}}}],
+ stream_options: {include_usage: true}}
+
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"assistant_turn_13b2addae9b1_typing\"></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>one, two, three, four,</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"assistant_turn_13b2addae9b1_typing\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>one, two, three, four,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template> five, six, seven, e</template></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>ight, nine, ten,</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template> five, six, seven, e</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template> eleven, twelve,</template></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template> thirteen, fourte</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>ight, nine, ten,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>en, fifteen, s</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template> eleven, twelve,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>ixteen, seventeen</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template> thirteen, fourte</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>en, fifteen, s</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>ixteen, seventeen</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>, eighteen, nine</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>, eighteen, nine</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>teen, twenty, tw</template></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>enty-one, twenty</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>teen, twenty, tw</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>-two, twenty-three</template></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>, twenty-four, tw</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>enty-one, twenty</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>enty-five, twenty</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>-two, twenty-three</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>, twenty-four, tw</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>enty-five, twenty</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>-six, twenty-se</template></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>ven, twenty-eight</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>-six, twenty-se</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>, twenty-nine,</template></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template> thirty, thirty-</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>ven, twenty-eight</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>one, thirty-two,</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>, twenty-nine,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template> thirty-three, thir</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template> thirty, thirty-</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>ty-four, thirty-</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>one, thirty-two,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template> thirty-three, thir</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>ty-four, thirty-</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>five, thirty-six,</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>five, thirty-six,</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template> thirty-seven, th</template></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>irty-eight, thir</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template> thirty-seven, th</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>ty-nine, forty</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>irty-eight, thir</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Waiting for the remaining JSON response bytes
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_13b2addae9b1_body\"><template>ty-nine, forty</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+response: Status 200
+response: 
+Stream completed: one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty
+  Rendered messages/_message.html.erb (Duration: 0.1ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"assistant_turn_13b2addae9b1\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"assistant_turn_13b2addae9b1\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Finished "/cable" [WebSocket] for 127.0.0.1 at 2026-11-19 23:37:42 -0300
+Turbo::StreamsChannel stopped streaming from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f
+Started GET "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f" for 127.0.0.1 at 2026-11-19 23:38:03 -0300
+Processing by ConversationsController#show as */*
+  Parameters: {"id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+  Rendering layout layouts/application.html.erb
+  Rendering conversations/show.html.erb within layouts/application
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_sidebar.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/_title.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_header.html.erb (Duration: 0.2ms | GC: 0.0ms)
+  Rendered collection of messages/_message.html.erb [14 times] (Duration: 0.2ms | GC: 0.0ms)
+  Rendered messages/_list.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered messages/_composer.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/show.html.erb within layouts/application (Duration: 1.4ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.7ms | GC: 0.0ms)
+Completed 200 OK in 3ms (Views: 1.9ms | GC: 0.0ms)
+
+
+Started GET "/cable" for 127.0.0.1 at 2026-11-19 23:38:03 -0300
+Started GET "/cable" [WebSocket] for 127.0.0.1 at 2026-11-19 23:38:03 -0300
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+Turbo::StreamsChannel is transmitting the subscription confirmation
+Turbo::StreamsChannel is streaming from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f
+Started GET "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f" for 127.0.0.1 at 2026-11-19 23:38:05 -0300
+Processing by ConversationsController#show as HTML
+  Parameters: {"id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+  Rendering layout layouts/application.html.erb
+  Rendering conversations/show.html.erb within layouts/application
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_sidebar.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/_title.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_header.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered collection of messages/_message.html.erb [14 times] (Duration: 0.2ms | GC: 0.0ms)
+  Rendered messages/_list.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered messages/_composer.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/show.html.erb within layouts/application (Duration: 1.4ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.8ms | GC: 0.0ms)
+Completed 200 OK in 3ms (Views: 2.0ms | GC: 0.0ms)
+
+
+Started POST "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f/messages" for 127.0.0.1 at 2026-11-19 23:38:05 -0300
+Processing by MessagesController#create as TURBO_STREAM
+  Parameters: {"message" => {"content" => "Turn 1: reply with just the word ok1."}, "authenticity_token" => "[FILTERED]", "conversation_id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_message.html.erb (Duration: 0.0ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_streaming.html.erb (Duration: 0.0ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_abcf7a2dee91\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_abcf7a2dee91\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_composer.html.erb (Duration: 0.3ms | GC: 0.0ms)
+Completed 200 OK in 3ms (Views: 0.0ms | GC: 0.0ms)
+
+
+request: POST https://openrouter.ai/api/v1/chat/completions
+request: {model: "anthropic/claude-sonnet-5.5",
+ messages:
+  [{role: "developer",
+    content:
+     "You are a concise, friendly assistant inside a small demo chat app. You have two tools. Whenever the user asks for the current date or time, you MUST call the `server_time` tool and answer from its result. Whenever the user asks you to compute or evaluate arithmetic, you MUST call the `calculator` tool and answer from its result instead of doing the math yourself. Tool calls from earlier turns are not replayed in the history: your earlier answers were already based on real tool results, so trust them and do not apologise for or second-guess them. Answer in plain text."},
+   {role: "user", content: "what time is it on the server?"},
+   {role: "assistant",
+    content: "The server time is Friday, November 20, 2026, 02:36:20 UTC."},
+   {role: "user",
+    content: "Use the calculator to compute (1234 * 5678) / 3 + 17.5"},
+   {role: "assistant",
+    content:
+     "(1234 × 5678) / 3 + 17.5 = **2,335,568.1667** (rounded). The exact result is 2335568.166666666667."},
+   {role: "user",
+    content:
+     "What was the exact calculator result you gave me earlier? Just repeat the number."},
+   {role: "assistant", content: "2335568.166666666667"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Turn 1: reply with just the word ok1."}],
+ stream: true,
+ tools:
+  [{type: "function",
+    function:
+     {name: "server_time",
+      description:
+       "Returns the server's current date and time in UTC (ISO 8601). Use this whenever the user asks for the current time or date.",
+      parameters:
+       {"type" => "object",
+        "properties" => {},
+        "required" => [],
+        "additionalProperties" => false,
+        "strict" => true}}},
+   {type: "function",
+    function:
+     {name: "calculator",
+      description:
+       "Evaluates a basic arithmetic expression and returns the exact result. Supports + - * / % ^ (power), parentheses and decimals. Use this for every calculation the user asks for.",
+      parameters:
+       {"type" => "object",
+        "properties" =>
+         {"expression" =>
+           {"type" => "string",
+            "description" =>
+             "Arithmetic expression, e.g. '(12.5 + 3) * 4 / 2'"}},
+        "required" => ["expression"],
+        "additionalProperties" => false,
+        "strict" => true}}}],
+ stream_options: {include_usage: true}}
+
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"assistant_turn_abcf7a2dee91_typing\"></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_abcf7a2dee91_body\"><template>ok1</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"assistant_turn_abcf7a2dee91_typing\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_abcf7a2dee91_body\"><template>ok1</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Waiting for the remaining JSON response bytes
+response: Status 200
+response: 
+Stream completed: ok1
+  Rendered messages/_message.html.erb (Duration: 0.1ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"assistant_turn_abcf7a2dee91\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"assistant_turn_abcf7a2dee91\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Started GET "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f" for 127.0.0.1 at 2026-11-19 23:38:11 -0300
+Processing by ConversationsController#show as HTML
+  Parameters: {"id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+  Rendering layout layouts/application.html.erb
+  Rendering conversations/show.html.erb within layouts/application
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_sidebar.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/_title.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_header.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered collection of messages/_message.html.erb [16 times] (Duration: 0.2ms | GC: 0.0ms)
+  Rendered messages/_list.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered messages/_composer.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/show.html.erb within layouts/application (Duration: 1.4ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.7ms | GC: 0.0ms)
+Completed 200 OK in 3ms (Views: 2.0ms | GC: 0.0ms)
+
+
+Started POST "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f/messages" for 127.0.0.1 at 2026-11-19 23:38:11 -0300
+Processing by MessagesController#create as TURBO_STREAM
+  Parameters: {"message" => {"content" => "Turn 2: reply with just the word ok2."}, "authenticity_token" => "[FILTERED]", "conversation_id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_message.html.erb (Duration: 0.1ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_streaming.html.erb (Duration: 0.0ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_a9c83a0e3fa5\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_a9c83a0e3fa5\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_composer.html.erb (Duration: 0.3ms | GC: 0.0ms)
+Completed 200 OK in 3ms (Views: 0.0ms | GC: 0.0ms)
+
+
+request: POST https://openrouter.ai/api/v1/chat/completions
+request: {model: "anthropic/claude-sonnet-5.5",
+ messages:
+  [{role: "developer",
+    content:
+     "You are a concise, friendly assistant inside a small demo chat app. You have two tools. Whenever the user asks for the current date or time, you MUST call the `server_time` tool and answer from its result. Whenever the user asks you to compute or evaluate arithmetic, you MUST call the `calculator` tool and answer from its result instead of doing the math yourself. Tool calls from earlier turns are not replayed in the history: your earlier answers were already based on real tool results, so trust them and do not apologise for or second-guess them. Answer in plain text."},
+   {role: "user", content: "what time is it on the server?"},
+   {role: "assistant",
+    content: "The server time is Friday, November 20, 2026, 02:36:20 UTC."},
+   {role: "user",
+    content: "Use the calculator to compute (1234 * 5678) / 3 + 17.5"},
+   {role: "assistant",
+    content:
+     "(1234 × 5678) / 3 + 17.5 = **2,335,568.1667** (rounded). The exact result is 2335568.166666666667."},
+   {role: "user",
+    content:
+     "What was the exact calculator result you gave me earlier? Just repeat the number."},
+   {role: "assistant", content: "2335568.166666666667"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Turn 1: reply with just the word ok1."},
+   {role: "assistant", content: "ok1"},
+   {role: "user", content: "Turn 2: reply with just the word ok2."}],
+ stream: true,
+ tools:
+  [{type: "function",
+    function:
+     {name: "server_time",
+      description:
+       "Returns the server's current date and time in UTC (ISO 8601). Use this whenever the user asks for the current time or date.",
+      parameters:
+       {"type" => "object",
+        "properties" => {},
+        "required" => [],
+        "additionalProperties" => false,
+        "strict" => true}}},
+   {type: "function",
+    function:
+     {name: "calculator",
+      description:
+       "Evaluates a basic arithmetic expression and returns the exact result. Supports + - * / % ^ (power), parentheses and decimals. Use this for every calculation the user asks for.",
+      parameters:
+       {"type" => "object",
+        "properties" =>
+         {"expression" =>
+           {"type" => "string",
+            "description" =>
+             "Arithmetic expression, e.g. '(12.5 + 3) * 4 / 2'"}},
+        "required" => ["expression"],
+        "additionalProperties" => false,
+        "strict" => true}}}],
+ stream_options: {include_usage: true}}
+
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"assistant_turn_a9c83a0e3fa5_typing\"></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_a9c83a0e3fa5_body\"><template>ok2</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"assistant_turn_a9c83a0e3fa5_typing\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_a9c83a0e3fa5_body\"><template>ok2</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Waiting for the remaining JSON response bytes
+response: Status 200
+response: 
+Stream completed: ok2
+  Rendered messages/_message.html.erb (Duration: 0.1ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"assistant_turn_a9c83a0e3fa5\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"assistant_turn_a9c83a0e3fa5\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Started GET "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f" for 127.0.0.1 at 2026-11-19 23:38:17 -0300
+Processing by ConversationsController#show as HTML
+  Parameters: {"id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+  Rendering layout layouts/application.html.erb
+  Rendering conversations/show.html.erb within layouts/application
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_sidebar.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/_title.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_header.html.erb (Duration: 0.2ms | GC: 0.0ms)
+  Rendered collection of messages/_message.html.erb [18 times] (Duration: 0.3ms | GC: 0.0ms)
+  Rendered messages/_list.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered messages/_composer.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/show.html.erb within layouts/application (Duration: 1.4ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.6ms | GC: 0.0ms)
+Completed 200 OK in 3ms (Views: 1.9ms | GC: 0.0ms)
+
+
+Started POST "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f/messages" for 127.0.0.1 at 2026-11-19 23:38:17 -0300
+Processing by MessagesController#create as TURBO_STREAM
+  Parameters: {"message" => {"content" => "Turn 3: reply with just the word ok3."}, "authenticity_token" => "[FILTERED]", "conversation_id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>"
+  Rendered messages/_message.html.erb (Duration: 0.0ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_streaming.html.erb (Duration: 0.0ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_519fc0b0ee51\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_519fc0b0ee51\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_composer.html.erb (Duration: 0.3ms | GC: 0.0ms)
+Completed 200 OK in 2ms (Views: 0.0ms | GC: 0.0ms)
+
+
+request: POST https://openrouter.ai/api/v1/chat/completions
+request: {model: "anthropic/claude-sonnet-5.5",
+ messages:
+  [{role: "developer",
+    content:
+     "You are a concise, friendly assistant inside a small demo chat app. You have two tools. Whenever the user asks for the current date or time, you MUST call the `server_time` tool and answer from its result. Whenever the user asks you to compute or evaluate arithmetic, you MUST call the `calculator` tool and answer from its result instead of doing the math yourself. Tool calls from earlier turns are not replayed in the history: your earlier answers were already based on real tool results, so trust them and do not apologise for or second-guess them. Answer in plain text."},
+   {role: "user", content: "what time is it on the server?"},
+   {role: "assistant",
+    content: "The server time is Friday, November 20, 2026, 02:36:20 UTC."},
+   {role: "user",
+    content: "Use the calculator to compute (1234 * 5678) / 3 + 17.5"},
+   {role: "assistant",
+    content:
+     "(1234 × 5678) / 3 + 17.5 = **2,335,568.1667** (rounded). The exact result is 2335568.166666666667."},
+   {role: "user",
+    content:
+     "What was the exact calculator result you gave me earlier? Just repeat the number."},
+   {role: "assistant", content: "2335568.166666666667"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Turn 1: reply with just the word ok1."},
+   {role: "assistant", content: "ok1"},
+   {role: "user", content: "Turn 2: reply with just the word ok2."},
+   {role: "assistant", content: "ok2"},
+   {role: "user", content: "Turn 3: reply with just the word ok3."}],
+ stream: true,
+ tools:
+  [{type: "function",
+    function:
+     {name: "server_time",
+      description:
+       "Returns the server's current date and time in UTC (ISO 8601). Use this whenever the user asks for the current time or date.",
+      parameters:
+       {"type" => "object",
+        "properties" => {},
+        "required" => [],
+        "additionalProperties" => false,
+        "strict" => true}}},
+   {type: "function",
+    function:
+     {name: "calculator",
+      description:
+       "Evaluates a basic arithmetic expression and returns the exact result. Supports + - * / % ^ (power), parentheses and decimals. Use this for every calculation the user asks for.",
+      parameters:
+       {"type" => "object",
+        "properties" =>
+         {"expression" =>
+           {"type" => "string",
+            "description" =>
+             "Arithmetic expression, e.g. '(12.5 + 3) * 4 / 2'"}},
+        "required" => ["expression"],
+        "additionalProperties" => false,
+        "strict" => true}}}],
+ stream_options: {include_usage: true}}
+
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"assistant_turn_519fc0b0ee51_typing\"></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_519fc0b0ee51_body\"><template>ok3</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"assistant_turn_519fc0b0ee51_typing\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_519fc0b0ee51_body\"><template>ok3</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Waiting for the remaining JSON response bytes
+response: Status 200
+response: 
+Stream completed: ok3
+  Rendered messages/_message.html.erb (Duration: 0.0ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"assistant_turn_519fc0b0ee51\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"assistant_turn_519fc0b0ee51\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Started GET "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f" for 127.0.0.1 at 2026-11-19 23:38:23 -0300
+Processing by ConversationsController#show as HTML
+  Parameters: {"id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+  Rendering layout layouts/application.html.erb
+  Rendering conversations/show.html.erb within layouts/application
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_sidebar.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/_title.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_header.html.erb (Duration: 0.2ms | GC: 0.0ms)
+  Rendered collection of messages/_message.html.erb [20 times] (Duration: 0.4ms | GC: 0.0ms)
+  Rendered messages/_list.html.erb (Duration: 0.5ms | GC: 0.0ms)
+  Rendered messages/_composer.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/show.html.erb within layouts/application (Duration: 1.5ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.8ms | GC: 0.0ms)
+Completed 200 OK in 3ms (Views: 2.0ms | GC: 0.0ms)
+
+
+Started POST "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f/messages" for 127.0.0.1 at 2026-11-19 23:38:23 -0300
+Processing by MessagesController#create as TURBO_STREAM
+  Parameters: {"message" => {"content" => "Turn 4: reply with just the word ok4."}, "authenticity_token" => "[FILTERED]", "conversation_id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>"
+  Rendered messages/_message.html.erb (Duration: 0.0ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_streaming.html.erb (Duration: 0.0ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_d2059baf4425\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_composer.html.erb (Duration: 0.3ms | GC: 0.0ms)
+request: POST https://openrouter.ai/api/v1/chat/completions
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_d2059baf4425\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Completed 200 OK in 4ms (Views: 0.0ms | GC: 0.0ms)
+
+
+request: {model: "anthropic/claude-sonnet-5.5",
+ messages:
+  [{role: "developer",
+    content:
+     "You are a concise, friendly assistant inside a small demo chat app. You have two tools. Whenever the user asks for the current date or time, you MUST call the `server_time` tool and answer from its result. Whenever the user asks you to compute or evaluate arithmetic, you MUST call the `calculator` tool and answer from its result instead of doing the math yourself. Tool calls from earlier turns are not replayed in the history: your earlier answers were already based on real tool results, so trust them and do not apologise for or second-guess them. Answer in plain text."},
+   {role: "user", content: "what time is it on the server?"},
+   {role: "assistant",
+    content: "The server time is Friday, November 20, 2026, 02:36:20 UTC."},
+   {role: "user",
+    content: "Use the calculator to compute (1234 * 5678) / 3 + 17.5"},
+   {role: "assistant",
+    content:
+     "(1234 × 5678) / 3 + 17.5 = **2,335,568.1667** (rounded). The exact result is 2335568.166666666667."},
+   {role: "user",
+    content:
+     "What was the exact calculator result you gave me earlier? Just repeat the number."},
+   {role: "assistant", content: "2335568.166666666667"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Turn 1: reply with just the word ok1."},
+   {role: "assistant", content: "ok1"},
+   {role: "user", content: "Turn 2: reply with just the word ok2."},
+   {role: "assistant", content: "ok2"},
+   {role: "user", content: "Turn 3: reply with just the word ok3."},
+   {role: "assistant", content: "ok3"},
+   {role: "user", content: "Turn 4: reply with just the word ok4."}],
+ stream: true,
+ tools:
+  [{type: "function",
+    function:
+     {name: "server_time",
+      description:
+       "Returns the server's current date and time in UTC (ISO 8601). Use this whenever the user asks for the current time or date.",
+      parameters:
+       {"type" => "object",
+        "properties" => {},
+        "required" => [],
+        "additionalProperties" => false,
+        "strict" => true}}},
+   {type: "function",
+    function:
+     {name: "calculator",
+      description:
+       "Evaluates a basic arithmetic expression and returns the exact result. Supports + - * / % ^ (power), parentheses and decimals. Use this for every calculation the user asks for.",
+      parameters:
+       {"type" => "object",
+        "properties" =>
+         {"expression" =>
+           {"type" => "string",
+            "description" =>
+             "Arithmetic expression, e.g. '(12.5 + 3) * 4 / 2'"}},
+        "required" => ["expression"],
+        "additionalProperties" => false,
+        "strict" => true}}}],
+ stream_options: {include_usage: true}}
+
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"assistant_turn_d2059baf4425_typing\"></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_d2059baf4425_body\"><template>ok4</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"assistant_turn_d2059baf4425_typing\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_d2059baf4425_body\"><template>ok4</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Waiting for the remaining JSON response bytes
+response: Status 200
+response: 
+Stream completed: ok4
+  Rendered messages/_message.html.erb (Duration: 0.1ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"assistant_turn_d2059baf4425\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800...
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"assistant_turn_d2059baf4425\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Started GET "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f" for 127.0.0.1 at 2026-11-19 23:38:29 -0300
+Processing by ConversationsController#show as HTML
+  Parameters: {"id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+  Rendering layout layouts/application.html.erb
+  Rendering conversations/show.html.erb within layouts/application
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_sidebar.html.erb (Duration: 0.4ms | GC: 0.0ms)
+  Rendered conversations/_title.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_header.html.erb (Duration: 0.2ms | GC: 0.0ms)
+  Rendered collection of messages/_message.html.erb [22 times] (Duration: 12.5ms | GC: 12.0ms)
+  Rendered messages/_list.html.erb (Duration: 12.6ms | GC: 12.0ms)
+  Rendered messages/_composer.html.erb (Duration: 0.4ms | GC: 0.0ms)
+  Rendered conversations/show.html.erb within layouts/application (Duration: 13.9ms | GC: 12.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 14.3ms | GC: 12.0ms)
+Completed 200 OK in 16ms (Views: 14.5ms | GC: 12.0ms)
+
+
+Started POST "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f/messages" for 127.0.0.1 at 2026-11-19 23:38:29 -0300
+Processing by MessagesController#create as TURBO_STREAM
+  Parameters: {"message" => {"content" => "Turn 5: reply with just the word ok5."}, "authenticity_token" => "[FILTERED]", "conversation_id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>"
+  Rendered messages/_message.html.erb (Duration: 0.0ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_streaming.html.erb (Duration: 0.0ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_ee3fbed9375b\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_ee3fbed9375b\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_composer.html.erb (Duration: 0.3ms | GC: 0.0ms)
+Completed 200 OK in 3ms (Views: 0.0ms | GC: 0.5ms)
+
+
+request: POST https://openrouter.ai/api/v1/chat/completions
+request: {model: "anthropic/claude-sonnet-5.5",
+ messages:
+  [{role: "developer",
+    content:
+     "You are a concise, friendly assistant inside a small demo chat app. You have two tools. Whenever the user asks for the current date or time, you MUST call the `server_time` tool and answer from its result. Whenever the user asks you to compute or evaluate arithmetic, you MUST call the `calculator` tool and answer from its result instead of doing the math yourself. Tool calls from earlier turns are not replayed in the history: your earlier answers were already based on real tool results, so trust them and do not apologise for or second-guess them. Answer in plain text."},
+   {role: "user", content: "what time is it on the server?"},
+   {role: "assistant",
+    content: "The server time is Friday, November 20, 2026, 02:36:20 UTC."},
+   {role: "user",
+    content: "Use the calculator to compute (1234 * 5678) / 3 + 17.5"},
+   {role: "assistant",
+    content:
+     "(1234 × 5678) / 3 + 17.5 = **2,335,568.1667** (rounded). The exact result is 2335568.166666666667."},
+   {role: "user",
+    content:
+     "What was the exact calculator result you gave me earlier? Just repeat the number."},
+   {role: "assistant", content: "2335568.166666666667"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Turn 1: reply with just the word ok1."},
+   {role: "assistant", content: "ok1"},
+   {role: "user", content: "Turn 2: reply with just the word ok2."},
+   {role: "assistant", content: "ok2"},
+   {role: "user", content: "Turn 3: reply with just the word ok3."},
+   {role: "assistant", content: "ok3"},
+   {role: "user", content: "Turn 4: reply with just the word ok4."},
+   {role: "assistant", content: "ok4"},
+   {role: "user", content: "Turn 5: reply with just the word ok5."}],
+ stream: true,
+ tools:
+  [{type: "function",
+    function:
+     {name: "server_time",
+      description:
+       "Returns the server's current date and time in UTC (ISO 8601). Use this whenever the user asks for the current time or date.",
+      parameters:
+       {"type" => "object",
+        "properties" => {},
+        "required" => [],
+        "additionalProperties" => false,
+        "strict" => true}}},
+   {type: "function",
+    function:
+     {name: "calculator",
+      description:
+       "Evaluates a basic arithmetic expression and returns the exact result. Supports + - * / % ^ (power), parentheses and decimals. Use this for every calculation the user asks for.",
+      parameters:
+       {"type" => "object",
+        "properties" =>
+         {"expression" =>
+           {"type" => "string",
+            "description" =>
+             "Arithmetic expression, e.g. '(12.5 + 3) * 4 / 2'"}},
+        "required" => ["expression"],
+        "additionalProperties" => false,
+        "strict" => true}}}],
+ stream_options: {include_usage: true}}
+
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"assistant_turn_ee3fbed9375b_typing\"></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_ee3fbed9375b_body\"><template>ok5</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"assistant_turn_ee3fbed9375b_typing\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_ee3fbed9375b_body\"><template>ok5</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Waiting for the remaining JSON response bytes
+response: Status 200
+response: 
+Stream completed: ok5
+  Rendered messages/_message.html.erb (Duration: 0.1ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"assistant_turn_ee3fbed9375b\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"assistant_turn_ee3fbed9375b\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Started GET "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f" for 127.0.0.1 at 2026-11-19 23:38:35 -0300
+Processing by ConversationsController#show as HTML
+  Parameters: {"id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+  Rendering layout layouts/application.html.erb
+  Rendering conversations/show.html.erb within layouts/application
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_sidebar.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/_title.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_header.html.erb (Duration: 0.2ms | GC: 0.0ms)
+  Rendered collection of messages/_message.html.erb [24 times] (Duration: 0.7ms | GC: 0.3ms)
+  Rendered messages/_list.html.erb (Duration: 0.8ms | GC: 0.3ms)
+  Rendered messages/_composer.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/show.html.erb within layouts/application (Duration: 1.9ms | GC: 0.3ms)
+  Rendered layout layouts/application.html.erb (Duration: 2.2ms | GC: 0.3ms)
+Completed 200 OK in 3ms (Views: 2.4ms | GC: 0.3ms)
+
+
+Started POST "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f/messages" for 127.0.0.1 at 2026-11-19 23:38:35 -0300
+Processing by MessagesController#create as TURBO_STREAM
+  Parameters: {"message" => {"content" => "Turn 6: reply with just the word ok6."}, "authenticity_token" => "[FILTERED]", "conversation_id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>"
+  Rendered messages/_message.html.erb (Duration: 0.0ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_streaming.html.erb (Duration: 0.0ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_3fa82c450b38\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_3fa82c450b38\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered messages/_composer.html.erb (Duration: 0.8ms | GC: 0.6ms)
+Completed 200 OK in 3ms (Views: 0.0ms | GC: 0.6ms)
+
+
+request: POST https://openrouter.ai/api/v1/chat/completions
+request: {model: "anthropic/claude-sonnet-5.5",
+ messages:
+  [{role: "developer",
+    content:
+     "You are a concise, friendly assistant inside a small demo chat app. You have two tools. Whenever the user asks for the current date or time, you MUST call the `server_time` tool and answer from its result. Whenever the user asks you to compute or evaluate arithmetic, you MUST call the `calculator` tool and answer from its result instead of doing the math yourself. Tool calls from earlier turns are not replayed in the history: your earlier answers were already based on real tool results, so trust them and do not apologise for or second-guess them. Answer in plain text."},
+   {role: "user", content: "what time is it on the server?"},
+   {role: "assistant",
+    content: "The server time is Friday, November 20, 2026, 02:36:20 UTC."},
+   {role: "user",
+    content: "Use the calculator to compute (1234 * 5678) / 3 + 17.5"},
+   {role: "assistant",
+    content:
+     "(1234 × 5678) / 3 + 17.5 = **2,335,568.1667** (rounded). The exact result is 2335568.166666666667."},
+   {role: "user",
+    content:
+     "What was the exact calculator result you gave me earlier? Just repeat the number."},
+   {role: "assistant", content: "2335568.166666666667"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Turn 1: reply with just the word ok1."},
+   {role: "assistant", content: "ok1"},
+   {role: "user", content: "Turn 2: reply with just the word ok2."},
+   {role: "assistant", content: "ok2"},
+   {role: "user", content: "Turn 3: reply with just the word ok3."},
+   {role: "assistant", content: "ok3"},
+   {role: "user", content: "Turn 4: reply with just the word ok4."},
+   {role: "assistant", content: "ok4"},
+   {role: "user", content: "Turn 5: reply with just the word ok5."},
+   {role: "assistant", content: "ok5"},
+   {role: "user", content: "Turn 6: reply with just the word ok6."}],
+ stream: true,
+ tools:
+  [{type: "function",
+    function:
+     {name: "server_time",
+      description:
+       "Returns the server's current date and time in UTC (ISO 8601). Use this whenever the user asks for the current time or date.",
+      parameters:
+       {"type" => "object",
+        "properties" => {},
+        "required" => [],
+        "additionalProperties" => false,
+        "strict" => true}}},
+   {type: "function",
+    function:
+     {name: "calculator",
+      description:
+       "Evaluates a basic arithmetic expression and returns the exact result. Supports + - * / % ^ (power), parentheses and decimals. Use this for every calculation the user asks for.",
+      parameters:
+       {"type" => "object",
+        "properties" =>
+         {"expression" =>
+           {"type" => "string",
+            "description" =>
+             "Arithmetic expression, e.g. '(12.5 + 3) * 4 / 2'"}},
+        "required" => ["expression"],
+        "additionalProperties" => false,
+        "strict" => true}}}],
+ stream_options: {include_usage: true}}
+
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"assistant_turn_3fa82c450b38_typing\"></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_3fa82c450b38_body\"><template>ok6</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"assistant_turn_3fa82c450b38_typing\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_3fa82c450b38_body\"><template>ok6</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Waiting for the remaining JSON response bytes
+response: Status 200
+response: 
+Stream completed: ok6
+  Rendered messages/_message.html.erb (Duration: 0.0ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"assistant_turn_3fa82c450b38\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"assistant_turn_3fa82c450b38\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Started GET "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f" for 127.0.0.1 at 2026-11-19 23:38:47 -0300
+Processing by ConversationsController#show as HTML
+  Parameters: {"id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+Started GET "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f" for 127.0.0.1 at 2026-11-19 23:38:47 -0300
+Processing by ConversationsController#show as HTML
+  Parameters: {"id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+  Rendering layout layouts/application.html.erb
+  Rendering conversations/show.html.erb within layouts/application
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_sidebar.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/_title.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendering layout layouts/application.html.erb
+  Rendering conversations/show.html.erb within layouts/application
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_header.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_sidebar.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/_title.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered collection of messages/_message.html.erb [26 times] (Duration: 0.4ms | GC: 0.0ms)
+  Rendered messages/_list.html.erb (Duration: 0.5ms | GC: 0.0ms)
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_header.html.erb (Duration: 0.2ms | GC: 0.0ms)
+  Rendered messages/_composer.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/show.html.erb within layouts/application (Duration: 1.6ms | GC: 0.0ms)
+  Rendered collection of messages/_message.html.erb [26 times] (Duration: 0.4ms | GC: 0.0ms)
+  Rendered messages/_list.html.erb (Duration: 0.5ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.9ms | GC: 0.0ms)
+Completed 200 OK in 3ms (Views: 2.1ms | GC: 0.0ms)
+
+
+  Rendered messages/_composer.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/show.html.erb within layouts/application (Duration: 1.5ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.8ms | GC: 0.0ms)
+Completed 200 OK in 3ms (Views: 2.1ms | GC: 0.0ms)
+
+
+Started POST "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f/messages" for 127.0.0.1 at 2026-11-19 23:38:47 -0300
+Started POST "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f/messages" for 127.0.0.1 at 2026-11-19 23:38:47 -0300
+Processing by MessagesController#create as TURBO_STREAM
+  Parameters: {"message" => {"content" => "Say B."}, "authenticity_token" => "[FILTERED]", "conversation_id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+Processing by MessagesController#create as TURBO_STREAM
+  Parameters: {"message" => {"content" => "Say A."}, "authenticity_token" => "[FILTERED]", "conversation_id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>"
+  Rendered messages/_message.html.erb (Duration: 0.0ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white...
+  Rendered messages/_streaming.html.erb (Duration: 0.0ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_e5ee53d6564c\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin...
+  Rendered messages/_composer.html.erb (Duration: 0.4ms | GC: 0.0ms)
+  Rendered messages/_composer.html.erb (Duration: 0.3ms | GC: 0.0ms)
+Completed 422 Unprocessable Content in 2ms (Views: 0.0ms | GC: 0.0ms)
+
+
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"empty_state\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex justify-end\" data-role=\"user\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-indigo-600 text-white... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"messages\"><template><!-- BEGIN app/views/messages/_streaming.html.erb\n--><div id=\"assistant_turn_e5ee53d6564c\" class=\"flex\" data-role=\"assistant\" data-streaming=\"true\">\n  <div class=\"max-w-[85%] rounded-2xl bg-zinc-800 px-4 py-3 text-sm leadin... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Completed 200 OK in 2ms (Views: 0.0ms | GC: 0.0ms)
+
+
+request: POST https://openrouter.ai/api/v1/chat/completions
+request: {model: "anthropic/claude-sonnet-5.5",
+ messages:
+  [{role: "developer",
+    content:
+     "You are a concise, friendly assistant inside a small demo chat app. You have two tools. Whenever the user asks for the current date or time, you MUST call the `server_time` tool and answer from its result. Whenever the user asks you to compute or evaluate arithmetic, you MUST call the `calculator` tool and answer from its result instead of doing the math yourself. Tool calls from earlier turns are not replayed in the history: your earlier answers were already based on real tool results, so trust them and do not apologise for or second-guess them. Answer in plain text."},
+   {role: "user", content: "what time is it on the server?"},
+   {role: "assistant",
+    content: "The server time is Friday, November 20, 2026, 02:36:20 UTC."},
+   {role: "user",
+    content: "Use the calculator to compute (1234 * 5678) / 3 + 17.5"},
+   {role: "assistant",
+    content:
+     "(1234 × 5678) / 3 + 17.5 = **2,335,568.1667** (rounded). The exact result is 2335568.166666666667."},
+   {role: "user",
+    content:
+     "What was the exact calculator result you gave me earlier? Just repeat the number."},
+   {role: "assistant", content: "2335568.166666666667"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Count from 1 to 40 in words, comma separated."},
+   {role: "assistant",
+    content:
+     "one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty, twenty-one, twenty-two, twenty-three, twenty-four, twenty-five, twenty-six, twenty-seven, twenty-eight, twenty-nine, thirty, thirty-one, thirty-two, thirty-three, thirty-four, thirty-five, thirty-six, thirty-seven, thirty-eight, thirty-nine, forty"},
+   {role: "user", content: "Turn 1: reply with just the word ok1."},
+   {role: "assistant", content: "ok1"},
+   {role: "user", content: "Turn 2: reply with just the word ok2."},
+   {role: "assistant", content: "ok2"},
+   {role: "user", content: "Turn 3: reply with just the word ok3."},
+   {role: "assistant", content: "ok3"},
+   {role: "user", content: "Turn 4: reply with just the word ok4."},
+   {role: "assistant", content: "ok4"},
+   {role: "user", content: "Turn 5: reply with just the word ok5."},
+   {role: "assistant", content: "ok5"},
+   {role: "user", content: "Turn 6: reply with just the word ok6."},
+   {role: "assistant", content: "ok6"},
+   {role: "user", content: "Say A."}],
+ stream: true,
+ tools:
+  [{type: "function",
+    function:
+     {name: "server_time",
+      description:
+       "Returns the server's current date and time in UTC (ISO 8601). Use this whenever the user asks for the current time or date.",
+      parameters:
+       {"type" => "object",
+        "properties" => {},
+        "required" => [],
+        "additionalProperties" => false,
+        "strict" => true}}},
+   {type: "function",
+    function:
+     {name: "calculator",
+      description:
+       "Evaluates a basic arithmetic expression and returns the exact result. Supports + - * / % ^ (power), parentheses and decimals. Use this for every calculation the user asks for.",
+      parameters:
+       {"type" => "object",
+        "properties" =>
+         {"expression" =>
+           {"type" => "string",
+            "description" =>
+             "Arithmetic expression, e.g. '(12.5 + 3) * 4 / 2'"}},
+        "required" => ["expression"],
+        "additionalProperties" => false,
+        "strict" => true}}}],
+ stream_options: {include_usage: true}}
+
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"remove\" target=\"assistant_turn_e5ee53d6564c_typing\"></turbo-stream>"
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"append\" target=\"assistant_turn_e5ee53d6564c_body\"><template>A</template></turbo-stream>"
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"remove\" target=\"assistant_turn_e5ee53d6564c_typing\"></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"append\" target=\"assistant_turn_e5ee53d6564c_body\"><template>A</template></turbo-stream>" (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Waiting for the remaining JSON response bytes
+response: Status 200
+response: 
+Stream completed: A
+  Rendered messages/_message.html.erb (Duration: 0.1ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"assistant_turn_e5ee53d6564c\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"assistant_turn_e5ee53d6564c\"><template><!-- BEGIN app/views/messages/_message.html.erb\n--><div class=\"flex\" data-role=\"assistant\">\n  <div class=\"max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words bg-zinc-800... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+[ActionCable] Broadcasting to conversation_8dcbba5f-660c-49d9-b87a-412feb97884f: "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-...
+Turbo::StreamsChannel transmitting "<turbo-stream action=\"replace\" target=\"token_usage\"><template><!-- BEGIN app/views/conversations/_token_usage.html.erb\n--><div id=\"token_usage\" class=\"flex shrink-0 items-center gap-2 text-xs text-zinc-400\" title=\"Approximate tokens used by this conversation\">\n  <div class=\"h-1.5 w-... (via streamed from conversation_8dcbba5f-660c-49d9-b87a-412feb97884f)
+Started GET "/conversations/8dcbba5f-660c-49d9-b87a-412feb97884f" for 127.0.0.1 at 2026-11-19 23:38:55 -0300
+Processing by ConversationsController#show as HTML
+  Parameters: {"id" => "8dcbba5f-660c-49d9-b87a-412feb97884f"}
+  Rendering layout layouts/application.html.erb
+  Rendering conversations/show.html.erb within layouts/application
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_sidebar_item.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_sidebar.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/_title.html.erb (Duration: 0.0ms | GC: 0.0ms)
+  Rendered conversations/_token_usage.html.erb (Duration: 0.1ms | GC: 0.0ms)
+  Rendered conversations/_header.html.erb (Duration: 0.2ms | GC: 0.0ms)
+  Rendered collection of messages/_message.html.erb [28 times] (Duration: 0.5ms | GC: 0.0ms)
+  Rendered messages/_list.html.erb (Duration: 0.5ms | GC: 0.0ms)
+  Rendered messages/_composer.html.erb (Duration: 0.3ms | GC: 0.0ms)
+  Rendered conversations/show.html.erb within layouts/application (Duration: 1.6ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 1.9ms | GC: 0.0ms)
+Completed 200 OK in 3ms (Views: 2.1ms | GC: 0.0ms)
+
+
+[2823905] === puma shutdown: 2026-11-19 23:38:59 -0300 ===
+[2823905] - Goodbye!
+[2823905] - Gracefully shutting down workers...
+Exiting

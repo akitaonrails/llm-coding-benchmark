@@ -1,0 +1,5 @@
+title: Redis Explained Briefly · RubyLLM Chat
+user | In two sentences, explain what Redis is.
+assistant | Redis is an open-source, in-memory data store that keeps data in RAM, so reads and writes are very fast. Peopl
+user | What is 17 * 23 + 4? Use the calculator.
+assistant | 17 * 23 + 4 = 395.
